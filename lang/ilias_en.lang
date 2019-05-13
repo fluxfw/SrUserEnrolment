@@ -3,3 +3,5 @@ config_configuration_saved#:#Configuration saved
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
+rules_back#:#Back
+rules_rules#:#Enrol by rule

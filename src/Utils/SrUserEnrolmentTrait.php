@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\Utils;
 
 use srag\Plugins\SrUserEnrolment\Access\Access;
 use srag\Plugins\SrUserEnrolment\Access\Ilias;
+use srag\Plugins\SrUserEnrolment\Rule\Rules;
 
 /**
  * Trait SrUserEnrolmentTrait
@@ -27,5 +28,13 @@ trait SrUserEnrolmentTrait {
 	 */
 	protected static function ilias(): Ilias {
 		return Ilias::getInstance();
+	}
+
+
+	/**
+	 * @return Rules
+	 */
+	protected static function rules(): Rules {
+		return Rules::getInstance();
 	}
 }

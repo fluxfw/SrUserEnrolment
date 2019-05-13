@@ -1,6 +1,8 @@
 <?php
 
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Rule\Rules;
+use srag\Plugins\SrUserEnrolment\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -13,7 +15,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI {
 	use DICTrait;
 	use SrUserEnrolmentTrait;
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-	const PAR_TABS = "tabs";
+	const PAR_SUB_TABS = "sub_tabs";
 
 
 	/**
@@ -31,13 +33,21 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI {
 	 */
 	public function modifyGUI(/*string*/ $a_comp, /*string*/ $a_part, /*array*/ $a_par = [])/*: void*/ {
 
-		if ($a_part === self::PAR_TABS) {
+		if ($a_part === self::PAR_SUB_TABS) {
 
-			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilCourseMembershipGUI::class)) {
+			if (self::dic()->ctrl()->getCmdClass() === strtolower(ilCourseMembershipGUI::class)
+				|| self::dic()->ctrl()->getCmdClass() === strtolower(ilCourseParticipantsGroupsGUI::class)
+				|| self::dic()->ctrl()->getCmdClass() === strtolower(ilUsersGalleryGUI::class)) {
 
 				if (self::access()->currentUserHasRole()) {
 
-					self::dic()->tabs()->addSubTab("","","");
+					self::dic()->ctrl()->setParameterByClass(RulesGUI::class, Rules::GET_PARAM_REF_ID, self::rules()->getCourseRefId());
+
+					self::dic()->tabs()->addSubTab(RulesGUI::TAB_RULES, self::plugin()->translate("rules", RulesGUI::LANG_MODULE_RULES), self::dic()
+						->ctrl()->getLinkTargetByClass([
+							ilUIPluginRouterGUI::class,
+							RulesGUI::class
+						], RulesGUI::CMD_LIST_RULES));
 				}
 			}
 		}
