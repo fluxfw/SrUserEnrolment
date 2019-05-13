@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\Rule;
 use ilConfirmationGUI;
 use ilCourseMembershipGUI;
 use ilObjCourseGUI;
+use ilObject;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
@@ -95,6 +96,12 @@ class RulesGUI {
 
 		self::dic()->ctrl()->saveParameter($this, Rules::GET_PARAM_REF_ID);
 		self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, Rules::GET_PARAM_REF_ID);
+
+		self::dic()->mainTemplate()->setTitleIcon(ilObject::_getIcon("", "tiny", self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()
+			->lookupObjId(self::rules()->getRefId()))));
+
+		self::dic()->mainTemplate()->setTitle(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId(self::rules()
+			->getRefId())));
 
 		self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE_RULES), self::dic()->ctrl()->getLinkTargetByClass([
 			ilRepositoryGUI::class,
