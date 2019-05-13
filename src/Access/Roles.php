@@ -7,13 +7,13 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class Ilias
+ * Class Roles
  *
  * @package srag\Plugins\SrUserEnrolment\Access
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Ilias {
+final class Roles {
 
 	use DICTrait;
 	use SrUserEnrolmentTrait;
@@ -37,7 +37,7 @@ final class Ilias {
 
 
 	/**
-	 * Ilias constructor
+	 * Roles constructor
 	 */
 	private function __construct() {
 
@@ -45,17 +45,21 @@ final class Ilias {
 
 
 	/**
-	 * @return Roles
+	 * @return array
 	 */
-	public function roles(): Roles {
-		return Roles::getInstance();
-	}
+	public function getAllRoles(): array {
+		/**
+		 * @var array $global_roles
+		 * @var array $roles
+		 */
 
+		$global_roles = self::dic()->rbacreview()->getRolesForIDs(self::dic()->rbacreview()->getGlobalRoles(), false);
 
-	/**
-	 * @return Roles
-	 */
-	public function users(): Users {
-		return Users::getInstance();
+		$roles = [];
+		foreach ($global_roles as $global_role) {
+			$roles[$global_role["rol_id"]] = $global_role["title"];
+		}
+
+		return $roles;
 	}
 }

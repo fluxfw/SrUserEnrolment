@@ -18,8 +18,11 @@ class Config extends ActiveRecordConfig {
 	use SrUserEnrolmentTrait;
 	const TABLE_NAME = "srusrenr_config";
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+	const KEY_ROLES = "roles";
 	/**
 	 * @var array
 	 */
-	protected static $fields = [];
+	protected static $fields = [
+		self::KEY_ROLES => [ self::TYPE_JSON, [] ]
+	];
 }

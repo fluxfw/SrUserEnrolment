@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\Config;
 
+use ilMultiSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\ActiveRecordConfig\SrUserEnrolment\ActiveRecordConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -23,7 +24,48 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 	/**
 	 * @inheritdoc
 	 */
+	protected function getValue(/*string*/ $key) {
+		switch ($key) {
+			default:
+				return parent::getValue($key);
+		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function initFields()/*: void*/ {
-		$this->fields = [];
+		$this->fields = [
+			Config::KEY_ROLES => [
+				self::PROPERTY_CLASS => ilMultiSelectInputGUI::class,
+				self::PROPERTY_REQUIRED => true,
+				self::PROPERTY_OPTIONS => self::ilias()->roles()->getAllRoles(),
+				"enableSelectAll" => true
+			],
+		];
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function storeValue(/*string*/ $key, $value)/*: void*/ {
+		switch ($key) {
+			case Config::KEY_ROLES:
+				if ($value[0] === "") {
+					array_shift($value);
+				}
+
+				$value = array_map(function (string $role_id): int {
+					return intval($role_id);
+				}, $value);
+				break;
+
+			default:
+				break;
+		}
+
+		parent::storeValue($key, $value);
 	}
 }
