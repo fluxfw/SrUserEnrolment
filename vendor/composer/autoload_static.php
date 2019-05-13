@@ -9,17 +9,17 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RemovePluginDataConfirm\\' => 29,
+            'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\' => 9,
-            'srag\\CustomInputGUIs\\' => 21,
-            'srag\\ActiveRecordConfig\\' => 24,
+            'srag\\DIC\\SrUserEnrolment\\' => 25,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
+            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RemovePluginDataConfirm\\' => 
+        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -31,15 +31,15 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\ActiveRecordConfig\\' => 
+        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -122,6 +122,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Access\\Ilias' => __DIR__ . '/../..' . '/src/Access/Ilias.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\Job\\Job' => __DIR__ . '/../..' . '/src/Job/Job.php',
         'srag\\Plugins\\SrUserEnrolment\\Utils\\SrUserEnrolmentTrait' => __DIR__ . '/../..' . '/src/Utils/SrUserEnrolmentTrait.php',
         'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\AbstractPluginUninstallTrait' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/AbstractPluginUninstallTrait.php',
         'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\AbstractRemovePluginDataConfirm' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/AbstractRemovePluginDataConfirm.php',

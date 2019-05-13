@@ -82,6 +82,7 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\Access\\Ilias' => $baseDir . '/src/Access/Ilias.php',
     'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => $baseDir . '/src/Config/Config.php',
     'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => $baseDir . '/src/Config/ConfigFormGUI.php',
+    'srag\\Plugins\\SrUserEnrolment\\Job\\Job' => $baseDir . '/src/Job/Job.php',
     'srag\\Plugins\\SrUserEnrolment\\Utils\\SrUserEnrolmentTrait' => $baseDir . '/src/Utils/SrUserEnrolmentTrait.php',
     'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\AbstractPluginUninstallTrait' => $vendorDir . '/srag/removeplugindataconfirm/src/AbstractPluginUninstallTrait.php',
     'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\AbstractRemovePluginDataConfirm' => $vendorDir . '/srag/removeplugindataconfirm/src/AbstractRemovePluginDataConfirm.php',
