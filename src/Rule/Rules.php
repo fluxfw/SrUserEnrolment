@@ -47,6 +47,16 @@ final class Rules {
 
 
 	/**
+	 * @return array
+	 */
+	public function getOperatorsText(): array {
+		return array_map(function (string $operator): string {
+			return self::plugin()->translate("operator_" . $operator, RulesGUI::LANG_MODULE_RULES);
+		}, Rule::$operators);
+	}
+
+
+	/**
 	 * @return int|null
 	 */
 	public function getRefId()/*: ?int*/ {

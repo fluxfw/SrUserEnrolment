@@ -16,6 +16,19 @@ rules_edit_rule#:#Regel bearbeiten
 rules_enable_rules#:#Regeln aktivieren
 rules_enabled_rules#:#Regeln aktiviert
 rules_enabled#:#Aktiviert
+rules_operator#:#Vergleicher
+rules_operator_bigger#:#Grösser als
+rules_operator_bigger_equals#:#Grösser als oder ist gleich
+rules_operator_case_sensitive#:#Gross-/Kleinschreibung beachten
+rules_operator_contains#:#Enthält
+rules_operator_ends_with#:#Endet mit
+rules_operator_equals#:#Ist gleich
+rules_operator_is_empty#:#Ist leer
+rules_operator_less#:#Kleiner als
+rules_operator_less_equals#:#Kleiner als oder ist gleich
+rules_operator_negated#:#Negation
+rules_operator_reg_ex#:#RegEx
+rules_operator_starts_with#:#Startet mit
 rules_remove#:#Entfernen
 rules_remove_rule#:#Regel entfernen
 rules_remove_rule_confirm#:#Möchten Sie die Regel wirklich entfernen: %s ?

@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\Rule;
 
 use ilCheckboxInputGUI;
+use ilSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
@@ -64,6 +65,17 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 			],
 			"description" => [
 				self::PROPERTY_CLASS => ilTextInputGUI::class
+			],
+			"operator" => [
+				self::PROPERTY_CLASS => ilSelectInputGUI::class,
+				self::PROPERTY_REQUIRED => true,
+				self::PROPERTY_OPTIONS => [ "" => "" ] + self::rules()->getOperatorsText()
+			],
+			"operator_negated" => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+			],
+			"operator_case_sensitive" => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
 			]
 		];
 	}

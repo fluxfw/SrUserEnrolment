@@ -21,6 +21,31 @@ class Rule extends ActiveRecord {
 	use SrUserEnrolmentTrait;
 	const TABLE_NAME = "srusrenr_rule";
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+	const OPERATOR_EQUALS = 1;
+	const OPERATOR_STARTS_WITH = 2;
+	const OPERATOR_CONTAINS = 3;
+	const OPERATOR_ENDS_WITH = 4;
+	const OPERATOR_IS_EMPTY = 5;
+	const OPERATOR_REG_EX = 6;
+	const OPERATOR_LESS = 7;
+	const OPERATOR_LESS_EQUALS = 8;
+	const OPERATOR_BIGGER = 9;
+	const OPERATOR_BIGGER_EQUALS = 10;
+	/**
+	 * @var array
+	 */
+	public static $operators = [
+		self::OPERATOR_EQUALS => "equals",
+		self::OPERATOR_STARTS_WITH => "starts_with",
+		self::OPERATOR_CONTAINS => "contains",
+		self::OPERATOR_ENDS_WITH => "ends_with",
+		self::OPERATOR_IS_EMPTY => "is_empty",
+		self::OPERATOR_REG_EX => "reg_ex",
+		self::OPERATOR_LESS => "less",
+		self::OPERATOR_LESS_EQUALS => "less_equals",
+		self::OPERATOR_BIGGER => "bigger",
+		self::OPERATOR_BIGGER_EQUALS => "bigger_equals"
+	];
 
 
 	/**
@@ -86,6 +111,33 @@ class Rule extends ActiveRecord {
 	 * @con_is_notnull   true
 	 */
 	protected $description = "";
+	/**
+	 * @var int
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    integer
+	 * @con_length       2
+	 * @con_is_notnull   true
+	 */
+	protected $operator = 0;
+	/**
+	 * @var bool
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    integer
+	 * @con_length       1
+	 * @con_is_notnull   true
+	 */
+	protected $operator_negated = false;
+	/**
+	 * @var bool
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    integer
+	 * @con_length       1
+	 * @con_is_notnull   true
+	 */
+	protected $operator_case_sensitive = false;
 
 
 	/**
@@ -109,6 +161,8 @@ class Rule extends ActiveRecord {
 
 		switch ($field_name) {
 			case "enabled":
+			case "operator_negated":
+			case "operator_case_sensitive":
 				return ($field_value ? 1 : 0);
 
 			default:
@@ -125,11 +179,14 @@ class Rule extends ActiveRecord {
 	 */
 	public function wakeUp(/*string*/ $field_name, $field_value) {
 		switch ($field_name) {
+			case "operator":
 			case "ref_id":
 			case "rule_id":
 				return intval($field_value);
 
 			case "enabled":
+			case "operator_negated":
+			case "operator_case_sensitive":
 				return boolval($field_value);
 
 			default:
@@ -215,5 +272,53 @@ class Rule extends ActiveRecord {
 	 */
 	public function setDescription(string $description)/*: void*/ {
 		$this->description = $description;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getOperator(): int {
+		return $this->operator;
+	}
+
+
+	/**
+	 * @param int $operator
+	 */
+	public function setOperator(int $operator)/*: void*/ {
+		$this->operator = $operator;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isOperatorNegated(): bool {
+		return $this->operator_negated;
+	}
+
+
+	/**
+	 * @param bool $operator_negated
+	 */
+	public function setOperatorNegated(bool $operator_negated)/*: void*/ {
+		$this->operator_negated = $operator_negated;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isOperatorCaseSensitive(): bool {
+		return $this->operator_case_sensitive;
+	}
+
+
+	/**
+	 * @param bool $operator_case_sensitive
+	 */
+	public function setOperatorCaseSensitive(bool $operator_case_sensitive)/*: void*/ {
+		$this->operator_case_sensitive = $operator_case_sensitive;
 	}
 }
