@@ -2,18 +2,19 @@
 
 namespace srag\Plugins\SrUserEnrolment\Access;
 
+use ilOrgUnitPosition;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class Ilias
+ * Class OrgUnits
  *
  * @package srag\Plugins\SrUserEnrolment\Access
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Ilias {
+final class OrgUnits {
 
 	use DICTrait;
 	use SrUserEnrolmentTrait;
@@ -37,7 +38,7 @@ final class Ilias {
 
 
 	/**
-	 * Ilias constructor
+	 * OrgUnits constructor
 	 */
 	private function __construct() {
 
@@ -45,25 +46,11 @@ final class Ilias {
 
 
 	/**
-	 * @return OrgUnits
+	 * @return array
 	 */
-	public function orgUnits(): OrgUnits {
-		return OrgUnits::getInstance();
-	}
-
-
-	/**
-	 * @return Roles
-	 */
-	public function roles(): Roles {
-		return Roles::getInstance();
-	}
-
-
-	/**
-	 * @return Roles
-	 */
-	public function users(): Users {
-		return Users::getInstance();
+	public function getPositions(): array {
+		return array_map(function (ilOrgUnitPosition $position): string {
+			return $position->getTitle();
+		}, ilOrgUnitPosition::get());
 	}
 }

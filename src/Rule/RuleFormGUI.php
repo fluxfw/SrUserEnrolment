@@ -3,6 +3,9 @@
 namespace srag\Plugins\SrUserEnrolment\Rule;
 
 use ilCheckboxInputGUI;
+use ilNumberInputGUI;
+use ilRadioGroupInputGUI;
+use ilRadioOption;
 use ilSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
@@ -66,16 +69,55 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 			"description" => [
 				self::PROPERTY_CLASS => ilTextInputGUI::class
 			],
-			"operator" => [
+			"org_unit_type" => [
+				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+				self::PROPERTY_SUBITEMS => [
+					Rule::ORG_UNIT_TYPE_TITLE => [
+						self::PROPERTY_CLASS => ilRadioOption::class,
+						self::PROPERTY_SUBITEMS => [
+							"org_unit_title" => [
+								self::PROPERTY_CLASS => ilTextInputGUI::class,
+								"setTitle" => $this->txt("title")
+							],
+							"title_operator" => [
+								self::PROPERTY_CLASS => ilSelectInputGUI::class,
+								self::PROPERTY_REQUIRED => true,
+								self::PROPERTY_OPTIONS => [ "" => "" ] + self::rules()->getOperatorsTitleText(),
+								"setTitle" => $this->txt("operator")
+							],
+							"title_operator_negated" => [
+								self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+								"setTitle" => $this->txt("operator_negated")
+							],
+							"title_operator_case_sensitive" => [
+								self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+								"setTitle" => $this->txt("operator_case_sensitive")
+							]
+						],
+						"setTitle" => $this->txt("org_unit_title")
+					],
+					Rule::ORG_UNIT_TYPE_TREE => [
+						self::PROPERTY_CLASS => ilRadioOption::class,
+						self::PROPERTY_SUBITEMS => [
+							"org_unit_ref_id" => [
+								self::PROPERTY_CLASS => ilNumberInputGUI::class,
+								"setTitle" => $this->txt("ref_id")
+							],
+							"ref_id_operator" => [
+								self::PROPERTY_CLASS => ilSelectInputGUI::class,
+								self::PROPERTY_REQUIRED => true,
+								self::PROPERTY_OPTIONS => [ "" => "" ] + self::rules()->getOperatorsRefIdText(),
+								"setTitle" => $this->txt("operator")
+							],
+						],
+						"setTitle" => $this->txt("org_unit_tree")
+					]
+				]
+			],
+			"position" => [
 				self::PROPERTY_CLASS => ilSelectInputGUI::class,
 				self::PROPERTY_REQUIRED => true,
-				self::PROPERTY_OPTIONS => [ "" => "" ] + self::rules()->getOperatorsText()
-			],
-			"operator_negated" => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
-			],
-			"operator_case_sensitive" => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+				self::PROPERTY_OPTIONS => [ 0 => $this->txt("all") ] + self::ilias()->orgUnits()->getPositions()
 			]
 		];
 	}
@@ -101,7 +143,7 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 	 * @inheritdoc
 	 */
 	public function storeForm()/*: bool*/ {
-		$this->object->setRefId(self::rules()->getRefId());
+		$this->object->setCourseRefId(self::rules()->getCourseRefId());
 
 		return parent::storeForm();
 	}

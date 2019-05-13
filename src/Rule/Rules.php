@@ -47,19 +47,9 @@ final class Rules {
 
 
 	/**
-	 * @return array
-	 */
-	public function getOperatorsText(): array {
-		return array_map(function (string $operator): string {
-			return self::plugin()->translate("operator_" . $operator, RulesGUI::LANG_MODULE_RULES);
-		}, Rule::$operators);
-	}
-
-
-	/**
 	 * @return int|null
 	 */
-	public function getRefId()/*: ?int*/ {
+	public function getCourseRefId()/*: ?int*/ {
 		$obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
 
 		if ($obj_ref_id === null) {
@@ -75,6 +65,26 @@ final class Rules {
 		} else {
 			return null;
 		}
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getOperatorsRefIdText(): array {
+		return array_map(function (string $operator): string {
+			return self::plugin()->translate("operator_" . $operator, RulesGUI::LANG_MODULE_RULES);
+		}, Rule::$operators_ref_id);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getOperatorsTitleText(): array {
+		return array_map(function (string $operator): string {
+			return self::plugin()->translate("operator_" . $operator, RulesGUI::LANG_MODULE_RULES);
+		}, Rule::$operators_title);
 	}
 
 
@@ -95,12 +105,12 @@ final class Rules {
 
 
 	/**
-	 * @param int $ref_id
+	 * @param int $course_ref_id
 	 *
 	 * @return array
 	 */
-	public function getRulesArray(int $ref_id): array {
-		return Rule::where([ "ref_id" => $ref_id ])->getArray();
+	public function getRulesArray(int $course_ref_id): array {
+		return Rule::where([ "course_ref_id" => $course_ref_id ])->getArray();
 	}
 }
 

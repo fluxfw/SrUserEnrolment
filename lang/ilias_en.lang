@@ -7,6 +7,7 @@ rules_actions#:#Actions
 rules_add#:#Add
 rules_add_rule#:#Add rule
 rules_added_rule#:#Rule %s added
+rules_all#:#All
 rules_back#:#Back
 rules_cancel#:#Cancel
 rules_description#:#Description
@@ -23,12 +24,18 @@ rules_operator_case_sensitive#:#Case sensitive
 rules_operator_contains#:#Contanints
 rules_operator_ends_with#:#Ends with
 rules_operator_equals#:#Is equals
+rules_operator_equals_subsequent#:#Is equals or subsequent
 rules_operator_is_empty#:#Is empty
 rules_operator_less#:#Less than
 rules_operator_less_equals#:#Less than or is equals
 rules_operator_negated#:#Negation
 rules_operator_reg_ex#:#RegEx
 rules_operator_starts_with#:#Starts with
+rules_org_unit_title#:#Corresponds to title
+rules_org_unit_tree#:#Corresponds to org unit or subsequent
+rules_org_unit_type#:#Org unit user
+rules_position#:#Position user
+rules_ref_id#:#Ref ID
 rules_remove#:#Remove
 rules_remove_rule#:#Remove rule
 rules_remove_rule_confirm#:#Are you really want to delete the rule: %s ?

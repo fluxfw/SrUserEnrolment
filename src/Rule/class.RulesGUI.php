@@ -98,10 +98,10 @@ class RulesGUI {
 		self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, Rules::GET_PARAM_REF_ID);
 
 		self::dic()->mainTemplate()->setTitleIcon(ilObject::_getIcon("", "tiny", self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()
-			->lookupObjId(self::rules()->getRefId()))));
+			->lookupObjId(self::rules()->getCourseRefId()))));
 
 		self::dic()->mainTemplate()->setTitle(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId(self::rules()
-			->getRefId())));
+			->getCourseRefId())));
 
 		self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE_RULES), self::dic()->ctrl()->getLinkTargetByClass([
 			ilRepositoryGUI::class,

@@ -120,6 +120,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\LibrariesNamespaceChanger\\PHP7Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
         'srag\\Plugins\\SrUserEnrolment\\Access\\Access' => __DIR__ . '/../..' . '/src/Access/Access.php',
         'srag\\Plugins\\SrUserEnrolment\\Access\\Ilias' => __DIR__ . '/../..' . '/src/Access/Ilias.php',
+        'srag\\Plugins\\SrUserEnrolment\\Access\\OrgUnits' => __DIR__ . '/../..' . '/src/Access/OrgUnits.php',
         'srag\\Plugins\\SrUserEnrolment\\Access\\Roles' => __DIR__ . '/../..' . '/src/Access/Roles.php',
         'srag\\Plugins\\SrUserEnrolment\\Access\\Users' => __DIR__ . '/../..' . '/src/Access/Users.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',

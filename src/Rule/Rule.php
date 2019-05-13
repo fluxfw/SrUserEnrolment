@@ -21,6 +21,8 @@ class Rule extends ActiveRecord {
 	use SrUserEnrolmentTrait;
 	const TABLE_NAME = "srusrenr_rule";
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+	const ORG_UNIT_TYPE_TITLE = 1;
+	const ORG_UNIT_TYPE_TREE = 2;
 	const OPERATOR_EQUALS = 1;
 	const OPERATOR_STARTS_WITH = 2;
 	const OPERATOR_CONTAINS = 3;
@@ -31,10 +33,11 @@ class Rule extends ActiveRecord {
 	const OPERATOR_LESS_EQUALS = 8;
 	const OPERATOR_BIGGER = 9;
 	const OPERATOR_BIGGER_EQUALS = 10;
+	const OPERATOR_EQUALS_SUBSEQUENT = 11;
 	/**
 	 * @var array
 	 */
-	public static $operators = [
+	public static $operators_title = [
 		self::OPERATOR_EQUALS => "equals",
 		self::OPERATOR_STARTS_WITH => "starts_with",
 		self::OPERATOR_CONTAINS => "contains",
@@ -45,6 +48,13 @@ class Rule extends ActiveRecord {
 		self::OPERATOR_LESS_EQUALS => "less_equals",
 		self::OPERATOR_BIGGER => "bigger",
 		self::OPERATOR_BIGGER_EQUALS => "bigger_equals"
+	];
+	/**
+	 * @var array
+	 */
+	public static $operators_ref_id = [
+		self::OPERATOR_EQUALS => "equals",
+		self::OPERATOR_EQUALS_SUBSEQUENT => "equals_subsequent"
 	];
 
 
@@ -85,7 +95,7 @@ class Rule extends ActiveRecord {
 	 * @con_length       8
 	 * @con_is_notnull   true
 	 */
-	protected $ref_id;
+	protected $course_ref_id;
 	/**
 	 * @var bool
 	 *
@@ -116,10 +126,27 @@ class Rule extends ActiveRecord {
 	 *
 	 * @con_has_field    true
 	 * @con_fieldtype    integer
+	 * @con_length       1
+	 * @con_is_notnull   true
+	 */
+	protected $org_unit_type = self::ORG_UNIT_TYPE_TITLE;
+	/**
+	 * @var string
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    text
+	 * @con_is_notnull   true
+	 */
+	protected $org_unit_title = "";
+	/**
+	 * @var int
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    integer
 	 * @con_length       2
 	 * @con_is_notnull   true
 	 */
-	protected $operator = 0;
+	protected $title_operator = 0;
 	/**
 	 * @var bool
 	 *
@@ -128,7 +155,7 @@ class Rule extends ActiveRecord {
 	 * @con_length       1
 	 * @con_is_notnull   true
 	 */
-	protected $operator_negated = false;
+	protected $title_operator_negated = false;
 	/**
 	 * @var bool
 	 *
@@ -137,7 +164,34 @@ class Rule extends ActiveRecord {
 	 * @con_length       1
 	 * @con_is_notnull   true
 	 */
-	protected $operator_case_sensitive = false;
+	protected $title_operator_case_sensitive = false;
+	/**
+	 * @var int
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    integer
+	 * @con_length       8
+	 * @con_is_notnull   true
+	 */
+	protected $org_unit_ref_id = 0;
+	/**
+	 * @var int
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    integer
+	 * @con_length       2
+	 * @con_is_notnull   true
+	 */
+	protected $ref_id_operator = 0;
+	/**
+	 * @var int
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    integer
+	 * @con_length       8
+	 * @con_is_notnull   true
+	 */
+	protected $position = 0;
 
 
 	/**
@@ -161,8 +215,8 @@ class Rule extends ActiveRecord {
 
 		switch ($field_name) {
 			case "enabled":
-			case "operator_negated":
-			case "operator_case_sensitive":
+			case "title_operator_negated":
+			case "title_operator_case_sensitive":
 				return ($field_value ? 1 : 0);
 
 			default:
@@ -179,14 +233,18 @@ class Rule extends ActiveRecord {
 	 */
 	public function wakeUp(/*string*/ $field_name, $field_value) {
 		switch ($field_name) {
-			case "operator":
-			case "ref_id":
+			case "course_ref_id":
+			case "org_unit_ref_id":
+			case "org_unit_type":
+			case "position":
+			case "ref_id_operator":
 			case "rule_id":
+			case "title_operator":
 				return intval($field_value);
 
 			case "enabled":
-			case "operator_negated":
-			case "operator_case_sensitive":
+			case "title_operator_negated":
+			case "title_operator_case_sensitive":
 				return boolval($field_value);
 
 			default:
@@ -214,16 +272,16 @@ class Rule extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getRefId(): int {
-		return $this->ref_id;
+	public function getCourseRefId(): int {
+		return $this->course_ref_id;
 	}
 
 
 	/**
-	 * @param int $ref_id
+	 * @param int $course_ref_id
 	 */
-	public function setRefId(int $ref_id)/*: void*/ {
-		$this->ref_id = $ref_id;
+	public function setCourseRefId(int $course_ref_id)/*: void*/ {
+		$this->course_ref_id = $course_ref_id;
 	}
 
 
@@ -278,47 +336,127 @@ class Rule extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getOperator(): int {
-		return $this->operator;
+	public function getOrgUnitType(): int {
+		return $this->org_unit_type;
 	}
 
 
 	/**
-	 * @param int $operator
+	 * @param int $org_unit_type
 	 */
-	public function setOperator(int $operator)/*: void*/ {
-		$this->operator = $operator;
+	public function setOrgUnitType(int $org_unit_type)/*: void*/ {
+		$this->org_unit_type = $org_unit_type;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOrgUnitTitle(): string {
+		return $this->org_unit_title;
+	}
+
+
+	/**
+	 * @param string $org_unit_title
+	 */
+	public function setOrgUnitTitle(string $org_unit_title)/*: void*/ {
+		$this->org_unit_title = $org_unit_title;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getTitleOperator(): int {
+		return $this->title_operator;
+	}
+
+
+	/**
+	 * @param int $title_operator
+	 */
+	public function setTitleOperator(int $title_operator)/*: void*/ {
+		$this->title_operator = $title_operator;
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	public function isOperatorNegated(): bool {
-		return $this->operator_negated;
+	public function isTitleOperatorNegated(): bool {
+		return $this->title_operator_negated;
 	}
 
 
 	/**
-	 * @param bool $operator_negated
+	 * @param bool $title_operator_negated
 	 */
-	public function setOperatorNegated(bool $operator_negated)/*: void*/ {
-		$this->operator_negated = $operator_negated;
+	public function setTitleOperatorNegated(bool $title_operator_negated)/*: void*/ {
+		$this->title_operator_negated = $title_operator_negated;
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	public function isOperatorCaseSensitive(): bool {
-		return $this->operator_case_sensitive;
+	public function isTitleOperatorCaseSensitive(): bool {
+		return $this->title_operator_case_sensitive;
 	}
 
 
 	/**
-	 * @param bool $operator_case_sensitive
+	 * @param bool $title_operator_case_sensitive
 	 */
-	public function setOperatorCaseSensitive(bool $operator_case_sensitive)/*: void*/ {
-		$this->operator_case_sensitive = $operator_case_sensitive;
+	public function setTitleOperatorCaseSensitive(bool $title_operator_case_sensitive)/*: void*/ {
+		$this->title_operator_case_sensitive = $title_operator_case_sensitive;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getOrgUnitRefId(): int {
+		return $this->org_unit_ref_id;
+	}
+
+
+	/**
+	 * @param int $org_unit_ref_id
+	 */
+	public function setOrgUnitRefId(int $org_unit_ref_id)/*: void*/ {
+		$this->org_unit_ref_id = $org_unit_ref_id;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getRefIdOperator(): int {
+		return $this->ref_id_operator;
+	}
+
+
+	/**
+	 * @param int $ref_id_operator
+	 */
+	public function setRefIdOperator(int $ref_id_operator)/*: void*/ {
+		$this->ref_id_operator = $ref_id_operator;
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getPosition(): int {
+		return $this->position;
+	}
+
+
+	/**
+	 * @param int $position
+	 */
+	public function setPosition(int $position)/*: void*/ {
+		$this->position = $position;
 	}
 }

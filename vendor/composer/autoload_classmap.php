@@ -80,6 +80,7 @@ return array(
     'srag\\LibrariesNamespaceChanger\\PHP7Backport' => $vendorDir . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
     'srag\\Plugins\\SrUserEnrolment\\Access\\Access' => $baseDir . '/src/Access/Access.php',
     'srag\\Plugins\\SrUserEnrolment\\Access\\Ilias' => $baseDir . '/src/Access/Ilias.php',
+    'srag\\Plugins\\SrUserEnrolment\\Access\\OrgUnits' => $baseDir . '/src/Access/OrgUnits.php',
     'srag\\Plugins\\SrUserEnrolment\\Access\\Roles' => $baseDir . '/src/Access/Roles.php',
     'srag\\Plugins\\SrUserEnrolment\\Access\\Users' => $baseDir . '/src/Access/Users.php',
     'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => $baseDir . '/src/Config/Config.php',
