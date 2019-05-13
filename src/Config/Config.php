@@ -16,7 +16,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 class Config extends ActiveRecordConfig {
 
 	use SrUserEnrolmentTrait;
-	const TABLE_NAME = "ui_uihk_srusrenr_config_n";
+	const TABLE_NAME = "srusrenr_config";
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 	/**
 	 * @var array
