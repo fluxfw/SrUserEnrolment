@@ -85,6 +85,8 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => $baseDir . '/src/Config/Config.php',
     'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => $baseDir . '/src/Config/ConfigFormGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\Job\\Job' => $baseDir . '/src/Job/Job.php',
+    'srag\\Plugins\\SrUserEnrolment\\Rule\\Rule' => $baseDir . '/src/Rule/Rule.php',
+    'srag\\Plugins\\SrUserEnrolment\\Rule\\RuleFormGUI' => $baseDir . '/src/Rule/RuleFormGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\Rule\\Rules' => $baseDir . '/src/Rule/Rules.php',
     'srag\\Plugins\\SrUserEnrolment\\Rule\\RulesGUI' => $baseDir . '/src/Rule/class.RulesGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\Rule\\RulesTableGUI' => $baseDir . '/src/Rule/RulesTableGUI.php',

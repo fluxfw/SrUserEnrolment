@@ -3,5 +3,28 @@ config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
+rules_actions#:#Aktionen
+rules_add#:#Hinzufügen
+rules_add_rule#:#Regel hinzufügen
+rules_added_rule#:#Regel %s hinzugefügt
 rules_back#:#Zurück
+rules_cancel#:#Abbrechen
+rules_description#:#Beschreibung
+rules_disable_rules#:#Regeln deaktivieren
+rules_disabled_rules#:#Regeln deaktiviert
+rules_edit_rule#:#Regel bearbeiten
+rules_enable_rules#:#Regeln aktivieren
+rules_enabled_rules#:#Regeln aktiviert
+rules_enabled#:#Aktiviert
+rules_remove#:#Entfernen
+rules_remove_rule#:#Regel entfernen
+rules_remove_rule_confirm#:#Möchten Sie die Regel wirklich entfernen: %s ?
+rules_remove_rules#:#Regeln entfernen
+rules_remove_rules_confirm#:#Möchten Sie die folgende Regeln wirklich entfernen?
+rules_removed_rule#:#Regel %s entfernt
+rules_removed_rules#:#Regeln entfernt
+rules_rule#:#Regel
 rules_rules#:#Einschreiben per Regel
+rules_save#:#Speichern
+rules_saved_rule#:#Regel %s gespeichert
+rules_title#:#Titel

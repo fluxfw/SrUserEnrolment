@@ -49,7 +49,7 @@ final class Rules {
 	/**
 	 * @return int|null
 	 */
-	public function getCourseRefId()/*: ?int*/ {
+	public function getRefId()/*: ?int*/ {
 		$obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
 
 		if ($obj_ref_id === null) {
@@ -66,4 +66,32 @@ final class Rules {
 			return null;
 		}
 	}
+
+
+	/**
+	 * @param int $rule_id
+	 *
+	 * @return Rule|null
+	 */
+	public function getRuleById(int $rule_id)/*: ?Rule*/ {
+		/**
+		 * @var Rule|null $rule
+		 */
+
+		$rule = Rule::where([ "rule_id" => $rule_id ])->first();
+
+		return $rule;
+	}
+
+
+	/**
+	 * @param int $ref_id
+	 *
+	 * @return array
+	 */
+	public function getRulesArray(int $ref_id): array {
+		return Rule::where([ "ref_id" => $ref_id ])->getArray();
+	}
 }
+
+Rule::updateDB();

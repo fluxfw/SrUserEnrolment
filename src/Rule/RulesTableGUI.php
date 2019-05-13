@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\Rule;
 
 use ilSrUserEnrolmentPlugin;
+use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -38,7 +39,11 @@ class RulesTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	public function getSelectableColumns2(): array {
-		$columns = [];
+		$columns = [
+			"enabled" => "enabled",
+			"title" => "title",
+			"description" => "description"
+		];
 
 		$columns = array_map(function (string $key): array {
 			return [
@@ -55,8 +60,26 @@ class RulesTableGUI extends TableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function initCommands()/*: void*/ {
+	protected function initColumns()/*: void*/ {
+		$this->addColumn("");
 
+		parent::initColumns();
+
+		$this->addColumn($this->txt("actions"));
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function initCommands()/*: void*/ {
+		self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("add_rule"), self::dic()->ctrl()
+			->getLinkTarget($this->parent_obj, RulesGUI::CMD_ADD_RULE)));
+
+		$this->setSelectAllCheckbox("rule_id");
+		$this->addMultiCommand(RulesGUI::CMD_ENABLE_RULES, $this->txt("enable_rules"));
+		$this->addMultiCommand(RulesGUI::CMD_DISABLE_RULES, $this->txt("disable_rules"));
+		$this->addMultiCommand(RulesGUI::CMD_REMOVE_RULES_CONFIRM, $this->txt("remove_rules"));
 	}
 
 
@@ -64,7 +87,16 @@ class RulesTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initData()/*: void*/ {
-		$this->setData([]);
+		$this->setData(array_map(function (array &$row): array {
+			if ($row["enabled"]) {
+				$enabled = ilUtil::getImagePath("icon_ok.svg");
+			} else {
+				$enabled = ilUtil::getImagePath("icon_not_ok.svg");
+			}
+			$row["enabled"] = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($enabled, ""));
+
+			return $row;
+		}, self::rules()->getRulesArray(self::rules()->getRefId())));
 	}
 	/**
 	 *
@@ -91,5 +123,27 @@ class RulesTableGUI extends TableGUI {
 	 */
 	protected function initTitle()/*: void*/ {
 		$this->setTitle($this->txt("rules"));
+	}
+
+
+	/**
+	 * @param array $row
+	 */
+	protected function fillRow(/*array*/ $row)/*: void*/ {
+		self::dic()->ctrl()->setParameter($this->parent_obj, "rule_id", $row["rule_id"]);
+
+		$this->tpl->setCurrentBlock("checkbox");
+		$this->tpl->setVariable("CHECKBOX_POST_VAR", "rule_id");
+		$this->tpl->setVariable("ID", $row["rule_id"]);
+		$this->tpl->parseCurrentBlock();
+
+		parent::fillRow($row);
+
+		$this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
+			self::dic()->ui()->factory()->button()->shy($this->txt("edit_rule"), self::dic()->ctrl()
+				->getLinkTarget($this->parent_obj, RulesGUI::CMD_EDIT_RULE)),
+			self::dic()->ui()->factory()->button()->shy($this->txt("remove_rule"), self::dic()->ctrl()
+				->getLinkTarget($this->parent_obj, RulesGUI::CMD_REMOVE_RULE_CONFIRM))
+		])->withLabel($this->txt("actions"))));
 	}
 }

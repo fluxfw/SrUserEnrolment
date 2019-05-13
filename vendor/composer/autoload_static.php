@@ -125,6 +125,8 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Job\\Job' => __DIR__ . '/../..' . '/src/Job/Job.php',
+        'srag\\Plugins\\SrUserEnrolment\\Rule\\Rule' => __DIR__ . '/../..' . '/src/Rule/Rule.php',
+        'srag\\Plugins\\SrUserEnrolment\\Rule\\RuleFormGUI' => __DIR__ . '/../..' . '/src/Rule/RuleFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\Rules' => __DIR__ . '/../..' . '/src/Rule/Rules.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\RulesGUI' => __DIR__ . '/../..' . '/src/Rule/class.RulesGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\RulesTableGUI' => __DIR__ . '/../..' . '/src/Rule/RulesTableGUI.php',

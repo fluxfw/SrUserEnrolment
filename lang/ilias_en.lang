@@ -3,5 +3,28 @@ config_configuration_saved#:#Configuration saved
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
+rules_actions#:#Actions
+rules_add#:#Add
+rules_add_rule#:#Add rule
+rules_added_rule#:#Rule %s added
 rules_back#:#Back
+rules_cancel#:#Cancel
+rules_description#:#Description
+rules_disable_rules#:#Disable rules
+rules_disable_rules#:#Rules disabled
+rules_edit_rule#:#Edit rule
+rules_enable_rules#:#Enable rules
+rules_enabled#:#Enabled
+rules_enabled_rules#:#Rules enabled
+rules_remove#:#Remove
+rules_remove_rule#:#Remove rule
+rules_remove_rule_confirm#:#Are you really want to delete the rule: %s ?
+rules_remove_rules#:#Removes rules
+rules_remove_rules_confirm#:#Are you really want to delete the follow rules?
+rules_removed_rule#:#Rule %s removed
+rules_removed_rules#:#Rules removed
+rules_rule#:#Rule
 rules_rules#:#Enrol by rule
+rules_save#:#Save
+rules_saved_rule#:#Rule %s saved
+rules_title#:#Title
