@@ -101,7 +101,7 @@ class RulesTableGUI extends TableGUI {
 		self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("add_rule"), self::dic()->ctrl()
 			->getLinkTarget($this->parent_obj, RulesGUI::CMD_ADD_RULE)));
 
-		$this->setSelectAllCheckbox("rule_id");
+		$this->setSelectAllCheckbox(RulesGUI::GET_PARAM_RULE_ID);
 		$this->addMultiCommand(RulesGUI::CMD_ENABLE_RULES, $this->txt("enable_rules"));
 		$this->addMultiCommand(RulesGUI::CMD_DISABLE_RULES, $this->txt("disable_rules"));
 		$this->addMultiCommand(RulesGUI::CMD_REMOVE_RULES_CONFIRM, $this->txt("remove_rules"));
@@ -155,11 +155,11 @@ class RulesTableGUI extends TableGUI {
 	 * @param array $row
 	 */
 	protected function fillRow(/*array*/ $row)/*: void*/ {
-		self::dic()->ctrl()->setParameter($this->parent_obj, "rule_id", $row["rule_id"]);
+		self::dic()->ctrl()->setParameter($this->parent_obj, RulesGUI::GET_PARAM_RULE_ID, $row["rule_id"]);
 
 		$this->tpl->setCurrentBlock("checkbox");
-		$this->tpl->setVariable("CHECKBOX_POST_VAR", "rule_id");
-		$this->tpl->setVariable("ID", $row["rule_id"]);
+		$this->tpl->setVariable("CHECKBOX_POST_VAR", RulesGUI::GET_PARAM_RULE_ID);
+		$this->tpl->setVariable("ID", RulesGUI::GET_PARAM_RULE_ID);
 		$this->tpl->parseCurrentBlock();
 
 		parent::fillRow($row);

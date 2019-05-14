@@ -39,6 +39,7 @@ class RulesGUI {
 	const CMD_UPDATE_RULE = "updateRule";
 	const TAB_RULES = "rules";
 	const LANG_MODULE_RULES = "rules";
+	const GET_PARAM_RULE_ID = "rule_id";
 
 
 	/**
@@ -141,7 +142,7 @@ class RulesGUI {
 	 * @return RuleFormGUI
 	 */
 	public function getRuleForm(Rule $rule): RuleFormGUI {
-		self::dic()->ctrl()->saveParameter($this, "rule_id");
+		self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_RULE_ID);
 
 		$form = new RuleFormGUI($this, $rule);
 
@@ -187,7 +188,7 @@ class RulesGUI {
 	protected function editRule()/*: void*/ {
 		self::dic()->tabs()->activateTab(self::TAB_RULES);
 
-		$rule_id = intval(filter_input(INPUT_GET, "rule_id"));
+		$rule_id = intval(filter_input(INPUT_GET, self::GET_PARAM_RULE_ID));
 		$rule = self::rules()->getRuleById($rule_id);
 
 		$form = $this->getRuleForm($rule);
@@ -202,7 +203,7 @@ class RulesGUI {
 	protected function updateRule()/*: void*/ {
 		self::dic()->tabs()->activateTab(self::TAB_RULES);
 
-		$rule_id = intval(filter_input(INPUT_GET, "rule_id"));
+		$rule_id = intval(filter_input(INPUT_GET, self::GET_PARAM_RULE_ID));
 		$rule = self::rules()->getRuleById($rule_id);
 
 		$form = $this->getRuleForm($rule);
@@ -225,18 +226,18 @@ class RulesGUI {
 	protected function removeRuleConfirm()/*: void*/ {
 		self::dic()->tabs()->activateTab(self::TAB_RULES);
 
-		$rule_id = intval(filter_input(INPUT_GET, "rule_id"));
+		$rule_id = intval(filter_input(INPUT_GET, self::GET_PARAM_RULE_ID));
 		$rule = self::rules()->getRuleById($rule_id);
 
 		$confirmation = new ilConfirmationGUI();
 
-		self::dic()->ctrl()->setParameter($this, "rule_id", $rule->getRuleId());
+		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_RULE_ID, $rule->getRuleId());
 		$confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
-		self::dic()->ctrl()->setParameter($this, "rule_id", null);
+		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_RULE_ID, null);
 
 		$confirmation->setHeaderText(self::plugin()->translate("remove_rule_confirm", self::LANG_MODULE_RULES, [ $rule->getTitle() ]));
 
-		$confirmation->addItem("rule_id", $rule->getRuleId(), $rule->getTitle());
+		$confirmation->addItem(self::GET_PARAM_RULE_ID, $rule->getRuleId(), $rule->getTitle());
 
 		$confirmation->setConfirm(self::plugin()->translate("remove", self::LANG_MODULE_RULES), self::CMD_REMOVE_RULE);
 		$confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_RULES), self::CMD_LIST_RULES);
@@ -249,7 +250,7 @@ class RulesGUI {
 	 *
 	 */
 	protected function removeRule()/*: void*/ {
-		$rule_id = intval(filter_input(INPUT_GET, "rule_id"));
+		$rule_id = intval(filter_input(INPUT_GET, self::GET_PARAM_RULE_ID));
 		$rule = self::rules()->getRuleById($rule_id);
 
 		$rule->delete();
@@ -264,7 +265,7 @@ class RulesGUI {
 	 *
 	 */
 	protected function enableRules()/*: void*/ {
-		$rule_ids = filter_input(INPUT_POST, "rule_id", FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+		$rule_ids = filter_input(INPUT_POST, self::GET_PARAM_RULE_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
 		/**
 		 * @var Rule[] $rules
@@ -289,7 +290,7 @@ class RulesGUI {
 	 *
 	 */
 	protected function disableRules()/*: void*/ {
-		$rule_ids = filter_input(INPUT_POST, "rule_id", FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+		$rule_ids = filter_input(INPUT_POST, self::GET_PARAM_RULE_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
 		/**
 		 * @var Rule[] $rules
@@ -316,7 +317,7 @@ class RulesGUI {
 	protected function removeRulesConfirm()/*: void*/ {
 		self::dic()->tabs()->activateTab(self::TAB_RULES);
 
-		$rule_ids = filter_input(INPUT_POST, "rule_id", FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+		$rule_ids = filter_input(INPUT_POST, self::GET_PARAM_RULE_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
 		/**
 		 * @var Rule[] $rules
@@ -346,7 +347,7 @@ class RulesGUI {
 	 *
 	 */
 	protected function removeRules()/*: void*/ {
-		$rule_ids = filter_input(INPUT_POST, "rule_id", FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+		$rule_ids = filter_input(INPUT_POST, self::GET_PARAM_RULE_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
 		/**
 		 * @var Rule[] $rules
