@@ -10,6 +10,8 @@ use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Enroll\Enroller;
+use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -36,6 +38,7 @@ class RulesGUI {
 	const CMD_REMOVE_RULE_CONFIRM = "removeRuleConfirm";
 	const CMD_REMOVE_RULES_CONFIRM = "removeRulesConfirm";
 	const CMD_REMOVE_RULES = "removeRules";
+	const CMD_RUN_RULES = "runRules";
 	const CMD_UPDATE_RULE = "updateRule";
 	const TAB_RULES = "rules";
 	const LANG_MODULE_RULES = "rules";
@@ -54,7 +57,7 @@ class RulesGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-		if (!self::access()->currentUserHasRole()) {
+		if (!self::access()->currentUserHasRole() || !self::dic()->access()->checkAccess("write", "", self::rules()->getRefId())) {
 			die();
 		}
 
@@ -63,6 +66,10 @@ class RulesGUI {
 		$next_class = self::dic()->ctrl()->getNextClass($this);
 
 		switch (strtolower($next_class)) {
+			case strtolower(LogsGUI::class):
+				self::dic()->ctrl()->forwardCommand(new LogsGUI());
+				break;
+
 			default:
 				$cmd = self::dic()->ctrl()->getCmd();
 
@@ -77,6 +84,7 @@ class RulesGUI {
 					case self::CMD_REMOVE_RULE_CONFIRM:
 					case self::CMD_REMOVE_RULES:
 					case self::CMD_REMOVE_RULES_CONFIRM:
+					case self::CMD_RUN_RULES:
 					case self::CMD_UPDATE_RULE:
 						$this->{$cmd}();
 						break;
@@ -111,6 +119,9 @@ class RulesGUI {
 		self::dic()->tabs()->addTab(RulesGUI::TAB_RULES, self::plugin()->translate("rules", self::LANG_MODULE_RULES), self::dic()->ctrl()
 			->getLinkTarget($this, RulesGUI::CMD_LIST_RULES));
 		self::dic()->tabs()->activateTab(RulesGUI::TAB_RULES);
+
+		self::dic()->tabs()->addTab(LogsGUI::TAB_LOGS, self::plugin()->translate("logs", LogsGUI::LANG_MODULE_LOGS), self::dic()->ctrl()
+			->getLinkTargetByClass(LogsGUI::class, LogsGUI::CMD_LIST_LOGS));
 	}
 
 
@@ -191,9 +202,11 @@ class RulesGUI {
 		$rule_id = intval(filter_input(INPUT_GET, self::GET_PARAM_RULE_ID));
 		$rule = self::rules()->getRuleById($rule_id);
 
-		$form = $this->getRuleForm($rule);
+		if ($rule->getObjectId() === self::rules()->getObjId()) {
+			$form = $this->getRuleForm($rule);
 
-		self::output()->output($form, true);
+			self::output()->output($form, true);
+		}
 	}
 
 
@@ -206,17 +219,19 @@ class RulesGUI {
 		$rule_id = intval(filter_input(INPUT_GET, self::GET_PARAM_RULE_ID));
 		$rule = self::rules()->getRuleById($rule_id);
 
-		$form = $this->getRuleForm($rule);
+		if ($rule->getObjectId() === self::rules()->getObjId()) {
+			$form = $this->getRuleForm($rule);
 
-		if (!$form->storeForm()) {
-			self::output()->output($form, true);
+			if (!$form->storeForm()) {
+				self::output()->output($form, true);
 
-			return;
+				return;
+			}
+
+			ilUtil::sendSuccess(self::plugin()->translate("saved_rule", self::LANG_MODULE_RULES, [ $rule->getTitle() ]), true);
+
+			self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
 		}
-
-		ilUtil::sendSuccess(self::plugin()->translate("saved_rule", self::LANG_MODULE_RULES, [ $rule->getTitle() ]), true);
-
-		self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
 	}
 
 
@@ -229,20 +244,22 @@ class RulesGUI {
 		$rule_id = intval(filter_input(INPUT_GET, self::GET_PARAM_RULE_ID));
 		$rule = self::rules()->getRuleById($rule_id);
 
-		$confirmation = new ilConfirmationGUI();
+		if ($rule->getObjectId() === self::rules()->getObjId()) {
+			$confirmation = new ilConfirmationGUI();
 
-		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_RULE_ID, $rule->getRuleId());
-		$confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
-		self::dic()->ctrl()->setParameter($this, self::GET_PARAM_RULE_ID, null);
+			self::dic()->ctrl()->setParameter($this, self::GET_PARAM_RULE_ID, $rule->getRuleId());
+			$confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
+			self::dic()->ctrl()->setParameter($this, self::GET_PARAM_RULE_ID, null);
 
-		$confirmation->setHeaderText(self::plugin()->translate("remove_rule_confirm", self::LANG_MODULE_RULES, [ $rule->getTitle() ]));
+			$confirmation->setHeaderText(self::plugin()->translate("remove_rule_confirm", self::LANG_MODULE_RULES, [ $rule->getTitle() ]));
 
-		$confirmation->addItem(self::GET_PARAM_RULE_ID, $rule->getRuleId(), $rule->getTitle());
+			$confirmation->addItem(self::GET_PARAM_RULE_ID, $rule->getRuleId(), $rule->getTitle());
 
-		$confirmation->setConfirm(self::plugin()->translate("remove", self::LANG_MODULE_RULES), self::CMD_REMOVE_RULE);
-		$confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_RULES), self::CMD_LIST_RULES);
+			$confirmation->setConfirm(self::plugin()->translate("remove", self::LANG_MODULE_RULES), self::CMD_REMOVE_RULE);
+			$confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_RULES), self::CMD_LIST_RULES);
 
-		self::output()->output($confirmation, true);
+			self::output()->output($confirmation, true);
+		}
 	}
 
 
@@ -253,11 +270,13 @@ class RulesGUI {
 		$rule_id = intval(filter_input(INPUT_GET, self::GET_PARAM_RULE_ID));
 		$rule = self::rules()->getRuleById($rule_id);
 
-		$rule->delete();
+		if ($rule->getObjectId() === self::rules()->getObjId()) {
+			$rule->delete();
 
-		ilUtil::sendSuccess(self::plugin()->translate("removed_rule", self::LANG_MODULE_RULES, [ $rule->getTitle() ]), true);
+			ilUtil::sendSuccess(self::plugin()->translate("removed_rule", self::LANG_MODULE_RULES, [ $rule->getTitle() ]), true);
 
-		self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
+			self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
+		}
 	}
 
 
@@ -267,12 +286,18 @@ class RulesGUI {
 	protected function enableRules()/*: void*/ {
 		$rule_ids = filter_input(INPUT_POST, self::GET_PARAM_RULE_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
+		if (!is_array($rule_ids)) {
+			$rule_ids = [];
+		}
+
 		/**
 		 * @var Rule[] $rules
 		 */
-		$rules = array_map(function (int $rule_id)/*: ?Rule*/ {
+		$rules = array_filter(array_map(function (int $rule_id): Rule {
 			return self::rules()->getRuleById($rule_id);
-		}, $rule_ids);
+		}, $rule_ids), function (Rule $rule) {
+			return ($rule->getObjectId() === self::rules()->getObjId());
+		});
 
 		foreach ($rules as $rule) {
 			$rule->setEnabled(true);
@@ -292,12 +317,18 @@ class RulesGUI {
 	protected function disableRules()/*: void*/ {
 		$rule_ids = filter_input(INPUT_POST, self::GET_PARAM_RULE_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
+		if (!is_array($rule_ids)) {
+			$rule_ids = [];
+		}
+
 		/**
 		 * @var Rule[] $rules
 		 */
-		$rules = array_map(function (int $rule_id)/*: ?Rule*/ {
+		$rules = array_filter(array_map(function (int $rule_id): Rule {
 			return self::rules()->getRuleById($rule_id);
-		}, $rule_ids);
+		}, $rule_ids), function (Rule $rule) {
+			return ($rule->getObjectId() === self::rules()->getObjId());
+		});
 
 		foreach ($rules as $rule) {
 			$rule->setEnabled(false);
@@ -319,12 +350,18 @@ class RulesGUI {
 
 		$rule_ids = filter_input(INPUT_POST, self::GET_PARAM_RULE_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
+		if (!is_array($rule_ids)) {
+			$rule_ids = [];
+		}
+
 		/**
 		 * @var Rule[] $rules
 		 */
-		$rules = array_map(function (int $rule_id)/*: ?Rule*/ {
+		$rules = array_filter(array_map(function (int $rule_id): Rule {
 			return self::rules()->getRuleById($rule_id);
-		}, $rule_ids);
+		}, $rule_ids), function (Rule $rule) {
+			return ($rule->getObjectId() === self::rules()->getObjId());
+		});
 
 		$confirmation = new ilConfirmationGUI();
 
@@ -349,18 +386,39 @@ class RulesGUI {
 	protected function removeRules()/*: void*/ {
 		$rule_ids = filter_input(INPUT_POST, self::GET_PARAM_RULE_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
+		if (!is_array($rule_ids)) {
+			$rule_ids = [];
+		}
+
 		/**
 		 * @var Rule[] $rules
 		 */
-		$rules = array_map(function (int $rule_id)/*: ?Rule*/ {
+		$rules = array_filter(array_map(function (int $rule_id): Rule {
 			return self::rules()->getRuleById($rule_id);
-		}, $rule_ids);
+		}, $rule_ids), function (Rule $rule) {
+			return ($rule->getObjectId() === self::rules()->getObjId());
+		});
 
 		foreach ($rules as $rule) {
 			$rule->delete();
 		}
 
 		ilUtil::sendSuccess(self::plugin()->translate("removed_rules", self::LANG_MODULE_RULES), true);
+
+		self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
+	}
+
+
+	/**
+	 *
+	 */
+	protected function runRules()/*: void*/ {
+		$enroller = new Enroller(self::rules()->getRules(self::rules()->getObjId()), self::ilias()->users()->getUsers(), self::ilias()->orgUnits()
+			->getOrgUnits());
+
+		$result_count = $enroller->run();
+
+		ilUtil::sendInfo($result_count, true);
 
 		self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
 	}

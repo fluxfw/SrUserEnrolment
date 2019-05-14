@@ -7,6 +7,8 @@ if (file_exists(__DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor
 
 use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
 use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Enroll\Enrolled;
+use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Rule\Rule;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
@@ -74,6 +76,8 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin {
 	 */
 	protected function deleteData()/*: void*/ {
 		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
+		self::dic()->database()->dropTable(Enrolled::TABLE_NAME, false);
+		self::dic()->database()->dropTable(Log::TABLE_NAME, false);
 		self::dic()->database()->dropTable(Rule::TABLE_NAME, false);
 	}
 }

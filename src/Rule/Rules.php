@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\Rule;
 
 use ilSrUserEnrolmentPlugin;
-use srag\DIC\SrUserEnrolment\DICStatic;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -126,6 +125,27 @@ final class Rules {
 		$rule = Rule::where([ "rule_id" => $rule_id ])->first();
 
 		return $rule;
+	}
+
+
+	/**
+	 * @param int|null $object_id
+	 * @param bool     $only_enabled
+	 *
+	 * @return Rule[]
+	 */
+	public function getRules(/*?*/ int $object_id = null, bool $only_enabled = true): array {
+		$where = Rule::where([]);
+
+		if ($object_id !== null) {
+			$where = $where->where([ "object_id" => $object_id ]);
+		}
+
+		if ($only_enabled) {
+			$where = $where->where([ "enabled" => true ]);
+		}
+
+		return $where->get();
 	}
 
 

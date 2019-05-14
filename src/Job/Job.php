@@ -6,6 +6,7 @@ use ilCronJob;
 use ilCronJobResult;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Enroll\Enroller;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -21,7 +22,6 @@ class Job extends ilCronJob {
 	use SrUserEnrolmentTrait;
 	const CRON_JOB_ID = ilSrUserEnrolmentPlugin::PLUGIN_ID;
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-	const LANG_MODULE_CRON = "cron";
 
 
 	/**
@@ -106,7 +106,13 @@ class Job extends ilCronJob {
 	public function run(): ilCronJobResult {
 		$result = new ilCronJobResult();
 
+		$enroller = new Enroller(self::rules()->getRules(), self::ilias()->users()->getUsers(), self::ilias()->orgUnits()->getOrgUnits());
+
+		$result_count = $enroller->run();
+
 		$result->setStatus(ilCronJobResult::STATUS_OK);
+
+		$result->setMessage($result_count);
 
 		return $result;
 	}

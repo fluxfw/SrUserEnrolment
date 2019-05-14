@@ -148,7 +148,7 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 			"position" => [
 				self::PROPERTY_CLASS => ilSelectInputGUI::class,
 				self::PROPERTY_REQUIRED => true,
-				self::PROPERTY_OPTIONS => [ 0 => $this->txt("all") ] + self::ilias()->orgUnits()->getPositions()
+				self::PROPERTY_OPTIONS => [ Rule::POSITION_ALL => $this->txt("all") ] + self::ilias()->orgUnits()->getPositions()
 			]
 		];
 	}

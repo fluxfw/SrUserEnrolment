@@ -3,6 +3,14 @@ config_configuration_saved#:#Configuration saved
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
+logs_date#:#Date / Time
+logs_logs#:#Logs
+logs_message#:#Message
+logs_rules#:#Rules
+logs_status#:#Status
+logs_status_100#:#Added
+logs_status_200#:#Error
+logs_user_id#:#User login
 rules_actions#:#Actions
 rules_add#:#Add
 rules_add_rule#:#Add rule
@@ -45,6 +53,7 @@ rules_removed_rule#:#Rule %s removed
 rules_removed_rules#:#Rules removed
 rules_rule#:#Rule
 rules_rules#:#Enrol by rule
+rules_run_rules#:#Run rules
 rules_save#:#Save
 rules_saved_rule#:#Rule %s saved
 rules_title#:#Title

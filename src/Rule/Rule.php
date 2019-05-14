@@ -34,6 +34,7 @@ class Rule extends ActiveRecord {
 	const OPERATOR_BIGGER = 9;
 	const OPERATOR_BIGGER_EQUALS = 10;
 	const OPERATOR_EQUALS_SUBSEQUENT = 11;
+	const POSITION_ALL = 0;
 	/**
 	 * @var array
 	 */
@@ -166,7 +167,7 @@ class Rule extends ActiveRecord {
 	 * @con_length       8
 	 * @con_is_notnull   true
 	 */
-	protected $position = 0;
+	protected $position = self::POSITION_ALL;
 
 
 	/**

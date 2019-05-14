@@ -3,6 +3,14 @@ config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
+logs_date#:#Datum / Zeit
+logs_logs#:#Logs
+logs_message#:#Nachricht
+logs_rules#:#Regeln
+logs_status#:#Status
+logs_status_100#:#Hinzugefügt
+logs_status_200#:#Fehler
+logs_user_id#:#Benutzer Login
 rules_actions#:#Aktionen
 rules_add#:#Hinzufügen
 rules_add_rule#:#Regel hinzufügen
@@ -45,6 +53,7 @@ rules_removed_rule#:#Regel %s entfernt
 rules_removed_rules#:#Regeln entfernt
 rules_rule#:#Regel
 rules_rules#:#Einschreiben per Regel
+rules_run_rules#:#Regeln ausführen
 rules_save#:#Speichern
 rules_saved_rule#:#Regel %s gespeichert
 rules_title#:#Titel

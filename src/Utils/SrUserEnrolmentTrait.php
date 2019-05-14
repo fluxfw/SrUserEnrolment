@@ -4,6 +4,8 @@ namespace srag\Plugins\SrUserEnrolment\Utils;
 
 use srag\Plugins\SrUserEnrolment\Access\Access;
 use srag\Plugins\SrUserEnrolment\Access\Ilias;
+use srag\Plugins\SrUserEnrolment\Enroll\Enrolleds;
+use srag\Plugins\SrUserEnrolment\Logs\Logs;
 use srag\Plugins\SrUserEnrolment\Rule\Rules;
 
 /**
@@ -24,10 +26,26 @@ trait SrUserEnrolmentTrait {
 
 
 	/**
+	 * @return Enrolleds
+	 */
+	protected static function enrolleds(): Enrolleds {
+		return Enrolleds::getInstance();
+	}
+
+
+	/**
 	 * @return Ilias
 	 */
 	protected static function ilias(): Ilias {
 		return Ilias::getInstance();
+	}
+
+
+	/**
+	 * @return Logs
+	 */
+	protected static function logs(): Logs {
+		return Logs::getInstance();
 	}
 
 

@@ -47,7 +47,11 @@ class RulesTableGUI extends TableGUI {
 				break;
 
 			case "position":
-				$column = self::ilias()->orgUnits()->getPositions()[$row[$column]] ?? $this->txt("all");
+				if (intval($row[$column]) === Rule::POSITION_ALL) {
+					$column = $this->txt("all");
+				} else {
+					$column = self::ilias()->orgUnits()->getPositions()[$row[$column]];
+				}
 				break;
 
 			default:
@@ -100,6 +104,8 @@ class RulesTableGUI extends TableGUI {
 	protected function initCommands()/*: void*/ {
 		self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("add_rule"), self::dic()->ctrl()
 			->getLinkTarget($this->parent_obj, RulesGUI::CMD_ADD_RULE)));
+		self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("run_rules"), self::dic()->ctrl()
+			->getLinkTarget($this->parent_obj, RulesGUI::CMD_RUN_RULES)));
 
 		$this->setSelectAllCheckbox(RulesGUI::GET_PARAM_RULE_ID);
 		$this->addMultiCommand(RulesGUI::CMD_ENABLE_RULES, $this->txt("enable_rules"));
@@ -139,7 +145,7 @@ class RulesTableGUI extends TableGUI {
 	 * @inheritdoc
 	 */
 	protected function initId()/*: void*/ {
-		$this->setId("srusrenr_tickets");
+		$this->setId("srusrenr_rules");
 	}
 
 

@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\Access;
 
+use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -56,5 +57,21 @@ final class Users {
 		}
 
 		return intval($user_id);
+	}
+
+
+	/**
+	 * @return ilObjUser[]
+	 */
+	public function getUsers(): array {
+		$result = self::dic()->database()->query('SELECT usr_id FROM usr_data');
+
+		$array = [];
+
+		while (($row = $result->fetchAssoc()) !== false) {
+			$array[] = new ilObjUser($row["usr_id"]);
+		}
+
+		return $array;
 	}
 }
