@@ -159,7 +159,7 @@ class RulesTableGUI extends TableGUI {
 
 		$this->tpl->setCurrentBlock("checkbox");
 		$this->tpl->setVariable("CHECKBOX_POST_VAR", RulesGUI::GET_PARAM_RULE_ID);
-		$this->tpl->setVariable("ID", RulesGUI::GET_PARAM_RULE_ID);
+		$this->tpl->setVariable("ID", $row["rule_id"]);
 		$this->tpl->parseCurrentBlock();
 
 		parent::fillRow($row);
