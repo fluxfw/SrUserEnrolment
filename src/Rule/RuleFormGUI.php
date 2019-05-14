@@ -25,7 +25,7 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 	const LANG_MODULE = RulesGUI::LANG_MODULE_RULES;
 	/**
-	 * @var Rule|null
+	 * @var Rule
 	 */
 	protected $object;
 
@@ -101,12 +101,14 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 			],
 			"org_unit_type" => [
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+				self::PROPERTY_REQUIRED => true,
 				self::PROPERTY_SUBITEMS => [
 					Rule::ORG_UNIT_TYPE_TITLE => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
 							"title" => [
-								self::PROPERTY_CLASS => ilTextInputGUI::class
+								self::PROPERTY_CLASS => ilTextInputGUI::class,
+								self::PROPERTY_REQUIRED => true
 							],
 							"title_operator" => [
 								self::PROPERTY_CLASS => ilSelectInputGUI::class,
@@ -129,7 +131,8 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
 							"ref_id" => [
-								self::PROPERTY_CLASS => ilNumberInputGUI::class
+								self::PROPERTY_CLASS => ilNumberInputGUI::class,
+								self::PROPERTY_REQUIRED => true
 							],
 							"ref_id_operator" => [
 								self::PROPERTY_CLASS => ilSelectInputGUI::class,
