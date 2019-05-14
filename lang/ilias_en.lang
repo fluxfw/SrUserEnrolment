@@ -10,7 +10,6 @@ rules_added_rule#:#Rule %s added
 rules_all#:#All
 rules_back#:#Back
 rules_cancel#:#Cancel
-rules_description#:#Description
 rules_disable_rules#:#Disable rules
 rules_disable_rules#:#Rules disabled
 rules_edit_rule#:#Edit rule
@@ -31,6 +30,7 @@ rules_operator_less_equals#:#Less than or is equals
 rules_operator_negated#:#Negation
 rules_operator_reg_ex#:#RegEx
 rules_operator_starts_with#:#Starts with
+rules_org_unit#:#Org unit
 rules_org_unit_title#:#Corresponds to title
 rules_org_unit_tree#:#Corresponds to org unit or subsequent
 rules_org_unit_type#:#Org unit user

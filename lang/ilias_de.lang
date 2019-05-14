@@ -10,7 +10,6 @@ rules_added_rule#:#Regel %s hinzugefügt
 rules_all#:#Alle
 rules_back#:#Zurück
 rules_cancel#:#Abbrechen
-rules_description#:#Beschreibung
 rules_disable_rules#:#Regeln deaktivieren
 rules_disabled_rules#:#Regeln deaktiviert
 rules_edit_rule#:#Regel bearbeiten
@@ -31,7 +30,8 @@ rules_operator_less_equals#:#Kleiner als oder ist gleich
 rules_operator_negated#:#Negation
 rules_operator_reg_ex#:#RegEx
 rules_operator_starts_with#:#Startet mit
-rules_org_unit_title#:#Title entspricht
+rules_org_unit#:#Organisationseinheit
+rules_org_unit_title#:#Titel entspricht
 rules_org_unit_tree#:#Organisationseinheit oder nachfolgend entspricht
 rules_org_unit_type#:#Organisationseinheit Benutzer
 rules_position#:#Position Benutzer

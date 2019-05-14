@@ -26,20 +26,24 @@ class RulesTableGUI extends TableGUI {
 	 */
 	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
-			case "org_unit_type":
-				switch ($row[$column]) {
+			case "org_unit":
+				switch ($row["org_unit_type"]) {
 					case Rule::ORG_UNIT_TYPE_TITLE:
-						$column = $this->txt("org_unit_title");
+						$column = $row["title"];
 						break;
 
 					case Rule::ORG_UNIT_TYPE_TREE:
-						$column = $this->txt("org_unit_tree");
+						$column = $row["ref_id"];
 						break;
 
 					default:
 						$column = "";
 						break;
 				}
+				break;
+
+			case "operator":
+				$column = self::rules()->getOperatorsAllText()[$row[$column]];
 				break;
 
 			case "position":
@@ -61,9 +65,8 @@ class RulesTableGUI extends TableGUI {
 	public function getSelectableColumns2(): array {
 		$columns = [
 			"enabled" => "enabled",
-			"title" => "title",
-			"description" => "description",
-			"org_unit_type" => "org_unit_type",
+			"org_unit" => "org_unit",
+			"operator" => "operator",
 			"position" => "position"
 		];
 
@@ -118,7 +121,7 @@ class RulesTableGUI extends TableGUI {
 			$row["enabled"] = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($enabled, ""));
 
 			return $row;
-		}, self::rules()->getRulesArray(self::rules()->getCourseRefId())));
+		}, self::rules()->getRulesArray(self::rules()->getObjId())));
 	}
 	/**
 	 *

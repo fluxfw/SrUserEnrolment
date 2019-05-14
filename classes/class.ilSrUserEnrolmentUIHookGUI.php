@@ -41,7 +41,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI {
 
 				if (self::access()->currentUserHasRole()) {
 
-					self::dic()->ctrl()->setParameterByClass(RulesGUI::class, Rules::GET_PARAM_REF_ID, self::rules()->getCourseRefId());
+					self::dic()->ctrl()->setParameterByClass(RulesGUI::class, Rules::GET_PARAM_REF_ID, self::rules()->getRefId());
 
 					self::dic()->tabs()->addSubTab(RulesGUI::TAB_RULES, self::plugin()->translate("rules", RulesGUI::LANG_MODULE_RULES), self::dic()
 						->ctrl()->getLinkTargetByClass([

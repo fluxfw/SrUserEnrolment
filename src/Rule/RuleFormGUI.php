@@ -44,6 +44,43 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 	/**
 	 * @inheritdoc
 	 */
+	protected function getValue(/*string*/ $key) {
+		switch ($key) {
+			case "title_operator":
+				if ($this->object->getOrgUnitType() === Rule::ORG_UNIT_TYPE_TITLE) {
+					return parent::getValue("operator");
+				}
+				break;
+
+			case "title_operator_negated":
+				if ($this->object->getOrgUnitType() === Rule::ORG_UNIT_TYPE_TITLE) {
+					return parent::getValue("operator_negated");
+				}
+				break;
+
+			case "title_operator_case_sensitive":
+				if ($this->object->getOrgUnitType() === Rule::ORG_UNIT_TYPE_TITLE) {
+					return parent::getValue("operator_case_sensitive");
+				}
+				break;
+
+			case "ref_id_operator":
+				if ($this->object->getOrgUnitType() === Rule::ORG_UNIT_TYPE_TREE) {
+					return parent::getValue("operator");
+				}
+				break;
+
+			default:
+				return parent::getValue($key);
+		}
+
+		return null;
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
 	protected function initCommands()/*: void*/ {
 		if (!empty($this->object->getRuleId())) {
 			$this->addCommandButton(RulesGUI::CMD_UPDATE_RULE, $this->txt("save"));
@@ -62,22 +99,14 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 			"enabled" => [
 				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
 			],
-			"title" => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				self::PROPERTY_REQUIRED => true
-			],
-			"description" => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class
-			],
 			"org_unit_type" => [
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 				self::PROPERTY_SUBITEMS => [
 					Rule::ORG_UNIT_TYPE_TITLE => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
-							"org_unit_title" => [
-								self::PROPERTY_CLASS => ilTextInputGUI::class,
-								"setTitle" => $this->txt("title")
+							"title" => [
+								self::PROPERTY_CLASS => ilTextInputGUI::class
 							],
 							"title_operator" => [
 								self::PROPERTY_CLASS => ilSelectInputGUI::class,
@@ -99,9 +128,8 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 					Rule::ORG_UNIT_TYPE_TREE => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						self::PROPERTY_SUBITEMS => [
-							"org_unit_ref_id" => [
-								self::PROPERTY_CLASS => ilNumberInputGUI::class,
-								"setTitle" => $this->txt("ref_id")
+							"ref_id" => [
+								self::PROPERTY_CLASS => ilNumberInputGUI::class
 							],
 							"ref_id_operator" => [
 								self::PROPERTY_CLASS => ilSelectInputGUI::class,
@@ -143,8 +171,44 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 	 * @inheritdoc
 	 */
 	public function storeForm()/*: bool*/ {
-		$this->object->setCourseRefId(self::rules()->getCourseRefId());
+		$this->object->setObjectId(self::rules()->getObjId());
 
 		return parent::storeForm();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	protected function storeValue(/*string*/ $key, $value)/*: void*/ {
+		switch ($key) {
+			case "title_operator":
+				if ($this->object->getOrgUnitType() === Rule::ORG_UNIT_TYPE_TITLE) {
+					parent::storeValue("operator", $value);
+				}
+				break;
+
+			case "title_operator_negated":
+				if ($this->object->getOrgUnitType() === Rule::ORG_UNIT_TYPE_TITLE) {
+					parent::storeValue("operator_negated", $value);
+				}
+				break;
+
+			case "title_operator_case_sensitive":
+				if ($this->object->getOrgUnitType() === Rule::ORG_UNIT_TYPE_TITLE) {
+					parent::storeValue("operator_case_sensitive", $value);
+				}
+				break;
+
+			case "ref_id_operator":
+				if ($this->object->getOrgUnitType() === Rule::ORG_UNIT_TYPE_TREE) {
+					parent::storeValue("operator", $value);
+				}
+				break;
+
+			default:
+				parent::storeValue($key, $value);
+				break;
+		}
 	}
 }

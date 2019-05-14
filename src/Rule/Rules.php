@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\Rule;
 
 use ilSrUserEnrolmentPlugin;
+use srag\DIC\SrUserEnrolment\DICStatic;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -49,7 +50,21 @@ final class Rules {
 	/**
 	 * @return int|null
 	 */
-	public function getCourseRefId()/*: ?int*/ {
+	public function getObjId()/*: ?int*/ {
+		$ref_id = $this->getRefId();
+
+		if ($ref_id === null) {
+			return null;
+		}
+
+		return self::dic()->objDataCache()->lookupObjId($ref_id);
+	}
+
+
+	/**
+	 * @return int|null
+	 */
+	public function getRefId()/*: ?int*/ {
 		$obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
 
 		if ($obj_ref_id === null) {
@@ -65,6 +80,16 @@ final class Rules {
 		} else {
 			return null;
 		}
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getOperatorsAllText(): array {
+		return array_map(function (string $operator): string {
+			return self::plugin()->translate("operator_" . $operator, RulesGUI::LANG_MODULE_RULES);
+		}, Rule::$operators_title + Rule::$operators_ref_id);
 	}
 
 
@@ -105,12 +130,12 @@ final class Rules {
 
 
 	/**
-	 * @param int $course_ref_id
+	 * @param int $object_id
 	 *
 	 * @return array
 	 */
-	public function getRulesArray(int $course_ref_id): array {
-		return Rule::where([ "course_ref_id" => $course_ref_id ])->getArray();
+	public function getRulesArray(int $object_id): array {
+		return Rule::where([ "object_id" => $object_id ])->getArray();
 	}
 }
 
