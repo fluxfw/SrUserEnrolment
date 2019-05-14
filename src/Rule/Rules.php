@@ -138,5 +138,3 @@ final class Rules {
 		return Rule::where([ "object_id" => $object_id ])->getArray();
 	}
 }
-
-Rule::updateDB();
