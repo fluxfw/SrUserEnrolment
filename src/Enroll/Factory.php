@@ -1,16 +1,15 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\Logs;
+namespace srag\Plugins\SrUserEnrolment\Enroll;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
  * Class Factory
  *
- * @package srag\Plugins\SrUserEnrolment\Logs
+ * @package srag\Plugins\SrUserEnrolment\Enroll
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -46,11 +45,11 @@ final class Factory {
 
 
 	/**
-	 * @return Log
+	 * @return Enrolled
 	 */
-	public function log(): Log {
-		$log = new Log();
+	public function newInstance(): Enrolled {
+		$rule = new Enrolled();
 
-		return $log;
+		return $rule;
 	}
 }

@@ -4,9 +4,9 @@ namespace srag\Plugins\SrUserEnrolment\Utils;
 
 use srag\Plugins\SrUserEnrolment\Access\Access;
 use srag\Plugins\SrUserEnrolment\Access\Ilias;
-use srag\Plugins\SrUserEnrolment\Enroll\Enrolleds;
+use srag\Plugins\SrUserEnrolment\Enroll\Repository as EnrollRepository;
 use srag\Plugins\SrUserEnrolment\Logs\Repository as LogRepository;
-use srag\Plugins\SrUserEnrolment\Rule\Rules;
+use srag\Plugins\SrUserEnrolment\Rule\Repository as RuleRepository;
 
 /**
  * Trait SrUserEnrolmentTrait
@@ -26,10 +26,10 @@ trait SrUserEnrolmentTrait {
 
 
 	/**
-	 * @return Enrolleds
+	 * @return EnrollRepository
 	 */
-	protected static function enrolleds(): Enrolleds {
-		return Enrolleds::getInstance();
+	protected static function enrolleds(): EnrollRepository {
+		return EnrollRepository::getInstance();
 	}
 
 
@@ -50,9 +50,9 @@ trait SrUserEnrolmentTrait {
 
 
 	/**
-	 * @return Rules
+	 * @return RuleRepository
 	 */
-	protected static function rules(): Rules {
-		return Rules::getInstance();
+	protected static function rules(): RuleRepository {
+		return RuleRepository::getInstance();
 	}
 }

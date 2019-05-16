@@ -103,8 +103,8 @@ class RulesGUI {
 	protected function setTabs()/*: void*/ {
 		self::dic()->language()->loadLanguageModule("crs");
 
-		self::dic()->ctrl()->saveParameter($this, Rules::GET_PARAM_REF_ID);
-		self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, Rules::GET_PARAM_REF_ID);
+		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
+		self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, Repository::GET_PARAM_REF_ID);
 
 		self::dic()->mainTemplate()->setTitleIcon(ilObject::_getIcon("", "tiny", self::dic()->objDataCache()->lookupType(self::rules()->getObjId())));
 
@@ -167,7 +167,7 @@ class RulesGUI {
 	protected function addRule()/*: void*/ {
 		self::dic()->tabs()->activateTab(self::TAB_RULES);
 
-		$form = $this->getRuleForm(new Rule());
+		$form = $this->getRuleForm(self::rules()->factory()->newInstance());
 
 		self::output()->output($form, true);
 	}
@@ -179,7 +179,7 @@ class RulesGUI {
 	protected function createRule()/*: void*/ {
 		self::dic()->tabs()->activateTab(self::TAB_RULES);
 
-		$form = $this->getRuleForm(new Rule());
+		$form = $this->getRuleForm(self::rules()->factory()->newInstance());
 
 		if (!$form->storeForm()) {
 			self::output()->output($form, true);
@@ -271,7 +271,7 @@ class RulesGUI {
 		$rule = self::rules()->getRuleById($rule_id);
 
 		if ($rule->getObjectId() === self::rules()->getObjId()) {
-			$rule->delete();
+			self::rules()->deleteRule($rule);
 
 			ilUtil::sendSuccess(self::plugin()->translate("removed_rule", self::LANG_MODULE_RULES, [ $rule->getTitle() ]), true);
 
@@ -400,7 +400,7 @@ class RulesGUI {
 		});
 
 		foreach ($rules as $rule) {
-			$rule->delete();
+			self::rules()->deleteRule($rule);
 		}
 
 		ilUtil::sendSuccess(self::plugin()->translate("removed_rules", self::LANG_MODULE_RULES), true);

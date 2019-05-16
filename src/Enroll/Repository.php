@@ -7,29 +7,29 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class Enrolleds
+ * Class Repository
  *
  * @package srag\Plugins\SrUserEnrolment\Enroll
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Enrolleds {
+final class Repository {
 
 	use DICTrait;
 	use SrUserEnrolmentTrait;
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 	/**
-	 * @var Enrolleds
+	 * @var self
 	 */
 	protected static $instance = null;
 
 
 	/**
-	 * @return Enrolleds
+	 * @return self
 	 */
-	public static function getInstance(): Enrolleds {
+	public static function getInstance(): self {
 		if (self::$instance === null) {
-			self::$instance = new Enrolleds();
+			self::$instance = new Repository();
 		}
 
 		return self::$instance;
@@ -37,10 +37,26 @@ final class Enrolleds {
 
 
 	/**
-	 * Enrolleds constructor
+	 * Repository constructor
 	 */
 	private function __construct() {
 
+	}
+
+
+	/**
+	 * @param Enrolled $enrolled
+	 */
+	protected function delete(Enrolled $enrolled)/*: void*/ {
+		$enrolled->delete();
+	}
+
+
+	/**
+	 * @return Factory
+	 */
+	protected function factory(): Factory {
+		return Factory::getInstance();
 	}
 
 
@@ -89,12 +105,20 @@ final class Enrolleds {
 		$enrolled = $this->getEnrolled($rule_id, $object_id, $user_id);
 
 		if ($enrolled === null) {
-			$enrolled = new Enrolled();
+			$enrolled = $this->factory()->newInstance();
 			$enrolled->setRuleId($rule_id);
 			$enrolled->setObjectId($object_id);
 			$enrolled->setUserId($user_id);
-			$enrolled->store();
+			$this->store($enrolled);
 		}
+	}
+
+
+	/**
+	 * @param Enrolled $enrolled
+	 */
+	protected function store(Enrolled $enrolled)/*: void*/ {
+		$enrolled->store();
 	}
 
 
@@ -107,7 +131,7 @@ final class Enrolleds {
 		$enrolled = $this->getEnrolled($rule_id, $object_id, $user_id);
 
 		if ($enrolled !== null) {
-			$enrolled->delete();
+			$this->delete($enrolled);
 		}
 	}
 }

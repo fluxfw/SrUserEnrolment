@@ -7,13 +7,13 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class Rules
+ * Class Repository
  *
  * @package srag\Plugins\SrUserEnrolment\Rule
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Rules {
+final class Repository {
 
 	use DICTrait;
 	use SrUserEnrolmentTrait;
@@ -39,10 +39,26 @@ final class Rules {
 
 
 	/**
-	 * Rules constructor
+	 * Repository constructor
 	 */
 	private function __construct() {
 
+	}
+
+
+	/**
+	 * @param Rule $rule
+	 */
+	public function deleteRule(Rule $rule)/*: void*/ {
+		$rule->delete();
+	}
+
+
+	/**
+	 * @return Factory
+	 */
+	public function factory(): Factory {
+		return Factory::getInstance();
 	}
 
 
@@ -156,5 +172,13 @@ final class Rules {
 	 */
 	public function getRulesArray(int $object_id): array {
 		return Rule::where([ "object_id" => $object_id ])->getArray();
+	}
+
+
+	/**
+	 * @param Rule $rule
+	 */
+	public function storeRule(Rule $rule)/*: void*/ {
+		$rule->store();
 	}
 }

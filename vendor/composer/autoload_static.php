@@ -12,7 +12,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\' => 9,
+            'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
@@ -31,7 +31,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
@@ -124,8 +124,9 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enrolled' => __DIR__ . '/../..' . '/src/Enroll/Enrolled.php',
-        'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enrolleds' => __DIR__ . '/../..' . '/src/Enroll/Enrolleds.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enroller' => __DIR__ . '/../..' . '/src/Enroll/Enroller.php',
+        'srag\\Plugins\\SrUserEnrolment\\Enroll\\Factory' => __DIR__ . '/../..' . '/src/Enroll/Factory.php',
+        'srag\\Plugins\\SrUserEnrolment\\Enroll\\Repository' => __DIR__ . '/../..' . '/src/Enroll/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\Exception\\SrUserEnrolmentException' => __DIR__ . '/../..' . '/src/Exception/SrUserEnrolmentException.php',
         'srag\\Plugins\\SrUserEnrolment\\Job\\Job' => __DIR__ . '/../..' . '/src/Job/Job.php',
         'srag\\Plugins\\SrUserEnrolment\\Log\\Log' => __DIR__ . '/../..' . '/src/Log/Log.php',
@@ -133,9 +134,10 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Log\\LogsTableGUI' => __DIR__ . '/../..' . '/src/Log/LogsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Logs\\Factory' => __DIR__ . '/../..' . '/src/Log/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Logs\\Repository' => __DIR__ . '/../..' . '/src/Log/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\Rule\\Factory' => __DIR__ . '/../..' . '/src/Rule/Factory.php',
+        'srag\\Plugins\\SrUserEnrolment\\Rule\\Repository' => __DIR__ . '/../..' . '/src/Rule/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\Rule' => __DIR__ . '/../..' . '/src/Rule/Rule.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\RuleFormGUI' => __DIR__ . '/../..' . '/src/Rule/RuleFormGUI.php',
-        'srag\\Plugins\\SrUserEnrolment\\Rule\\Rules' => __DIR__ . '/../..' . '/src/Rule/Rules.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\RulesGUI' => __DIR__ . '/../..' . '/src/Rule/class.RulesGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\RulesTableGUI' => __DIR__ . '/../..' . '/src/Rule/RulesTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Utils\\SrUserEnrolmentTrait' => __DIR__ . '/../..' . '/src/Utils/SrUserEnrolmentTrait.php',
