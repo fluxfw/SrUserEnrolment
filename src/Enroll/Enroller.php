@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\Enroll;
 
+use ilException;
 use ilObjCourse;
 use ilObjOrgUnit;
 use ilObjRole;
@@ -77,29 +78,32 @@ class Enroller {
 
 								try {
 
+									throw new ilException("dsadas");
+
 									if ($this->check($rule, $org_unit, $user)) {
 
 										$this->enroll($course, $user);
 
 										self::enrolleds()->enrolled($rule->getRuleId(), $rule->getObjectId(), $user->getId());
 
-										(new Log())->withObjectId($rule->getObjectId())->withRuleId($rule->getRuleId())->withUserId($user->getId())
-											->withMessage("")->store();
+										self::logs()->storeLog(self::logs()->factory()->log()->withObjectId($rule->getObjectId())
+											->withRuleId($rule->getRuleId())->withUserId($user->getId())->withMessage(""));
 									}
 								} catch (Throwable $ex) {
-									(new Log())->withObjectId($rule->getObjectId())->withRuleId($rule->getRuleId())->withUserId($user->getId())
-										->withStatus(Log::STATUS_ERROR)->withMessage($ex->getMessage())->store();
+									self::logs()->storeLog(self::logs()->factory()->log()->withObjectId($rule->getObjectId())
+										->withRuleId($rule->getRuleId())->withUserId($user->getId())->withStatus(Log::STATUS_ERROR)
+										->withMessage($ex->getMessage()));
 								}
 							}
 						}
 					} catch (Throwable $ex) {
-						(new Log())->withObjectId($rule->getObjectId())->withRuleId($rule->getRuleId())->withUserId($user->getId())
-							->withStatus(Log::STATUS_ERROR)->withMessage($ex->getMessage())->store();
+						self::logs()->storeLog(self::logs()->factory()->log()->withObjectId($rule->getObjectId())->withRuleId($rule->getRuleId())
+							->withUserId($user->getId())->withStatus(Log::STATUS_ERROR)->withMessage($ex->getMessage()));
 					}
 				}
 			} catch (Throwable $ex) {
-				(new Log())->withObjectId($rule->getObjectId())->withRuleId($rule->getRuleId())->withStatus(Log::STATUS_ERROR)
-					->withMessage($ex->getMessage())->store();
+				self::logs()->storeLog(self::logs()->factory()->log()->withObjectId($rule->getObjectId())->withRuleId($rule->getRuleId())
+					->withStatus(Log::STATUS_ERROR)->withMessage($ex->getMessage()));
 			}
 
 			$rules_count ++;

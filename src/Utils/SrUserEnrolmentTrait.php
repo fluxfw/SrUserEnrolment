@@ -5,7 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\Utils;
 use srag\Plugins\SrUserEnrolment\Access\Access;
 use srag\Plugins\SrUserEnrolment\Access\Ilias;
 use srag\Plugins\SrUserEnrolment\Enroll\Enrolleds;
-use srag\Plugins\SrUserEnrolment\Logs\Logs;
+use srag\Plugins\SrUserEnrolment\Logs\Repository as LogRepository;
 use srag\Plugins\SrUserEnrolment\Rule\Rules;
 
 /**
@@ -42,10 +42,10 @@ trait SrUserEnrolmentTrait {
 
 
 	/**
-	 * @return Logs
+	 * @return LogRepository
 	 */
-	protected static function logs(): Logs {
-		return Logs::getInstance();
+	protected static function logs(): LogRepository {
+		return LogRepository::getInstance();
 	}
 
 

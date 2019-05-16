@@ -6,6 +6,7 @@ use ActiveRecord;
 use arConnector;
 use ilDateTime;
 use ilSrUserEnrolmentPlugin;
+use srag\DIC\SrUserEnrolment\DICStatic;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -59,7 +60,6 @@ class Log extends ActiveRecord {
 	 * @con_length       8
 	 * @con_is_notnull   true
 	 * @con_is_primary   true
-	 * @con_sequence     true
 	 */
 	protected $log_id;
 	/**
@@ -81,14 +81,14 @@ class Log extends ActiveRecord {
 	 */
 	protected $rule_id;
 	/**
-	 * @var int
+	 * @var int|null
 	 *
 	 * @con_has_field    true
 	 * @con_fieldtype    integer
 	 * @con_length       8
-	 * @con_is_notnull   true
+	 * @con_is_notnull   false
 	 */
-	protected $user_id;
+	protected $user_id = null;
 	/**
 	 * @var ilDateTime
 	 *
@@ -170,18 +170,6 @@ class Log extends ActiveRecord {
 
 
 	/**
-	 *
-	 */
-	public function create()/*: void*/ {
-		if ($this->date === null) {
-			$this->date = new ilDateTime(time(), IL_CAL_UNIX);
-		}
-
-		parent::create();
-	}
-
-
-	/**
 	 * @inheritdoc
 	 */
 	public function getLogId(): int {
@@ -242,19 +230,19 @@ class Log extends ActiveRecord {
 
 
 	/**
-	 * @return int
+	 * @return int|null
 	 */
-	public function getUserId(): int {
+	public function getUserId()/*: ?int*/ {
 		return $this->user_id;
 	}
 
 
 	/**
-	 * @param int $user_id
+	 * @param int|null $user_id
 	 *
 	 * @return self
 	 */
-	public function withUserId(int $user_id): self {
+	public function withUserId(/*?*/ int $user_id = null): self {
 		$this->user_id = $user_id;
 
 		return $this;
@@ -318,15 +306,5 @@ class Log extends ActiveRecord {
 		$this->message = $message;
 
 		return $this;
-	}
-
-
-	/**
-	 *
-	 */
-	public function store()/*: void*/ {
-		self::logs()->keepLog($this);
-
-		parent::store();
 	}
 }

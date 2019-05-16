@@ -3,19 +3,20 @@
 namespace srag\Plugins\SrUserEnrolment\Logs;
 
 use ilDateTime;
+use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class Logs
+ * Class Repository
  *
  * @package srag\Plugins\SrUserEnrolment\Logs
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Logs {
+final class Repository {
 
 	use DICTrait;
 	use SrUserEnrolmentTrait;
@@ -45,10 +46,27 @@ final class Logs {
 
 
 	/**
-	 * Logs constructor
+	 * Repository constructor
 	 */
 	private function __construct() {
 
+	}
+
+
+	/**
+	 * @param Log $log
+	 */
+	public function deleteLog(Log $log)/*: void*/ {
+		self::dic()->database()->manipulate('DELETE FROM ' . Log::TABLE_NAME
+			. " WHERE log_id=%s", [ ilDBConstants::T_INTEGER ], [ $log->getLogId() ]);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function factory(): Factory {
+		return Factory::getInstance();
 	}
 
 
@@ -133,23 +151,23 @@ final class Logs {
 		$sql = ' FROM ' . Log::TABLE_NAME;
 
 		$wheres = [
-			'object_id=' . self::dic()->database()->quote($object_id, "integer")
+			'object_id=' . self::dic()->database()->quote($object_id, ilDBConstants::T_INTEGER)
 		];
 
 		if (!empty($message)) {
-			$wheres[] = self::dic()->database()->like("message", "text", '%' . $message . '%');
+			$wheres[] = self::dic()->database()->like("message", ilDBConstants::T_TEXT, '%' . $message . '%');
 		}
 
 		if (!empty($date_start)) {
-			$wheres[] = 'date>=' . self::dic()->database()->quote($date_start->get(IL_CAL_DATETIME), "text");
+			$wheres[] = 'date>=' . self::dic()->database()->quote($date_start->get(IL_CAL_DATETIME), ilDBConstants::T_TEXT);
 		}
 
 		if (!empty($date_end)) {
-			$wheres[] = 'date<=' . self::dic()->database()->quote($date_start->get(IL_CAL_DATETIME), "text");
+			$wheres[] = 'date<=' . self::dic()->database()->quote($date_start->get(IL_CAL_DATETIME), ilDBConstants::T_TEXT);
 		}
 
 		if (!empty($status)) {
-			$wheres[] = 'status=' . self::dic()->database()->quote($status, "integer");
+			$wheres[] = 'status=' . self::dic()->database()->quote($status, ilDBConstants::T_INTEGER);
 		}
 
 		if (count($wheres) > 0) {
@@ -161,7 +179,8 @@ final class Logs {
 		}
 
 		if ($limit_start !== null && $limit_end !== null) {
-			$sql .= ' LIMIT ' . self::dic()->database()->quote($limit_start, "integer") . ',' . self::dic()->database()->quote($limit_end, "integer");
+			$sql .= ' LIMIT ' . self::dic()->database()->quote($limit_start, ilDBConstants::T_INTEGER) . ',' . self::dic()->database()
+					->quote($limit_end, ilDBConstants::T_INTEGER);
 		}
 
 		return $sql;
@@ -207,5 +226,38 @@ final class Logs {
 		} else {
 			return [];
 		}
+	}
+
+
+	/**
+	 * @param Log $log
+	 */
+	public function storeLog(Log $log)/*: void*/ {
+		$date = new ilDateTime(time(), IL_CAL_UNIX);
+
+		if (empty($log->getLogId())) {
+			$log->withDate($date);
+		}
+
+		$values = [
+			"object_id" => [ ilDBConstants::T_INTEGER, $log->getObjectId() ],
+			"rule_id" => [ ilDBConstants::T_INTEGER, $log->getRuleId() ],
+			"user_id" => [ ilDBConstants::T_INTEGER, $log->getUserId() ],
+			"date" => [ ilDBConstants::T_TEXT, $log->getDate()->get(IL_CAL_DATETIME) ],
+			"status" => [ ilDBConstants::T_INTEGER, $log->getStatus() ],
+			"message" => [ ilDBConstants::T_TEXT, $log->getMessage() ]
+		];
+
+		if (empty($log->getLogId())) {
+			self::dic()->database()->insert(Log::TABLE_NAME, $values);
+
+			$log->withLogId(self::dic()->database()->query("SELECT LAST_INSERT_ID() as log_id")->fetchAssoc()["log_id"]);
+		} else {
+			self::dic()->database()->update(Log::TABLE_NAME, $values, [
+				"log_id" => $log->getLogId()
+			]);
+		}
+
+		$this->keepLog($log);
 	}
 }

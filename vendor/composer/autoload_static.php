@@ -12,7 +12,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\SrUserEnrolment\\' => 25,
+            'srag\\DIC\\' => 9,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
@@ -31,7 +31,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\SrUserEnrolment\\' => 
+        'srag\\DIC\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
@@ -101,10 +101,8 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\DIC\\SrUserEnrolment\\DICTrait' => __DIR__ . '/..' . '/srag/dic/src/DICTrait.php',
         'srag\\DIC\\SrUserEnrolment\\DIC\\AbstractDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/AbstractDIC.php',
         'srag\\DIC\\SrUserEnrolment\\DIC\\DICInterface' => __DIR__ . '/..' . '/srag/dic/src/DIC/DICInterface.php',
-        'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS52DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS52DIC.php',
         'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS53DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS53DIC.php',
         'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS54DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS54DIC.php',
-        'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\LegacyDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/LegacyDIC.php',
         'srag\\DIC\\SrUserEnrolment\\Exception\\DICException' => __DIR__ . '/..' . '/srag/dic/src/Exception/DICException.php',
         'srag\\DIC\\SrUserEnrolment\\Output\\Output' => __DIR__ . '/..' . '/srag/dic/src/Output/Output.php',
         'srag\\DIC\\SrUserEnrolment\\Output\\OutputInterface' => __DIR__ . '/..' . '/srag/dic/src/Output/OutputInterface.php',
@@ -133,7 +131,8 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Log\\Log' => __DIR__ . '/../..' . '/src/Log/Log.php',
         'srag\\Plugins\\SrUserEnrolment\\Log\\LogsGUI' => __DIR__ . '/../..' . '/src/Log/class.LogsGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Log\\LogsTableGUI' => __DIR__ . '/../..' . '/src/Log/LogsTableGUI.php',
-        'srag\\Plugins\\SrUserEnrolment\\Logs\\Logs' => __DIR__ . '/../..' . '/src/Log/Logs.php',
+        'srag\\Plugins\\SrUserEnrolment\\Logs\\Factory' => __DIR__ . '/../..' . '/src/Log/Factory.php',
+        'srag\\Plugins\\SrUserEnrolment\\Logs\\Repository' => __DIR__ . '/../..' . '/src/Log/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\Rule' => __DIR__ . '/../..' . '/src/Rule/Rule.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\RuleFormGUI' => __DIR__ . '/../..' . '/src/Rule/RuleFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\Rules' => __DIR__ . '/../..' . '/src/Rule/Rules.php',
