@@ -78,8 +78,6 @@ class Enroller {
 
 								try {
 
-									throw new ilException("dsadas");
-
 									if ($this->check($rule, $org_unit, $user)) {
 
 										$this->enroll($course, $user);

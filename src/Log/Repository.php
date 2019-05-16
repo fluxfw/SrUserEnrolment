@@ -251,7 +251,7 @@ final class Repository {
 		if (empty($log->getLogId())) {
 			self::dic()->database()->insert(Log::TABLE_NAME, $values);
 
-			$log->withLogId(self::dic()->database()->query("SELECT LAST_INSERT_ID() as log_id")->fetchAssoc()["log_id"]);
+			//$log->withLogId(self::dic()->database()->query('SELECT LAST_INSERT_ID() as log_id')->fetchAssoc()["log_id"]); // Not needed to read log id last insert id
 		} else {
 			self::dic()->database()->update(Log::TABLE_NAME, $values, [
 				"log_id" => $log->getLogId()
