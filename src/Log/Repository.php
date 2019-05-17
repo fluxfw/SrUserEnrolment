@@ -6,7 +6,6 @@ use ilDateTime;
 use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -44,14 +43,6 @@ final class Repository {
 	 * @var Log[][]
 	 */
 	protected $kept_logs = [];
-	/**
-	 * @var int
-	 */
-	protected $next_log_id = 0;
-	/**
-	 * @var int|null
-	 */
-	protected $last_log_id_request_prefix = null;
 
 
 	/**
@@ -66,7 +57,7 @@ final class Repository {
 	 * @param Log $log
 	 */
 	public function deleteLog(Log $log)/*: void*/ {
-		self::dic()->database()->manipulate('DELETE FROM ' . Log::TABLE_NAME . " WHERE log_id=%s", [ ilDBConstants::T_TEXT ], [ $log->getLogId() ]);
+		self::dic()->database()->manipulate('DELETE FROM ' . Log::TABLE_NAME . " WHERE log_id=%s", [ ilDBConstants::T_INTEGER ], [ $log->getLogId() ]);
 	}
 
 
@@ -196,11 +187,11 @@ final class Repository {
 
 
 	/**
-	 * @param string $log_id
+	 * @param int $log_id
 	 *
 	 * @return Log|null
 	 */
-	public function getLogById(string $log_id)/*: ?Log*/ {
+	public function getLogById(int $log_id)/*: ?Log*/ {
 		/**
 		 * @var Log|null $log
 		 */
@@ -238,23 +229,6 @@ final class Repository {
 
 
 	/**
-	 * @return string
-	 */
-	protected function getNextLogId(): string {
-		if ($this->last_log_id_request_prefix === null) {
-			$this->last_log_id_request_prefix = Config::getField(Config::KEY_LAST_LOG_ID_REQUEST_PREFIX);
-
-			Config::setField(Config::KEY_LAST_LOG_ID_REQUEST_PREFIX, ++ $this->last_log_id_request_prefix);
-		}
-
-		return implode("_", [
-			$this->last_log_id_request_prefix,
-			++ $this->next_log_id
-		]);
-	}
-
-
-	/**
 	 * @param Log $log
 	 */
 	public function storeLog(Log $log)/*: void*/ {
@@ -274,14 +248,12 @@ final class Repository {
 		];
 
 		if (empty($log->getLogId())) {
-			$log->withLogId($this->getNextLogId());
-
-			$values["log_id"] = [ ilDBConstants::T_TEXT, $log->getLogId() ];
-
 			self::dic()->database()->insert(Log::TABLE_NAME, $values);
+
+			$log->withLogId(self::dic()->database()->getLastInsertId());
 		} else {
 			self::dic()->database()->update(Log::TABLE_NAME, $values, [
-				"log_id" => [ ilDBConstants::T_TEXT, $log->getLogId() ]
+				"log_id" => [ ilDBConstants::T_INTEGER, $log->getLogId() ]
 			]);
 		}
 

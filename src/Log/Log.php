@@ -52,15 +52,15 @@ class Log extends ActiveRecord {
 		self::STATUS_ERROR => self::STATUS_ERROR
 	];
 	/**
-	 * @var string
+	 * @var int
 	 *
 	 * @con_has_field    true
-	 * @con_fieldtype    text
-	 * @con_length       255
+	 * @con_fieldtype    integer
+	 * @con_length       8
 	 * @con_is_notnull   true
 	 * @con_is_primary   true
 	 */
-	protected $log_id = "";
+	protected $log_id = 0;
 	/**
 	 * @var int
 	 *
@@ -152,6 +152,7 @@ class Log extends ActiveRecord {
 	 */
 	public function wakeUp(/*string*/ $field_name, $field_value) {
 		switch ($field_name) {
+			case "log_id":
 			case "object_id":
 			case "rule_id":
 			case "status":
@@ -170,17 +171,17 @@ class Log extends ActiveRecord {
 	/**
 	 * @return int
 	 */
-	public function getLogId(): string {
+	public function getLogId(): int {
 		return $this->log_id;
 	}
 
 
 	/**
-	 * @param string $log_id
+	 * @param int $log_id
 	 *
 	 * @return self
 	 */
-	public function withLogId(string $log_id): self {
+	public function withLogId(int $log_id): self {
 		$this->log_id = $log_id;
 
 		return $this;
