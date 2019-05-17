@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\Access;
 
+use ilDBConstants;
 use ilObject;
 use ilObjOrgUnit;
 use ilObjOrgUnitTree;
@@ -74,7 +75,7 @@ final class OrgUnits {
 	 * @return ilObjOrgUnit[]
 	 */
 	public function getOrgUnits(): array {
-		$result = self::dic()->database()->queryF('SELECT obj_id FROM object_data WHERE type=%s', [ "text" ], [ "orgu" ]);
+		$result = self::dic()->database()->queryF('SELECT obj_id FROM object_data WHERE type=%s', [ ilDBConstants::T_TEXT ], [ "orgu" ]);
 
 		$array = [];
 
