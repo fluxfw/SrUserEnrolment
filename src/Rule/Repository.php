@@ -33,7 +33,7 @@ final class Repository {
 		if (self::$instance === null) {
 			self::$instance = new self();
 		}
-$a=self::dic()->database()->getDBType();
+
 		return self::$instance;
 	}
 
