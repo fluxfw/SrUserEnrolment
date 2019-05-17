@@ -15,6 +15,7 @@ interface DatabaseInterface extends ilDBPdoInterface {
 
 	/**
 	 * Using MySQL native autoincrement for performance
+	 * Using PostgreSQL native sequence
 	 *
 	 * @param string $table_name
 	 * @param string $field
@@ -23,9 +24,18 @@ interface DatabaseInterface extends ilDBPdoInterface {
 
 
 	/**
-	 * Reset autoincrement. 1 has the effect MySQL will automatic calculate next max id
+	 * Remove PostgreSQL native sequence table
 	 *
 	 * @param string $table_name
 	 */
-	public function resetAutoIncrement(string $table_name)/*: void*/ ;
+	public function dropAutoIncrementTable(string $table_name)/*: void*/ ;
+
+
+	/**
+	 * Reset autoincrement
+	 *
+	 * @param string $table_name
+	 * @param string $field
+	 */
+	public function resetAutoIncrement(string $table_name, string $field)/*: void*/ ;
 }

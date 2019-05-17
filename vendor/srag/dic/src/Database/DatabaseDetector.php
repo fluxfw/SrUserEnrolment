@@ -4,6 +4,7 @@ namespace srag\DIC\SrUserEnrolment\Database;
 
 use ilDBInterface;
 use ilDBPdoInterface;
+use ilDBPdoPostgreSQL;
 use srag\DIC\SrUserEnrolment\Exception\DICException;
 
 /**
@@ -45,15 +46,61 @@ class DatabaseDetector extends AbstractILIASDatabaseDetector {
 	 * @inheritdoc
 	 */
 	public function createAutoIncrement(string $table_name, string $field)/*: void*/ {
-		$this->manipulate('ALTER TABLE ' . $this->quoteIdentifier($table_name) . ' MODIFY COLUMN ' . $this->quoteIdentifier($field)
-			. ' INT NOT NULL AUTO_INCREMENT');
+		$table_name_q = $this->quoteIdentifier($table_name);
+		$field_q = $this->quoteIdentifier($field);
+		$seq_name = $table_name . "_seq";
+		$seq_name_q = $this->quoteIdentifier($seq_name);
+
+		switch (true) {
+			case($this->db instanceof ilDBPdoPostgreSQL):
+				$this->manipulate('CREATE SEQUENCE ' . $seq_name_q);
+
+				$this->manipulate('ALTER TABLE ' . $table_name_q . ' ALTER COLUMN ' . $field_q . ' TYPE INT, ALTER COLUMN ' . $field_q
+					. ' SET NOT NULL, ALTER COLUMN ' . $field_q . ' SET DEFAULT nextval(' . $seq_name_q . ')');
+				break;
+
+			default:
+				$this->manipulate('ALTER TABLE ' . $table_name_q . ' MODIFY COLUMN ' . $field_q . ' INT NOT NULL AUTO_INCREMENT');
+				break;
+		}
 	}
 
 
 	/**
 	 * @inheritdoc
 	 */
-	public function resetAutoIncrement(string $table_name)/*: void*/ {
-		$this->manipulate('ALTER TABLE ' . $this->quoteIdentifier($table_name) . ' AUTO_INCREMENT=1');
+	public function dropAutoIncrementTable(string $table_name)/*: void*/ {
+		$seq_name = $table_name . "_seq";
+		$seq_name_q = $this->quoteIdentifier($seq_name);
+
+		switch (true) {
+			case($this->db instanceof ilDBPdoPostgreSQL):
+				$this->manipulate('DROP SEQUENCE ' . $seq_name_q);
+				break;
+
+			default:
+				// Nothing to do in MySQL
+				break;
+		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function resetAutoIncrement(string $table_name, string $field)/*: void*/ {
+		$table_name_q = $this->quoteIdentifier($table_name);
+		$field_q = $this->quoteIdentifier($field);
+
+		switch (true) {
+			case($this->db instanceof ilDBPdoPostgreSQL):
+				$this->manipulate('SELECT setval(' . $table_name_q . ', (SELECT MAX(' . $field_q . ') FROM ' . $table_name_q . '))');
+				break;
+
+			default:
+				$this->manipulate('ALTER TABLE ' . $table_name_q
+					. ' AUTO_INCREMENT=1'); // 1 has the effect MySQL will automatic calculate next max id
+				break;
+		}
 	}
 }

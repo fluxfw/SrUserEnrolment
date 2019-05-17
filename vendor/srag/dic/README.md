@@ -196,6 +196,27 @@ Expand you plugin class for installing languages of a library to your plugin
 ...
 ```
 
+#### Database
+This library delivers also a custom `ilDB` decorator class with spec. functions, restricted to `PDO` (Because to make access more core functions), access via `self:.dic()->database()`
+
+If you realy need to access to original ILIAS `ilDB` instance, use `self:.dic()->databaseCore()` instead
+
+##### Native AutoIncrement (MySQL) / Native Sequence (PostgreSQL)
+Use auto increment on a spec. field (in `dbupdate.php`):
+```php
+\srag\DIC\SrUserEnrolment\x\DICStatic::dic()->database()->createAutoIncrement(\srag\Plugins\x\x\x::TABLE_NAME, "id");
+```
+
+Reset auto increment:
+```php
+self::dic()->database()->resetAutoIncrement(x::TABLE_NAME, "id");
+```
+
+Drop auto increment table (Needed for PostgreSQL) (in `ilXPlugin` uninstaller):
+```php
+self::dic()->database()->dropAutoIncrementTable(x::TABLE_NAME);
+```
+
 #### Clean up
 You can now remove all usages of ILIAS globals in your class and replace it with this library.
 Please avoid to store in variables or class variables.
@@ -203,6 +224,7 @@ Please avoid to store in variables or class variables.
 ### Requirements
 * ILIAS 5.3 or ILIAS 5.4
 * PHP >=7.0
+* PDO (MySQL or PostgreSQL)
 
 ### Adjustment suggestions
 * Adjustment suggestions by pull requests

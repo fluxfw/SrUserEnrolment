@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.17.5]
+- DatabaseDetector readme
+
+## [0.17.4]
+- DatabaseDetector readme
+
+## [0.17.3]
+- Fix
+
+## [0.17.2]
+- Fix
+
+## [0.17.1]
+- Supports PostgreSQL
+
 ## [0.17.0]
 - Custom DatabaseDetector
 

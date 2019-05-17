@@ -78,6 +78,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin {
 		self::dic()->database()->dropTable(Config::TABLE_NAME, false);
 		self::dic()->database()->dropTable(Enrolled::TABLE_NAME, false);
 		self::dic()->database()->dropTable(Log::TABLE_NAME, false);
+		self::dic()->database()->dropAutoIncrementTable(Log::TABLE_NAME);
 		self::dic()->database()->dropTable(Rule::TABLE_NAME, false);
 	}
 }
