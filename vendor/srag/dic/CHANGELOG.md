@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.17.0]
+- Custom DatabaseDetector
+
 ## [0.16.1]
 - Fix `self::dic()->log()` is an instance of `ilComponentLogger`
 

@@ -48,6 +48,7 @@ use ilTemplate;
 use ilToolbarGUI;
 use ilTree;
 use Session;
+use srag\DIC\SrUserEnrolment\Database\DatabaseInterface;
 use srag\DIC\SrUserEnrolment\Exception\DICException;
 
 /**
@@ -132,9 +133,17 @@ interface DICInterface {
 
 
 	/**
+	 * @return DatabaseInterface
+	 *
+	 * @throws DICException DatabaseDetector only supports ilDBPdoInterface!
+	 */
+	public function database(): DatabaseInterface;
+
+
+	/**
 	 * @return ilDBInterface
 	 */
-	public function database(): ilDBInterface;
+	public function databaseCore(): ilDBInterface;
 
 
 	/**

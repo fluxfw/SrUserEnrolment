@@ -170,7 +170,7 @@ final class ILIAS53DIC extends AbstractDIC {
 	/**
 	 * @inheritdoc
 	 */
-	public function database(): ilDBInterface {
+	public function databaseCore(): ilDBInterface {
 		return $this->dic->database();
 	}
 
