@@ -57,7 +57,7 @@ final class Repository {
 	 * @param Log $log
 	 */
 	public function deleteLog(Log $log)/*: void*/ {
-		self::dic()->database()->manipulate('DELETE FROM ' . Log::TABLE_NAME
+		self::dic()->database()->manipulate('DELETE FROM ' . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME)
 			. " WHERE log_id=%s", [ ilDBConstants::T_INTEGER ], [ $log->getLogId() ]);
 	}
 
@@ -138,7 +138,7 @@ final class Repository {
 	 */
 	private function getLogsQuery(int $object_id, string $sort_by = null, string $sort_by_direction = null, int $limit_start = null, int $limit_end = null, string $message = null, ilDateTime $date_start = null, ilDateTime $date_end = null, int $status = null): string {
 
-		$sql = ' FROM ' . Log::TABLE_NAME;
+		$sql = ' FROM ' . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME);
 
 		$wheres = [
 			'object_id=' . self::dic()->database()->quote($object_id, ilDBConstants::T_INTEGER)
@@ -186,8 +186,8 @@ final class Repository {
 		/**
 		 * @var Log|null $log
 		 */
-		$log = self::dic()->database()->fetchObjectCallback(self::dic()->database()->queryF("SELECT * FROM " . Log::TABLE_NAME
-			. " WHERE log_id=%s", [ ilDBConstants::T_INTEGER ], [ $log_id ]), [ $this->factory(), "fromDB" ]);
+		$log = self::dic()->database()->fetchObjectCallback(self::dic()->database()->queryF('SELECT * FROM ' . self::dic()->database()
+				->quoteIdentifier(Log::TABLE_NAME) . ' WHERE log_id=%s', [ ilDBConstants::T_INTEGER ], [ $log_id ]), [ $this->factory(), "fromDB" ]);
 
 		return $log;
 	}
