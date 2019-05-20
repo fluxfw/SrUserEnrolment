@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUserEnrolment\Enroll;
 
-use ilException;
 use ilObjCourse;
 use ilObjOrgUnit;
 use ilObjRole;
