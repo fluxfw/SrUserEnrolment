@@ -3,6 +3,7 @@
 namespace srag\DIC\SrUserEnrolment\Database;
 
 use ilDBPdoInterface;
+use ilDBStatement;
 
 /**
  * Interface DatabaseInterface
@@ -29,6 +30,42 @@ interface DatabaseInterface extends ilDBPdoInterface {
 	 * @param string $table_name
 	 */
 	public function dropAutoIncrementTable(string $table_name)/*: void*/ ;
+
+
+	/**
+	 * @param ilDBStatement $stm
+	 * @param callable      $callback
+	 *
+	 * @return object[]
+	 */
+	public function fetchAllCallback(ilDBStatement $stm, callable $callback): array;
+
+
+	/**
+	 * @param ilDBStatement $stm
+	 * @param string        $class_name
+	 *
+	 * @return object[]
+	 */
+	public function fetchAllClass(ilDBStatement $stm, string $class_name): array;
+
+
+	/**
+	 * @param ilDBStatement $stm
+	 * @param callable      $callback
+	 *
+	 * @return object|null
+	 */
+	public function fetchObjectCallback(ilDBStatement $stm, callable $callback)/*:?object*/ ;
+
+
+	/**
+	 * @param ilDBStatement $stm
+	 * @param string        $class_name
+	 *
+	 * @return object|null
+	 */
+	public function fetchObjectClass(ilDBStatement $stm, string $class_name)/*:?object*/ ;
 
 
 	/**

@@ -127,48 +127,6 @@ class Log extends ActiveRecord {
 
 
 	/**
-	 * @param string $field_name
-	 *
-	 * @return mixed|null
-	 */
-	public function sleep(/*string*/ $field_name) {
-		$field_value = $this->{$field_name};
-
-		switch ($field_name) {
-			case "date":
-				return $field_value->get(IL_CAL_DATETIME);
-
-			default:
-				return null;
-		}
-	}
-
-
-	/**
-	 * @param string $field_name
-	 * @param mixed  $field_value
-	 *
-	 * @return mixed|null
-	 */
-	public function wakeUp(/*string*/ $field_name, $field_value) {
-		switch ($field_name) {
-			case "log_id":
-			case "object_id":
-			case "rule_id":
-			case "status":
-			case "user_id":
-				return intval($field_value);
-
-			case "date":
-				return new ilDateTime($field_value, IL_CAL_DATETIME);
-
-			default:
-				return null;
-		}
-	}
-
-
-	/**
 	 * @return int
 	 */
 	public function getLogId(): int {

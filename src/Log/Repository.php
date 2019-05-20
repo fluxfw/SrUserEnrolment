@@ -72,7 +72,6 @@ final class Repository {
 
 	/**
 	 * @param int             $object_id
-	 * @param array           $fields
 	 * @param string|null     $sort_by
 	 * @param string|null     $sort_by_direction
 	 * @param int|null        $limit_start
@@ -82,27 +81,20 @@ final class Repository {
 	 * @param ilDateTime|null $date_end
 	 * @param int|null        $status
 	 *
-	 * @return array
+	 * @return Log[]
 	 */
-	public function getLogs(int $object_id, array $fields = [], string $sort_by = null, string $sort_by_direction = null, int $limit_start = null, int $limit_end = null, string $message = null, ilDateTime $date_start = null, ilDateTime $date_end = null, int $status = null): array {
+	public function getLogs(int $object_id, string $sort_by = null, string $sort_by_direction = null, int $limit_start = null, int $limit_end = null, string $message = null, ilDateTime $date_start = null, ilDateTime $date_end = null, int $status = null): array {
 
-		if (!in_array("log_id", $fields)) {
-			array_unshift($fields, "log_id");
-		}
-
-		$sql = 'SELECT ' . implode(",", array_map(function (string $field): string {
-				return self::dic()->database()->quoteIdentifier($field);
-			}, $fields));
+		$sql = 'SELECT *';
 
 		$sql .= $this->getLogsQuery($object_id, $sort_by, $sort_by_direction, $limit_start, $limit_end, $message, $date_start, $date_end, $status);
 
 		$result = self::dic()->database()->query($sql);
 
-		$logs = [];
-
-		while (($row = $result->fetchAssoc()) !== false) {
-			$logs[$row["log_id"]] = $row;
-		}
+		/**
+		 * @var Log[] $logs
+		 */
+		$logs = self::dic()->database()->fetchAllCallback($result, [ $this->factory(), "fromDB" ]);
 
 		return $logs;
 	}
@@ -193,11 +185,12 @@ final class Repository {
 	 * @return Log|null
 	 */
 	public function getLogById(int $log_id)/*: ?Log*/ {
+		$result = self::dic()->database()->queryF("SELECT * FROM " . Log::TABLE_NAME . " WHERE log_id=%s", [ ilDBConstants::T_INTEGER ], [ $log_id ]);
+
 		/**
 		 * @var Log|null $log
 		 */
-
-		$log = Log::where([ "log_id" => $log_id ])->first();
+		$log = self::dic()->database()->fetchObjectCallback($result, [ $this->factory(), "fromDB" ]);
 
 		return $log;
 	}

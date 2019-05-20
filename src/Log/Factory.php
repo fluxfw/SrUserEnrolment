@@ -2,10 +2,12 @@
 
 namespace srag\Plugins\SrUserEnrolment\Logs;
 
+use ilDateTime;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
+use stdClass;
 
 /**
  * Class Factory
@@ -42,6 +44,17 @@ final class Factory {
 	 */
 	private function __construct() {
 
+	}
+
+
+	/**
+	 * @param stdClass $data
+	 *
+	 * @return Log
+	 */
+	public function fromDB(stdClass $data): Log {
+		return $this->log()->withLogId($data->log_id)->withObjectId($data->object_id)->withRuleId($data->rule_id)->withUserId($data->user_id)
+			->withDate(new ilDateTime($data->date, IL_CAL_DATETIME))->withStatus($data->status)->withMessage($data->message);
 	}
 
 

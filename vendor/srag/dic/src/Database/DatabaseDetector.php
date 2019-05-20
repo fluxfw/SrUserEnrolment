@@ -5,7 +5,10 @@ namespace srag\DIC\SrUserEnrolment\Database;
 use ilDBInterface;
 use ilDBPdoInterface;
 use ilDBPdoPostgreSQL;
+use ilDBStatement;
+use PDO;
 use srag\DIC\SrUserEnrolment\Exception\DICException;
+use stdClass;
 
 /**
  * Class DatabaseDetector
@@ -81,6 +84,50 @@ class DatabaseDetector extends AbstractILIASDatabaseDetector {
 			default:
 				// Nothing to do in MySQL
 				break;
+		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fetchAllCallback(ilDBStatement $stm, callable $callback): array {
+		return array_map($callback, $this->fetchAllClass($stm, stdClass::class));
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fetchAllClass(ilDBStatement $stm, string $class_name): array {
+		return PdoStatementContextHelper::getPdoStatement($stm)->fetchAll(PDO::FETCH_CLASS, $class_name);
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fetchObjectCallback(ilDBStatement $stm, callable $callback)/*:?object*/ {
+		$data = $this->fetchObjectClass($stm, stdClass::class);
+
+		if ($data !== null) {
+			return $callback($data);
+		} else {
+			return null;
+		}
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function fetchObjectClass(ilDBStatement $stm, string $class_name)/*:?object*/ {
+		$data = PdoStatementContextHelper::getPdoStatement($stm)->fetchObject($class_name);
+
+		if ($data !== false) {
+			return $data;
+		} else {
+			return null;
 		}
 	}
 

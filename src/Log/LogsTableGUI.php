@@ -8,6 +8,7 @@ use ilSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\DateDurationInputGUI\DateDurationInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -29,22 +30,23 @@ class LogsTableGUI extends TableGUI {
 	/**
 	 * @inheritdoc
 	 */
-	protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
+	protected function getColumnValue(/*string*/ $column, /*Log*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
+		$value = Items::getter($row, $column);
+
 		switch ($column) {
 			case "status":
-				$column = $this->txt("status_" . $row[$column]);
+				$value = $this->txt("status_" . $value);
 				break;
 
 			case "user_id":
-				$column = ilObjUser::_lookupLogin($row[$column]);
+				$value = ilObjUser::_lookupLogin($value);
 				break;
 
 			default:
-				$column = $row[$column];
 				break;
 		}
 
-		return strval($column);
+		return strval($value);
 	}
 
 
@@ -115,10 +117,8 @@ class LogsTableGUI extends TableGUI {
 			$status = null;
 		}
 
-		$columns = array_keys($this->getSelectedColumns());
-
 		$this->setData(self::logs()->getLogs(self::rules()
-			->getObjId(), $columns, $this->getOrderField(), $this->getOrderDirection(), intval($this->getOffset()), intval($this->getLimit()), $message, $date_start, $date_end, $status));
+			->getObjId(), $this->getOrderField(), $this->getOrderDirection(), intval($this->getOffset()), intval($this->getLimit()), $message, $date_start, $date_end, $status));
 
 		$this->setMaxCount(self::logs()->getLogsCount(self::rules()->getObjId(), $message, $date_start, $date_end, $status));
 	}

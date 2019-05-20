@@ -49,24 +49,24 @@
     },
     {
         "name": "srag/custominputguis",
-        "version": "v0.20.4",
-        "version_normalized": "0.20.4.0",
+        "version": "v0.20.6",
+        "version_normalized": "0.20.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-            "reference": "eee86b80001a888d1dd4e455968970ffe8c967dc"
+            "reference": "c29ebb749d7c8a0b67c5981442df0311c475fd8d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/eee86b80001a888d1dd4e455968970ffe8c967dc",
-            "reference": "eee86b80001a888d1dd4e455968970ffe8c967dc",
+            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/c29ebb749d7c8a0b67c5981442df0311c475fd8d",
+            "reference": "c29ebb749d7c8a0b67c5981442df0311c475fd8d",
             "shasum": ""
         },
         "require": {
             "php": ">=5.6",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2019-05-14T09:36:42+00:00",
+        "time": "2019-05-20T08:06:43+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -98,23 +98,23 @@
     },
     {
         "name": "srag/dic",
-        "version": "v0.17.5",
-        "version_normalized": "0.17.5.0",
+        "version": "v0.17.7",
+        "version_normalized": "0.17.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/DIC.git",
-            "reference": "f5db32b7ffa340e5131c6b74502466ee8afb87d8"
+            "reference": "7df70197f186a1e1ebcedfed15f7de1b87116307"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/f5db32b7ffa340e5131c6b74502466ee8afb87d8",
-            "reference": "f5db32b7ffa340e5131c6b74502466ee8afb87d8",
+            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/7df70197f186a1e1ebcedfed15f7de1b87116307",
+            "reference": "7df70197f186a1e1ebcedfed15f7de1b87116307",
             "shasum": ""
         },
         "require": {
             "php": ">=7.0"
         },
-        "time": "2019-05-17T13:16:40+00:00",
+        "time": "2019-05-20T07:29:42+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
