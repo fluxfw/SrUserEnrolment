@@ -89,12 +89,10 @@ final class Repository {
 
 		$sql .= $this->getLogsQuery($object_id, $sort_by, $sort_by_direction, $limit_start, $limit_end, $message, $date_start, $date_end, $status);
 
-		$result = self::dic()->database()->query($sql);
-
 		/**
 		 * @var Log[] $logs
 		 */
-		$logs = self::dic()->database()->fetchAllCallback($result, [ $this->factory(), "fromDB" ]);
+		$logs = self::dic()->database()->fetchAllCallback(self::dic()->database()->query($sql), [ $this->factory(), "fromDB" ]);
 
 		return $logs;
 	}
@@ -185,12 +183,11 @@ final class Repository {
 	 * @return Log|null
 	 */
 	public function getLogById(int $log_id)/*: ?Log*/ {
-		$result = self::dic()->database()->queryF("SELECT * FROM " . Log::TABLE_NAME . " WHERE log_id=%s", [ ilDBConstants::T_INTEGER ], [ $log_id ]);
-
 		/**
 		 * @var Log|null $log
 		 */
-		$log = self::dic()->database()->fetchObjectCallback($result, [ $this->factory(), "fromDB" ]);
+		$log = self::dic()->database()->fetchObjectCallback(self::dic()->database()->queryF("SELECT * FROM " . Log::TABLE_NAME
+			. " WHERE log_id=%s", [ ilDBConstants::T_INTEGER ], [ $log_id ]), [ $this->factory(), "fromDB" ]);
 
 		return $log;
 	}
@@ -232,24 +229,14 @@ final class Repository {
 			$log->withDate($date);
 		}
 
-		$values = [
+		$log->withLogId(self::dic()->database()->store(Log::TABLE_NAME, [
 			"object_id" => [ ilDBConstants::T_INTEGER, $log->getObjectId() ],
 			"rule_id" => [ ilDBConstants::T_INTEGER, $log->getRuleId() ],
 			"user_id" => [ ilDBConstants::T_INTEGER, $log->getUserId() ],
 			"date" => [ ilDBConstants::T_TEXT, $log->getDate()->get(IL_CAL_DATETIME) ],
 			"status" => [ ilDBConstants::T_INTEGER, $log->getStatus() ],
 			"message" => [ ilDBConstants::T_TEXT, $log->getMessage() ]
-		];
-
-		if (empty($log->getLogId())) {
-			self::dic()->database()->insert(Log::TABLE_NAME, $values);
-
-			$log->withLogId(self::dic()->database()->getLastInsertId());
-		} else {
-			self::dic()->database()->update(Log::TABLE_NAME, $values, [
-				"log_id" => [ ilDBConstants::T_INTEGER, $log->getLogId() ]
-			]);
-		}
+		], "log_id", $log->getLogId()));
 
 		$this->keepLog($log);
 	}
