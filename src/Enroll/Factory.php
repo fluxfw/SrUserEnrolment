@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\Enroll;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
+use stdClass;
 
 /**
  * Class Factory
@@ -41,6 +42,22 @@ final class Factory {
 	 */
 	private function __construct() {
 
+	}
+
+
+	/**
+	 * @param stdClass $data
+	 *
+	 * @return Enrolled
+	 */
+	public function fromDB(stdClass $data): Enrolled {
+		$enrolled = $this->newInstance();
+
+		$enrolled->setRuleId($data->rule_id);
+		$enrolled->setObjectId($data->object_id);
+		$enrolled->setUserId($data->user_id);
+
+		return $enrolled;
 	}
 
 

@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\Enroll;
 
+use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -48,7 +49,12 @@ final class Repository {
 	 * @param Enrolled $enrolled
 	 */
 	protected function delete(Enrolled $enrolled)/*: void*/ {
-		$enrolled->delete();
+		self::dic()->database()->manipulateF('DELETE FROM ' . self::dic()->database()->quoteIdentifier(Enrolled::TABLE_NAME)
+			. " WHERE rule_id=%s AND object_id=%s AND user_id=%s", [
+			ilDBConstants::T_INTEGER,
+			ilDBConstants::T_INTEGER,
+			ilDBConstants::T_INTEGER
+		], [ $enrolled->getRuleId(), $enrolled->getObjectId(), $enrolled->getUserId() ]);
 	}
 
 
@@ -71,12 +77,12 @@ final class Repository {
 		/**
 		 * @var Enrolled|null $enrolled
 		 */
-
-		$enrolled = Enrolled::where([
-			"rule_id" => $rule_id,
-			"object_id" => $object_id,
-			"user_id" => $user_id
-		])->first();
+		$enrolled = self::dic()->database()->fetchObjectCallback(self::dic()->database()->queryF('SELECT * FROM ' . self::dic()->database()
+				->quoteIdentifier(Enrolled::TABLE_NAME) . " WHERE rule_id=%s AND object_id=%s AND user_id=%s", [
+			ilDBConstants::T_INTEGER,
+			ilDBConstants::T_INTEGER,
+			ilDBConstants::T_INTEGER
+		], [ $rule_id, $object_id, $user_id ]), [ $this->factory(), "fromDB" ]);
 
 		return $enrolled;
 	}
@@ -118,7 +124,11 @@ final class Repository {
 	 * @param Enrolled $enrolled
 	 */
 	protected function store(Enrolled $enrolled)/*: void*/ {
-		$enrolled->store();
+		self::dic()->database()->insert(Enrolled::TABLE_NAME, [
+			"rule_id" => [ ilDBConstants::T_INTEGER, $enrolled->getRuleId() ],
+			"object_id" => [ ilDBConstants::T_INTEGER, $enrolled->getObjectId() ],
+			"user_id" => [ ilDBConstants::T_INTEGER, $enrolled->getUserId() ]
+		]);
 	}
 
 
