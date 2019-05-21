@@ -75,41 +75,7 @@ class Enrolled extends ActiveRecord {
 	 * @param arConnector|null $connector
 	 */
 	public function __construct(/*int*/ $primary_key_value = 0, /*?*/ arConnector $connector = null) {
-		parent::__construct($primary_key_value, $connector);
-	}
-
-
-	/**
-	 * @param string $field_name
-	 *
-	 * @return mixed|null
-	 */
-	public function sleep(/*string*/ $field_name) {
-		$field_value = $this->{$field_name};
-
-		switch ($field_name) {
-			default:
-				return null;
-		}
-	}
-
-
-	/**
-	 * @param string $field_name
-	 * @param mixed  $field_value
-	 *
-	 * @return mixed|null
-	 */
-	public function wakeUp(/*string*/ $field_name, $field_value) {
-		switch ($field_name) {
-			case "rule_id":
-			case "object_id":
-			case "user_id":
-				return intval($field_value);
-
-			default:
-				return null;
-		}
+		//parent::__construct($primary_key_value, $connector);
 	}
 
 

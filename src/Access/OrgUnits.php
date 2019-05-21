@@ -176,7 +176,7 @@ final class OrgUnits {
 		}
 
 		$array = self::dic()->database()->fetchAllCallback(self::dic()->database()
-			->queryF('SELECT user_id FROM object_data INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id INNER JOIN il_orgu_ua ON object_data.obj_id=il_orgu_ua.orgu_id WHERE '
+			->queryF('SELECT user_id FROM object_data INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id INNER JOIN il_orgu_ua ON object_reference.ref_id=il_orgu_ua.orgu_id WHERE '
 				. implode(' AND ', $where), $types, $values), function (stdClass $data): ilObjUser {
 			return new ilObjUser($data->user_id);
 		});
