@@ -27,13 +27,8 @@ class Rule extends ActiveRecord {
 	const OPERATOR_STARTS_WITH = 2;
 	const OPERATOR_CONTAINS = 3;
 	const OPERATOR_ENDS_WITH = 4;
-	const OPERATOR_IS_EMPTY = 5;
 	const OPERATOR_REG_EX = 6;
-	const OPERATOR_LESS = 7;
-	const OPERATOR_LESS_EQUALS = 8;
-	const OPERATOR_BIGGER = 9;
-	const OPERATOR_BIGGER_EQUALS = 10;
-	const OPERATOR_EQUALS_SUBSEQUENT = 11;
+	const OPERATOR_EQUALS_SUBSEQUENT = 7;
 	const POSITION_ALL = 0;
 	/**
 	 * @var array
@@ -43,12 +38,7 @@ class Rule extends ActiveRecord {
 		self::OPERATOR_STARTS_WITH => "starts_with",
 		self::OPERATOR_CONTAINS => "contains",
 		self::OPERATOR_ENDS_WITH => "ends_with",
-		self::OPERATOR_IS_EMPTY => "is_empty",
-		self::OPERATOR_REG_EX => "reg_ex",
-		self::OPERATOR_LESS => "less",
-		self::OPERATOR_LESS_EQUALS => "less_equals",
-		self::OPERATOR_BIGGER => "bigger",
-		self::OPERATOR_BIGGER_EQUALS => "bigger_equals"
+		self::OPERATOR_REG_EX => "reg_ex"
 	];
 	/**
 	 * @var array

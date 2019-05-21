@@ -106,7 +106,7 @@ class Job extends ilCronJob {
 	public function run(): ilCronJobResult {
 		$result = new ilCronJobResult();
 
-		$enroller = new Enroller(self::rules()->getRules(), self::ilias()->users()->getUsers(), self::ilias()->orgUnits()->getOrgUnits());
+		$enroller = new Enroller(self::rules()->getRules(), self::ilias()->users()->getUsers());
 
 		$result_count = $enroller->run();
 

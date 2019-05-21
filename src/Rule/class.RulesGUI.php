@@ -413,8 +413,7 @@ class RulesGUI {
 	 *
 	 */
 	protected function runRules()/*: void*/ {
-		$enroller = new Enroller(self::rules()->getRules(self::rules()->getObjId()), self::ilias()->users()->getUsers(), self::ilias()->orgUnits()
-			->getOrgUnits());
+		$enroller = new Enroller(self::rules()->getRules(self::rules()->getObjId()), self::ilias()->users()->getUsers());
 
 		$result_count = $enroller->run();
 

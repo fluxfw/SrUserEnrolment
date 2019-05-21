@@ -25,16 +25,11 @@ rules_enable_rules#:#Enable rules
 rules_enabled#:#Enabled
 rules_enabled_rules#:#Rules enabled
 rules_operator#:#Operator
-rules_operator_bigger#:#Bigger than
-rules_operator_bigger_equals#:#Bigger than or is equals
 rules_operator_case_sensitive#:#Case sensitive
 rules_operator_contains#:#Contanints
 rules_operator_ends_with#:#Ends with
 rules_operator_equals#:#Is equals
 rules_operator_equals_subsequent#:#Is equals or subsequent
-rules_operator_is_empty#:#Is empty
-rules_operator_less#:#Less than
-rules_operator_less_equals#:#Less than or is equals
 rules_operator_negated#:#Negation
 rules_operator_reg_ex#:#RegEx
 rules_operator_starts_with#:#Starts with

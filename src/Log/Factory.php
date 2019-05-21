@@ -8,6 +8,7 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use stdClass;
+use Throwable;
 
 /**
  * Class Factory
@@ -48,6 +49,21 @@ final class Factory {
 
 
 	/**
+	 * @param Throwable $ex
+	 * @param int       $object_id
+	 * @param int       $rule_id
+	 * @param int|null  $user_id
+	 *
+	 * @return Log
+	 */
+	public function exceptionLog(Throwable $ex, int $object_id, int $rule_id, /*?*/ int $user_id = null): Log {
+		$log = $this->objectRuleUserLog($object_id, $rule_id, $user_id)->withStatus(Log::STATUS_ERROR)->withMessage($ex->getMessage());
+
+		return $log;
+	}
+
+
+	/**
 	 * @param stdClass $data
 	 *
 	 * @return Log
@@ -65,6 +81,20 @@ final class Factory {
 	 */
 	public function log(): Log {
 		$log = new Log();
+
+		return $log;
+	}
+
+
+	/**
+	 * @param int      $object_id
+	 * @param int      $rule_id
+	 * @param int|null $user_id
+	 *
+	 * @return Log
+	 */
+	public function objectRuleUserLog(int $object_id, int $rule_id, /*?*/ int $user_id = null): Log {
+		$log = $this->log()->withObjectId($object_id)->withRuleId($rule_id)->withUserId($user_id);
 
 		return $log;
 	}

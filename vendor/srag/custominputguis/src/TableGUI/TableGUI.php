@@ -214,7 +214,7 @@ abstract class TableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param array $row
+	 * @param array|object $row
 	 */
 	protected function fillRow(/*array*/ $row)/*: void*/ {
 		$this->tpl->setCurrentBlock("column");
@@ -291,8 +291,8 @@ abstract class TableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilCSVWriter $csv
-	 * @param array       $row
+	 * @param ilCSVWriter  $csv
+	 * @param array|object $row
 	 */
 	protected function fillRowCSV(/*ilCSVWriter*/ $csv, /*array*/ $row)/*: void*/ {
 		foreach ($this->getSelectableColumns() as $column) {
@@ -326,9 +326,9 @@ abstract class TableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilExcel $excel
-	 * @param int     $row
-	 * @param array   $result
+	 * @param ilExcel      $excel
+	 * @param int          $row
+	 * @param array|object $result
 	 */
 	protected function fillRowExcel(ilExcel $excel, /*int*/ &$row, /*array*/ $result)/*: void*/ {
 		$col = 0;
@@ -418,9 +418,9 @@ abstract class TableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param string $column
-	 * @param array  $row
-	 * @param int    $format
+	 * @param string       $column
+	 * @param array|object $row
+	 * @param int          $format
 	 *
 	 * @return string
 	 */

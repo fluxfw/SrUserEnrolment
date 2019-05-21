@@ -75,4 +75,15 @@ interface DatabaseInterface extends ilDBPdoInterface {
 	 * @param string $field
 	 */
 	public function resetAutoIncrement(string $table_name, string $field)/*: void*/ ;
+
+
+	/**
+	 * @param string   $table_name
+	 * @param array    $values
+	 * @param string   $primary_key_field
+	 * @param int|null $primary_key_value
+	 *
+	 * @return int
+	 */
+	public function store(string $table_name, array $values, string $primary_key_field,/*?*/ int $primary_key_value = 0): int;
 }

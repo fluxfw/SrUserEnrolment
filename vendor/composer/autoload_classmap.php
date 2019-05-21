@@ -88,6 +88,7 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\Access\\Users' => $baseDir . '/src/Access/Users.php',
     'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => $baseDir . '/src/Config/Config.php',
     'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => $baseDir . '/src/Config/ConfigFormGUI.php',
+    'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enroll' => $baseDir . '/src/Enroll/Enroll.php',
     'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enrolled' => $baseDir . '/src/Enroll/Enrolled.php',
     'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enroller' => $baseDir . '/src/Enroll/Enroller.php',
     'srag\\Plugins\\SrUserEnrolment\\Enroll\\Factory' => $baseDir . '/src/Enroll/Factory.php',

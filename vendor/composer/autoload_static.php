@@ -12,7 +12,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\SrUserEnrolment\\' => 25,
+            'srag\\DIC\\' => 9,
             'srag\\CustomInputGUIs\\' => 21,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
@@ -31,7 +31,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\SrUserEnrolment\\' => 
+        'srag\\DIC\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
@@ -128,6 +128,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Access\\Users' => __DIR__ . '/../..' . '/src/Access/Users.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enroll' => __DIR__ . '/../..' . '/src/Enroll/Enroll.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enrolled' => __DIR__ . '/../..' . '/src/Enroll/Enrolled.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enroller' => __DIR__ . '/../..' . '/src/Enroll/Enroller.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Factory' => __DIR__ . '/../..' . '/src/Enroll/Factory.php',

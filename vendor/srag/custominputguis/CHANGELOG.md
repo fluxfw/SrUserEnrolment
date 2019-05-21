@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.20.7]
+- PHPDoc
+
 ## [0.20.6]
 - `strToCamelCase`
 

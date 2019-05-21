@@ -3,14 +3,13 @@
 namespace srag\Plugins\SrUserEnrolment\Access;
 
 use ilDBConstants;
-use ilObject;
-use ilObjOrgUnit;
-use ilObjOrgUnitTree;
+use ilObjUser;
 use ilOrgUnitPosition;
-use ilOrgUnitUserAssignment;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Rule\Rule;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
+use stdClass;
 
 /**
  * Class OrgUnits
@@ -51,37 +50,136 @@ final class OrgUnits {
 
 
 	/**
-	 * @param int  $obj_id
-	 * @param bool $also_children
+	 * @param Rule $rule
 	 *
-	 * @return int[]
+	 * @return ilObjUser[]
 	 */
-	public function getRefIdsSelfAndChildren(int $obj_id, bool $also_children = true): array {
-		$children = [];
+	public function getOrgUnitUsers(Rule $rule): array {
+		$where = [ "type=%s" ];
+		$types = [ ilDBConstants::T_TEXT ];
+		$values = [ "orgu" ];
 
-		foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
-			$children[] = $ref_id;
+		switch ($rule->getOrgUnitType()) {
+			case Rule::ORG_UNIT_TYPE_TITLE:
+				switch ($rule->getOperator()) {
+					case Rule::OPERATOR_EQUALS:
+						if ($rule->isOperatorCaseSensitive()) {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "UPPER(title)!=UPPER(%s)";
+							} else {
+								$where[] = "UPPER(title)=UPPER(%s)";
+							}
+						} else {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "title!=%s";
+							} else {
+								$where[] = "title=%s";
+							}
+						}
+						$types[] = ilDBConstants::T_TEXT;
+						$values[] = $rule->getTitle();
+						break;
 
-			if ($also_children) {
-				$children = array_merge($children, ilObjOrgUnitTree::_getInstance()->getAllChildren($ref_id));
-			}
+					case Rule::OPERATOR_STARTS_WITH:
+						if ($rule->isOperatorCaseSensitive()) {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "UPPER(title) NOT LIKE UPPER(%s)";
+							} else {
+								$where[] = "UPPER(title) LIKE UPPER(%s)";
+							}
+						} else {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "title NOT LIKE %s";
+							} else {
+								$where[] = "title LIKE %s";
+							}
+						}
+						$types[] = ilDBConstants::T_TEXT;
+						$values[] = $rule->getTitle() . "%";
+						break;
+
+					case Rule::OPERATOR_CONTAINS:
+						if ($rule->isOperatorCaseSensitive()) {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "UPPER(title) NOT LIKE UPPER(%s)";
+							} else {
+								$where[] = "UPPER(title) LIKE UPPER(%s)";
+							}
+						} else {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "title NOT LIKE %s";
+							} else {
+								$where[] = "title LIKE %s";
+							}
+						}
+						$types[] = ilDBConstants::T_TEXT;
+						$values[] = "%" . $rule->getTitle() . "%";
+						break;
+
+					case Rule::OPERATOR_ENDS_WITH:
+						if ($rule->isOperatorCaseSensitive()) {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "UPPER(title) NOT LIKE UPPER(%s)";
+							} else {
+								$where[] = "UPPER(title) LIKE UPPER(%s)";
+							}
+						} else {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "title NOT LIKE %s";
+							} else {
+								$where[] = "title LIKE %s";
+							}
+						}
+						$types[] = ilDBConstants::T_TEXT;
+						$values[] = "%" . $rule->getTitle();
+						break;
+
+					case Rule::OPERATOR_REG_EX:
+						if ($rule->isOperatorCaseSensitive()) {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "UPPER(title) NOT REGEXP %s";
+							} else {
+								$where[] = "UPPER(title) REGEXP %s";
+							}
+						} else {
+							if ($rule->isOperatorNegated()) {
+								$where[] = "title NOT REGEXP %s";
+							} else {
+								$where[] = "title REGEXP %s";
+							}
+						}
+						$types = [ ilDBConstants::T_TEXT ];
+						$values = [ $rule->getTitle() ];
+						break;
+
+					default:
+						return [];
+				}
+				break;
+
+			case Rule::ORG_UNIT_TYPE_TREE:
+				$where[] = "ref_id=%s";
+				$types[] = ilDBConstants::T_INTEGER;
+				$values[] = $rule->getRefId();
+
+				// TODO: ($this->rule->getOperator() === Rule::OPERATOR_EQUALS_SUBSEQUENT)
+				break;
+
+			default:
+				return [];
 		}
 
-		return array_unique($children);
-	}
-
-
-	/**
-	 * @return ilObjOrgUnit[]
-	 */
-	public function getOrgUnits(): array {
-		$result = self::dic()->database()->queryF('SELECT obj_id FROM object_data WHERE type=%s', [ ilDBConstants::T_TEXT ], [ "orgu" ]);
-
-		$array = [];
-
-		while (($row = $result->fetchAssoc()) !== false) {
-			$array[] = new ilObjOrgUnit($row["obj_id"], false);
+		if ($rule->getPosition() !== Rule::POSITION_ALL) {
+			$where[] = "position_id=%s";
+			$types[] = ilDBConstants::T_INTEGER;
+			$values[] = $rule->getPosition();
 		}
+
+		$array = self::dic()->database()->fetchAllCallback(self::dic()->database()
+			->queryF('SELECT user_id FROM object_data INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id INNER JOIN il_orgu_ua ON object_data.obj_id=il_orgu_ua.orgu_id WHERE '
+				. implode(' AND ', $where), $types, $values), function (stdClass $data): ilObjUser {
+			return new ilObjUser($data->user_id);
+		});
 
 		return $array;
 	}
@@ -94,21 +192,5 @@ final class OrgUnits {
 		return array_map(function (ilOrgUnitPosition $position): string {
 			return $position->getTitle();
 		}, ilOrgUnitPosition::get());
-	}
-
-
-	/**
-	 * @param int $user_id
-	 * @param int $org_unit_id
-	 * @param int $position_id
-	 *
-	 * @return bool
-	 */
-	public function hasUserPosition(int $user_id, int $org_unit_id, int $position_id): bool {
-		return (ilOrgUnitUserAssignment::where([
-				"user_id" => $user_id,
-				"position_id" => $position_id,
-				"orgu_id" => $org_unit_id,
-			])->first() !== null);
 	}
 }
