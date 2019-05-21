@@ -17,7 +17,7 @@
     }
   ],
   "support": {
-    "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srusrenr_PLUSE"
+    "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_PLUSE"
   },
   "require": {
     "php": ">=7.0",
