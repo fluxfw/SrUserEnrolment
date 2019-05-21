@@ -116,9 +116,9 @@ class RulesGUI {
 			ilCourseMembershipGUI::class
 		]));
 
-		self::dic()->tabs()->addTab(RulesGUI::TAB_RULES, self::plugin()->translate("rules", self::LANG_MODULE_RULES), self::dic()->ctrl()
-			->getLinkTarget($this, RulesGUI::CMD_LIST_RULES));
-		self::dic()->tabs()->activateTab(RulesGUI::TAB_RULES);
+		self::dic()->tabs()->addTab(self::TAB_RULES, self::plugin()->translate("rules", self::LANG_MODULE_RULES), self::dic()->ctrl()
+			->getLinkTarget($this, self::CMD_LIST_RULES));
+		self::dic()->tabs()->activateTab(self::TAB_RULES);
 
 		self::dic()->tabs()->addTab(LogsGUI::TAB_LOGS, self::plugin()->translate("logs", LogsGUI::LANG_MODULE_LOGS), self::dic()->ctrl()
 			->getLinkTargetByClass(LogsGUI::class, LogsGUI::CMD_LIST_LOGS));
