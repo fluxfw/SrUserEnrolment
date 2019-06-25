@@ -9,7 +9,7 @@ git clone https://github.com/studer-raimann/SrUserEnrolment.git SrUserEnrolment
 ```
 Update, activate and config the plugin in the ILIAS Plugin Administration
 
-Please also install and enable [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron), if you want to use the show tickets feature.
+Please also install and enable [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron).
 
 ### Some screenshots
 TODO
