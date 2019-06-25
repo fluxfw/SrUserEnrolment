@@ -1,0 +1,54 @@
+config_configuration#:#Konfiguration
+config_configuration_saved#:#Konfiguration gespeichert
+config_roles#:#Rollen
+config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
+config_save#:#Speichern
+logs_date#:#Datum / Zeit
+logs_logs#:#Logs
+logs_message#:#Nachricht
+logs_rules#:#Regeln
+logs_status#:#Status
+logs_status_100#:#Hinzugefügt
+logs_status_200#:#Fehler
+logs_user_id#:#Benutzer Login
+rules_actions#:#Aktionen
+rules_add#:#Hinzufügen
+rules_add_rule#:#Regel hinzufügen
+rules_added_rule#:#Regel %s hinzugefügt
+rules_all#:#Alle
+rules_back#:#Zurück
+rules_cancel#:#Abbrechen
+rules_disable_rules#:#Regeln deaktivieren
+rules_disabled_rules#:#Regeln deaktiviert
+rules_edit_rule#:#Regel bearbeiten
+rules_enable_rules#:#Regeln aktivieren
+rules_enabled_rules#:#Regeln aktiviert
+rules_enabled#:#Aktiviert
+rules_operator#:#Vergleicher
+rules_operator_case_sensitive#:#Gross-/Kleinschreibung beachten
+rules_operator_contains#:#Enthält
+rules_operator_ends_with#:#Endet mit
+rules_operator_equals#:#Ist gleich
+rules_operator_equals_subsequent#:#Ist gleich und nachfolgend
+rules_operator_negated#:#Negation
+rules_operator_reg_ex#:#RegEx
+rules_operator_starts_with#:#Startet mit
+rules_org_unit#:#Organisationseinheit
+rules_org_unit_title#:#Titel entspricht
+rules_org_unit_tree#:#Organisationseinheit oder nachfolgend entspricht
+rules_org_unit_type#:#Organisationseinheit Benutzer
+rules_position#:#Position Benutzer
+rules_ref_id#:#Ref-ID
+rules_remove#:#Entfernen
+rules_remove_rule#:#Regel entfernen
+rules_remove_rule_confirm#:#Möchten Sie die Regel wirklich entfernen: %s ?
+rules_remove_rules#:#Regeln entfernen
+rules_remove_rules_confirm#:#Möchten Sie die folgende Regeln wirklich entfernen?
+rules_removed_rule#:#Regel %s entfernt
+rules_removed_rules#:#Regeln entfernt
+rules_rule#:#Regel
+rules_rules#:#Einschreiben per Regel
+rules_run_rules#:#Regeln ausführen
+rules_save#:#Speichern
+rules_saved_rule#:#Regel %s gespeichert
+rules_title#:#Titel
