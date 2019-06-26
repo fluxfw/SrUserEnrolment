@@ -3,6 +3,7 @@ config_configuration_saved#:#Configuration saved
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
+config_show_reset_password#:#Show "Reset password"
 logs_date#:#Date / Time
 logs_logs#:#Logs
 logs_message#:#Message
@@ -11,6 +12,10 @@ logs_status#:#Status
 logs_status_100#:#Added
 logs_status_200#:#Error
 logs_user_id#:#User login
+reset_password_button#:#Reset password
+reset_password_cancel#:#Cancel
+reset_password_confirmation#:#Reset password?
+reset_password_reset#:#The new password for %1$s is:\n\n%2$s
 rules_actions#:#Actions
 rules_add#:#Add
 rules_add_rule#:#Add rule

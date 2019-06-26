@@ -12,8 +12,8 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\' => 9,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\DIC\\SrUserEnrolment\\' => 25,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -31,11 +31,11 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -122,6 +122,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
         'srag\\LibrariesNamespaceChanger\\PHP7Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
         'srag\\Plugins\\SrUserEnrolment\\Access\\Access' => __DIR__ . '/../..' . '/src/Access/Access.php',
+        'srag\\Plugins\\SrUserEnrolment\\Access\\Courses' => __DIR__ . '/../..' . '/src/Access/Courses.php',
         'srag\\Plugins\\SrUserEnrolment\\Access\\Ilias' => __DIR__ . '/../..' . '/src/Access/Ilias.php',
         'srag\\Plugins\\SrUserEnrolment\\Access\\OrgUnits' => __DIR__ . '/../..' . '/src/Access/OrgUnits.php',
         'srag\\Plugins\\SrUserEnrolment\\Access\\Roles' => __DIR__ . '/../..' . '/src/Access/Roles.php',
@@ -140,6 +141,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Log\\LogsTableGUI' => __DIR__ . '/../..' . '/src/Log/LogsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Logs\\Factory' => __DIR__ . '/../..' . '/src/Log/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Logs\\Repository' => __DIR__ . '/../..' . '/src/Log/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\ResetPassword\\ResetPasswordGUI' => __DIR__ . '/../..' . '/src/ResetPassword/class.ResetPasswordGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\Factory' => __DIR__ . '/../..' . '/src/Rule/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\Repository' => __DIR__ . '/../..' . '/src/Rule/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\Rule\\Rule' => __DIR__ . '/../..' . '/src/Rule/Rule.php',

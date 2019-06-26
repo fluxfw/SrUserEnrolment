@@ -19,10 +19,12 @@ class Config extends ActiveRecordConfig {
 	const TABLE_NAME = "srusrenr_config";
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 	const KEY_ROLES = "roles";
+	const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
 	/**
 	 * @var array
 	 */
 	protected static $fields = [
-		self::KEY_ROLES => [ self::TYPE_JSON, [] ]
+		self::KEY_ROLES => [ self::TYPE_JSON, [] ],
+		self::KEY_SHOW_RESET_PASSWORD => [ self::TYPE_BOOLEAN, false ]
 	];
 }

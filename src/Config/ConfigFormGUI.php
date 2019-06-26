@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\Config;
 
+use ilCheckboxInputGUI;
 use ilMultiSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\ActiveRecordConfig\SrUserEnrolment\ActiveRecordConfigFormGUI;
@@ -43,6 +44,9 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 				self::PROPERTY_OPTIONS => self::ilias()->roles()->getAllRoles(),
 				"enableSelectAll" => true
 			],
+			Config::KEY_SHOW_RESET_PASSWORD => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+			]
 		];
 	}
 

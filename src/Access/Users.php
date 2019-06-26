@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\Access;
 
 use ilObjUser;
 use ilSrUserEnrolmentPlugin;
+use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -73,5 +74,21 @@ final class Users {
 		}
 
 		return $array;
+	}
+
+
+	/**
+	 * @param int $user_id
+	 *
+	 * @return string
+	 */
+	public function resetPassword(int $user_id): string {
+		$user = new ilObjUser($user_id);
+
+		$new_password = current(ilUtil::generatePasswords(1));
+
+		$user->resetPassword($new_password, $new_password);
+
+		return $new_password;
 	}
 }
