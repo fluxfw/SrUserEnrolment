@@ -62,15 +62,18 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI {
 
 								self::dic()->ctrl()->setParameterByClass(ResetPasswordGUI::class, Repository::GET_PARAM_USER_ID, $user_id);
 
+								$reset_password_link = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard(self::plugin()
+									->translate("button", ResetPasswordGUI::LANG_MODULE_RESET_PASSWORD), self::dic()->ctrl()->getLinkTargetByClass([
+										ilUIPluginRouterGUI::class,
+										ResetPasswordGUI::class
+									], ResetPasswordGUI::CMD_RESET_PASSWORD_CONFIRM)));
+
+								$reset_password_link = str_replace('<a ', '<a class="il_ContainerItemCommand2" ', $reset_password_link);
+
 								return self::output()->getHTML([
 									$link,
 									"<br>",
-									self::dic()->ui()->factory()->link()->standard(self::plugin()
-										->translate("button", ResetPasswordGUI::LANG_MODULE_RESET_PASSWORD), self::dic()->ctrl()
-										->getLinkTargetByClass([
-											ilUIPluginRouterGUI::class,
-											ResetPasswordGUI::class
-										], ResetPasswordGUI::CMD_RESET_PASSWORD_CONFIRM))
+									$reset_password_link
 								]);
 							} else {
 								return $link;
