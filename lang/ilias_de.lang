@@ -15,7 +15,7 @@ logs_user_id#:#Benutzer Login
 reset_password_button#:#Kennwort zurücksetzen
 reset_password_cancel#:#Abbrechen
 reset_password_confirmation#:#Kennwort zurücksetzen?
-reset_password_reset#:#Das neue Kennwort für %1$s lautet:\n\n%2$s
+reset_password_reset#:#Das Kennwort von %1$s wurde zurückgesetzt:\n\nE-Mail: %2$s\nBenutzername: %3$s\nNeues Kennwort: %4$s
 rules_actions#:#Aktionen
 rules_add#:#Hinzufügen
 rules_add_rule#:#Regel hinzufügen

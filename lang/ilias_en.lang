@@ -15,7 +15,7 @@ logs_user_id#:#User login
 reset_password_button#:#Reset password
 reset_password_cancel#:#Cancel
 reset_password_confirmation#:#Reset password?
-reset_password_reset#:#The new password for %1$s is:\n\n%2$s
+reset_password_reset#:#The passwort of %1$s was reset:\n\nEmail: %2$s\Login: %3$s\nNew password: %4$s
 rules_actions#:#Actions
 rules_add#:#Add
 rules_add_rule#:#Add rule

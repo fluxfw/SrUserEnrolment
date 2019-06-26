@@ -6,6 +6,7 @@ use ilConfirmationGUI;
 use ilCourseMembershipGUI;
 use ilObjCourse;
 use ilObjCourseGUI;
+use ilObjUser;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
@@ -76,6 +77,8 @@ class ResetPasswordGUI {
 	 *
 	 */
 	protected function resetPasswordConfirm()/*: void*/ {
+		$user = new ilObjUser(self::rules()->getUserId());
+
 		$confirmation = new ilConfirmationGUI();
 
 		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
@@ -85,8 +88,7 @@ class ResetPasswordGUI {
 
 		$confirmation->setHeaderText(self::plugin()->translate("confirmation", self::LANG_MODULE_RESET_PASSWORD));
 
-		$confirmation->addItem(Repository::GET_PARAM_USER_ID, self::rules()->getUserId(), self::dic()->objDataCache()->lookupTitle(self::rules()
-			->getUserId()));
+		$confirmation->addItem(Repository::GET_PARAM_USER_ID, $user->getId(), $user->getFullname());
 
 		$confirmation->setConfirm(self::plugin()->translate("button", self::LANG_MODULE_RESET_PASSWORD), self::CMD_RESET_PASSWORD);
 		$confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_RESET_PASSWORD), self::CMD_BACK_TO_MEMBERS_LIST);
@@ -99,10 +101,14 @@ class ResetPasswordGUI {
 	 *
 	 */
 	protected function resetPassword()/*: void*/ {
-		$new_password = self::ilias()->users()->resetPassword(self::rules()->getUserId());
+		$user = new ilObjUser(self::rules()->getUserId());
+
+		$new_password = self::ilias()->users()->resetPassword($user->getId());
 
 		ilUtil::sendSuccess(nl2br(str_replace("\\n", "\n", self::plugin()->translate("reset", self::LANG_MODULE_RESET_PASSWORD, [
-			self::dic()->objDataCache()->lookupTitle(self::rules()->getUserId()),
+			$user->getFullname(),
+			$user->getEmail(),
+			$user->getLogin(),
 			$new_password
 		])), false), true);
 
