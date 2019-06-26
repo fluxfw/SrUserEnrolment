@@ -6,6 +6,7 @@ use ilCourseMembershipGUI;
 use ilObjCourseGUI;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
+use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -102,13 +103,16 @@ class ExcelImportGUI {
 
 		$excel_file = $form->getExcelFile();
 
-		self::output()->output([
+		ilUtil::sendQuestion(self::output()->getHTML([
 			"TODO: ",
 			"<br><br>",
 			"Missing test excel file!!!",
-			"<br><br>",
-			$excel_file
-		], true);
+			"<br><br>"
+		]), true);
+
+		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
+
+		self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
 	}
 
 
