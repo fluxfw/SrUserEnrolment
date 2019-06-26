@@ -28,6 +28,7 @@ class ExcelImportGUI {
 	const CMD_SELECT_FILE = "selectFile";
 	const CMD_UPLOAD_FILE = "uploadFile";
 	const CMD_BACK_TO_MEMBERS_LIST = "backToMembersList";
+	const TAB_EXCEL_IMPORT = "excel_import";
 	const LANG_MODULE_EXCEL_IMPORT = "excel_import";
 
 
