@@ -106,8 +106,7 @@ class ExcelImportGUI {
 		ilUtil::sendQuestion(self::output()->getHTML([
 			"TODO: ",
 			"<br><br>",
-			"Missing test excel file!!!",
-			"<br><br>"
+			"Missing test excel file!!!"
 		]), true);
 
 		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
