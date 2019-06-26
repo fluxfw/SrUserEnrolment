@@ -102,11 +102,13 @@ class ExcelImportGUI {
 		}
 
 		$excel_file = $form->getExcelFile();
+		$count_skip_header_rows = $form->getCountSkipHeaderRows();
+		$mapping_exists_users = $form->getMappingExistsUsersField();
+		$create_new_users = $form->isCreateNewUsers();
+		$mapping_fields = $form->getMappingFields();
 
-		ilUtil::sendQuestion(self::output()->getHTML([
-			"TODO: ",
-			"<br><br>",
-			"Missing test excel file!!!"
+		ilUtil::sendInfo(self::output()->getHTML([
+			"TODO implement!!!"
 		]), true);
 
 		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
