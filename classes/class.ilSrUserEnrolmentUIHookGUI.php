@@ -2,6 +2,7 @@
 
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
 use srag\Plugins\SrUserEnrolment\ResetPassword\ResetPasswordGUI;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Rule\RulesGUI;
@@ -106,12 +107,18 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI {
 				if (self::access()->currentUserHasRole()) {
 
 					self::dic()->ctrl()->setParameterByClass(RulesGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
-
 					self::dic()->tabs()->addSubTab(RulesGUI::TAB_RULES, self::plugin()->translate("rules", RulesGUI::LANG_MODULE_RULES), self::dic()
 						->ctrl()->getLinkTargetByClass([
 							ilUIPluginRouterGUI::class,
 							RulesGUI::class
 						], RulesGUI::CMD_LIST_RULES));
+
+					self::dic()->ctrl()->setParameterByClass(ExcelImportGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
+					self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::plugin()
+						->translate("title", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()->getLinkTargetByClass([
+						ilUIPluginRouterGUI::class,
+						ExcelImportGUI::class
+					], ExcelImportGUI::CMD_SELECT_FILE)));
 				}
 			}
 		}

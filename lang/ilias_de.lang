@@ -4,6 +4,10 @@ config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
 config_show_reset_password#:#"Kennwort zurücksetzen" anzeigen
+excel_import_cancel#:#Abbrechen
+excel_import_excel_file#:#Excel-Datei
+excel_import_title#:#Einschreiben per Excel-Datei
+excel_import_upload#:#Hochladen
 logs_date#:#Datum / Zeit
 logs_logs#:#Logs
 logs_message#:#Nachricht

@@ -94,6 +94,8 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enroller' => $baseDir . '/src/Enroll/Enroller.php',
     'srag\\Plugins\\SrUserEnrolment\\Enroll\\Factory' => $baseDir . '/src/Enroll/Factory.php',
     'srag\\Plugins\\SrUserEnrolment\\Enroll\\Repository' => $baseDir . '/src/Enroll/Repository.php',
+    'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImportGUI' => $baseDir . '/src/ExcelImport/class.ExcelImportGUI.php',
+    'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\UploadFormGUI' => $baseDir . '/src/ExcelImport/UploadFormGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\Exception\\SrUserEnrolmentException' => $baseDir . '/src/Exception/SrUserEnrolmentException.php',
     'srag\\Plugins\\SrUserEnrolment\\Job\\Job' => $baseDir . '/src/Job/Job.php',
     'srag\\Plugins\\SrUserEnrolment\\Log\\Log' => $baseDir . '/src/Log/Log.php',

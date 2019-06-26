@@ -134,6 +134,8 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enroller' => __DIR__ . '/../..' . '/src/Enroll/Enroller.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Factory' => __DIR__ . '/../..' . '/src/Enroll/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Repository' => __DIR__ . '/../..' . '/src/Enroll/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImportGUI' => __DIR__ . '/../..' . '/src/ExcelImport/class.ExcelImportGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\UploadFormGUI' => __DIR__ . '/../..' . '/src/ExcelImport/UploadFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Exception\\SrUserEnrolmentException' => __DIR__ . '/../..' . '/src/Exception/SrUserEnrolmentException.php',
         'srag\\Plugins\\SrUserEnrolment\\Job\\Job' => __DIR__ . '/../..' . '/src/Job/Job.php',
         'srag\\Plugins\\SrUserEnrolment\\Log\\Log' => __DIR__ . '/../..' . '/src/Log/Log.php',

@@ -4,6 +4,11 @@ config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
 config_show_reset_password#:#Show "Reset password"
+excel_import_cancel#:#Cancel
+excel_import_excel_file#:#Excel file
+excel_import_import#:#Import
+excel_import_title#:#Enrol by excel file
+excel_import_upload#:#Upload
 logs_date#:#Date / Time
 logs_logs#:#Logs
 logs_message#:#Message
