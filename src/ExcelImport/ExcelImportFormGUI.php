@@ -61,8 +61,9 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 			case "login":
 			case "email":
-			case "firstname":
-			case "lastname":
+			case "first_name":
+			case "last_name":
+			case "gender":
 				return $this->mapping_fields[$key] ?? $this->txt($key);
 
 			default:
@@ -130,7 +131,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				return [
 					self::PROPERTY_CLASS => ilTextInputGUI::class
 				];
-			}, [ "login" => "login", "email" => "email", "firstname" => "firstname", "lastname" => "lastname" ]);
+			}, [ "login" => "login", "email" => "email", "first_name" => "first_name", "last_name" => "last_name", "gender" => "gender" ]);
 	}
 
 
@@ -166,7 +167,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 		if ($this->isCreateNewUsers()) {
 			$error = false;
-			foreach ([ "login", "email", "firstname", "lastname" ] as $key) {
+			foreach ([ "login", "email", "first_name", "last_name" ] as $key) {
 				if (empty($this->getMappingFields()[$key])) {
 					$this->getItemByPostVar($key)->setAlert($this->txt("missing_field_for_create_new_users"));
 
@@ -199,8 +200,9 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 			case "login":
 			case "email":
-			case "firstname":
-			case "lastname":
+			case "first_name":
+			case "last_name":
+			case "gender":
 				$this->mapping_fields[$key] = $value;
 				break;
 

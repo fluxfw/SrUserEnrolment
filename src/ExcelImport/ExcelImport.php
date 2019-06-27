@@ -63,9 +63,14 @@ class ExcelImport {
 		$users = [];
 
 		foreach ($rows as $rowId => $row) {
-			$user = new stdClass();
-
-			$user->ilias_user_id = null;
+			$user = (object)[
+				"ilias_user_id" => null,
+				"login" => "",
+				"email" => "",
+				"first_name" => "",
+				"last_name" => "",
+				"gender" => ""
+			];
 
 			foreach ($row as $cellI => $cell) {
 				if (!empty($columns[$cellI])) {
@@ -80,13 +85,13 @@ class ExcelImport {
 			switch ($this->form->getMapExistsUsersField()) {
 				case "login":
 					if (!empty($user->login)) {
-						$user->ilias_user_id = self::ilias()->users()->getUserIdByLogin($user->login);
+						$user->ilias_user_id = self::ilias()->users()->getUserIdByLogin(strval($user->login));
 					}
 					break;
 
 				case "email":
 					if (!empty($user->email)) {
-						$user->ilias_user_id = self::ilias()->users()->getUserIdByEmail($user->email);
+						$user->ilias_user_id = self::ilias()->users()->getUserIdByEmail(strval($user->email));
 					}
 					break;
 
@@ -109,15 +114,19 @@ class ExcelImport {
 
 		// TODO: Confirmation form
 
-		foreach ($new_users as $user) {
-			// TODO: Create users
-			//$exists_users[] = $user;
+		if ($this->form->isCreateNewUsers()) {
+			foreach ($new_users as &$user) {
+				$user->ilias_user_id = self::ilias()->users()
+					->createNewAccount(strval($user->login), strval($user->email), strval($user->first_name), strval($user->last_name), strval($user->gender));
+
+				$exists_users[] = $user;
+			}
 		}
 
 		$course = new ilObjCourse(self::rules()->getRefId());
 
 		foreach ($exists_users as $user) {
-			self::ilias()->courses()->enrollMemberToCourse($course, $user->ilias_user_id, $user->firstname . " " . $user->lastname);
+			self::ilias()->courses()->enrollMemberToCourse($course, $user->ilias_user_id, $user->first_name . " " . $user->last_name);
 		}
 	}
 }

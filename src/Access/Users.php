@@ -47,6 +47,40 @@ final class Users {
 
 
 	/**
+	 * @param string $login
+	 * @param string $email
+	 * @param string $first_name
+	 * @param string $last_name
+	 * @param string $gender
+	 *
+	 * @return int
+	 */
+	public function createNewAccount(string $login, string $email, string $first_name, string $last_name, string $gender): int {
+		$user = new ilObjUser();
+
+		$user->setLogin($login);
+
+		$user->setEmail($email);
+
+		$user->setFirstname($first_name);
+
+		$user->setLastname($last_name);
+
+		$user->setGender($gender);
+
+		$user->setActive(true);
+
+		$user->setTimeLimitUnlimited(true);
+
+		$user->create();
+
+		$user->saveAsNew();
+
+		return $user->getId();
+	}
+
+
+	/**
 	 * @return int
 	 */
 	public function getUserId(): int {

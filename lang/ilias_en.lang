@@ -12,8 +12,9 @@ excel_import_email#:#Email
 excel_import_excel_file#:#Excel file
 excel_import_fields_title#:#User fields
 excel_import_fields_title_info#:#Enter here the column heading, in which the user fields are located. Fields that are not to be imported should be left empty
-excel_import_firstname#:#Firstname
-excel_import_lastname#:#Lastname
+excel_import_first_name#:#First name
+excel_import_gender#:#Gender
+excel_import_last_name#:#Last name
 excel_import_login#:#Login
 excel_import_map_exists_users_field#:#Map exists users
 excel_import_missing_field_for_create_new_users#:#Please fill the field for create new users

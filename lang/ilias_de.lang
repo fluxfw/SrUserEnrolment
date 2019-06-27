@@ -12,8 +12,9 @@ excel_import_email#:#E-Mail
 excel_import_excel_file#:#Excel-Datei
 excel_import_fields_title#:#Benutzer-Felder
 excel_import_fields_title_info#:#Geben Sie hier die Spalten-Überschrifft an, in welchem sich die Benutzerfelder befinden. Felder, die nicht importiert werden sollen, leer lassen
-excel_import_firstname#:#Vorname
-excel_import_lastname#:#Nachname
+excel_import_first_name#:#Vorname
+excel_import_gender#:#Geschlecht
+excel_import_last_name#:#Nachname
 excel_import_login#:#Benutzername
 excel_import_map_exists_users_field#:#Existierende Benutzer erkennen
 excel_import_missing_field_for_create_new_users#:#Bitte füllen Sie das Feld zum Erstellen neuer Benutzer aus
