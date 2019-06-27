@@ -78,6 +78,27 @@ final class Users {
 
 
 	/**
+	 * @param string $email
+	 *
+	 * @return int|null
+	 */
+	public function getUserIdByEmail(string $email)/*:?int*/ {
+		return ilObjUser::_lookupId(current(self::version()
+			->is54() ? ilObjUser::getUserLoginsByEmail($email) : ilObjUser::_getUserIdsByEmail($email)));
+	}
+
+
+	/**
+	 * @param string $login
+	 *
+	 * @return int|null
+	 */
+	public function getUserIdByLogin(string $login)/*:?int*/ {
+		return ilObjUser::_lookupId($login);
+	}
+
+
+	/**
 	 * @param int $user_id
 	 *
 	 * @return string

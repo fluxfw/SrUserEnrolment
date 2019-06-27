@@ -25,8 +25,8 @@ class ExcelImportGUI {
 	use DICTrait;
 	use SrUserEnrolmentTrait;
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-	const CMD_SELECT_FILE = "selectFile";
-	const CMD_UPLOAD_FILE = "uploadFile";
+	const CMD_INPUT_EXCEL_IMPORT_DATA = "inputExcelImportData";
+	const CMD_EXCEL_IMPORT = "excelImport";
 	const CMD_BACK_TO_MEMBERS_LIST = "backToMembersList";
 	const TAB_EXCEL_IMPORT = "excel_import";
 	const LANG_MODULE_EXCEL_IMPORT = "excel_import";
@@ -56,8 +56,8 @@ class ExcelImportGUI {
 				$cmd = self::dic()->ctrl()->getCmd();
 
 				switch ($cmd) {
-					case self::CMD_SELECT_FILE:
-					case self::CMD_UPLOAD_FILE:
+					case self::CMD_INPUT_EXCEL_IMPORT_DATA:
+					case self::CMD_EXCEL_IMPORT:
 					case self::CMD_BACK_TO_MEMBERS_LIST:
 						$this->{$cmd}();
 						break;
@@ -71,10 +71,10 @@ class ExcelImportGUI {
 
 
 	/**
-	 * @return UploadFormGUI
+	 * @return ExcelImportFormGUI
 	 */
-	protected function getUploadLibraryForm(): UploadFormGUI {
-		$form = new UploadFormGUI($this);
+	protected function getExcelImportForm(): ExcelImportFormGUI {
+		$form = new ExcelImportFormGUI($this);
 
 		return $form;
 	}
@@ -83,8 +83,8 @@ class ExcelImportGUI {
 	/**
 	 *
 	 */
-	protected function selectFile()/*: void*/ {
-		$form = $this->getUploadLibraryForm();
+	protected function inputExcelImportData()/*: void*/ {
+		$form = $this->getExcelImportForm();
 
 		self::output()->output($form, true);
 	}
@@ -93,8 +93,8 @@ class ExcelImportGUI {
 	/**
 	 *
 	 */
-	protected function uploadFile()/*: void*/ {
-		$form = $this->getUploadLibraryForm();
+	protected function excelImport()/*: void*/ {
+		$form = $this->getExcelImportForm();
 
 		if (!$form->storeForm()) {
 			self::output()->output($form, true);
@@ -102,11 +102,9 @@ class ExcelImportGUI {
 			return;
 		}
 
-		$excel_file = $form->getExcelFile();
-		$count_skip_header_rows = $form->getCountSkipHeaderRows();
-		$mapping_exists_users = $form->getMappingExistsUsersField();
-		$create_new_users = $form->isCreateNewUsers();
-		$mapping_fields = $form->getMappingFields();
+		$excel_import = new ExcelImport($form);
+
+		$excel_import->excelImport();
 
 		ilUtil::sendInfo(self::output()->getHTML([
 			"TODO implement!!!"

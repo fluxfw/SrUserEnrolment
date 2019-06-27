@@ -6,18 +6,18 @@ config_save#:#Speichern
 config_show_reset_password#:#"Kennwort zurücksetzen" anzeigen
 excel_import_cancel#:#Abbrechen
 excel_import_column#:#. Spalte
-excel_import_count_skip_header_rows#:#Anzahl Kopf-Zeilen überspringen
+excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
 excel_import_email#:#E-Mail
 excel_import_excel_file#:#Excel-Datei
 excel_import_fields_title#:#Benutzer-Felder
-excel_import_fields_title_info#:#Felder die nicht importiert werden sollen leer lassen
+excel_import_fields_title_info#:#Geben Sie hier die Spalten-Überschrifft an, in welchem sich die Benutzerfelder befinden. Felder, die nicht importiert werden sollen, leer lassen
 excel_import_firstname#:#Vorname
 excel_import_lastname#:#Nachname
 excel_import_login#:#Benutzername
-excel_import_mapping_exists_users_field#:#Existierende Benutzer erkennen
-excel_import_missing_field_for_create_new_users#:#Bitte füllen Sie das Feld für neu erstellende Benutzer aus
-excel_import_missing_field_for_exists_users#:#Bitte füllen Sie das Feld für existierend Benutzer aus
+excel_import_map_exists_users_field#:#Existierende Benutzer erkennen
+excel_import_missing_field_for_create_new_users#:#Bitte füllen Sie das Feld zum Erstellen neuer Benutzer aus
+excel_import_missing_field_for_map_exists_users#:#Bitte füllen Sie das Feld zum Erkennen existierende Benutzer aus
 excel_import_rows#:#Zeilen
 excel_import_title#:#Einschreiben per Excel-Datei
 excel_import_upload#:#Hochladen

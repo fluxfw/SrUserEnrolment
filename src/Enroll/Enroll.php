@@ -3,11 +3,9 @@
 namespace srag\Plugins\SrUserEnrolment\Enroll;
 
 use ilObjCourse;
-use ilObjRole;
 use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Exception\SrUserEnrolmentException;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Rule\Rule;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -60,7 +58,7 @@ class Enroll {
 		try {
 			if (!self::enrolleds()->hasEnrolled($this->rule->getRuleId(), $this->object->getId(), $this->user->getId())) {
 
-				$this->enroll_();
+				self::ilias()->courses()->enrollMemberToCourse($this->object, $this->user->getId(), $this->user->getFullname());
 
 				self::enrolleds()->enrolled($this->rule->getRuleId(), $this->object->getId(), $this->user->getId());
 
@@ -71,20 +69,5 @@ class Enroll {
 			self::logs()->storeLog(self::logs()->factory()
 				->exceptionLog($ex, $this->object->getId(), $this->rule->getRuleId(), $this->user->getId()));
 		}
-	}
-
-
-	/**
-	 * @throws SrUserEnrolmentException
-	 */
-	protected function enroll_()/*: void*/ {
-		if ($this->object->getMembersObject()->isAssigned($this->user->getId())) {
-			throw new SrUserEnrolmentException("User " . $this->user->getFullname() . " already assigned as role "
-				. implode(", ", array_map(function (int $role_id): string {
-					return ilObjRole::_getTranslation(self::dic()->objDataCache()->lookupTitle($role_id));
-				}, $this->object->getMembersObject()->getAssignedRoles($this->user->getId()))) . " in course " . $this->object->getTitle());
-		}
-
-		$this->object->getMembersObject()->add($this->user->getId(), IL_CRS_MEMBER);
 	}
 }

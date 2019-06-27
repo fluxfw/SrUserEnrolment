@@ -118,7 +118,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI {
 						->translate("title", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()->getLinkTargetByClass([
 						ilUIPluginRouterGUI::class,
 						ExcelImportGUI::class
-					], ExcelImportGUI::CMD_SELECT_FILE));
+					], ExcelImportGUI::CMD_INPUT_EXCEL_IMPORT_DATA));
 				}
 			}
 		}

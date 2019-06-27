@@ -9,18 +9,19 @@ use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilSrUserEnrolmentPlugin;
+use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class UploadFormGUI
+ * Class ExcelImportFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\ExcelImport
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class UploadFormGUI extends PropertyFormGUI {
+class ExcelImportFormGUI extends PropertyFormGUI {
 
 	use SrUserEnrolmentTrait;
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
@@ -32,17 +33,17 @@ class UploadFormGUI extends PropertyFormGUI {
 	/**
 	 * @var int
 	 */
-	protected $count_skip_header_rows = 1;
+	protected $count_skip_top_rows = 1;
 	/**
 	 * @var string
 	 */
-	protected $mapping_exists_users_field = "";
+	protected $map_exists_users_field = "";
 	/**
 	 * @var bool
 	 */
 	protected $create_new_users = false;
 	/**
-	 * @var int[]
+	 * @var string[]
 	 */
 	protected $mapping_fields = [];
 
@@ -53,8 +54,8 @@ class UploadFormGUI extends PropertyFormGUI {
 	protected function getValue(/*string*/ $key) {
 		switch ($key) {
 			case "excel_file":
-			case "count_skip_header_rows":
-			case "mapping_exists_users_field":
+			case "count_skip_top_rows":
+			case "map_exists_users_field":
 			case "create_new_users":
 				return $this->{$key};
 
@@ -62,7 +63,7 @@ class UploadFormGUI extends PropertyFormGUI {
 			case "email":
 			case "firstname":
 			case "lastname":
-				return $this->mapping_fields[$key];
+				return $this->mapping_fields[$key] ?? $this->txt($key);
 
 			default:
 				return null;
@@ -84,7 +85,7 @@ class UploadFormGUI extends PropertyFormGUI {
 	 * @inheritdoc
 	 */
 	protected function initCommands()/*: void*/ {
-		$this->addCommandButton(ExcelImportGUI::CMD_UPLOAD_FILE, $this->txt("upload", self::LANG_MODULE));
+		$this->addCommandButton(ExcelImportGUI::CMD_EXCEL_IMPORT, $this->txt("upload", self::LANG_MODULE));
 		$this->addCommandButton(ExcelImportGUI::CMD_BACK_TO_MEMBERS_LIST, $this->txt("cancel", self::LANG_MODULE));
 	}
 
@@ -95,53 +96,41 @@ class UploadFormGUI extends PropertyFormGUI {
 	protected function initFields()/*: void*/ {
 		self::plugin()->getPluginObject()->updateLanguages();
 		$this->fields = [
-			"excel_file" => [
-				self::PROPERTY_CLASS => ilFileInputGUI::class,
-				self::PROPERTY_REQUIRED => true,
-				"setSuffixes" => [ [ "xlsx" ] ]
-			],
-			"count_skip_header_rows" => [
-				self::PROPERTY_CLASS => ilNumberInputGUI::class,
-				self::PROPERTY_REQUIRED => true,
-				"setSuffix" => $this->txt("rows")
-			],
-			"mapping_exists_users_field" => [
-				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
-				self::PROPERTY_REQUIRED => true,
-				self::PROPERTY_SUBITEMS => [
-					"email" => [
-						self::PROPERTY_CLASS => ilRadioOption::class,
-						"setTitle" => $this->txt("email")
-					],
-					"login" => [
-						self::PROPERTY_CLASS => ilRadioOption::class,
-						"setTitle" => $this->txt("login")
+				"excel_file" => [
+					self::PROPERTY_CLASS => ilFileInputGUI::class,
+					self::PROPERTY_REQUIRED => true,
+					"setSuffixes" => [ [ "xlsx" ] ]
+				],
+				"count_skip_top_rows" => [
+					self::PROPERTY_CLASS => ilNumberInputGUI::class,
+					self::PROPERTY_REQUIRED => true,
+					"setSuffix" => $this->txt("rows")
+				],
+				"map_exists_users_field" => [
+					self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+					self::PROPERTY_REQUIRED => true,
+					self::PROPERTY_SUBITEMS => [
+						"login" => [
+							self::PROPERTY_CLASS => ilRadioOption::class,
+							"setTitle" => $this->txt("login")
+						],
+						"email" => [
+							self::PROPERTY_CLASS => ilRadioOption::class,
+							"setTitle" => $this->txt("email")
+						]
 					]
+				],
+				"create_new_users" => [
+					self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+				],
+				"fields_title" => [
+					self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class
 				]
-			],
-			"create_new_users" => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
-			],
-			"fields_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class
-			],
-			"login" => [
-				self::PROPERTY_CLASS => ilNumberInputGUI::class,
-				"setSuffix" => $this->txt("column")
-			],
-			"email" => [
-				self::PROPERTY_CLASS => ilNumberInputGUI::class,
-				"setSuffix" => $this->txt("column")
-			],
-			"firstname" => [
-				self::PROPERTY_CLASS => ilNumberInputGUI::class,
-				"setSuffix" => $this->txt("column")
-			],
-			"lastname" => [
-				self::PROPERTY_CLASS => ilNumberInputGUI::class,
-				"setSuffix" => $this->txt("column")
-			]
-		];
+			] + array_map(function (string $key): array {
+				return [
+					self::PROPERTY_CLASS => ilTextInputGUI::class
+				];
+			}, [ "login" => "login", "email" => "email", "firstname" => "firstname", "lastname" => "lastname" ]);
 	}
 
 
@@ -169,9 +158,8 @@ class UploadFormGUI extends PropertyFormGUI {
 			return false;
 		}
 
-		if (empty($this->getMappingFields()[ $this->getMappingExistsUsersField()])) {
-			$this->getItemByPostVar( $this->getMappingExistsUsersField())
-				->setAlert($this->txt("missing_field_for_exists_users"));
+		if (empty($this->getMappingFields()[$this->getMapExistsUsersField()])) {
+			$this->getItemByPostVar($this->getMapExistsUsersField())->setAlert($this->txt("missing_field_for_map_exists_users"));
 
 			return false;
 		}
@@ -180,7 +168,7 @@ class UploadFormGUI extends PropertyFormGUI {
 			$error = false;
 			foreach ([ "login", "email", "firstname", "lastname" ] as $key) {
 				if (empty($this->getMappingFields()[$key])) {
-					$this->getItemByPostVar( $key)->setAlert($this->txt("missing_field_for_create_new_users"));
+					$this->getItemByPostVar($key)->setAlert($this->txt("missing_field_for_create_new_users"));
 
 					$error = true;
 				}
@@ -203,8 +191,8 @@ class UploadFormGUI extends PropertyFormGUI {
 				$this->excel_file = strval($this->getInput("excel_file")["tmp_name"]);
 				break;
 
-			case "count_skip_header_rows":
-			case "mapping_exists_users_field":
+			case "count_skip_top_rows":
+			case "map_exists_users_field":
 			case "create_new_users":
 				$this->{$key} = $value;
 				break;
@@ -233,16 +221,16 @@ class UploadFormGUI extends PropertyFormGUI {
 	/**
 	 * @return int
 	 */
-	public function getCountSkipHeaderRows(): int {
-		return $this->count_skip_header_rows;
+	public function getCountSkipTopRows(): int {
+		return $this->count_skip_top_rows;
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function getMappingExistsUsersField(): string {
-		return $this->mapping_exists_users_field;
+	public function getMapExistsUsersField(): string {
+		return $this->map_exists_users_field;
 	}
 
 
@@ -255,7 +243,7 @@ class UploadFormGUI extends PropertyFormGUI {
 
 
 	/**
-	 * @return int[]
+	 * @return string[]
 	 */
 	public function getMappingFields(): array {
 		return $this->mapping_fields;
