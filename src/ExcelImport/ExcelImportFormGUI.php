@@ -73,7 +73,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	protected function initAction()/*: void*/ {
 		self::dic()->ctrl()->saveParameter($this->parent, Repository::GET_PARAM_REF_ID);
@@ -86,7 +86,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @inheritdoc
 	 */
 	protected function initCommands()/*: void*/ {
-		$this->addCommandButton(ExcelImportGUI::CMD_EXCEL_IMPORT, $this->txt("upload", self::LANG_MODULE));
+		$this->addCommandButton(ExcelImportGUI::CMD_EXCEL_IMPORT, $this->txt("import", self::LANG_MODULE));
 		$this->addCommandButton(ExcelImportGUI::CMD_BACK_TO_MEMBERS_LIST, $this->txt("cancel", self::LANG_MODULE));
 	}
 
@@ -95,7 +95,6 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @inheritdoc
 	 */
 	protected function initFields()/*: void*/ {
-		self::plugin()->getPluginObject()->updateLanguages();
 		$this->fields = [
 				"excel_file" => [
 					self::PROPERTY_CLASS => ilFileInputGUI::class,
@@ -152,7 +151,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 
 	/**
-	 * @inheritDoc
+	 * @inheritdoc
 	 */
 	public function storeForm()/*: bool*/ {
 		if (!parent::storeForm()) {

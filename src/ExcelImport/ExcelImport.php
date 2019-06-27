@@ -4,10 +4,12 @@ namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
 use ilExcel;
 use ilObjCourse;
+use ilSession;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use stdClass;
+use Throwable;
 
 /**
  * Class ExcelImport
@@ -21,35 +23,33 @@ class ExcelImport {
 	use DICTrait;
 	use SrUserEnrolmentTrait;
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-	/**
-	 * @var ExcelImportFormGUI
-	 */
-	protected $form;
+	const SESSION_KEY = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_excel_import";
 
 
 	/**
 	 * ExcelImport constructor
-	 *
-	 * @param ExcelImportFormGUI $form
 	 */
-	public function __construct(ExcelImportFormGUI $form) {
-		$this->form = $form;
+	public function __construct() {
+
 	}
 
 
 	/**
+	 * @param ExcelImportFormGUI $form
+	 *
+	 * @return stdClass
 	 *
 	 */
-	public function excelImport()/*: void*/ {
+	public function import(ExcelImportFormGUI $form): stdClass {
 		$excel = new ilExcel();
 
-		$excel->loadFromFile($this->form->getExcelFile());
+		$excel->loadFromFile($form->getExcelFile());
 
 		$rows = $excel->getSheetAsArray();
 
-		$rows = array_slice($rows, $this->form->getCountSkipTopRows());
+		$rows = array_slice($rows, $form->getCountSkipTopRows());
 
-		$columns_map = array_flip(array_filter($this->form->getMappingFields()));
+		$columns_map = array_flip(array_filter($form->getMappingFields()));
 
 		$head = array_shift($rows);
 		$columns = array_map(function (/*string*/ $column) use (&$columns_map): string {
@@ -81,8 +81,8 @@ class ExcelImport {
 			$users[] = $user;
 		}
 
-		$exists_users = array_filter($users, function (stdClass &$user): bool {
-			switch ($this->form->getMapExistsUsersField()) {
+		$exists_users = array_filter($users, function (stdClass &$user) use ($form): bool {
+			switch ($form->getMapExistsUsersField()) {
 				case "login":
 					if (!empty($user->login)) {
 						$user->ilias_user_id = self::ilias()->users()->getUserIdByLogin(strval($user->login));
@@ -102,7 +102,7 @@ class ExcelImport {
 			return (!empty($user->ilias_user_id));
 		});
 
-		if ($this->form->isCreateNewUsers()) {
+		if ($form->isCreateNewUsers()) {
 			$new_users = array_filter($users, function (stdClass $user): bool {
 				return empty($user->ilias_user_id);
 			});
@@ -110,11 +110,26 @@ class ExcelImport {
 			$new_users = [];
 		}
 
-		die();
+		$data = (object)[
+			"exists_users" => $exists_users,
+			"new_users" => $new_users
+		];
 
-		// TODO: Confirmation form
+		ilSession::set(self::SESSION_KEY, json_encode($data));
 
-		if ($this->form->isCreateNewUsers()) {
+		return $data;
+	}
+
+
+	/**
+	 * @return stdClass
+	 */
+	public function enroll(): stdClass {
+		$data = (object)json_decode(ilSession::get(self::SESSION_KEY));
+		$exists_users = (array)$data->exists_users;
+		$new_users = (array)$data->new_users;
+
+		if (count($new_users) > 0) {
 			foreach ($new_users as &$user) {
 				$user->ilias_user_id = self::ilias()->users()
 					->createNewAccount(strval($user->login), strval($user->email), strval($user->first_name), strval($user->last_name), strval($user->gender));
@@ -123,10 +138,18 @@ class ExcelImport {
 			}
 		}
 
-		$course = new ilObjCourse(self::rules()->getRefId());
+		$object = new ilObjCourse(self::rules()->getObjId(), false);
 
 		foreach ($exists_users as $user) {
-			self::ilias()->courses()->enrollMemberToCourse($course, $user->ilias_user_id, $user->first_name . " " . $user->last_name);
+			try {
+				self::ilias()->courses()->enrollMemberToCourse($object, $user->ilias_user_id, $user->first_name . " " . $user->last_name);
+			} catch (Throwable $ex) {
+				self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, self::rules()->getObjId(), 0));
+			}
 		}
+
+		ilSession::clear(self::SESSION_KEY);
+
+		return $data;
 	}
 }

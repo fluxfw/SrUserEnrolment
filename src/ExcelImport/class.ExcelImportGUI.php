@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
+use ilConfirmationGUI;
 use ilCourseMembershipGUI;
 use ilObjCourseGUI;
 use ilRepositoryGUI;
@@ -27,6 +28,7 @@ class ExcelImportGUI {
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 	const CMD_INPUT_EXCEL_IMPORT_DATA = "inputExcelImportData";
 	const CMD_EXCEL_IMPORT = "excelImport";
+	const CMD_ENROLL = "enroll";
 	const CMD_BACK_TO_MEMBERS_LIST = "backToMembersList";
 	const TAB_EXCEL_IMPORT = "excel_import";
 	const LANG_MODULE_EXCEL_IMPORT = "excel_import";
@@ -58,6 +60,7 @@ class ExcelImportGUI {
 				switch ($cmd) {
 					case self::CMD_INPUT_EXCEL_IMPORT_DATA:
 					case self::CMD_EXCEL_IMPORT:
+					case self::CMD_ENROLL:
 					case self::CMD_BACK_TO_MEMBERS_LIST:
 						$this->{$cmd}();
 						break;
@@ -102,13 +105,36 @@ class ExcelImportGUI {
 			return;
 		}
 
-		$excel_import = new ExcelImport($form);
+		$excel_import = new ExcelImport();
 
-		$excel_import->excelImport();
+		$data = $excel_import->import($form);
 
-		ilUtil::sendInfo(self::output()->getHTML([
-			"TODO implement!!!"
-		]), true);
+		ilUtil::sendInfo("TODO: Message");
+
+		$confirmation = new ilConfirmationGUI();
+
+		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
+
+		$confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+		$confirmation->setHeaderText(self::plugin()->translate("confirmation", self::LANG_MODULE_EXCEL_IMPORT));
+
+		$confirmation->setConfirm(self::plugin()->translate("enroll", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_ENROLL);
+		$confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_BACK_TO_MEMBERS_LIST);
+
+		self::output()->output($confirmation, true);
+	}
+
+
+	/**
+	 *
+	 */
+	protected function enroll()/*: void*/ {
+		$excel_import = new ExcelImport();
+
+		$data = $excel_import->enroll();
+
+		ilUtil::sendInfo("TODO: Message", true);
 
 		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
 
