@@ -149,6 +149,11 @@ class ExcelImport {
 
 		ilSession::clear(self::SESSION_KEY);
 
+		$data = (object)[
+			"exists_users" => $exists_users,
+			"new_users" => $new_users
+		];
+
 		return $data;
 	}
 }
