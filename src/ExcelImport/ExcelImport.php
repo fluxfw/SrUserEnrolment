@@ -38,7 +38,6 @@ class ExcelImport {
 	 * @param ExcelImportFormGUI $form
 	 *
 	 * @return stdClass
-	 *
 	 */
 	public function import(ExcelImportFormGUI $form): stdClass {
 		$excel = new ilExcel();
