@@ -76,6 +76,8 @@ final class Users {
 
 		$user->saveAsNew();
 
+		self::dic()->rbacadmin()->assignUser(4, $user->getId()); // User default role
+
 		return $user->getId();
 	}
 
