@@ -22,6 +22,7 @@ class Log extends ActiveRecord {
 	use SrUserEnrolmentTrait;
 	const TABLE_NAME = "srusrenr_log";
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+	const STATUS_USER_CREATED = 300;
 	const STATUS_ENROLLED = 100;
 	const STATUS_NOT_ENROLLED = 200;
 
@@ -48,6 +49,7 @@ class Log extends ActiveRecord {
 	 * @var array
 	 */
 	public static $statuss = [
+		self::STATUS_USER_CREATED => self::STATUS_USER_CREATED,
 		self::STATUS_ENROLLED => self::STATUS_ENROLLED,
 		self::STATUS_NOT_ENROLLED => self::STATUS_NOT_ENROLLED
 	];

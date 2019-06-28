@@ -205,23 +205,25 @@ class ExcelImport {
 		$new_users = (array)$data->new_users;
 		$exists_users = (array)$data->exists_users;
 
-		$new_users_count = 0;
+		$object = new ilObjCourse(self::rules()->getObjId(), false);
+
 		if (count($new_users) > 0) {
 			foreach ($new_users as &$user) {
 				try {
 					$user->ilias_user_id = self::ilias()->users()
 						->createNewAccount(strval($user->login), strval($user->email), strval($user->first_name), strval($user->last_name), strval($user->gender));
 				} catch (Throwable $ex) {
-					self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, self::rules()->getObjId(), 0));
+					self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), 0));
 
 					continue;
 				}
 
+				self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), 0, $user->ilias_user_id)
+					->withStatus(Log::STATUS_USER_CREATED)->withMessage("User data: " . json_encode($user)));
+
 				$exists_users[] = $user;
 			}
 		}
-
-		$object = new ilObjCourse(self::rules()->getObjId(), false);
 
 		foreach ($exists_users as $user) {
 			try {
@@ -242,9 +244,7 @@ class ExcelImport {
 			$logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE_LOGS) . ": " . count(self::logs()->getKeptLogs($status));
 
 			return $logs;
-		}, ($new_users_count > 0 ? [
-			self::plugin()->translate("created_new_users", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT) . ": " . $new_users_count
-		] : []));
+		}, []);
 
 		return implode("<br>", $logs);
 	}

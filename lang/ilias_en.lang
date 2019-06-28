@@ -36,6 +36,7 @@ logs_rules#:#Rules
 logs_status#:#Status
 logs_status_100#:#Enrolled
 logs_status_200#:#Not enrolled (See log)
+logs_status_300#:#User created
 logs_user_id#:#User login
 reset_password_button#:#Reset password
 reset_password_cancel#:#Cancel

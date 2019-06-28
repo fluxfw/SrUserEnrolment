@@ -36,6 +36,7 @@ logs_rules#:#Regeln
 logs_status#:#Status
 logs_status_100#:#Eingeschrieben
 logs_status_200#:#Nicht eingeschrieben (Siehe Log)
+logs_status_300#:#Benutzer angelegt
 logs_user_id#:#Benutzer Login
 reset_password_button#:#Kennwort zurücksetzen
 reset_password_cancel#:#Abbrechen
