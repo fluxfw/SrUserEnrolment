@@ -107,13 +107,22 @@ class ExcelImportGUI {
 
 		$excel_import = new ExcelImport();
 
-		$data = $excel_import->import($form);
-
-		ilUtil::sendInfo("TODO: Message");
-
-		$confirmation = new ilConfirmationGUI();
+		$result = $excel_import->import($form);
 
 		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
+
+		if (empty($result)) {
+
+			ilUtil::sendInfo(self::plugin()->translate("nothing_to_enroll", self::LANG_MODULE_EXCEL_IMPORT), true);
+
+			self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
+
+			return;
+		}
+
+		ilUtil::sendInfo($result, true);
+
+		$confirmation = new ilConfirmationGUI();
 
 		$confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
@@ -132,9 +141,9 @@ class ExcelImportGUI {
 	protected function enroll()/*: void*/ {
 		$excel_import = new ExcelImport();
 
-		$data = $excel_import->enroll();
+		$result = $excel_import->enroll();
 
-		ilUtil::sendInfo("TODO: Message", true);
+		ilUtil::sendInfo($result, true);
 
 		self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
 

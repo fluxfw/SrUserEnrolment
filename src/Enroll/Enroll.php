@@ -63,7 +63,7 @@ class Enroll {
 				self::enrolleds()->enrolled($this->rule->getRuleId(), $this->object->getId(), $this->user->getId());
 
 				self::logs()->storeLog(self::logs()->factory()
-					->objectRuleUserLog($this->object->getId(), $this->rule->getRuleId(), $this->user->getId())->withStatus(Log::STATUS_ADD));
+					->objectRuleUserLog($this->object->getId(), $this->rule->getRuleId(), $this->user->getId())->withStatus(Log::STATUS_ENROLLED));
 			}
 		} catch (Throwable $ex) {
 			self::logs()->storeLog(self::logs()->factory()

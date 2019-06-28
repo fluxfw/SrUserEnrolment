@@ -5,9 +5,11 @@ config_roles_info#:#Show for selected roles only
 config_save#:#Save
 config_show_reset_password#:#Show "Reset password"
 excel_import_cancel#:#Cancel
-excel_import_confirmation#:#Import and enroll?
+excel_import_confirmation#:#Enroll?
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_create_new_users#:#Create not exists users
+excel_import_create_user_and_enroll#:#Create user and enroll
+excel_import_created_new_users#:#Created not exists users
 excel_import_email#:#Email
 excel_import_enroll#:#Enroll
 excel_import_excel_file#:#Excel file
@@ -15,12 +17,16 @@ excel_import_fields_title#:#User fields
 excel_import_fields_title_info#:#Enter here the column heading, in which the user fields are located. Fields that are not to be imported should be left empty
 excel_import_first_name#:#First name
 excel_import_gender#:#Gender
+excel_import_gender_f#:#Gender female
+excel_import_gender_m#:#Gender male
+excel_import_gender_n#:#Gender neutral
 excel_import_import#:#Import
 excel_import_last_name#:#Last name
 excel_import_login#:#Login
 excel_import_map_exists_users_field#:#Map exists users
 excel_import_missing_field_for_create_new_users#:#Please fill the field for create new users
 excel_import_missing_field_for_map_exists_users#:#Please fill the field for map exists users
+excel_import_nothing_to_enroll#:#Nothing to enroll
 excel_import_rows#:#Rows
 excel_import_title#:#Enrol by excel file
 logs_date#:#Date / Time
@@ -28,8 +34,8 @@ logs_logs#:#Logs
 logs_message#:#Message
 logs_rules#:#Rules
 logs_status#:#Status
-logs_status_100#:#Added
-logs_status_200#:#Error
+logs_status_100#:#Enrolled
+logs_status_200#:#Not enrolled (See log)
 logs_user_id#:#User login
 reset_password_button#:#Reset password
 reset_password_cancel#:#Cancel

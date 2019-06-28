@@ -46,6 +46,18 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @var string[]
 	 */
 	protected $mapping_fields = [];
+	/**
+	 * @var string
+	 */
+	protected $gender_m = "m";
+	/**
+	 * @var string
+	 */
+	protected $gender_f = "w";
+	/**
+	 * @var string
+	 */
+	protected $gender_n = "n";
 
 
 	/**
@@ -57,6 +69,9 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 			case "count_skip_top_rows":
 			case "map_exists_users_field":
 			case "create_new_users":
+			case "gender_m":
+			case "gender_f":
+			case "gender_n":
 				return $this->{$key};
 
 			case "login":
@@ -99,7 +114,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				"excel_file" => [
 					self::PROPERTY_CLASS => ilFileInputGUI::class,
 					self::PROPERTY_REQUIRED => true,
-					"setSuffixes" => [ [ "xlsx" ] ]
+					"setSuffixes" => [ [ "xlsx", "xltx" ] ]
 				],
 				"count_skip_top_rows" => [
 					self::PROPERTY_CLASS => ilNumberInputGUI::class,
@@ -130,7 +145,16 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				return [
 					self::PROPERTY_CLASS => ilTextInputGUI::class
 				];
-			}, [ "login" => "login", "email" => "email", "first_name" => "first_name", "last_name" => "last_name", "gender" => "gender" ]);
+			}, [
+				"login" => "login",
+				"email" => "email",
+				"first_name" => "first_name",
+				"last_name" => "last_name",
+				"gender" => "gender",
+				"gender_m" => "gender_m",
+				"gender_f" => "gender_f",
+				"gender_n" => "gender_n"
+			]);
 	}
 
 
@@ -194,6 +218,9 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 			case "count_skip_top_rows":
 			case "map_exists_users_field":
 			case "create_new_users":
+			case "gender_m":
+			case "gender_f":
+			case "gender_n":
 				$this->{$key} = $value;
 				break;
 
@@ -248,5 +275,29 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 */
 	public function getMappingFields(): array {
 		return $this->mapping_fields;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getGenderM(): string {
+		return $this->gender_m;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getGenderF(): string {
+		return $this->gender_f;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getGenderN(): string {
+		return $this->gender_n;
 	}
 }

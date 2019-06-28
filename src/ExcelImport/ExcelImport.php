@@ -7,6 +7,8 @@ use ilObjCourse;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Log\Log;
+use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use stdClass;
 use Throwable;
@@ -37,9 +39,9 @@ class ExcelImport {
 	/**
 	 * @param ExcelImportFormGUI $form
 	 *
-	 * @return stdClass
+	 * @return string
 	 */
-	public function import(ExcelImportFormGUI $form): stdClass {
+	public function import(ExcelImportFormGUI $form): string {
 		$excel = new ilExcel();
 
 		$excel->loadFromFile($form->getExcelFile());
@@ -48,14 +50,28 @@ class ExcelImport {
 
 		$rows = array_slice($rows, $form->getCountSkipTopRows());
 
-		$columns_map = array_flip(array_filter($form->getMappingFields()));
+		$columns_map = array_filter($form->getMappingFields());
+		$columns_map = array_reduce(array_map(function (/*string*/ $field, /*string*/ $column): stdClass {
+			return (object)[
+				"field" => trim(strval($field)),
+				"column" => trim(strval($column))
+			];
+		}, array_keys($columns_map), $columns_map), function (array $columns_map, stdClass $field): array {
+			if (!isset($columns_map[$field->column])) {
+				$columns_map[$field->column] = [];
+			}
+
+			$columns_map[$field->column][] = $field->field;
+
+			return $columns_map;
+		}, []);
 
 		$head = array_shift($rows);
-		$columns = array_map(function (/*string*/ $column) use (&$columns_map): string {
+		$columns = array_map(function (/*string*/ $column) use (&$columns_map): array {
 			if (isset($columns_map[$column])) {
-				return strval($columns_map[$column]);
+				return $columns_map[$column];
 			} else {
-				return "";
+				return [];
 			}
 		}, $head);
 
@@ -71,14 +87,43 @@ class ExcelImport {
 				"gender" => ""
 			];
 
+			$has_user_data = false;
 			foreach ($row as $cellI => $cell) {
-				if (!empty($columns[$cellI])) {
-					$user->{$columns[$cellI]} = strval($cell);
+				foreach ($columns[$cellI] as $field) {
+					$value = trim(strval($cell));
+					if (!empty($value)) {
+						$has_user_data = true;
+						$user->{$field} = $value;
+					}
 				}
 			}
 
-			$users[] = $user;
+			if ($has_user_data) {
+				$users[] = $user;
+			}
 		}
+
+		$users = array_map(function (stdClass $user) use ($form): stdClass {
+			switch ($user->gender) {
+				case $form->getGenderM():
+					$user->gender = "m";
+					break;
+
+				case $form->getGenderF():
+					$user->gender = "f";
+					break;
+
+				case $form->getGenderN():
+					$user->gender = "n";
+					break;
+
+				default:
+					$user->gender = "";
+					break;
+			}
+
+			return $user;
+		}, $users);
 
 		$exists_users = array_filter($users, function (stdClass &$user) use ($form): bool {
 			switch ($form->getMapExistsUsersField()) {
@@ -101,6 +146,12 @@ class ExcelImport {
 			return (!empty($user->ilias_user_id));
 		});
 
+		$object = new ilObjCourse(self::rules()->getObjId(), false);
+
+		$exists_users = array_filter($exists_users, function (stdClass $user) use ($object): bool {
+			return (!self::ilias()->courses()->isAssigned($object, $user->ilias_user_id));
+		});
+
 		if ($form->isCreateNewUsers()) {
 			$new_users = array_filter($users, function (stdClass $user): bool {
 				return empty($user->ilias_user_id);
@@ -110,28 +161,61 @@ class ExcelImport {
 		}
 
 		$data = (object)[
-			"exists_users" => $exists_users,
-			"new_users" => $new_users
+			"new_users" => $new_users,
+			"exists_users" => $exists_users
 		];
 
 		ilSession::set(self::SESSION_KEY, json_encode($data));
 
-		return $data;
+		$users = array_merge(array_map(function (stdClass $user): string {
+			unset($user->ilias_user_id);
+
+			$items = [];
+			foreach ($user as $key => $value) {
+				$items[self::plugin()->translate($key, ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT)] = $value;
+			}
+
+			return self::output()->getHTML([
+				self::plugin()->translate("create_user_and_enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
+				self::dic()->ui()->factory()->listing()->descriptive($items)
+			]);
+		}, $new_users), array_map(function (stdClass $user): string {
+			unset($user->ilias_user_id);
+
+			$items = [];
+			foreach ($user as $key => $value) {
+				$items[self::plugin()->translate($key, ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT)] = $value;
+			}
+
+			return self::output()->getHTML([
+				self::plugin()->translate("enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
+				self::dic()->ui()->factory()->listing()->descriptive($items)
+			]);
+		}, $exists_users));
+
+		return implode("<br>", $users);
 	}
 
 
 	/**
-	 * @return stdClass
+	 * @return string
 	 */
-	public function enroll(): stdClass {
+	public function enroll(): string {
 		$data = (object)json_decode(ilSession::get(self::SESSION_KEY));
-		$exists_users = (array)$data->exists_users;
 		$new_users = (array)$data->new_users;
+		$exists_users = (array)$data->exists_users;
 
+		$new_users_count = 0;
 		if (count($new_users) > 0) {
 			foreach ($new_users as &$user) {
-				$user->ilias_user_id = self::ilias()->users()
-					->createNewAccount(strval($user->login), strval($user->email), strval($user->first_name), strval($user->last_name), strval($user->gender));
+				try {
+					$user->ilias_user_id = self::ilias()->users()
+						->createNewAccount(strval($user->login), strval($user->email), strval($user->first_name), strval($user->last_name), strval($user->gender));
+				} catch (Throwable $ex) {
+					self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, self::rules()->getObjId(), 0));
+
+					continue;
+				}
 
 				$exists_users[] = $user;
 			}
@@ -144,16 +228,24 @@ class ExcelImport {
 				self::ilias()->courses()->enrollMemberToCourse($object, $user->ilias_user_id, $user->first_name . " " . $user->last_name);
 			} catch (Throwable $ex) {
 				self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, self::rules()->getObjId(), 0));
+
+				continue;
 			}
+
+			self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), 0, $user->ilias_user_id)
+				->withStatus(Log::STATUS_ENROLLED));
 		}
 
 		ilSession::clear(self::SESSION_KEY);
 
-		$data = (object)[
-			"exists_users" => $exists_users,
-			"new_users" => $new_users
-		];
+		$logs = array_reduce(Log::$statuss, function (array $logs, int $status): array {
+			$logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE_LOGS) . ": " . count(self::logs()->getKeptLogs($status));
 
-		return $data;
+			return $logs;
+		}, ($new_users_count > 0 ? [
+			self::plugin()->translate("created_new_users", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT) . ": " . $new_users_count
+		] : []));
+
+		return implode("<br>", $logs);
 	}
 }
