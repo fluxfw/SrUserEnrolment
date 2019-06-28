@@ -9,7 +9,6 @@ excel_import_confirmation#:#Enroll?
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_create_new_users#:#Create not exists users
 excel_import_create_user_and_enroll#:#Create user and enroll
-excel_import_created_new_users#:#Created not exists users
 excel_import_email#:#Email
 excel_import_enroll#:#Enroll
 excel_import_excel_file#:#Excel file

@@ -229,7 +229,7 @@ class ExcelImport {
 			try {
 				self::ilias()->courses()->enrollMemberToCourse($object, $user->ilias_user_id, $user->first_name . " " . $user->last_name);
 			} catch (Throwable $ex) {
-				self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, self::rules()->getObjId(), 0));
+				self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), 0));
 
 				continue;
 			}

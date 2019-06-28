@@ -9,7 +9,6 @@ excel_import_confirmation#:#Einschreiben?
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
 excel_import_create_user_and_enroll#:#Benutzer anlegen und einschreiben
-excel_import_created_new_users#:#Nicht existierende Benutzer angelegt
 excel_import_email#:#E-Mail
 excel_import_enroll#:#Einschreiben
 excel_import_excel_file#:#Excel-Datei
