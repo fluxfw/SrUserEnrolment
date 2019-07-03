@@ -176,7 +176,7 @@ class ExcelImport {
 
 			$items = [];
 			foreach ($user as $key => $value) {
-				$items[self::plugin()->translate($key, ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT)] = $value;
+				$items[self::plugin()->translate($key)] = $value;
 			}
 
 			return self::output()->getHTML([
@@ -218,9 +218,9 @@ class ExcelImport {
 					$user->ilias_user_id = self::ilias()->users()
 						->createNewAccount(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}), strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}), strval($user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}));
 
-					$user->password = self::ilias()->users()
+					$user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} = self::ilias()->users()
 						->resetPassword($user->ilias_user_id, intval($config[ExcelImportFormGUI::KEY_SET_PASSWORD])
-						=== ExcelImportFormGUI::SET_PASSWORD_FIELD ? $user->password : null);
+						=== ExcelImportFormGUI::SET_PASSWORD_FIELD ? $user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} : null);
 				} catch (Throwable $ex) {
 					self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), 0));
 
