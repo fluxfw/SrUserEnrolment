@@ -113,12 +113,14 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI {
 							RulesGUI::class
 						], RulesGUI::CMD_LIST_RULES));
 
-					self::dic()->ctrl()->setParameterByClass(ExcelImportGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
-					self::dic()->tabs()->addSubTab(ExcelImportGUI::TAB_EXCEL_IMPORT, self::plugin()
-						->translate("title", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()->getLinkTargetByClass([
-						ilUIPluginRouterGUI::class,
-						ExcelImportGUI::class
-					], ExcelImportGUI::CMD_INPUT_EXCEL_IMPORT_DATA));
+					if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT)) {
+						self::dic()->ctrl()->setParameterByClass(ExcelImportGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
+						self::dic()->tabs()->addSubTab(ExcelImportGUI::TAB_EXCEL_IMPORT, self::plugin()
+							->translate("title", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()->getLinkTargetByClass([
+							ilUIPluginRouterGUI::class,
+							ExcelImportGUI::class
+						], ExcelImportGUI::CMD_INPUT_EXCEL_IMPORT_DATA));
+					}
 				}
 			}
 		}

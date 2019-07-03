@@ -80,11 +80,12 @@ class ExcelImport {
 		foreach ($rows as $rowId => $row) {
 			$user = (object)[
 				"ilias_user_id" => null,
-				"login" => "",
-				"email" => "",
-				"first_name" => "",
-				"last_name" => "",
-				"gender" => ""
+				ExcelImportFormGUI::KEY_FIELD_EMAIL => "",
+				ExcelImportFormGUI::KEY_FIELD_FIRST_NAME => "",
+				ExcelImportFormGUI::KEY_FIELD_GENDER => "",
+				ExcelImportFormGUI::KEY_FIELD_LAST_NAME => "",
+				ExcelImportFormGUI::KEY_FIELD_LOGIN => "",
+				ExcelImportFormGUI::KEY_FIELD_PASSWORD => ""
 			];
 
 			$has_user_data = false;
@@ -104,21 +105,21 @@ class ExcelImport {
 		}
 
 		$users = array_map(function (stdClass $user) use ($form): stdClass {
-			switch ($user->gender) {
+			switch ($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}) {
 				case $form->getGenderM():
-					$user->gender = "m";
+					$user->{ExcelImportFormGUI::KEY_FIELD_GENDER} = "m";
 					break;
 
 				case $form->getGenderF():
-					$user->gender = "f";
+					$user->{ExcelImportFormGUI::KEY_FIELD_GENDER} = "f";
 					break;
 
 				case $form->getGenderN():
-					$user->gender = "n";
+					$user->{ExcelImportFormGUI::KEY_FIELD_GENDER} = "n";
 					break;
 
 				default:
-					$user->gender = "";
+					$user->{ExcelImportFormGUI::KEY_FIELD_GENDER} = "";
 					break;
 			}
 
@@ -127,15 +128,15 @@ class ExcelImport {
 
 		$exists_users = array_filter($users, function (stdClass &$user) use ($form): bool {
 			switch ($form->getMapExistsUsersField()) {
-				case "login":
-					if (!empty($user->login)) {
-						$user->ilias_user_id = self::ilias()->users()->getUserIdByLogin(strval($user->login));
+				case ExcelImportFormGUI::KEY_FIELD_LOGIN:
+					if (!empty($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN})) {
+						$user->ilias_user_id = self::ilias()->users()->getUserIdByLogin(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}));
 					}
 					break;
 
-				case "email":
-					if (!empty($user->email)) {
-						$user->ilias_user_id = self::ilias()->users()->getUserIdByEmail(strval($user->email));
+				case ExcelImportFormGUI::KEY_FIELD_EMAIL:
+					if (!empty($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL})) {
+						$user->ilias_user_id = self::ilias()->users()->getUserIdByEmail(strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}));
 					}
 					break;
 
@@ -162,7 +163,10 @@ class ExcelImport {
 
 		$data = (object)[
 			"new_users" => $new_users,
-			"exists_users" => $exists_users
+			"exists_users" => $exists_users,
+			"config" => [
+				ExcelImportFormGUI::KEY_SET_PASSWORD => $form->getSetPassword()
+			]
 		];
 
 		ilSession::set(self::SESSION_KEY, json_encode($data));
@@ -204,6 +208,7 @@ class ExcelImport {
 		$data = (object)json_decode(ilSession::get(self::SESSION_KEY));
 		$new_users = (array)$data->new_users;
 		$exists_users = (array)$data->exists_users;
+		$config = (array)$data->config;
 
 		$object = new ilObjCourse(self::rules()->getObjId(), false);
 
@@ -211,7 +216,11 @@ class ExcelImport {
 			foreach ($new_users as &$user) {
 				try {
 					$user->ilias_user_id = self::ilias()->users()
-						->createNewAccount(strval($user->login), strval($user->email), strval($user->first_name), strval($user->last_name), strval($user->gender));
+						->createNewAccount(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}), strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}), strval($user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}));
+
+					$user->password = self::ilias()->users()
+						->resetPassword($user->ilias_user_id, intval($config[ExcelImportFormGUI::KEY_SET_PASSWORD])
+						=== ExcelImportFormGUI::SET_PASSWORD_FIELD ? $user->password : null);
 				} catch (Throwable $ex) {
 					self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), 0));
 
@@ -227,7 +236,8 @@ class ExcelImport {
 
 		foreach ($exists_users as $user) {
 			try {
-				self::ilias()->courses()->enrollMemberToCourse($object, $user->ilias_user_id, $user->first_name . " " . $user->last_name);
+				self::ilias()->courses()->enrollMemberToCourse($object, $user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME} . " "
+					. $user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME});
 			} catch (Throwable $ex) {
 				self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), 0));
 

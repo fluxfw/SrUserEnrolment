@@ -13,7 +13,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
+            'srag\\CustomInputGUIs\\' => 21,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -35,7 +35,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -71,6 +71,17 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchInputGUI\\MultiSelectSearchInput2GUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInput2GUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchInputGUI\\MultiSelectSearchInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\NumberInputGUI\\NumberInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/NumberInputGUI/NumberInputGUI.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\LegendEntry' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/LegendEntry.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\PieChart' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/PieChart.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\PieChartItem' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/PieChartItem.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\Section' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/Section.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\SectionValue' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/SectionValue.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\LegendEntry' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/LegendEntry.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\PieChart' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/PieChart.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\PieChartItem' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/PieChartItem.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\Renderer' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/Renderer.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\Section' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/Section.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\SectionValue' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/SectionValue.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Component\\Factory' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/Factory.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Component\\FixedSize' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/FixedSize.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Component\\Mini' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/Mini.php',
@@ -96,6 +107,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\CustomInputGUIs\\SrUserEnrolment\\TextInputGUI\\TextInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/TextInputGUI/TextInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\ViewControlModeUI\\ViewControlModeUI' => __DIR__ . '/..' . '/srag/custominputguis/src/ViewControlModeGUI/ViewControlModeUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\Waiter\\Waiter' => __DIR__ . '/..' . '/srag/custominputguis/src/Waiter/Waiter.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\WeekdayInputGUI\\WeekdayInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/WeekdayInputGUI/WeekdayInputGUI.php',
         'srag\\DIC\\SrUserEnrolment\\DICStatic' => __DIR__ . '/..' . '/srag/dic/src/DICStatic.php',
         'srag\\DIC\\SrUserEnrolment\\DICStaticInterface' => __DIR__ . '/..' . '/srag/dic/src/DICStaticInterface.php',
         'srag\\DIC\\SrUserEnrolment\\DICTrait' => __DIR__ . '/..' . '/srag/dic/src/DICTrait.php',
@@ -103,6 +115,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\DIC\\SrUserEnrolment\\DIC\\DICInterface' => __DIR__ . '/..' . '/srag/dic/src/DIC/DICInterface.php',
         'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS53DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS53DIC.php',
         'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS54DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS54DIC.php',
+        'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS60DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS60DIC.php',
         'srag\\DIC\\SrUserEnrolment\\Database\\AbstractILIASDatabaseDetector' => __DIR__ . '/..' . '/srag/dic/src/Database/AbstractILIASDatabaseDetector.php',
         'srag\\DIC\\SrUserEnrolment\\Database\\DatabaseDetector' => __DIR__ . '/..' . '/srag/dic/src/Database/DatabaseDetector.php',
         'srag\\DIC\\SrUserEnrolment\\Database\\DatabaseInterface' => __DIR__ . '/..' . '/srag/dic/src/Database/DatabaseInterface.php',

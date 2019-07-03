@@ -11,6 +11,7 @@ use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -46,7 +47,7 @@ class ResetPasswordGUI {
 	 *
 	 */
 	public function executeCommand()/*: void*/ {
-		if (!self::access()->currentUserHasRole()
+		if (!Config::getField(Config::KEY_SHOW_RESET_PASSWORD) || !self::access()->currentUserHasRole()
 			|| !self::dic()->access()->checkAccess("write", "", self::rules()->getRefId()
 				|| !self::ilias()->courses()->isMember(new ilObjCourse(self::rules()->getObjId(), false), self::rules()->getUserId()))) {
 			die();

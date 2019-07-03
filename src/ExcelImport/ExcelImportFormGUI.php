@@ -11,6 +11,7 @@ use ilRadioOption;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -26,6 +27,22 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	use SrUserEnrolmentTrait;
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 	const LANG_MODULE = ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT;
+	const KEY_COUNT_SKIP_TOP_ROWS = self::LANG_MODULE . "_count_skip_top_rows";
+	const KEY_CREATE_NEW_USERS = self::LANG_MODULE . "_create_new_users";
+	const KEY_FIELD_EMAIL = self::LANG_MODULE . "_email";
+	const KEY_FIELD_FIRST_NAME = self::LANG_MODULE . "_first_name";
+	const KEY_FIELD_GENDER = self::LANG_MODULE . "_gender";
+	const KEY_FIELD_GENDER_F = self::LANG_MODULE . "_gender_f";
+	const KEY_FIELD_GENDER_M = self::LANG_MODULE . "_gender_m";
+	const KEY_FIELD_GENDER_N = self::LANG_MODULE . "_gender_n";
+	const KEY_FIELD_LAST_NAME = self::LANG_MODULE . "_last_name";
+	const KEY_FIELD_LOGIN = self::LANG_MODULE . "_login";
+	const KEY_FIELD_PASSWORD = self::LANG_MODULE . "_password";
+	const KEY_MAP_EXISTS_USERS_FIELD = self::LANG_MODULE . "_map_exists_users_field";
+	const KEY_MAPPING_FIELDS = self::LANG_MODULE . "_mapping_fields";
+	const KEY_SET_PASSWORD = self::LANG_MODULE . "_set_password";
+	const SET_PASSWORD_RANDOM = 1;
+	const SET_PASSWORD_FIELD = 2;
 	/**
 	 * @var string
 	 */
@@ -33,31 +50,145 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	/**
 	 * @var int
 	 */
-	protected $count_skip_top_rows = 1;
-	/**
-	 * @var string
-	 */
-	protected $map_exists_users_field = "";
+	protected $excel_import_count_skip_top_rows = 0;
 	/**
 	 * @var bool
 	 */
-	protected $create_new_users = false;
+	protected $excel_import_create_new_users = false;
+	/**
+	 * @var string
+	 */
+	protected $excel_import_gender_f = "";
+	/**
+	 * @var string
+	 */
+	protected $excel_import_gender_m = "";
+	/**
+	 * @var string
+	 */
+	protected $excel_import_gender_n = "";
+	/**
+	 * @var string
+	 */
+	protected $excel_import_map_exists_users_field = "";
 	/**
 	 * @var string[]
 	 */
-	protected $mapping_fields = [];
+	protected $excel_import_mapping_fields = [];
 	/**
-	 * @var string
+	 * @var int
 	 */
-	protected $gender_m = "m";
+	protected $excel_import_set_password = 0;
+
+
 	/**
-	 * @var string
+	 * @return array
 	 */
-	protected $gender_f = "w";
+	public static function getExcelImportFields(): array {
+		return [
+				self::KEY_COUNT_SKIP_TOP_ROWS => [
+					self::PROPERTY_CLASS => ilNumberInputGUI::class,
+					self::PROPERTY_REQUIRED => true,
+					"setTitle" => self::plugin()->translate(self::KEY_COUNT_SKIP_TOP_ROWS),
+					"setSuffix" => self::plugin()->translate("rows", static::LANG_MODULE)
+				],
+				self::KEY_MAP_EXISTS_USERS_FIELD => [
+					self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+					self::PROPERTY_REQUIRED => true,
+					self::PROPERTY_SUBITEMS => [
+						self::KEY_FIELD_LOGIN => [
+							self::PROPERTY_CLASS => ilRadioOption::class,
+							"setTitle" => self::plugin()->translate(self::KEY_FIELD_LOGIN)
+						],
+						self::KEY_FIELD_EMAIL => [
+							self::PROPERTY_CLASS => ilRadioOption::class,
+							"setTitle" => self::plugin()->translate(self::KEY_FIELD_EMAIL)
+						]
+					],
+					"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD)
+				],
+				self::KEY_SET_PASSWORD => [
+					self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+					self::PROPERTY_REQUIRED => true,
+					self::PROPERTY_SUBITEMS => [
+						self::SET_PASSWORD_RANDOM => [
+							self::PROPERTY_CLASS => ilRadioOption::class,
+							"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD . "_random")
+						],
+						self::SET_PASSWORD_FIELD => [
+							self::PROPERTY_CLASS => ilRadioOption::class,
+							"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field")
+						]
+					],
+					"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD)
+				],
+				self::KEY_CREATE_NEW_USERS => [
+					self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+					"setTitle" => self::plugin()->translate(self::KEY_CREATE_NEW_USERS)
+				],
+				"fields_title" => [
+					self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
+					"setTitle" => self::plugin()->translate("fields_title", self::LANG_MODULE)
+				]
+			] + array_map(function (string $key): array {
+				return [
+					self::PROPERTY_CLASS => ilTextInputGUI::class,
+					"setTitle" => self::plugin()->translate($key)
+				];
+			}, [
+				self::KEY_FIELD_LOGIN => self::KEY_FIELD_LOGIN,
+				self::KEY_FIELD_EMAIL => self::KEY_FIELD_EMAIL,
+				self::KEY_FIELD_FIRST_NAME => self::KEY_FIELD_FIRST_NAME,
+				self::KEY_FIELD_LAST_NAME => self::KEY_FIELD_LAST_NAME,
+				self::KEY_FIELD_GENDER => self::KEY_FIELD_GENDER,
+				self::KEY_FIELD_GENDER_M => self::KEY_FIELD_GENDER_M,
+				self::KEY_FIELD_GENDER_F => self::KEY_FIELD_GENDER_F,
+				self::KEY_FIELD_GENDER_N => self::KEY_FIELD_GENDER_N,
+				self::KEY_FIELD_PASSWORD => self::KEY_FIELD_PASSWORD
+			]);
+	}
+
+
 	/**
-	 * @var string
+	 * @param PropertyFormGUI $form
+	 *
+	 * @return bool
 	 */
-	protected $gender_n = "n";
+	public static function validateExcelImport(PropertyFormGUI $form): bool {
+		if (empty($form->getInput($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD)))) {
+			$form->getItemByPostVar($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD))->setAlert(self::plugin()
+				->translate("missing_field_for_map_exists_users", self::LANG_MODULE));
+
+			return false;
+		}
+
+		if (intval($form->getInput(self::KEY_SET_PASSWORD)) === self::SET_PASSWORD_FIELD) {
+			if (empty($form->getInput(self::KEY_FIELD_PASSWORD))) {
+				$form->getItemByPostVar(self::KEY_FIELD_PASSWORD)->setAlert(self::plugin()
+					->translate("missing_field_for_set_password", self::LANG_MODULE));
+
+				return false;
+			}
+		}
+
+		if ($form->getInput(self::KEY_CREATE_NEW_USERS)) {
+			$error = false;
+
+			foreach ([ self::KEY_FIELD_LOGIN, self::KEY_FIELD_EMAIL, self::KEY_FIELD_FIRST_NAME, self::KEY_FIELD_LAST_NAME ] as $key) {
+				if (empty($form->getInput($key))) {
+					$form->getItemByPostVar($key)->setAlert(self::plugin()->translate("missing_field_for_create_new_users", self::LANG_MODULE));
+
+					$error = true;
+				}
+			}
+
+			if ($error) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 
 	/**
@@ -66,23 +197,10 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	protected function getValue(/*string*/ $key) {
 		switch ($key) {
 			case "excel_file":
-			case "count_skip_top_rows":
-			case "map_exists_users_field":
-			case "create_new_users":
-			case "gender_m":
-			case "gender_f":
-			case "gender_n":
 				return $this->{$key};
 
-			case "login":
-			case "email":
-			case "first_name":
-			case "last_name":
-			case "gender":
-				return $this->mapping_fields[$key] ?? $this->txt($key);
-
 			default:
-				return null;
+				return Config::getField($key);
 		}
 	}
 
@@ -115,46 +233,8 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 					self::PROPERTY_CLASS => ilFileInputGUI::class,
 					self::PROPERTY_REQUIRED => true,
 					"setSuffixes" => [ [ "xlsx", "xltx" ] ]
-				],
-				"count_skip_top_rows" => [
-					self::PROPERTY_CLASS => ilNumberInputGUI::class,
-					self::PROPERTY_REQUIRED => true,
-					"setSuffix" => $this->txt("rows")
-				],
-				"map_exists_users_field" => [
-					self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
-					self::PROPERTY_REQUIRED => true,
-					self::PROPERTY_SUBITEMS => [
-						"login" => [
-							self::PROPERTY_CLASS => ilRadioOption::class,
-							"setTitle" => $this->txt("login")
-						],
-						"email" => [
-							self::PROPERTY_CLASS => ilRadioOption::class,
-							"setTitle" => $this->txt("email")
-						]
-					]
-				],
-				"create_new_users" => [
-					self::PROPERTY_CLASS => ilCheckboxInputGUI::class
-				],
-				"fields_title" => [
-					self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class
 				]
-			] + array_map(function (string $key): array {
-				return [
-					self::PROPERTY_CLASS => ilTextInputGUI::class
-				];
-			}, [
-				"login" => "login",
-				"email" => "email",
-				"first_name" => "first_name",
-				"last_name" => "last_name",
-				"gender" => "gender",
-				"gender_m" => "gender_m",
-				"gender_f" => "gender_f",
-				"gender_n" => "gender_n"
-			]);
+			] + self::getExcelImportFields();
 	}
 
 
@@ -170,39 +250,15 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @inheritdoc
 	 */
 	protected function initTitle()/*: void*/ {
-		$this->setTitle($this->txt("title", self::LANG_MODULE));
+		$this->setTitle($this->txt("title"));
 	}
 
 
 	/**
-	 * @inheritdoc
+	 * @inheritDoc
 	 */
-	public function storeForm()/*: bool*/ {
-		if (!parent::storeForm()) {
-			return false;
-		}
-
-		if (empty($this->getMappingFields()[$this->getMapExistsUsersField()])) {
-			$this->getItemByPostVar($this->getMapExistsUsersField())->setAlert($this->txt("missing_field_for_map_exists_users"));
-
-			return false;
-		}
-
-		if ($this->isCreateNewUsers()) {
-			$error = false;
-			foreach ([ "login", "email", "first_name", "last_name" ] as $key) {
-				if (empty($this->getMappingFields()[$key])) {
-					$this->getItemByPostVar($key)->setAlert($this->txt("missing_field_for_create_new_users"));
-
-					$error = true;
-				}
-			}
-			if ($error) {
-				return false;
-			}
-		}
-
-		return true;
+	public function storeForm(): bool {
+		return ($this->storeFormCheck() && self::validateExcelImport($this) && parent::storeForm());
 	}
 
 
@@ -215,24 +271,17 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				$this->excel_file = strval($this->getInput("excel_file")["tmp_name"]);
 				break;
 
-			case "count_skip_top_rows":
-			case "map_exists_users_field":
-			case "create_new_users":
-			case "gender_m":
-			case "gender_f":
-			case "gender_n":
-				$this->{$key} = $value;
-				break;
-
-			case "login":
-			case "email":
-			case "first_name":
-			case "last_name":
-			case "gender":
-				$this->mapping_fields[$key] = $value;
+			case self::KEY_FIELD_EMAIL:
+			case self::KEY_FIELD_GENDER:
+			case self::KEY_FIELD_FIRST_NAME:
+			case self::KEY_FIELD_LAST_NAME:
+			case self::KEY_FIELD_LOGIN:
+			case self::KEY_FIELD_PASSWORD:
+				$this->{self::KEY_MAPPING_FIELDS}[$key] = $value;
 				break;
 
 			default:
+				$this->{$key} = $value;
 				break;
 		}
 	}
@@ -250,39 +299,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @return int
 	 */
 	public function getCountSkipTopRows(): int {
-		return $this->count_skip_top_rows;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getMapExistsUsersField(): string {
-		return $this->map_exists_users_field;
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public function isCreateNewUsers(): bool {
-		return $this->create_new_users;
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getMappingFields(): array {
-		return $this->mapping_fields;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getGenderM(): string {
-		return $this->gender_m;
+		return $this->{self::KEY_COUNT_SKIP_TOP_ROWS};
 	}
 
 
@@ -290,7 +307,15 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @return string
 	 */
 	public function getGenderF(): string {
-		return $this->gender_f;
+		return $this->{self::KEY_FIELD_GENDER_F};
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getGenderM(): string {
+		return $this->{self::KEY_FIELD_GENDER_M};
 	}
 
 
@@ -298,6 +323,38 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @return string
 	 */
 	public function getGenderN(): string {
-		return $this->gender_n;
+		return $this->{self::KEY_FIELD_GENDER_N};
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getMapExistsUsersField(): string {
+		return $this->{self::KEY_MAP_EXISTS_USERS_FIELD};
+	}
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getMappingFields(): array {
+		return $this->{self::KEY_MAPPING_FIELDS};
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isCreateNewUsers(): bool {
+		return $this->{self::KEY_CREATE_NEW_USERS};
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getSetPassword(): int {
+		return $this->excel_import_set_password;
 	}
 }

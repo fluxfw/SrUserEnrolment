@@ -14,6 +14,7 @@ use ilCtrl;
 use ilCtrlStructureReader;
 use ilDBInterface;
 use ilErrorHandling;
+use ilGlobalTemplateInterface;
 use ilHelpGUI;
 use ILIAS;
 use ILIAS\DI\BackgroundTaskServices;
@@ -47,6 +48,7 @@ use ilTabsGUI;
 use ilTemplate;
 use ilToolbarGUI;
 use ilTree;
+use ilUIService;
 use Session;
 use srag\DIC\SrUserEnrolment\Database\DatabaseInterface;
 use srag\DIC\SrUserEnrolment\Exception\DICException;
@@ -267,10 +269,9 @@ interface DICInterface {
 
 
 	/**
-	 * @return ilTemplate Main ilTemplate instance
+	 * @return ilTemplate|ilGlobalTemplateInterface
 	 */
-	public function mainTemplate(): ilTemplate;
-
+	public function mainTemplate();/*: ilGlobalTemplateInterface*/
 
 	/**
 	 * @return ilNewsService
@@ -370,6 +371,16 @@ interface DICInterface {
 	 * @since ILIAS 5.2
 	 */
 	public function ui(): UIServices;
+
+
+	/**
+	 * @return ilUIService
+	 *
+	 * @since ILIAS 6.0
+	 *
+	 * @throws DICException ilUIService not exists in ILIAS 5.4 or below!
+	 */
+	public function uiService(): ilUIService;
 
 
 	/**

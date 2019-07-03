@@ -48,8 +48,10 @@ use ilTabsGUI;
 use ilTemplate;
 use ilToolbarGUI;
 use ilTree;
+use ilUIService;
 use Session;
 use srag\DIC\SrUserEnrolment\DIC\AbstractDIC;
+use srag\DIC\SrUserEnrolment\Exception\DICException;
 
 /**
  * Class ILIAS54DIC
@@ -435,6 +437,14 @@ final class ILIAS54DIC extends AbstractDIC {
 	 */
 	public function ui(): UIServices {
 		return $this->dic->ui();
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function uiService(): ilUIService {
+		throw new DICException("ilUIService not exists in ILIAS 5.4 or below!");
 	}
 
 

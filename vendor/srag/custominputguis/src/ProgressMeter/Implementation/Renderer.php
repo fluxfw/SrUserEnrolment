@@ -104,7 +104,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->parseCurrentBlock();
 
-		return $tpl->get();
+		return self::output()->getHTML($tpl);
 	}
 
 
@@ -150,7 +150,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->parseCurrentBlock();
 
-		return $tpl->get();
+		return self::output()->getHTML($tpl);
 	}
 
 
@@ -193,7 +193,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl->parseCurrentBlock();
 
-		return $tpl->get();
+		return self::output()->getHTML($tpl);
 	}
 
 

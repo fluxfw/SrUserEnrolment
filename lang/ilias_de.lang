@@ -3,7 +3,9 @@ config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
+config_show_excel_import#:#"Einschreiben per Excel-Datei" anzeigen
 config_show_reset_password#:#"Kennwort zurücksetzen" anzeigen
+config_show_rules_enroll#:#"Einschreiben per Regel" anzeigen
 excel_import_cancel#:#Abbrechen
 excel_import_confirmation#:#Einschreiben?
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
@@ -25,8 +27,13 @@ excel_import_login#:#Benutzername
 excel_import_map_exists_users_field#:#Existierende Benutzer erkennen
 excel_import_missing_field_for_create_new_users#:#Bitte füllen Sie das Feld zum Erstellen neuer Benutzer aus
 excel_import_missing_field_for_map_exists_users#:#Bitte füllen Sie das Feld zum Erkennen existierende Benutzer aus
+excel_import_missing_field_for_set_password#:#Bitte füllen Sie das Feld zum Kennwort setzen aus
 excel_import_nothing_to_enroll#:#Nichts zum Einschreiben
+excel_import_password#:#Kennwort
 excel_import_rows#:#Zeilen
+excel_import_set_password#:#Kennwort setzen
+excel_import_set_password_field#:#Feld
+excel_import_set_password_random#:#Zufällig
 excel_import_title#:#Einschreiben per Excel-Datei
 logs_date#:#Datum / Zeit
 logs_logs#:#Logs

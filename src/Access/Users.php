@@ -135,14 +135,17 @@ final class Users {
 
 
 	/**
-	 * @param int $user_id
+	 * @param int         $user_id
+	 * @param string|null $new_password
 	 *
 	 * @return string
 	 */
-	public function resetPassword(int $user_id): string {
+	public function resetPassword(int $user_id, /*?string*/ $new_password = null): string {
 		$user = new ilObjUser($user_id);
 
-		$new_password = current(ilUtil::generatePasswords(1));
+		if ($new_password === null) {
+			$new_password = current(ilUtil::generatePasswords(1));
+		}
 
 		$user->resetPassword($new_password, $new_password);
 
