@@ -151,4 +151,39 @@ final class Users {
 
 		return $new_password;
 	}
+
+
+	/**
+	 * @param int         $user_id
+	 * @param string|null $login
+	 * @param string|null $email
+	 * @param string|null $first_name
+	 * @param string|null $last_name
+	 * @param string|null $gender
+	 */
+	public function updateUserAccount(int $user_id,/*?string*/ $login, /*?string*/ $email, /*?string*/ $first_name, /*?string*/ $last_name, /*?string*/ $gender)/*: void*/ {
+		$user = new ilObjUser($user_id);
+
+		if ($login !== null) {
+			$user->setLogin($login);
+		}
+
+		if ($email !== null) {
+			$user->setEmail($email);
+		}
+
+		if ($first_name !== null) {
+			$user->setFirstname($first_name);
+		}
+
+		if ($last_name !== null) {
+			$user->setLastname($last_name);
+		}
+
+		if ($gender !== null) {
+			$user->setGender($gender);
+		}
+
+		$user->update();
+	}
 }

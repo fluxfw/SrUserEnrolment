@@ -9,6 +9,7 @@ use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
+use srag\Plugins\SrUserEnrolment\Rule\Rule;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use stdClass;
 use Throwable;
@@ -80,12 +81,13 @@ class ExcelImport {
 		foreach ($rows as $rowId => $row) {
 			$user = (object)[
 				"ilias_user_id" => null,
+				"is_new" => false,
 				ExcelImportFormGUI::KEY_FIELD_EMAIL => "",
 				ExcelImportFormGUI::KEY_FIELD_FIRST_NAME => "",
 				ExcelImportFormGUI::KEY_FIELD_GENDER => "",
 				ExcelImportFormGUI::KEY_FIELD_LAST_NAME => "",
 				ExcelImportFormGUI::KEY_FIELD_LOGIN => "",
-				ExcelImportFormGUI::KEY_FIELD_PASSWORD => ""
+				ExcelImportFormGUI::KEY_FIELD_PASSWORD => null
 			];
 
 			$has_user_data = false;
@@ -123,6 +125,10 @@ class ExcelImport {
 					break;
 			}
 
+			if ($form->getSetPassword() !== ExcelImportFormGUI::SET_PASSWORD_FIELD) {
+				$user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} = null;
+			}
+
 			return $user;
 		}, $users);
 
@@ -154,24 +160,27 @@ class ExcelImport {
 		});
 
 		if ($form->isCreateNewUsers()) {
-			$new_users = array_filter($users, function (stdClass $user): bool {
+			$new_users = array_filter($users, function (stdClass &$user): bool {
+				$user->is_new = true;
+
 				return empty($user->ilias_user_id);
 			});
 		} else {
 			$new_users = [];
 		}
 
+		$users = array_merge($new_users, $exists_users);
+
+		$config = $form->getUpdateFields();
+
 		$data = (object)[
-			"new_users" => $new_users,
-			"exists_users" => $exists_users,
-			"config" => [
-				ExcelImportFormGUI::KEY_SET_PASSWORD => $form->getSetPassword()
-			]
+			"users" => $users,
+			"config" => $config
 		];
 
 		ilSession::set(self::SESSION_KEY, json_encode($data));
 
-		$users = array_merge(array_map(function (stdClass $user): string {
+		$users = array_map(function (stdClass $user): string {
 			unset($user->ilias_user_id);
 
 			$items = [];
@@ -180,22 +189,10 @@ class ExcelImport {
 			}
 
 			return self::output()->getHTML([
-				self::plugin()->translate("create_user_and_enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
+				self::plugin()->translate($user->is_new ? "create_user_and_enroll" : "enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
 				self::dic()->ui()->factory()->listing()->descriptive($items)
 			]);
-		}, $new_users), array_map(function (stdClass $user): string {
-			unset($user->ilias_user_id);
-
-			$items = [];
-			foreach ($user as $key => $value) {
-				$items[self::plugin()->translate($key, ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT)] = $value;
-			}
-
-			return self::output()->getHTML([
-				self::plugin()->translate("enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
-				self::dic()->ui()->factory()->listing()->descriptive($items)
-			]);
-		}, $exists_users));
+		}, $new_users);
 
 		return implode("<br>", $users);
 	}
@@ -206,46 +203,41 @@ class ExcelImport {
 	 */
 	public function enroll(): string {
 		$data = (object)json_decode(ilSession::get(self::SESSION_KEY));
-		$new_users = (array)$data->new_users;
-		$exists_users = (array)$data->exists_users;
+		$users = (array)$data->users;
 		$config = (array)$data->config;
 
 		$object = new ilObjCourse(self::rules()->getObjId(), false);
 
-		if (count($new_users) > 0) {
-			foreach ($new_users as &$user) {
-				try {
+		foreach ($users as &$user) {
+			try {
+				if ($user->is_new) {
 					$user->ilias_user_id = self::ilias()->users()
 						->createNewAccount(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}), strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}), strval($user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}));
 
-					$user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} = self::ilias()->users()
-						->resetPassword($user->ilias_user_id, intval($config[ExcelImportFormGUI::KEY_SET_PASSWORD])
-						=== ExcelImportFormGUI::SET_PASSWORD_FIELD ? $user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} : null);
-				} catch (Throwable $ex) {
-					self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), 0));
-
-					continue;
+					self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
+						->withStatus(Log::STATUS_USER_CREATED)->withMessage("User data: " . json_encode($user)));
+				} else {
+					self::ilias()->users()->updateUserAccount($user->ilias_user_id, ($config[ExcelImportFormGUI::KEY_FIELD_LOGIN
+					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_LOGIN} : null), ($config[ExcelImportFormGUI::KEY_FIELD_EMAIL
+					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_EMAIL} : null), ($config[ExcelImportFormGUI::KEY_FIELD_FIRST_NAME
+					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME} : null), ($config[ExcelImportFormGUI::KEY_FIELD_LAST_NAME
+					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME} : null), ($config[ExcelImportFormGUI::KEY_FIELD_GENDER
+					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_GENDER} : null));
 				}
 
-				self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), 0, $user->ilias_user_id)
-					->withStatus(Log::STATUS_USER_CREATED)->withMessage("User data: " . json_encode($user)));
+				if ($user->is_new || $config[ExcelImportFormGUI::KEY_FIELD_PASSWORD . ExcelImportFormGUI::UPDATE_SUFFIX]) {
+					$user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} = self::ilias()->users()
+						->resetPassword($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD});
+				}
 
-				$exists_users[] = $user;
-			}
-		}
-
-		foreach ($exists_users as $user) {
-			try {
 				self::ilias()->courses()->enrollMemberToCourse($object, $user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME} . " "
 					. $user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME});
+
+				self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
+					->withStatus(Log::STATUS_ENROLLED));
 			} catch (Throwable $ex) {
-				self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), 0));
-
-				continue;
+				self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), Rule::NO_RULE_ID));
 			}
-
-			self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), 0, $user->ilias_user_id)
-				->withStatus(Log::STATUS_ENROLLED));
 		}
 
 		ilSession::clear(self::SESSION_KEY);

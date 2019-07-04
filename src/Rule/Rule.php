@@ -30,6 +30,7 @@ class Rule extends ActiveRecord {
 	const OPERATOR_REG_EX = 6;
 	const OPERATOR_EQUALS_SUBSEQUENT = 7;
 	const POSITION_ALL = 0;
+	const NO_RULE_ID = 0;
 	/**
 	 * @var array
 	 */

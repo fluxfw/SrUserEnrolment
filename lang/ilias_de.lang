@@ -7,6 +7,7 @@ config_show_excel_import#:#"Einschreiben per Excel-Datei" anzeigen
 config_show_reset_password#:#"Kennwort zurücksetzen" anzeigen
 config_show_rules_enroll#:#"Einschreiben per Regel" anzeigen
 excel_import_cancel#:#Abbrechen
+excel_import_column_heading#:#Spalten-Überschrifft
 excel_import_confirmation#:#Einschreiben?
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
@@ -35,6 +36,7 @@ excel_import_set_password#:#Kennwort setzen
 excel_import_set_password_field#:#Feld
 excel_import_set_password_random#:#Zufällig
 excel_import_title#:#Einschreiben per Excel-Datei
+excel_import_update_existing_users#:#Existierende Benutzer aktualisieren
 logs_date#:#Datum / Zeit
 logs_logs#:#Logs
 logs_message#:#Nachricht
