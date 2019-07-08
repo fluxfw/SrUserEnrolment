@@ -454,7 +454,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	/**
 	 * @return string[]
 	 */
-	public function getUpdateFields(): int {
+	public function getUpdateFields(): array {
 		return $this->{self::KEY_UPDATE_FIELDS};
 	}
 }
