@@ -44,10 +44,17 @@ class Config extends ActiveRecordConfig {
 		ExcelImportFormGUI::KEY_FIELD_GENDER_N => [ self::TYPE_STRING, "n" ],
 		ExcelImportFormGUI::KEY_FIELD_LAST_NAME => [ self::TYPE_STRING, "" ],
 		ExcelImportFormGUI::KEY_FIELD_LAST_NAME . ExcelImportFormGUI::UPDATE_SUFFIX => [ self::TYPE_BOOLEAN, false ],
+		ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION => [ self::TYPE_STRING, "" ],
 		ExcelImportFormGUI::KEY_FIELD_LOGIN => [ self::TYPE_STRING, "" ],
 		ExcelImportFormGUI::KEY_FIELD_LOGIN . ExcelImportFormGUI::UPDATE_SUFFIX => [ self::TYPE_BOOLEAN, false ],
 		ExcelImportFormGUI::KEY_FIELD_PASSWORD => [ self::TYPE_STRING, "" ],
 		ExcelImportFormGUI::KEY_FIELD_PASSWORD . ExcelImportFormGUI::UPDATE_SUFFIX => [ self::TYPE_BOOLEAN, false ],
+		ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION => [ self::TYPE_BOOLEAN, false ],
+		ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE => [
+			self::TYPE_INTEGER,
+			ExcelImportFormGUI::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY
+		],
+		ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION_TYPE => [ self::TYPE_INTEGER, ExcelImportFormGUI::LOCAL_USER_ADMINISTRATION_TYPE_TITLE ],
 		ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD => [ self::TYPE_STRING, ExcelImportFormGUI::KEY_FIELD_LOGIN ],
 		ExcelImportFormGUI::KEY_SET_PASSWORD => [ self::TYPE_INTEGER, ExcelImportFormGUI::SET_PASSWORD_RANDOM ]
 	];
@@ -62,6 +69,7 @@ class Config extends ActiveRecordConfig {
 			case ExcelImportFormGUI::KEY_FIELD_FIRST_NAME:
 			case ExcelImportFormGUI::KEY_FIELD_GENDER:
 			case ExcelImportFormGUI::KEY_FIELD_LAST_NAME:
+			case ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION:
 			case ExcelImportFormGUI::KEY_FIELD_LOGIN:
 			case ExcelImportFormGUI::KEY_FIELD_PASSWORD:
 				return self::plugin()->translate($name);

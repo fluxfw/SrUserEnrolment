@@ -12,6 +12,7 @@ excel_import_confirmation#:#Einschreiben?
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
 excel_import_create_user_and_enroll#:#Benutzer anlegen und einschreiben
+excel_import_disabled_hint#:#Global in ILIAS deaktiviert
 excel_import_email#:#E-Mail
 excel_import_enroll#:#Einschreiben
 excel_import_excel_file#:#Excel-Datei
@@ -24,6 +25,14 @@ excel_import_gender_m#:#Geschlecht männlich
 excel_import_gender_n#:#Geschlecht neutral
 excel_import_import#:#Importieren
 excel_import_last_name#:#Nachname
+excel_import_local_user_administration#:#Lokale Benutzerverwaltung
+excel_import_local_user_administration_location#:#Lokale Benutzerverwaltung
+excel_import_local_user_administration_object_type#:#Objekt-Typ
+excel_import_local_user_administration_object_type_category#:#Kategorie
+excel_import_local_user_administration_object_type_org_unit#:#Organisationseinheit
+excel_import_local_user_administration_type#:#Typ
+excel_import_local_user_administration_type_ref_id#:#Ref-Id
+excel_import_local_user_administration_type_title#:#Titel
 excel_import_login#:#Benutzername
 excel_import_map_exists_users_field#:#Existierende Benutzer erkennen
 excel_import_missing_field_for_create_new_users#:#Bitte füllen Sie das Feld zum Erstellen neuer Benutzer aus
@@ -45,6 +54,7 @@ logs_status#:#Status
 logs_status_100#:#Eingeschrieben
 logs_status_200#:#Nicht eingeschrieben (Siehe Log)
 logs_status_300#:#Benutzer angelegt
+logs_status_400#:#Benutzer aktualisiert
 logs_user_id#:#Benutzer Login
 reset_password_button#:#Kennwort zurücksetzen
 reset_password_cancel#:#Abbrechen

@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\Access;
 
+use ilDBStatement;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -49,6 +50,41 @@ final class Ilias {
 	 */
 	public function courses(): Courses {
 		return Courses::getInstance();
+	}
+
+
+	/**
+	 * @param string[] $wheres
+	 * @param string[] $types
+	 * @param string[] $values
+	 * @param string[] $selects
+	 * @param string   $additional_joins
+	 *
+	 * @return ilDBStatement
+	 */
+	public function getObjectFilterStatement(array $wheres, array $types, array $values, array $selects, string $additional_joins = ""): ilDBStatement {
+		return self::dic()->database()->queryF('SELECT ' . implode(', ', $selects)
+			. ' FROM object_data INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id' . $additional_joins . ' WHERE '
+			. implode(' AND ', $wheres), $types, $values);
+	}
+
+
+	/**
+	 * @param string[] $wheres
+	 * @param string[] $types
+	 * @param string[] $values
+	 * @param string   $additional_joins
+	 *
+	 * @return int|null
+	 */
+	public function getObjectRefIdByFilter(array $wheres, array $types, array $values, string $additional_joins = "")/*: ?int*/ {
+		$result = $this->getObjectFilterStatement($wheres, $types, $values, [ "ref_id" ], $additional_joins);
+
+		if ($result->rowCount() === 1) {
+			return intval($result->fetchAssoc()["ref_id"]);
+		} else {
+			return null;
+		}
 	}
 
 

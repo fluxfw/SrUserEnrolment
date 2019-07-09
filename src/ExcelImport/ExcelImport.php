@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
+use ilDBConstants;
 use ilExcel;
 use ilObjCourse;
 use ilSession;
@@ -86,6 +87,7 @@ class ExcelImport {
 				ExcelImportFormGUI::KEY_FIELD_FIRST_NAME => "",
 				ExcelImportFormGUI::KEY_FIELD_GENDER => "",
 				ExcelImportFormGUI::KEY_FIELD_LAST_NAME => "",
+				ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION => null,
 				ExcelImportFormGUI::KEY_FIELD_LOGIN => "",
 				ExcelImportFormGUI::KEY_FIELD_PASSWORD => null
 			];
@@ -129,6 +131,54 @@ class ExcelImport {
 				$user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} = null;
 			}
 
+			if (self::ilias()->users()->isLocalUserAdminsirationEnabled() && $form->isLocalUserAdministration()) {
+				$value = $user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION};
+
+				$user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION} = null;
+
+				if (!empty($value)) {
+					switch ($form->getLocalUserAdministrationObjectType()) {
+						case ExcelImportFormGUI::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY:
+							$obj_type = "cat";
+							break;
+
+						case ExcelImportFormGUI::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT:
+							$obj_type = "orgu";
+							break;
+
+						default:
+							$obj_type = "";
+							break;
+					}
+
+					if (!empty($obj_type)) {
+						$wheres = [ 'type=%s' ];
+						$types = [ ilDBConstants::T_TEXT ];
+						$values = [ $obj_type ];
+
+						switch ($form->getLocalUserAdministrationType()) {
+							case ExcelImportFormGUI::LOCAL_USER_ADMINISTRATION_TYPE_TITLE:
+								$wheres[] = self::dic()->database()->like("title", ilDBConstants::T_TEXT, '%' . $value . '%');
+								break;
+
+							case ExcelImportFormGUI::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID:
+								$wheres[] = "ref_id=%s";
+								$types[] = ilDBConstants::T_INTEGER;
+								$values[] = $value;
+								break;
+
+							default:
+								break;
+						}
+
+						$user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION} = self::ilias()
+							->getObjectRefIdByFilter($wheres, $types, $values);
+					}
+				}
+			} else {
+				$user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION} = null;
+			}
+
 			return $user;
 		}, $users);
 
@@ -161,9 +211,14 @@ class ExcelImport {
 
 		if ($form->isCreateNewUsers()) {
 			$new_users = array_filter($users, function (stdClass &$user): bool {
-				$user->is_new = true;
 
-				return empty($user->ilias_user_id);
+				if (empty($user->ilias_user_id)) {
+					$user->is_new = true;
+
+					return true;
+				} else {
+					return false;
+				}
 			});
 		} else {
 			$new_users = [];
@@ -181,18 +236,22 @@ class ExcelImport {
 		ilSession::set(self::SESSION_KEY, json_encode($data));
 
 		$users = array_map(function (stdClass $user): string {
+			$is_new = $user->is_new;
+
 			unset($user->ilias_user_id);
+			unset($user->is_new);
 
 			$items = [];
 			foreach ($user as $key => $value) {
-				$items[self::plugin()->translate($key)] = $value;
+				$items[self::plugin()->translate($key)] = strval($value);
 			}
 
 			return self::output()->getHTML([
-				self::plugin()->translate($user->is_new ? "create_user_and_enroll" : "enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
+				self::plugin()->translate($is_new ? "create_user_and_enroll" : "enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
+				":",
 				self::dic()->ui()->factory()->listing()->descriptive($items)
 			]);
-		}, $new_users);
+		}, $users);
 
 		return implode("<br>", $users);
 	}
@@ -212,17 +271,20 @@ class ExcelImport {
 			try {
 				if ($user->is_new) {
 					$user->ilias_user_id = self::ilias()->users()
-						->createNewAccount(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}), strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}), strval($user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}));
+						->createNewAccount(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}), strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}), strval($user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION}));
 
 					self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
 						->withStatus(Log::STATUS_USER_CREATED)->withMessage("User data: " . json_encode($user)));
 				} else {
-					self::ilias()->users()->updateUserAccount($user->ilias_user_id, ($config[ExcelImportFormGUI::KEY_FIELD_LOGIN
+					if (self::ilias()->users()->updateUserAccount($user->ilias_user_id, ($config[ExcelImportFormGUI::KEY_FIELD_LOGIN
 					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_LOGIN} : null), ($config[ExcelImportFormGUI::KEY_FIELD_EMAIL
 					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_EMAIL} : null), ($config[ExcelImportFormGUI::KEY_FIELD_FIRST_NAME
 					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME} : null), ($config[ExcelImportFormGUI::KEY_FIELD_LAST_NAME
 					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME} : null), ($config[ExcelImportFormGUI::KEY_FIELD_GENDER
-					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_GENDER} : null));
+					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_GENDER} : null))) {
+						self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
+							->withStatus(Log::STATUS_USER_UPDATED)->withMessage("User data: " . json_encode($user)));
+					}
 				}
 
 				if ($user->is_new || $config[ExcelImportFormGUI::KEY_FIELD_PASSWORD . ExcelImportFormGUI::UPDATE_SUFFIX]) {
