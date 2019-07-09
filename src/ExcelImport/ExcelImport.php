@@ -271,7 +271,7 @@ class ExcelImport {
 			try {
 				if ($user->is_new) {
 					$user->ilias_user_id = self::ilias()->users()
-						->createNewAccount(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}), strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}), strval($user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION}));
+						->createNewAccount(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}), strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}), strval($user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}), $user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION});
 
 					self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
 						->withStatus(Log::STATUS_USER_CREATED)->withMessage("User data: " . json_encode($user)));
