@@ -26,7 +26,7 @@ excel_import_gender_m#:#Geschlecht männlich
 excel_import_gender_n#:#Geschlecht neutral
 excel_import_import#:#Importieren
 excel_import_local_user_administration#:#Lokale Benutzerverwaltung
-excel_import_local_user_administration_disabled_hint#:#Lokale Benutzerverwaltung is global in ILIAS deaktiviert
+excel_import_local_user_administration_disabled_hint#:#Lokale Benutzerverwaltung ist global in ILIAS deaktiviert
 excel_import_local_user_administration_object_type#:#Objekt-Typ
 excel_import_local_user_administration_object_type_category#:#Kategorie
 excel_import_local_user_administration_object_type_org_unit#:#Organisationseinheit
