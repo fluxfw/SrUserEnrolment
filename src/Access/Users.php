@@ -6,7 +6,9 @@ use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use ilUserAccountSettings;
 use ilUtil;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 use srag\Plugins\SrUserEnrolment\Exception\SrUserEnrolmentException;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -49,38 +51,20 @@ final class Users {
 
 
 	/**
-	 * @param string   $login
-	 * @param string   $email
-	 * @param string   $first_name
-	 * @param string   $last_name
-	 * @param string   $gender
-	 * @param int|null $local_user_administration_ref_id
+	 * @param array $fields
 	 *
 	 * @return int
 	 *
 	 * @throws SrUserEnrolmentException
 	 */
-	public function createNewAccount(string $login, string $email, string $first_name, string $last_name, string $gender,/*?int*/ $local_user_administration_ref_id): int {
+	public function createNewAccount(array $fields): int {
 		$user = new ilObjUser();
-
-		if (empty($login)) {
-			throw new SrUserEnrolmentException("Login can't be empty!");
-		}
-		$user->setLogin($login);
-
-		$user->setEmail($email);
-
-		$user->setFirstname($first_name);
-
-		$user->setLastname($last_name);
-
-		$user->setGender($gender);
 
 		$user->setActive(true);
 
-		if (!empty($local_user_administration_ref_id)) {
-			$user->setTimeLimitOwner($local_user_administration_ref_id);
-		}
+		$user->setTimeLimitUnlimited(true);
+
+		$this->setUserFields($user, $fields);
 
 		$user->create();
 
@@ -89,6 +73,63 @@ final class Users {
 		self::dic()->rbacadmin()->assignUser(4, $user->getId()); // User default role
 
 		return $user->getId();
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 * @param array     $fields
+	 *
+	 * @return int
+	 *
+	 * @throws SrUserEnrolmentException
+	 */
+	public function setUserFields(ilObjUser $user, array $fields): int {
+		$count = 0;
+
+		$custom_fields = [];
+
+		foreach ($fields as $type => $fields_) {
+			foreach ($fields_ as $key => $value) {
+				if ($type === ExcelImportFormGUI::FIELDS_TYPE_ILIAS && $key === "password") {
+					// Set with `resetPassword` later
+					continue;
+				}
+				if (!empty($value)) {
+					switch ($type) {
+						case ExcelImportFormGUI::FIELDS_TYPE_ILIAS:
+							if (method_exists($user, $method = "set" . Items::strToCamelCase($key))) {
+								$user->{$method}($value);
+							} else {
+								throw new SrUserEnrolmentException("User default field $key not found!");
+							}
+							break;
+
+						case ExcelImportFormGUI::FIELDS_TYPE_CUSTOM:
+							$field_id = $this->getUserDefinedFieldID($key);
+							if (!empty($field_id)) {
+								$custom_fields [$field_id] = $value;
+							} else {
+								throw new SrUserEnrolmentException("User custom field $key not found!");
+							}
+							break;
+
+						default:
+							break;
+					}
+
+					$count ++;
+				}
+			}
+		}
+
+		$user->setUserDefinedData($custom_fields);
+
+		if (empty($user->getLogin())) {
+			throw new SrUserEnrolmentException("Login can't be empty!");
+		}
+
+		return $count;
 	}
 
 
@@ -124,13 +165,34 @@ final class Users {
 
 
 	/**
+	 * @param string $key
+	 *
+	 * @return int|null
+	 */
+	protected function getUserDefinedFieldID(string $key)/*: ?int*/ {
+		$result = self::dic()->database()->queryF('SELECT field_id FROM udf_definition WHERE field_name=%s', [ "text" ], [ $key ]);
+
+		if (($row = $result->fetchAssoc()) !== false) {
+			return intval($row["field_id"]);
+		} else {
+			return null;
+		}
+	}
+
+
+	/**
 	 * @param string $email
 	 *
 	 * @return int|null
 	 */
 	public function getUserIdByEmail(string $email)/*:?int*/ {
-		return ilObjUser::_lookupId(current(self::version()
-			->is54() ? ilObjUser::getUserLoginsByEmail($email) : ilObjUser::_getUserIdsByEmail($email)));
+		$login = current(self::version()->is54() ? ilObjUser::getUserLoginsByEmail($email) : ilObjUser::_getUserIdsByEmail($email));
+
+		if (!empty($login)) {
+			return ilObjUser::_lookupId($login);
+		} else {
+			return null;
+		}
 	}
 
 
@@ -147,7 +209,7 @@ final class Users {
 	/**
 	 * @return bool
 	 */
-	public function isLocalUserAdminsirationEnabled(): bool {
+	public function isLocalUserAdminisrationEnabled(): bool {
 		return ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled();
 	}
 
@@ -172,49 +234,17 @@ final class Users {
 
 
 	/**
-	 * @param int         $user_id
-	 * @param string|null $login
-	 * @param string|null $email
-	 * @param string|null $first_name
-	 * @param string|null $last_name
-	 * @param string|null $gender
+	 * @param int   $user_id
+	 * @param array $fields
 	 *
 	 * @return bool
+	 *
+	 * @throws SrUserEnrolmentException
 	 */
-	public function updateUserAccount(int $user_id,/*?string*/ $login, /*?string*/ $email, /*?string*/ $first_name, /*?string*/ $last_name, /*?string*/ $gender): bool {
-		$updated = false;
-
+	public function updateUserAccount(int $user_id, array $fields): bool {
 		$user = new ilObjUser($user_id);
 
-		if ($login !== null) {
-			$user->setLogin($login);
-
-			$updated = true;
-		}
-
-		if ($email !== null) {
-			$user->setEmail($email);
-
-			$updated = true;
-		}
-
-		if ($first_name !== null) {
-			$user->setFirstname($first_name);
-
-			$updated = true;
-		}
-
-		if ($last_name !== null) {
-			$user->setLastname($last_name);
-		}
-
-		$updated = true;
-
-		if ($gender !== null) {
-			$user->setGender($gender);
-
-			$updated = true;
-		}
+		$updated = ($this->setUserFields($user, $fields) > 0);
 
 		if ($updated) {
 			$user->update();

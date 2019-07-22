@@ -7,37 +7,36 @@ config_show_excel_import#:#Show "Enrol by excel file"
 config_show_reset_password#:#Show "Reset password"
 config_show_rules_enroll#:#Show "Enrol by rule"
 excel_import_cancel#:#Cancel
-excel_import_column_heading#:#Column heading
 excel_import_confirmation#:#Enroll?
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_create_new_users#:#Create not exists users
 excel_import_create_user_and_enroll#:#Create user and enroll
 excel_import_disabled_hint#:#Disabled globally in ILIAS
-excel_import_email#:#Email
 excel_import_enroll#:#Enroll
 excel_import_excel_file#:#Excel file
-excel_import_fields_title#:#User fields
-excel_import_fields_title_info#:#Enter here the column heading, in which the user fields are located. Fields that are not to be imported should be left empty
-excel_import_first_name#:#First name
-excel_import_gender#:#Gender
+excel_import_fields#:#Dields
+excel_import_fields_column_heading#:#Excel column heading
+excel_import_fields_custom#:#Custom field
+excel_import_fields_ilias#:#Default field
+excel_import_fields_key#:#Label
+excel_import_fields_missing#:#Please fill %1$s for %2$s
+excel_import_fields_type#:#Type
+excel_import_fields_update#:#Update
 excel_import_gender_f#:#Gender female
 excel_import_gender_m#:#Gender male
 excel_import_gender_n#:#Gender neutral
 excel_import_import#:#Import
-excel_import_last_name#:#Last name
 excel_import_local_user_administration#:#Local user administration
-excel_import_local_user_administration_location#:#Local user administration
 excel_import_local_user_administration_object_type#:#Object type
 excel_import_local_user_administration_object_type_category#:#Category
 excel_import_local_user_administration_object_type_org_unit#:#Org unit
 excel_import_local_user_administration_type#:#Type
 excel_import_local_user_administration_type_ref_id#:#Ref id
 excel_import_local_user_administration_type_title#:#Title
-excel_import_login#:#Login
 excel_import_map_exists_users_field#:#Map exists users
-excel_import_missing_field_for_create_new_users#:#Please fill the field for create new users
-excel_import_missing_field_for_map_exists_users#:#Please fill the field for map exists users
-excel_import_missing_field_for_set_password#:#Please fill the field for set password
+excel_import_map_exists_users_field_email#:#Email
+excel_import_map_exists_users_field_login#:#Login
+excel_import_no#:#No
 excel_import_nothing_to_enroll#:#Nothing to enroll
 excel_import_password#:#Password
 excel_import_rows#:#Rows
@@ -45,7 +44,8 @@ excel_import_set_password#:#Set password
 excel_import_set_password_field#:#Field
 excel_import_set_password_random#:#Random
 excel_import_title#:#Enrol by excel file
-excel_import_update_existing_users#:#Update existing users
+excel_import_update_user_and_enroll#:#Update user and enroll
+excel_import_yes#:#Yes
 logs_date#:#Date / Time
 logs_logs#:#Logs
 logs_message#:#Message

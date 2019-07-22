@@ -9,8 +9,10 @@ use ilNonEditableValueGUI;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
+use ilSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiLineInputGUI\MultiLineInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
@@ -30,30 +32,25 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	const LANG_MODULE = ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT;
 	const KEY_COUNT_SKIP_TOP_ROWS = self::LANG_MODULE . "_count_skip_top_rows";
 	const KEY_CREATE_NEW_USERS = self::LANG_MODULE . "_create_new_users";
-	const KEY_FIELD_EMAIL = self::LANG_MODULE . "_email";
-	const KEY_FIELD_FIRST_NAME = self::LANG_MODULE . "_first_name";
-	const KEY_FIELD_GENDER = self::LANG_MODULE . "_gender";
-	const KEY_FIELD_GENDER_F = self::LANG_MODULE . "_gender_f";
-	const KEY_FIELD_GENDER_M = self::LANG_MODULE . "_gender_m";
-	const KEY_FIELD_GENDER_N = self::LANG_MODULE . "_gender_n";
-	const KEY_FIELD_LAST_NAME = self::LANG_MODULE . "_last_name";
-	const KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION = self::LANG_MODULE . "_local_user_administration_location";
-	const KEY_FIELD_LOGIN = self::LANG_MODULE . "_login";
-	const KEY_FIELD_PASSWORD = self::LANG_MODULE . "_password";
+	const KEY_FIELDS = self::LANG_MODULE . "_fields";
+	const KEY_GENDER_F = self::LANG_MODULE . "_gender_f";
+	const KEY_GENDER_M = self::LANG_MODULE . "_gender_m";
+	const KEY_GENDER_N = self::LANG_MODULE . "_gender_n";
 	const KEY_LOCAL_USER_ADMINISTRATION = self::LANG_MODULE . "_local_user_administration";
 	const KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE = self::LANG_MODULE . "_local_user_administration_object_type";
 	const KEY_LOCAL_USER_ADMINISTRATION_TYPE = self::LANG_MODULE . "_local_user_administration_type";
 	const KEY_MAP_EXISTS_USERS_FIELD = self::LANG_MODULE . "_map_exists_users_field";
-	const KEY_MAPPING_FIELDS = self::LANG_MODULE . "_mapping_fields";
 	const KEY_SET_PASSWORD = self::LANG_MODULE . "_set_password";
-	const KEY_UPDATE_FIELDS = self::LANG_MODULE . "_update_fields";
+	const FIELDS_TYPE_ILIAS = 1;
+	const FIELDS_TYPE_CUSTOM = 2;
 	const LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY = 1;
 	const LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT = 2;
 	const LOCAL_USER_ADMINISTRATION_TYPE_TITLE = 1;
 	const LOCAL_USER_ADMINISTRATION_TYPE_REF_ID = 2;
+	const MAP_EXISTS_USERS_LOGIN = 1;
+	const MAP_EXISTS_USERS_EMAIL = 2;
 	const SET_PASSWORD_RANDOM = 1;
 	const SET_PASSWORD_FIELD = 2;
-	const UPDATE_SUFFIX = "_update";
 	/**
 	 * @var string
 	 */
@@ -66,6 +63,10 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @var bool
 	 */
 	protected $excel_import_create_new_users = false;
+	/**
+	 * @var array
+	 */
+	protected $excel_import_fields = [];
 	/**
 	 * @var string
 	 */
@@ -91,21 +92,13 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 */
 	protected $excel_import_local_user_administration_type = self::LOCAL_USER_ADMINISTRATION_TYPE_TITLE;
 	/**
-	 * @var string
+	 * @var int
 	 */
-	protected $excel_import_map_exists_users_field = "";
-	/**
-	 * @var string[]
-	 */
-	protected $excel_import_mapping_fields = [];
-	/**
-	 * @var string[]
-	 */
-	protected $excel_import_update_fields = [];
+	protected $excel_import_map_exists_users_field = self::MAP_EXISTS_USERS_LOGIN;
 	/**
 	 * @var int
 	 */
-	protected $excel_import_set_password = 0;
+	protected $excel_import_set_password = self::SET_PASSWORD_RANDOM;
 
 
 	/**
@@ -119,111 +112,66 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				"setTitle" => self::plugin()->translate(self::KEY_COUNT_SKIP_TOP_ROWS),
 				"setSuffix" => self::plugin()->translate("rows", static::LANG_MODULE)
 			],
+
+			self::KEY_FIELDS => [
+				self::PROPERTY_CLASS => MultiLineInputGUI::class,
+				self::PROPERTY_REQUIRED => true,
+				self::PROPERTY_MULTI => true,
+				"setShowLabel" => true,
+				self::PROPERTY_SUBITEMS => [
+					"type" => [
+						self::PROPERTY_CLASS => ilSelectInputGUI::class,
+						self::PROPERTY_REQUIRED => true,
+						self::PROPERTY_OPTIONS => [
+							self::FIELDS_TYPE_ILIAS => self::plugin()->translate(self::KEY_FIELDS . "_ilias"),
+							self::FIELDS_TYPE_CUSTOM => self::plugin()->translate(self::KEY_FIELDS . "_custom")
+						],
+						"setTitle" => self::plugin()->translate(self::KEY_FIELDS . "_type")
+					],
+					"key" => [
+						self::PROPERTY_CLASS => ilTextInputGUI::class,
+						self::PROPERTY_REQUIRED => true,
+						"setTitle" => self::plugin()->translate(self::KEY_FIELDS . "_key")
+					],
+					"column_heading" => [
+						self::PROPERTY_CLASS => ilTextInputGUI::class,
+						self::PROPERTY_REQUIRED => false,
+						"setTitle" => self::plugin()->translate(self::KEY_FIELDS . "_column_heading")
+					],
+					"update" => [
+						self::PROPERTY_CLASS => ilSelectInputGUI::class, // TODO: ilCheckboxInputGUI not correctly works in MultiLineInputGUI
+						self::PROPERTY_REQUIRED => false,
+						self::PROPERTY_OPTIONS => [
+							false => self::plugin()->translate("no", self::LANG_MODULE),
+							true => self::plugin()->translate("yes", self::LANG_MODULE),
+						],
+						"setTitle" => self::plugin()->translate(self::KEY_FIELDS . "_update")
+					]
+				],
+				"setTitle" => self::plugin()->translate(self::KEY_FIELDS)
+			],
+
 			self::KEY_MAP_EXISTS_USERS_FIELD => [
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 				self::PROPERTY_REQUIRED => true,
 				self::PROPERTY_SUBITEMS => [
-					self::KEY_FIELD_LOGIN => [
+					self::MAP_EXISTS_USERS_LOGIN => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
-						"setTitle" => self::plugin()->translate(self::KEY_FIELD_LOGIN)
+						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login")
 					],
-					self::KEY_FIELD_EMAIL => [
+					self::MAP_EXISTS_USERS_EMAIL => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
-						"setTitle" => self::plugin()->translate(self::KEY_FIELD_EMAIL)
+						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email")
 					]
 				],
 				"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD)
 			],
+
 			self::KEY_CREATE_NEW_USERS => [
 				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
 				"setTitle" => self::plugin()->translate(self::KEY_CREATE_NEW_USERS)
 			],
-			"fields_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
-				"setTitle" => self::plugin()->translate("fields_title", self::LANG_MODULE)
-			],
 
-			self::KEY_FIELD_LOGIN . "_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_LOGIN)
-			],
-			self::KEY_FIELD_LOGIN => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => self::plugin()->translate("column_heading", self::LANG_MODULE)
-			],
-			self::KEY_FIELD_LOGIN . self::UPDATE_SUFFIX => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-				"setTitle" => self::plugin()->translate("update_existing_users", self::LANG_MODULE)
-			],
-
-			self::KEY_FIELD_EMAIL . "_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_EMAIL)
-			],
-			self::KEY_FIELD_EMAIL => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => self::plugin()->translate("column_heading", self::LANG_MODULE)
-			],
-			self::KEY_FIELD_EMAIL . self::UPDATE_SUFFIX => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-				"setTitle" => self::plugin()->translate("update_existing_users", self::LANG_MODULE)
-			],
-
-			self::KEY_FIELD_FIRST_NAME . "_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_FIRST_NAME)
-			],
-			self::KEY_FIELD_FIRST_NAME => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => self::plugin()->translate("column_heading", self::LANG_MODULE)
-			],
-			self::KEY_FIELD_FIRST_NAME . self::UPDATE_SUFFIX => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-				"setTitle" => self::plugin()->translate("update_existing_users", self::LANG_MODULE)
-			],
-
-			self::KEY_FIELD_LAST_NAME . "_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_LAST_NAME)
-			],
-			self::KEY_FIELD_LAST_NAME => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => self::plugin()->translate("column_heading", self::LANG_MODULE)
-			],
-			self::KEY_FIELD_LAST_NAME . self::UPDATE_SUFFIX => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-				"setTitle" => self::plugin()->translate("update_existing_users", self::LANG_MODULE)
-			],
-
-			self::KEY_FIELD_GENDER . "_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_GENDER)
-			],
-			self::KEY_FIELD_GENDER => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => self::plugin()->translate("column_heading", self::LANG_MODULE)
-			],
-			self::KEY_FIELD_GENDER_M => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_GENDER_M)
-			],
-			self::KEY_FIELD_GENDER_F => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_GENDER_F)
-			],
-			self::KEY_FIELD_GENDER_N => [
-				self::PROPERTY_CLASS => ilTextInputGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_GENDER_N)
-			],
-			self::KEY_FIELD_GENDER . self::UPDATE_SUFFIX => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-				"setTitle" => self::plugin()->translate("update_existing_users", self::LANG_MODULE)
-			],
-
-			self::KEY_FIELD_PASSWORD . "_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_FIELD_PASSWORD)
-			],
 			self::KEY_SET_PASSWORD => [
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 				self::PROPERTY_REQUIRED => true,
@@ -234,30 +182,33 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 					],
 					self::SET_PASSWORD_FIELD => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
-						self::PROPERTY_SUBITEMS => [
-							self::KEY_FIELD_PASSWORD => [
-								self::PROPERTY_CLASS => ilTextInputGUI::class,
-								"setTitle" => self::plugin()->translate("column_heading", self::LANG_MODULE)
-							]
-						],
 						"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field")
 					]
 				],
 				"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD)
 			],
-			self::KEY_FIELD_PASSWORD . self::UPDATE_SUFFIX => [
-				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-				"setTitle" => self::plugin()->translate("update_existing_users", self::LANG_MODULE)
+
+			self::KEY_GENDER_M => [
+				self::PROPERTY_CLASS => ilTextInputGUI::class,
+				"setTitle" => self::plugin()->translate(self::KEY_GENDER_M)
+			],
+			self::KEY_GENDER_F => [
+				self::PROPERTY_CLASS => ilTextInputGUI::class,
+				"setTitle" => self::plugin()->translate(self::KEY_GENDER_F)
+			],
+			self::KEY_GENDER_N => [
+				self::PROPERTY_CLASS => ilTextInputGUI::class,
+				"setTitle" => self::plugin()->translate(self::KEY_GENDER_N)
 			],
 
 			self::KEY_LOCAL_USER_ADMINISTRATION . "_title" => [
 				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
 				"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION)
 			],
-			"learning_progress_disabled_hint" => [
+			self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint" => [
 				self::PROPERTY_CLASS => ilNonEditableValueGUI::class,
 				self::PROPERTY_VALUE => self::plugin()->translate("disabled_hint", self::LANG_MODULE),
-				self::PROPERTY_NOT_ADD => self::ilias()->users()->isLocalUserAdminsirationEnabled(),
+				self::PROPERTY_NOT_ADD => self::ilias()->users()->isLocalUserAdminisrationEnabled(),
 				"setTitle" => ""
 			],
 			self::KEY_LOCAL_USER_ADMINISTRATION => [
@@ -278,11 +229,6 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						],
 						"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE)
 					],
-					self::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION => [
-						self::PROPERTY_CLASS => ilTextInputGUI::class,
-						self::PROPERTY_REQUIRED => true,
-						"setTitle" => self::plugin()->translate("column_heading", self::LANG_MODULE)
-					],
 					self::KEY_LOCAL_USER_ADMINISTRATION_TYPE => [
 						self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 						self::PROPERTY_REQUIRED => true,
@@ -299,7 +245,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION_TYPE)
 					]
 				],
-				self::PROPERTY_NOT_ADD => (!self::ilias()->users()->isLocalUserAdminsirationEnabled()),
+				self::PROPERTY_NOT_ADD => (!self::ilias()->users()->isLocalUserAdminisrationEnabled()),
 				"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION)
 			]
 		];
@@ -312,39 +258,81 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @return bool
 	 */
 	public static function validateExcelImport(PropertyFormGUI $form): bool {
-		if (empty($form->getInput($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD)))) {
-			$form->getItemByPostVar($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD))->setAlert(self::plugin()
-				->translate("missing_field_for_map_exists_users", self::LANG_MODULE));
+		$needed_fields = [];
+		$error = false;
 
-			return false;
-		}
+		switch ($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD)) {
+			case self::MAP_EXISTS_USERS_LOGIN:
+				$needed_fields[] = [
+					"type" => self::FIELDS_TYPE_ILIAS,
+					"key" => "login",
+					"for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
+				];
+				break;
 
-		if (intval($form->getInput(self::KEY_SET_PASSWORD)) === self::SET_PASSWORD_FIELD) {
-			if (empty($form->getInput(self::KEY_FIELD_PASSWORD))) {
-				$form->getItemByPostVar(self::KEY_FIELD_PASSWORD)->setAlert(self::plugin()
-					->translate("missing_field_for_set_password", self::LANG_MODULE));
+			case self::MAP_EXISTS_USERS_EMAIL:
+				$needed_fields[] = [
+					"type" => self::FIELDS_TYPE_ILIAS,
+					"key" => "email",
+					"for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
+				];
+				break;
 
-				return false;
-			}
+			default:
+				break;
 		}
 
 		if ($form->getInput(self::KEY_CREATE_NEW_USERS)) {
-			$error = false;
-
-			foreach ([ self::KEY_FIELD_LOGIN, self::KEY_FIELD_EMAIL, self::KEY_FIELD_FIRST_NAME, self::KEY_FIELD_LAST_NAME ] as $key) {
-				if (empty($form->getInput($key))) {
-					$form->getItemByPostVar($key)->setAlert(self::plugin()->translate("missing_field_for_create_new_users", self::LANG_MODULE));
-
-					$error = true;
-				}
-			}
-
-			if ($error) {
-				return false;
+			foreach ([ "login", "email", "first_name", "last_name" ] as $key) {
+				$needed_fields[] = [
+					"type" => self::FIELDS_TYPE_ILIAS,
+					"key" => $key,
+					"for_message" => self::KEY_CREATE_NEW_USERS
+				];
 			}
 		}
 
-		return true;
+		if (intval($form->getInput(self::KEY_SET_PASSWORD)) === self::SET_PASSWORD_FIELD) {
+			$needed_fields[] = [
+				"type" => self::FIELDS_TYPE_ILIAS,
+				"key" => "password",
+				"for_message" => self::KEY_SET_PASSWORD
+			];
+		}
+
+		if ($form->getInput(self::KEY_LOCAL_USER_ADMINISTRATION)) {
+			$needed_fields[] = [
+				"type" => self::FIELDS_TYPE_ILIAS,
+				"key" => "time_limit_owner",
+				"for_message" => self::KEY_LOCAL_USER_ADMINISTRATION
+			];
+		}
+
+		foreach ($needed_fields as $needed_field) {
+			$has_field = false;
+
+			foreach ((array)$form->getInput(self::KEY_FIELDS) as $field) {
+				if (intval($field["type"]) === $needed_field["type"] && trim($field["key"]) === $needed_field["key"]
+					&& !empty(trim($field["column_heading"]))) {
+					$has_field = true;
+					break;
+				}
+			}
+
+			if (!$has_field) {
+				$error = true;
+
+				$alerts = $form->getItemByPostVar(self::KEY_FIELDS)->getAlert();
+				$alerts .= "<br>" . self::plugin()->translate("fields_missing", self::LANG_MODULE, [
+						self::fieldName($needed_field["type"], $needed_field["key"]),
+						self::plugin()->translate($needed_field["for_message"])
+					]);
+
+				$form->getItemByPostVar(self::KEY_FIELDS)->setAlert($alerts);
+			}
+		}
+
+		return (!$error);
 	}
 
 
@@ -428,29 +416,34 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				$this->excel_file = strval($this->getInput("excel_file")["tmp_name"]);
 				break;
 
-			case self::KEY_FIELD_EMAIL:
-			case self::KEY_FIELD_GENDER:
-			case self::KEY_FIELD_FIRST_NAME:
-			case self::KEY_FIELD_LAST_NAME:
-			case self::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION:
-			case self::KEY_FIELD_LOGIN:
-			case self::KEY_FIELD_PASSWORD:
-				$this->{self::KEY_MAPPING_FIELDS}[$key] = $value;
-				break;
-
-			case self::KEY_FIELD_EMAIL . self::UPDATE_SUFFIX:
-			case self::KEY_FIELD_GENDER . self::UPDATE_SUFFIX:
-			case self::KEY_FIELD_FIRST_NAME . self::UPDATE_SUFFIX:
-			case self::KEY_FIELD_LAST_NAME . self::UPDATE_SUFFIX:
-			case self::KEY_FIELD_LOGIN . self::UPDATE_SUFFIX:
-			case self::KEY_FIELD_PASSWORD . self::UPDATE_SUFFIX:
-				$this->{self::KEY_UPDATE_FIELDS}[$key] = $value;
-				break;
-
 			default:
 				$this->{$key} = $value;
 				break;
 		}
+	}
+
+
+	/**
+	 * @param int    $type
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	public static function fieldName(int $type, string $key): string {
+		switch ($type) {
+			case self::FIELDS_TYPE_ILIAS:
+				$type = self::plugin()->translate(self::KEY_FIELDS . "_ilias");
+				break;
+
+			case self::FIELDS_TYPE_CUSTOM:
+				$type = self::plugin()->translate(self::KEY_FIELDS . "_custom");
+				break;
+
+			default:
+				$type = "";
+		}
+
+		return $type . " / " . $key;
 	}
 
 
@@ -474,7 +467,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @return string
 	 */
 	public function getGenderF(): string {
-		return $this->{self::KEY_FIELD_GENDER_F};
+		return $this->{self::KEY_GENDER_F};
 	}
 
 
@@ -482,7 +475,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @return string
 	 */
 	public function getGenderM(): string {
-		return $this->{self::KEY_FIELD_GENDER_M};
+		return $this->{self::KEY_GENDER_M};
 	}
 
 
@@ -490,7 +483,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @return string
 	 */
 	public function getGenderN(): string {
-		return $this->{self::KEY_FIELD_GENDER_N};
+		return $this->{self::KEY_GENDER_N};
 	}
 
 
@@ -511,18 +504,10 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getMapExistsUsersField(): string {
+	public function getMapExistsUsersField(): int {
 		return $this->{self::KEY_MAP_EXISTS_USERS_FIELD};
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getMappingFields(): array {
-		return $this->{self::KEY_MAPPING_FIELDS};
 	}
 
 
@@ -531,14 +516,6 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 */
 	public function getSetPassword(): int {
 		return $this->{self::KEY_SET_PASSWORD};
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getUpdateFields(): array {
-		return $this->{self::KEY_UPDATE_FIELDS};
 	}
 
 
@@ -555,5 +532,13 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 */
 	public function isLocalUserAdministration(): bool {
 		return $this->{self::KEY_LOCAL_USER_ADMINISTRATION};
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getUserFields(): array {
+		return $this->{self::KEY_FIELDS};
 	}
 }

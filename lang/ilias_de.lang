@@ -7,37 +7,36 @@ config_show_excel_import#:#"Einschreiben per Excel-Datei" anzeigen
 config_show_reset_password#:#"Kennwort zurücksetzen" anzeigen
 config_show_rules_enroll#:#"Einschreiben per Regel" anzeigen
 excel_import_cancel#:#Abbrechen
-excel_import_column_heading#:#Spalten-Überschrifft
 excel_import_confirmation#:#Einschreiben?
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
 excel_import_create_user_and_enroll#:#Benutzer anlegen und einschreiben
 excel_import_disabled_hint#:#Global in ILIAS deaktiviert
-excel_import_email#:#E-Mail
 excel_import_enroll#:#Einschreiben
 excel_import_excel_file#:#Excel-Datei
-excel_import_fields_title#:#Benutzer-Felder
-excel_import_fields_title_info#:#Geben Sie hier die Spalten-Überschrifft an, in welchem sich die Benutzerfelder befinden. Felder, die nicht importiert werden sollen, leer lassen
-excel_import_first_name#:#Vorname
-excel_import_gender#:#Geschlecht
+excel_import_fields#:#Benutzer-Felder
+excel_import_fields_column_heading#:#Excel-Spalten-Überschrifft
+excel_import_fields_custom#:#Benutzerdefiniertes Feld
+excel_import_fields_ilias#:#Standard-Feld
+excel_import_fields_key#:#Bezeichnung
+excel_import_fields_missing#:#Bitte füllen Sie %1$s für %2$s aus
+excel_import_fields_type#:#Typ
+excel_import_fields_update#:#Aktualisieren
 excel_import_gender_f#:#Geschlecht weiblich
 excel_import_gender_m#:#Geschlecht männlich
 excel_import_gender_n#:#Geschlecht neutral
 excel_import_import#:#Importieren
-excel_import_last_name#:#Nachname
 excel_import_local_user_administration#:#Lokale Benutzerverwaltung
-excel_import_local_user_administration_location#:#Lokale Benutzerverwaltung
 excel_import_local_user_administration_object_type#:#Objekt-Typ
 excel_import_local_user_administration_object_type_category#:#Kategorie
 excel_import_local_user_administration_object_type_org_unit#:#Organisationseinheit
 excel_import_local_user_administration_type#:#Typ
 excel_import_local_user_administration_type_ref_id#:#Ref-Id
 excel_import_local_user_administration_type_title#:#Titel
-excel_import_login#:#Benutzername
 excel_import_map_exists_users_field#:#Existierende Benutzer erkennen
-excel_import_missing_field_for_create_new_users#:#Bitte füllen Sie das Feld zum Erstellen neuer Benutzer aus
-excel_import_missing_field_for_map_exists_users#:#Bitte füllen Sie das Feld zum Erkennen existierende Benutzer aus
-excel_import_missing_field_for_set_password#:#Bitte füllen Sie das Feld zum Kennwort setzen aus
+excel_import_map_exists_users_field_email#:#E-Mail
+excel_import_map_exists_users_field_login#:#Benutzername
+excel_import_no#:#Nein
 excel_import_nothing_to_enroll#:#Nichts zum Einschreiben
 excel_import_password#:#Kennwort
 excel_import_rows#:#Zeilen
@@ -45,7 +44,8 @@ excel_import_set_password#:#Kennwort setzen
 excel_import_set_password_field#:#Feld
 excel_import_set_password_random#:#Zufällig
 excel_import_title#:#Einschreiben per Excel-Datei
-excel_import_update_existing_users#:#Existierende Benutzer aktualisieren
+excel_import_update_user_and_enroll#:#Benutzer aktualisieren und einschreiben
+excel_import_yes#:#Ja
 logs_date#:#Datum / Zeit
 logs_logs#:#Logs
 logs_message#:#Nachricht

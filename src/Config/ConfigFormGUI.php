@@ -63,7 +63,8 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 	 * @inheritDoc
 	 */
 	public function storeForm(): bool {
-		return ($this->storeFormCheck() && ExcelImportFormGUI::validateExcelImport($this) && parent::storeForm());
+		return ($this->storeFormCheck() && ($this->getInput(Config::KEY_SHOW_EXCEL_IMPORT) ? ExcelImportFormGUI::validateExcelImport($this) : true)
+			&& parent::storeForm());
 	}
 
 

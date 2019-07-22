@@ -52,24 +52,31 @@ class ExcelImport {
 
 		$rows = array_slice($rows, $form->getCountSkipTopRows());
 
-		$columns_map = array_filter($form->getMappingFields());
-		$columns_map = array_reduce(array_map(function (/*string*/ $field, /*string*/ $column): stdClass {
-			return (object)[
-				"field" => trim(strval($field)),
-				"column" => trim(strval($column))
-			];
-		}, array_keys($columns_map), $columns_map), function (array $columns_map, stdClass $field): array {
-			if (!isset($columns_map[$field->column])) {
-				$columns_map[$field->column] = [];
+		$fields = array_filter(array_map(function (array $field): stdClass {
+			$field = (object)$field;
+
+			$field->type = intval($field->type);
+			$field->key = trim($field->key);
+			$field->column_heading = trim($field->column_heading);
+			$field->update = boolval($field->update);
+
+			return $field;
+		}, $form->getUserFields()), function (stdClass $field): bool {
+			return (!empty($field->type) && !empty($field->key) && !empty($field->column_heading));
+		});
+
+		$columns_map = array_reduce($fields, function (array $columns_map, stdClass $field): array {
+			if (!isset($columns_map[$field->column_heading])) {
+				$columns_map[$field->column_heading] = [];
 			}
 
-			$columns_map[$field->column][] = $field->field;
+			$columns_map[$field->column_heading][] = $field;
 
 			return $columns_map;
 		}, []);
 
 		$head = array_shift($rows);
-		$columns = array_map(function (/*string*/ $column) use (&$columns_map): array {
+		$columns = array_map(function (/*string*/ $column) use ($columns_map): array {
 			if (isset($columns_map[$column])) {
 				return $columns_map[$column];
 			} else {
@@ -83,13 +90,10 @@ class ExcelImport {
 			$user = (object)[
 				"ilias_user_id" => null,
 				"is_new" => false,
-				ExcelImportFormGUI::KEY_FIELD_EMAIL => "",
-				ExcelImportFormGUI::KEY_FIELD_FIRST_NAME => "",
-				ExcelImportFormGUI::KEY_FIELD_GENDER => "",
-				ExcelImportFormGUI::KEY_FIELD_LAST_NAME => "",
-				ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION => null,
-				ExcelImportFormGUI::KEY_FIELD_LOGIN => "",
-				ExcelImportFormGUI::KEY_FIELD_PASSWORD => null
+				ExcelImportFormGUI::KEY_FIELDS => [
+					ExcelImportFormGUI::FIELDS_TYPE_ILIAS => [],
+					ExcelImportFormGUI::FIELDS_TYPE_CUSTOM => []
+				]
 			];
 
 			$has_user_data = false;
@@ -98,43 +102,42 @@ class ExcelImport {
 					$value = trim(strval($cell));
 					if (!empty($value)) {
 						$has_user_data = true;
-						$user->{$field} = $value;
+						$user->{ExcelImportFormGUI::KEY_FIELDS}[$field->type][$field->key] = $value;
 					}
 				}
 			}
 
 			if ($has_user_data) {
+				$user->{ExcelImportFormGUI::KEY_FIELDS} = json_decode(json_encode($user->{ExcelImportFormGUI::KEY_FIELDS}));
 				$users[] = $user;
 			}
 		}
 
 		$users = array_map(function (stdClass $user) use ($form): stdClass {
-			switch ($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}) {
+			switch ($user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->gender) {
 				case $form->getGenderM():
-					$user->{ExcelImportFormGUI::KEY_FIELD_GENDER} = "m";
+					$user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->gender = "m";
 					break;
 
 				case $form->getGenderF():
-					$user->{ExcelImportFormGUI::KEY_FIELD_GENDER} = "f";
+					$user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->gender = "f";
 					break;
 
 				case $form->getGenderN():
-					$user->{ExcelImportFormGUI::KEY_FIELD_GENDER} = "n";
+					$user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->gender = "n";
 					break;
 
 				default:
-					$user->{ExcelImportFormGUI::KEY_FIELD_GENDER} = "";
+					$user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->gender = "";
 					break;
 			}
 
 			if ($form->getSetPassword() !== ExcelImportFormGUI::SET_PASSWORD_FIELD) {
-				$user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} = null;
+				$user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->password = null;
 			}
 
-			if (self::ilias()->users()->isLocalUserAdminsirationEnabled() && $form->isLocalUserAdministration()) {
-				$value = $user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION};
-
-				$user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION} = null;
+			if (self::ilias()->users()->isLocalUserAdminisrationEnabled() && $form->isLocalUserAdministration()) {
+				$value = $user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->time_limit_owner;
 
 				if (!empty($value)) {
 					switch ($form->getLocalUserAdministrationObjectType()) {
@@ -171,12 +174,10 @@ class ExcelImport {
 								break;
 						}
 
-						$user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION} = self::ilias()
+						$user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->time_limit_owner = self::ilias()
 							->getObjectRefIdByFilter($wheres, $types, $values);
 					}
 				}
-			} else {
-				$user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION} = null;
 			}
 
 			return $user;
@@ -184,15 +185,17 @@ class ExcelImport {
 
 		$exists_users = array_filter($users, function (stdClass &$user) use ($form): bool {
 			switch ($form->getMapExistsUsersField()) {
-				case ExcelImportFormGUI::KEY_FIELD_LOGIN:
-					if (!empty($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN})) {
-						$user->ilias_user_id = self::ilias()->users()->getUserIdByLogin(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}));
+				case ExcelImportFormGUI::MAP_EXISTS_USERS_LOGIN:
+					if (!empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->login)) {
+						$user->ilias_user_id = self::ilias()->users()
+							->getUserIdByLogin(strval($user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->login));
 					}
 					break;
 
-				case ExcelImportFormGUI::KEY_FIELD_EMAIL:
-					if (!empty($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL})) {
-						$user->ilias_user_id = self::ilias()->users()->getUserIdByEmail(strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}));
+				case ExcelImportFormGUI::MAP_EXISTS_USERS_EMAIL:
+					if (!empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->email)) {
+						$user->ilias_user_id = self::ilias()->users()
+							->getUserIdByEmail(strval($user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->email));
 					}
 					break;
 
@@ -226,28 +229,24 @@ class ExcelImport {
 
 		$users = array_merge($new_users, $exists_users);
 
-		$config = $form->getUpdateFields();
-
 		$data = (object)[
 			"users" => $users,
-			"config" => $config
+			"fields" => $fields
 		];
 
 		ilSession::set(self::SESSION_KEY, json_encode($data));
 
 		$users = array_map(function (stdClass $user): string {
-			$is_new = $user->is_new;
-
-			unset($user->ilias_user_id);
-			unset($user->is_new);
-
 			$items = [];
-			foreach ($user as $key => $value) {
-				$items[self::plugin()->translate($key)] = strval($value);
+			foreach ($user->{ExcelImportFormGUI::KEY_FIELDS} as $type => $fields) {
+				foreach ($fields as $key => $value) {
+					$items[ExcelImportFormGUI::fieldName($type, $key)] = strval($value);
+				}
 			}
 
 			return self::output()->getHTML([
-				self::plugin()->translate($is_new ? "create_user_and_enroll" : "enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
+				self::plugin()
+					->translate($user->is_new ? "create_user_and_enroll" : "update_user_and_enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
 				":",
 				self::dic()->ui()->factory()->listing()->descriptive($items)
 			]);
@@ -263,37 +262,50 @@ class ExcelImport {
 	public function enroll(): string {
 		$data = (object)json_decode(ilSession::get(self::SESSION_KEY));
 		$users = (array)$data->users;
-		$config = (array)$data->config;
+		$fields = (array)$data->fields;
+		$update_fields = array_reduce($fields, function (array $fields, stdClass $field): array {
+			if ($field->update) {
+				$fields[$field->type][$field->key] = true;
+			}
+
+			return $fields;
+		}, [
+			ExcelImportFormGUI::FIELDS_TYPE_ILIAS => [],
+			ExcelImportFormGUI::FIELDS_TYPE_CUSTOM => []
+		]);
 
 		$object = new ilObjCourse(self::rules()->getObjId(), false);
 
 		foreach ($users as &$user) {
 			try {
 				if ($user->is_new) {
-					$user->ilias_user_id = self::ilias()->users()
-						->createNewAccount(strval($user->{ExcelImportFormGUI::KEY_FIELD_LOGIN}), strval($user->{ExcelImportFormGUI::KEY_FIELD_EMAIL}), strval($user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME}), strval($user->{ExcelImportFormGUI::KEY_FIELD_GENDER}), $user->{ExcelImportFormGUI::KEY_FIELD_LOCAL_USER_ADMINISTRATION_LOCATION});
+					$user->ilias_user_id = self::ilias()->users()->createNewAccount((array)$user->{ExcelImportFormGUI::KEY_FIELDS});
 
 					self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
 						->withStatus(Log::STATUS_USER_CREATED)->withMessage("User data: " . json_encode($user)));
 				} else {
-					if (self::ilias()->users()->updateUserAccount($user->ilias_user_id, ($config[ExcelImportFormGUI::KEY_FIELD_LOGIN
-					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_LOGIN} : null), ($config[ExcelImportFormGUI::KEY_FIELD_EMAIL
-					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_EMAIL} : null), ($config[ExcelImportFormGUI::KEY_FIELD_FIRST_NAME
-					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME} : null), ($config[ExcelImportFormGUI::KEY_FIELD_LAST_NAME
-					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME} : null), ($config[ExcelImportFormGUI::KEY_FIELD_GENDER
-					. ExcelImportFormGUI::UPDATE_SUFFIX] ? $user->{ExcelImportFormGUI::KEY_FIELD_GENDER} : null))) {
+					$fields = $user->{ExcelImportFormGUI::KEY_FIELDS};
+					foreach ($fields as $type => &$fields_) {
+						foreach ($fields_ as $key => $value) {
+							if (!isset($update_fields[$type][$key])) {
+								unset($fields_->{$key});
+							}
+						}
+					}
+					if (self::ilias()->users()->updateUserAccount($user->ilias_user_id, (array)$fields)) {
 						self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
 							->withStatus(Log::STATUS_USER_UPDATED)->withMessage("User data: " . json_encode($user)));
 					}
 				}
 
-				if ($user->is_new || $config[ExcelImportFormGUI::KEY_FIELD_PASSWORD . ExcelImportFormGUI::UPDATE_SUFFIX]) {
-					$user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD} = self::ilias()->users()
-						->resetPassword($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELD_PASSWORD});
+				if ($user->is_new || isset($update_fields[ExcelImportFormGUI::FIELDS_TYPE_ILIAS . "_password"])) {
+					$user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->password = self::ilias()->users()
+						->resetPassword($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->password);
 				}
 
-				self::ilias()->courses()->enrollMemberToCourse($object, $user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELD_FIRST_NAME} . " "
-					. $user->{ExcelImportFormGUI::KEY_FIELD_LAST_NAME});
+				self::ilias()->courses()
+					->enrollMemberToCourse($object, $user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->first_name
+						. " " . $user->{ExcelImportFormGUI::KEY_FIELDS}->{ExcelImportFormGUI::FIELDS_TYPE_ILIAS}->last_name);
 
 				self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
 					->withStatus(Log::STATUS_ENROLLED));
