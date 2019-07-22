@@ -226,9 +226,11 @@ class ExcelImport {
 						->getObjectRefIdByFilter($wheres, $types, $values);
 				}
 
-				if ($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position === self::ORG_UNIT_POSITION_FIELD) {
+				if ($form->getOrgUnitPosition() === self::ORG_UNIT_POSITION_FIELD) {
 					$user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position = self::ilias()->orgUnits()
 						->getPositionIdByTitle($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position);
+				} else {
+					$user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position = $form->getOrgUnitPosition();
 				}
 			} else {
 				$user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit = null;
