@@ -4,7 +4,6 @@ namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
 use ilCheckboxInputGUI;
 use ilFileInputGUI;
-use ilFormSectionHeaderGUI;
 use ilNonEditableValueGUI;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
@@ -40,17 +39,10 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	const KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE = self::LANG_MODULE . "_local_user_administration_object_type";
 	const KEY_LOCAL_USER_ADMINISTRATION_TYPE = self::LANG_MODULE . "_local_user_administration_type";
 	const KEY_MAP_EXISTS_USERS_FIELD = self::LANG_MODULE . "_map_exists_users_field";
+	const KEY_ORG_UNIT_ASSIGN = self::LANG_MODULE . "_org_unit_assign";
+	const KEY_ORG_UNIT_ASSIGN_POSITION = self::LANG_MODULE . "_org_unit_assign_position";
+	const KEY_ORG_UNIT_ASSIGN_TYPE = self::LANG_MODULE . "_org_unit_assign_type";
 	const KEY_SET_PASSWORD = self::LANG_MODULE . "_set_password";
-	const FIELDS_TYPE_ILIAS = 1;
-	const FIELDS_TYPE_CUSTOM = 2;
-	const LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY = 1;
-	const LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT = 2;
-	const LOCAL_USER_ADMINISTRATION_TYPE_TITLE = 1;
-	const LOCAL_USER_ADMINISTRATION_TYPE_REF_ID = 2;
-	const MAP_EXISTS_USERS_LOGIN = 1;
-	const MAP_EXISTS_USERS_EMAIL = 2;
-	const SET_PASSWORD_RANDOM = 1;
-	const SET_PASSWORD_FIELD = 2;
 	/**
 	 * @var string
 	 */
@@ -86,19 +78,31 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	/**
 	 * @var int
 	 */
-	protected $excel_import_local_user_administration_object_type = self::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
+	protected $excel_import_local_user_administration_object_type = ExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
 	/**
 	 * @var int
 	 */
-	protected $excel_import_local_user_administration_type = self::LOCAL_USER_ADMINISTRATION_TYPE_TITLE;
+	protected $excel_import_local_user_administration_type = ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_TITLE;
 	/**
 	 * @var int
 	 */
-	protected $excel_import_map_exists_users_field = self::MAP_EXISTS_USERS_LOGIN;
+	protected $excel_import_map_exists_users_field = ExcelImport::MAP_EXISTS_USERS_LOGIN;
+	/**
+	 * @var bool
+	 */
+	protected $excel_import_org_unit_assign = false;
 	/**
 	 * @var int
 	 */
-	protected $excel_import_set_password = self::SET_PASSWORD_RANDOM;
+	protected $excel_import_org_unit_assign_position = ExcelImport::ORG_UNIT_POSITION_FIELD;
+	/**
+	 * @var int
+	 */
+	protected $excel_import_org_unit_assign_type = ExcelImport::ORG_UNIT_TYPE_TITLE;
+	/**
+	 * @var int
+	 */
+	protected $excel_import_set_password = ExcelImport::SET_PASSWORD_RANDOM;
 
 
 	/**
@@ -123,8 +127,8 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						self::PROPERTY_CLASS => ilSelectInputGUI::class,
 						self::PROPERTY_REQUIRED => true,
 						self::PROPERTY_OPTIONS => [
-							self::FIELDS_TYPE_ILIAS => self::plugin()->translate(self::KEY_FIELDS . "_ilias"),
-							self::FIELDS_TYPE_CUSTOM => self::plugin()->translate(self::KEY_FIELDS . "_custom")
+							ExcelImport::FIELDS_TYPE_ILIAS => self::plugin()->translate(self::KEY_FIELDS . "_ilias"),
+							ExcelImport::FIELDS_TYPE_CUSTOM => self::plugin()->translate(self::KEY_FIELDS . "_custom")
 						],
 						"setTitle" => self::plugin()->translate(self::KEY_FIELDS . "_type")
 					],
@@ -155,11 +159,11 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 				self::PROPERTY_REQUIRED => true,
 				self::PROPERTY_SUBITEMS => [
-					self::MAP_EXISTS_USERS_LOGIN => [
+					ExcelImport::MAP_EXISTS_USERS_LOGIN => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login")
 					],
-					self::MAP_EXISTS_USERS_EMAIL => [
+					ExcelImport::MAP_EXISTS_USERS_EMAIL => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email")
 					]
@@ -176,11 +180,11 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 				self::PROPERTY_REQUIRED => true,
 				self::PROPERTY_SUBITEMS => [
-					self::SET_PASSWORD_RANDOM => [
+					ExcelImport::SET_PASSWORD_RANDOM => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD . "_random")
 					],
-					self::SET_PASSWORD_FIELD => [
+					ExcelImport::SET_PASSWORD_FIELD => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
 						"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field")
 					]
@@ -201,10 +205,6 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				"setTitle" => self::plugin()->translate(self::KEY_GENDER_N)
 			],
 
-			self::KEY_LOCAL_USER_ADMINISTRATION . "_title" => [
-				self::PROPERTY_CLASS => ilFormSectionHeaderGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION)
-			],
 			self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint" => [
 				self::PROPERTY_CLASS => ilNonEditableValueGUI::class,
 				self::PROPERTY_VALUE => self::plugin()->translate("disabled_hint", self::LANG_MODULE),
@@ -218,11 +218,11 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 						self::PROPERTY_REQUIRED => true,
 						self::PROPERTY_SUBITEMS => [
-							self::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY => [
+							ExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY => [
 								self::PROPERTY_CLASS => ilRadioOption::class,
 								"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE . "_category")
 							],
-							self::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT => [
+							ExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT => [
 								self::PROPERTY_CLASS => ilRadioOption::class,
 								"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE . "_org_unit")
 							]
@@ -233,11 +233,11 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
 						self::PROPERTY_REQUIRED => true,
 						self::PROPERTY_SUBITEMS => [
-							self::LOCAL_USER_ADMINISTRATION_TYPE_TITLE => [
+							ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_TITLE => [
 								self::PROPERTY_CLASS => ilRadioOption::class,
 								"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION_TYPE . "_title")
 							],
-							self::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID => [
+							ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID => [
 								self::PROPERTY_CLASS => ilRadioOption::class,
 								"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION_TYPE . "_ref_id")
 							]
@@ -247,6 +247,44 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				],
 				self::PROPERTY_NOT_ADD => (!self::ilias()->users()->isLocalUserAdminisrationEnabled()),
 				"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION)
+			],
+
+			self::KEY_ORG_UNIT_ASSIGN => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+				self::PROPERTY_SUBITEMS => [
+					self::KEY_ORG_UNIT_ASSIGN_TYPE => [
+						self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+						self::PROPERTY_REQUIRED => true,
+						self::PROPERTY_SUBITEMS => [
+							ExcelImport::ORG_UNIT_TYPE_TITLE => [
+								self::PROPERTY_CLASS => ilRadioOption::class,
+								"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_TYPE . "_title")
+							],
+							ExcelImport::ORG_UNIT_TYPE_REF_ID => [
+								self::PROPERTY_CLASS => ilRadioOption::class,
+								"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_TYPE . "_ref_id")
+							]
+						],
+						"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_TYPE)
+					],
+					self::KEY_ORG_UNIT_ASSIGN_POSITION => [
+						self::PROPERTY_CLASS => ilRadioGroupInputGUI::class,
+						self::PROPERTY_REQUIRED => true,
+						self::PROPERTY_SUBITEMS => array_map(function (string $position): array {
+								return [
+									self::PROPERTY_CLASS => ilRadioOption::class,
+									"setTitle" => $position
+								];
+							}, self::ilias()->orgUnits()->getPositions()) + [
+								ExcelImport::ORG_UNIT_POSITION_FIELD => [
+									self::PROPERTY_CLASS => ilRadioOption::class,
+									"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION . "_field")
+								]
+							],
+						"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION)
+					]
+				],
+				"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN)
 			]
 		];
 	}
@@ -262,17 +300,17 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 		$error = false;
 
 		switch ($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD)) {
-			case self::MAP_EXISTS_USERS_LOGIN:
+			case ExcelImport::MAP_EXISTS_USERS_LOGIN:
 				$needed_fields[] = [
-					"type" => self::FIELDS_TYPE_ILIAS,
+					"type" => ExcelImport::FIELDS_TYPE_ILIAS,
 					"key" => "login",
 					"for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
 				];
 				break;
 
-			case self::MAP_EXISTS_USERS_EMAIL:
+			case ExcelImport::MAP_EXISTS_USERS_EMAIL:
 				$needed_fields[] = [
-					"type" => self::FIELDS_TYPE_ILIAS,
+					"type" => ExcelImport::FIELDS_TYPE_ILIAS,
 					"key" => "email",
 					"for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
 				];
@@ -285,16 +323,16 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 		if ($form->getInput(self::KEY_CREATE_NEW_USERS)) {
 			foreach ([ "login", "email", "first_name", "last_name" ] as $key) {
 				$needed_fields[] = [
-					"type" => self::FIELDS_TYPE_ILIAS,
+					"type" => ExcelImport::FIELDS_TYPE_ILIAS,
 					"key" => $key,
 					"for_message" => self::KEY_CREATE_NEW_USERS
 				];
 			}
 		}
 
-		if (intval($form->getInput(self::KEY_SET_PASSWORD)) === self::SET_PASSWORD_FIELD) {
+		if (intval($form->getInput(self::KEY_SET_PASSWORD)) === ExcelImport::SET_PASSWORD_FIELD) {
 			$needed_fields[] = [
-				"type" => self::FIELDS_TYPE_ILIAS,
+				"type" => ExcelImport::FIELDS_TYPE_ILIAS,
 				"key" => "password",
 				"for_message" => self::KEY_SET_PASSWORD
 			];
@@ -302,9 +340,25 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 		if ($form->getInput(self::KEY_LOCAL_USER_ADMINISTRATION)) {
 			$needed_fields[] = [
-				"type" => self::FIELDS_TYPE_ILIAS,
+				"type" => ExcelImport::FIELDS_TYPE_ILIAS,
 				"key" => "time_limit_owner",
 				"for_message" => self::KEY_LOCAL_USER_ADMINISTRATION
+			];
+		}
+
+		if ($form->getInput(self::KEY_ORG_UNIT_ASSIGN)) {
+			$needed_fields[] = [
+				"type" => ExcelImport::FIELDS_TYPE_ILIAS,
+				"key" => "org_unit",
+				"for_message" => self::KEY_ORG_UNIT_ASSIGN
+			];
+		}
+
+		if (intval($form->getInput(self::KEY_ORG_UNIT_ASSIGN_POSITION)) === ExcelImport::ORG_UNIT_POSITION_FIELD) {
+			$needed_fields[] = [
+				"type" => ExcelImport::FIELDS_TYPE_ILIAS,
+				"key" => "org_unit_position",
+				"for_message" => self::KEY_ORG_UNIT_ASSIGN_POSITION
 			];
 		}
 
@@ -431,11 +485,11 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 */
 	public static function fieldName(int $type, string $key): string {
 		switch ($type) {
-			case self::FIELDS_TYPE_ILIAS:
+			case ExcelImport::FIELDS_TYPE_ILIAS:
 				$type = self::plugin()->translate(self::KEY_FIELDS . "_ilias");
 				break;
 
-			case self::FIELDS_TYPE_CUSTOM:
+			case ExcelImport::FIELDS_TYPE_CUSTOM:
 				$type = self::plugin()->translate(self::KEY_FIELDS . "_custom");
 				break;
 
@@ -514,6 +568,22 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	/**
 	 * @return int
 	 */
+	public function getOrgUnitPosition(): int {
+		return $this->{self::KEY_ORG_UNIT_ASSIGN_POSITION};
+	}
+
+
+	/**
+	 * @return int
+	 */
+	public function getOrgUnitType(): int {
+		return $this->{self::KEY_ORG_UNIT_ASSIGN_TYPE};
+	}
+
+
+	/**
+	 * @return int
+	 */
 	public function getSetPassword(): int {
 		return $this->{self::KEY_SET_PASSWORD};
 	}
@@ -532,6 +602,14 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 */
 	public function isLocalUserAdministration(): bool {
 		return $this->{self::KEY_LOCAL_USER_ADMINISTRATION};
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isOrgUnitAssign(): bool {
+		return $this->{self::KEY_ORG_UNIT_ASSIGN};
 	}
 
 

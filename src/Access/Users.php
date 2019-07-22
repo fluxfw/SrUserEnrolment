@@ -8,7 +8,7 @@ use ilUserAccountSettings;
 use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
+use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImport;
 use srag\Plugins\SrUserEnrolment\Exception\SrUserEnrolmentException;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -91,13 +91,16 @@ final class Users {
 
 		foreach ($fields as $type => $fields_) {
 			foreach ($fields_ as $key => $value) {
-				if ($type === ExcelImportFormGUI::FIELDS_TYPE_ILIAS && $key === "password") {
-					// Set with `resetPassword` later
+				if (($type === ExcelImport::FIELDS_TYPE_ILIAS && $key === "password")
+					|| ($type === ExcelImport::FIELDS_TYPE_ILIAS
+						&& $key === "org_unit")
+					|| ($type === ExcelImport::FIELDS_TYPE_ILIAS && $key === "org_unit_position")) {
+					// Set later
 					continue;
 				}
 				if (!empty($value)) {
 					switch ($type) {
-						case ExcelImportFormGUI::FIELDS_TYPE_ILIAS:
+						case ExcelImport::FIELDS_TYPE_ILIAS:
 							if (method_exists($user, $method = "set" . Items::strToCamelCase($key))) {
 								$user->{$method}($value);
 							} else {
@@ -105,7 +108,7 @@ final class Users {
 							}
 							break;
 
-						case ExcelImportFormGUI::FIELDS_TYPE_CUSTOM:
+						case ExcelImport::FIELDS_TYPE_CUSTOM:
 							$field_id = $this->getUserDefinedFieldID($key);
 							if (!empty($field_id)) {
 								$custom_fields [$field_id] = $value;

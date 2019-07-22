@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\Access;
 use ilDBConstants;
 use ilObjUser;
 use ilOrgUnitPosition;
+use ilOrgUnitUserAssignment;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Rule\Rule;
@@ -46,6 +47,16 @@ final class OrgUnits {
 	 */
 	private function __construct() {
 
+	}
+
+
+	/**
+	 * @param int $user_id
+	 * @param int $org_unit_ref_id
+	 * @param int $position_id
+	 */
+	public function assignOrgUnit(int $user_id, int $org_unit_ref_id, int $position_id)/*: void*/ {
+		ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $org_unit_ref_id);
 	}
 
 
@@ -181,6 +192,27 @@ final class OrgUnits {
 		});
 
 		return $array;
+	}
+
+
+	/**
+	 * @param string $position
+	 *
+	 * @return int|null
+	 */
+	public function getPositionIdByTitle(string $position)/*: ?int*/ {
+		/**
+		 * @var ilOrgUnitPosition|null $position
+		 */
+		$position = ilOrgUnitPosition::where([
+			"title" => $position
+		])->first();
+
+		if ($position !== null) {
+			return $position->getId();
+		} else {
+			return null;
+		}
 	}
 
 
