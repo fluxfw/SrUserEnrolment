@@ -7,6 +7,7 @@ use ilSrUserEnrolmentPlugin;
 use ilUserAccountSettings;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Exception\SrUserEnrolmentException;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -56,10 +57,15 @@ final class Users {
 	 * @param int|null $local_user_administration_ref_id
 	 *
 	 * @return int
+	 *
+	 * @throws SrUserEnrolmentException
 	 */
 	public function createNewAccount(string $login, string $email, string $first_name, string $last_name, string $gender,/*?int*/ $local_user_administration_ref_id): int {
 		$user = new ilObjUser();
 
+		if (empty($login)) {
+			throw new SrUserEnrolmentException("Login can't be empty!");
+		}
 		$user->setLogin($login);
 
 		$user->setEmail($email);
