@@ -31,6 +31,8 @@ class TypeSelectInputGUI extends ilSelectInputGUI {
 			$dir = __DIR__;
 			$dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1);
 
+			self::dic()->mainTemplate()->addJavaScript($dir . "/../../vendor/srag/custominputguis/node_modules/babel-polyfill/dist/polyfill.min.js");
+
 			self::dic()->mainTemplate()->addJavaScript($dir . "/../../js/type_select_input_gui.min.js");
 		}
 	}

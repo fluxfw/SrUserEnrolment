@@ -54,16 +54,16 @@
         },
         {
             "name": "srag/custominputguis",
-            "version": "v0.23.0",
+            "version": "v0.23.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-                "reference": "8e61f51ec3c016b89e144120da02297a1b0f4268"
+                "reference": "9833eb54d43fba8606c61520950edc5f06869a3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/8e61f51ec3c016b89e144120da02297a1b0f4268",
-                "reference": "8e61f51ec3c016b89e144120da02297a1b0f4268",
+                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/9833eb54d43fba8606c61520950edc5f06869a3e",
+                "reference": "9833eb54d43fba8606c61520950edc5f06869a3e",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 "input",
                 "table"
             ],
-            "time": "2019-07-23T08:29:13+00:00"
+            "time": "2019-07-23T14:11:56+00:00"
         },
         {
             "name": "srag/dic",
@@ -119,7 +119,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\DIC\\": "src/"
+                    "srag\\DIC\\SrUserEnrolment\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
