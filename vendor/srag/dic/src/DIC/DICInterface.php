@@ -18,6 +18,7 @@ use ilGlobalTemplateInterface;
 use ilHelpGUI;
 use ILIAS;
 use ILIAS\DI\BackgroundTaskServices;
+use ILIAS\DI\Container;
 use ILIAS\DI\HTTPServices;
 use ILIAS\DI\LoggingServices;
 use ILIAS\DI\UIServices;
@@ -61,6 +62,14 @@ use srag\DIC\SrUserEnrolment\Exception\DICException;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface DICInterface {
+
+	/**
+	 * DICInterface constructor
+	 *
+	 * @param Container $dic
+	 */
+	public function __construct(Container &$dic);
+
 
 	/**
 	 * @return ilAccessHandler
@@ -376,9 +385,9 @@ interface DICInterface {
 	/**
 	 * @return ilUIService
 	 *
+	 * @throws DICException ilUIService not exists in ILIAS 5.4 or below!
 	 * @since ILIAS 6.0
 	 *
-	 * @throws DICException ilUIService not exists in ILIAS 5.4 or below!
 	 */
 	public function uiService(): ilUIService;
 
@@ -395,4 +404,10 @@ interface DICInterface {
 	 * @return ilObjUser
 	 */
 	public function user(): ilObjUser;
+
+
+	/**
+	 * @return Container
+	 */
+	public function &dic(): Container;
 }

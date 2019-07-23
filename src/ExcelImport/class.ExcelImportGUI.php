@@ -7,6 +7,7 @@ use ilCourseMembershipGUI;
 use ilObjCourseGUI;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
+use ilUserDefinedFields;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
@@ -31,6 +32,7 @@ class ExcelImportGUI {
 	const CMD_EXCEL_IMPORT = "excelImport";
 	const CMD_ENROLL = "enroll";
 	const CMD_BACK_TO_MEMBERS_LIST = "backToMembersList";
+	const CMD_KEY_AUTOCOMPLETE = "keyAutoComplete";
 	const TAB_EXCEL_IMPORT = "excel_import";
 	const LANG_MODULE_EXCEL_IMPORT = "excel_import";
 
@@ -63,6 +65,7 @@ class ExcelImportGUI {
 					case self::CMD_EXCEL_IMPORT:
 					case self::CMD_ENROLL:
 					case self::CMD_BACK_TO_MEMBERS_LIST:
+					case self::CMD_KEY_AUTOCOMPLETE:
 						$this->{$cmd}();
 						break;
 
@@ -163,5 +166,46 @@ class ExcelImportGUI {
 			ilObjCourseGUI::class,
 			ilCourseMembershipGUI::class
 		]);
+	}
+
+
+	/**
+	 *
+	 */
+	protected function keyAutoComplete()/*: void*/ {
+		$type = intval(filter_input(INPUT_GET, "type"));
+		$term = filter_input(INPUT_GET, "term");
+
+		self::dic()->database()->setLimit(1, 0);
+
+		switch ($type) {
+			case ExcelImport::FIELDS_TYPE_ILIAS:
+				$items = array_filter(array_merge(array_keys(self::dic()->database()->query('SELECT * FROM usr_data')->fetchAssoc()), [
+					"org_unit",
+					"org_unit_position"
+				]), function (string $property) use ($term): bool {
+					return (!in_array($property, [ "usr_id" ]));
+				});
+				break;
+
+			case ExcelImport::FIELDS_TYPE_CUSTOM:
+				$items = array_map(function (array $field): string {
+					return $field["field_name"];
+				}, ilUserDefinedFields::_getInstance()->getDefinitions());
+				break;
+
+			default:
+				$items = [];
+				break;
+		}
+
+		$items = array_filter($items, function (string $property) use ($term): bool {
+			return ((empty($term) || stripos($property, $term) !== false));
+		});
+
+		natcasesort($items);
+		$items = array_values($items);
+
+		self::output()->outputJSON($items);
 	}
 }

@@ -63,24 +63,6 @@ use srag\DIC\SrUserEnrolment\Exception\DICException;
 final class ILIAS54DIC extends AbstractDIC {
 
 	/**
-	 * @var Container
-	 */
-	private $dic;
-
-
-	/**
-	 * ILIAS54DIC constructor
-	 *
-	 * @param Container $dic
-	 */
-	public function __construct(Container &$dic) {
-		parent::__construct();
-
-		$this->dic = &$dic;
-	}
-
-
-	/**
 	 * @inheritdoc
 	 */
 	public function access(): ilAccessHandler {
@@ -465,7 +447,7 @@ final class ILIAS54DIC extends AbstractDIC {
 
 
 	/**
-	 * @return Container
+	 * @inheritDoc
 	 */
 	public function &dic(): Container {
 		return $this->dic;

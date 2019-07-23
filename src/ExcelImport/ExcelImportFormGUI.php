@@ -13,6 +13,7 @@ use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiLineInputGUI\MultiLineInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
 use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -124,7 +125,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				"setShowLabel" => true,
 				self::PROPERTY_SUBITEMS => [
 					"type" => [
-						self::PROPERTY_CLASS => ilSelectInputGUI::class,
+						self::PROPERTY_CLASS => TypeSelectInputGUI::class,
 						self::PROPERTY_REQUIRED => true,
 						self::PROPERTY_OPTIONS => [
 							ExcelImport::FIELDS_TYPE_ILIAS => self::plugin()->translate(self::KEY_FIELDS . "_ilias"),
@@ -133,9 +134,11 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						"setTitle" => self::plugin()->translate(self::KEY_FIELDS . "_type")
 					],
 					"key" => [
-						self::PROPERTY_CLASS => ilTextInputGUI::class,
+						self::PROPERTY_CLASS => TextInputGUIWithModernAutoComplete::class,
 						self::PROPERTY_REQUIRED => true,
-						"setTitle" => self::plugin()->translate(self::KEY_FIELDS . "_key")
+						"setTitle" => self::plugin()->translate(self::KEY_FIELDS . "_key"),
+						"setDataSource" => self::dic()->ctrl()
+							->getLinkTargetByClass(ExcelImportGUI::class, ExcelImportGUI::CMD_KEY_AUTOCOMPLETE, "", true)
 					],
 					"column_heading" => [
 						self::PROPERTY_CLASS => ilTextInputGUI::class,

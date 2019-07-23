@@ -13,7 +13,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -35,7 +35,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -105,6 +105,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\CustomInputGUIs\\SrUserEnrolment\\Template\\Template' => __DIR__ . '/..' . '/srag/custominputguis/src/Template/Template.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\TextAreaInputGUI\\TextAreaInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/TextAreaInputGUI/TextAreaInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\TextInputGUI\\TextInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/TextInputGUI/TextInputGUI.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\TextInputGUI\\TextInputGUIWithModernAutoComplete' => __DIR__ . '/..' . '/srag/custominputguis/src/TextInputGUI/TextInputGUIWithModernAutoComplete.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\ViewControlModeUI\\ViewControlModeUI' => __DIR__ . '/..' . '/srag/custominputguis/src/ViewControlModeGUI/ViewControlModeUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\Waiter\\Waiter' => __DIR__ . '/..' . '/srag/custominputguis/src/Waiter/Waiter.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\WeekdayInputGUI\\WeekdayInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/WeekdayInputGUI/WeekdayInputGUI.php',
@@ -150,6 +151,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImport' => __DIR__ . '/../..' . '/src/ExcelImport/ExcelImport.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImportFormGUI' => __DIR__ . '/../..' . '/src/ExcelImport/ExcelImportFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImportGUI' => __DIR__ . '/../..' . '/src/ExcelImport/class.ExcelImportGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\TypeSelectInputGUI' => __DIR__ . '/../..' . '/src/ExcelImport/TypeSelectInputGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Exception\\SrUserEnrolmentException' => __DIR__ . '/../..' . '/src/Exception/SrUserEnrolmentException.php',
         'srag\\Plugins\\SrUserEnrolment\\Job\\Job' => __DIR__ . '/../..' . '/src/Job/Job.php',
         'srag\\Plugins\\SrUserEnrolment\\Log\\Log' => __DIR__ . '/../..' . '/src/Log/Log.php',

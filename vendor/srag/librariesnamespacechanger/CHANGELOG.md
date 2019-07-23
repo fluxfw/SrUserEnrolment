@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.6.7]
+- DataTable
+
 ## [0.6.6]
 - AssessmentQuestion
 

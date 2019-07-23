@@ -49,24 +49,24 @@
     },
     {
         "name": "srag/custominputguis",
-        "version": "v0.22.8",
-        "version_normalized": "0.22.8.0",
+        "version": "v0.23.0",
+        "version_normalized": "0.23.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-            "reference": "ada73375d0b976fee63991de378dbeb045cafbad"
+            "reference": "8e61f51ec3c016b89e144120da02297a1b0f4268"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/ada73375d0b976fee63991de378dbeb045cafbad",
-            "reference": "ada73375d0b976fee63991de378dbeb045cafbad",
+            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/8e61f51ec3c016b89e144120da02297a1b0f4268",
+            "reference": "8e61f51ec3c016b89e144120da02297a1b0f4268",
             "shasum": ""
         },
         "require": {
             "php": ">=5.6",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2019-07-03T14:01:54+00:00",
+        "time": "2019-07-23T08:29:13+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -81,9 +81,9 @@
         "authors": [
             {
                 "name": "studer + raimann ag - Team Custom 1",
+                "role": "Developer",
                 "email": "support-custom1@studer-raimann.ch",
-                "homepage": "https://studer-raimann.ch",
-                "role": "Developer"
+                "homepage": "https://studer-raimann.ch"
             }
         ],
         "description": "Custom Input-GUI's",
@@ -98,23 +98,23 @@
     },
     {
         "name": "srag/dic",
-        "version": "v0.18.3",
-        "version_normalized": "0.18.3.0",
+        "version": "v0.18.4",
+        "version_normalized": "0.18.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/DIC.git",
-            "reference": "53822f1db147d672044bf8df149e81bf458a51a9"
+            "reference": "f3a3877e52e571f794e54c96d4413de20b274472"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/53822f1db147d672044bf8df149e81bf458a51a9",
-            "reference": "53822f1db147d672044bf8df149e81bf458a51a9",
+            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/f3a3877e52e571f794e54c96d4413de20b274472",
+            "reference": "f3a3877e52e571f794e54c96d4413de20b274472",
             "shasum": ""
         },
         "require": {
             "php": ">=7.0"
         },
-        "time": "2019-06-20T13:05:22+00:00",
+        "time": "2019-07-05T09:55:53+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -145,23 +145,23 @@
     },
     {
         "name": "srag/librariesnamespacechanger",
-        "version": "v0.6.6",
-        "version_normalized": "0.6.6.0",
+        "version": "v0.6.7",
+        "version_normalized": "0.6.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
-            "reference": "5026f8cd89768cea61f02e393be05115c437d581"
+            "reference": "8815a3167fe2fb69ac316962a9f4ebd89df4ac47"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/5026f8cd89768cea61f02e393be05115c437d581",
-            "reference": "5026f8cd89768cea61f02e393be05115c437d581",
+            "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/8815a3167fe2fb69ac316962a9f4ebd89df4ac47",
+            "reference": "8815a3167fe2fb69ac316962a9f4ebd89df4ac47",
             "shasum": ""
         },
         "require": {
             "php": ">=5.6"
         },
-        "time": "2019-06-19T06:15:24+00:00",
+        "time": "2019-07-08T14:54:11+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

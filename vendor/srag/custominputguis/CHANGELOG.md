@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.23.0]
+- TextInputGUIWithModernAutoComplete
+
+## [0.22.10]
+- Fixes
+
+## [0.22.9]
+- Improve template path
+
 ## [0.22.8]
 - Allow `storeForm` multiple in `PropertyFormGUI` (`checkInput`!!!)
 

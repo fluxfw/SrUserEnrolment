@@ -22,6 +22,7 @@ final class Libraries {
 		"BexioCurl" => "BexioCurl",
 		"CommentsUI" => "CommentsUI",
 		"CustomInputGUIs" => "CustomInputGUIs",
+		"DataTable" => "DataTable",
 		"DclExtension" => "DclExtension",
 		"DIC" => "DIC",
 		"GitCurl" => "GitCurl",
