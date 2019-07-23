@@ -189,7 +189,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 					self::plugin()->translate(self::KEY_CREATE_NEW_USERS),
 					implode(", ", array_map(function (string $field): string {
 						return self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, $field);
-					}, [ "login", "email", "first_name", "last_name" ]))
+					}, [ "login", "email", "firstname", "lastname" ]))
 				])
 			],
 
@@ -354,7 +354,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 		}
 
 		if ($form->getInput(self::KEY_CREATE_NEW_USERS)) {
-			foreach ([ "login", "email", "first_name", "last_name" ] as $key) {
+			foreach ([ "login", "email", "firstname", "lastname" ] as $key) {
 				$needed_fields[] = [
 					"type" => ExcelImport::FIELDS_TYPE_ILIAS,
 					"key" => $key,

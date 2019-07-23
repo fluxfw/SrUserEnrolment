@@ -49,12 +49,12 @@ class Config extends ActiveRecordConfig {
 				],
 				[
 					"type" => ExcelImport::FIELDS_TYPE_ILIAS,
-					"key" => "first_name",
+					"key" => "firstname",
 					"column_heading" => ""
 				],
 				[
 					"type" => ExcelImport::FIELDS_TYPE_ILIAS,
-					"key" => "last_name",
+					"key" => "lastname",
 					"column_heading" => ""
 				],
 				[
