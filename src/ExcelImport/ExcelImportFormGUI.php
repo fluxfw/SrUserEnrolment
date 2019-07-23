@@ -161,11 +161,19 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				self::PROPERTY_SUBITEMS => [
 					ExcelImport::MAP_EXISTS_USERS_LOGIN => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
-						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login")
+						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login"),
+						"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+							self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login"),
+							self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "login")
+						])
 					],
 					ExcelImport::MAP_EXISTS_USERS_EMAIL => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
-						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email")
+						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email"),
+						"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+							self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email"),
+							self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "email")
+						])
 					]
 				],
 				"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD)
@@ -173,7 +181,13 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 			self::KEY_CREATE_NEW_USERS => [
 				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-				"setTitle" => self::plugin()->translate(self::KEY_CREATE_NEW_USERS)
+				"setTitle" => self::plugin()->translate(self::KEY_CREATE_NEW_USERS),
+				"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+					self::plugin()->translate(self::KEY_CREATE_NEW_USERS),
+					implode(", ", array_map(function (string $field): string {
+						return self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, $field);
+					}, [ "login", "email", "first_name", "last_name" ]))
+				])
 			],
 
 			self::KEY_SET_PASSWORD => [
@@ -186,7 +200,11 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 					],
 					ExcelImport::SET_PASSWORD_FIELD => [
 						self::PROPERTY_CLASS => ilRadioOption::class,
-						"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field")
+						"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field"),
+						"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+							self::plugin()->translate(self::KEY_SET_PASSWORD . "_field"),
+							self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "password")
+						])
 					]
 				],
 				"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD)
@@ -246,7 +264,11 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 					]
 				],
 				self::PROPERTY_NOT_ADD => (!self::ilias()->users()->isLocalUserAdminisrationEnabled()),
-				"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION)
+				"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION),
+				"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+					self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION),
+					self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "time_limit_owner")
+				])
 			],
 
 			self::KEY_ORG_UNIT_ASSIGN => [
@@ -278,13 +300,21 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 							}, self::ilias()->orgUnits()->getPositions()) + [
 								ExcelImport::ORG_UNIT_POSITION_FIELD => [
 									self::PROPERTY_CLASS => ilRadioOption::class,
-									"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION . "_field")
+									"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION . "_field"),
+									"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+										self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION . "_field"),
+										self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "org_unit_position")
+									])
 								]
 							],
 						"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION)
 					]
 				],
-				"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN)
+				"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN),
+				"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+					self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN),
+					self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "org_unit")
+				])
 			]
 		];
 	}

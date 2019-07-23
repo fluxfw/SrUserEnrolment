@@ -19,6 +19,7 @@ excel_import_fields_custom#:#Custom field
 excel_import_fields_ilias#:#Default field
 excel_import_fields_key#:#Label
 excel_import_fields_missing#:#Please fill %1$s for %2$s
+excel_import_fields_needed_field_info#:#1$s needs %2$s
 excel_import_fields_type#:#Type
 excel_import_fields_update#:#Update
 excel_import_gender_f#:#Gender female

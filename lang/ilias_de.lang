@@ -19,6 +19,7 @@ excel_import_fields_custom#:#Benutzerdefiniertes Feld
 excel_import_fields_ilias#:#Standard-Feld
 excel_import_fields_key#:#Bezeichnung
 excel_import_fields_missing#:#Bitte füllen Sie %1$s für %2$s aus
+excel_import_fields_needed_field_info#:#%1$s benötigt %2$s
 excel_import_fields_type#:#Typ
 excel_import_fields_update#:#Aktualisieren
 excel_import_gender_f#:#Geschlecht weiblich
