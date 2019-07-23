@@ -228,7 +228,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 			self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint" => [
 				self::PROPERTY_CLASS => ilNonEditableValueGUI::class,
-				self::PROPERTY_VALUE => self::plugin()->translate("disabled_hint", self::LANG_MODULE),
+				self::PROPERTY_VALUE => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint"),
 				self::PROPERTY_NOT_ADD => self::ilias()->users()->isLocalUserAdminisrationEnabled(),
 				"setTitle" => ""
 			],
@@ -502,6 +502,9 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 			case "excel_file":
 				$this->excel_file = strval($this->getInput("excel_file")["tmp_name"]);
 				break;
+
+			case self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
+				return;
 
 			default:
 				$this->{$key} = $value;

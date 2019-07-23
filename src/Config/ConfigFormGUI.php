@@ -83,6 +83,9 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 				}, $value);
 				break;
 
+			case ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
+				return;
+
 			default:
 				break;
 		}
