@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 use ilConfirmationGUI;
 use ilCourseMembershipGUI;
 use ilObjCourseGUI;
+use ilObjUser;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUserDefinedFields;
@@ -180,12 +181,14 @@ class ExcelImportGUI {
 
 		switch ($type) {
 			case ExcelImport::FIELDS_TYPE_ILIAS:
-				$items = array_filter(array_merge(array_keys(self::dic()->database()->query('SELECT * FROM usr_data')->fetchAssoc()), [
+				$items = array_merge(array_map(function (string $method): string {
+					return $this->camelCaseToStr(substr($method, 3));
+				}, array_filter(get_class_methods(ilObjUser::class), function (string $method) {
+					return (strpos($method, "set") === 0);
+				})), [
 					"org_unit",
 					"org_unit_position"
-				]), function (string $property) use ($term): bool {
-					return (!in_array($property, [ "usr_id" ]));
-				});
+				]);
 				break;
 
 			case ExcelImport::FIELDS_TYPE_CUSTOM:
@@ -207,5 +210,17 @@ class ExcelImportGUI {
 		$items = array_values($items);
 
 		self::output()->outputJSON($items);
+	}
+
+
+	/**
+	 * https://stackoverflow.com/questions/1993721/how-to-convert-pascalcase-to-pascal-case
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	protected function camelCaseToStr($string) {
+		return strtolower(preg_replace([ '/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/' ], '$1_$2', $string));
 	}
 }
