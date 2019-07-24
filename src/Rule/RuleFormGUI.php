@@ -173,7 +173,7 @@ class RuleFormGUI extends ObjectPropertyFormGUI {
 	/**
 	 * @inheritdoc
 	 */
-	public function storeForm()/*: bool*/ {
+	public function storeForm(): bool {
 		$this->object->setObjectId(self::rules()->getObjId());
 
 		return parent::storeForm();

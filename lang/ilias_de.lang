@@ -3,14 +3,71 @@ config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
+config_show_excel_import#:#"Einschreiben per Excel-Datei" anzeigen
+config_show_reset_password#:#"Kennwort zurücksetzen" anzeigen
+config_show_rules_enroll#:#"Einschreiben per Regel" anzeigen
+excel_import_cancel#:#Abbrechen
+excel_import_confirmation#:#Einschreiben?
+excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
+excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
+excel_import_create_user_and_enroll#:#Benutzer anlegen und einschreiben
+excel_import_enroll#:#Einschreiben
+excel_import_excel_file#:#Excel-Datei
+excel_import_fields#:#Benutzer-Felder
+excel_import_fields_column_heading#:#Excel-Spalten-Überschrifft
+excel_import_fields_custom#:#Benutzerdefiniertes Feld
+excel_import_fields_ilias#:#Standard-Feld
+excel_import_fields_invalid#:#Ungültiges Feld %s
+excel_import_fields_key#:#Bezeichnung
+excel_import_fields_missing#:#Bitte füllen Sie %1$s für %2$s aus
+excel_import_fields_needed_field_info#:#%1$s benötigt %2$s
+excel_import_fields_type#:#Typ
+excel_import_fields_update#:#Aktualisieren
+excel_import_gender_f#:#Geschlecht weiblich
+excel_import_gender_m#:#Geschlecht männlich
+excel_import_gender_n#:#Geschlecht neutral
+excel_import_import#:#Importieren
+excel_import_local_user_administration#:#Lokale Benutzerverwaltung
+excel_import_local_user_administration_disabled_hint#:#Lokale Benutzerverwaltung ist global in ILIAS deaktiviert
+excel_import_local_user_administration_object_type#:#Objekt-Typ
+excel_import_local_user_administration_object_type_category#:#Kategorie
+excel_import_local_user_administration_object_type_org_unit#:#Organisationseinheit
+excel_import_local_user_administration_type#:#Typ
+excel_import_local_user_administration_type_ref_id#:#Ref-Id
+excel_import_local_user_administration_type_title#:#Titel
+excel_import_map_exists_users_field#:#Existierende Benutzer erkennen
+excel_import_map_exists_users_field_email#:#E-Mail
+excel_import_map_exists_users_field_login#:#Benutzername
+excel_import_no#:#Nein
+excel_import_nothing_to_enroll#:#Nichts zum Einschreiben
+excel_import_org_unit_assign#:#Organisationseinheit zuweisen
+excel_import_org_unit_assign_position#:#Position
+excel_import_org_unit_assign_position_field#:#Feld
+excel_import_org_unit_assign_type#:#Typ
+excel_import_org_unit_assign_type_ref_id#:#Ref-Id
+excel_import_org_unit_assign_type_title#:#Titel
+excel_import_password#:#Kennwort
+excel_import_rows#:#Zeilen
+excel_import_set_password#:#Kennwort setzen
+excel_import_set_password_field#:#Feld
+excel_import_set_password_random#:#Zufällig
+excel_import_title#:#Einschreiben per Excel-Datei
+excel_import_update_user_and_enroll#:#Benutzer aktualisieren und einschreiben
+excel_import_yes#:#Ja
 logs_date#:#Datum / Zeit
 logs_logs#:#Logs
 logs_message#:#Nachricht
 logs_rules#:#Regeln
 logs_status#:#Status
-logs_status_100#:#Hinzugefügt
-logs_status_200#:#Fehler
+logs_status_100#:#Eingeschrieben
+logs_status_200#:#Nicht eingeschrieben (Siehe Log)
+logs_status_300#:#Benutzer angelegt
+logs_status_400#:#Benutzer aktualisiert
 logs_user_id#:#Benutzer Login
+reset_password_button#:#Kennwort zurücksetzen
+reset_password_cancel#:#Abbrechen
+reset_password_confirmation#:#Kennwort zurücksetzen?
+reset_password_reset#:#Das Kennwort von %1$s wurde zurückgesetzt:\n\nE-Mail: %2$s\nBenutzername: %3$s\nNeues Kennwort: %4$s
 rules_actions#:#Aktionen
 rules_add#:#Hinzufügen
 rules_add_rule#:#Regel hinzufügen

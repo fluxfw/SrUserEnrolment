@@ -2,9 +2,11 @@
 
 namespace srag\Plugins\SrUserEnrolment\Config;
 
+use ilCheckboxInputGUI;
 use ilMultiSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\ActiveRecordConfig\SrUserEnrolment\ActiveRecordConfigFormGUI;
+use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -43,7 +45,26 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 				self::PROPERTY_OPTIONS => self::ilias()->roles()->getAllRoles(),
 				"enableSelectAll" => true
 			],
+			Config::KEY_SHOW_RULES_ENROLL => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+			],
+			Config::KEY_SHOW_EXCEL_IMPORT => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+				self::PROPERTY_SUBITEMS => ExcelImportFormGUI::getExcelImportFields()
+			],
+			Config::KEY_SHOW_RESET_PASSWORD => [
+				self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+			]
 		];
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function storeForm(): bool {
+		return ($this->storeFormCheck() && ($this->getInput(Config::KEY_SHOW_EXCEL_IMPORT) ? ExcelImportFormGUI::validateExcelImport($this) : true)
+			&& parent::storeForm());
 	}
 
 
@@ -61,6 +82,9 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI {
 					return intval($role_id);
 				}, $value);
 				break;
+
+			case ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
+				return;
 
 			default:
 				break;

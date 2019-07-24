@@ -3,14 +3,71 @@ config_configuration_saved#:#Configuration saved
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
+config_show_excel_import#:#Show "Enrol by excel file"
+config_show_reset_password#:#Show "Reset password"
+config_show_rules_enroll#:#Show "Enrol by rule"
+excel_import_cancel#:#Cancel
+excel_import_confirmation#:#Enroll?
+excel_import_count_skip_top_rows#:#Count skip top rows
+excel_import_create_new_users#:#Create not exists users
+excel_import_create_user_and_enroll#:#Create user and enroll
+excel_import_enroll#:#Enroll
+excel_import_excel_file#:#Excel file
+excel_import_fields#:#Dields
+excel_import_fields_column_heading#:#Excel column heading
+excel_import_fields_custom#:#Custom field
+excel_import_fields_ilias#:#Default field
+excel_import_fields_invalid#:#Invalid field %s
+excel_import_fields_key#:#Label
+excel_import_fields_missing#:#Please fill %1$s for %2$s
+excel_import_fields_needed_field_info#:#1$s needs %2$s
+excel_import_fields_type#:#Type
+excel_import_fields_update#:#Update
+excel_import_gender_f#:#Gender female
+excel_import_gender_m#:#Gender male
+excel_import_gender_n#:#Gender neutral
+excel_import_import#:#Import
+excel_import_local_user_administration#:#Local user administration
+excel_import_local_user_administration_disabled_hint#:#Local user administration is disabled globally in ILIAS
+excel_import_local_user_administration_object_type#:#Object type
+excel_import_local_user_administration_object_type_category#:#Category
+excel_import_local_user_administration_object_type_org_unit#:#Org unit
+excel_import_local_user_administration_type#:#Type
+excel_import_local_user_administration_type_ref_id#:#Ref id
+excel_import_local_user_administration_type_title#:#Title
+excel_import_map_exists_users_field#:#Map exists users
+excel_import_map_exists_users_field_email#:#Email
+excel_import_map_exists_users_field_login#:#Login
+excel_import_no#:#No
+excel_import_nothing_to_enroll#:#Nothing to enroll
+excel_import_org_unit_assign#:#Assign org unit
+excel_import_org_unit_assign_position#:#Position
+excel_import_org_unit_assign_position_field#:#Field
+excel_import_org_unit_assign_type#:#Type
+excel_import_org_unit_assign_type_ref_id#:#Ref id
+excel_import_org_unit_assigntype_title#:#Title
+excel_import_password#:#Password
+excel_import_rows#:#Rows
+excel_import_set_password#:#Set password
+excel_import_set_password_field#:#Field
+excel_import_set_password_random#:#Random
+excel_import_title#:#Enrol by excel file
+excel_import_update_user_and_enroll#:#Update user and enroll
+excel_import_yes#:#Yes
 logs_date#:#Date / Time
 logs_logs#:#Logs
 logs_message#:#Message
 logs_rules#:#Rules
 logs_status#:#Status
-logs_status_100#:#Added
-logs_status_200#:#Error
+logs_status_100#:#Enrolled
+logs_status_200#:#Not enrolled (See log)
+logs_status_300#:#User created
+logs_status_400#:#User updated
 logs_user_id#:#User login
+reset_password_button#:#Reset password
+reset_password_cancel#:#Cancel
+reset_password_confirmation#:#Reset password?
+reset_password_reset#:#The passwort of %1$s was reset:\n\nEmail: %2$s\Login: %3$s\nNew password: %4$s
 rules_actions#:#Actions
 rules_add#:#Add
 rules_add_rule#:#Add rule

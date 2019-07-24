@@ -20,6 +20,7 @@ final class Repository {
 	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 	const GET_PARAM_REF_ID = "ref_id";
 	const GET_PARAM_TARGET = "target";
+	const GET_PARAM_USER_ID = "user_id";
 	/**
 	 * @var self
 	 */
@@ -172,6 +173,22 @@ final class Repository {
 	 */
 	public function getRulesArray(int $object_id): array {
 		return Rule::where([ "object_id" => $object_id ])->getArray();
+	}
+
+
+	/**
+	 * @return int|null
+	 */
+	public function getUserId()/*: ?int*/ {
+		$user_id = filter_input(INPUT_GET, self::GET_PARAM_USER_ID);
+
+		$user_id = intval($user_id);
+
+		if ($user_id > 0) {
+			return $user_id;
+		} else {
+			return null;
+		}
 	}
 
 

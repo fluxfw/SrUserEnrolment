@@ -57,7 +57,7 @@ final class Factory {
 	 * @return Log
 	 */
 	public function exceptionLog(Throwable $ex, int $object_id, int $rule_id, /*?*/ int $user_id = null): Log {
-		$log = $this->objectRuleUserLog($object_id, $rule_id, $user_id)->withStatus(Log::STATUS_ERROR)->withMessage($ex->getMessage());
+		$log = $this->objectRuleUserLog($object_id, $rule_id, $user_id)->withStatus(Log::STATUS_NOT_ENROLLED)->withMessage($ex->getMessage());
 
 		return $log;
 	}
