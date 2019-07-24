@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.23.3]
+- TextInputGUIWithModernAutoComplete
+
 ## [0.23.2]
 - TextInputGUIWithModernAutoComplete
 

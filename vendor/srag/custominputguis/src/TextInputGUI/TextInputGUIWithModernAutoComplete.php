@@ -24,7 +24,7 @@ class TextInputGUIWithModernAutoComplete extends TextInputGUI {
 	/**
 	 *
 	 */
-	protected function initJS()/*: void*/ {
+	public function initJS()/*: void*/ {
 		if (self::$init === false) {
 			self::$init = true;
 
