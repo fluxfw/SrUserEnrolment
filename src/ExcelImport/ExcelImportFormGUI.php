@@ -403,7 +403,8 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 			];
 		}
 
-		if (intval($form->getInput(self::KEY_ORG_UNIT_ASSIGN_POSITION)) === ExcelImport::ORG_UNIT_POSITION_FIELD) {
+		if ($form->getInput(self::KEY_ORG_UNIT_ASSIGN)
+			&& intval($form->getInput(self::KEY_ORG_UNIT_ASSIGN_POSITION)) === ExcelImport::ORG_UNIT_POSITION_FIELD) {
 			$needed_fields[] = [
 				"type" => ExcelImport::FIELDS_TYPE_ILIAS,
 				"key" => "org_unit_position",
