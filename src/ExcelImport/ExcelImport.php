@@ -5,8 +5,10 @@ namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 use ilDBConstants;
 use ilExcel;
 use ilObjCourse;
+use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
+use ilUserDefinedFields;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
@@ -41,6 +43,94 @@ class ExcelImport {
 	const ORG_UNIT_TYPE_REF_ID = 2;
 	const SET_PASSWORD_RANDOM = 1;
 	const SET_PASSWORD_FIELD = 2;
+
+
+	/**
+	 * @param int    $type
+	 * @param string $key
+	 *
+	 * @return string
+	 */
+	public static function fieldName(int $type, string $key): string {
+		switch ($type) {
+			case ExcelImport::FIELDS_TYPE_ILIAS:
+				$type = self::plugin()->translate(ExcelImportFormGUI::KEY_FIELDS . "_ilias");
+				break;
+
+			case ExcelImport::FIELDS_TYPE_CUSTOM:
+				$type = self::plugin()->translate(ExcelImportFormGUI::KEY_FIELDS . "_custom");
+				break;
+
+			default:
+				$type = "";
+		}
+
+		return $type . " / " . $key;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public static function getAllFields(): array {
+		return [
+			self::FIELDS_TYPE_ILIAS => self::getFieldsForType(self::FIELDS_TYPE_ILIAS),
+			self::FIELDS_TYPE_CUSTOM => self::getFieldsForType(self::FIELDS_TYPE_CUSTOM)
+		];
+	}
+
+
+	/**
+	 * @param int    $type
+	 * @param string $term
+	 *
+	 * @return string[]
+	 */
+	public static function getFieldsForType(int $type, string $term = ""): array {
+		switch ($type) {
+			case self::FIELDS_TYPE_ILIAS:
+				$fields = array_merge(array_map(function (string $method): string {
+					return self::camelCaseToStr(substr($method, 3));
+				}, array_filter(get_class_methods(ilObjUser::class), function (string $method) {
+					return (strpos($method, "set") === 0);
+				})), [
+					"org_unit",
+					"org_unit_position"
+				]);
+				break;
+
+			case self::FIELDS_TYPE_CUSTOM:
+				$fields = array_map(function (array $field): string {
+					return $field["field_name"];
+				}, ilUserDefinedFields::_getInstance()->getDefinitions());
+				break;
+
+			default:
+				$fields = [];
+				break;
+		}
+
+		$fields = array_filter($fields, function (string $property) use ($term): bool {
+			return ((empty($term) || stripos($property, $term) !== false));
+		});
+
+		natcasesort($fields);
+		$fields = array_values($fields);
+
+		return $fields;
+	}
+
+
+	/**
+	 * https://stackoverflow.com/questions/1993721/how-to-convert-pascalcase-to-pascal-case
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	public static function camelCaseToStr($string) {
+		return strtolower(preg_replace([ '/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/' ], '$1_$2', $string));
+	}
 
 
 	/**
@@ -146,7 +236,7 @@ class ExcelImport {
 			}
 
 			if ($form->getSetPassword() !== self::SET_PASSWORD_FIELD) {
-				$user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->password = null;
+				$user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = null;
 			}
 
 			if (self::ilias()->users()->isLocalUserAdminisrationEnabled() && $form->isLocalUserAdministration()) {
@@ -297,7 +387,7 @@ class ExcelImport {
 			$items = [];
 			foreach ($user->{ExcelImportFormGUI::KEY_FIELDS} as $type => $fields) {
 				foreach ($fields as $key => $value) {
-					$items[ExcelImportFormGUI::fieldName($type, $key)] = strval($value);
+					$items[self::fieldName($type, $key)] = strval($value);
 				}
 			}
 
@@ -355,9 +445,9 @@ class ExcelImport {
 					}
 				}
 
-				if ($user->is_new || isset($update_fields[self::FIELDS_TYPE_ILIAS . "_password"])) {
-					$user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->password = self::ilias()->users()
-						->resetPassword($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->password);
+				if ($user->is_new || isset($update_fields[self::FIELDS_TYPE_ILIAS]["passwd"])) {
+					$user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = self::ilias()->users()
+						->resetPassword($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd);
 				}
 
 				if ($user->is_new

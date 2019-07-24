@@ -91,7 +91,7 @@ final class Users {
 
 		foreach ($fields as $type => $fields_) {
 			foreach ($fields_ as $key => $value) {
-				if (($type === ExcelImport::FIELDS_TYPE_ILIAS && $key === "password")
+				if (($type === ExcelImport::FIELDS_TYPE_ILIAS && $key === "passwd")
 					|| ($type === ExcelImport::FIELDS_TYPE_ILIAS
 						&& $key === "org_unit")
 					|| ($type === ExcelImport::FIELDS_TYPE_ILIAS && $key === "org_unit_position")) {

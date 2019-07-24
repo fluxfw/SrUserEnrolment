@@ -167,7 +167,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login"),
 						"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
 							self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login"),
-							self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "login")
+							ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "login")
 						])
 					],
 					ExcelImport::MAP_EXISTS_USERS_EMAIL => [
@@ -175,7 +175,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						"setTitle" => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email"),
 						"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
 							self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email"),
-							self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "email")
+							ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "email")
 						])
 					]
 				],
@@ -188,7 +188,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
 					self::plugin()->translate(self::KEY_CREATE_NEW_USERS),
 					implode(", ", array_map(function (string $field): string {
-						return self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, $field);
+						return ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, $field);
 					}, [ "login", "email", "firstname", "lastname" ]))
 				])
 			],
@@ -206,7 +206,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 						"setTitle" => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field"),
 						"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
 							self::plugin()->translate(self::KEY_SET_PASSWORD . "_field"),
-							self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "password")
+							ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "passwd")
 						])
 					]
 				],
@@ -270,7 +270,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				"setTitle" => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION),
 				"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
 					self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION),
-					self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "time_limit_owner")
+					ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "time_limit_owner")
 				])
 			],
 
@@ -306,7 +306,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 									"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION . "_field"),
 									"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
 										self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION . "_field"),
-										self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "org_unit_position")
+										ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "org_unit_position")
 									])
 								]
 							],
@@ -316,7 +316,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				"setTitle" => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN),
 				"setInfo" => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
 					self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN),
-					self::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "org_unit")
+					ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "org_unit")
 				])
 			]
 		];
@@ -329,8 +329,24 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 	 * @return bool
 	 */
 	public static function validateExcelImport(PropertyFormGUI $form): bool {
-		$needed_fields = [];
 		$error = false;
+
+		$all_fields = ExcelImport::getAllFields();
+
+		foreach ((array)$form->getInput(self::KEY_FIELDS) as $field) {
+			if (!in_array($field["key"], $all_fields[$field["type"]])) {
+				$error = true;
+
+				$alerts = $form->getItemByPostVar(self::KEY_FIELDS)->getAlert();
+				$alerts .= "<br>" . self::plugin()->translate("fields_invalid", self::LANG_MODULE, [
+						ExcelImport::fieldName($field["type"], $field["key"])
+					]);
+
+				$form->getItemByPostVar(self::KEY_FIELDS)->setAlert($alerts);
+			}
+		}
+
+		$needed_fields = [];
 
 		switch ($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD)) {
 			case ExcelImport::MAP_EXISTS_USERS_LOGIN:
@@ -366,7 +382,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 		if (intval($form->getInput(self::KEY_SET_PASSWORD)) === ExcelImport::SET_PASSWORD_FIELD) {
 			$needed_fields[] = [
 				"type" => ExcelImport::FIELDS_TYPE_ILIAS,
-				"key" => "password",
+				"key" => "passwd",
 				"for_message" => self::KEY_SET_PASSWORD
 			];
 		}
@@ -411,7 +427,7 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 
 				$alerts = $form->getItemByPostVar(self::KEY_FIELDS)->getAlert();
 				$alerts .= "<br>" . self::plugin()->translate("fields_missing", self::LANG_MODULE, [
-						self::fieldName($needed_field["type"], $needed_field["key"]),
+						ExcelImport::fieldName($needed_field["type"], $needed_field["key"]),
 						self::plugin()->translate($needed_field["for_message"])
 					]);
 
@@ -510,30 +526,6 @@ class ExcelImportFormGUI extends PropertyFormGUI {
 				$this->{$key} = $value;
 				break;
 		}
-	}
-
-
-	/**
-	 * @param int    $type
-	 * @param string $key
-	 *
-	 * @return string
-	 */
-	public static function fieldName(int $type, string $key): string {
-		switch ($type) {
-			case ExcelImport::FIELDS_TYPE_ILIAS:
-				$type = self::plugin()->translate(self::KEY_FIELDS . "_ilias");
-				break;
-
-			case ExcelImport::FIELDS_TYPE_CUSTOM:
-				$type = self::plugin()->translate(self::KEY_FIELDS . "_custom");
-				break;
-
-			default:
-				$type = "";
-		}
-
-		return $type . " / " . $key;
 	}
 
 

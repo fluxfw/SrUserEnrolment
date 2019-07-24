@@ -5,10 +5,8 @@ namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 use ilConfirmationGUI;
 use ilCourseMembershipGUI;
 use ilObjCourseGUI;
-use ilObjUser;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
-use ilUserDefinedFields;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
@@ -176,52 +174,10 @@ class ExcelImportGUI {
 	 */
 	protected function keyAutoComplete()/*: void*/ {
 		$type = intval(filter_input(INPUT_GET, "type"));
-		$term = filter_input(INPUT_GET, "term");
+		$term = strval(filter_input(INPUT_GET, "term"));
 
-		self::dic()->database()->setLimit(1, 0);
-
-		switch ($type) {
-			case ExcelImport::FIELDS_TYPE_ILIAS:
-				$items = array_merge(array_map(function (string $method): string {
-					return $this->camelCaseToStr(substr($method, 3));
-				}, array_filter(get_class_methods(ilObjUser::class), function (string $method) {
-					return (strpos($method, "set") === 0);
-				})), [
-					"org_unit",
-					"org_unit_position"
-				]);
-				break;
-
-			case ExcelImport::FIELDS_TYPE_CUSTOM:
-				$items = array_map(function (array $field): string {
-					return $field["field_name"];
-				}, ilUserDefinedFields::_getInstance()->getDefinitions());
-				break;
-
-			default:
-				$items = [];
-				break;
-		}
-
-		$items = array_filter($items, function (string $property) use ($term): bool {
-			return ((empty($term) || stripos($property, $term) !== false));
-		});
-
-		natcasesort($items);
-		$items = array_values($items);
+		$items = ExcelImport::getFieldsForType($type, $term);
 
 		self::output()->outputJSON($items);
-	}
-
-
-	/**
-	 * https://stackoverflow.com/questions/1993721/how-to-convert-pascalcase-to-pascal-case
-	 *
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	protected function camelCaseToStr($string) {
-		return strtolower(preg_replace([ '/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/' ], '$1_$2', $string));
 	}
 }

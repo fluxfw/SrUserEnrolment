@@ -59,7 +59,7 @@ class Config extends ActiveRecordConfig {
 				],
 				[
 					"type" => ExcelImport::FIELDS_TYPE_ILIAS,
-					"key" => "password",
+					"key" => "passwd",
 					"column_heading" => ""
 				],
 				[
