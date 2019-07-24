@@ -50,38 +50,42 @@
 		if (node.dataset.autocomplete_url) {
 			$.widget("custom.iladvancedautocomplete", $.ui.autocomplete, {
 				more: false,
-				_renderMenu: function (ul, items) {
+				_renderMenu: (ul, items) => {
+					const instance = $(node).iladvancedautocomplete("instance");
+
 					for (const item of items) {
-						this._renderItemData(ul, item);
+						instance._renderItemData(ul, item);
 					}
 
-					this.options.requestUrl.searchParams.delete("fetchall");
+					instance.options.requestUrl.searchParams.delete("fetchall");
 
-					if (this.more) {
+					if (instance.more) {
 						ul.append(`<li class='ui-menu-category ui-menu-more ui-state-disabled'><span>&raquo;${il.textinput_more_txt}</span></li>`);
-						ul.find('li').last().on('click', function (e) {
-							this.options.requestUrl.searchParams.append("fetchall", "1");
-							this.close(e);
-							this.search(null, e);
+						ul.find('li').last().on('click', (e) => {
+							instance.options.requestUrl.searchParams.append("fetchall", "1");
+							instance.close(e);
+							instance.search(null, e);
 							e.preventDefault();
-						}.bind(this));
+						});
 					}
 				}
 			});
 
 			$(node).iladvancedautocomplete({
 				requestUrl: new URL(node.dataset.autocomplete_url, location.href),
-				source: async function (request, response) {
-					const url = new URL(this.options.requestUrl);
+				source: async (request, response) => {
+					const instance = $(node).iladvancedautocomplete("instance");
+
+					const url = new URL(instance.options.requestUrl);
 					url.searchParams.append("term", request.term);
 
 					const data = await (await fetch(url)).json();
 
 					if (typeof data.items === "undefined") {
-						this.more = false;
+						instance.more = false;
 						response(data);
 					} else {
-						this.more = data.hasMoreResults;
+						instance.more = data.hasMoreResults;
 						response(data.items);
 					}
 				},
