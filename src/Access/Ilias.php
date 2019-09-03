@@ -64,7 +64,7 @@ final class Ilias {
 	 */
 	public function getObjectFilterStatement(array $wheres, array $types, array $values, array $selects, string $additional_joins = ""): ilDBStatement {
 		return self::dic()->database()->queryF('SELECT ' . implode(', ', $selects)
-			. ' FROM object_data INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id' . $additional_joins . ' WHERE '
+			. ' FROM object_data INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id ' . $additional_joins . ' WHERE '
 			. implode(' AND ', $wheres), $types, $values);
 	}
 
