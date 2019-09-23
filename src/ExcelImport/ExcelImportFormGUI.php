@@ -116,6 +116,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                 self::PROPERTY_CLASS    => ilNumberInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
                 "setTitle"              => self::plugin()->translate(self::KEY_COUNT_SKIP_TOP_ROWS),
+                "setInfo"               => self::plugin()->translate(self::KEY_COUNT_SKIP_TOP_ROWS . "_info"),
                 "setSuffix"             => self::plugin()->translate("rows", static::LANG_MODULE)
             ],
 

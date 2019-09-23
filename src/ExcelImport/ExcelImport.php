@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
 use ilDBConstants;
 use ilExcel;
+use ilObjCourse;
 use ilObjectFactory;
 use ilObjUser;
 use ilSession;
@@ -320,9 +321,11 @@ class ExcelImport
 
         $object = ilObjectFactory::getInstanceByObjId(self::rules()->getObjId(), false);
 
-        $exists_users = array_filter($exists_users, function (stdClass $user) use ($object): bool {
-            return (!self::ilias()->courses()->isAssigned($object, $user->ilias_user_id));
-        });
+        if ($object instanceof ilObjCourse) {
+            $exists_users = array_filter($exists_users, function (stdClass $user) use ($object): bool {
+                return (!self::ilias()->courses()->isAssigned($object, $user->ilias_user_id));
+            });
+        }
 
         if ($form->isCreateNewUsers()) {
             $new_users = array_filter($users, function (stdClass &$user) : bool {
@@ -477,12 +480,14 @@ class ExcelImport
                             $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position);
                 }
 
-                self::ilias()->courses()
-                    ->enrollMemberToCourse($object, $user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->firstname
-                        . " " . $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->lastname);
+                if ($object instanceof ilObjCourse) {
+                    self::ilias()->courses()
+                        ->enrollMemberToCourse($object, $user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->firstname
+                            . " " . $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->lastname);
 
-                self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
-                    ->withStatus(Log::STATUS_ENROLLED));
+                    self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
+                        ->withStatus(Log::STATUS_ENROLLED));
+                }
             } catch (Throwable $ex) {
                 self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), Rule::NO_RULE_ID));
             }
