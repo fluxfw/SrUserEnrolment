@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.1.0]
+- Direct local user administration
+
 ## [2.0.1]
 - Fix SQL query (Missing space)
 

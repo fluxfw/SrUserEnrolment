@@ -13,7 +13,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -35,7 +35,7 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -148,6 +148,9 @@ class ComposerStaticInit4c2e07922298f64ac1d070d0ceda65ce
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Enroller' => __DIR__ . '/../..' . '/src/Enroll/Enroller.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Factory' => __DIR__ . '/../..' . '/src/Enroll/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Enroll\\Repository' => __DIR__ . '/../..' . '/src/Enroll/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImportLocal\\ExcelImportLocal' => __DIR__ . '/../..' . '/src/ExcelImportLocal/ExcelImportLocal.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImportLocal\\ExcelImportLocalFormGUI' => __DIR__ . '/../..' . '/src/ExcelImportLocal/ExcelImportLocalFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImportLocal\\ExcelImportLocalGUI' => __DIR__ . '/../..' . '/src/ExcelImportLocal/class.ExcelImportLocalGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImport' => __DIR__ . '/../..' . '/src/ExcelImport/ExcelImport.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImportFormGUI' => __DIR__ . '/../..' . '/src/ExcelImport/ExcelImportFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImportGUI' => __DIR__ . '/../..' . '/src/ExcelImport/class.ExcelImportGUI.php',

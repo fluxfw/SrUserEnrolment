@@ -12,16 +12,18 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ilSrUserEnrolmentConfigGUI extends ActiveRecordConfigGUI {
+class ilSrUserEnrolmentConfigGUI extends ActiveRecordConfigGUI
+{
 
-	use SrUserEnrolmentTrait;
-	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-	/**
-	 * @var array
-	 */
-	protected static $tabs = [
-		self::TAB_CONFIGURATION => ConfigFormGUI::class
-	];
+    use SrUserEnrolmentTrait;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    /**
+     * @var array
+     */
+    protected static $tabs
+        = [
+            self::TAB_CONFIGURATION => ConfigFormGUI::class
+        ];
 }
 
 ExcelImportGUI::CMD_KEY_AUTOCOMPLETE; // TODO: Fix composer autoload (ilCtrl is lowercase and composer not map lowercase :()

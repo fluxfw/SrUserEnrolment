@@ -14,59 +14,64 @@ use stdClass;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Factory {
+final class Factory
+{
 
-	use DICTrait;
-	use SrUserEnrolmentTrait;
-	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-	/**
-	 * @var self
-	 */
-	protected static $instance = null;
-
-
-	/**
-	 * @return self
-	 */
-	public static function getInstance(): self {
-		if (self::$instance === null) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+    use DICTrait;
+    use SrUserEnrolmentTrait;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    /**
+     * @var self
+     */
+    protected static $instance = null;
 
 
-	/**
-	 * Factory constructor
-	 */
-	private function __construct() {
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
 
-	}
-
-
-	/**
-	 * @param stdClass $data
-	 *
-	 * @return Enrolled
-	 */
-	public function fromDB(stdClass $data): Enrolled {
-		$enrolled = $this->newInstance();
-
-		$enrolled->setRuleId($data->rule_id);
-		$enrolled->setObjectId($data->object_id);
-		$enrolled->setUserId($data->user_id);
-
-		return $enrolled;
-	}
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return Enrolled
-	 */
-	public function newInstance(): Enrolled {
-		$rule = new Enrolled();
+    /**
+     * Factory constructor
+     */
+    private function __construct()
+    {
 
-		return $rule;
-	}
+    }
+
+
+    /**
+     * @param stdClass $data
+     *
+     * @return Enrolled
+     */
+    public function fromDB(stdClass $data) : Enrolled
+    {
+        $enrolled = $this->newInstance();
+
+        $enrolled->setRuleId($data->rule_id);
+        $enrolled->setObjectId($data->object_id);
+        $enrolled->setUserId($data->user_id);
+
+        return $enrolled;
+    }
+
+
+    /**
+     * @return Enrolled
+     */
+    public function newInstance() : Enrolled
+    {
+        $rule = new Enrolled();
+
+        return $rule;
+    }
 }
