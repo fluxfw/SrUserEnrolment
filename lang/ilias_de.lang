@@ -6,9 +6,11 @@ config_save#:#Speichern
 config_show_excel_import#:#"Einschreiben per Excel-Datei" anzeigen
 config_show_reset_password#:#"Kennwort zurücksetzen" anzeigen
 config_show_rules_enroll#:#"Einschreiben per Regel" anzeigen
+excel_import_back#:#Zurück
 excel_import_cancel#:#Abbrechen
 excel_import_confirmation#:#Einschreiben?
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
+excel_import_count_skip_top_rows_info#:#Bitte Spalten-Überschriff-Zeile nicht mit einbeziehen
 excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
 excel_import_create_user_and_enroll#:#Benutzer anlegen und einschreiben
 excel_import_enroll#:#Einschreiben

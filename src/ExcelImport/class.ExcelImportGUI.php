@@ -58,6 +58,8 @@ class ExcelImportGUI
             die();
         }
 
+        $this->setTabs();
+
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
@@ -78,6 +80,22 @@ class ExcelImportGUI
                 }
                 break;
         }
+    }
+
+
+    /**
+     *
+     */
+    protected function setTabs()/*: void*/
+    {
+        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
+
+        self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK_TO_MEMBERS_LIST));
+
+        self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, self::plugin()->translate("title", self::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
+        self::dic()->tabs()->activateTab(self::TAB_EXCEL_IMPORT);
     }
 
 
@@ -104,6 +122,17 @@ class ExcelImportGUI
 
 
     /**
+     * @return ExcelImport
+     */
+    protected function getExcelImport() : ExcelImport
+    {
+        $excel_import = new ExcelImport();
+
+        return $excel_import;
+    }
+
+
+    /**
      *
      */
     protected function excelImport()/*: void*/
@@ -116,11 +145,9 @@ class ExcelImportGUI
             return;
         }
 
-        $excel_import = new ExcelImport();
+        $excel_import = $this->getExcelImport();
 
         $result = $excel_import->import($form);
-
-        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
 
         if (empty($result)) {
 
@@ -151,13 +178,11 @@ class ExcelImportGUI
      */
     protected function enroll()/*: void*/
     {
-        $excel_import = new ExcelImport();
+        $excel_import = $this->getExcelImport();
 
         $result = $excel_import->enroll();
 
         ilUtil::sendInfo($result, true);
-
-        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
 
         self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
     }

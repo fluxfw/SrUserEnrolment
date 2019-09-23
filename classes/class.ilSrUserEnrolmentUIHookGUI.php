@@ -3,6 +3,7 @@
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
+use srag\Plugins\SrUserEnrolment\ExcelImportLocal\ExcelImportLocalGUI;
 use srag\Plugins\SrUserEnrolment\ResetPassword\ResetPasswordGUI;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Rule\RulesGUI;
@@ -19,6 +20,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const PAR_TABS = "tabs";
     const PAR_SUB_TABS = "sub_tabs";
     const COURSE_MEMBER_LIST_TEMPLATE_ID = "Services/Table/tpl.table2.html";
     const TEMPLATE_GET = "template_get";
@@ -112,12 +114,14 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
                 if (self::access()->currentUserHasRole()) {
 
-                    self::dic()->ctrl()->setParameterByClass(RulesGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
-                    self::dic()->tabs()->addSubTab(RulesGUI::TAB_RULES, self::plugin()->translate("rules", RulesGUI::LANG_MODULE_RULES), self::dic()
-                        ->ctrl()->getLinkTargetByClass([
-                            ilUIPluginRouterGUI::class,
-                            RulesGUI::class
-                        ], RulesGUI::CMD_LIST_RULES));
+                    if (Config::getField(Config::KEY_SHOW_RULES_ENROLL)) {
+                        self::dic()->ctrl()->setParameterByClass(RulesGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
+                        self::dic()->tabs()->addSubTab(RulesGUI::TAB_RULES, self::plugin()->translate("rules", RulesGUI::LANG_MODULE_RULES), self::dic()
+                            ->ctrl()->getLinkTargetByClass([
+                                ilUIPluginRouterGUI::class,
+                                RulesGUI::class
+                            ], RulesGUI::CMD_LIST_RULES));
+                    }
 
                     if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT)) {
                         self::dic()->ctrl()->setParameterByClass(ExcelImportGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
@@ -126,6 +130,30 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                             ilUIPluginRouterGUI::class,
                             ExcelImportGUI::class
                         ], ExcelImportGUI::CMD_INPUT_EXCEL_IMPORT_DATA));
+                    }
+                }
+            }
+
+            if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLocalUserGUI::class)|| (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCategoryGUI::class)&&self::dic()->ctrl()->getCmd()==="listUsers")
+            ) {
+
+                if (self::access()->currentUserHasRole()) {
+
+                    if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT)) {
+                        self::dic()->ctrl()->setParameterByClass(ilLocalUserGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
+                        self::dic()->tabs()->addSubTab(ExcelImportLocalGUI::TAB_LOCAL_USER_ADMINISTRATION, self::dic()->language()
+                            ->txt("administrate_users"), self::dic()->ctrl()->getLinkTargetByClass([
+                            ilUIPluginRouterGUI::class,
+                            ExcelImportLocalGUI::class
+                        ], ExcelImportLocalGUI::CMD_BACK_TO_MEMBERS_LIST));
+                        self::dic()->tabs()->activateSubTab(ExcelImportLocalGUI::TAB_LOCAL_USER_ADMINISTRATION);
+
+                        self::dic()->ctrl()->setParameterByClass(ExcelImportLocalGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
+                        self::dic()->tabs()->addSubTab(ExcelImportLocalGUI::TAB_EXCEL_IMPORT, self::plugin()
+                            ->translate("title", ExcelImportLocalGUI::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()->getLinkTargetByClass([
+                            ilUIPluginRouterGUI::class,
+                            ExcelImportLocalGUI::class
+                        ], ExcelImportLocalGUI::CMD_INPUT_EXCEL_IMPORT_DATA));
                     }
                 }
             }

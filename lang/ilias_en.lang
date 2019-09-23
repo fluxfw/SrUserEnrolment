@@ -6,9 +6,11 @@ config_save#:#Save
 config_show_excel_import#:#Show "Enrol by excel file"
 config_show_reset_password#:#Show "Reset password"
 config_show_rules_enroll#:#Show "Enrol by rule"
+excel_import_back#:#Back
 excel_import_cancel#:#Cancel
 excel_import_confirmation#:#Enroll?
 excel_import_count_skip_top_rows#:#Count skip top rows
+excel_import_count_skip_top_rows_info#:#Please not include column heading row
 excel_import_create_new_users#:#Create not exists users
 excel_import_create_user_and_enroll#:#Create user and enroll
 excel_import_enroll#:#Enroll

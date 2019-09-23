@@ -4,7 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
 use ilDBConstants;
 use ilExcel;
-use ilObjCourse;
+use ilObjectFactory;
 use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
@@ -247,49 +247,7 @@ class ExcelImport
             }
 
             if (self::ilias()->users()->isLocalUserAdminisrationEnabled() && $form->isLocalUserAdministration()) {
-                $value = $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner;
-
-                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = null;
-
-                if (!empty($value)) {
-                    switch ($form->getLocalUserAdministrationObjectType()) {
-                        case self::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY:
-                            $obj_type = "cat";
-                            break;
-
-                        case self::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT:
-                            $obj_type = "orgu";
-                            break;
-
-                        default:
-                            $obj_type = "";
-                            break;
-                    }
-
-                    if (!empty($obj_type)) {
-                        $wheres = ['type=%s'];
-                        $types = [ilDBConstants::T_TEXT];
-                        $values = [$obj_type];
-
-                        switch ($form->getLocalUserAdministrationType()) {
-                            case self::LOCAL_USER_ADMINISTRATION_TYPE_TITLE:
-                                $wheres[] = self::dic()->database()->like("title", ilDBConstants::T_TEXT, '%' . $value . '%');
-                                break;
-
-                            case self::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID:
-                                $wheres[] = "ref_id=%s";
-                                $types[] = ilDBConstants::T_INTEGER;
-                                $values[] = $value;
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = self::ilias()
-                            ->getObjectRefIdByFilter($wheres, $types, $values);
-                    }
-                }
+                $this->handleLocalUserAdministration($form, $user);
             } else {
                 $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = null;
             }
@@ -360,7 +318,7 @@ class ExcelImport
             return (!empty($user->ilias_user_id));
         });
 
-        $object = new ilObjCourse(self::rules()->getObjId(), false);
+        $object = ilObjectFactory::getInstanceByObjId(self::rules()->getObjId(), false);
 
         $exists_users = array_filter($exists_users, function (stdClass $user) use ($object): bool {
             return (!self::ilias()->courses()->isAssigned($object, $user->ilias_user_id));
@@ -411,6 +369,58 @@ class ExcelImport
 
 
     /**
+     * @param ExcelImportFormGUI $form
+     * @param stdClass           $user
+     */
+    protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
+    {
+        $value = $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner;
+
+        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = null;
+
+        if (!empty($value)) {
+            switch ($form->getLocalUserAdministrationObjectType()) {
+                case self::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY:
+                    $obj_type = "cat";
+                    break;
+
+                case self::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT:
+                    $obj_type = "orgu";
+                    break;
+
+                default:
+                    $obj_type = "";
+                    break;
+            }
+
+            if (!empty($obj_type)) {
+                $wheres = ['type=%s'];
+                $types = [ilDBConstants::T_TEXT];
+                $values = [$obj_type];
+
+                switch ($form->getLocalUserAdministrationType()) {
+                    case self::LOCAL_USER_ADMINISTRATION_TYPE_TITLE:
+                        $wheres[] = self::dic()->database()->like("title", ilDBConstants::T_TEXT, '%' . $value . '%');
+                        break;
+
+                    case self::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID:
+                        $wheres[] = "ref_id=%s";
+                        $types[] = ilDBConstants::T_INTEGER;
+                        $values[] = $value;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = self::ilias()
+                    ->getObjectRefIdByFilter($wheres, $types, $values);
+            }
+        }
+    }
+
+
+    /**
      * @return string
      */
     public function enroll() : string
@@ -429,7 +439,7 @@ class ExcelImport
             self::FIELDS_TYPE_CUSTOM => []
         ]);
 
-        $object = new ilObjCourse(self::rules()->getObjId(), false);
+        $object = ilObjectFactory::getInstanceByObjId(self::rules()->getObjId(), false);
 
         foreach ($users as &$user) {
             try {

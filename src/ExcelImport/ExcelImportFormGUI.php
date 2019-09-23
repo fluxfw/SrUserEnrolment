@@ -15,7 +15,6 @@ use srag\CustomInputGUIs\SrUserEnrolment\MultiLineInputGUI\MultiLineInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
 use srag\Plugins\SrUserEnrolment\Config\Config;
-use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -455,17 +454,6 @@ class ExcelImportFormGUI extends PropertyFormGUI
             default:
                 return Config::getField($key);
         }
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    protected function initAction()/*: void*/
-    {
-        self::dic()->ctrl()->saveParameter($this->parent, Repository::GET_PARAM_REF_ID);
-
-        parent::initAction();
     }
 
 

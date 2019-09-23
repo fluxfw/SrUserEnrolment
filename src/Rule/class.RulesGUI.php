@@ -10,6 +10,7 @@ use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\Enroll\Enroller;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -60,7 +61,7 @@ class RulesGUI
      */
     public function executeCommand()/*: void*/
     {
-        if (!self::access()->currentUserHasRole() || !self::dic()->access()->checkAccess("write", "", self::rules()->getRefId())) {
+        if (!Config::getField(Config::KEY_SHOW_RULES_ENROLL) || !self::access()->currentUserHasRole() || !self::dic()->access()->checkAccess("write", "", self::rules()->getRefId())) {
             die();
         }
 
