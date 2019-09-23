@@ -15,44 +15,50 @@ use srag\Plugins\SrUserEnrolment\Rule\Repository as RuleRepository;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-trait SrUserEnrolmentTrait {
+trait SrUserEnrolmentTrait
+{
 
-	/**
-	 * @return Access
-	 */
-	protected static function access(): Access {
-		return Access::getInstance();
-	}
-
-
-	/**
-	 * @return EnrollRepository
-	 */
-	protected static function enrolleds(): EnrollRepository {
-		return EnrollRepository::getInstance();
-	}
+    /**
+     * @return Access
+     */
+    protected static function access() : Access
+    {
+        return Access::getInstance();
+    }
 
 
-	/**
-	 * @return Ilias
-	 */
-	protected static function ilias(): Ilias {
-		return Ilias::getInstance();
-	}
+    /**
+     * @return EnrollRepository
+     */
+    protected static function enrolleds() : EnrollRepository
+    {
+        return EnrollRepository::getInstance();
+    }
 
 
-	/**
-	 * @return LogRepository
-	 */
-	protected static function logs(): LogRepository {
-		return LogRepository::getInstance();
-	}
+    /**
+     * @return Ilias
+     */
+    protected static function ilias() : Ilias
+    {
+        return Ilias::getInstance();
+    }
 
 
-	/**
-	 * @return RuleRepository
-	 */
-	protected static function rules(): RuleRepository {
-		return RuleRepository::getInstance();
-	}
+    /**
+     * @return LogRepository
+     */
+    protected static function logs() : LogRepository
+    {
+        return LogRepository::getInstance();
+    }
+
+
+    /**
+     * @return RuleRepository
+     */
+    protected static function rules() : RuleRepository
+    {
+        return RuleRepository::getInstance();
+    }
 }

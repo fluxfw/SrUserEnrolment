@@ -16,104 +16,114 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class Job extends ilCronJob {
+class Job extends ilCronJob
+{
 
-	use DICTrait;
-	use SrUserEnrolmentTrait;
-	const CRON_JOB_ID = ilSrUserEnrolmentPlugin::PLUGIN_ID;
-	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-
-
-	/**
-	 * Job constructor
-	 */
-	public function __construct() {
-
-	}
+    use DICTrait;
+    use SrUserEnrolmentTrait;
+    const CRON_JOB_ID = ilSrUserEnrolmentPlugin::PLUGIN_ID;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
-	/**
-	 * Get id
-	 *
-	 * @return string
-	 */
-	public function getId(): string {
-		return self::CRON_JOB_ID;
-	}
+    /**
+     * Job constructor
+     */
+    public function __construct()
+    {
+
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string {
-		return ilSrUserEnrolmentPlugin::PLUGIN_NAME;
-	}
+    /**
+     * Get id
+     *
+     * @return string
+     */
+    public function getId() : string
+    {
+        return self::CRON_JOB_ID;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getDescription(): string {
-		return "";
-	}
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return ilSrUserEnrolmentPlugin::PLUGIN_NAME;
+    }
 
 
-	/**
-	 * Is to be activated on "installation"
-	 *
-	 * @return boolean
-	 */
-	public function hasAutoActivation(): bool {
-		return true;
-	}
+    /**
+     * @return string
+     */
+    public function getDescription() : string
+    {
+        return "";
+    }
 
 
-	/**
-	 * Can the schedule be configured?
-	 *
-	 * @return boolean
-	 */
-	public function hasFlexibleSchedule(): bool {
-		return true;
-	}
+    /**
+     * Is to be activated on "installation"
+     *
+     * @return boolean
+     */
+    public function hasAutoActivation() : bool
+    {
+        return true;
+    }
 
 
-	/**
-	 * Get schedule type
-	 *
-	 * @return int
-	 */
-	public function getDefaultScheduleType(): int {
-		return self::SCHEDULE_TYPE_IN_HOURS;
-	}
+    /**
+     * Can the schedule be configured?
+     *
+     * @return boolean
+     */
+    public function hasFlexibleSchedule() : bool
+    {
+        return true;
+    }
 
 
-	/**
-	 * Get schedule value
-	 *
-	 * @return int|array
-	 */
-	public function getDefaultScheduleValue(): int {
-		return 12;
-	}
+    /**
+     * Get schedule type
+     *
+     * @return int
+     */
+    public function getDefaultScheduleType() : int
+    {
+        return self::SCHEDULE_TYPE_IN_HOURS;
+    }
 
 
-	/**
-	 * Run job
-	 *
-	 * @return ilCronJobResult
-	 */
-	public function run(): ilCronJobResult {
-		$result = new ilCronJobResult();
+    /**
+     * Get schedule value
+     *
+     * @return int|array
+     */
+    public function getDefaultScheduleValue() : int
+    {
+        return 12;
+    }
 
-		$enroller = new Enroller(self::rules()->getRules(), self::ilias()->users()->getUsers());
 
-		$result_count = $enroller->run();
+    /**
+     * Run job
+     *
+     * @return ilCronJobResult
+     */
+    public function run() : ilCronJobResult
+    {
+        $result = new ilCronJobResult();
 
-		$result->setStatus(ilCronJobResult::STATUS_OK);
+        $enroller = new Enroller(self::rules()->getRules(), self::ilias()->users()->getUsers());
 
-		$result->setMessage($result_count);
+        $result_count = $enroller->run();
 
-		return $result;
-	}
+        $result->setStatus(ilCronJobResult::STATUS_OK);
+
+        $result->setMessage($result_count);
+
+        return $result;
+    }
 }

@@ -6,5 +6,5 @@
 \srag\Plugins\SrUserEnrolment\Rule\Rule::updateDB();
 
 \srag\DIC\SrUserEnrolment\DICStatic::dic()->database()
-	->createAutoIncrement(\srag\Plugins\SrUserEnrolment\Log\Log::TABLE_NAME, "log_id"); // Using MySQL native autoincrement for performance
+    ->createAutoIncrement(\srag\Plugins\SrUserEnrolment\Log\Log::TABLE_NAME, "log_id"); // Using MySQL native autoincrement for performance
 ?>

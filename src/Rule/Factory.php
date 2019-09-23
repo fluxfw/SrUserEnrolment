@@ -13,43 +13,47 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Factory {
+final class Factory
+{
 
-	use DICTrait;
-	use SrUserEnrolmentTrait;
-	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-	/**
-	 * @var self
-	 */
-	protected static $instance = null;
-
-
-	/**
-	 * @return self
-	 */
-	public static function getInstance(): self {
-		if (self::$instance === null) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
+    use DICTrait;
+    use SrUserEnrolmentTrait;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    /**
+     * @var self
+     */
+    protected static $instance = null;
 
 
-	/**
-	 * Factory constructor
-	 */
-	private function __construct() {
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
 
-	}
+        return self::$instance;
+    }
 
 
-	/**
-	 * @return Rule
-	 */
-	public function newInstance(): Rule {
-		$rule = new Rule();
+    /**
+     * Factory constructor
+     */
+    private function __construct()
+    {
 
-		return $rule;
-	}
+    }
+
+
+    /**
+     * @return Rule
+     */
+    public function newInstance() : Rule
+    {
+        $rule = new Rule();
+
+        return $rule;
+    }
 }

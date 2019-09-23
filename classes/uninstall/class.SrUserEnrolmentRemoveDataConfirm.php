@@ -12,8 +12,9 @@ use srag\RemovePluginDataConfirm\SrUserEnrolment\AbstractRemovePluginDataConfirm
  *
  * @ilCtrl_isCalledBy SrUserEnrolmentRemoveDataConfirm: ilUIPluginRouterGUI
  */
-class SrUserEnrolmentRemoveDataConfirm extends AbstractRemovePluginDataConfirm {
+class SrUserEnrolmentRemoveDataConfirm extends AbstractRemovePluginDataConfirm
+{
 
-	use SrUserEnrolmentTrait;
-	const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    use SrUserEnrolmentTrait;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 }
