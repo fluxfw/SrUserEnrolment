@@ -117,7 +117,7 @@ final class Users
                         case ExcelImport::FIELDS_TYPE_CUSTOM:
                             $field_id = $this->getUserDefinedFieldID($key);
                             if (!empty($field_id)) {
-                                $custom_fields [$field_id] = $value;
+                                $custom_fields[$field_id] = $value;
                             } else {
                                 throw new SrUserEnrolmentException("User custom field $key not found!");
                             }

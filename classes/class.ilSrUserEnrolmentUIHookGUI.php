@@ -134,7 +134,9 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 }
             }
 
-            if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLocalUserGUI::class)|| (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCategoryGUI::class)&&self::dic()->ctrl()->getCmd()==="listUsers")
+            if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLocalUserGUI::class)
+                || (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCategoryGUI::class)
+                    && self::dic()->ctrl()->getCmd() === "listUsers")
             ) {
 
                 if (self::access()->currentUserHasRole()) {

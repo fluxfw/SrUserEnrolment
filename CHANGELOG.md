@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.2.0]
+- Format date on password fields
+
 ## [2.1.0]
 - Direct local user administration
 

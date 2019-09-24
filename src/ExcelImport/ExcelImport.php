@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
+use Closure;
+use ilCalendarSettings;
 use ilDBConstants;
 use ilExcel;
 use ilObjCourse;
@@ -10,6 +12,8 @@ use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilUserDefinedFields;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
@@ -161,6 +165,13 @@ class ExcelImport
 
         $rows = $excel->getSheetAsArray();
 
+        /**
+         * @var Spreadsheet $spreadsheet
+         */
+        $spreadsheet = Closure::bind(function () : Spreadsheet {
+            return $this->workbook;
+        }, $excel, ilExcel::class)();
+
         $rows = array_slice($rows, $form->getCountSkipTopRows());
 
         $fields = array_filter(array_map(function (array $field) : stdClass {
@@ -214,6 +225,17 @@ class ExcelImport
                     if (!empty($value)) {
                         $has_user_data = true;
                         $user->{ExcelImportFormGUI::KEY_FIELDS}[$field->type][$field->key] = $value;
+                        if ($field->type === self::FIELDS_TYPE_ILIAS && $field->key === "passwd") {
+                            // RegExp from libs/composer/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/NumberFormat.php::toFormattedString::646
+                            $matches = [];
+                            $cell_ = $spreadsheet->getActiveSheet()->getCellByColumnAndRow(($cellI + 1), ($form->getCountSkipTopRows() + 1 + $rowId + 1));
+                            preg_match('/(\[\$[A-Z]*-[0-9A-F]*\])*[hmsdy](?=(?:[^"]|"[^"]*")*$)/miu',
+                                $spreadsheet->getCellXfByIndex($cell_->getXfIndex())
+                                    ->getNumberFormat()->getFormatCode(), $matches);
+                            if (is_array($matches) && count($matches) > 0) {
+                                $user->{ExcelImportFormGUI::KEY_FIELDS}[$field->type][$field->key . "__original_date_value"] = $cell_->getValue();
+                            }
+                        }
                     }
                 }
             }
@@ -243,9 +265,14 @@ class ExcelImport
                     break;
             }
 
-            if ($form->getSetPassword() !== self::SET_PASSWORD_FIELD) {
+            if ($form->getSetPassword() === self::SET_PASSWORD_FIELD) {
+                if ($form->isSetPasswordFormatDateTime() && !empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value)) {
+                    $this->handleSetPasswordFormatDateTime($user);
+                }
+            } else {
                 $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = null;
             }
+            unset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
 
             if (self::ilias()->users()->isLocalUserAdminisrationEnabled() && $form->isLocalUserAdministration()) {
                 $this->handleLocalUserAdministration($form, $user);
@@ -254,40 +281,7 @@ class ExcelImport
             }
 
             if ($form->isOrgUnitAssign()) {
-                $value = $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit;
-
-                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit = null;
-
-                if (!empty($value)) {
-                    $wheres = ['type=%s'];
-                    $types = [ilDBConstants::T_TEXT];
-                    $values = ["orgu"];
-
-                    switch ($form->getOrgUnitType()) {
-                        case self::ORG_UNIT_TYPE_TITLE:
-                            $wheres[] = self::dic()->database()->like("title", ilDBConstants::T_TEXT, '%' . $value . '%');
-                            break;
-
-                        case self::ORG_UNIT_TYPE_REF_ID:
-                            $wheres[] = "ref_id=%s";
-                            $types[] = ilDBConstants::T_INTEGER;
-                            $values[] = $value;
-                            break;
-
-                        default:
-                            break;
-                    }
-
-                    $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit = self::ilias()
-                        ->getObjectRefIdByFilter($wheres, $types, $values);
-                }
-
-                if ($form->getOrgUnitPosition() === self::ORG_UNIT_POSITION_FIELD) {
-                    $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position = self::ilias()->orgUnits()
-                        ->getPositionIdByTitle($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position);
-                } else {
-                    $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position = $form->getOrgUnitPosition();
-                }
+                $this->handleOrgUnitAssign($user, $form);
             } else {
                 $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit = null;
                 $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position = null;
@@ -372,6 +366,33 @@ class ExcelImport
 
 
     /**
+     * @param stdClass $user
+     */
+    protected function handleSetPasswordFormatDateTime(stdClass &$user)/*: void*/
+    {
+        $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
+
+        // Modules/DataCollection/classes/Fields/Datetime/class.ilDclDatetimeRecordRepresentation.php::formatDate
+        switch (self::dic()->user()->getDateFormat()) { // Assume date format for current user which has uploaded the excel file
+            case ilCalendarSettings::DATE_FORMAT_DMY:
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("d.m.Y");
+                break;
+
+            case ilCalendarSettings::DATE_FORMAT_YMD:
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("Y-m-d");
+                break;
+
+            case ilCalendarSettings::DATE_FORMAT_MDY:
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("m/d/Y");
+                break;
+
+            default:
+                break;
+        }
+    }
+
+
+    /**
      * @param ExcelImportFormGUI $form
      * @param stdClass           $user
      */
@@ -419,6 +440,49 @@ class ExcelImport
                 $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = self::ilias()
                     ->getObjectRefIdByFilter($wheres, $types, $values);
             }
+        }
+    }
+
+
+    /**
+     * @param stdClass           $user
+     * @param ExcelImportFormGUI $form
+     */
+    protected function handleOrgUnitAssign(stdClass &$user, ExcelImportFormGUI $form)
+    {
+        $value = $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit;
+
+        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit = null;
+
+        if (!empty($value)) {
+            $wheres = ['type=%s'];
+            $types = [ilDBConstants::T_TEXT];
+            $values = ["orgu"];
+
+            switch ($form->getOrgUnitType()) {
+                case self::ORG_UNIT_TYPE_TITLE:
+                    $wheres[] = self::dic()->database()->like("title", ilDBConstants::T_TEXT, '%' . $value . '%');
+                    break;
+
+                case self::ORG_UNIT_TYPE_REF_ID:
+                    $wheres[] = "ref_id=%s";
+                    $types[] = ilDBConstants::T_INTEGER;
+                    $values[] = $value;
+                    break;
+
+                default:
+                    break;
+            }
+
+            $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit = self::ilias()
+                ->getObjectRefIdByFilter($wheres, $types, $values);
+        }
+
+        if ($form->getOrgUnitPosition() === self::ORG_UNIT_POSITION_FIELD) {
+            $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position = self::ilias()->orgUnits()
+                ->getPositionIdByTitle($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position);
+        } else {
+            $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position = $form->getOrgUnitPosition();
         }
     }
 
