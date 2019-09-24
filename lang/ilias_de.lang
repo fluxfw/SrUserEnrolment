@@ -3,9 +3,7 @@ config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
-config_show_excel_import#:#"Einschreiben per Excel-Datei" anzeigen
-config_show_reset_password#:#"Kennwort zurücksetzen" anzeigen
-config_show_rules_enroll#:#"Einschreiben per Regel" anzeigen
+config_show#:#%s anzeigen
 excel_import_back#:#Zurück
 excel_import_cancel#:#Abbrechen
 excel_import_confirmation#:#Einschreiben?
@@ -107,8 +105,8 @@ rules_remove_rules_confirm#:#Möchten Sie die folgende Regeln wirklich entfernen
 rules_removed_rule#:#Regel %s entfernt
 rules_removed_rules#:#Regeln entfernt
 rules_rule#:#Regel
-rules_rules#:#Einschreiben per Regel
 rules_run_rules#:#Regeln ausführen
 rules_save#:#Speichern
 rules_saved_rule#:#Regel %s gespeichert
-rules_title#:#Titel
+rules_title#:#Einschreiben per Regel
+rules_title_field#:#Titel

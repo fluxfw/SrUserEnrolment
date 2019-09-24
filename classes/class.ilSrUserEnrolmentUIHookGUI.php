@@ -116,7 +116,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
                     if (Config::getField(Config::KEY_SHOW_RULES_ENROLL)) {
                         self::dic()->ctrl()->setParameterByClass(RulesGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
-                        self::dic()->tabs()->addSubTab(RulesGUI::TAB_RULES, self::plugin()->translate("rules", RulesGUI::LANG_MODULE_RULES), self::dic()
+                        self::dic()->tabs()->addSubTab(RulesGUI::TAB_RULES, self::plugin()->translate("title", RulesGUI::LANG_MODULE_RULES), self::dic()
                             ->ctrl()->getLinkTargetByClass([
                                 ilUIPluginRouterGUI::class,
                                 RulesGUI::class

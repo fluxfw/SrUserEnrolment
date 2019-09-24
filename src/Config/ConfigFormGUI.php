@@ -8,6 +8,8 @@ use ilSrUserEnrolmentPlugin;
 use srag\ActiveRecordConfig\SrUserEnrolment\ActiveRecordConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
+use srag\Plugins\SrUserEnrolment\ResetPassword\ResetPasswordGUI;
+use srag\Plugins\SrUserEnrolment\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -50,14 +52,23 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI
                 "enableSelectAll"       => true
             ],
             Config::KEY_SHOW_RULES_ENROLL   => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
+                    self::plugin()->translate("title", RulesGUI::LANG_MODULE_RULES, [])
+                ])
             ],
             Config::KEY_SHOW_EXCEL_IMPORT   => [
                 self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
-                self::PROPERTY_SUBITEMS => ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI())
+                self::PROPERTY_SUBITEMS => ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI()),
+                "setTitle"              => self::plugin()->translate("show", self::LANG_MODULE, [
+                    self::plugin()->translate("title", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT, [])
+                ])
             ],
             Config::KEY_SHOW_RESET_PASSWORD => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
+                    self::plugin()->translate("title", ResetPasswordGUI::LANG_MODULE_RESET_PASSWORD, [])
+                ])
             ]
         ];
     }

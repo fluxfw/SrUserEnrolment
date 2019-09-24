@@ -121,7 +121,7 @@ class RulesGUI
             ilCourseMembershipGUI::class
         ]));
 
-        self::dic()->tabs()->addTab(self::TAB_RULES, self::plugin()->translate("rules", self::LANG_MODULE_RULES), self::dic()->ctrl()
+        self::dic()->tabs()->addTab(self::TAB_RULES, self::plugin()->translate("title", self::LANG_MODULE_RULES), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_LIST_RULES));
         self::dic()->tabs()->activateTab(self::TAB_RULES);
 
