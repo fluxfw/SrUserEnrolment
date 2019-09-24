@@ -50,7 +50,7 @@ excel_import_password#:#Password
 excel_import_rows#:#Rows
 excel_import_set_password#:#Set password
 excel_import_set_password_field#:#Field
-excel_import_set_password_format_datetime#:#Format date/time
+excel_import_set_password_format_datetime#:#Format date
 excel_import_set_password_random#:#Random
 excel_import_title#:#Enrol by excel file
 excel_import_update_user_and_enroll#:#Update user and enroll
