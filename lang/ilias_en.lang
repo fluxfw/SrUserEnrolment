@@ -3,9 +3,7 @@ config_configuration_saved#:#Configuration saved
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
-config_show_excel_import#:#Show "Enrol by excel file"
-config_show_reset_password#:#Show "Reset password"
-config_show_rules_enroll#:#Show "Enrol by rule"
+config_show#:#Show %s
 excel_import_back#:#Back
 excel_import_cancel#:#Cancel
 excel_import_confirmation#:#Enroll?
@@ -107,8 +105,8 @@ rules_remove_rules_confirm#:#Are you really want to delete the follow rules?
 rules_removed_rule#:#Rule %s removed
 rules_removed_rules#:#Rules removed
 rules_rule#:#Rule
-rules_rules#:#Enrol by rule
 rules_run_rules#:#Run rules
 rules_save#:#Save
 rules_saved_rule#:#Rule %s saved
-rules_title#:#Title
+rules_title#:#Enrol by rule
+rules_title_field#:#Title

@@ -113,7 +113,8 @@ class RuleFormGUI extends ObjectPropertyFormGUI
                         self::PROPERTY_SUBITEMS => [
                             "title"                         => [
                                 self::PROPERTY_CLASS    => ilTextInputGUI::class,
-                                self::PROPERTY_REQUIRED => true
+                                self::PROPERTY_REQUIRED => true,
+                                "setTitle"              => $this->txt("title_field")
                             ],
                             "title_operator"                => [
                                 self::PROPERTY_CLASS    => ilSelectInputGUI::class,
