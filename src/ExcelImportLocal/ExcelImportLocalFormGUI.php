@@ -68,6 +68,7 @@ class ExcelImportLocalFormGUI extends ExcelImportFormGUI
             switch ($key) {
                 case "excel_import_local_user_administration":
                     $field[self::PROPERTY_DISABLED] = true;
+                    unset($field["setInfo"]);
 
                     foreach ($field[self::PROPERTY_SUBITEMS] as $subkey => &$subfield) {
                         $subfield[self::PROPERTY_DISABLED] = true;
