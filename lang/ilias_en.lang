@@ -13,7 +13,7 @@ excel_import_create_new_users#:#Create not exists users
 excel_import_create_user_and_enroll#:#Create user and enroll
 excel_import_enroll#:#Enroll
 excel_import_excel_file#:#Excel file
-excel_import_fields#:#Dields
+excel_import_fields#:#Fields
 excel_import_fields_column_heading#:#Excel column heading
 excel_import_fields_custom#:#Custom field
 excel_import_fields_ilias#:#Default field
