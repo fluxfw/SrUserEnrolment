@@ -1,7 +1,7 @@
 # Changelog
 
 ## [2.2.0]
-- Format date on password fields
+- Format date on password fields (Experimental)
 
 ## [2.1.0]
 - Direct local user administration
