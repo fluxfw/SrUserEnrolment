@@ -44,6 +44,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     const KEY_ORG_UNIT_ASSIGN_POSITION = self::LANG_MODULE . "_org_unit_assign_position";
     const KEY_ORG_UNIT_ASSIGN_TYPE = self::LANG_MODULE . "_org_unit_assign_type";
     const KEY_SET_PASSWORD = self::LANG_MODULE . "_set_password";
+    const KEY_SET_PASSWORD_FORMAT_DATETIME = self::KEY_SET_PASSWORD . "_format_datetime";
     /**
      * @var string
      */
@@ -104,6 +105,11 @@ class ExcelImportFormGUI extends PropertyFormGUI
      * @var int
      */
     protected $excel_import_set_password = ExcelImport::SET_PASSWORD_RANDOM;
+    /**
+     * @var bool
+     */
+    protected $excel_import_excel_import_set_password_format_datetime
+        = false;
 
 
     /**
@@ -206,9 +212,15 @@ class ExcelImportFormGUI extends PropertyFormGUI
                         "setTitle"           => self::plugin()->translate(self::KEY_SET_PASSWORD . "_random")
                     ],
                     ExcelImport::SET_PASSWORD_FIELD  => [
-                        self::PROPERTY_CLASS => ilRadioOption::class,
-                        "setTitle"           => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field"),
-                        "setInfo"            => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+                        self::PROPERTY_CLASS    => ilRadioOption::class,
+                        self::PROPERTY_SUBITEMS => [
+                            ExcelImportFormGUI::KEY_SET_PASSWORD_FORMAT_DATETIME => [
+                                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                                "setTitle"           => self::plugin()->translate(self::KEY_SET_PASSWORD_FORMAT_DATETIME)
+                            ]
+                        ],
+                        "setTitle"              => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field"),
+                        "setInfo"               => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
                             self::plugin()->translate(self::KEY_SET_PASSWORD . "_field"),
                             ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "passwd")
                         ])
@@ -628,6 +640,15 @@ class ExcelImportFormGUI extends PropertyFormGUI
     public function getSetPassword() : int
     {
         return $this->{self::KEY_SET_PASSWORD};
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isSetPasswordFormatDateTime() : bool
+    {
+        return $this->{self::KEY_SET_PASSWORD_FORMAT_DATETIME};
     }
 
 
