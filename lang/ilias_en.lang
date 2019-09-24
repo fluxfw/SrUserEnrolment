@@ -45,7 +45,7 @@ excel_import_org_unit_assign_position#:#Position
 excel_import_org_unit_assign_position_field#:#Field
 excel_import_org_unit_assign_type#:#Type
 excel_import_org_unit_assign_type_ref_id#:#Ref id
-excel_import_org_unit_assigntype_title#:#Title
+excel_import_org_unit_assign_type_title#:#Title
 excel_import_password#:#Password
 excel_import_rows#:#Rows
 excel_import_set_password#:#Set password
