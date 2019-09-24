@@ -233,7 +233,7 @@ class ExcelImport
                                 $spreadsheet->getCellXfByIndex($cell_->getXfIndex())
                                     ->getNumberFormat()->getFormatCode(), $matches);
                             if (is_array($matches) && count($matches) > 0) {
-                                $user->{ExcelImportFormGUI::KEY_FIELDS}[$field->type][$field->key . "__original_datetime_value"] = $cell_->getValue();
+                                $user->{ExcelImportFormGUI::KEY_FIELDS}[$field->type][$field->key . "__original_date_value"] = $cell_->getValue();
                             }
                         }
                     }
@@ -266,13 +266,13 @@ class ExcelImport
             }
 
             if ($form->getSetPassword() === self::SET_PASSWORD_FIELD) {
-                if ($form->isSetPasswordFormatDateTime() && !empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_datetime_value)) {
+                if ($form->isSetPasswordFormatDateTime() && !empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value)) {
                     $this->handleSetPasswordFormatDateTime($user);
                 }
             } else {
                 $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = null;
             }
-            unset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_datetime_value);
+            unset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
 
             if (self::ilias()->users()->isLocalUserAdminisrationEnabled() && $form->isLocalUserAdministration()) {
                 $this->handleLocalUserAdministration($form, $user);
@@ -370,7 +370,7 @@ class ExcelImport
      */
     protected function handleSetPasswordFormatDateTime(stdClass &$user)/*: void*/
     {
-        $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_datetime_value);
+        $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
 
         // Modules/DataCollection/classes/Fields/Datetime/class.ilDclDatetimeRecordRepresentation.php::formatDate
         switch (self::dic()->user()->getDateFormat()) { // Assume date format for current user which has uploaded the excel file

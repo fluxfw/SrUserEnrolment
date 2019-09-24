@@ -50,7 +50,7 @@ excel_import_password#:#Kennwort
 excel_import_rows#:#Zeilen
 excel_import_set_password#:#Kennwort setzen
 excel_import_set_password_field#:#Feld
-excel_import_set_password_format_datetime#:#Datum formatieren
+excel_import_set_password_format_date#:#Datum formatieren
 excel_import_set_password_random#:#Zufällig
 excel_import_title#:#Einschreiben per Excel-Datei
 excel_import_update_user_and_enroll#:#Benutzer aktualisieren und einschreiben
