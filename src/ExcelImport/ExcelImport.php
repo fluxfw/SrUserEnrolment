@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
+use Closure;
 use ilCalendarSettings;
 use ilDBConstants;
 use ilExcel;
@@ -11,6 +12,7 @@ use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilUserDefinedFields;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
@@ -162,6 +164,13 @@ class ExcelImport
 
         $rows = $excel->getSheetAsArray();
 
+        /**
+         * @var Spreadsheet $spreadsheet
+         */
+        $spreadsheet = Closure::bind(function () : Spreadsheet {
+            return $this->workbook;
+        }, $excel, ilExcel::class)();
+
         $rows = array_slice($rows, $form->getCountSkipTopRows());
 
         $fields = array_filter(array_map(function (array $field) : stdClass {
@@ -215,6 +224,16 @@ class ExcelImport
                     if (!empty($value)) {
                         $has_user_data = true;
                         $user->{ExcelImportFormGUI::KEY_FIELDS}[$field->type][$field->key] = $value;
+                        if ($field->type === self::FIELDS_TYPE_ILIAS && $field->key === "passwd") {
+                            $matches = [];
+                            // RegExp from libs/composer/vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/Style/NumberFormat.php::toFormattedString::646
+                            preg_match('/(\[\$[A-Z]*-[0-9A-F]*\])*[hmsdy](?=(?:[^"]|"[^"]*")*$)/miu',
+                                $spreadsheet->getCellXfByIndex($spreadsheet->getActiveSheet()->getCellByColumnAndRow(($cellI + 1), ($form->getCountSkipTopRows() + 1 + $rowId + 1))->getXfIndex())
+                                    ->getNumberFormat()->getFormatCode(), $matches);
+
+                            $user->{ExcelImportFormGUI::KEY_FIELDS}[$field->type][$field->key . "__is_format_datetime"]
+                                = (is_array($matches) && count($matches) > 0);
+                        }
                     }
                 }
             }
@@ -245,12 +264,13 @@ class ExcelImport
             }
 
             if ($form->getSetPassword() === self::SET_PASSWORD_FIELD) {
-                if ($form->isSetPasswordFormatDateTime()) {
+                if ($form->isSetPasswordFormatDateTime() && $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__is_format_datetime) {
                     $this->handleSetPasswordFormatDateTime($user);
                 }
             } else {
                 $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = null;
             }
+            unset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__is_format_datetime);
 
             if (self::ilias()->users()->isLocalUserAdminisrationEnabled() && $form->isLocalUserAdministration()) {
                 $this->handleLocalUserAdministration($form, $user);
