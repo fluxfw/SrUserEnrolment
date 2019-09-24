@@ -7,6 +7,7 @@ use ilMultiSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\ActiveRecordConfig\SrUserEnrolment\ActiveRecordConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
+use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -53,7 +54,7 @@ class ConfigFormGUI extends ActiveRecordConfigFormGUI
             ],
             Config::KEY_SHOW_EXCEL_IMPORT   => [
                 self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
-                self::PROPERTY_SUBITEMS => ExcelImportFormGUI::getExcelImportFields()
+                self::PROPERTY_SUBITEMS => ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI())
             ],
             Config::KEY_SHOW_RESET_PASSWORD => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class

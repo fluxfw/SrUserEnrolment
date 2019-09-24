@@ -66,10 +66,11 @@ logs_status_200#:#Nicht eingeschrieben (Siehe Log)
 logs_status_300#:#Benutzer angelegt
 logs_status_400#:#Benutzer aktualisiert
 logs_user_id#:#Benutzer Login
-reset_password_button#:#Kennwort zurücksetzen
+reset_password_back#:#Zurück
 reset_password_cancel#:#Abbrechen
 reset_password_confirmation#:#Kennwort zurücksetzen?
 reset_password_reset#:#Das Kennwort von %1$s wurde zurückgesetzt:\n\nE-Mail: %2$s\nBenutzername: %3$s\nNeues Kennwort: %4$s
+reset_password_title#:#Kennwort zurücksetzen
 rules_actions#:#Aktionen
 rules_add#:#Hinzufügen
 rules_add_rule#:#Regel hinzufügen

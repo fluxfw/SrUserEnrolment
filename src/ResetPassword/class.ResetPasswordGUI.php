@@ -33,6 +33,7 @@ class ResetPasswordGUI
     const CMD_RESET_PASSWORD_CONFIRM = "resetPasswordConfirm";
     const CMD_RESET_PASSWORD = "resetPassword";
     const CMD_BACK_TO_MEMBERS_LIST = "backToMembersList";
+    const TAB_RESET_PASSWORD = "reset_password";
     const LANG_MODULE_RESET_PASSWORD = "reset_password";
 
 
@@ -57,6 +58,8 @@ class ResetPasswordGUI
             die();
         }
 
+        $this->setTabs();
+
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
@@ -77,6 +80,22 @@ class ResetPasswordGUI
         }
     }
 
+    /**
+     *
+     */
+    protected function setTabs()/*: void*/
+    {
+        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
+        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_USER_ID);
+
+        self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE_RESET_PASSWORD), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK_TO_MEMBERS_LIST));
+
+        self::dic()->tabs()->addTab(self::TAB_RESET_PASSWORD, self::plugin()->translate("title", self::LANG_MODULE_RESET_PASSWORD), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_RESET_PASSWORD_CONFIRM));
+        self::dic()->tabs()->activateTab(self::TAB_RESET_PASSWORD);
+    }
+
 
     /**
      *
@@ -87,16 +106,13 @@ class ResetPasswordGUI
 
         $confirmation = new ilConfirmationGUI();
 
-        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
-        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_USER_ID);
-
         $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
         $confirmation->setHeaderText(self::plugin()->translate("confirmation", self::LANG_MODULE_RESET_PASSWORD));
 
         $confirmation->addItem(Repository::GET_PARAM_USER_ID, $user->getId(), $user->getFullname());
 
-        $confirmation->setConfirm(self::plugin()->translate("button", self::LANG_MODULE_RESET_PASSWORD), self::CMD_RESET_PASSWORD);
+        $confirmation->setConfirm(self::plugin()->translate("title", self::LANG_MODULE_RESET_PASSWORD), self::CMD_RESET_PASSWORD);
         $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_RESET_PASSWORD), self::CMD_BACK_TO_MEMBERS_LIST);
 
         self::output()->output($confirmation, true);
@@ -118,8 +134,6 @@ class ResetPasswordGUI
             $user->getLogin(),
             $new_password
         ])), false), true);
-
-        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
 
         self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
     }

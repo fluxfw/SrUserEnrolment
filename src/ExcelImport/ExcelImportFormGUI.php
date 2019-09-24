@@ -107,9 +107,11 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
+     * @param ExcelImportGUI $parent
+     *
      * @return array
      */
-    public static function getExcelImportFields() : array
+    public static function getExcelImportFields(ExcelImportGUI $parent) : array
     {
         return [
             self::KEY_COUNT_SKIP_TOP_ROWS => [
@@ -140,7 +142,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                         self::PROPERTY_REQUIRED => true,
                         "setTitle"              => self::plugin()->translate(self::KEY_FIELDS . "_key"),
                         "setDataSource"         => self::dic()->ctrl()
-                            ->getLinkTargetByClass(ExcelImportGUI::class, ExcelImportGUI::CMD_KEY_AUTOCOMPLETE, "", true)
+                            ->getLinkTarget($parent, ExcelImportGUI::CMD_KEY_AUTOCOMPLETE, "", true)
                     ],
                     "column_heading" => [
                         self::PROPERTY_CLASS    => ilTextInputGUI::class,
@@ -479,7 +481,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                     self::PROPERTY_REQUIRED => true,
                     "setSuffixes"           => [["xlsx", "xltx"]]
                 ]
-            ] + self::getExcelImportFields();
+            ] + self::getExcelImportFields($this->parent);
     }
 
 
