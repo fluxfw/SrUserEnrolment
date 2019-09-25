@@ -34,7 +34,7 @@ class Config extends ActiveRecordConfig
             self::KEY_SHOW_EXCEL_IMPORT                                   => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RESET_PASSWORD                                 => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RULES_ENROLL                                   => [self::TYPE_BOOLEAN, false],
-            ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS                   => [self::TYPE_INTEGER, 1],
+            ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS                   => [self::TYPE_INTEGER, 0],
             ExcelImportFormGUI::KEY_CREATE_NEW_USERS                      => [self::TYPE_BOOLEAN, false],
             ExcelImportFormGUI::KEY_FIELDS                                => [
                 self::TYPE_JSON,
