@@ -66,7 +66,6 @@ class Log extends ActiveRecord
      * @con_fieldtype    integer
      * @con_length       8
      * @con_is_notnull   true
-     * @con_is_primary   true
      */
     protected $log_id = 0;
     /**
