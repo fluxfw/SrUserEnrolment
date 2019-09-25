@@ -52,7 +52,23 @@ class Log extends ActiveRecord
     /**
      * @var array
      */
-    public static $statuss
+    public static $status_create_or_update_users
+        = [
+            self::STATUS_USER_CREATED => self::STATUS_USER_CREATED,
+            self::STATUS_USER_UPDATED => self::STATUS_USER_UPDATED
+        ];
+    /**
+     * @var array
+     */
+    public static $status_enroll
+        = [
+            self::STATUS_ENROLLED     => self::STATUS_ENROLLED,
+            self::STATUS_NOT_ENROLLED => self::STATUS_NOT_ENROLLED
+        ];
+    /**
+     * @var array
+     */
+    public static $status_all
         = [
             self::STATUS_USER_CREATED => self::STATUS_USER_CREATED,
             self::STATUS_USER_UPDATED => self::STATUS_USER_UPDATED,

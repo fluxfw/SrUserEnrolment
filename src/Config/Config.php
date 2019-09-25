@@ -34,7 +34,7 @@ class Config extends ActiveRecordConfig
             self::KEY_SHOW_EXCEL_IMPORT                                   => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RESET_PASSWORD                                 => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RULES_ENROLL                                   => [self::TYPE_BOOLEAN, false],
-            ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS                   => [self::TYPE_INTEGER, 1],
+            ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS                   => [self::TYPE_INTEGER, 0],
             ExcelImportFormGUI::KEY_CREATE_NEW_USERS                      => [self::TYPE_BOOLEAN, false],
             ExcelImportFormGUI::KEY_FIELDS                                => [
                 self::TYPE_JSON,
@@ -101,6 +101,6 @@ class Config extends ActiveRecordConfig
             ExcelImportFormGUI::KEY_ORG_UNIT_ASSIGN_POSITION              => [self::TYPE_INTEGER, ExcelImport::ORG_UNIT_POSITION_FIELD],
             ExcelImportFormGUI::KEY_ORG_UNIT_ASSIGN_TYPE                  => [self::TYPE_INTEGER, ExcelImport::ORG_UNIT_TYPE_TITLE],
             ExcelImportFormGUI::KEY_SET_PASSWORD                          => [self::TYPE_INTEGER, ExcelImport::SET_PASSWORD_RANDOM],
-            ExcelImportFormGUI::KEY_SET_PASSWORD_FORMAT_DATE          => [self::TYPE_BOOLEAN, false]
+            ExcelImportFormGUI::KEY_SET_PASSWORD_FORMAT_DATE              => [self::TYPE_BOOLEAN, false]
         ];
 }

@@ -89,4 +89,22 @@ class ExcelImportLocalFormGUI extends ExcelImportFormGUI
             }
         }
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function storeValue(/*string*/ $key, $value)/*: void*/
+    {
+        switch ($key) {
+            case "excel_import_local_user_administration":
+            case "excel_import_local_user_administration_object_type":
+            case "excel_import_local_user_administration_type":
+                break;
+
+            default:
+                parent::storeValue($key, $value);
+                break;
+        }
+    }
 }

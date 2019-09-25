@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.3.0]
+- Improve user update (Separate user creation/update and enrolment)
+
 ## [2.2.1]
 - Fix install
 

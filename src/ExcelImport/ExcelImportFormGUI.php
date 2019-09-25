@@ -11,6 +11,7 @@ use ilRadioOption;
 use ilSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
+use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiLineInputGUI\MultiLineInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
@@ -453,7 +454,13 @@ class ExcelImportFormGUI extends PropertyFormGUI
             }
         }
 
-        return (!$error);
+        if ($error) {
+            ilUtil::sendFailure(self::dic()->language()->txt("form_input_not_valid"));
+
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
@@ -477,7 +484,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
      */
     protected function initCommands()/*: void*/
     {
-        $this->addCommandButton(ExcelImportGUI::CMD_EXCEL_IMPORT, $this->txt("import"));
+        $this->addCommandButton(ExcelImportGUI::CMD_PARSE_EXCEL, $this->txt("import"));
         $this->addCommandButton(ExcelImportGUI::CMD_BACK_TO_MEMBERS_LIST, $this->txt("cancel"));
     }
 

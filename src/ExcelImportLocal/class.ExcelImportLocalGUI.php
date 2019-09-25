@@ -55,7 +55,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
      */
     protected function backToMembersList()/*: void*/
     {
-        switch ($a = self::dic()->objDataCache()->lookupType(self::rules()->getObjId())) {
+        switch (self::dic()->objDataCache()->lookupType(self::rules()->getObjId())) {
             case "cat":
                 self::dic()->ctrl()->saveParameterByClass(ilObjCategoryGUI::class, Repository::GET_PARAM_REF_ID);
 

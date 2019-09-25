@@ -75,7 +75,7 @@ class Enroller
             $enroll->enroll();
         }
 
-        $logs = array_reduce(Log::$statuss, function (array $logs, int $status) : array {
+        $logs = array_reduce(Log::$status_all, function (array $logs, int $status) : array {
             $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE_LOGS) . ": " . count(self::logs()->getKeptLogs($status));
 
             return $logs;

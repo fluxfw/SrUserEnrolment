@@ -6,12 +6,14 @@ config_save#:#Save
 config_show#:#Show %s
 excel_import_back#:#Back
 excel_import_cancel#:#Cancel
-excel_import_confirmation#:#Enroll?
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_count_skip_top_rows_info#:#Please not include column heading row
 excel_import_create_new_users#:#Create not exists users
-excel_import_create_user_and_enroll#:#Create user and enroll
+excel_import_create_or_update_users#:#Create or update users
+excel_import_create_or_update_users_confirmation#:#Create or update users?
+excel_import_create_user#:#Create user
 excel_import_enroll#:#Enroll
+excel_import_enroll_confirmation#:#Enroll?
 excel_import_excel_file#:#Excel file
 excel_import_fields#:#Fields
 excel_import_fields_column_heading#:#Excel column heading
@@ -40,6 +42,7 @@ excel_import_map_exists_users_field_email#:#Email
 excel_import_map_exists_users_field_login#:#Login
 excel_import_no#:#No
 excel_import_nothing_to_enroll#:#Nothing to enroll
+excel_import_nothing_to_do#:#Nothing to do
 excel_import_org_unit_assign#:#Assign org unit
 excel_import_org_unit_assign_position#:#Position
 excel_import_org_unit_assign_position_field#:#Field
@@ -53,7 +56,7 @@ excel_import_set_password_field#:#Field
 excel_import_set_password_format_date#:#Format date (Experimental)
 excel_import_set_password_random#:#Random
 excel_import_title#:#Enrol by excel file
-excel_import_update_user_and_enroll#:#Update user and enroll
+excel_import_update_user#:#Update user
 excel_import_yes#:#Yes
 logs_date#:#Date / Time
 logs_logs#:#Logs
