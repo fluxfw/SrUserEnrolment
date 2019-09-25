@@ -571,7 +571,7 @@ class ExcelImport
         $object = ilObjectFactory::getInstanceByObjId(self::rules()->getObjId(), false);
 
         $users = array_filter($users, function (stdClass $user) use ($object): bool {
-            return ($user->ilias_user_id && !self::ilias()->courses()->isAssigned($object, $user->ilias_user_id));
+            return (!empty($user->ilias_user_id) && !self::ilias()->courses()->isAssigned($object, $user->ilias_user_id));
         });
 
         $data = (object) [
