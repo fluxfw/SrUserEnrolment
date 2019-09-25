@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.2.1]
+- Fix install
+
 ## [2.2.0]
 - Format date on password fields (Experimental)
 
