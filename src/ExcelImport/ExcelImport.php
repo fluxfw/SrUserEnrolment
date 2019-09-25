@@ -461,7 +461,7 @@ class ExcelImport
 
             switch ($form->getOrgUnitType()) {
                 case self::ORG_UNIT_TYPE_TITLE:
-                    $wheres[] = self::dic()->database()->like("title", ilDBConstants::T_TEXT, '%' . $value . '%');
+                    $wheres[] = self::dic()->database()->like("title", ilDBConstants::T_TEXT, '%%' . $value . '%%');
                     break;
 
                 case self::ORG_UNIT_TYPE_REF_ID:
