@@ -149,15 +149,14 @@ class ExcelImportGUI
 
         $excel_import = $this->getExcelImport();
 
-        $result = $excel_import->parse($form);
-        if (empty($result)) {
+        $users = $excel_import->parse($form);
+        if (empty($users)) {
             ilUtil::sendInfo(self::plugin()->translate("nothing_to_do", self::LANG_MODULE_EXCEL_IMPORT), true);
 
             self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
 
             return;
         }
-        ilUtil::sendInfo($result);
 
         $confirmation = new ilConfirmationGUI();
 
@@ -167,6 +166,10 @@ class ExcelImportGUI
 
         $confirmation->setConfirm(self::plugin()->translate("create_or_update_users", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_CREATE_OR_UPDATE_USERS);
         $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_BACK_TO_MEMBERS_LIST);
+
+        foreach ($users as $user_info) {
+            $confirmation->addItem("", "", self::output()->getHTML($user_info));
+        }
 
         self::output()->output($confirmation, true);
     }
@@ -182,15 +185,14 @@ class ExcelImportGUI
         $result = $excel_import->createOrUpdateUsers();
         ilUtil::sendSuccess($result, true);
 
-        $result = $excel_import->getUsersToEnroll();
-        if (empty($result)) {
+        $users = $excel_import->getUsersToEnroll();
+        if (empty($users)) {
             ilUtil::sendInfo(self::plugin()->translate("nothing_to_enroll", self::LANG_MODULE_EXCEL_IMPORT), true);
 
             self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
 
             return;
         }
-        ilUtil::sendInfo($result);
 
         $confirmation = new ilConfirmationGUI();
 
@@ -200,6 +202,10 @@ class ExcelImportGUI
 
         $confirmation->setConfirm(self::plugin()->translate("enroll", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_ENROLL);
         $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_BACK_TO_MEMBERS_LIST);
+
+        foreach ($users as $user_info) {
+            $confirmation->addItem("", "", self::output()->getHTML($user_info));
+        }
 
         self::output()->output($confirmation, true);
     }

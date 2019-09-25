@@ -41,10 +41,10 @@ class ExcelImportLocal extends ExcelImport
     /**
      * @inheritDoc
      */
-    public function getUsersToEnroll() : string
+    public function getUsersToEnroll() : array
     {
         self::dic()->ctrl()->redirectByClass(ExcelImportLocalGUI::class, ExcelImportLocalGUI::CMD_BACK_TO_MEMBERS_LIST);
 
-        return "";
+        return [];
     }
 }

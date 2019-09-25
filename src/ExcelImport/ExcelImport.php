@@ -154,9 +154,9 @@ class ExcelImport
     /**
      * @param ExcelImportFormGUI $form
      *
-     * @return string
+     * @return array
      */
-    public function parse(ExcelImportFormGUI $form) : string
+    public function parse(ExcelImportFormGUI $form) : array
     {
         $excel = new ilExcel();
 
@@ -345,7 +345,7 @@ class ExcelImport
 
         ilSession::set(self::SESSION_KEY, json_encode($data));
 
-        $users = array_map(function (stdClass $user) : string {
+        $users = array_map(function (stdClass $user) : array {
             $items = [];
             foreach ($user->{ExcelImportFormGUI::KEY_FIELDS} as $type => $fields) {
                 foreach ($fields as $key => $value) {
@@ -353,15 +353,15 @@ class ExcelImport
                 }
             }
 
-            return self::output()->getHTML([
+            return [
                 self::plugin()
                     ->translate($user->is_new ? "create_user" : "update_user", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
                 ":",
                 self::dic()->ui()->factory()->listing()->descriptive($items)
-            ]);
+            ];
         }, $users);
 
-        return implode("<br>", $users);
+        return $users;
     }
 
 
@@ -561,9 +561,9 @@ class ExcelImport
 
 
     /**
-     * @return string
+     * @return array
      */
-    public function getUsersToEnroll() : string
+    public function getUsersToEnroll() : array
     {
         $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
         $users = (array) $data->users;
@@ -571,7 +571,7 @@ class ExcelImport
         $object = ilObjectFactory::getInstanceByObjId(self::rules()->getObjId(), false);
 
         $users = array_filter($users, function (stdClass $user) use ($object): bool {
-            return (!self::ilias()->courses()->isAssigned($object, $user->ilias_user_id));
+            return ($user->ilias_user_id && !self::ilias()->courses()->isAssigned($object, $user->ilias_user_id));
         });
 
         $data = (object) [
@@ -581,22 +581,10 @@ class ExcelImport
         ilSession::set(self::SESSION_KEY, json_encode($data));
 
         $users = array_map(function (stdClass $user) : string {
-            $items = [];
-            foreach ($user->{ExcelImportFormGUI::KEY_FIELDS} as $type => $fields) {
-                foreach ($fields as $key => $value) {
-                    $items[self::fieldName($type, $key)] = strval($value);
-                }
-            }
-
-            return self::output()->getHTML([
-                self::plugin()
-                    ->translate("enroll", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT),
-                ":",
-                self::dic()->ui()->factory()->listing()->descriptive($items)
-            ]);
+            return ilObjUser::_lookupLogin($user->ilias_user_id);
         }, $users);
 
-        return implode("<br>", $users);
+        return $users;
     }
 
 
