@@ -628,7 +628,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
      */
     public function getOrgUnitPosition() : int
     {
-        return $this->{self::KEY_ORG_UNIT_ASSIGN_POSITION};
+        return intval($this->{self::KEY_ORG_UNIT_ASSIGN_POSITION});
     }
 
 
