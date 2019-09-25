@@ -484,7 +484,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
      */
     protected function initCommands()/*: void*/
     {
-        $this->addCommandButton(ExcelImportGUI::CMD_EXCEL_IMPORT, $this->txt("import"));
+        $this->addCommandButton(ExcelImportGUI::CMD_PARSE_EXCEL, $this->txt("import"));
         $this->addCommandButton(ExcelImportGUI::CMD_BACK_TO_MEMBERS_LIST, $this->txt("cancel"));
     }
 

@@ -101,6 +101,6 @@ class Config extends ActiveRecordConfig
             ExcelImportFormGUI::KEY_ORG_UNIT_ASSIGN_POSITION              => [self::TYPE_INTEGER, ExcelImport::ORG_UNIT_POSITION_FIELD],
             ExcelImportFormGUI::KEY_ORG_UNIT_ASSIGN_TYPE                  => [self::TYPE_INTEGER, ExcelImport::ORG_UNIT_TYPE_TITLE],
             ExcelImportFormGUI::KEY_SET_PASSWORD                          => [self::TYPE_INTEGER, ExcelImport::SET_PASSWORD_RANDOM],
-            ExcelImportFormGUI::KEY_SET_PASSWORD_FORMAT_DATE          => [self::TYPE_BOOLEAN, false]
+            ExcelImportFormGUI::KEY_SET_PASSWORD_FORMAT_DATE              => [self::TYPE_BOOLEAN, false]
         ];
 }

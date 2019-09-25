@@ -142,7 +142,8 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 if (self::access()->currentUserHasRole()) {
 
                     if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT)) {
-                        self::dic()->ctrl()->setParameterByClass(ilLocalUserGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
+                        self::dic()->ctrl()->setParameterByClass(ExcelImportLocalGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
+
                         self::dic()->tabs()->addSubTab(ExcelImportLocalGUI::TAB_LOCAL_USER_ADMINISTRATION, self::dic()->language()
                             ->txt("administrate_users"), self::dic()->ctrl()->getLinkTargetByClass([
                             ilUIPluginRouterGUI::class,
@@ -150,7 +151,6 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                         ], ExcelImportLocalGUI::CMD_BACK_TO_MEMBERS_LIST));
                         self::dic()->tabs()->activateSubTab(ExcelImportLocalGUI::TAB_LOCAL_USER_ADMINISTRATION);
 
-                        self::dic()->ctrl()->setParameterByClass(ExcelImportLocalGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
                         self::dic()->tabs()->addSubTab(ExcelImportLocalGUI::TAB_EXCEL_IMPORT, self::plugin()
                             ->translate("title", ExcelImportLocalGUI::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()->getLinkTargetByClass([
                             ilUIPluginRouterGUI::class,

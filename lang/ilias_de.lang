@@ -6,12 +6,14 @@ config_save#:#Speichern
 config_show#:#%s anzeigen
 excel_import_back#:#Zurück
 excel_import_cancel#:#Abbrechen
-excel_import_confirmation#:#Einschreiben?
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_count_skip_top_rows_info#:#Bitte Spalten-Überschriff-Zeile nicht mit einbeziehen
 excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
-excel_import_create_user_and_enroll#:#Benutzer anlegen und einschreiben
+excel_import_create_or_update_users#:#Benutzer anlegen oder aktualisieren
+excel_import_create_or_update_users_confirmation#:#Benutzer anlegen oder aktualisieren?
+excel_import_create_user#:#Benutzer anlegen
 excel_import_enroll#:#Einschreiben
+excel_import_enroll_confirmation#:#Einschreiben?
 excel_import_excel_file#:#Excel-Datei
 excel_import_fields#:#Benutzer-Felder
 excel_import_fields_column_heading#:#Excel-Spalten-Überschrifft
@@ -40,6 +42,7 @@ excel_import_map_exists_users_field_email#:#E-Mail
 excel_import_map_exists_users_field_login#:#Benutzername
 excel_import_no#:#Nein
 excel_import_nothing_to_enroll#:#Nichts zum Einschreiben
+excel_import_nothing_to_do#:#Nichts zu tun
 excel_import_org_unit_assign#:#Organisationseinheit zuweisen
 excel_import_org_unit_assign_position#:#Position
 excel_import_org_unit_assign_position_field#:#Feld
@@ -53,7 +56,7 @@ excel_import_set_password_field#:#Feld
 excel_import_set_password_format_date#:#Datum formatieren (Experimental)
 excel_import_set_password_random#:#Zufällig
 excel_import_title#:#Einschreiben per Excel-Datei
-excel_import_update_user_and_enroll#:#Benutzer aktualisieren und einschreiben
+excel_import_update_user#:#Benutzer aktualisieren
 excel_import_yes#:#Ja
 logs_date#:#Datum / Zeit
 logs_logs#:#Logs

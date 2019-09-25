@@ -152,7 +152,7 @@ class LogsTableGUI extends TableGUI
                         "" => "",
                     ] + array_map(function (int $status) : string {
                         return $this->txt("status_" . $status);
-                    }, Log::$statuss)
+                    }, Log::$status_all)
             ]
         ];
     }

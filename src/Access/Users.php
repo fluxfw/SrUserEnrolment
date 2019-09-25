@@ -25,6 +25,7 @@ final class Users
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const USER_ROLE_ID = 4;
     /**
      * @var self
      */
@@ -74,7 +75,7 @@ final class Users
 
         $user->saveAsNew();
 
-        self::dic()->rbacadmin()->assignUser(4, $user->getId()); // User default role
+        self::dic()->rbacadmin()->assignUser(self::USER_ROLE_ID, $user->getId()); // User default role
 
         return $user->getId();
     }
