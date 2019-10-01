@@ -20,7 +20,7 @@ use srag\Plugins\SrUserEnrolment\Rule\Repository;
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImportLocal\ExcelImportLocalGUI: ilUIPluginRouterGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImportLocal\ExcelImportLocalGUI: ilSrUserEnrolmentConfigGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImportLocal\ExcelImportLocalGUI
  */
 class ExcelImportLocalGUI extends ExcelImportGUI
 {

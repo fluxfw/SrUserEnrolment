@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.3.1]
+- Show logs in 'Enrol by excel file'
+
 ## [2.3.0]
 - Improve user update (Separate user creation/update and enrolment)
 
