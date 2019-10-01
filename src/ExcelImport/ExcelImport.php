@@ -605,7 +605,7 @@ class ExcelImport
                         . " " . $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->lastname);
 
                 self::logs()->storeLog(self::logs()->factory()->objectRuleUserLog($object->getId(), Rule::NO_RULE_ID, $user->ilias_user_id)
-                    ->withStatus(Log::STATUS_ENROLLED));
+                    ->withStatus(Log::STATUS_ENROLLED)->withMessage("User data: " . json_encode($user)));
             } catch (Throwable $ex) {
                 self::logs()->storeLog(self::logs()->factory()->exceptionLog($ex, $object->getId(), Rule::NO_RULE_ID));
             }
