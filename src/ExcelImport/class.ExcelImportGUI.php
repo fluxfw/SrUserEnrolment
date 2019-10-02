@@ -10,6 +10,7 @@ use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -22,6 +23,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI: ilUIPluginRouterGUI
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI: ilSrUserEnrolmentConfigGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI
  */
 class ExcelImportGUI
 {
@@ -64,6 +66,10 @@ class ExcelImportGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
+            case strtolower(LogsGUI::class):
+                self::dic()->ctrl()->forwardCommand(new LogsGUI());
+                break;
+
             default:
                 $cmd = self::dic()->ctrl()->getCmd();
 
@@ -98,6 +104,9 @@ class ExcelImportGUI
         self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, self::plugin()->translate("title", self::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
         self::dic()->tabs()->activateTab(self::TAB_EXCEL_IMPORT);
+
+        self::dic()->tabs()->addTab(LogsGUI::TAB_LOGS, self::plugin()->translate("logs", LogsGUI::LANG_MODULE_LOGS), self::dic()->ctrl()
+            ->getLinkTargetByClass(LogsGUI::class, LogsGUI::CMD_LIST_LOGS));
     }
 
 

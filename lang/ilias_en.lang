@@ -64,7 +64,7 @@ logs_message#:#Message
 logs_rules#:#Rules
 logs_status#:#Status
 logs_status_100#:#Enrolled
-logs_status_200#:#Not enrolled (See log)
+logs_status_200#:#Not enrolled
 logs_status_300#:#User created
 logs_status_400#:#User updated
 logs_user_id#:#User login
