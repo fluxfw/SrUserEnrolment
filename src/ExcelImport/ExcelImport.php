@@ -11,6 +11,7 @@ use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilUserDefinedFields;
+use PHPExcel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -165,9 +166,9 @@ class ExcelImport
         $rows = $excel->getSheetAsArray();
 
         /**
-         * @var Spreadsheet $spreadsheet
+         * @var Spreadsheet|PHPExcel $spreadsheet
          */
-        $spreadsheet = Closure::bind(function () : Spreadsheet {
+        $spreadsheet = Closure::bind(function ()/* : Spreadsheet*/ {
             return $this->workbook;
         }, $excel, ilExcel::class)();
 
