@@ -11,6 +11,8 @@ use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilUserDefinedFields;
+use PHPExcel;
+use PHPExcel_Shared_Date;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -165,9 +167,9 @@ class ExcelImport
         $rows = $excel->getSheetAsArray();
 
         /**
-         * @var Spreadsheet $spreadsheet
+         * @var Spreadsheet|PHPExcel $spreadsheet
          */
-        $spreadsheet = Closure::bind(function () : Spreadsheet {
+        $spreadsheet = Closure::bind(function ()/* : Spreadsheet*/ {
             return $this->workbook;
         }, $excel, ilExcel::class)();
 
@@ -388,7 +390,11 @@ class ExcelImport
      */
     protected function handleSetPasswordFormatDateTime(stdClass &$user)/*: void*/
     {
-        $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
+        if (self::version()->is54()) {
+            $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
+        } else {
+            $date = PHPExcel_Shared_Date::ExcelToPHPObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
+        }
 
         // Modules/DataCollection/classes/Fields/Datetime/class.ilDclDatetimeRecordRepresentation.php::formatDate
         switch (self::dic()->user()->getDateFormat()) { // Assume date format for current user which has uploaded the excel file

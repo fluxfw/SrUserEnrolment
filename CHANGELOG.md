@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.3.2]
+- Fix ILIAS 5.3
+
 ## [2.3.1]
 - Show logs in 'Enrol by excel file'
 - Log user data on enrolment
