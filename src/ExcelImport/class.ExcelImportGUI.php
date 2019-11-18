@@ -56,7 +56,6 @@ class ExcelImportGUI
     public function executeCommand()/*: void*/
     {
         if (!Config::getField(Config::KEY_SHOW_EXCEL_IMPORT) || !self::access()->currentUserHasRole()
-            || !self::dic()->access()->checkAccess("write", "", self::rules()->getRefId())
         ) {
             die();
         }
