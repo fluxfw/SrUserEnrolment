@@ -52,8 +52,7 @@ class ResetPasswordGUI
     public function executeCommand()/*: void*/
     {
         if (!Config::getField(Config::KEY_SHOW_RESET_PASSWORD) || !self::access()->currentUserHasRole()
-            || !self::dic()->access()->checkAccess("write", "", self::rules()->getRefId()
-                || !self::ilias()->courses()->isMember(new ilObjCourse(self::rules()->getObjId(), false), self::rules()->getUserId()))
+            || !self::ilias()->courses()->isMember(new ilObjCourse(self::rules()->getObjId(), false), self::rules()->getUserId())
         ) {
             die();
         }

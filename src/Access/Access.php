@@ -53,17 +53,29 @@ final class Access
      */
     public function currentUserHasRole() : bool
     {
-        $user_id = self::ilias()->users()->getUserId();
+        $user_id = self::dic()->user()->getId();
 
         $user_roles = self::dic()->rbacreview()->assignedGlobalRoles($user_id);
         $config_roles = Config::getField(Config::KEY_ROLES);
 
+        $ok = false;
         foreach ($user_roles as $user_role) {
             if (in_array($user_role, $config_roles)) {
-                return true;
+                $ok = true;
             }
         }
+        if (!$ok) {
+            return false;
+        }
 
-        return false;
+        switch (self::dic()->objDataCache()->lookupType(self::rules()->getObjId())) {
+            case "cat":
+            case "orgu":
+                return self::dic()->access()->checkAccess("cat_administrate_users", "", self::rules()->getRefId());
+
+            case "crs":
+            default:
+                return self::dic()->access()->checkAccess("write", "", self::rules()->getRefId());
+        }
     }
 }
