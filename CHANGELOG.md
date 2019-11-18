@@ -1,5 +1,8 @@
 # Changelog
 
+## [2.3.3]
+- Fix local user administration permission check
+
 ## [2.3.2]
 - Fix ILIAS 5.3
 
