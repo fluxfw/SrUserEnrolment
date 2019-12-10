@@ -1,5 +1,9 @@
 # Changelog
 
+## [x]
+- Enrolment workflow
+- Course rule enrolment supports enrolment workflow rules too
+
 ## [2.3.3]
 - Fix local user administration permission check
 

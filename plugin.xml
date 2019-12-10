@@ -1,0 +1,8 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<plugin id="srusrenr">
+	<events>
+		<event type="raise" id="after_request" />
+		<event type="raise" id="collect_requests_table_modifications" />
+		<event type="raise" id="extends_srusrenr" />
+	</events>
+</plugin>

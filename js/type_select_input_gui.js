@@ -33,7 +33,7 @@
      * @returns {boolean}
      */
     function checkNode(node) {
-        return (node instanceof HTMLSelectElement && node.classList.contains("form-control"));
+        return (node instanceof HTMLSelectElement && node.classList.contains("form-control") && node.name.includes("type"));
     }
 
     /**

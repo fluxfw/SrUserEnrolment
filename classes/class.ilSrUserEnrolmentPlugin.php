@@ -5,11 +5,9 @@ if (file_exists(__DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor
     require_once __DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor/autoload.php";
 }
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
-use srag\Plugins\SrUserEnrolment\Config\Config;
-use srag\Plugins\SrUserEnrolment\Enroll\Enrolled;
-use srag\Plugins\SrUserEnrolment\Log\Log;
-use srag\Plugins\SrUserEnrolment\Rule\Rule;
+use srag\Plugins\SrUserEnrolment\Menu\Menu;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
 
@@ -27,6 +25,9 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     const PLUGIN_NAME = "SrUserEnrolment";
     const PLUGIN_CLASS_NAME = self::class;
     const REMOVE_PLUGIN_DATA_CONFIRM_CLASS_NAME = SrUserEnrolmentRemoveDataConfirm::class;
+    const EVENT_AFTER_REQUEST = "after_request";
+    const EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS = "collect_requests_table_modifications";
+    const EVENT_EXTENDS_SRUSRENR = "extends_" . self::PLUGIN_ID;
     /**
      * @var self|null
      */
@@ -73,6 +74,19 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
         LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
             . "/../vendor/srag/removeplugindataconfirm/lang")->updateLanguages();
+
+        self::srUserEnrolment()->notifications4plugin()->installLanguages();
+
+        self::srUserEnrolment()->requiredData()->installLanguages();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
+    {
+        return new Menu(self::dic()->dic(), $this);
     }
 
 
@@ -81,10 +95,16 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
      */
     protected function deleteData()/*: void*/
     {
-        self::dic()->database()->dropTable(Config::TABLE_NAME, false);
-        self::dic()->database()->dropTable(Enrolled::TABLE_NAME, false);
-        self::dic()->database()->dropTable(Log::TABLE_NAME, false);
-        self::dic()->database()->dropAutoIncrementTable(Log::TABLE_NAME);
-        self::dic()->database()->dropTable(Rule::TABLE_NAME, false);
+        self::srUserEnrolment()->dropTables();
+        Menu::removeCtrlMainMenu();
+    }
+
+
+    /**
+     *
+     */
+    protected function afterActivation()/*: void*/
+    {
+        Menu::addCtrlMainMenu();
     }
 }
