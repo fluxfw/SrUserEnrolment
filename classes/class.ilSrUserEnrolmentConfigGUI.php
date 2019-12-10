@@ -141,5 +141,3 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
         self::dic()->ctrl()->redirect($this, self::CMD_CONFIGURE);
     }
 }
-
-ExcelImportGUI::CMD_KEY_AUTO_COMPLETE; // TODO: Fix composer autoload (ilCtrl is lowercase and composer not map lowercase :()
