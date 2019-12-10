@@ -1,10 +1,51 @@
+actions_actions#:#Aktionen
+actions_action_description#:#Aktion
+actions_add#:#Hinzufügen
+actions_add_action#:#Aktion hinzufügen
+actions_added_action#:#Aktion %s hinzugefügt
+actions_assign_positions#:#Ordne Benutzer als verantwortlicher Benutzer mit den folgenden Positionen in der gleichen Organisationseinheit wie der Anforderer
+actions_cancel#:#Abbrechen
+actions_disable_actions#:#Aktionen deaktivieren
+actions_disabled_actions#:#Aktionen deaktiviert
+actions_edit_action#:#Aktion bearbeiten
+actions_enable_actions#:#Aktionen aktivieren
+actions_enabled#:#Aktiviert
+actions_enabled_actions#:#Aktionen aktiviert
+actions_field_course_end#:#Feld Kurs-Ende
+actions_field_course_start#:#Feld Kurs-Start
+actions_field_course_title#:#Feld Kurs-Titel
+actions_move_request#:#Anforderung verschieben
+actions_remove#:#Entfernen
+actions_remove_action#:#Aktion entfernen
+actions_remove_action_confirm#:#Möchten Sie den Aktion wirklich entfernen: %s ?
+actions_remove_actions#:#Aktionen entfernen
+actions_remove_actions_confirm#:#Möchten Sie die folgende Aktionen wirklich entfernen?
+actions_removed_action#:#Aktion %s entfernt
+actions_removed_actions#:#Aktionen entfernt
+actions_required_data_from_step#:#Benötigte Daten vom Schritt
+actions_save#:#Speichern
+actions_saved_action#:#Aktion %s gespeichert
+actions_totype#:#Senden an
+actions_totype_requestor#:#Anforderer
+actions_totype_responsible_users#:#Verantwortliche Benutzer
+actions_totype_specific_users#:#Bestimmte Benutzer
+actions_type#:#Typ
+actions_type_assignresponsibleusers#:#Verantwortliche Benutzer zuweisen
+actions_type_createcourse#:#Kurs erstellen
+actions_type_enrolltocourse#:#In Kurs einschreiben
+actions_type_movetostep#:#In Schritt verschieben
+actions_type_movetoworkflow#:#In Workflow verschieben
+actions_type_sendnotification#:#Benachrichtigung versenden
+actions_userstype#:#Benutzer
+actions_userstype_position#:#Benutzer mit Position innerhalb einer Organisation des anfordernden Benutzers
+actions_userstype_specific_users#:#Bestimmte Benutzer
 config_configuration#:#Konfiguration
 config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
 config_show#:#%s anzeigen
-excel_import_back#:#Zurück
+config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
 excel_import_cancel#:#Abbrechen
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_count_skip_top_rows_info#:#Bitte Spalten-Überschriff-Zeile nicht mit einbeziehen
@@ -61,6 +102,7 @@ excel_import_yes#:#Ja
 logs_date#:#Datum / Zeit
 logs_logs#:#Logs
 logs_message#:#Nachricht
+logs_objects#:#Objekte
 logs_rules#:#Regeln
 logs_status#:#Status
 logs_status_100#:#Eingeschrieben
@@ -68,7 +110,20 @@ logs_status_200#:#Nicht eingeschrieben
 logs_status_300#:#Benutzer angelegt
 logs_status_400#:#Benutzer aktualisiert
 logs_user_id#:#Benutzer Login
-reset_password_back#:#Zurück
+requests_accepted#:#Angenommen
+requests_accepted_message#:#%s angenommen
+requests_actions#:#Aktionen
+requests_my_requests#:#Meine Anforderungen
+requests_no#:#Nein
+requests_object_title#:#Objekt-Titel
+requests_requested#:#%s angefordert
+requests_requests#:#Anforderungen
+requests_responsible_users#:#Verantwortliche Benutzer
+requests_user_email#:#E-Mail
+requests_user_firstname#:#Vorname
+requests_user_lastname#:#Nachname
+requests_yes#:#Ja
+required_data_type_userselectfield#:#Benutzer-Auswahl
 reset_password_cancel#:#Abbrechen
 reset_password_confirmation#:#Kennwort zurücksetzen?
 reset_password_reset#:#Das Kennwort von %1$s wurde zurückgesetzt:\n\nE-Mail: %2$s\nBenutzername: %3$s\nNeues Kennwort: %4$s
@@ -77,28 +132,31 @@ rules_actions#:#Aktionen
 rules_add#:#Hinzufügen
 rules_add_rule#:#Regel hinzufügen
 rules_added_rule#:#Regel %s hinzugefügt
-rules_all#:#Alle
-rules_back#:#Zurück
 rules_cancel#:#Abbrechen
+rules_create_group_of_rules#:#Gruppe der Regeln erstellen
 rules_disable_rules#:#Regeln deaktivieren
 rules_disabled_rules#:#Regeln deaktiviert
 rules_edit_rule#:#Regel bearbeiten
 rules_enable_rules#:#Regeln aktivieren
-rules_enabled_rules#:#Regeln aktiviert
 rules_enabled#:#Aktiviert
+rules_enabled_rules#:#Regeln aktiviert
+rules_field#:#Feld
+rules_iliaspermission_join#:#Beitreten
 rules_operator#:#Vergleicher
+rules_operator_bigger#:#Grösser als
+rules_operator_bigger_equals#:#Grösser als oder ist gleich
 rules_operator_case_sensitive#:#Gross-/Kleinschreibung beachten
 rules_operator_contains#:#Enthält
 rules_operator_ends_with#:#Endet mit
 rules_operator_equals#:#Ist gleich
 rules_operator_equals_subsequent#:#Ist gleich und nachfolgend
+rules_operator_less#:#Kleiner als
+rules_operator_less_equals#:#Kleiner als oder ist gleich
 rules_operator_negated#:#Negation
 rules_operator_reg_ex#:#RegEx
 rules_operator_starts_with#:#Startet mit
-rules_org_unit#:#Organisationseinheit
-rules_org_unit_title#:#Titel entspricht
-rules_org_unit_tree#:#Organisationseinheit oder nachfolgend entspricht
-rules_org_unit_type#:#Organisationseinheit Benutzer
+rules_orgunitusertype_title#:#Titel entspricht
+rules_orgunitusertype_tree#:#Organisationseinheit oder nachfolgend entspricht
 rules_position#:#Position Benutzer
 rules_ref_id#:#Ref-ID
 rules_remove#:#Entfernen
@@ -108,9 +166,83 @@ rules_remove_rules#:#Regeln entfernen
 rules_remove_rules_confirm#:#Möchten Sie die folgende Regeln wirklich entfernen?
 rules_removed_rule#:#Regel %s entfernt
 rules_removed_rules#:#Regeln entfernt
-rules_rule#:#Regel
+rules_rule_description#:#Regel
+rules_rule_type#:#Regel-Typ
+rules_rule_type_always#:#Immer
+rules_rule_type_globalrole#:#Globale Rolle
+rules_rule_type_group#:#Gruppe
+rules_rule_type_iliaspermission#:#ILIAS-Recht
+rules_rule_type_language#:#Sprache
+rules_rule_type_nomembership#:#Keine Mitgliedschaft
+rules_rule_type_nootherrequests#:#Keine anderen Anforderungen
+rules_rule_type_orgunitsuperior#:#Benutzer hat Position in übergeordneter Organisationseinheit
+rules_rule_type_orgunitusertype#:#Organisationseinheit Benutzer
+rules_rule_type_udf#:#Benutzerdefiniertes Feld
 rules_run_rules#:#Regeln ausführen
 rules_save#:#Speichern
 rules_saved_rule#:#Regel %s gespeichert
 rules_title#:#Einschreiben per Regel
 rules_title_field#:#Titel
+rules_type_action#:#Berechtigungen Aktion
+rules_type_check_action#:#Berechtigungen Aktion prüfen
+rules_type_course_rule#:#Einschreiben per Regel
+rules_rule_group#:#Gruppe
+rules_type_if#:#Wenn
+rules_value#:#Wert
+rules_ungroup#:#Gruppe auflösen
+select_workflow_object_setting_changed#:#Kurs-Einstellung '%1$s' auf '%2$s' gesetzt
+select_workflow_select_workflow#:#Workflow auswählen
+select_workflow_save#:#Speichern
+select_workflow_saved#:#Gespeichert
+steps_action_accept_title#:#Titel Aktion annehmen
+steps_action_title#:#Titel Aktion
+steps_actions#:#Aktionen
+steps_add#:#Hinzufügen
+steps_add_step#:#Schritt hinzufügen
+steps_added_step#:#Schritt %s hinzugefügt
+steps_cancel#:#Abbrechen
+steps_disable_steps#:#Schritte deaktivieren
+steps_disabled_steps#:#Schritte deaktiviert
+steps_edit_step#:#Schritt bearbeiten
+steps_enable_steps#:#Schritte aktivieren
+steps_enabled#:#Aktiviert
+steps_enabled_steps#:#Schritte aktiviert
+steps_remove#:#Entfernen
+steps_remove_step#:#Schritt entfernen
+steps_remove_step_confirm#:#Möchten Sie den Schritt wirklich entfernen: %s ?
+steps_remove_steps#:#Schritte entfernen
+steps_remove_steps_confirm#:#Möchten Sie die folgende Schritte wirklich entfernen?
+steps_removed_step#:#Schritt %s entfernt
+steps_removed_steps#:#Schritte entfernt
+steps_required_data#:#Benötigte Daten
+steps_save#:#Speichern
+steps_saved_step#:#Schritt %s gespeichert
+steps_settings#:#Einstellungen
+steps_step#:#Schritt
+steps_steps#:#Schritte
+steps_title#:#Titel
+workflows_actions#:#Aktionen
+workflows_add#:#Hinzufügen
+workflows_add_workflow#:#Workflow hinzufügen
+workflows_added_workflow#:#Workflow %s hinzugefügt
+workflows_cancel#:#Abbrechen
+workflows_disable_workflows#:#Workflows deaktivieren
+workflows_disabled_workflows#:#Workflows deaktiviert
+workflows_edit_workflow#:#Workflow bearbeiten
+workflows_enable_workflows#:#Workflows aktivieren
+workflows_enabled_workflows#:#Workflows aktiviert
+workflows_enabled#:#Aktiviert
+workflows_remove#:#Entfernen
+workflows_remove_workflow#:#Workflow entfernen
+workflows_remove_workflow_confirm#:#Möchten Sie die Workflow wirklich entfernen: %s ?
+workflows_remove_workflows#:#Workflows entfernen
+workflows_remove_workflows_confirm#:#Möchten Sie die folgende Workflows wirklich entfernen?
+workflows_removed_workflow#:#Workflow %s entfernt
+workflows_removed_workflows#:#Workflows entfernt
+workflows_save#:#Speichern
+workflows_saved_workflow#:#Workflow %s gespeichert
+workflows_settings#:#Einstellungen
+workflows_title#:#Einschreibe-Workflows
+workflows_title_field#:#Titel
+workflows_workflow#:#Workflow
+workflows_workflows#:#Workflows

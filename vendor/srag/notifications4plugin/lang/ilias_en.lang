@@ -1,0 +1,26 @@
+notifications4plugin_actions#:#Actions
+notifications4plugin_add#:#Add
+notifications4plugin_add_notification#:#Add notification
+notifications4plugin_added_notification#:#Notification %s added
+notifications4plugin_cancel#:#Cancel
+notifications4plugin_delete#:#Delete
+notifications4plugin_delete_notification_confirm#:#Are you really want to delete the notification: %s ?
+notifications4plugin_deleted_notification#:#Notification %s deleted
+notifications4plugin_description#:#Description
+notifications4plugin_duplicate#:#Duplicate
+notifications4plugin_duplicated#:#Duplicated
+notifications4plugin_duplicated_notification#:#Notification %s created
+notifications4plugin_edit#:#Edit
+notifications4plugin_id#:#ID
+notifications4plugin_name#:#Name
+notifications4plugin_edit_notification#:#Edit notification
+notifications4plugin_name_info#:#The name is an additional unique identifier of a notification. This allows to retrieve the notification by name, not only by ID
+notifications4plugin_notifications#:#Notifications
+notifications4plugin_parser#:#Parser
+notifications4plugin_placeholder_types_info#:#Following placeholders can be used in the notification template. Below, its data type is displayed. How to use them, please refer the documentation of the selected parser
+notifications4plugin_save#:#Save
+notifications4plugin_saved_notification#:#Notification %s saved
+notifications4plugin_subject#:#Subject
+notifications4plugin_template_selection#:#Notification template
+notifications4plugin_text#:#Text
+notifications4plugin_title#:#Title

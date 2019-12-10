@@ -1,10 +1,51 @@
+actions_actions#:#Actions
+actions_action_description#:#Action
+actions_add#:#Add
+actions_add_action#:#Add action
+actions_added_action#:#Action %s added
+actions_assign_positions#:#Assign users as responsible user with the following positions in the same organisation unit of requestor
+actions_cancel#:#Cancel
+actions_disable_actions#:#Disable actions
+actions_disabled_actions#:#Actions disabled
+actions_edit_action#:#Edit action
+actions_enable_actions#:#Enable actions
+actions_enabled#:#Enabled
+actions_enabled_actions#:#Actions enabled
+actions_field_course_end#:#Field course end
+actions_field_course_start#:#Field course start
+actions_field_course_title#:#Field course title
+actions_move_request#:#Move request
+actions_remove#:#Remove
+actions_remove_action#:#Remove action
+actions_remove_action_confirm#:#Are you really want to remove the action: %s ?
+actions_remove_actions#:#Remove actions
+actions_remove_actions_confirm#:#Are you really want to remove the follow actions?
+actions_removed_action#:#Action %s removed
+actions_removed_actions#:#Actions removed
+actions_required_data_from_step#:#Required data from step
+actions_save#:#Save
+actions_saved_action#:#Action %s saved
+actions_totype#:#Send to
+actions_totype_requestor#:#Requestor
+actions_totype_responsible_users#:#Responsible users
+actions_totype_specific_users#:#Specific users
+actions_type#:#Type
+actions_type_assignresponsibleusers#:#Assign responsible users
+actions_type_createcourse#:#Create course
+actions_type_enrolltocourse#:#Enroll to course
+actions_type_movetostep#:#Move to step
+actions_type_movetoworkflow#:#Move to workflow
+actions_type_sendnotification#:#Send notification
+actions_userstype#:#Users
+actions_userstype_position#:#Users with position within a organisation of the requesting user
+actions_userstype_specific_users#:#Specific users
 config_configuration#:#Configuration
 config_configuration_saved#:#Configuration saved
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
 config_show#:#Show %s
-excel_import_back#:#Back
+config_show_excel_import_config#:#User can adjust these values on import
 excel_import_cancel#:#Cancel
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_count_skip_top_rows_info#:#Please not include column heading row
@@ -61,6 +102,7 @@ excel_import_yes#:#Yes
 logs_date#:#Date / Time
 logs_logs#:#Logs
 logs_message#:#Message
+logs_objects#:#Objects
 logs_rules#:#Rules
 logs_status#:#Status
 logs_status_100#:#Enrolled
@@ -68,7 +110,20 @@ logs_status_200#:#Not enrolled
 logs_status_300#:#User created
 logs_status_400#:#User updated
 logs_user_id#:#User login
-reset_password_back#:#Back
+requests_accepted#:#Accepted
+requests_accepted_message#:#%s accepted
+requests_actions#:#Actions
+requests_my_requests#:#My requests
+requests_no#:#No
+requests_object_title#:#Object title
+requests_requested#:#%s requested
+requests_requests#:#Requests
+requests_responsible_users#:#Responsible users
+requests_user_email#:#Email
+requests_user_firstname#:#First name
+requests_user_lastname#:#Last name
+requests_yes#:#Yes
+required_data_type_userselectfield#:#User select
 reset_password_cancel#:#Cancel
 reset_password_confirmation#:#Reset password?
 reset_password_reset#:#The passwort of %1$s was reset:\n\nEmail: %2$s\nLogin: %3$s\nNew password: %4$s
@@ -77,40 +132,117 @@ rules_actions#:#Actions
 rules_add#:#Add
 rules_add_rule#:#Add rule
 rules_added_rule#:#Rule %s added
-rules_all#:#All
-rules_back#:#Back
 rules_cancel#:#Cancel
+rules_create_group_of_rules#:#Create group of rules
 rules_disable_rules#:#Disable rules
-rules_disable_rules#:#Rules disabled
+rules_disabled_rules#:#Rules disabled
 rules_edit_rule#:#Edit rule
 rules_enable_rules#:#Enable rules
 rules_enabled#:#Enabled
 rules_enabled_rules#:#Rules enabled
+rules_field#:#Field
+rules_iliaspermission_join#:#Join
 rules_operator#:#Operator
+rules_operator_bigger#:#Bigger than
+rules_operator_bigger_equals#:#Bigger than or is equals
 rules_operator_case_sensitive#:#Case sensitive
 rules_operator_contains#:#Contanints
 rules_operator_ends_with#:#Ends with
 rules_operator_equals#:#Is equals
 rules_operator_equals_subsequent#:#Is equals or subsequent
+rules_operator_less#:#Less than
+rules_operator_less_equals#:#Less than or is equals
 rules_operator_negated#:#Negation
 rules_operator_reg_ex#:#RegEx
 rules_operator_starts_with#:#Starts with
-rules_org_unit#:#Org unit
-rules_org_unit_title#:#Corresponds to title
-rules_org_unit_tree#:#Corresponds to org unit or subsequent
-rules_org_unit_type#:#Org unit user
+rules_orgunitusertype_title#:#Corresponds to title
+rules_orgunitusertype_tree#:#Corresponds to organisation unit or subsequent
 rules_position#:#Position user
-rules_ref_id#:#Ref ID
+rules_ref_id#:#Ref id
 rules_remove#:#Remove
 rules_remove_rule#:#Remove rule
-rules_remove_rule_confirm#:#Are you really want to delete the rule: %s ?
-rules_remove_rules#:#Removes rules
-rules_remove_rules_confirm#:#Are you really want to delete the follow rules?
+rules_remove_rule_confirm#:#Are you really want to remove the rule: %s ?
+rules_remove_rules#:#Remove rules
+rules_remove_rules_confirm#:#Are you really want to remove the follow rules?
 rules_removed_rule#:#Rule %s removed
 rules_removed_rules#:#Rules removed
-rules_rule#:#Rule
+rules_rule_description#:#Rule
+rules_rule_type#:#Rule type
+rules_rule_type_always#:#Always
+rules_rule_type_globalrole#:#Global role
+rules_rule_type_group#:#Group
+rules_rule_type_iliaspermission#:#ILIAS permission
+rules_rule_type_language#:#Language
+rules_rule_type_nomembership#:#No membership
+rules_rule_type_nootherrequests#:#No other requests
+rules_rule_type_orgunitsuperior#:#User has position in superior organisation unit
+rules_rule_type_orgunitusertype#:#Organisation unit user
+rules_rule_type_udf#:#User definied field
 rules_run_rules#:#Run rules
 rules_save#:#Save
 rules_saved_rule#:#Rule %s saved
 rules_title#:#Enrol by rule
 rules_title_field#:#Title
+rules_type_action#:#Permissions action
+rules_type_check_action#:#Permissions check action
+rules_type_course_rule#:#Enrol by rule
+rules_type_group#:#Group
+rules_type_if#:#If
+rules_value#:#Value
+rules_ungroup#:#Ungroup
+select_workflow_object_setting_changed#:#Set course setting '%1$s' to '%2$s'
+select_workflow_select_workflow#:#Select workflow
+select_workflow_save#:#Save
+select_workflow_saved#:#Saved
+steps_action_accept_title#:#Title accept action
+steps_action_title#:#Title action
+steps_actions#:#Actions
+steps_add#:#Add
+steps_add_step#:#Add step
+steps_added_step#:#Step %s added
+steps_cancel#:#Cancel
+steps_disable_steps#:#Disable steps
+steps_disabled_steps#:#Steps disabled
+steps_edit_step#:#Edit step
+steps_enable_steps#:#Enable steps
+steps_enabled#:#Enabled
+steps_enabled_steps#:#Steps enabled
+steps_remove#:#Remove
+steps_remove_step#:#Remove step
+steps_remove_step_confirm#:#Are you really want to remove the step: %s ?
+steps_remove_steps#:#Remove steps
+steps_remove_steps_confirm#:#Are you really want to remove the follow steps?
+steps_removed_step#:#Step %s removed
+steps_removed_steps#:#Steps removed
+steps_required_data#:#Required data
+steps_save#:#Save
+steps_saved_step#:#Step %s saved
+steps_settings#:#Settings
+steps_step#:#Step
+steps_steps#:#Steps
+steps_title#:#Title
+workflows_actions#:#Actions
+workflows_add#:#Add
+workflows_add_workflow#:#Add workflow
+workflows_added_workflow#:#Workflow %s added
+workflows_cancel#:#Cancel
+workflows_disable_workflows#:#Disable workflows
+workflows_disabled_workflows#:#Workflows disabled
+workflows_edit_workflow#:#Edit workflow
+workflows_enable_workflows#:#Enable workflows
+workflows_enabled#:#Enabled
+workflows_enabled_workflows#:#Workflows enabled
+workflows_remove#:#Remove
+workflows_remove_workflow#:#Remove workflow
+workflows_remove_workflow_confirm#:#Are you really want to remove the workflow: %s ?
+workflows_remove_workflows#:#Removes workflows
+workflows_remove_workflows_confirm#:#Are you really want to remove the follow workflows?
+workflows_removed_workflow#:#Workflow %s removed
+workflows_removed_workflows#:#Workflows removed
+workflows_save#:#Save
+workflows_saved_workflow#:#Workflow %s saved
+workflows_settings#:#Settings
+workflows_title#:#Enrolment workflows
+workflows_title_field#:#Title
+workflows_workflow#:#Workflow
+workflows_workflows#:#Workflows

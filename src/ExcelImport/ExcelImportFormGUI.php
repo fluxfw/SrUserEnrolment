@@ -8,11 +8,10 @@ use ilNonEditableValueGUI;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
-use ilSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use ilUtil;
-use srag\CustomInputGUIs\SrUserEnrolment\MultiLineInputGUI\MultiLineInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiLineNewInputGUI\MultiLineNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
 use srag\Plugins\SrUserEnrolment\Config\Config;
@@ -30,7 +29,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const LANG_MODULE = ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT;
+    const LANG_MODULE = ExcelImportGUI::LANG_MODULE;
     const KEY_COUNT_SKIP_TOP_ROWS = self::LANG_MODULE . "_count_skip_top_rows";
     const KEY_CREATE_NEW_USERS = self::LANG_MODULE . "_create_new_users";
     const KEY_FIELDS = self::LANG_MODULE . "_fields";
@@ -46,71 +45,6 @@ class ExcelImportFormGUI extends PropertyFormGUI
     const KEY_ORG_UNIT_ASSIGN_TYPE = self::LANG_MODULE . "_org_unit_assign_type";
     const KEY_SET_PASSWORD = self::LANG_MODULE . "_set_password";
     const KEY_SET_PASSWORD_FORMAT_DATE = self::KEY_SET_PASSWORD . "_format_date";
-    /**
-     * @var string
-     */
-    protected $excel_file = "";
-    /**
-     * @var int
-     */
-    protected $excel_import_count_skip_top_rows = 0;
-    /**
-     * @var bool
-     */
-    protected $excel_import_create_new_users = false;
-    /**
-     * @var array
-     */
-    protected $excel_import_fields = [];
-    /**
-     * @var string
-     */
-    protected $excel_import_gender_f = "";
-    /**
-     * @var string
-     */
-    protected $excel_import_gender_m = "";
-    /**
-     * @var string
-     */
-    protected $excel_import_gender_n = "";
-    /**
-     * @var bool
-     */
-    protected $excel_import_local_user_administration = false;
-    /**
-     * @var int
-     */
-    protected $excel_import_local_user_administration_object_type = ExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
-    /**
-     * @var int
-     */
-    protected $excel_import_local_user_administration_type = ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_TITLE;
-    /**
-     * @var int
-     */
-    protected $excel_import_map_exists_users_field = ExcelImport::MAP_EXISTS_USERS_LOGIN;
-    /**
-     * @var bool
-     */
-    protected $excel_import_org_unit_assign = false;
-    /**
-     * @var int
-     */
-    protected $excel_import_org_unit_assign_position = ExcelImport::ORG_UNIT_POSITION_FIELD;
-    /**
-     * @var int
-     */
-    protected $excel_import_org_unit_assign_type = ExcelImport::ORG_UNIT_TYPE_TITLE;
-    /**
-     * @var int
-     */
-    protected $excel_import_set_password = ExcelImport::SET_PASSWORD_RANDOM;
-    /**
-     * @var bool
-     */
-    protected $excel_import_excel_import_set_password_format_date
-        = false;
 
 
     /**
@@ -130,10 +64,10 @@ class ExcelImportFormGUI extends PropertyFormGUI
             ],
 
             self::KEY_FIELDS => [
-                self::PROPERTY_CLASS    => MultiLineInputGUI::class,
+                self::PROPERTY_CLASS    => MultiLineNewInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
-                self::PROPERTY_MULTI    => true,
-                "setShowLabel"          => true,
+                "setShowInputLabel"     => MultiLineNewInputGUI::SHOW_INPUT_LABEL_ALWAYS,
+                "setShowSort"           => false,
                 self::PROPERTY_SUBITEMS => [
                     "type"           => [
                         self::PROPERTY_CLASS    => TypeSelectInputGUI::class,
@@ -149,7 +83,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                         self::PROPERTY_REQUIRED => true,
                         "setTitle"              => self::plugin()->translate(self::KEY_FIELDS . "_key"),
                         "setDataSource"         => self::dic()->ctrl()
-                            ->getLinkTarget($parent, ExcelImportGUI::CMD_KEY_AUTOCOMPLETE, "", true)
+                            ->getLinkTarget($parent, ExcelImportGUI::CMD_KEY_AUTO_COMPLETE, "", true)
                     ],
                     "column_heading" => [
                         self::PROPERTY_CLASS    => ilTextInputGUI::class,
@@ -157,13 +91,8 @@ class ExcelImportFormGUI extends PropertyFormGUI
                         "setTitle"              => self::plugin()->translate(self::KEY_FIELDS . "_column_heading")
                     ],
                     "update"         => [
-                        self::PROPERTY_CLASS    => ilSelectInputGUI::class, // TODO: ilCheckboxInputGUI not correctly works in MultiLineInputGUI
-                        self::PROPERTY_REQUIRED => false,
-                        self::PROPERTY_OPTIONS  => [
-                            false => self::plugin()->translate("no", self::LANG_MODULE),
-                            true  => self::plugin()->translate("yes", self::LANG_MODULE),
-                        ],
-                        "setTitle"              => self::plugin()->translate(self::KEY_FIELDS . "_update")
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        "setTitle"           => self::plugin()->translate(self::KEY_FIELDS . "_update")
                     ]
                 ],
                 "setTitle"              => self::plugin()->translate(self::KEY_FIELDS)
@@ -246,7 +175,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
             self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint" => [
                 self::PROPERTY_CLASS   => ilNonEditableValueGUI::class,
                 self::PROPERTY_VALUE   => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint"),
-                self::PROPERTY_NOT_ADD => self::ilias()->users()->isLocalUserAdminisrationEnabled(),
+                self::PROPERTY_NOT_ADD => self::srUserEnrolment()->excelImport()->isLocalUserAdminisrationEnabled(),
                 "setTitle"             => ""
             ],
             self::KEY_LOCAL_USER_ADMINISTRATION                    => [
@@ -283,7 +212,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                         "setTitle"              => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION_TYPE)
                     ]
                 ],
-                self::PROPERTY_NOT_ADD  => (!self::ilias()->users()->isLocalUserAdminisrationEnabled()),
+                self::PROPERTY_NOT_ADD  => (!self::srUserEnrolment()->excelImport()->isLocalUserAdminisrationEnabled()),
                 "setTitle"              => self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION),
                 "setInfo"               => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
                     self::plugin()->translate(self::KEY_LOCAL_USER_ADMINISTRATION),
@@ -317,7 +246,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                                     self::PROPERTY_CLASS => ilRadioOption::class,
                                     "setTitle"           => $position
                                 ];
-                            }, self::ilias()->orgUnits()->getPositions()) + [
+                            }, self::srUserEnrolment()->ruleEnrolment()->getPositions()) + [
                                 ExcelImport::ORG_UNIT_POSITION_FIELD => [
                                     self::PROPERTY_CLASS => ilRadioOption::class,
                                     "setTitle"           => self::plugin()->translate(self::KEY_ORG_UNIT_ASSIGN_POSITION . "_field"),
@@ -465,6 +394,84 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
+     * @var string
+     */
+    protected $excel_file = "";
+    /**
+     * @var int
+     */
+    protected $excel_import_count_skip_top_rows = 0;
+    /**
+     * @var bool
+     */
+    protected $excel_import_create_new_users = false;
+    /**
+     * @var array
+     */
+    protected $excel_import_fields = [];
+    /**
+     * @var string
+     */
+    protected $excel_import_gender_f = "";
+    /**
+     * @var string
+     */
+    protected $excel_import_gender_m = "";
+    /**
+     * @var string
+     */
+    protected $excel_import_gender_n = "";
+    /**
+     * @var bool
+     */
+    protected $excel_import_local_user_administration = false;
+    /**
+     * @var int
+     */
+    protected $excel_import_local_user_administration_object_type = ExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
+    /**
+     * @var int
+     */
+    protected $excel_import_local_user_administration_type = ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_TITLE;
+    /**
+     * @var int
+     */
+    protected $excel_import_map_exists_users_field = ExcelImport::MAP_EXISTS_USERS_LOGIN;
+    /**
+     * @var bool
+     */
+    protected $excel_import_org_unit_assign = false;
+    /**
+     * @var int
+     */
+    protected $excel_import_org_unit_assign_position = ExcelImport::ORG_UNIT_POSITION_FIELD;
+    /**
+     * @var int
+     */
+    protected $excel_import_org_unit_assign_type = ExcelImport::ORG_UNIT_TYPE_TITLE;
+    /**
+     * @var int
+     */
+    protected $excel_import_set_password = ExcelImport::SET_PASSWORD_RANDOM;
+    /**
+     * @var bool
+     */
+    protected $excel_import_set_password_format_date
+        = false;
+
+
+    /**
+     * ExcelImportFormGUI constructor
+     *
+     * @param ExcelImportGUI $parent
+     */
+    public function __construct(ExcelImportGUI $parent)
+    {
+        parent::__construct($parent);
+    }
+
+
+    /**
      * @inheritdoc
      */
     protected function getValue(/*string*/ $key)
@@ -485,7 +492,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     protected function initCommands()/*: void*/
     {
         $this->addCommandButton(ExcelImportGUI::CMD_PARSE_EXCEL, $this->txt("import"));
-        $this->addCommandButton(ExcelImportGUI::CMD_BACK_TO_MEMBERS_LIST, $this->txt("cancel"));
+        $this->addCommandButton(ExcelImportGUI::CMD_BACK, $this->txt("cancel"));
     }
 
 
@@ -495,12 +502,22 @@ class ExcelImportFormGUI extends PropertyFormGUI
     protected function initFields()/*: void*/
     {
         $this->fields = [
-                "excel_file" => [
-                    self::PROPERTY_CLASS    => ilFileInputGUI::class,
-                    self::PROPERTY_REQUIRED => true,
-                    "setSuffixes"           => [["xlsx", "xltx"]]
-                ]
-            ] + self::getExcelImportFields($this->parent);
+            "excel_file" => [
+                self::PROPERTY_CLASS    => ilFileInputGUI::class,
+                self::PROPERTY_REQUIRED => true,
+                "setSuffixes"           => [["xlsx", "xltx"]]
+            ]
+        ];
+
+        if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
+            $this->fields += self::getExcelImportFields($this->parent);
+        } else {
+            foreach (get_object_vars($this) as $key => $value) {
+                if (strpos($key, "excel_import_") === 0) {
+                    $this->{$key} = $this->getValue($key);
+                }
+            }
+        }
     }
 
 
