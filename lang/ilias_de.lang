@@ -45,6 +45,7 @@ config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
 config_show#:#%s anzeigen
+config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
 excel_import_cancel#:#Abbrechen
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_count_skip_top_rows_info#:#Bitte Spalten-Überschriff-Zeile nicht mit einbeziehen

@@ -3,6 +3,7 @@
 ## [x]
 - Enrolment workflow
 - Course rule enrolment supports enrolment workflow rules too
+- Excel import configuration can be hidden in course (only in plugin config)
 
 ## [2.3.3]
 - Fix local user administration permission check

@@ -86,7 +86,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
     /**
      * @inheritDoc
      */
-    protected function getExcelImportForm() : ExcelImportFormGUI
+    protected function newFormInstance() : ExcelImportFormGUI
     {
         $form = self::srUserEnrolment()->excelImport()->factory()->newLocalFormInstance($this);
 
@@ -97,7 +97,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
     /**
      * @return ExcelImport
      */
-    protected function getExcelImport() : ExcelImport
+    protected function newImportInstance() : ExcelImport
     {
         $excel_import = self::srUserEnrolment()->excelImport()->factory()->newLocalImportInstance($this->obj_ref_id);
 

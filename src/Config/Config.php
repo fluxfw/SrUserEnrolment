@@ -23,6 +23,7 @@ class Config extends ActiveRecordConfig
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const KEY_ROLES = "roles";
     const KEY_SHOW_EXCEL_IMPORT = "show_excel_import";
+    const KEY_SHOW_EXCEL_IMPORT_CONFIG = "show_excel_import_config";
     const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
     const KEY_SHOW_RULES_ENROLL = "show_rules_enroll";
     const KEY_SHOW_ENROLMENT_WORKFLOW = "show_enrolment_workflow";
@@ -33,6 +34,7 @@ class Config extends ActiveRecordConfig
         = [
             self::KEY_ROLES                                               => [self::TYPE_JSON, []],
             self::KEY_SHOW_EXCEL_IMPORT                                   => [self::TYPE_BOOLEAN, false],
+            self::KEY_SHOW_EXCEL_IMPORT_CONFIG                            => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RESET_PASSWORD                                 => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RULES_ENROLL                                   => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_ENROLMENT_WORKFLOW                             => [self::TYPE_BOOLEAN, false],

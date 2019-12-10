@@ -45,6 +45,7 @@ config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
 config_show#:#Show %s
+config_show_excel_import_config#:#User can adjust these values on import
 excel_import_cancel#:#Cancel
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_count_skip_top_rows_info#:#Please not include column heading row

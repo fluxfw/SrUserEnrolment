@@ -358,12 +358,16 @@ class ExcelImport
                 }
             }
 
-            return [
-                self::plugin()
-                    ->translate($user->is_new ? "create_user" : "update_user", ExcelImportGUI::LANG_MODULE),
-                ":",
-                self::dic()->ui()->factory()->listing()->descriptive($items)
-            ];
+            if (!empty(array_filter($items))) {
+                return [
+                    self::plugin()
+                        ->translate($user->is_new ? "create_user" : "update_user", ExcelImportGUI::LANG_MODULE),
+                    ":",
+                    self::dic()->ui()->factory()->listing()->descriptive($items)
+                ];
+            } else {
+                return [];
+            }
         }, $users);
 
         return $users;

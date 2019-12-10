@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.27.3]
+- Optimized `MultiSelectSearchInputGUI` ajax
+
 ## [0.27.2]
 - `MultiLineNewInputGUI`: Add new line below
 

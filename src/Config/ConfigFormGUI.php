@@ -82,7 +82,11 @@ class ConfigFormGUI extends ConfigPropertyFormGUI
             ],
             Config::KEY_SHOW_EXCEL_IMPORT       => [
                 self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
-                self::PROPERTY_SUBITEMS => ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI()),
+                self::PROPERTY_SUBITEMS => [
+                        Config::KEY_SHOW_EXCEL_IMPORT_CONFIG => [
+                            self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+                        ]
+                    ] + ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI()),
                 "setTitle"              => self::plugin()->translate("show", self::LANG_MODULE, [
                     self::plugin()->translate("title", ExcelImportGUI::LANG_MODULE)
                 ])

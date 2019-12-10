@@ -32,7 +32,9 @@ class ExcelImportGUI
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_CREATE_OR_UPDATE_USERS = "createOrUpdateUsers";
+    //const CMD_CREATE_OR_UPDATE_USERS_CONFIRMATION = "createOrUpdateUsersConfirmation";
     const CMD_ENROLL = "enroll";
+    const CMD_ENROLL_CONFIRMATION = "enrollConfirmation";
     const CMD_INPUT_EXCEL_IMPORT_DATA = "inputExcelImportData";
     const CMD_KEY_AUTO_COMPLETE = "keyAutoComplete";
     const CMD_PARSE_EXCEL = "parseExcel";
@@ -82,7 +84,9 @@ class ExcelImportGUI
                 switch ($cmd) {
                     case self::CMD_BACK:
                     case self::CMD_CREATE_OR_UPDATE_USERS:
+                        //case self::CMD_CREATE_OR_UPDATE_USERS_CONFIRMATION:
                     case self::CMD_ENROLL:
+                    case self::CMD_ENROLL_CONFIRMATION:
                     case self::CMD_INPUT_EXCEL_IMPORT_DATA:
                     case self::CMD_KEY_AUTO_COMPLETE:
                     case self::CMD_PARSE_EXCEL:
@@ -135,7 +139,7 @@ class ExcelImportGUI
      */
     protected function back()/*: void*/
     {
-        $excel_import = $this->getExcelImport();
+        $excel_import = $this->newImportInstance();
 
         $excel_import->clean();
 
@@ -152,7 +156,7 @@ class ExcelImportGUI
     /**
      * @return ExcelImportFormGUI
      */
-    protected function getExcelImportForm() : ExcelImportFormGUI
+    protected function newFormInstance() : ExcelImportFormGUI
     {
         $form = self::srUserEnrolment()->excelImport()->factory()->newFormInstance($this);
 
@@ -165,7 +169,7 @@ class ExcelImportGUI
      */
     protected function inputExcelImportData()/*: void*/
     {
-        $form = $this->getExcelImportForm();
+        $form = $this->newFormInstance();
 
         self::output()->output($form, true);
     }
@@ -174,7 +178,7 @@ class ExcelImportGUI
     /**
      * @return ExcelImport
      */
-    protected function getExcelImport() : ExcelImport
+    protected function newImportInstance() : ExcelImport
     {
         $excel_import = self::srUserEnrolment()->excelImport()->factory()->newImportInstance($this->obj_ref_id);
 
@@ -187,7 +191,7 @@ class ExcelImportGUI
      */
     protected function parseExcel()/*: void*/
     {
-        $form = $this->getExcelImportForm();
+        $form = $this->newFormInstance();
 
         if (!$form->storeForm()) {
             self::output()->output($form, true);
@@ -195,7 +199,7 @@ class ExcelImportGUI
             return;
         }
 
-        $excel_import = $this->getExcelImport();
+        $excel_import = $this->newImportInstance();
 
         $users = $excel_import->parse($form);
         if (empty($users)) {
@@ -205,7 +209,22 @@ class ExcelImportGUI
 
             return;
         }
+        if (empty(array_filter($users))) {
+            self::dic()->ctrl()->redirect($this, self::CMD_ENROLL_CONFIRMATION);
 
+            return;
+        }
+
+        //self::dic()->ctrl()->redirect($this, self::CMD_CREATE_OR_UPDATE_USERS_CONFIRMATION);
+        $this->createOrUpdateUsersConfirmation($users);
+    }
+
+
+    /**
+     * @param array $users
+     */
+    protected function createOrUpdateUsersConfirmation(array $users)/*: void*/
+    {
         $confirmation = new ilConfirmationGUI();
 
         $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
@@ -228,10 +247,21 @@ class ExcelImportGUI
      */
     protected function createOrUpdateUsers()/*: void*/
     {
-        $excel_import = $this->getExcelImport();
+        $excel_import = $this->newImportInstance();
 
         $result = $excel_import->createOrUpdateUsers();
         ilUtil::sendSuccess($result, true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_ENROLL_CONFIRMATION);
+    }
+
+
+    /**
+     *
+     */
+    protected function enrollConfirmation()/*: void*/
+    {
+        $excel_import = $this->newImportInstance();
 
         $users = $excel_import->getUsersToEnroll();
         if (empty($users)) {
@@ -264,7 +294,7 @@ class ExcelImportGUI
      */
     protected function enroll()/*: void*/
     {
-        $excel_import = $this->getExcelImport();
+        $excel_import = $this->newImportInstance();
 
         $result = $excel_import->enroll();
 

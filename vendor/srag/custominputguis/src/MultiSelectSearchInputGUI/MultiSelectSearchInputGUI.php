@@ -35,9 +35,9 @@ class MultiSelectSearchInputGUI extends ilMultiSelectInputGUI implements ilTable
      */
     protected $css_class;
     /**
-     * @var int
+     * @var int|null
      */
-    protected $minimum_input_length = 1;
+    protected $minimum_input_length = null;
     /**
      * @var string
      */
@@ -234,11 +234,9 @@ class MultiSelectSearchInputGUI extends ilMultiSelectInputGUI implements ilTable
 
 
     /**
-     * @param int $minimum_input_length
+     * @param int|null $minimum_input_length
      */
-    public function setMinimumInputLength(/*int*/
-        $minimum_input_length
-    )/*: void*/
+    public function setMinimumInputLength(/*?int*/ $minimum_input_length = null)/*: void*/
     {
         $this->minimum_input_length = $minimum_input_length;
     }
@@ -249,7 +247,11 @@ class MultiSelectSearchInputGUI extends ilMultiSelectInputGUI implements ilTable
      */
     public function getMinimumInputLength()/*: int*/
     {
-        return $this->minimum_input_length;
+        if ($this->minimum_input_length !== null) {
+            return $this->minimum_input_length;
+        } else {
+            return (!empty($this->getAjaxLink()) ? 1 : 0);
+        }
     }
 
 

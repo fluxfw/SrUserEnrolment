@@ -8,7 +8,6 @@ use ilNonEditableValueGUI;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
-use ilSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use ilUtil;
@@ -92,13 +91,8 @@ class ExcelImportFormGUI extends PropertyFormGUI
                         "setTitle"              => self::plugin()->translate(self::KEY_FIELDS . "_column_heading")
                     ],
                     "update"         => [
-                        self::PROPERTY_CLASS    => ilSelectInputGUI::class, // TODO: ilCheckboxInputGUI not correctly works in MultiLineInputGUI
-                        self::PROPERTY_REQUIRED => false,
-                        self::PROPERTY_OPTIONS  => [
-                            false => self::plugin()->translate("no", self::LANG_MODULE),
-                            true  => self::plugin()->translate("yes", self::LANG_MODULE),
-                        ],
-                        "setTitle"              => self::plugin()->translate(self::KEY_FIELDS . "_update")
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        "setTitle"           => self::plugin()->translate(self::KEY_FIELDS . "_update")
                     ]
                 ],
                 "setTitle"              => self::plugin()->translate(self::KEY_FIELDS)
@@ -462,7 +456,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     /**
      * @var bool
      */
-    protected $excel_import_excel_import_set_password_format_date
+    protected $excel_import_set_password_format_date
         = false;
 
 
@@ -508,12 +502,22 @@ class ExcelImportFormGUI extends PropertyFormGUI
     protected function initFields()/*: void*/
     {
         $this->fields = [
-                "excel_file" => [
-                    self::PROPERTY_CLASS    => ilFileInputGUI::class,
-                    self::PROPERTY_REQUIRED => true,
-                    "setSuffixes"           => [["xlsx", "xltx"]]
-                ]
-            ] + self::getExcelImportFields($this->parent);
+            "excel_file" => [
+                self::PROPERTY_CLASS    => ilFileInputGUI::class,
+                self::PROPERTY_REQUIRED => true,
+                "setSuffixes"           => [["xlsx", "xltx"]]
+            ]
+        ];
+
+        if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
+            $this->fields += self::getExcelImportFields($this->parent);
+        } else {
+            foreach (get_object_vars($this) as $key => $value) {
+                if (strpos($key, "excel_import_") === 0) {
+                    $this->{$key} = $this->getValue($key);
+                }
+            }
+        }
     }
 
 
