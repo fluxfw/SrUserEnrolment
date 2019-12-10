@@ -1,12 +1,14 @@
 <?php
 
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestInfoGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\SelectWorkflowGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
-use srag\Plugins\SrUserEnrolment\ExcelImportLocal\ExcelImportLocalGUI;
+use srag\Plugins\SrUserEnrolment\ExcelImport\Local\ExcelImportLocalGUI;
 use srag\Plugins\SrUserEnrolment\ResetPassword\ResetPasswordGUI;
-use srag\Plugins\SrUserEnrolment\Rule\Repository;
-use srag\Plugins\SrUserEnrolment\Rule\RulesGUI;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -20,10 +22,14 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const PAR_TABS = "tabs";
     const PAR_SUB_TABS = "sub_tabs";
     const COURSE_MEMBER_LIST_TEMPLATE_ID = "Services/Table/tpl.table2.html";
     const TEMPLATE_GET = "template_get";
+    const ACTIONS_MENU_TEMPLATE = "Services/UIComponent/AdvancedSelectionList/tpl.adv_selection_list.html";
+    const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
+    const PART_CENTER_COLUMN = "center_column";
+    const GET_PARAM_REF_ID = "ref_id";
+    const GET_PARAM_TARGET = "target";
 
 
     /**
@@ -51,46 +57,18 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
             if ($a_par["tpl_id"] === self::COURSE_MEMBER_LIST_TEMPLATE_ID && $a_part === self::TEMPLATE_GET) {
 
-                if (Config::getField(Config::KEY_SHOW_RESET_PASSWORD)) {
-
-                    if (self::access()->currentUserHasRole()) {
-
-                        $html = $a_par["html"];
-
-                        $course = new ilObjCourse(self::rules()->getRefId());
-
-                        $html = preg_replace_callback('/<a class="il_ContainerItemCommand2" href=".+member_id=([0-9]+).+cmd=editMember.+">.+<\/a>/', function (array $matches) use ($course): string {
-                            $link = $matches[0];
-
-                            $user_id = intval($matches[1]);
-
-                            if (self::ilias()->courses()->isMember($course, $user_id)) {
-                                self::dic()->ctrl()->saveParameterByClass(ResetPasswordGUI::class, Repository::GET_PARAM_REF_ID);
-
-                                self::dic()->ctrl()->setParameterByClass(ResetPasswordGUI::class, Repository::GET_PARAM_USER_ID, $user_id);
-
-                                $reset_password_link = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard(self::plugin()
-                                    ->translate("title", ResetPasswordGUI::LANG_MODULE_RESET_PASSWORD), self::dic()->ctrl()->getLinkTargetByClass([
-                                    ilUIPluginRouterGUI::class,
-                                    ResetPasswordGUI::class
-                                ], ResetPasswordGUI::CMD_RESET_PASSWORD_CONFIRM)));
-
-                                $reset_password_link = str_replace('<a ', '<a class="il_ContainerItemCommand2" ', $reset_password_link);
-
-                                return self::output()->getHTML([
-                                    $link,
-                                    "<br>",
-                                    $reset_password_link
-                                ]);
-                            } else {
-                                return $link;
-                            }
-                        }, $html);
-
-                        return ["mode" => self::REPLACE, "html" => $html];
-                    }
-                }
+                return ResetPasswordGUI::addActions($a_par, $this->getRefId());
             }
+        }
+
+        if ($a_par["tpl_id"] === self::ACTIONS_MENU_TEMPLATE && $a_part === self::TEMPLATE_GET) {
+
+            return RequestStepGUI::addObjectActions($a_par);
+        }
+
+        if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_CENTER_COLUMN) {
+
+            return RequestInfoGUI::addRequestsToPersonalDesktop();
         }
 
         return parent::getHTML($a_comp, $a_part, $a_par);
@@ -112,26 +90,9 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 || self::dic()->ctrl()->getCmdClass() === strtolower(ilUsersGalleryGUI::class)
             ) {
 
-                if (self::access()->currentUserHasRole()) {
+                RulesCourseGUI::addTabs($this->getRefId());
 
-                    if (Config::getField(Config::KEY_SHOW_RULES_ENROLL)) {
-                        self::dic()->ctrl()->setParameterByClass(RulesGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
-                        self::dic()->tabs()->addSubTab(RulesGUI::TAB_RULES, self::plugin()->translate("title", RulesGUI::LANG_MODULE_RULES), self::dic()
-                            ->ctrl()->getLinkTargetByClass([
-                                ilUIPluginRouterGUI::class,
-                                RulesGUI::class
-                            ], RulesGUI::CMD_LIST_RULES));
-                    }
-
-                    if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT)) {
-                        self::dic()->ctrl()->setParameterByClass(ExcelImportGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
-                        self::dic()->tabs()->addSubTab(ExcelImportGUI::TAB_EXCEL_IMPORT, self::plugin()
-                            ->translate("title", ExcelImportGUI::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()->getLinkTargetByClass([
-                            ilUIPluginRouterGUI::class,
-                            ExcelImportGUI::class
-                        ], ExcelImportGUI::CMD_INPUT_EXCEL_IMPORT_DATA));
-                    }
-                }
+                ExcelImportGUI::addTabs($this->getRefId());
             }
 
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLocalUserGUI::class)
@@ -139,26 +100,38 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                     && self::dic()->ctrl()->getCmd() === "listUsers")
             ) {
 
-                if (self::access()->currentUserHasRole()) {
-
-                    if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT)) {
-                        self::dic()->ctrl()->setParameterByClass(ExcelImportLocalGUI::class, Repository::GET_PARAM_REF_ID, self::rules()->getRefId());
-
-                        self::dic()->tabs()->addSubTab(ExcelImportLocalGUI::TAB_LOCAL_USER_ADMINISTRATION, self::dic()->language()
-                            ->txt("administrate_users"), self::dic()->ctrl()->getLinkTargetByClass([
-                            ilUIPluginRouterGUI::class,
-                            ExcelImportLocalGUI::class
-                        ], ExcelImportLocalGUI::CMD_BACK_TO_MEMBERS_LIST));
-                        self::dic()->tabs()->activateSubTab(ExcelImportLocalGUI::TAB_LOCAL_USER_ADMINISTRATION);
-
-                        self::dic()->tabs()->addSubTab(ExcelImportLocalGUI::TAB_EXCEL_IMPORT, self::plugin()
-                            ->translate("title", ExcelImportLocalGUI::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()->getLinkTargetByClass([
-                            ilUIPluginRouterGUI::class,
-                            ExcelImportLocalGUI::class
-                        ], ExcelImportLocalGUI::CMD_INPUT_EXCEL_IMPORT_DATA));
-                    }
-                }
+                ExcelImportLocalGUI::addTabs($this->getRefId());
             }
+
+            if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class)) {
+
+                SelectWorkflowGUI::addTabs($this->getRefId());
+
+                RequestsGUI::addTabs($this->getRefId());
+            }
+        }
+    }
+
+
+    /**
+     * @return int|null
+     */
+    protected function getRefId()/*: ?int*/
+    {
+        $obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
+
+        if ($obj_ref_id === null) {
+            $param_target = filter_input(INPUT_GET, self::GET_PARAM_TARGET);
+
+            $obj_ref_id = explode("_", $param_target)[1];
+        }
+
+        $obj_ref_id = intval($obj_ref_id);
+
+        if ($obj_ref_id > 0) {
+            return $obj_ref_id;
+        } else {
+            return null;
         }
     }
 }

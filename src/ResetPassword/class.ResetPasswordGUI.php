@@ -4,15 +4,14 @@ namespace srag\Plugins\SrUserEnrolment\ResetPassword;
 
 use ilConfirmationGUI;
 use ilCourseMembershipGUI;
-use ilObjCourse;
 use ilObjCourseGUI;
 use ilObjUser;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
+use ilSrUserEnrolmentUIHookGUI;
+use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
-use srag\Plugins\SrUserEnrolment\Rule\Repository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -30,11 +29,21 @@ class ResetPasswordGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const CMD_RESET_PASSWORD_CONFIRM = "resetPasswordConfirm";
+    const CMD_BACK = "back";
     const CMD_RESET_PASSWORD = "resetPassword";
-    const CMD_BACK_TO_MEMBERS_LIST = "backToMembersList";
+    const CMD_RESET_PASSWORD_CONFIRM = "resetPasswordConfirm";
+    const GET_PARAM_REF_ID = "ref_id";
+    const GET_PARAM_USER_ID = "user_id";
+    const LANG_MODULE = "reset_password";
     const TAB_RESET_PASSWORD = "reset_password";
-    const LANG_MODULE_RESET_PASSWORD = "reset_password";
+    /**
+     * @var int
+     */
+    protected $obj_ref_id;
+    /**
+     * @var int
+     */
+    protected $user_id;
 
 
     /**
@@ -51,11 +60,16 @@ class ResetPasswordGUI
      */
     public function executeCommand()/*: void*/
     {
-        if (!Config::getField(Config::KEY_SHOW_RESET_PASSWORD) || !self::access()->currentUserHasRole()
-            || !self::ilias()->courses()->isMember(new ilObjCourse(self::rules()->getObjId(), false), self::rules()->getUserId())
+        $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
+        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
+
+        if (!self::srUserEnrolment()->resetUserPassword()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id, $this->user_id)
         ) {
             die();
         }
+
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_REF_ID);
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
 
         $this->setTabs();
 
@@ -66,9 +80,9 @@ class ResetPasswordGUI
                 $cmd = self::dic()->ctrl()->getCmd();
 
                 switch ($cmd) {
-                    case self::CMD_RESET_PASSWORD_CONFIRM:
+                    case self::CMD_BACK:
                     case self::CMD_RESET_PASSWORD:
-                    case self::CMD_BACK_TO_MEMBERS_LIST:
+                    case self::CMD_RESET_PASSWORD_CONFIRM:
                         $this->{$cmd}();
                         break;
 
@@ -81,19 +95,72 @@ class ResetPasswordGUI
 
 
     /**
+     * @param array $a_par
+     * @param int   $obj_ref_id
+     *
+     * @return array
+     */
+    public static function addActions(array $a_par, int $obj_ref_id) : array
+    {
+        $html = $a_par["html"];
+
+        $html = preg_replace_callback('/<a class="il_ContainerItemCommand2" href=".+member_id=([0-9]+).+cmd=editMember.+">.+<\/a>/', function (array $matches) use ($obj_ref_id) : string {
+            $link = $matches[0];
+
+            $user_id = intval($matches[1]);
+
+            if (self::srUserEnrolment()->resetUserPassword()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $user_id)) {
+
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
+
+                $reset_password_link = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard(self::plugin()
+                    ->translate("title", self::LANG_MODULE), self::dic()->ctrl()->getLinkTargetByClass([
+                    ilUIPluginRouterGUI::class,
+                    self::class
+                ], self::CMD_RESET_PASSWORD_CONFIRM)));
+
+                $reset_password_link = str_replace('<a ', '<a class="il_ContainerItemCommand2" ', $reset_password_link);
+
+                return self::output()->getHTML([
+                    $link,
+                    "<br>",
+                    $reset_password_link
+                ]);
+            } else {
+                return $link;
+            }
+        }, $html);
+
+        return ["mode" => ilSrUserEnrolmentUIHookGUI::REPLACE, "html" => $html];
+    }
+
+
+    /**
      *
      */
     protected function setTabs()/*: void*/
     {
-        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
-        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_USER_ID);
+        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
 
-        self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE_RESET_PASSWORD), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK_TO_MEMBERS_LIST));
-
-        self::dic()->tabs()->addTab(self::TAB_RESET_PASSWORD, self::plugin()->translate("title", self::LANG_MODULE_RESET_PASSWORD), self::dic()->ctrl()
+        self::dic()->tabs()->addTab(self::TAB_RESET_PASSWORD, self::plugin()->translate("title", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_RESET_PASSWORD_CONFIRM));
-        self::dic()->tabs()->activateTab(self::TAB_RESET_PASSWORD);
+    }
+
+
+    /**
+     *
+     */
+    protected function back()/*: void*/
+    {
+        self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, self::GET_PARAM_REF_ID);
+
+        self::dic()->ctrl()->redirectByClass([
+            ilRepositoryGUI::class,
+            ilObjCourseGUI::class,
+            ilCourseMembershipGUI::class
+        ]);
     }
 
 
@@ -102,18 +169,20 @@ class ResetPasswordGUI
      */
     protected function resetPasswordConfirm()/*: void*/
     {
-        $user = new ilObjUser(self::rules()->getUserId());
+        self::dic()->tabs()->activateTab(self::TAB_RESET_PASSWORD);
+
+        $user = new ilObjUser($this->user_id);
 
         $confirmation = new ilConfirmationGUI();
 
         $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
-        $confirmation->setHeaderText(self::plugin()->translate("confirmation", self::LANG_MODULE_RESET_PASSWORD));
+        $confirmation->setHeaderText(self::plugin()->translate("confirmation", self::LANG_MODULE));
 
-        $confirmation->addItem(Repository::GET_PARAM_USER_ID, $user->getId(), $user->getFullname());
+        $confirmation->addItem(self::GET_PARAM_USER_ID, $user->getId(), $user->getFullname());
 
-        $confirmation->setConfirm(self::plugin()->translate("title", self::LANG_MODULE_RESET_PASSWORD), self::CMD_RESET_PASSWORD);
-        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_RESET_PASSWORD), self::CMD_BACK_TO_MEMBERS_LIST);
+        $confirmation->setConfirm(self::plugin()->translate("title", self::LANG_MODULE), self::CMD_RESET_PASSWORD);
+        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE), self::CMD_BACK);
 
         self::output()->output($confirmation, true);
     }
@@ -124,32 +193,17 @@ class ResetPasswordGUI
      */
     protected function resetPassword()/*: void*/
     {
-        $user = new ilObjUser(self::rules()->getUserId());
+        $user = new ilObjUser($this->user_id);
 
-        $new_password = self::ilias()->users()->resetPassword($user->getId());
+        $new_password = self::srUserEnrolment()->resetUserPassword()->resetPassword($user->getId());
 
-        ilUtil::sendSuccess(nl2br(str_replace("\\n", "\n", self::plugin()->translate("reset", self::LANG_MODULE_RESET_PASSWORD, [
+        ilUtil::sendSuccess(nl2br(str_replace("\\n", "\n", self::plugin()->translate("reset", self::LANG_MODULE, [
             $user->getFullname(),
             $user->getEmail(),
             $user->getLogin(),
             $new_password
         ])), false), true);
 
-        self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
-    }
-
-
-    /**
-     *
-     */
-    protected function backToMembersList()/*: void*/
-    {
-        self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, Repository::GET_PARAM_REF_ID);
-
-        self::dic()->ctrl()->redirectByClass([
-            ilRepositoryGUI::class,
-            ilObjCourseGUI::class,
-            ilCourseMembershipGUI::class
-        ]);
+        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
     }
 }

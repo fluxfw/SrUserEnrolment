@@ -170,7 +170,7 @@ class ConfigTableGUI extends ActiveRecordConfigTableGUI {
     /**
      * @inheritdoc
      */
-    protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*bool*/ $raw_export = false): string {
+    protected function getColumnValue(/*string*/ $column, /*array*/ $row, /*int*/ $format = self::DEFAULT_FORMAT): string {
 		switch ($column) {
 			default:
 				$column = $row[$column];
@@ -325,16 +325,13 @@ if (\srag\DIC\SrUserEnrolment\DICStatic::dic()->database()->tableExists(\srag\Pl
 ?>
 ```
 
-### Dependencies
+### Requirements
+* ILIAS 5.3 or ILIAS 5.4
 * PHP >=5.6
-* [composer](https://getcomposer.org)
-* [srag/custominputguis](https://packagist.org/packages/srag/custominputguis)
-* [srag/dic](https://packagist.org/packages/srag/dic)
-
-Please use it for further development!
 
 ### Adjustment suggestions
-* Adjustment suggestions by pull
-* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/ACCONF
-* Bug reports under https://jira.studer-raimann.ch/projects/ACCONF
-* For external users you can report it at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_ACCONF
+* External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_ACCONF
+* Adjustment suggestions by pull requests via github
+* Customer of studer + raimann ag: 
+	* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/ACCONF
+	* Bug reports under https://jira.studer-raimann.ch/projects/ACCONF

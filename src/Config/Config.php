@@ -25,6 +25,7 @@ class Config extends ActiveRecordConfig
     const KEY_SHOW_EXCEL_IMPORT = "show_excel_import";
     const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
     const KEY_SHOW_RULES_ENROLL = "show_rules_enroll";
+    const KEY_SHOW_ENROLMENT_WORKFLOW = "show_enrolment_workflow";
     /**
      * @var array
      */
@@ -34,6 +35,7 @@ class Config extends ActiveRecordConfig
             self::KEY_SHOW_EXCEL_IMPORT                                   => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RESET_PASSWORD                                 => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RULES_ENROLL                                   => [self::TYPE_BOOLEAN, false],
+            self::KEY_SHOW_ENROLMENT_WORKFLOW                             => [self::TYPE_BOOLEAN, false],
             ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS                   => [self::TYPE_INTEGER, 0],
             ExcelImportFormGUI::KEY_CREATE_NEW_USERS                      => [self::TYPE_BOOLEAN, false],
             ExcelImportFormGUI::KEY_FIELDS                                => [

@@ -19,6 +19,57 @@ Update, activate and config the plugin in the ILIAS Plugin Administration
 
 Please also install and enable [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron).
 
+### Custom event plugins
+If you need to do some custom requests changes, SrUserEnrolment will trigger some events, you can listen and react to this in a other custom plugin (plugin type is no matter)
+
+First create or extend a `plugin.xml` in your custom plugin (You need to adapt `PLUGIN_ID` with your own plugin id) to tell ILIAS, your plugins wants to listen to SrUserEnrolment events (You need also to increase your plugin version for take effect)
+
+```xml
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<plugin id="PLUGIN_ID">
+	<events>
+		<event type="listen" id="Plugins/SrUserEnrolment" />
+	</events>
+</plugin>
+```
+
+In your plugin class implement or extend the `handleEvent` method
+
+```php
+...
+require_once __DIR__ . "/../../SrUserEnrolment/vendor/autoload.php";
+...
+class ilXPlugin extends ...
+...
+	/**
+	 * @inheritDoc
+	 */
+	public function handleEvent($a_component, $a_event, $a_parameter) {
+		switch ($a_component) {
+			case "Plugins/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME:
+				switch ($a_event) {
+					case ilSrUserEnrolmentPlugin::EVENT_...;
+						...
+						break;
+
+					default:
+						break;
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
+...
+```
+
+| Event | Parameters | Purpose |
+|-------|------------|---------|
+| `ilSrUserEnrolmentPlugin::AFTER_REQUEST` | `request => object<Request>` | After a request is done |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS` | `modifications => &array<AbstractRequestsTableModifications>` | Collect requests table modifications (Please note `modifications` is a reference variable, if it should not works) |
+| `ilSrUserEnrolmentPlugin::EVENT_EXTENDS_SRUSRENR` | - | Extends SrUserEnrolment |
+
 ### Requirements
 * ILIAS 5.3 or ILIAS 5.4
 * PHP >=7.0

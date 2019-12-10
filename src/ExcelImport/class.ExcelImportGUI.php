@@ -7,11 +7,10 @@ use ilCourseMembershipGUI;
 use ilObjCourseGUI;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
+use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
-use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
-use srag\Plugins\SrUserEnrolment\Rule\Repository;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -23,7 +22,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI: ilUIPluginRouterGUI
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI: ilSrUserEnrolmentConfigGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI
  */
 class ExcelImportGUI
 {
@@ -31,14 +30,19 @@ class ExcelImportGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const CMD_INPUT_EXCEL_IMPORT_DATA = "inputExcelImportData";
-    const CMD_PARSE_EXCEL = "parseExcel";
+    const CMD_BACK = "back";
     const CMD_CREATE_OR_UPDATE_USERS = "createOrUpdateUsers";
     const CMD_ENROLL = "enroll";
-    const CMD_BACK_TO_MEMBERS_LIST = "backToMembersList";
-    const CMD_KEY_AUTOCOMPLETE = "keyAutoComplete";
+    const CMD_INPUT_EXCEL_IMPORT_DATA = "inputExcelImportData";
+    const CMD_KEY_AUTO_COMPLETE = "keyAutoComplete";
+    const CMD_PARSE_EXCEL = "parseExcel";
+    const GET_PARAM_REF_ID = "ref_id";
+    const LANG_MODULE = "excel_import";
     const TAB_EXCEL_IMPORT = "excel_import";
-    const LANG_MODULE_EXCEL_IMPORT = "excel_import";
+    /**
+     * @var int
+     */
+    protected $obj_ref_id;
 
 
     /**
@@ -55,10 +59,13 @@ class ExcelImportGUI
      */
     public function executeCommand()/*: void*/
     {
-        if (!Config::getField(Config::KEY_SHOW_EXCEL_IMPORT) || !self::access()->currentUserHasRole()
-        ) {
+        $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
+
+        if (!self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id)) {
             die();
         }
+
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_REF_ID);
 
         $this->setTabs();
 
@@ -66,19 +73,19 @@ class ExcelImportGUI
 
         switch (strtolower($next_class)) {
             case strtolower(LogsGUI::class):
-                self::dic()->ctrl()->forwardCommand(new LogsGUI());
+                self::dic()->ctrl()->forwardCommand(new LogsGUI($this->obj_ref_id));
                 break;
 
             default:
                 $cmd = self::dic()->ctrl()->getCmd();
 
                 switch ($cmd) {
-                    case self::CMD_INPUT_EXCEL_IMPORT_DATA:
-                    case self::CMD_PARSE_EXCEL:
+                    case self::CMD_BACK:
                     case self::CMD_CREATE_OR_UPDATE_USERS:
                     case self::CMD_ENROLL:
-                    case self::CMD_BACK_TO_MEMBERS_LIST:
-                    case self::CMD_KEY_AUTOCOMPLETE:
+                    case self::CMD_INPUT_EXCEL_IMPORT_DATA:
+                    case self::CMD_KEY_AUTO_COMPLETE:
+                    case self::CMD_PARSE_EXCEL:
                         $this->{$cmd}();
                         break;
 
@@ -91,21 +98,54 @@ class ExcelImportGUI
 
 
     /**
+     * @param int $obj_ref_id
+     */
+    public static function addTabs(int $obj_ref_id)/*:void*/
+    {
+        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+
+            self::dic()->tabs()->addSubTab(self::TAB_EXCEL_IMPORT, self::plugin()
+                ->translate("title", self::LANG_MODULE), self::dic()->ctrl()->getLinkTargetByClass([
+                ilUIPluginRouterGUI::class,
+                self::class
+            ], self::CMD_INPUT_EXCEL_IMPORT_DATA));
+        }
+    }
+
+
+    /**
      *
      */
     protected function setTabs()/*: void*/
     {
-        self::dic()->ctrl()->saveParameter($this, Repository::GET_PARAM_REF_ID);
+        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
 
-        self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK_TO_MEMBERS_LIST));
-
-        self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, self::plugin()->translate("title", self::LANG_MODULE_EXCEL_IMPORT), self::dic()->ctrl()
+        self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, self::plugin()->translate("title", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
         self::dic()->tabs()->activateTab(self::TAB_EXCEL_IMPORT);
 
-        self::dic()->tabs()->addTab(LogsGUI::TAB_LOGS, self::plugin()->translate("logs", LogsGUI::LANG_MODULE_LOGS), self::dic()->ctrl()
-            ->getLinkTargetByClass(LogsGUI::class, LogsGUI::CMD_LIST_LOGS));
+        LogsGUI::addTabs();
+    }
+
+
+    /**
+     *
+     */
+    protected function back()/*: void*/
+    {
+        $excel_import = $this->getExcelImport();
+
+        $excel_import->clean();
+
+        self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, self::GET_PARAM_REF_ID);
+
+        self::dic()->ctrl()->redirectByClass([
+            ilRepositoryGUI::class,
+            ilObjCourseGUI::class,
+            ilCourseMembershipGUI::class
+        ]);
     }
 
 
@@ -114,7 +154,7 @@ class ExcelImportGUI
      */
     protected function getExcelImportForm() : ExcelImportFormGUI
     {
-        $form = new ExcelImportFormGUI($this);
+        $form = self::srUserEnrolment()->excelImport()->factory()->newFormInstance($this);
 
         return $form;
     }
@@ -136,7 +176,7 @@ class ExcelImportGUI
      */
     protected function getExcelImport() : ExcelImport
     {
-        $excel_import = new ExcelImport();
+        $excel_import = self::srUserEnrolment()->excelImport()->factory()->newImportInstance($this->obj_ref_id);
 
         return $excel_import;
     }
@@ -159,9 +199,9 @@ class ExcelImportGUI
 
         $users = $excel_import->parse($form);
         if (empty($users)) {
-            ilUtil::sendInfo(self::plugin()->translate("nothing_to_do", self::LANG_MODULE_EXCEL_IMPORT), true);
+            ilUtil::sendInfo(self::plugin()->translate("nothing_to_do", self::LANG_MODULE), true);
 
-            self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
+            self::dic()->ctrl()->redirect($this, self::CMD_BACK);
 
             return;
         }
@@ -170,10 +210,10 @@ class ExcelImportGUI
 
         $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
-        $confirmation->setHeaderText(self::plugin()->translate("create_or_update_users_confirmation", self::LANG_MODULE_EXCEL_IMPORT));
+        $confirmation->setHeaderText(self::plugin()->translate("create_or_update_users_confirmation", self::LANG_MODULE));
 
-        $confirmation->setConfirm(self::plugin()->translate("create_or_update_users", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_CREATE_OR_UPDATE_USERS);
-        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_BACK_TO_MEMBERS_LIST);
+        $confirmation->setConfirm(self::plugin()->translate("create_or_update_users", self::LANG_MODULE), self::CMD_CREATE_OR_UPDATE_USERS);
+        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE), self::CMD_BACK);
 
         foreach ($users as $user_info) {
             $confirmation->addItem("", "", self::output()->getHTML($user_info));
@@ -195,9 +235,9 @@ class ExcelImportGUI
 
         $users = $excel_import->getUsersToEnroll();
         if (empty($users)) {
-            ilUtil::sendInfo(self::plugin()->translate("nothing_to_enroll", self::LANG_MODULE_EXCEL_IMPORT), true);
+            ilUtil::sendInfo(self::plugin()->translate("nothing_to_enroll", self::LANG_MODULE), true);
 
-            self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
+            self::dic()->ctrl()->redirect($this, self::CMD_BACK);
 
             return;
         }
@@ -206,10 +246,10 @@ class ExcelImportGUI
 
         $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
-        $confirmation->setHeaderText(self::plugin()->translate("enroll_confirmation", self::LANG_MODULE_EXCEL_IMPORT));
+        $confirmation->setHeaderText(self::plugin()->translate("enroll_confirmation", self::LANG_MODULE));
 
-        $confirmation->setConfirm(self::plugin()->translate("enroll", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_ENROLL);
-        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE_EXCEL_IMPORT), self::CMD_BACK_TO_MEMBERS_LIST);
+        $confirmation->setConfirm(self::plugin()->translate("enroll", self::LANG_MODULE), self::CMD_ENROLL);
+        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE), self::CMD_BACK);
 
         foreach ($users as $user_info) {
             $confirmation->addItem("", "", self::output()->getHTML($user_info));
@@ -230,26 +270,7 @@ class ExcelImportGUI
 
         ilUtil::sendSuccess($result, true);
 
-        self::dic()->ctrl()->redirect($this, self::CMD_BACK_TO_MEMBERS_LIST);
-    }
-
-
-    /**
-     *
-     */
-    protected function backToMembersList()/*: void*/
-    {
-        $excel_import = $this->getExcelImport();
-
-        $excel_import->clean();
-
-        self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, Repository::GET_PARAM_REF_ID);
-
-        self::dic()->ctrl()->redirectByClass([
-            ilRepositoryGUI::class,
-            ilObjCourseGUI::class,
-            ilCourseMembershipGUI::class
-        ]);
+        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
     }
 
 
@@ -264,5 +285,14 @@ class ExcelImportGUI
         $items = ExcelImport::getFieldsForType($type, $term);
 
         self::output()->outputJSON($items);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getObjRefId() : int
+    {
+        return $this->obj_ref_id;
     }
 }
