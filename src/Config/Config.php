@@ -34,7 +34,7 @@ class Config extends ActiveRecordConfig
         = [
             self::KEY_ROLES                                               => [self::TYPE_JSON, []],
             self::KEY_SHOW_EXCEL_IMPORT                                   => [self::TYPE_BOOLEAN, false],
-            self::KEY_SHOW_EXCEL_IMPORT_CONFIG                            => [self::TYPE_BOOLEAN, false],
+            self::KEY_SHOW_EXCEL_IMPORT_CONFIG                            => [self::TYPE_BOOLEAN, true],
             self::KEY_SHOW_RESET_PASSWORD                                 => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_RULES_ENROLL                                   => [self::TYPE_BOOLEAN, false],
             self::KEY_SHOW_ENROLMENT_WORKFLOW                             => [self::TYPE_BOOLEAN, false],
