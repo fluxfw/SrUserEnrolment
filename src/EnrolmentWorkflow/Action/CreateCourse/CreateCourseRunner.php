@@ -51,15 +51,17 @@ class CreateCourseRunner extends AbstractActionRunner
 
         $crs->setTitle($fields[$this->action->getFieldCourseTitle()]);
 
-        $crs->setCourseStart(new ilDate($fields[$this->action->getFieldCourseStart()], IL_CAL_UNIX));
-
-        $crs->setCourseEnd(new ilDate($fields[$this->action->getFieldCourseEnd()], IL_CAL_UNIX));
-
         $crs->create();
 
         $crs->createReference();
 
         $crs->putInTree(self::dic()->tree()->getParentId($request->getObjRefId()));
+
+        $crs->setCourseStart(new ilDate($fields[$this->action->getFieldCourseStart()], IL_CAL_UNIX));
+
+        $crs->setCourseEnd(new ilDate($fields[$this->action->getFieldCourseEnd()], IL_CAL_UNIX));
+
+        $crs->update();
 
         self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->setWorkflowId($crs->getId(), $this->action->getSelectedWorkflowId());
 
