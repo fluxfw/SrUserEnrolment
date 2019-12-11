@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.0.1]
+- Fix accept request without required fields
+
 ## [3.0.0]
 - Enrolment workflow
 - Course rule enrolment supports enrolment workflow rules too

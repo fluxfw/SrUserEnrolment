@@ -233,6 +233,8 @@ final class Repository
                     $fill_values = (array) ilSession::get(self::SESSION_TEMP_FILL_VALUES_STORAGE);
 
                     ilSession::clear(self::SESSION_TEMP_FILL_VALUES_STORAGE);
+                } else {
+                    $fill_values = [];
                 }
             }
 
