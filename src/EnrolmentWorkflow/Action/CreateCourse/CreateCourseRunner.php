@@ -66,7 +66,8 @@ class CreateCourseRunner extends AbstractActionRunner
         self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->setWorkflowId($crs->getId(), $this->action->getSelectedWorkflowId());
 
         if ($this->action->isMoveRequest()) {
-            $request->setObjRefId($this->action->getMoveRequestStepId());
+            $request->setObjId($crs->getId());
+            $request->setObjRefId($crs->getRefId());
         }
 
         return true;

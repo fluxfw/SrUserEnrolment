@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.0.3]
+- Fix move request in create course action
+
 ## [3.0.2]
 - Fix select fields on create course action
 - Fix create course action
