@@ -73,7 +73,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CustomInputGUIs\\": "src/"
+                    "srag\\CustomInputGUIs\\SrUserEnrolment\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -282,16 +282,16 @@
         },
         {
             "name": "srag/requireddata",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/RequiredData.git",
-                "reference": "392cd049b0071d4f5b96d9ef30819d5d5352721f"
+                "reference": "6547f41907de9f425b343eb4d82a434c0bfa06be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/392cd049b0071d4f5b96d9ef30819d5d5352721f",
-                "reference": "392cd049b0071d4f5b96d9ef30819d5d5352721f",
+                "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/6547f41907de9f425b343eb4d82a434c0bfa06be",
+                "reference": "6547f41907de9f425b343eb4d82a434c0bfa06be",
                 "shasum": ""
             },
             "require": {
@@ -302,7 +302,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\RequiredData\\SrUserEnrolment\\": "src/"
+                    "srag\\RequiredData\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -324,7 +324,7 @@
                 "field",
                 "required"
             ],
-            "time": "2019-12-09T10:40:35+00:00"
+            "time": "2019-12-11T06:25:05+00:00"
         },
         {
             "name": "twig/twig",

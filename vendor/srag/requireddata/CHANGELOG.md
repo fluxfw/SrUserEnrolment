@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.4.1]
+- Fix fill working without fields
+
 ## [0.4.0]
 - Improvments
 
