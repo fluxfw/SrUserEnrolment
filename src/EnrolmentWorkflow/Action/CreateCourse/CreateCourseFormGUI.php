@@ -88,27 +88,30 @@ class CreateCourseFormGUI extends AbstractActionFormGUI
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
-                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getStepId(), [
+                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getRequiredDataFromStepId(), [
                             TextField::class
-                        ]))
+                        ])),
+                    self::PROPERTY_NOT_ADD  => empty($this->object->getRequiredDataFromStepId())
                 ],
                 "field_course_start"         => [
                     self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
-                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getStepId(), [
+                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getRequiredDataFromStepId(), [
                             DateField::class
-                        ]))
+                        ])),
+                    self::PROPERTY_NOT_ADD  => empty($this->object->getRequiredDataFromStepId())
                 ],
                 "field_course_end"           => [
                     self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
-                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getStepId(), [
+                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getRequiredDataFromStepId(), [
                             DateField::class
-                        ]))
+                        ])),
+                    self::PROPERTY_NOT_ADD  => empty($this->object->getRequiredDataFromStepId())
                 ]
             ]
         );
