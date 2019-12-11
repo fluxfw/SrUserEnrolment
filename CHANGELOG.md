@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.2]
+- Fix select fields on create course action
+- Fix create course action
+
 ## [3.0.1]
 - Fix accept request without required fields
 

@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\CreateCourse;
 
+use ilDate;
 use ilObjCourse;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AbstractActionRunner;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
@@ -36,15 +37,23 @@ class CreateCourseRunner extends AbstractActionRunner
      */
     public function run(Request $request) : bool
     {
-        $fields = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($request->getObjRefId(), $this->action->getRequiredDataFromStepId(), $request->getUserId())->getRequiredData();
+        if ($request->getStepId() !== $this->action->getRequiredDataFromStepId()) {
+            $fields = self::srUserEnrolment()
+                ->enrolmentWorkflow()
+                ->requests()
+                ->getRequest($request->getObjRefId(), $this->action->getRequiredDataFromStepId(), $request->getUserId())
+                ->getRequiredData();
+        } else {
+            $fields = self::srUserEnrolment()->requiredData()->fills()->getFillValues();
+        }
 
         $crs = new ilObjCourse();
 
-        $crs->setTitle($fields->{$this->action->getFieldCourseTitle()});
+        $crs->setTitle($fields[$this->action->getFieldCourseTitle()]);
 
-        $crs->setCourseStart($fields->{$this->action->getFieldCourseStart()});
+        $crs->setCourseStart(new ilDate($fields[$this->action->getFieldCourseStart()], IL_CAL_UNIX));
 
-        $crs->setCourseEnd($fields->{$this->action->getFieldCourseEnd()});
+        $crs->setCourseEnd(new ilDate($fields[$this->action->getFieldCourseEnd()], IL_CAL_UNIX));
 
         $crs->create();
 
