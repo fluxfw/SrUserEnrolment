@@ -142,6 +142,7 @@ rules_enabled#:#Aktiviert
 rules_enabled_rules#:#Regeln aktiviert
 rules_field#:#Feld
 rules_iliaspermission_join#:#Beitreten
+rules_languages#:#Sprachen
 rules_operator#:#Vergleicher
 rules_operator_bigger#:#Grösser als
 rules_operator_bigger_equals#:#Grösser als oder ist gleich
@@ -172,7 +173,7 @@ rules_rule_type_always#:#Immer
 rules_rule_type_globalrole#:#Globale Rolle
 rules_rule_type_group#:#Gruppe
 rules_rule_type_iliaspermission#:#ILIAS-Recht
-rules_rule_type_language#:#Sprache
+rules_rule_type_language#:#Benutzer-Sprache
 rules_rule_type_nomembership#:#Keine Mitgliedschaft
 rules_rule_type_nootherrequests#:#Keine anderen Anforderungen
 rules_rule_type_orgunitsuperior#:#Benutzer hat Position in übergeordneter Organisationseinheit

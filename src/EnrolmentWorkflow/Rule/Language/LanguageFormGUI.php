@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Language;
 
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI;
 
@@ -37,6 +39,12 @@ class LanguageFormGUI extends AbstractRuleFormGUI
     {
         parent::initFields();
 
-        $this->fields = array_merge($this->fields, []);
+        $this->fields = array_merge($this->fields, [
+            "languages" => [
+                self::PROPERTY_CLASS    => MultiSelectSearchInputGUI::class,
+                self::PROPERTY_OPTIONS  => MultilangualTabsInputGUI::getLanguages(),
+                self::PROPERTY_REQUIRED => true
+            ]
+        ]);
     }
 }
