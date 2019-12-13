@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Fix position check in org unit user type rule
+
 ## [3.0.3]
 - Fix move request in create course action
 

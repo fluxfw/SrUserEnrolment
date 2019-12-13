@@ -79,7 +79,7 @@ class OrgUnitUserTypeChecker extends AbstractRuleChecker
                     "user_id"     => $user_id,
                     "orgu_id"     => $obj_ref_id,
                     "position_id" => $this->rule->getPosition()
-                ])->first() !== null
+                ])->first() === null
             ) {
                 return false;
             }
