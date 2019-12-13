@@ -142,6 +142,7 @@ rules_enabled#:#Enabled
 rules_enabled_rules#:#Rules enabled
 rules_field#:#Field
 rules_iliaspermission_join#:#Join
+rules_languages#:#Languages
 rules_operator#:#Operator
 rules_operator_bigger#:#Bigger than
 rules_operator_bigger_equals#:#Bigger than or is equals
@@ -172,7 +173,7 @@ rules_rule_type_always#:#Always
 rules_rule_type_globalrole#:#Global role
 rules_rule_type_group#:#Group
 rules_rule_type_iliaspermission#:#ILIAS permission
-rules_rule_type_language#:#Language
+rules_rule_type_language#:#User language
 rules_rule_type_nomembership#:#No membership
 rules_rule_type_nootherrequests#:#No other requests
 rules_rule_type_orgunitsuperior#:#User has position in superior organisation unit

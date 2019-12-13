@@ -1,6 +1,7 @@
 # Changelog
 
-## [x]
+## [3.0.4]
+- Select languages in user language rule
 - Fix position check in org unit user type rule
 
 ## [3.0.3]
