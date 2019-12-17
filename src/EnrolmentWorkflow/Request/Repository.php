@@ -316,7 +316,7 @@ final class Repository
 
             self::srUserEnrolment()->requiredData()->fills()->storeFillValues($request->getRequestId());
 
-            self::dic()->appEventHandler()->raise("Plugins/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_AFTER_REQUEST, [
+            self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_AFTER_REQUEST, [
                 "request" => $request
             ]);
         }

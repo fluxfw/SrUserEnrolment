@@ -50,7 +50,7 @@ final class Repository
         if (self::$instance === null) {
             self::$instance = new self();
 
-            self::dic()->appEventHandler()->raise("Plugins/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_EXTENDS_SRUSRENR);
+            self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_EXTENDS_SRUSRENR);
         }
 
         return self::$instance;
