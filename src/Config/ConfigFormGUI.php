@@ -31,9 +31,9 @@ class ConfigFormGUI extends ConfigPropertyFormGUI
 
 
     /**
-     * ilSrUserEnrolmentConfigGUI constructor
+     * ConfigFormGUI constructor
      *
-     * @param ConfigFormGUI $parent
+     * @param ilSrUserEnrolmentConfigGUI $parent
      */
     public function __construct(ilSrUserEnrolmentConfigGUI $parent)
     {

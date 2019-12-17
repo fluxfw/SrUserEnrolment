@@ -24,9 +24,10 @@ class Log extends ActiveRecord
     const TABLE_NAME = "srusrenr_log";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const STATUS_ENROLLED = 100;
-    const STATUS_NOT_ENROLLED = 200;
+    const STATUS_ENROLL_FAILED = 200;
     const STATUS_USER_CREATED = 300;
     const STATUS_USER_UPDATED = 400;
+    const STATUS_USER_FAILED = 500;
 
 
     /**
@@ -55,25 +56,27 @@ class Log extends ActiveRecord
     public static $status_create_or_update_users
         = [
             self::STATUS_USER_CREATED => self::STATUS_USER_CREATED,
-            self::STATUS_USER_UPDATED => self::STATUS_USER_UPDATED
+            self::STATUS_USER_UPDATED => self::STATUS_USER_UPDATED,
+            self::STATUS_USER_FAILED  => self::STATUS_USER_FAILED
         ];
     /**
      * @var array
      */
     public static $status_enroll
         = [
-            self::STATUS_ENROLLED     => self::STATUS_ENROLLED,
-            self::STATUS_NOT_ENROLLED => self::STATUS_NOT_ENROLLED
+            self::STATUS_ENROLLED      => self::STATUS_ENROLLED,
+            self::STATUS_ENROLL_FAILED => self::STATUS_ENROLL_FAILED
         ];
     /**
      * @var array
      */
     public static $status_all
         = [
-            self::STATUS_USER_CREATED => self::STATUS_USER_CREATED,
-            self::STATUS_USER_UPDATED => self::STATUS_USER_UPDATED,
-            self::STATUS_ENROLLED     => self::STATUS_ENROLLED,
-            self::STATUS_NOT_ENROLLED => self::STATUS_NOT_ENROLLED
+            self::STATUS_ENROLLED      => self::STATUS_ENROLLED,
+            self::STATUS_ENROLL_FAILED => self::STATUS_ENROLL_FAILED,
+            self::STATUS_USER_CREATED  => self::STATUS_USER_CREATED,
+            self::STATUS_USER_UPDATED  => self::STATUS_USER_UPDATED,
+            self::STATUS_USER_FAILED   => self::STATUS_USER_FAILED
         ];
     /**
      * @var int

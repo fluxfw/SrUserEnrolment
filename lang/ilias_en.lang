@@ -106,9 +106,10 @@ logs_objects#:#Objects
 logs_rules#:#Rules
 logs_status#:#Status
 logs_status_100#:#Enrolled
-logs_status_200#:#Not enrolled
+logs_status_200#:#Enroll failed
 logs_status_300#:#User created
 logs_status_400#:#User updated
+logs_status_500#:#User failed
 logs_user_id#:#User login
 requests_accepted#:#Accepted
 requests_accepted_message#:#%s accepted

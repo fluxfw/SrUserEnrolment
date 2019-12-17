@@ -45,7 +45,7 @@ class RequestsTableGUI extends TableGUI
      */
     public function __construct(RequestsGUI $parent, string $parent_cmd)
     {
-        self::dic()->appEventHandler()->raise("Plugins/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS, [
+        self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS, [
             "modifications" => &$this->modifications
         ]);
 

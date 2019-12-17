@@ -103,7 +103,7 @@ final class Factory
      */
     public function newExceptionInstance(Throwable $ex, int $object_id, /*?*/ int $user_id = null,/*?*/ string $rule_id = null) : Log
     {
-        $log = $this->newObjectRuleUserInstance($object_id, $user_id, $rule_id)->withStatus(Log::STATUS_NOT_ENROLLED)->withMessage($ex->getMessage());
+        $log = $this->newObjectRuleUserInstance($object_id, $user_id, $rule_id)->withMessage($ex->getMessage());
 
         return $log;
     }

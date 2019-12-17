@@ -106,9 +106,10 @@ logs_objects#:#Objekte
 logs_rules#:#Regeln
 logs_status#:#Status
 logs_status_100#:#Eingeschrieben
-logs_status_200#:#Nicht eingeschrieben
+logs_status_200#:#Einschreiben fehlgeschlagen
 logs_status_300#:#Benutzer angelegt
 logs_status_400#:#Benutzer aktualisiert
+logs_status_500#:#Benutzer fehlgeschlagen
 logs_user_id#:#Benutzer Login
 requests_accepted#:#Angenommen
 requests_accepted_message#:#%s angenommen

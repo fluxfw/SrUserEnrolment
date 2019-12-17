@@ -134,20 +134,23 @@ class Job extends ilCronJob
             $objects[$rule->getParentId()] = true;
 
             foreach (self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers() as $object_user) {
-
                 try {
-                    self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($rule->getParentId(), $object_user->user_id);
-
-                    self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()->logs()->factory()
-                        ->newObjectRuleUserInstance($rule->getParentId(), $object_user->user_id, $rule->getId())->withStatus(Log::STATUS_ENROLLED));
+                    if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($rule->getParentId(), $object_user->user_id)) {
+                        self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
+                            ->ruleEnrolment()
+                            ->logs()
+                            ->factory()
+                            ->newObjectRuleUserInstance($rule->getParentId(), $object_user->user_id, $rule->getId())
+                            ->withStatus(Log::STATUS_ENROLLED));
+                    }
                 } catch (Throwable $ex) {
                     self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()->logs()->factory()
-                        ->newExceptionInstance($ex, $rule->getParentId(), $object_user->user_id, $rule->getId()));
+                        ->newExceptionInstance($ex, $rule->getParentId(), $object_user->user_id, $rule->getId())->withStatus(Log::STATUS_ENROLL_FAILED));
                 }
             }
         }
 
-        $logs = array_reduce(Log::$status_all, function (array $logs, int $status) : array {
+        $logs = array_reduce(Log::$status_enroll, function (array $logs, int $status) : array {
             $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->ruleEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
