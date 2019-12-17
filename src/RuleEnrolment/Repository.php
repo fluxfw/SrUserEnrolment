@@ -6,13 +6,11 @@ use ilDBConstants;
 use ilDBStatement;
 use ilObjCourse;
 use ilObjectFactory;
-use ilObjRole;
 use ilObjUser;
 use ilOrgUnitPosition;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
-use srag\Plugins\SrUserEnrolment\Exception\SrUserEnrolmentException;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs\Repository as LogRepository;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Repository as RuleRepository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -72,23 +70,22 @@ final class Repository
      * @param int $obj_id
      * @param int $user_id
      *
-     * @throws SrUserEnrolmentException
+     * @return bool
      */
-    public function enrollMemberToCourse(int $obj_id, int $user_id)/*: void*/
+    public function enrollMemberToCourse(int $obj_id, int $user_id) : bool
     {
         $course = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
         if ($course instanceof ilObjCourse) {
 
-            if ($course->getMembersObject()->isAssigned($user_id)) {
-                throw new SrUserEnrolmentException("User " . $user_id . " already assigned as role "
-                    . implode(", ", array_map(function (int $role_id) : string {
-                        return ilObjRole::_getTranslation(self::dic()->objDataCache()->lookupTitle($role_id));
-                    }, $course->getMembersObject()->getAssignedRoles($user_id))) . " in course " . $course->getTitle());
-            }
+            if (!$course->getMembersObject()->isAssigned($user_id)) {
+                $course->getMembersObject()->add($user_id, IL_CRS_MEMBER);
 
-            $course->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+                return true;
+            }
         }
+
+        return false;
     }
 
 

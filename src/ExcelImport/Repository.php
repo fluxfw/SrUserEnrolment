@@ -12,6 +12,7 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\Exception\SrUserEnrolmentException;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
+use stdClass;
 
 /**
  * Class Repository
@@ -56,24 +57,44 @@ final class Repository
 
 
     /**
-     * @param int $user_id
-     * @param int $org_unit_ref_id
-     * @param int $position_id
+     * @param ilObjUser $user
+     * @param stdClass  $fields
+     *
+     * @return bool
      */
-    public function assignOrgUnit(int $user_id, int $org_unit_ref_id, int $position_id)/*: void*/
+    protected function assignOrgUnit(ilObjUser $user, stdClass $fields) : bool
     {
-        ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $org_unit_ref_id);
+        if (isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit) && isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position)
+        ) {
+            $assignment = ilOrgUnitUserAssignment::where([
+                "user_id"     => $user->getId(),
+                "orgu_id"     => $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit,
+                "position_id" => $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position
+            ])->first();
+
+            if ($assignment === null) {
+                $assignment = new ilOrgUnitUserAssignment();
+                $assignment->setUserId($user->getId());
+                $assignment->setOrguId($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit);
+                $assignment->setPositionId($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position);
+                $assignment->store();
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
     /**
-     * @param array $fields
+     * @param stdClass $fields
      *
      * @return int
      *
      * @throws SrUserEnrolmentException
      */
-    public function createNewAccount(array $fields) : int
+    public function createNewAccount(stdClass $fields) : int
     {
         $user = new ilObjUser();
 
@@ -88,6 +109,10 @@ final class Repository
         $user->saveAsNew();
 
         self::dic()->rbacadmin()->assignUser(self::USER_ROLE_ID, $user->getId()); // User default role
+
+        $this->assignOrgUnit($user, $fields);
+
+        $this->resetPassword($user, $fields);
 
         return $user->getId();
     }
@@ -260,13 +285,31 @@ final class Repository
 
     /**
      * @param ilObjUser $user
-     * @param array     $fields
+     * @param stdClass  $fields
+     *
+     * @return bool
+     */
+    protected function resetPassword(ilObjUser $user, stdClass $fields) : bool
+    {
+        if (isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd)) {
+            $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd = self::srUserEnrolment()->resetUserPassword()->resetPassword($user->getId(), $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd);
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param ilObjUser $user
+     * @param stdClass  $fields
      *
      * @return int
      *
      * @throws SrUserEnrolmentException
      */
-    public function setUserFields(ilObjUser $user, array $fields) : int
+    public function setUserFields(ilObjUser $user, stdClass $fields) : int
     {
         $count = 0;
 
@@ -321,14 +364,14 @@ final class Repository
 
 
     /**
-     * @param int   $user_id
-     * @param array $fields
+     * @param int      $user_id
+     * @param stdClass $fields
      *
      * @return bool
      *
      * @throws SrUserEnrolmentException
      */
-    public function updateUserAccount(int $user_id, array $fields) : bool
+    public function updateUserAccount(int $user_id, stdClass $fields) : bool
     {
         $user = new ilObjUser($user_id);
 
@@ -336,6 +379,14 @@ final class Repository
 
         if ($updated) {
             $user->update();
+        }
+
+        if ($this->assignOrgUnit($user, $fields)) {
+            $updated = true;
+        }
+
+        if ($this->resetPassword($user, $fields)) {
+            $updated = true;
         }
 
         return $updated;

@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.5]
+- Fix update org unit log
+- Optimized failed logs
+
 ## [3.0.4]
 - Select languages in user language rule
 - Fix position check in org unit user type rule

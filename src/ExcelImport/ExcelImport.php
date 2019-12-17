@@ -527,7 +527,7 @@ class ExcelImport
         foreach ($users as &$user) {
             try {
                 if ($user->is_new) {
-                    $user->ilias_user_id = self::srUserEnrolment()->excelImport()->createNewAccount((array) $user->{ExcelImportFormGUI::KEY_FIELDS});
+                    $user->ilias_user_id = self::srUserEnrolment()->excelImport()->createNewAccount($user->{ExcelImportFormGUI::KEY_FIELDS});
 
                     self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
                         ->logs()
@@ -536,7 +536,7 @@ class ExcelImport
                         ->withStatus(Log::STATUS_USER_CREATED)
                         ->withMessage("User data: " . json_encode($user)));
                 } else {
-                    if (self::srUserEnrolment()->excelImport()->updateUserAccount($user->ilias_user_id, (array) $user->{ExcelImportFormGUI::KEY_FIELDS})) {
+                    if (self::srUserEnrolment()->excelImport()->updateUserAccount($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS})) {
                         self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
                             ->logs()
                             ->factory()
@@ -545,23 +545,11 @@ class ExcelImport
                             ->withMessage("User data: " . json_encode($user)));
                     }
                 }
-
-                if (isset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd)) {
-                    $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = self::srUserEnrolment()->resetUserPassword()
-                        ->resetPassword($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd);
-                }
-
-                if (isset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit)
-                    && isset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position)
-                ) {
-                    self::srUserEnrolment()->excelImport()->assignOrgUnit($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit,
-                        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->org_unit_position);
-                }
             } catch (Throwable $ex) {
                 self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
                     ->logs()
                     ->factory()
-                    ->newExceptionInstance($ex, self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)));
+                    ->newExceptionInstance($ex, self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))->withStatus(Log::STATUS_USER_FAILED));
             }
         }
 
@@ -619,21 +607,17 @@ class ExcelImport
 
         foreach ($users as &$user) {
             try {
-                self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id), $user->ilias_user_id);
-
-                self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
-                    ->ruleEnrolment()
-                    ->logs()
-                    ->factory()
-                    ->newObjectRuleUserInstance(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id), $user->ilias_user_id)
-                    ->withStatus(Log::STATUS_ENROLLED)
-                    ->withMessage("User data: " . json_encode($user)));
+                if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id), $user->ilias_user_id)) {
+                    self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()->logs()->factory()->newObjectRuleUserInstance(self::dic()
+                        ->objDataCache()
+                        ->lookupObjId($this->obj_ref_id), $user->ilias_user_id)->withStatus(Log::STATUS_ENROLLED)->withMessage("User data: " . json_encode($user)));
+                }
             } catch (Throwable $ex) {
                 self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
                     ->ruleEnrolment()
                     ->logs()
                     ->factory()
-                    ->newExceptionInstance($ex, self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)));
+                    ->newExceptionInstance($ex, self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))->withStatus(Log::STATUS_ENROLL_FAILED));
             }
         }
 
