@@ -57,14 +57,14 @@ class Log extends ActiveRecord
         = [
             self::STATUS_USER_CREATED => self::STATUS_USER_CREATED,
             self::STATUS_USER_UPDATED => self::STATUS_USER_UPDATED,
-            self::STATUS_USER_FAILED   => self::STATUS_USER_FAILED
+            self::STATUS_USER_FAILED  => self::STATUS_USER_FAILED
         ];
     /**
      * @var array
      */
     public static $status_enroll
         = [
-            self::STATUS_ENROLLED     => self::STATUS_ENROLLED,
+            self::STATUS_ENROLLED      => self::STATUS_ENROLLED,
             self::STATUS_ENROLL_FAILED => self::STATUS_ENROLL_FAILED
         ];
     /**
@@ -72,11 +72,11 @@ class Log extends ActiveRecord
      */
     public static $status_all
         = [
+            self::STATUS_ENROLLED      => self::STATUS_ENROLLED,
+            self::STATUS_ENROLL_FAILED => self::STATUS_ENROLL_FAILED,
             self::STATUS_USER_CREATED  => self::STATUS_USER_CREATED,
             self::STATUS_USER_UPDATED  => self::STATUS_USER_UPDATED,
-            self::STATUS_ENROLLED      => self::STATUS_ENROLLED,
-            self::STATUS_USER_FAILED   => self::STATUS_USER_FAILED,
-            self::STATUS_ENROLL_FAILED => self::STATUS_ENROLL_FAILED
+            self::STATUS_USER_FAILED   => self::STATUS_USER_FAILED
         ];
     /**
      * @var int
