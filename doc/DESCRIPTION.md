@@ -19,4 +19,4 @@ This plugin has the follow main features (Each needs to activated separated in t
 ![Enrolment workflow](./images/enrolment_workflow.png)
 
 Menu (Only ILIAS 5.3)
-For ILIAS 5.3, you need to install [CtrlMainMenu](https://github.com/studer-raimann/CtrlMainMenu) before you activate the SrUserEnrolment-Plugin
+For ILIAS 5.3, you need to use [CtrlMainMenu](https://github.com/studer-raimann/CtrlMainMenu)

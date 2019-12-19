@@ -96,15 +96,5 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     protected function deleteData()/*: void*/
     {
         self::srUserEnrolment()->dropTables();
-        Menu::removeCtrlMainMenu();
-    }
-
-
-    /**
-     *
-     */
-    protected function afterActivation()/*: void*/
-    {
-        Menu::addCtrlMainMenu();
     }
 }

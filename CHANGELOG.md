@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.0.6]
+- Fix
+
 ## [3.0.5]
 - Fix update org unit log
 - Optimized failed logs
