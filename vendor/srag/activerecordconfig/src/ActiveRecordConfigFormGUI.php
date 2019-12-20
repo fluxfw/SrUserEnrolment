@@ -7,11 +7,11 @@ use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ConfigPropertyFormGUI;
 /**
  * Class ActiveRecordConfigFormGUI
  *
- * @package srag\ActiveRecordConfig\SrUserEnrolment
+ * @package    srag\ActiveRecordConfig\SrUserEnrolment
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author     studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @deprecated
+ * @deprecated Please use ConfigPropertyFormGUI from CustomInputGUIs instead
  */
 abstract class ActiveRecordConfigFormGUI extends ConfigPropertyFormGUI
 {

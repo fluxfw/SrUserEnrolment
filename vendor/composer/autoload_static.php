@@ -9,23 +9,23 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\' => 18,
-            'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
+            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
+            'srag\\RemovePluginDataConfirm\\' => 29,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\SrUserEnrolment\\' => 25,
+            'srag\\DIC\\' => 9,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
-            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
+            'srag\\ActiveRecordConfig\\' => 24,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\' => 
+        'srag\\RequiredData\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
-        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 
+        'srag\\RemovePluginDataConfirm\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -41,7 +41,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\SrUserEnrolment\\' => 
+        'srag\\DIC\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
@@ -49,7 +49,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
+        'srag\\ActiveRecordConfig\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -66,7 +66,6 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     );
 
     public static $classMap = array (
-        'SrUserEnrolmentRemoveDataConfirm' => __DIR__ . '/../..' . '/classes/uninstall/class.SrUserEnrolmentRemoveDataConfirm.php',
         'Twig_Autoloader' => __DIR__ . '/..' . '/twig/twig/lib/Twig/Autoloader.php',
         'Twig_Compiler' => __DIR__ . '/..' . '/twig/twig/lib/Twig/Compiler.php',
         'Twig_CompilerInterface' => __DIR__ . '/..' . '/twig/twig/lib/Twig/CompilerInterface.php',
@@ -340,7 +339,6 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\DIC\\SrUserEnrolment\\Util\\LibraryLanguageInstaller' => __DIR__ . '/..' . '/srag/dic/src/Util/LibraryLanguageInstaller.php',
         'srag\\DIC\\SrUserEnrolment\\Version\\Version' => __DIR__ . '/..' . '/srag/dic/src/Version/Version.php',
         'srag\\DIC\\SrUserEnrolment\\Version\\VersionInterface' => __DIR__ . '/..' . '/srag/dic/src/Version/VersionInterface.php',
-        'srag\\LibrariesNamespaceChanger\\Libraries' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/Libraries.php',
         'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
         'srag\\LibrariesNamespaceChanger\\PHP7Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Exception\\Notifications4PluginException' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Exception/Notifications4PluginException.php',
@@ -513,10 +511,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\Rule' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/Rule.php',
         'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\RulesCourseGUI' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/class.RulesCourseGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Utils\\SrUserEnrolmentTrait' => __DIR__ . '/../..' . '/src/Utils/SrUserEnrolmentTrait.php',
-        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\AbstractPluginUninstallTrait' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/AbstractPluginUninstallTrait.php',
-        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\AbstractRemovePluginDataConfirm' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/AbstractRemovePluginDataConfirm.php',
-        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\Exception\\RemovePluginDataConfirmException' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/Exception/RemovePluginDataConfirmException.php',
+        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\BasePluginUninstallTrait' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/BasePluginUninstallTrait.php',
         'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\PluginUninstallTrait' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/PluginUninstallTrait.php',
+        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\RemovePluginDataConfirmCtrl' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/class.RemovePluginDataConfirmCtrl.php',
         'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\RepositoryObjectPluginUninstallTrait' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/RepositoryObjectPluginUninstallTrait.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\AbstractField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/AbstractField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\AbstractFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/AbstractFieldFormGUI.php',
