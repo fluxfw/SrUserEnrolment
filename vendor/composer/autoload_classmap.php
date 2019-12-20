@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'SrUserEnrolmentRemoveDataConfirm' => $baseDir . '/classes/uninstall/class.SrUserEnrolmentRemoveDataConfirm.php',
     'Twig_Autoloader' => $vendorDir . '/twig/twig/lib/Twig/Autoloader.php',
     'Twig_Compiler' => $vendorDir . '/twig/twig/lib/Twig/Compiler.php',
     'Twig_CompilerInterface' => $vendorDir . '/twig/twig/lib/Twig/CompilerInterface.php',
@@ -280,7 +279,6 @@ return array(
     'srag\\DIC\\SrUserEnrolment\\Util\\LibraryLanguageInstaller' => $vendorDir . '/srag/dic/src/Util/LibraryLanguageInstaller.php',
     'srag\\DIC\\SrUserEnrolment\\Version\\Version' => $vendorDir . '/srag/dic/src/Version/Version.php',
     'srag\\DIC\\SrUserEnrolment\\Version\\VersionInterface' => $vendorDir . '/srag/dic/src/Version/VersionInterface.php',
-    'srag\\LibrariesNamespaceChanger\\Libraries' => $vendorDir . '/srag/librariesnamespacechanger/src/Libraries.php',
     'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => $vendorDir . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
     'srag\\LibrariesNamespaceChanger\\PHP7Backport' => $vendorDir . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Exception\\Notifications4PluginException' => $vendorDir . '/srag/notifications4plugin/src/Exception/Notifications4PluginException.php',
@@ -453,10 +451,9 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\Rule' => $baseDir . '/src/RuleEnrolment/Rule/Rule.php',
     'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\RulesCourseGUI' => $baseDir . '/src/RuleEnrolment/Rule/class.RulesCourseGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\Utils\\SrUserEnrolmentTrait' => $baseDir . '/src/Utils/SrUserEnrolmentTrait.php',
-    'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\AbstractPluginUninstallTrait' => $vendorDir . '/srag/removeplugindataconfirm/src/AbstractPluginUninstallTrait.php',
-    'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\AbstractRemovePluginDataConfirm' => $vendorDir . '/srag/removeplugindataconfirm/src/AbstractRemovePluginDataConfirm.php',
-    'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\Exception\\RemovePluginDataConfirmException' => $vendorDir . '/srag/removeplugindataconfirm/src/Exception/RemovePluginDataConfirmException.php',
+    'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\BasePluginUninstallTrait' => $vendorDir . '/srag/removeplugindataconfirm/src/BasePluginUninstallTrait.php',
     'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\PluginUninstallTrait' => $vendorDir . '/srag/removeplugindataconfirm/src/PluginUninstallTrait.php',
+    'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\RemovePluginDataConfirmCtrl' => $vendorDir . '/srag/removeplugindataconfirm/src/class.RemovePluginDataConfirmCtrl.php',
     'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\RepositoryObjectPluginUninstallTrait' => $vendorDir . '/srag/removeplugindataconfirm/src/RepositoryObjectPluginUninstallTrait.php',
     'srag\\RequiredData\\SrUserEnrolment\\Field\\AbstractField' => $vendorDir . '/srag/requireddata/src/Field/AbstractField.php',
     'srag\\RequiredData\\SrUserEnrolment\\Field\\AbstractFieldFormGUI' => $vendorDir . '/srag/requireddata/src/Field/AbstractFieldFormGUI.php',
