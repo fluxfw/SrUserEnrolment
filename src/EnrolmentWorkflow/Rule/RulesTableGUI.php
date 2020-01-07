@@ -177,14 +177,14 @@ class RulesTableGUI extends TableGUI
         parent::fillRow($rule);
 
         $actions = [
-            self::dic()->ui()->factory()->button()->shy($this->txt("edit_rule"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_rule"), self::dic()->ctrl()
                 ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_EDIT_RULE)),
-            self::dic()->ui()->factory()->button()->shy($this->txt("remove_rule"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_rule"), self::dic()->ctrl()
                 ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_REMOVE_RULE_CONFIRM))
         ];
 
         if (!($this->parent_obj instanceof GroupRulesGUI) && $rule instanceof Group) {
-            $actions[] = self::dic()->ui()->factory()->button()->shy($this->txt("ungroup"), self::dic()->ctrl()
+            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("ungroup"), self::dic()->ctrl()
                 ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_UNGROUP));
         }
 

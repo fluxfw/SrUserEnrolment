@@ -226,7 +226,7 @@ class RequestInfoGUI
             foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->request, self::dic()->user()->getId()) as $step) {
                 self::dic()->ctrl()->setParameterByClass(AcceptRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
-                $actions[] = self::dic()->ui()->factory()->button()->shy($step->getActionAcceptTitle(), self::dic()->ctrl()
+                $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionAcceptTitle(), self::dic()->ctrl()
                     ->getLinkTargetByClass(AcceptRequestGUI::class, AcceptRequestGUI::CMD_ACCEPT_REQUEST));
             }
 
