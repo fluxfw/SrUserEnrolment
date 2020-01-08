@@ -188,7 +188,7 @@ rules_title_field#:#Titel
 rules_type_action#:#Berechtigungen Aktion
 rules_type_check_action#:#Berechtigungen Aktion prüfen
 rules_type_course_rule#:#Einschreiben per Regel
-rules_rule_group#:#Gruppe
+rules_type_group#:#Gruppe
 rules_type_if#:#Wenn
 rules_value#:#Wert
 rules_ungroup#:#Gruppe auflösen
