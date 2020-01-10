@@ -44,7 +44,7 @@ class ilXPlugin extends ...
 	/**
 	 * @inheritDoc
 	 */
-	public function handleEvent($a_component, $a_event, $a_parameter) {
+	public function handleEvent(/*string*/ $a_component, /*string*/ $a_event, /*array*/ $a_parameter)/*: void*/ {
 		switch ($a_component) {
 			case IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME:
 				switch ($a_event) {
