@@ -4,7 +4,7 @@ namespace srag\Plugins\SrUserEnrolment;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Notifications4Plugin\SrUserEnrolment\RepositoryInterface as NotificationRepositoryInterface;
+use srag\Notifications4Plugin\SrUserEnrolment\RepositoryInterface as Notifications4PluginRepositoryInterface;
 use srag\Notifications4Plugin\SrUserEnrolment\Utils\Notifications4PluginTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Repository as EnrolmentWorkflowRepository;
@@ -122,7 +122,7 @@ final class Repository
     /**
      * @inheritDoc
      */
-    public function notifications4plugin() : NotificationRepositoryInterface
+    public function notifications4plugin() : Notifications4PluginRepositoryInterface
     {
         return self::_notifications4plugin();
     }
