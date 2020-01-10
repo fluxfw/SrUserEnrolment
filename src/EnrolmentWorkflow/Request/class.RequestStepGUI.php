@@ -4,7 +4,6 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ILIAS\UI\Component\Component;
 use ilLink;
-use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilSrUserEnrolmentUIHookGUI;
 use ilUIPluginRouterGUI;
