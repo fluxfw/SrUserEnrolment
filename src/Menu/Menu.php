@@ -31,7 +31,7 @@ class Menu extends AbstractStaticPluginMainMenuProvider
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getStaticTopItems() : array
     {
@@ -47,7 +47,7 @@ class Menu extends AbstractStaticPluginMainMenuProvider
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getStaticSubItems() : array
     {

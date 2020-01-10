@@ -81,7 +81,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
     {
@@ -90,7 +90,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function deleteData()/*: void*/
     {

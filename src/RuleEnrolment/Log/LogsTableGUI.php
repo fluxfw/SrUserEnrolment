@@ -41,7 +41,7 @@ class LogsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      *
      * @param Log $row
      */
@@ -67,7 +67,7 @@ class LogsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getSelectableColumns2() : array
     {
@@ -91,7 +91,7 @@ class LogsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initCommands()/*: void*/
     {
@@ -100,7 +100,7 @@ class LogsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initData()/*: void*/
     {
@@ -147,7 +147,7 @@ class LogsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initFilterFields()/*: void*/
     {
@@ -174,7 +174,7 @@ class LogsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initId()/*: void*/
     {
@@ -183,7 +183,7 @@ class LogsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initTitle()/*: void*/
     {

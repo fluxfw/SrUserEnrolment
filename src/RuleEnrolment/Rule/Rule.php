@@ -199,9 +199,7 @@ class Rule extends ActiveRecord
 
 
     /**
-     * @param string $field_name
-     *
-     * @return mixed|null
+     * @inheritDoc
      *
      * @deprecated
      */
@@ -217,10 +215,7 @@ class Rule extends ActiveRecord
 
 
     /**
-     * @param string $field_name
-     * @param mixed  $field_value
-     *
-     * @return mixed|null
+     * @inheritDoc
      *
      * @deprecated
      */
