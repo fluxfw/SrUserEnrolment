@@ -177,6 +177,7 @@ rules_rule_type_iliaspermission#:#ILIAS permission
 rules_rule_type_language#:#User language
 rules_rule_type_nomembership#:#No membership
 rules_rule_type_nootherrequests#:#No other requests
+rules_rule_type_noresponsibleusersassigned#:#No responsible users assigned
 rules_rule_type_orgunitsuperior#:#User has position in superior organisation unit
 rules_rule_type_orgunitusertype#:#Organisation unit user
 rules_rule_type_udf#:#User definied field

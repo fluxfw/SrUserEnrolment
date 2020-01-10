@@ -1,5 +1,9 @@
 # Changelog
 
+## [x]
+- `No responsible users assigned` rule
+- Some fixes
+
 ## [3.0.6]
 - Some improvments
 

@@ -177,6 +177,7 @@ rules_rule_type_iliaspermission#:#ILIAS-Recht
 rules_rule_type_language#:#Benutzer-Sprache
 rules_rule_type_nomembership#:#Keine Mitgliedschaft
 rules_rule_type_nootherrequests#:#Keine anderen Anforderungen
+rules_rule_type_noresponsibleusersassigned#:#Keine verantwortliche Benutzer zugewiesen
 rules_rule_type_orgunitsuperior#:#Benutzer hat Position in übergeordneter Organisationseinheit
 rules_rule_type_orgunitusertype#:#Organisationseinheit Benutzer
 rules_rule_type_udf#:#Benutzerdefiniertes Feld

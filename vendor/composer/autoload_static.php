@@ -10,13 +10,13 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         's' => 
         array (
             'srag\\RequiredData\\SrUserEnrolment\\' => 34,
-            'srag\\RemovePluginDataConfirm\\' => 29,
+            'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DIC\\' => 9,
+            'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
-            'srag\\ActiveRecordConfig\\' => 24,
+            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
 
@@ -25,7 +25,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
-        'srag\\RemovePluginDataConfirm\\' => 
+        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -41,7 +41,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
@@ -49,7 +49,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\ActiveRecordConfig\\' => 
+        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -454,6 +454,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\NoOtherRequests\\NoOtherRequests' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/NoOtherRequests/NoOtherRequests.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\NoOtherRequests\\NoOtherRequestsChecker' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/NoOtherRequests/NoOtherRequestsChecker.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\NoOtherRequests\\NoOtherRequestsFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/NoOtherRequests/NoOtherRequestsFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\NoResponsibleUsersAssigned\\NoResponsibleUsersAssigned' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/NoResponsibleUsersAssigned/NoResponsibleUsersAssigned.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\NoResponsibleUsersAssigned\\NoResponsibleUsersAssignedChecker' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/NoResponsibleUsersAssigned/NoResponsibleUsersAssignedChecker.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\NoResponsibleUsersAssigned\\NoResponsibleUsersAssignedFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/NoResponsibleUsersAssigned/NoResponsibleUsersAssignedFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\OrgUnitSuperior\\OrgUnitSuperior' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/OrgUnitSuperior/OrgUnitSuperior.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\OrgUnitSuperior\\OrgUnitSuperiorChecker' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/OrgUnitSuperior/OrgUnitSuperiorChecker.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\OrgUnitSuperior\\OrgUnitSuperiorFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/OrgUnitSuperior/OrgUnitSuperiorFormGUI.php',

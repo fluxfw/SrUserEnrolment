@@ -7,11 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'srag\\RequiredData\\SrUserEnrolment\\' => array($vendorDir . '/srag/requireddata/src'),
-    'srag\\RemovePluginDataConfirm\\' => array($vendorDir . '/srag/removeplugindataconfirm/src'),
+    'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => array($vendorDir . '/srag/removeplugindataconfirm/src'),
     'srag\\Plugins\\SrUserEnrolment\\' => array($baseDir . '/src'),
     'srag\\Notifications4Plugin\\SrUserEnrolment\\' => array($vendorDir . '/srag/notifications4plugin/src'),
     'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
-    'srag\\DIC\\' => array($vendorDir . '/srag/dic/src'),
+    'srag\\DIC\\SrUserEnrolment\\' => array($vendorDir . '/srag/dic/src'),
     'srag\\CustomInputGUIs\\SrUserEnrolment\\' => array($vendorDir . '/srag/custominputguis/src'),
-    'srag\\ActiveRecordConfig\\' => array($vendorDir . '/srag/activerecordconfig/src'),
+    'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => array($vendorDir . '/srag/activerecordconfig/src'),
 );

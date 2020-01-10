@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use stdClass;
 
@@ -24,6 +25,10 @@ abstract class AbstractRuleChecker
      * @var AbstractRule
      */
     protected $rule;
+    /**
+     * @var Request|null $request
+     */
+    protected $request = null;
 
 
     /**
@@ -45,6 +50,19 @@ abstract class AbstractRuleChecker
         return array_filter($this->getObjectsUsers(), function (stdClass $object_user) : bool {
             return $this->check($object_user->user_id, $object_user->obj_ref_id);
         });
+    }
+
+
+    /**
+     * @param Request|null $request
+     *
+     * @return self
+     */
+    public function withRequest(/*?*/ Request $request = null) : self
+    {
+        $this->request = $request;
+
+        return $this;
     }
 
 

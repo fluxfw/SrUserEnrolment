@@ -219,7 +219,7 @@ final class Repository
         foreach ($this->getActions($request->getStepId()) as $action) {
             if (empty(self::srUserEnrolment()->enrolmentWorkflow()
                 ->rules()
-                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_ACTION, $action->getId(), AbstractRule::TYPE_ACTION_IF, $request->getUserId(), $request->getObjRefId()))
+                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_ACTION, $action->getId(), AbstractRule::TYPE_ACTION_IF, $request->getUserId(), $request->getObjRefId(), $request))
             ) {
                 continue;
             }
@@ -237,7 +237,7 @@ final class Repository
     public function storeAction(AbstractAction $action)/*: void*/
     {
         if (empty($action->getActionId())) {
-            $action->setSort(((count($this->getActions($action->getStepId()), false) + 1) * 10));
+            $action->setSort(((count($this->getActions($action->getStepId(), false)) + 1) * 10));
         }
 
         $action->store();

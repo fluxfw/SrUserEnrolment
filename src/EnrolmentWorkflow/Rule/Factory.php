@@ -11,6 +11,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\IliasPermission\IliasPer
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Language\Language;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoMembership\NoMembership;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoOtherRequests\NoOtherRequests;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoResponsibleUsersAssigned\NoResponsibleUsersAssigned;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitSuperior\OrgUnitSuperior;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitUserType\OrgUnitUserType;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF\UDF;
@@ -60,6 +61,7 @@ final class Factory
             Language::class,
             NoMembership::class,
             NoOtherRequests::class,
+            NoResponsibleUsersAssigned::class,
             OrgUnitSuperior::class,
             OrgUnitUserType::class,
             UDF::class
