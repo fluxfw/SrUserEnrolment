@@ -14,7 +14,7 @@ actions_enabled_actions#:#Aktionen aktiviert
 actions_field_course_end#:#Feld Kurs-Ende
 actions_field_course_start#:#Feld Kurs-Start
 actions_field_course_title#:#Feld Kurs-Titel
-actions_move_request#:#Anforderung verschieben
+actions_move_request#:#Anfrage verschieben
 actions_remove#:#Entfernen
 actions_remove_action#:#Aktion entfernen
 actions_remove_action_confirm#:#Möchten Sie den Aktion wirklich entfernen: %s ?
@@ -114,11 +114,11 @@ logs_user_id#:#Benutzer Login
 requests_accepted#:#Angenommen
 requests_accepted_message#:#%s angenommen
 requests_actions#:#Aktionen
-requests_my_requests#:#Meine Anforderungen
+requests_my_requests#:#Meine Anfragen
 requests_no#:#Nein
 requests_object_title#:#Objekt-Titel
 requests_requested#:#%s angefordert
-requests_requests#:#Anforderungen
+requests_requests#:#Anfragen
 requests_responsible_users#:#Verantwortliche Benutzer
 requests_user_email#:#E-Mail
 requests_user_firstname#:#Vorname
@@ -176,7 +176,7 @@ rules_rule_type_group#:#Gruppe
 rules_rule_type_iliaspermission#:#ILIAS-Recht
 rules_rule_type_language#:#Benutzer-Sprache
 rules_rule_type_nomembership#:#Keine Mitgliedschaft
-rules_rule_type_nootherrequests#:#Keine anderen Anforderungen
+rules_rule_type_nootherrequests#:#Keine anderen Anfragen
 rules_rule_type_noresponsibleusersassigned#:#Keine verantwortliche Benutzer zugewiesen
 rules_rule_type_orgunitsuperior#:#Benutzer hat Position in übergeordneter Organisationseinheit
 rules_rule_type_orgunitusertype#:#Organisationseinheit Benutzer
