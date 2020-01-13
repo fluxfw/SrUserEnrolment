@@ -45,7 +45,7 @@ abstract class AbstractField extends ActiveRecord
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return static::getTableName();
     }
@@ -56,7 +56,7 @@ abstract class AbstractField extends ActiveRecord
      *
      * @deprecated
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return static::getTableName();
     }

@@ -39,7 +39,7 @@ class FillStorage extends ActiveRecord
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return static::getTableName();
     }
@@ -50,7 +50,7 @@ class FillStorage extends ActiveRecord
      *
      * @deprecated
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return static::getTableName();
     }
