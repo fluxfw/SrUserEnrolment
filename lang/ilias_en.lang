@@ -39,6 +39,13 @@ actions_type_sendnotification#:#Send notification
 actions_userstype#:#Users
 actions_userstype_position#:#Users with position within a organisation of the requesting user
 actions_userstype_specific_users#:#Specific users
+assistants_active#:#Active
+assistants_assistants#:#Assistants
+assistants_back#:#Back
+assistants_save#:#Save
+assistants_saved#:#Saved
+assistants_until#:#Until
+assistants_user#:#User
 config_configuration#:#Configuration
 config_configuration_saved#:#Configuration saved
 config_roles#:#Roles

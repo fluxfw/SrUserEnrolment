@@ -2,6 +2,7 @@
 
 namespace srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items;
 
+use ilDateTime;
 use ilFormPropertyGUI;
 use ilFormSectionHeaderGUI;
 use ILIAS\UI\Component\Input\Field\Input;
@@ -270,6 +271,10 @@ final class Items
         }
 
         if (method_exists($item, "setDate")) {
+            if (is_string($value)) {
+                $value = new ilDateTime($value, IL_CAL_DATE);
+            }
+
             $item->setDate($value);
 
             return;

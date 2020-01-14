@@ -2,6 +2,7 @@
 
 ## [x]
 - `No responsible users assigned` rule
+- Enrolment workflow assistants
 - Some fixes
 
 ## [3.0.6]

@@ -39,6 +39,13 @@ actions_type_sendnotification#:#Benachrichtigung versenden
 actions_userstype#:#Benutzer
 actions_userstype_position#:#Benutzer mit Position innerhalb einer Organisation des anfordernden Benutzers
 actions_userstype_specific_users#:#Bestimmte Benutzer
+assistants_active#:#Aktiv
+assistants_assistants#:#Assistenten
+assistants_back#:#Zurück
+assistants_save#:#Speichern
+assistants_saved#:#Gespeichert
+assistants_until#:#Bis
+assistants_user#:#Benutzer
 config_configuration#:#Konfiguration
 config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen

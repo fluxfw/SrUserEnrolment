@@ -7,6 +7,7 @@ use ilMultiSelectInputGUI;
 use ilSrUserEnrolmentConfigGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ConfigPropertyFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
@@ -98,8 +99,16 @@ class ConfigFormGUI extends ConfigPropertyFormGUI
                 ])
             ],
             Config::KEY_SHOW_ENROLMENT_WORKFLOW => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
+                self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
+                self::PROPERTY_SUBITEMS => [
+                    Config::KEY_SHOW_ASSISTANTS => [
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        "setTitle"                  => self::plugin()->translate("show", self::LANG_MODULE, [
+                            self::plugin()->translate("assistants", AssistantsGUI::LANG_MODULE)
+                        ])
+                    ],
+                ],
+                "setTitle"              => self::plugin()->translate("show", self::LANG_MODULE, [
                     self::plugin()->translate("title", WorkflowsGUI::LANG_MODULE)
                 ])
             ]

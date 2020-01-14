@@ -7,6 +7,9 @@ il.MultiLineNewInputGUI = {
 
         $("[name]", el).each(function (i2, el2) {
             el2.value = "";
+            if ("checked" in el2) {
+                el2.checked = false;
+            }
         });
 
         $(".alert", el).remove();
@@ -16,6 +19,22 @@ il.MultiLineNewInputGUI = {
         el.before(cloned_el);
 
         this.update(el.parent());
+    },
+
+    cached_options: [],
+
+    /**
+     * @param {jQuery} el
+     * @param {string} type
+     * @param {Object} options
+     */
+    cacheOptions(el, type, options) {
+        this.cached_options.push({
+            type: type,
+            options: options
+        });
+
+        el.attr("data-cached_options_id", (this.cached_options.length - 1));
     },
 
     /**
@@ -37,6 +56,35 @@ il.MultiLineNewInputGUI = {
             action_el.off();
 
             action_el.on("click", this[action_el.data("action")].bind(this, el))
+        }.bind(this));
+
+        $(".input-group.date:not([data-cached_options_id])", el).each(function (i2, el2) {
+            el2 = $(el2);
+
+            if (el2.data("DateTimePicker")) {
+                this.cacheOptions(el2, "datetimepicker", el2.datetimepicker("options"));
+
+                el2.datetimepicker("destroy");
+
+                el2.id = "";
+            }
+        }.bind(this));
+
+        $("[data-cached_options_id]", el).each(function (i2, el2) {
+            el2 = $(el2);
+
+            const options = this.cached_options[el2.attr("data-cached_options_id")];
+            if (!options) {
+                return;
+            }
+            switch (options.type) {
+                case "datetimepicker":
+                    el2.datetimepicker(options.options);
+                    break;
+
+                default:
+                    break;
+            }
         }.bind(this));
     },
 

@@ -9,6 +9,7 @@ use ilSrUserEnrolmentConfigGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -91,7 +92,21 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 })
                 ->withVisibilityCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId());
+                }),
+            $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_assistants"))
+                ->withParent($parent->getProviderIdentification())
+                ->withTitle(self::plugin()->translate("assistants", AssistantsGUI::LANG_MODULE))
+                ->withAction(self::dic()->ctrl()
+                    ->getLinkTargetByClass([
+                        ilUIPluginRouterGUI::class,
+                        AssistantsGUI::class
+                    ], AssistantsGUI::CMD_EDIT_ASSISTANTS))
+                ->withAvailableCallable(function () : bool {
+                    return self::srUserEnrolment()->enrolmentWorkflow()->assistants()->isEnabled();
                 })
+                ->withVisibilityCallable(function () : bool {
+                    return self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId());
+                }),
         ];
     }
 }

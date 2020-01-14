@@ -1,6 +1,7 @@
 <?php
 
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestInfoGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
@@ -23,6 +24,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const PAR_SUB_TABS = "sub_tabs";
+    const PAR_TABS = "tabs";
     const COURSE_MEMBER_LIST_TEMPLATE_ID = "Services/Table/tpl.table2.html";
     const TEMPLATE_GET = "template_get";
     const ACTIONS_MENU_TEMPLATE = "Services/UIComponent/AdvancedSelectionList/tpl.adv_selection_list.html";
@@ -76,6 +78,15 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
      */
     public function modifyGUI(/*string*/ $a_comp, /*string*/ $a_part, /*array*/ $a_par = [])/*: void*/
     {
+        if ($a_part === self::PAR_TABS) {
+            if (count(array_filter(self::dic()->ctrl()->getCallHistory(), function (array $history) : bool {
+                    return (strtolower($history["class"]) === strtolower(ilPersonalProfileGUI::class));
+                })) > 0
+            ) {
+
+                AssistantsGUI::addTabs();
+            }
+        }
 
         if ($a_part === self::PAR_SUB_TABS) {
 

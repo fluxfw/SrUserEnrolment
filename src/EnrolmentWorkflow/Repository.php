@@ -6,6 +6,7 @@ use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\Repository as ActionsRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Repository as AssistantsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Repository as RequestsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Repository as RulesRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\Repository as SelectedWorkflowsRepository;
@@ -64,11 +65,21 @@ final class Repository
 
 
     /**
+     * @return AssistantsRepository
+     */
+    public function assistants() : AssistantsRepository
+    {
+        return AssistantsRepository::getInstance();
+    }
+
+
+    /**
      * @internal
      */
     public function dropTables()/*: void*/
     {
         $this->actions()->dropTables();
+        $this->assistants()->dropTables();
         $this->requests()->dropTables();
         $this->rules()->dropTables();
         $this->selectedWorkflows()->dropTables();
@@ -104,6 +115,7 @@ final class Repository
     public function installTables()/*: void*/
     {
         $this->actions()->installTables();
+        $this->assistants()->installTables();
         $this->requests()->installTables();
         $this->rules()->installTables();
         $this->selectedWorkflows()->installTables();
