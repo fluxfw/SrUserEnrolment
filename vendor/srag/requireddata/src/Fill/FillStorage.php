@@ -37,7 +37,7 @@ class FillStorage extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getConnectorContainerName() : string
     {
@@ -46,7 +46,7 @@ class FillStorage extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      *
      * @deprecated
      */

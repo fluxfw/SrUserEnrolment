@@ -32,7 +32,7 @@ class Request extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getConnectorContainerName() : string
     {
@@ -41,7 +41,7 @@ class Request extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      *
      * @deprecated
      */

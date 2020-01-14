@@ -69,7 +69,7 @@ abstract class AbstractRule extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getConnectorContainerName() : string
     {
@@ -78,7 +78,7 @@ abstract class AbstractRule extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      *
      * @deprecated
      */

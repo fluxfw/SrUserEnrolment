@@ -25,7 +25,7 @@ class SelectedWorkflow extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getConnectorContainerName() : string
     {
@@ -34,7 +34,7 @@ class SelectedWorkflow extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      *
      * @deprecated
      */
