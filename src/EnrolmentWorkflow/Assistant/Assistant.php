@@ -53,7 +53,7 @@ class Assistant extends ActiveRecord
      * @con_length       8
      * @con_is_notnull   true
      * @con_is_primary   true
-     * @con_sequence   true
+     * @con_sequence     true
      */
     protected $id;
     /**

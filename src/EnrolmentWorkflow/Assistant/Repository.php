@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
 use ilDate;
-use ilDateTime;
 use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
