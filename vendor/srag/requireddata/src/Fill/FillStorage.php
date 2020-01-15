@@ -37,20 +37,20 @@ class FillStorage extends ActiveRecord
 
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName()
     {
         return static::getTableName();
     }
 
 
     /**
-     * @inheritDoc
+     * @return string
      *
      * @deprecated
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName()
     {
         return static::getTableName();
     }

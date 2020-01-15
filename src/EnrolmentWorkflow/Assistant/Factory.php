@@ -48,25 +48,25 @@ final class Factory
 
 
     /**
-     * @return Assistants
+     * @return Assistant
      */
-    public function newInstance() : Assistants
+    public function newInstance() : Assistant
     {
-        $assistants = new Assistants();
+        $assistant = new Assistant();
 
-        return $assistants;
+        return $assistant;
     }
 
 
     /**
      * @param AssistantsGUI $parent
-     * @param Assistants $assistants
+     * @param array         $assistants
      *
      * @return AssistantsFormGUI
      */
-    public function newFormInstance(AssistantsGUI $parent,Assistants $assistants) : AssistantsFormGUI
+    public function newFormInstance(AssistantsGUI $parent, array $assistants) : AssistantsFormGUI
     {
-        $form = new AssistantsFormGUI($parent,$assistants);
+        $form = new AssistantsFormGUI($parent, $assistants);
 
         return $form;
     }

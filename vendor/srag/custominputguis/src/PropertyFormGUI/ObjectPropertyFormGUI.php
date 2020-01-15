@@ -43,7 +43,7 @@ abstract class ObjectPropertyFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function getValue(/*string*/ $key)
     {
@@ -60,7 +60,7 @@ abstract class ObjectPropertyFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function storeValue(/*string*/ $key, $value)/*: void*/
     {
@@ -73,7 +73,7 @@ abstract class ObjectPropertyFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function storeForm()/*: bool*/
     {

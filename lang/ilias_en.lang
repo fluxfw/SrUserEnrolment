@@ -41,10 +41,15 @@ actions_userstype_position#:#Users with position within a organisation of the re
 actions_userstype_specific_users#:#Specific users
 assistants_active#:#Active
 assistants_assistants#:#Assistants
+assistants_assistant_of#:#Assistant of
 assistants_back#:#Back
+assistants_edit#:#Edit
+assistants_my_assistants#:#My assistants
+assistants_nonone#:#No one
 assistants_save#:#Save
 assistants_saved#:#Saved
 assistants_until#:#Until
+assistants_until_date#:#Until %s
 assistants_user#:#User
 config_configuration#:#Configuration
 config_configuration_saved#:#Configuration saved

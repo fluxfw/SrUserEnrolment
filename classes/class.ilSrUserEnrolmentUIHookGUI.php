@@ -30,6 +30,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     const ACTIONS_MENU_TEMPLATE = "Services/UIComponent/AdvancedSelectionList/tpl.adv_selection_list.html";
     const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
     const PART_CENTER_COLUMN = "center_column";
+    const PART_RIGHT_COLUMN = "right_column";
     const GET_PARAM_REF_ID = "ref_id";
     const GET_PARAM_TARGET = "target";
 
@@ -67,6 +68,11 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
         if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_CENTER_COLUMN) {
 
             return RequestInfoGUI::addRequestsToPersonalDesktop();
+        }
+
+        if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_RIGHT_COLUMN) {
+
+            return AssistantsGUI::addAssistantsToPersonalDesktop();
         }
 
         return parent::getHTML($a_comp, $a_part, $a_par);

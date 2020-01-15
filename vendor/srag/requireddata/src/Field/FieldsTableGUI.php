@@ -229,9 +229,9 @@ class FieldsTableGUI extends TableGUI
         parent::fillRow($field);
 
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->button()->shy($this->txt("edit_field"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_field"), self::dic()->ctrl()
                 ->getLinkTargetByClass(FieldCtrl::class, FieldCtrl::CMD_EDIT_FIELD)),
-            self::dic()->ui()->factory()->button()->shy($this->txt("remove_field"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_field"), self::dic()->ctrl()
                 ->getLinkTargetByClass(FieldCtrl::class, FieldCtrl::CMD_REMOVE_FIELD_CONFIRM))
         ])->withLabel($this->txt("actions"))));
     }

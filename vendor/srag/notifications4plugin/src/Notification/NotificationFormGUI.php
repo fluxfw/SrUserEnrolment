@@ -6,6 +6,7 @@ use ilNonEditableValueGUI;
 use ilSelectInputGUI;
 use ilTextAreaInputGUI;
 use ilTextInputGUI;
+use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\TabsInputGUI;
@@ -85,6 +86,12 @@ class NotificationFormGUI extends ObjectPropertyFormGUI
      */
     protected function initFields()/*: void*/
     {
+        ilUtil::sendInfo(self::output()->getHTML([
+            self::notifications4plugin()->getPlugin()->translate("placeholder_types_info", NotificationsCtrl::LANG_MODULE),
+            "<br><br>",
+            self::dic()->ui()->factory()->listing()->descriptive(self::notifications4plugin()->getPlaceholderTypes())
+        ]));
+
         $this->fields = (!empty($this->object->getId()) ? [
                 "id" => [
                     self::PROPERTY_CLASS    => ilNonEditableValueGUI::class,

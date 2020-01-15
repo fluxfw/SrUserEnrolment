@@ -4,10 +4,10 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
 use ilCheckboxInputGUI;
 use ilDateTimeInputGUI;
-use ilNumberInputGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiLineNewInputGUI\MultiLineNewInputGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -17,23 +17,29 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AssistantsFormGUI extends ObjectPropertyFormGUI
+class AssistantsFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = AssistantsGUI::LANG_MODULE;
+    /**
+     * @var array
+     */
+    protected $assistants;
 
 
     /**
      * AssistantsFormGUI constructor
      *
      * @param AssistantsGUI $parent
-     * @param Assistants    $object
+     * @param array         $assistants
      */
-    public function __construct(AssistantsGUI $parent, Assistants $object)
+    public function __construct(AssistantsGUI $parent, array $assistants)
     {
-        parent::__construct($parent, $object);
+        $this->assistants = $assistants;
+
+        parent::__construct($parent);
     }
 
 
@@ -44,7 +50,7 @@ class AssistantsFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                return parent::getValue($key);
+                return $this->{$key};
         }
     }
 
@@ -67,20 +73,20 @@ class AssistantsFormGUI extends ObjectPropertyFormGUI
             "assistants" => [
                 self::PROPERTY_CLASS    => MultiLineNewInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
-                    "user_id" => [
-                        self::PROPERTY_CLASS    => ilNumberInputGUI::class,
+                    "assistant_user_id" => [
+                        self::PROPERTY_CLASS    => TextInputGUIWithModernAutoComplete::class,
                         self::PROPERTY_REQUIRED => true,
-                        "setTitle"              => $this->txt("user")
+                        "setTitle"              => $this->txt("user"),
+                        "setDataSource"         => self::dic()->ctrl()->getLinkTarget($this->parent, AssistantsGUI::CMD_USER_AUTOCOMPLETE, "", true, false)
                     ],
-                    "until"   => [
+                    "until"             => [
                         self::PROPERTY_CLASS => ilDateTimeInputGUI::class
                     ],
-                    "active"  => [
+                    "active"            => [
                         self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                     ]
                 ],
-                "setShowSort"           => false,
-                self::PROPERTY_REQUIRED => true
+                "setShowSort"           => false
             ]
         ];
     }
@@ -111,8 +117,17 @@ class AssistantsFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                parent::storeValue($key, $value);
+                $this->{$key} = $value;
                 break;
         }
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getAssistants() : array
+    {
+        return $this->assistants;
     }
 }

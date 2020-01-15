@@ -399,7 +399,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\SendNotification\\SendNotification' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/SendNotification/SendNotification.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\SendNotification\\SendNotificationFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/SendNotification/SendNotificationFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\SendNotification\\SendNotificationRunner' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/SendNotification/SendNotificationRunner.php',
-        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\Assistants' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Assistant/Assistants.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\Assistant' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Assistant/Assistant.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\AssistantsFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Assistant/AssistantsFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\AssistantsGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Assistant/class.AssistantsGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\Factory' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Assistant/Factory.php',

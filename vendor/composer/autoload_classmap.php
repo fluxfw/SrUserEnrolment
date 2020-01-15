@@ -339,7 +339,7 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\SendNotification\\SendNotification' => $baseDir . '/src/EnrolmentWorkflow/Action/SendNotification/SendNotification.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\SendNotification\\SendNotificationFormGUI' => $baseDir . '/src/EnrolmentWorkflow/Action/SendNotification/SendNotificationFormGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\SendNotification\\SendNotificationRunner' => $baseDir . '/src/EnrolmentWorkflow/Action/SendNotification/SendNotificationRunner.php',
-    'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\Assistants' => $baseDir . '/src/EnrolmentWorkflow/Assistant/Assistants.php',
+    'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\Assistant' => $baseDir . '/src/EnrolmentWorkflow/Assistant/Assistant.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\AssistantsFormGUI' => $baseDir . '/src/EnrolmentWorkflow/Assistant/AssistantsFormGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\AssistantsGUI' => $baseDir . '/src/EnrolmentWorkflow/Assistant/class.AssistantsGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\Factory' => $baseDir . '/src/EnrolmentWorkflow/Assistant/Factory.php',

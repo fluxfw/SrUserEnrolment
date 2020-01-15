@@ -36,7 +36,7 @@ abstract class ConfigPropertyFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function getValue(/*string*/
         $key
@@ -47,7 +47,7 @@ abstract class ConfigPropertyFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function storeValue(/*string*/
         $key,

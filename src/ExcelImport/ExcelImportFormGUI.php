@@ -66,7 +66,6 @@ class ExcelImportFormGUI extends PropertyFormGUI
             self::KEY_FIELDS => [
                 self::PROPERTY_CLASS    => MultiLineNewInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
-                "setShowInputLabel"     => MultiLineNewInputGUI::SHOW_INPUT_LABEL_ALWAYS,
                 "setShowSort"           => false,
                 self::PROPERTY_SUBITEMS => [
                     "type"           => [

@@ -2,6 +2,9 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
+use ilDate;
+use ilDateTime;
+use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\Config;
@@ -49,11 +52,11 @@ final class Repository
 
 
     /**
-     * @param Assistants $assistants
+     * @param Assistant $assistant
      */
-    public function deleteAssistants(Assistants $assistants)/*:void*/
+    protected function deleteAssistant(Assistant $assistant)/*:void*/
     {
-        $assistants->delete();
+        $assistant->delete();
     }
 
 
@@ -62,7 +65,7 @@ final class Repository
      */
     public function dropTables()/*:void*/
     {
-        self::dic()->database()->dropTable(Assistants::TABLE_NAME, false);
+        self::dic()->database()->dropTable(Assistant::TABLE_NAME, false);
     }
 
 
@@ -76,27 +79,63 @@ final class Repository
 
 
     /**
-     * @param int $user_id
+     * @param int  $assistant_user_id
+     * @param bool $active_check
      *
-     * @return Assistants
+     * @return Assistant[]
      */
-    public function getAssistantsForUser(int $user_id) : Assistants
+    public function getAssistantsOf(int $assistant_user_id, $active_check = true) : array
     {
-        /**
-         * @var Assistants|null $assistans
-         */
+        $where = Assistant::where([
+            "assistant_user_id" => $assistant_user_id
+        ]);
 
-        $assistans = Assistants::where([
-            "user_id" => $user_id
-        ])->first();
-
-        if ($assistans === null) {
-            $assistans = $this->factory()->newInstance();
-
-            $assistans->setUserId($user_id);
+        if ($active_check) {
+            $where = $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
+                "active" => true
+            ]);
         }
 
-        return $assistans;
+        return $where->get();
+    }
+
+
+    /**
+     * @param int  $user_id
+     * @param bool $active_check
+     *
+     * @return Assistant[]
+     */
+    public function getUserAssistants(int $user_id, $active_check = true) : array
+    {
+        $where = Assistant::where([
+            "user_id" => $user_id
+        ]);
+
+        if ($active_check) {
+            $where = $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
+                "active" => true
+            ]);
+        }
+
+        return $where->get();
+    }
+
+
+    /**
+     * @param int $user_id
+     *
+     * @return array
+     */
+    public function getUserAssistantsArray(int $user_id) : array
+    {
+        return array_map(function (Assistant $assistant) : array {
+            return [
+                "assistant_user_id" => $assistant->getAssistantUserId(),
+                "until"             => $assistant->getUntil(),
+                "active"            => $assistant->isActive()
+            ];
+        }, $this->getUserAssistants($user_id, false));
     }
 
 
@@ -120,7 +159,7 @@ final class Repository
      */
     public function installTables()/*:void*/
     {
-        Assistants::updateDB();
+        Assistant::updateDB();
     }
 
 
@@ -134,10 +173,55 @@ final class Repository
 
 
     /**
-     * @param Assistants $assistants
+     * @param int         $user_id
+     * @param Assistant[] $assistants
+     *
+     * @return Assistant[]
      */
-    public function storeAssistants(Assistants $assistants)/*:void*/
+    protected function storeUserAssistants(int $user_id, array $assistants) : array
     {
-        $assistants->store();
+        foreach ($this->getUserAssistants($user_id, false) as $assistant) {
+            $this->deleteAssistant($assistant);
+        }
+
+        foreach ($assistants as $assistant) {
+            $this->storeAssistant($assistant);
+        }
+
+        return $assistants;
+    }
+
+
+    /**
+     * @param int   $user_id
+     * @param array $assistants
+     *
+     * @return Assistant[]
+     */
+    public function storeUserAssistantsArray(int $user_id, array $assistants) : array
+    {
+        return $this->storeUserAssistants($user_id, array_map(function (array $array) use ($user_id): Assistant {
+                $assistant = $this->factory()->newInstance();
+
+                $assistant->setUserId($user_id);
+
+                $assistant->setAssistantUserId($array["assistant_user_id"]);
+
+                $assistant->setUntil($array["until"] ? new ilDate($array["until"], IL_CAL_DATE) : null);
+
+                $assistant->setActive(boolval($array["active"]));
+
+                return $assistant;
+            }, $assistants)
+        );
+    }
+
+
+    /**
+     * @param Assistant $assistant
+     */
+    protected function storeAssistant(Assistant $assistant)/*:void*/
+    {
+        $assistant->store();
     }
 }

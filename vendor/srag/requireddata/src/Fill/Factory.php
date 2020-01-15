@@ -68,9 +68,9 @@ final class Factory
     {
         $class = substr(get_class($field), 0, -5) . "FillField";
 
-        $form = new $class($field);
+        $fill_field = new $class($field);
 
-        return $form;
+        return $fill_field;
     }
 
 

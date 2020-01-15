@@ -158,11 +158,11 @@ class NotificationsTableGUI extends TableGUI
         parent::fillRow($notification);
 
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->button()->shy($this->txt("edit"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit"), self::dic()->ctrl()
                 ->getLinkTargetByClass(NotificationCtrl::class, NotificationCtrl::CMD_EDIT_NOTIFICATION)),
-            self::dic()->ui()->factory()->button()->shy($this->txt("duplicate"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("duplicate"), self::dic()->ctrl()
                 ->getLinkTargetByClass(NotificationCtrl::class, NotificationCtrl::CMD_DUPLICATE_NOTIFICATION)),
-            self::dic()->ui()->factory()->button()->shy($this->txt("delete"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("delete"), self::dic()->ctrl()
                 ->getLinkTargetByClass(NotificationCtrl::class, NotificationCtrl::CMD_DELETE_NOTIFICATION_CONFIRM))
         ])->withLabel($this->txt("actions"))));
     }
