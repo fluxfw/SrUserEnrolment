@@ -6,7 +6,7 @@ use ilCheckboxInputGUI;
 use ilMultiSelectInputGUI;
 use ilSrUserEnrolmentConfigGUI;
 use ilSrUserEnrolmentPlugin;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ConfigPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI;
@@ -22,12 +22,11 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ConfigFormGUI extends ConfigPropertyFormGUI
+class ConfigFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const CONFIG_CLASS_NAME = Config::class;
     const LANG_MODULE = ilSrUserEnrolmentConfigGUI::LANG_MODULE;
 
 
@@ -49,7 +48,7 @@ class ConfigFormGUI extends ConfigPropertyFormGUI
     {
         switch ($key) {
             default:
-                return parent::getValue($key);
+                return Config::getField($key);
         }
     }
 
@@ -103,7 +102,7 @@ class ConfigFormGUI extends ConfigPropertyFormGUI
                 self::PROPERTY_SUBITEMS => [
                     Config::KEY_SHOW_ASSISTANTS => [
                         self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                        "setTitle"                  => self::plugin()->translate("show", self::LANG_MODULE, [
+                        "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
                             self::plugin()->translate("assistants", AssistantsGUI::LANG_MODULE)
                         ])
                     ],
@@ -158,15 +157,16 @@ class ConfigFormGUI extends ConfigPropertyFormGUI
                 $value = array_map(function (string $role_id) : int {
                     return intval($role_id);
                 }, $value);
+
+                Config::setField($key, $value);
                 break;
 
             case ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
-                return;
+                break;
 
             default:
+                Config::setField($key, $value);
                 break;
         }
-
-        parent::storeValue($key, $value);
     }
 }
