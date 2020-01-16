@@ -48,6 +48,7 @@ assistants_my_assistants#:#My assistants
 assistants_nonone#:#No one
 assistants_save#:#Save
 assistants_saved#:#Saved
+assistants_step_action#:#%1$s for %2$s
 assistants_until#:#Until
 assistants_until_date#:#Until %s
 assistants_user#:#User

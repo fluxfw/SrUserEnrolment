@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
+use ActiveRecordList;
 use ilDate;
 use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
@@ -51,6 +52,19 @@ final class Repository
 
 
     /**
+     * @param ActiveRecordList $where
+     *
+     * @return ActiveRecordList
+     */
+    protected function activeCheck(ActiveRecordList $where) : ActiveRecordList
+    {
+        return $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
+            "active" => true
+        ]);
+    }
+
+
+    /**
      * @param Assistant $assistant
      */
     protected function deleteAssistant(Assistant $assistant)/*:void*/
@@ -78,21 +92,46 @@ final class Repository
 
 
     /**
+     * @param int  $user_id
+     * @param int  $assistant_user_id
+     * @param bool $assistant_user_id
+     *
+     * @return Assistant|null
+     */
+    public function getAssistant(int $user_id, int $assistant_user_id, bool $active_check = true)/* : ?Assistant*/
+    {
+        $where = Assistant::where([
+            "user_id"           => $user_id,
+            "assistant_user_id" => $assistant_user_id
+        ]);
+
+        if ($active_check) {
+            $where = $this->activeCheck($where);
+        }
+
+        /**
+         * @var Assistant|null $assistant
+         */
+        $assistant = $where->first();
+
+        return $assistant;
+    }
+
+
+    /**
      * @param int  $assistant_user_id
      * @param bool $active_check
      *
      * @return Assistant[]
      */
-    public function getAssistantsOf(int $assistant_user_id, $active_check = true) : array
+    public function getAssistantsOf(int $assistant_user_id, bool $active_check = true) : array
     {
         $where = Assistant::where([
             "assistant_user_id" => $assistant_user_id
         ]);
 
         if ($active_check) {
-            $where = $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
-                "active" => true
-            ]);
+            $where = $this->activeCheck($where);
         }
 
         return $where->get();
@@ -105,16 +144,14 @@ final class Repository
      *
      * @return Assistant[]
      */
-    public function getUserAssistants(int $user_id, $active_check = true) : array
+    public function getUserAssistants(int $user_id, bool $active_check = true) : array
     {
         $where = Assistant::where([
             "user_id" => $user_id
         ]);
 
         if ($active_check) {
-            $where = $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
-                "active" => true
-            ]);
+            $where = $this->activeCheck($where);
         }
 
         return $where->get();
