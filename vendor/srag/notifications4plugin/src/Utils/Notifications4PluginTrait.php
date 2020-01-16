@@ -2,8 +2,8 @@
 
 namespace srag\Notifications4Plugin\SrUserEnrolment\Utils;
 
-use srag\Notifications4Plugin\SrUserEnrolment\Repository as NotificationRepository;
-use srag\Notifications4Plugin\SrUserEnrolment\RepositoryInterface as NotificationRepositoryInterface;
+use srag\Notifications4Plugin\SrUserEnrolment\Repository as Notifications4PluginRepository;
+use srag\Notifications4Plugin\SrUserEnrolment\RepositoryInterface as Notifications4PluginRepositoryInterface;
 
 /**
  * Trait Notifications4PluginTrait
@@ -16,10 +16,10 @@ trait Notifications4PluginTrait
 {
 
     /**
-     * @return NotificationRepositoryInterface
+     * @return Notifications4PluginRepositoryInterface
      */
-    protected static function notifications4plugin() : NotificationRepositoryInterface
+    protected static function notifications4plugin() : Notifications4PluginRepositoryInterface
     {
-        return NotificationRepository::getInstance();
+        return Notifications4PluginRepository::getInstance();
     }
 }

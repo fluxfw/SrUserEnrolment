@@ -1,32 +1,30 @@
 <?php
 
-namespace srag\Notifications4Plugin\SrUserEnrolment\Parser;
+namespace srag\ActiveRecordConfig\SrUserEnrolment\Config;
 
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Notifications4Plugin\SrUserEnrolment\Utils\Notifications4PluginTrait;
 
 /**
  * Class Factory
  *
- * @package srag\Notifications4Plugin\SrUserEnrolment\Parser
+ * @package srag\ActiveRecordConfig\SrUserEnrolment\Config
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Factory implements FactoryInterface
+final class Factory
 {
 
     use DICTrait;
-    use Notifications4PluginTrait;
     /**
-     * @var FactoryInterface|null
+     * @var self
      */
     protected static $instance = null;
 
 
     /**
-     * @return FactoryInterface
+     * @return self
      */
-    public static function getInstance() : FactoryInterface
+    public static function getInstance() : self
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -46,10 +44,12 @@ final class Factory implements FactoryInterface
 
 
     /**
-     * @inheritDoc
+     * @return Config
      */
-    public function twig() : twigParser
+    public function newInstance() : Config
     {
-        return new twigParser();
+        $config = new Config();
+
+        return $config;
     }
 }

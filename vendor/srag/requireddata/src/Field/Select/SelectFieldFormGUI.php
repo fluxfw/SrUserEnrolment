@@ -37,18 +37,6 @@ class SelectFieldFormGUI extends AbstractFieldFormGUI
     /**
      * @inheritDoc
      */
-    protected function getValue(/*string*/ $key)
-    {
-        switch ($key) {
-            default:
-                return parent::getValue($key);
-        }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     protected function initFields()/*:void*/
     {
         parent::initFields();
@@ -77,18 +65,5 @@ class SelectFieldFormGUI extends AbstractFieldFormGUI
                 ]
             ]
         );
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function storeValue(/*string*/ $key, $value)/*: void*/
-    {
-        switch ($key) {
-            default:
-                parent::storeValue($key, $value);
-                break;
-        }
     }
 }

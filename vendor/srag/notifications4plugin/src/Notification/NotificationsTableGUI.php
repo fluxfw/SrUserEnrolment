@@ -34,7 +34,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      *
      * @param NotificationInterface $notification
      */
@@ -51,7 +51,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getSelectableColumns2() : array
     {
@@ -78,7 +78,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initColumns()/*: void*/
     {
@@ -89,7 +89,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initCommands()/*: void*/
     {
@@ -99,7 +99,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initData()/*: void*/
     {
@@ -120,7 +120,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initFilterFields()/*: void*/
     {
@@ -129,7 +129,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initId()/*: void*/
     {
@@ -138,7 +138,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initTitle()/*: void*/
     {
@@ -147,7 +147,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      *
      * @param NotificationInterface $notification
      */
@@ -169,7 +169,7 @@ class NotificationsTableGUI extends TableGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function txt(/*string*/ $key,/*?string*/ $default = null) : string
     {

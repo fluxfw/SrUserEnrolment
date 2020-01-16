@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.28.5]
+- Deprecate `ConfigPropertyFormGUI` and `ObjectPropertyFormGUI`
+
 ## [0.28.4]
 - Fix `ilCheckboxInputGUI` in `MultiLineNewInputGUI`
 

@@ -48,7 +48,7 @@ final class Factory implements FactoryInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function fromDB(stdClass $data) : NotificationInterface
     {
@@ -73,7 +73,7 @@ final class Factory implements FactoryInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function newInstance() : NotificationInterface
     {
@@ -84,7 +84,7 @@ final class Factory implements FactoryInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function newTableInstance(NotificationsCtrl $parent, string $cmd = NotificationsCtrl::CMD_LIST_NOTIFICATIONS) : NotificationsTableGUI
     {
@@ -95,7 +95,7 @@ final class Factory implements FactoryInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function newFormInstance(NotificationCtrl $parent, NotificationInterface $notification) : NotificationFormGUI
     {

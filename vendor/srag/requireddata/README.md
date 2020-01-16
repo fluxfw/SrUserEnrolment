@@ -99,9 +99,9 @@ Expand you plugin class for installing languages of the library to your plugin
 ```php
 ...
 	/**
-	 * @inheritdoc
-	 */
-	public function updateLanguages($a_lang_keys = null) {
+     * @inheritDoc
+     */
+    public function updateLanguages(/*?array*/ $a_lang_keys = null)/*:void*/ {
 		parent::updateLanguages($a_lang_keys);
 
 		self::requiredData()->configs()->installLanguages();

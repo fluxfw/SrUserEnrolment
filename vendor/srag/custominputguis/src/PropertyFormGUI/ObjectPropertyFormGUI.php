@@ -9,19 +9,25 @@ use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 /**
  * Class ObjectPropertyFormGUI
  *
- * @package srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI
+ * @package    srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author     studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @deprecated Please use PropertyFormGUI instead
  */
 abstract class ObjectPropertyFormGUI extends PropertyFormGUI
 {
 
     /**
      * @var ilObject|ActiveRecord|object|null
+     *
+     * @deprecated
      */
     protected $object;
     /**
      * @var bool
+     *
+     * @deprecated
      */
     protected $object_auto_store;
 
@@ -32,6 +38,8 @@ abstract class ObjectPropertyFormGUI extends PropertyFormGUI
      * @param object                            $parent
      * @param ilObject|ActiveRecord|object|null $object
      * @param bool                              $object_auto_store
+     *
+     * @deprecated
      */
     public function __construct($parent, $object = null,/*bool*/ $object_auto_store = true)
     {
@@ -44,6 +52,8 @@ abstract class ObjectPropertyFormGUI extends PropertyFormGUI
 
     /**
      * @inheritDoc
+     *
+     * @deprecated
      */
     protected function getValue(/*string*/ $key)
     {
@@ -61,6 +71,8 @@ abstract class ObjectPropertyFormGUI extends PropertyFormGUI
 
     /**
      * @inheritDoc
+     *
+     * @deprecated
      */
     protected function storeValue(/*string*/ $key, $value)/*: void*/
     {
@@ -74,6 +86,8 @@ abstract class ObjectPropertyFormGUI extends PropertyFormGUI
 
     /**
      * @inheritDoc
+     *
+     * @deprecated
      */
     public function storeForm()/*: bool*/
     {
@@ -114,6 +128,8 @@ abstract class ObjectPropertyFormGUI extends PropertyFormGUI
 
     /**
      * @return ilObject|ActiveRecord|object
+     *
+     * @deprecated
      */
     public final function getObject()
     {

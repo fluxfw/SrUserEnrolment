@@ -7,8 +7,8 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\DIC\SrUserEnrolment\Plugin\Pluginable;
 use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
 use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
-use srag\RequiredData\SrUserEnrolment\Field\Repository as FieldRepository;
-use srag\RequiredData\SrUserEnrolment\Fill\Repository as FillRepository;
+use srag\RequiredData\SrUserEnrolment\Field\Repository as FieldsRepository;
+use srag\RequiredData\SrUserEnrolment\Fill\Repository as FillsRepository;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
 
 /**
@@ -72,20 +72,20 @@ final class Repository implements Pluginable
 
 
     /**
-     * @return FieldRepository
+     * @return FieldsRepository
      */
-    public function fields() : FieldRepository
+    public function fields() : FieldsRepository
     {
-        return FieldRepository::getInstance();
+        return FieldsRepository::getInstance();
     }
 
 
     /**
-     * @return FillRepository
+     * @return FillsRepository
      */
-    public function fills() : FillRepository
+    public function fills() : FillsRepository
     {
-        return FillRepository::getInstance();
+        return FillsRepository::getInstance();
     }
 
 
