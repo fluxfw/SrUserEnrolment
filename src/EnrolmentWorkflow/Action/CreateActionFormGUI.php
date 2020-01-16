@@ -5,7 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilSrUserEnrolmentPlugin;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -15,16 +15,16 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class CreateActionFormGUI extends ObjectPropertyFormGUI
+class CreateActionFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = ActionsGUI::LANG_MODULE;
     /**
-     * @var AbstractAction
+     * @var AbstractAction|null
      */
-    protected $object;
+    protected $action = null;
     /**
      * @var string
      */
@@ -40,7 +40,7 @@ class CreateActionFormGUI extends ObjectPropertyFormGUI
     {
         $this->type = current(array_keys(self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->getTypes()));
 
-        parent::__construct($parent, null, false);
+        parent::__construct($parent);
     }
 
 
@@ -126,12 +126,21 @@ class CreateActionFormGUI extends ObjectPropertyFormGUI
             return false;
         }
 
-        $this->object = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newInstance($this->type);
+        $this->action = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newInstance($this->type);
 
-        $this->object->setStepId($this->parent->getParent()->getParent()->getStep()->getStepId());
+        $this->action->setStepId($this->parent->getParent()->getParent()->getStep()->getStepId());
 
-        self::srUserEnrolment()->enrolmentWorkflow()->actions()->storeAction($this->object);
+        self::srUserEnrolment()->enrolmentWorkflow()->actions()->storeAction($this->action);
 
         return true;
+    }
+
+
+    /**
+     * @return AbstractAction
+     */
+    public function getAction() : AbstractAction
+    {
+        return $this->action;
     }
 }

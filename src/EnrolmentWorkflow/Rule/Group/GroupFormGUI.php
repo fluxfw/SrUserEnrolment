@@ -19,15 +19,15 @@ class GroupFormGUI extends AbstractRuleFormGUI
     /**
      * @var Group
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, Group $object)
+    public function __construct(RuleGUI $parent, Group $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

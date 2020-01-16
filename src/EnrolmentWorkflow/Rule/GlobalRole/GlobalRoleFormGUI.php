@@ -19,15 +19,15 @@ class GlobalRoleFormGUI extends AbstractRuleFormGUI
     /**
      * @var GlobalRole
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, GlobalRole $object)
+    public function __construct(RuleGUI $parent, GlobalRole $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

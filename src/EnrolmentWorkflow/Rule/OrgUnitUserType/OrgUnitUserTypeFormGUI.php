@@ -28,15 +28,15 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
     /**
      * @var OrgUnitUserType
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, OrgUnitUserType $object)
+    public function __construct(RuleGUI $parent, OrgUnitUserType $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 
@@ -102,7 +102,7 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
     {
         switch ($key) {
             case "operator_subsequent":
-                switch ($this->object->getOrgUnitUserType()) {
+                switch ($this->rule->getOrgUnitUserType()) {
                     case OrgUnitUserType::ORG_UNIT_USER_TYPE_TREE:
                         parent::storeValue("operator", $value);
                         break;

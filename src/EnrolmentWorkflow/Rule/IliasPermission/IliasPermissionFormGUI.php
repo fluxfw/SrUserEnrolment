@@ -20,7 +20,7 @@ class IliasPermissionFormGUI extends AbstractRuleFormGUI
     /**
      * @var IliasPermission
      */
-    protected $object;
+    protected $rule;
 
 
     /**

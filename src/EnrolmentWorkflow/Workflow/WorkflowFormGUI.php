@@ -5,7 +5,8 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow;
 use ilCheckboxInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -15,7 +16,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class WorkflowFormGUI extends ObjectPropertyFormGUI
+class WorkflowFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
@@ -24,18 +25,20 @@ class WorkflowFormGUI extends ObjectPropertyFormGUI
     /**
      * @var Workflow
      */
-    protected $object;
+    protected $workflow;
 
 
     /**
      * WorkflowFormGUI constructor
      *
      * @param WorkflowGUI $parent
-     * @param Workflow    $object
+     * @param Workflow    $workflow
      */
-    public function __construct(WorkflowGUI $parent, Workflow $object)
+    public function __construct(WorkflowGUI $parent, Workflow $workflow)
     {
-        parent::__construct($parent, $object);
+        $this->workflow = $workflow;
+
+        parent::__construct($parent);
     }
 
 
@@ -46,7 +49,7 @@ class WorkflowFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                return parent::getValue($key);
+                return Items::getter($this->workflow, $key);
         }
     }
 
@@ -56,7 +59,7 @@ class WorkflowFormGUI extends ObjectPropertyFormGUI
      */
     protected function initCommands()/*: void*/
     {
-        if (!empty($this->object->getWorkflowId())) {
+        if (!empty($this->workflow->getWorkflowId())) {
             $this->addCommandButton(WorkflowGUI::CMD_UPDATE_WORKFLOW, $this->txt("save"));
         } else {
             $this->addCommandButton(WorkflowGUI::CMD_CREATE_WORKFLOW, $this->txt("add"));
@@ -97,7 +100,7 @@ class WorkflowFormGUI extends ObjectPropertyFormGUI
      */
     protected function initTitle()/*: void*/
     {
-        $this->setTitle($this->txt(!empty($this->object->getWorkflowId()) ? "edit_workflow" : "add_workflow"));
+        $this->setTitle($this->txt(!empty($this->workflow->getWorkflowId()) ? "edit_workflow" : "add_workflow"));
     }
 
 
@@ -108,8 +111,23 @@ class WorkflowFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                parent::storeValue($key, $value);
+                Items::setter($this->workflow, $key, $value);
                 break;
         }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        self::srUserEnrolment()->enrolmentWorkflow()->workflows()->storeWorkflow($this->workflow);
+
+        return true;
     }
 }

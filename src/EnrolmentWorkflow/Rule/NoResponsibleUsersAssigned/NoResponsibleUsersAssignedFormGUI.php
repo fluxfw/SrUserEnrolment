@@ -18,15 +18,15 @@ class NoResponsibleUsersAssignedFormGUI extends AbstractRuleFormGUI
     /**
      * @var NoResponsibleUsersAssigned
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, NoResponsibleUsersAssigned $object)
+    public function __construct(RuleGUI $parent, NoResponsibleUsersAssigned $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

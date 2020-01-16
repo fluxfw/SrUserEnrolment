@@ -162,7 +162,7 @@ class RuleGUI
             return;
         }
 
-        $this->rule = $form->getObject();
+        $this->rule = $form->getRule();
 
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_RULE_TYPE . $this->parent->getParentContext(), $this->rule->getRuleType());
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_RULE_ID . $this->parent->getParentContext(), $this->rule->getRuleId());

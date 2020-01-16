@@ -189,7 +189,7 @@ class ActionGUI
             return;
         }
 
-        $this->action = $form->getObject();
+        $this->action = $form->getAction();
 
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_ACTION_TYPE, $this->action->getType());
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_ACTION_ID, $this->action->getActionId());

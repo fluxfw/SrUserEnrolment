@@ -20,15 +20,15 @@ class OrgUnitSuperiorFormGUI extends AbstractRuleFormGUI
     /**
      * @var OrgUnitSuperior
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, OrgUnitSuperior $object)
+    public function __construct(RuleGUI $parent, OrgUnitSuperior $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

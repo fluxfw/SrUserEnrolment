@@ -24,15 +24,15 @@ class SendNotificationFormGUI extends AbstractActionFormGUI
     /**
      * @var SendNotification
      */
-    protected $object;
+    protected $action;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(ActionGUI $parent, SendNotification $object)
+    public function __construct(ActionGUI $parent, SendNotification $action)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $action);
     }
 
 
