@@ -27,6 +27,13 @@ class ConfigFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const KEY_ROLES = "roles";
+    const KEY_SHOW_ASSISTANTS = "show_assistants";
+    const KEY_SHOW_ENROLMENT_WORKFLOW = "show_enrolment_workflow";
+    const KEY_SHOW_EXCEL_IMPORT = "show_excel_import";
+    const KEY_SHOW_EXCEL_IMPORT_CONFIG = "show_excel_import_config";
+    const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
+    const KEY_SHOW_RULES_ENROLL = "show_rules_enroll";
     const LANG_MODULE = ilSrUserEnrolmentConfigGUI::LANG_MODULE;
 
 
@@ -48,7 +55,7 @@ class ConfigFormGUI extends PropertyFormGUI
     {
         switch ($key) {
             default:
-                return Config::getField($key);
+                return self::srUserEnrolment()->config()->getField($key);
         }
     }
 
@@ -68,22 +75,22 @@ class ConfigFormGUI extends PropertyFormGUI
     protected function initFields()/*: void*/
     {
         $this->fields = [
-            Config::KEY_ROLES                   => [
+            self::KEY_ROLES                   => [
                 self::PROPERTY_CLASS    => ilMultiSelectInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
                 self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles(),
                 "enableSelectAll"       => true
             ],
-            Config::KEY_SHOW_RULES_ENROLL       => [
+            self::KEY_SHOW_RULES_ENROLL       => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                 "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
                     self::plugin()->translate("title", RulesGUI::LANG_MODULE)
                 ])
             ],
-            Config::KEY_SHOW_EXCEL_IMPORT       => [
+            self::KEY_SHOW_EXCEL_IMPORT       => [
                 self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
-                        Config::KEY_SHOW_EXCEL_IMPORT_CONFIG => [
+                        self::KEY_SHOW_EXCEL_IMPORT_CONFIG => [
                             self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                         ]
                     ] + ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI()),
@@ -91,16 +98,16 @@ class ConfigFormGUI extends PropertyFormGUI
                     self::plugin()->translate("title", ExcelImportGUI::LANG_MODULE)
                 ])
             ],
-            Config::KEY_SHOW_RESET_PASSWORD     => [
+            self::KEY_SHOW_RESET_PASSWORD     => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                 "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
                     self::plugin()->translate("title", ResetPasswordGUI::LANG_MODULE)
                 ])
             ],
-            Config::KEY_SHOW_ENROLMENT_WORKFLOW => [
+            self::KEY_SHOW_ENROLMENT_WORKFLOW => [
                 self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
-                    Config::KEY_SHOW_ASSISTANTS => [
+                    self::KEY_SHOW_ASSISTANTS => [
                         self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                         "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
                             self::plugin()->translate("assistants", AssistantsGUI::LANG_MODULE)
@@ -138,7 +145,7 @@ class ConfigFormGUI extends PropertyFormGUI
      */
     public function storeForm() : bool
     {
-        return ($this->storeFormCheck() && ($this->getInput(Config::KEY_SHOW_EXCEL_IMPORT) ? ExcelImportFormGUI::validateExcelImport($this) : true)
+        return ($this->storeFormCheck() && ($this->getInput(self::KEY_SHOW_EXCEL_IMPORT) ? ExcelImportFormGUI::validateExcelImport($this) : true)
             && parent::storeForm());
     }
 
@@ -149,7 +156,7 @@ class ConfigFormGUI extends PropertyFormGUI
     protected function storeValue(/*string*/ $key, $value)/*: void*/
     {
         switch ($key) {
-            case Config::KEY_ROLES:
+            case self::KEY_ROLES:
                 if ($value[0] === "") {
                     array_shift($value);
                 }
@@ -158,14 +165,14 @@ class ConfigFormGUI extends PropertyFormGUI
                     return intval($role_id);
                 }, $value);
 
-                Config::setField($key, $value);
+                self::srUserEnrolment()->config()->setField($key, $value);
                 break;
 
             case ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
                 break;
 
             default:
-                Config::setField($key, $value);
+                self::srUserEnrolment()->config()->setField($key, $value);
                 break;
         }
     }

@@ -14,7 +14,7 @@ use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiLineNewInputGUI\MultiLineNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
-use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -480,7 +480,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                 return $this->{$key};
 
             default:
-                return Config::getField($key);
+                return self::srUserEnrolment()->config()->getField($key);
         }
     }
 
@@ -508,7 +508,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
             ]
         ];
 
-        if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
+        if (self::srUserEnrolment()->config()->getField(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
             $this->fields += self::getExcelImportFields($this->parent);
         } else {
             foreach (get_object_vars($this) as $key => $value) {

@@ -314,7 +314,6 @@ return array(
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\Sender' => $vendorDir . '/srag/notifications4plugin/src/Sender/Sender.php',
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\vcalendarSender' => $vendorDir . '/srag/notifications4plugin/src/Sender/vcalendarSender.php',
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Utils\\Notifications4PluginTrait' => $vendorDir . '/srag/notifications4plugin/src/Utils/Notifications4PluginTrait.php',
-    'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => $baseDir . '/src/Config/Config.php',
     'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => $baseDir . '/src/Config/ConfigFormGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\AbstractAction' => $baseDir . '/src/EnrolmentWorkflow/Action/AbstractAction.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\AbstractActionFormGUI' => $baseDir . '/src/EnrolmentWorkflow/Action/AbstractActionFormGUI.php',

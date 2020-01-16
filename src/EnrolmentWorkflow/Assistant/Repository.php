@@ -6,7 +6,7 @@ use ilDate;
 use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -167,7 +167,7 @@ final class Repository
      */
     public function isEnabled() : bool
     {
-        return (self::srUserEnrolment()->enrolmentWorkflow()->isEnabled() && Config::getField(Config::KEY_SHOW_ASSISTANTS));
+        return (self::srUserEnrolment()->enrolmentWorkflow()->isEnabled() && self::srUserEnrolment()->config()->getField(ConfigFormGUI::KEY_SHOW_ASSISTANTS));
     }
 
 

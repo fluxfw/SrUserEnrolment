@@ -374,7 +374,6 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\Sender' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Sender/Sender.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\vcalendarSender' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Sender/vcalendarSender.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Utils\\Notifications4PluginTrait' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Utils/Notifications4PluginTrait.php',
-        'srag\\Plugins\\SrUserEnrolment\\Config\\Config' => __DIR__ . '/../..' . '/src/Config/Config.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\AbstractAction' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/AbstractAction.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\AbstractActionFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/AbstractActionFormGUI.php',

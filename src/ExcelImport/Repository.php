@@ -9,7 +9,7 @@ use ilSrUserEnrolmentPlugin;
 use ilUserAccountSettings;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\Exception\SrUserEnrolmentException;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use stdClass;
@@ -270,7 +270,7 @@ final class Repository
      */
     public function isEnabled() : bool
     {
-        return (self::plugin()->getPluginObject()->isActive() && Config::getField(Config::KEY_SHOW_EXCEL_IMPORT));
+        return (self::plugin()->getPluginObject()->isActive() && self::srUserEnrolment()->config()->getField(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT));
     }
 
 

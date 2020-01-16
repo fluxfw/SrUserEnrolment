@@ -4,7 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\Repository as ActionsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Repository as AssistantsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Repository as RequestsRepository;
@@ -131,7 +131,7 @@ final class Repository
      */
     public function isEnabled(bool $plugin_active_check = true) : bool
     {
-        return (($plugin_active_check ? self::plugin()->getPluginObject()->isActive() : true) && Config::getField(Config::KEY_SHOW_ENROLMENT_WORKFLOW));
+        return (($plugin_active_check ? self::plugin()->getPluginObject()->isActive() : true) && self::srUserEnrolment()->config()->getField(ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW));
     }
 
 
