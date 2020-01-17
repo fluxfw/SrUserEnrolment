@@ -6,13 +6,13 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class AbstractAssistantsRequestsTableModifications
+ * Class AbstractAssistantsRequestTableModifications
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractAssistantsRequestsTableModifications
+abstract class AbstractAssistantsRequestTableModifications
 {
 
     use DICTrait;
@@ -20,7 +20,7 @@ abstract class AbstractAssistantsRequestsTableModifications
 
 
     /**
-     * AbstractAssistantsRequestsTableModifications constructor
+     * AbstractAssistantsRequestTableModifications constructor
      */
     public function __construct()
     {

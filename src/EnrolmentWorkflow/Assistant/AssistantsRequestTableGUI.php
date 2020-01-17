@@ -16,26 +16,26 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class AssistantsRequestsTableGUI
+ * Class AssistantsRequestTableGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AssistantsRequestsTableGUI extends TableGUI
+class AssistantsRequestTableGUI extends TableGUI
 {
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = AssistantsGUI::LANG_MODULE;
     /**
-     * @var AbstractAssistantsRequestsTableModifications[]
+     * @var AbstractAssistantsRequestTableModifications[]
      */
     protected $modifications = [];
 
 
     /**
-     * AssistantsRequestsTableGUI constructor
+     * AssistantsRequestTableGUI constructor
      *
      * @param AssistantsRequestGUI $parent
      * @param string               $parent_cmd

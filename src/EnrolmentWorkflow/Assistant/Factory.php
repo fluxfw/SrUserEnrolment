@@ -76,11 +76,11 @@ final class Factory
      * @param AssistantsRequestGUI $parent
      * @param string               $cmd
      *
-     * @return AssistantsRequestsTableGUI
+     * @return AssistantsRequestTableGUI
      */
-    public function newRequestsTableInstance(AssistantsRequestGUI $parent, string $cmd = AssistantsRequestGUI::CMD_LIST_USERS) : AssistantsRequestsTableGUI
+    public function newRequestsTableInstance(AssistantsRequestGUI $parent, string $cmd = AssistantsRequestGUI::CMD_LIST_USERS) : AssistantsRequestTableGUI
     {
-        $table = new AssistantsRequestsTableGUI($parent, $cmd);
+        $table = new AssistantsRequestTableGUI($parent, $cmd);
 
         return $table;
     }
