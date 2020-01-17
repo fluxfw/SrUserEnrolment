@@ -113,7 +113,7 @@ excel_import_password#:#Password
 excel_import_rows#:#Rows
 excel_import_set_password#:#Set password
 excel_import_set_password_field#:#Field
-excel_import_set_password_format_date#:#Format date fields as user format (Experimental)
+excel_import_set_password_format_date#:#Format date field as user format (Experimental)
 excel_import_set_password_random#:#Random
 excel_import_title#:#Enrol by excel file
 excel_import_update_user#:#Update user
