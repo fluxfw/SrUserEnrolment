@@ -128,23 +128,18 @@ class RequestStepGUI
                 self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, self::dic()->user()->getId());
                 $actions[] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' . $step->getActionTitle() . '</span>',
                     self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_REQUEST_STEP));
-            }
 
-            if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
-                // TODO: Sort
-                $has_assistants_actions = false;
-                foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId()) as $assistant) {
-                    foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $assistant->getUserId(), $obj_ref_id) as $step) {
-                        $has_assistants_actions = true;
-                        self::dic()->ctrl()->setParameterByClass(AssistantsRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
-                        $actions[] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' .
-                            self::plugin()->translate("step_action", AssistantsGUI::LANG_MODULE, [
-                                $step->getActionTitle()
-                            ]) . '</span>',
-                            self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, AssistantsRequestGUI::class], AssistantsRequestGUI::CMD_LIST_USERS));
-                    }
-                    if ($has_assistants_actions) {
-                        break;
+                if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
+                    foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId()) as $assistant) {
+                        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($obj_ref_id, $step->getStepId(), $assistant->getUserId())) {
+                            self::dic()->ctrl()->setParameterByClass(AssistantsRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
+                            $actions[] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' .
+                                self::plugin()->translate("step_action", AssistantsGUI::LANG_MODULE, [
+                                    $step->getActionTitle()
+                                ]) . '</span>',
+                                self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, AssistantsRequestGUI::class], AssistantsRequestGUI::CMD_LIST_USERS));
+                            break;
+                        }
                     }
                 }
             }
