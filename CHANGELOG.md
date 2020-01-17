@@ -1,9 +1,9 @@
 # Changelog
 
 ## [3.1.0]
-- `No responsible users assigned` rule
+- 'No responsible users assigned' rule
 - Enrolment workflow assistants
-- Some fixes
+- Some other improvments and fixes
 
 ## [3.0.6]
 - Some improvments
