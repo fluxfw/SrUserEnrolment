@@ -175,11 +175,17 @@ class AssistantsRequestGUI
             $user_ids = [];
         }
 
+        if (!empty(self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $step->getStepId()))) {
+            die();
+        }
+
         $user_ids = array_filter($user_ids, function (int $user_id) use ($obj_ref_id, $step): bool {
             return self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($obj_ref_id, $step->getStepId(), $user_id);
         });
 
         foreach ($user_ids as $user_id) {
+            // TODO: Required data on multi select
+
             self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($obj_ref_id, $step->getStepId(), $user_id);
         }
 

@@ -4,12 +4,14 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
+use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Step;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -120,7 +122,9 @@ class AssistantsRequestsTableGUI extends TableGUI
      */
     protected function initColumns()/*: void*/
     {
-        $this->addColumn("");
+        if (empty(self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->parent_obj->getStep()->getStepId()))) {
+            $this->addColumn("");
+        }
 
         parent::initColumns();
 
@@ -133,8 +137,12 @@ class AssistantsRequestsTableGUI extends TableGUI
      */
     protected function initCommands()/*: void*/
     {
-        $this->setSelectAllCheckbox(RequestStepGUI::GET_PARAM_USER_ID);
-        $this->addMultiCommand(AssistantsRequestGUI::CMD_MULTIPLE_REQUESTS, $this->parent_obj->getStep()->getActionTitle());
+        if (empty(self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->parent_obj->getStep()->getStepId()))) {
+            $this->setSelectAllCheckbox(RequestStepGUI::GET_PARAM_USER_ID);
+            $this->addMultiCommand(AssistantsRequestGUI::CMD_MULTIPLE_REQUESTS, $this->parent_obj->getStep()->getActionTitle());
+        } else {
+            ilUtil::sendInfo($this->txt("multi_requests_not_available"));
+        }
     }
 
 
@@ -233,16 +241,18 @@ class AssistantsRequestsTableGUI extends TableGUI
         self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID, $this->parent_obj->getStep()->getStepId());
         self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_USER_ID, $assistant->getUserId());
 
-        $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariable("CHECKBOX_POST_VAR", RequestStepGUI::GET_PARAM_USER_ID);
-        $this->tpl->setVariable("ID", $assistant->getUserId());
-        $this->tpl->parseCurrentBlock();
+        if (empty(self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->parent_obj->getStep()->getStepId()))) {
+            $this->tpl->setCurrentBlock("checkbox");
+            $this->tpl->setVariable("CHECKBOX_POST_VAR", RequestStepGUI::GET_PARAM_USER_ID);
+            $this->tpl->setVariable("ID", $assistant->getUserId());
+            $this->tpl->parseCurrentBlock();
+        }
 
         parent::fillRow($assistant);
 
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
             self::dic()->ui()->factory()->link()->standard($this->parent_obj->getStep()->getActionTitle(), self::dic()->ctrl()
                 ->getLinkTargetByClass(RequestStepGUI::class, RequestStepGUI::CMD_REQUEST_STEP))
-        ])));
+        ])->withLabel($this->txt("actions"))));
     }
 }

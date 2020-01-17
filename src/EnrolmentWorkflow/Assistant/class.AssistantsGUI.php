@@ -223,6 +223,8 @@ class AssistantsGUI
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
 
+        // TODO: Skip self
+
         echo $auto->getList(filter_input(INPUT_GET, "term"));
 
         exit;
