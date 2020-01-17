@@ -70,4 +70,18 @@ final class Factory
 
         return $form;
     }
+
+
+    /**
+     * @param AssistantsRequestGUI $parent
+     * @param string               $cmd
+     *
+     * @return AssistantsRequestsTableGUI
+     */
+    public function newRequestsTableInstance(AssistantsRequestGUI $parent, string $cmd = AssistantsRequestGUI::CMD_LIST_USERS) : AssistantsRequestsTableGUI
+    {
+        $table = new AssistantsRequestsTableGUI($parent, $cmd);
+
+        return $table;
+    }
 }

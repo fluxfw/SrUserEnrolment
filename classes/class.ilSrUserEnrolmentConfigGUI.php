@@ -4,7 +4,6 @@ require_once __DIR__ . "/../vendor/autoload.php";
 
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationsCtrl;
-use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -98,24 +97,13 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
 
 
     /**
-     * @return ConfigFormGUI
-     */
-    protected function getConfigForm() : ConfigFormGUI
-    {
-        $form = new ConfigFormGUI($this);
-
-        return $form;
-    }
-
-
-    /**
      *
      */
     protected function configure()/*: void*/
     {
         self::dic()->tabs()->activateTab(self::TAB_CONFIGURATION);
 
-        $form = $this->getConfigForm();
+        $form = self::srUserEnrolment()->config()->factory()->newFormInstance($this);
 
         self::output()->output($form);
     }
@@ -128,7 +116,7 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
     {
         self::dic()->tabs()->activateTab(self::TAB_CONFIGURATION);
 
-        $form = $this->getConfigForm();
+        $form = self::srUserEnrolment()->config()->factory()->newFormInstance($this);
 
         if (!$form->storeForm()) {
             self::output()->output($form);

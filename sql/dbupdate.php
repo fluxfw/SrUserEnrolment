@@ -10,6 +10,10 @@
 <?php
 //
 ?>
+<#5>
+<?php
+//
+?>
 <#4>
 <?php
 \srag\Plugins\SrUserEnrolment\Repository::getInstance()->installTables();

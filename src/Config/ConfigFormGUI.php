@@ -55,7 +55,7 @@ class ConfigFormGUI extends PropertyFormGUI
     {
         switch ($key) {
             default:
-                return self::srUserEnrolment()->config()->getField($key);
+                return self::srUserEnrolment()->config()->getValue($key);
         }
     }
 
@@ -165,14 +165,14 @@ class ConfigFormGUI extends PropertyFormGUI
                     return intval($role_id);
                 }, $value);
 
-                self::srUserEnrolment()->config()->setField($key, $value);
+                self::srUserEnrolment()->config()->setValue($key, $value);
                 break;
 
             case ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
                 break;
 
             default:
-                self::srUserEnrolment()->config()->setField($key, $value);
+                self::srUserEnrolment()->config()->setValue($key, $value);
                 break;
         }
     }

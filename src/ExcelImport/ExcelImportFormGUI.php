@@ -480,7 +480,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                 return $this->{$key};
 
             default:
-                return self::srUserEnrolment()->config()->getField($key);
+                return self::srUserEnrolment()->config()->getValue($key);
         }
     }
 
@@ -508,7 +508,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
             ]
         ];
 
-        if (self::srUserEnrolment()->config()->getField(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
             $this->fields += self::getExcelImportFields($this->parent);
         } else {
             foreach (get_object_vars($this) as $key => $value) {

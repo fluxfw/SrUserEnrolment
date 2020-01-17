@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 use ActiveRecord;
 use arConnector;
 use ilDate;
+use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -149,6 +150,24 @@ class Assistant extends ActiveRecord
             default:
                 return null;
         }
+    }
+
+
+    /**
+     * @return ilObjUser
+     */
+    public function getUser() : ilObjUser
+    {
+        return new ilObjUser($this->user_id);
+    }
+
+
+    /**
+     * @return ilObjUser
+     */
+    public function getAssistantUser() : ilObjUser
+    {
+        return new ilObjUser($this->assistant_user_id);
     }
 
 

@@ -270,7 +270,7 @@ final class Repository
      */
     public function isEnabled() : bool
     {
-        return (self::plugin()->getPluginObject()->isActive() && self::srUserEnrolment()->config()->getField(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT));
+        return (self::plugin()->getPluginObject()->isActive() && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT));
     }
 
 

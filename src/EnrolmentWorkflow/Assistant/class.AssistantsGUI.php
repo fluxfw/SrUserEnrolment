@@ -97,7 +97,7 @@ class AssistantsGUI
             $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants(self::dic()->user()->getId());
             if (!empty($assistants)) {
                 foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants(self::dic()->user()->getId()) as $assistant) {
-                    $tpl->setVariable("USER", self::dic()->objDataCache()->lookupTitle($assistant->getAssistantUserId()));
+                    $tpl->setVariable("USER", $assistant->getAssistantUser()->getFullname());
                     if ($assistant->getUntil() !== null) {
                         $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
                         $tpl_until->setVariable("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
@@ -116,7 +116,7 @@ class AssistantsGUI
             $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId());
             if (!empty($assistants)) {
                 foreach ($assistants as $assistant) {
-                    $tpl2->setVariable("USER", self::dic()->objDataCache()->lookupTitle($assistant->getUserId()));
+                    $tpl2->setVariable("USER", $assistant->getUser()->getFullname());
                     if ($assistant->getUntil() !== null) {
                         $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
                         $tpl_until->setVariable("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [

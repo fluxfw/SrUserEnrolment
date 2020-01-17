@@ -39,6 +39,7 @@ actions_type_sendnotification#:#Benachrichtigung versenden
 actions_userstype#:#Benutzer
 actions_userstype_position#:#Benutzer mit Position innerhalb einer Organisation des anfordernden Benutzers
 actions_userstype_specific_users#:#Bestimmte Benutzer
+assistants_actions#:#Aktionen
 assistants_active#:#Aktiv
 assistants_assistants#:#Assistenten
 assistants_assistant_of#:#Assistent von
@@ -48,10 +49,14 @@ assistants_my_assistants#:#Meine Assistenten
 assistants_nonone#:#Niemandem
 assistants_save#:#Speichern
 assistants_saved#:#Gespeichert
-assistants_step_action#:#%1$s für %2$s
+assistants_step_action#:#%s für andere
 assistants_until#:#Bis
 assistants_until_date#:#Bis %s
 assistants_user#:#Benutzer
+assistants_user_email#:#E-Mail
+assistants_user_firstname#:#Vorname
+assistants_user_lastname#:#Nachname
+assistants_users#:#Benutzer
 config_configuration#:#Konfiguration
 config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen

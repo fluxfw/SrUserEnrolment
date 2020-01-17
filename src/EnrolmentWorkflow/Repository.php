@@ -131,7 +131,7 @@ final class Repository
      */
     public function isEnabled(bool $plugin_active_check = true) : bool
     {
-        return (($plugin_active_check ? self::plugin()->getPluginObject()->isActive() : true) && self::srUserEnrolment()->config()->getField(ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW));
+        return (($plugin_active_check ? self::plugin()->getPluginObject()->isActive() : true) && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW));
     }
 
 

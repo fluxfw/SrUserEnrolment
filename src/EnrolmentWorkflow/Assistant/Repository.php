@@ -204,7 +204,7 @@ final class Repository
      */
     public function isEnabled() : bool
     {
-        return (self::srUserEnrolment()->enrolmentWorkflow()->isEnabled() && self::srUserEnrolment()->config()->getField(ConfigFormGUI::KEY_SHOW_ASSISTANTS));
+        return (self::srUserEnrolment()->enrolmentWorkflow()->isEnabled() && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ASSISTANTS));
     }
 
 
