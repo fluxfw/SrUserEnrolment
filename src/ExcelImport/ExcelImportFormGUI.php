@@ -145,7 +145,8 @@ class ExcelImportFormGUI extends PropertyFormGUI
                         self::PROPERTY_SUBITEMS => [
                             ExcelImportFormGUI::KEY_SET_PASSWORD_FORMAT_DATE => [
                                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                                "setTitle"           => self::plugin()->translate(self::KEY_SET_PASSWORD_FORMAT_DATE)
+                                "setTitle"           => self::plugin()->translate(self::KEY_SET_PASSWORD_FORMAT_DATE),
+                                "setInfo"            => self::plugin()->translate(self::KEY_SET_PASSWORD_FORMAT_DATE . "_info")
                             ]
                         ],
                         "setTitle"              => self::plugin()->translate(self::KEY_SET_PASSWORD . "_field"),
