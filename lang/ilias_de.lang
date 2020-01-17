@@ -113,7 +113,7 @@ excel_import_password#:#Kennwort
 excel_import_rows#:#Zeilen
 excel_import_set_password#:#Kennwort setzen
 excel_import_set_password_field#:#Feld
-excel_import_set_password_format_date#:#Datum formatieren (Experimental)
+excel_import_set_password_format_date#:#Datum-Felder als Benutzer-Format formatieren (Experimental)
 excel_import_set_password_random#:#Zufällig
 excel_import_title#:#Einschreiben per Excel-Datei
 excel_import_update_user#:#Benutzer aktualisieren
