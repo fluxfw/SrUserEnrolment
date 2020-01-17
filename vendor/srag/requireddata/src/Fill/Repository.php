@@ -3,6 +3,7 @@
 namespace srag\RequiredData\SrUserEnrolment\Fill;
 
 use ilSession;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
 
@@ -112,12 +113,13 @@ final class Repository
      * @param int   $parent_context
      * @param int   $parent_id
      * @param array $fill_values
+     * @param bool  $keep_field_id
      *
      * @return array
      */
-    public function formatAsStrings(int $parent_context, int $parent_id, array $fill_values) : array
+    public function formatAsStrings(int $parent_context, int $parent_id, array $fill_values, bool $keep_field_id = false) : array
     {
-        $formated_fill_values = [];
+        $formatted_fill_values = [];
 
         foreach ($fill_values as $field_id => $value) {
             list($type, $field_id) = explode("_", $field_id);
@@ -125,11 +127,16 @@ final class Repository
             $field = self::requiredData()->fields()->getFieldById($parent_context, $parent_id, $type, $field_id);
 
             if ($field !== null) {
-                $formated_fill_values[$field->getLabel()] = $this->factory()->newFillFieldInstance($field)->formatAsString($value);
+                $value = $this->factory()->newFillFieldInstance($field)->formatAsString($value);
+                if ($keep_field_id) {
+                    $formatted_fill_values[$keep_field_id] = [$field->getLabel(), $value];
+                } else {
+                    $formatted_fill_values[$field->getLabel()] = $value;
+                }
             }
         }
 
-        return $formated_fill_values;
+        return $formatted_fill_values;
     }
 
 
@@ -209,6 +216,32 @@ final class Repository
         }
 
         return null;
+    }
+
+
+    /**
+     * @param int $parent_context
+     * @param int $parent_id
+     *
+     * @return array
+     */
+    public function getFormFields(int $parent_context, int $parent_id) : array
+    {
+        $fields = [];
+
+        foreach (self::requiredData()->fields()->getFields($parent_context, $parent_id) as $field) {
+            $fields["field_" . $field->getId()] = array_merge(
+                [
+                    "setTitle" => $field->getLabel(),
+                    "setInfo"  => $field->getDescription()
+                ],
+                self::requiredData()->fills()->factory()->newFillFieldInstance($field)->getFormFields(),
+                [
+                    PropertyFormGUI::PROPERTY_REQUIRED => $field->isRequired()
+                ]);
+        }
+
+        return $fields;
     }
 
 

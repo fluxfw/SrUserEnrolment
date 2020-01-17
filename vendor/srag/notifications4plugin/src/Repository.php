@@ -6,8 +6,8 @@ use LogicException;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
 use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
-use srag\Notifications4Plugin\SrUserEnrolment\Notification\Repository as NotificationRepository;
-use srag\Notifications4Plugin\SrUserEnrolment\Notification\RepositoryInterface as NotificationRepositoryInterface;
+use srag\Notifications4Plugin\SrUserEnrolment\Notification\Repository as NotificationsRepository;
+use srag\Notifications4Plugin\SrUserEnrolment\Notification\RepositoryInterface as NotificationsRepositoryInterface;
 use srag\Notifications4Plugin\SrUserEnrolment\Parser\Repository as ParserRepository;
 use srag\Notifications4Plugin\SrUserEnrolment\Parser\RepositoryInterface as ParserRepositoryInterface;
 use srag\Notifications4Plugin\SrUserEnrolment\Sender\Repository as SenderRepository;
@@ -41,6 +41,20 @@ final class Repository implements RepositoryInterface
 
         return self::$instance;
     }
+
+
+    /**
+     * @var string
+     */
+    protected $table_name_prefix = "";
+    /**
+     * @var PluginInterface
+     */
+    protected $plugin;
+    /**
+     * @var array
+     */
+    protected $placeholder_types;
 
 
     /**
@@ -126,9 +140,9 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function notifications() : NotificationRepositoryInterface
+    public function notifications() : NotificationsRepositoryInterface
     {
-        return NotificationRepository::getInstance();
+        return NotificationsRepository::getInstance();
     }
 
 

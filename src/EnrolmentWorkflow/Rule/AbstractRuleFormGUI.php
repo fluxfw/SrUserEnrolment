@@ -4,7 +4,8 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule;
 
 use ilCheckboxInputGUI;
 use ilSrUserEnrolmentPlugin;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -14,7 +15,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractRuleFormGUI extends ObjectPropertyFormGUI
+abstract class AbstractRuleFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
@@ -23,18 +24,20 @@ abstract class AbstractRuleFormGUI extends ObjectPropertyFormGUI
     /**
      * @var AbstractRule
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * AbstractRuleFormGUI constructor
      *
      * @param RuleGUI      $parent
-     * @param AbstractRule $object
+     * @param AbstractRule $rule
      */
-    public function __construct(RuleGUI $parent, AbstractRule $object)
+    public function __construct(RuleGUI $parent, AbstractRule $rule)
     {
-        parent::__construct($parent, $object);
+        $this->rule = $rule;
+
+        parent::__construct($parent);
     }
 
 
@@ -45,7 +48,7 @@ abstract class AbstractRuleFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                return parent::getValue($key);
+                return Items::getter($this->rule, $key);
         }
     }
 
@@ -97,8 +100,23 @@ abstract class AbstractRuleFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                parent::storeValue($key, $value);
+                Items::setter($this->rule, $key, $value);
                 break;
         }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        self::srUserEnrolment()->enrolmentWorkflow()->rules()->storeRule($this->rule);
+
+        return true;
     }
 }

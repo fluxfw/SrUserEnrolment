@@ -4,7 +4,8 @@ namespace srag\RequiredData\SrUserEnrolment\Field;
 
 use ilCheckboxInputGUI;
 use ilTextInputGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\TabsInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TextAreaInputGUI\TextAreaInputGUI;
@@ -17,7 +18,7 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractFieldFormGUI extends ObjectPropertyFormGUI
+abstract class AbstractFieldFormGUI extends PropertyFormGUI
 {
 
     use RequiredDataTrait;
@@ -25,18 +26,20 @@ abstract class AbstractFieldFormGUI extends ObjectPropertyFormGUI
     /**
      * @var AbstractField
      */
-    protected $object;
+    protected $field;
 
 
     /**
      * AbstractFieldFormGUI constructor
      *
      * @param FieldCtrl     $parent
-     * @param AbstractField $object
+     * @param AbstractField $field
      */
-    public function __construct(FieldCtrl $parent, AbstractField $object)
+    public function __construct(FieldCtrl $parent, AbstractField $field)
     {
-        parent::__construct($parent, $object);
+        $this->field = $field;
+
+        parent::__construct($parent);
     }
 
 
@@ -47,7 +50,7 @@ abstract class AbstractFieldFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                return parent::getValue($key);
+                return Items::getter($this->field, $key);
         }
     }
 
@@ -123,9 +126,24 @@ abstract class AbstractFieldFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                parent::storeValue($key, $value);
+                Items::setter($this->field, $key, $value);
                 break;
         }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        self::requiredData()->fields()->storeField($this->field);
+
+        return true;
     }
 
 

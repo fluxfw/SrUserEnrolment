@@ -3,8 +3,8 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect;
 
 use ilSrUserEnrolmentPlugin;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FieldCtrl;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
+use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
 use srag\RequiredData\SrUserEnrolment\Field\StaticMultiSearchSelect\StaticMultiSearchSelectFieldFormGUI;
 
 /**

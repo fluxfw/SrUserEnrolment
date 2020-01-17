@@ -327,7 +327,7 @@ class RequestsTableGUI extends TableGUI
         foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($request, self::dic()->user()->getId()) as $step) {
             self::dic()->ctrl()->setParameterByClass(AcceptRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
-            $actions[] = self::dic()->ui()->factory()->button()->shy($step->getActionAcceptTitle(), self::dic()->ctrl()
+            $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionAcceptTitle(), self::dic()->ctrl()
                 ->getLinkTargetByClass([RequestInfoGUI::class, AcceptRequestGUI::class], AcceptRequestGUI::CMD_ACCEPT_REQUEST));
         }
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));

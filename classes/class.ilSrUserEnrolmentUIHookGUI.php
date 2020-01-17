@@ -1,6 +1,7 @@
 <?php
 
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestInfoGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
@@ -23,11 +24,13 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const PAR_SUB_TABS = "sub_tabs";
+    const PAR_TABS = "tabs";
     const COURSE_MEMBER_LIST_TEMPLATE_ID = "Services/Table/tpl.table2.html";
     const TEMPLATE_GET = "template_get";
     const ACTIONS_MENU_TEMPLATE = "Services/UIComponent/AdvancedSelectionList/tpl.adv_selection_list.html";
     const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
     const PART_CENTER_COLUMN = "center_column";
+    const PART_RIGHT_COLUMN = "right_column";
     const GET_PARAM_REF_ID = "ref_id";
     const GET_PARAM_TARGET = "target";
 
@@ -42,11 +45,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
 
     /**
-     * @param string $a_comp
-     * @param string $a_part
-     * @param array  $a_par
-     *
-     * @return array
+     * @inheritDoc
      */
     public function getHTML(/*string*/ $a_comp, /*string*/ $a_part, $a_par = []) : array
     {
@@ -71,17 +70,29 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
             return RequestInfoGUI::addRequestsToPersonalDesktop();
         }
 
+        if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_RIGHT_COLUMN) {
+
+            return AssistantsGUI::addAssistantsToPersonalDesktop();
+        }
+
         return parent::getHTML($a_comp, $a_part, $a_par);
     }
 
 
     /**
-     * @param string $a_comp
-     * @param string $a_part
-     * @param array  $a_par
+     * @inheritDoc
      */
     public function modifyGUI(/*string*/ $a_comp, /*string*/ $a_part, /*array*/ $a_par = [])/*: void*/
     {
+        if ($a_part === self::PAR_TABS) {
+            if (count(array_filter(self::dic()->ctrl()->getCallHistory(), function (array $history) : bool {
+                    return (strtolower($history["class"]) === strtolower(ilPersonalProfileGUI::class));
+                })) > 0
+            ) {
+
+                AssistantsGUI::addTabs();
+            }
+        }
 
         if ($a_part === self::PAR_SUB_TABS) {
 

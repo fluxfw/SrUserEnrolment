@@ -27,15 +27,15 @@ class CreateCourseFormGUI extends AbstractActionFormGUI
     /**
      * @var CreateCourse
      */
-    protected $object;
+    protected $action;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(ActionGUI $parent, CreateCourse $object)
+    public function __construct(ActionGUI $parent, CreateCourse $action)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $action);
     }
 
 
@@ -57,7 +57,7 @@ class CreateCourseFormGUI extends AbstractActionFormGUI
                         }, self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps(self::srUserEnrolment()
                             ->enrolmentWorkflow()
                             ->steps()
-                            ->getStepById($this->object->getStepId())
+                            ->getStepById($this->action->getStepId())
                             ->getWorkflowId())),
                     "setTitle"              => $this->txt("required_data_from_step")
                 ],
@@ -75,11 +75,11 @@ class CreateCourseFormGUI extends AbstractActionFormGUI
                         "move_request_step_id" => [
                             self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                             self::PROPERTY_REQUIRED => true,
-                            self::PROPERTY_OPTIONS  => (!empty($this->object->getSelectedWorkflowId()) ? ["" => ""] + array_map(function (Step $step) : string {
+                            self::PROPERTY_OPTIONS  => (!empty($this->action->getSelectedWorkflowId()) ? ["" => ""] + array_map(function (Step $step) : string {
                                     return $step->getTitle();
-                                }, self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($this->object->getSelectedWorkflowId())) : []),
+                                }, self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($this->action->getSelectedWorkflowId())) : []),
                             "setTitle"              => self::plugin()->translate("step", StepsGUI::LANG_MODULE),
-                            self::PROPERTY_NOT_ADD  => empty($this->object->getSelectedWorkflowId())
+                            self::PROPERTY_NOT_ADD  => empty($this->action->getSelectedWorkflowId())
                         ]
                     ]
                 ],
@@ -88,30 +88,30 @@ class CreateCourseFormGUI extends AbstractActionFormGUI
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
-                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getRequiredDataFromStepId(), [
+                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->action->getRequiredDataFromStepId(), [
                             TextField::class
                         ])),
-                    self::PROPERTY_NOT_ADD  => empty($this->object->getRequiredDataFromStepId())
+                    self::PROPERTY_NOT_ADD  => empty($this->action->getRequiredDataFromStepId())
                 ],
                 "field_course_start"         => [
                     self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
-                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getRequiredDataFromStepId(), [
+                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->action->getRequiredDataFromStepId(), [
                             DateField::class
                         ])),
-                    self::PROPERTY_NOT_ADD  => empty($this->object->getRequiredDataFromStepId())
+                    self::PROPERTY_NOT_ADD  => empty($this->action->getRequiredDataFromStepId())
                 ],
                 "field_course_end"           => [
                     self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
-                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->object->getRequiredDataFromStepId(), [
+                        }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->action->getRequiredDataFromStepId(), [
                             DateField::class
                         ])),
-                    self::PROPERTY_NOT_ADD  => empty($this->object->getRequiredDataFromStepId())
+                    self::PROPERTY_NOT_ADD  => empty($this->action->getRequiredDataFromStepId())
                 ]
             ]
         );

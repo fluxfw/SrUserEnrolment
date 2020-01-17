@@ -4,9 +4,10 @@ namespace srag\Plugins\SrUserEnrolment;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Notifications4Plugin\SrUserEnrolment\RepositoryInterface as NotificationRepositoryInterface;
+use srag\Notifications4Plugin\SrUserEnrolment\RepositoryInterface as Notifications4PluginRepositoryInterface;
 use srag\Notifications4Plugin\SrUserEnrolment\Utils\Notifications4PluginTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
+use srag\Plugins\SrUserEnrolment\Config\Repository as ConfigRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Repository as EnrolmentWorkflowRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect\UserSelectField;
@@ -72,11 +73,20 @@ final class Repository
 
 
     /**
+     * @return ConfigRepository
+     */
+    public function config() : ConfigRepository
+    {
+        return ConfigRepository::getInstance();
+    }
+
+
+    /**
      *
      */
     public function dropTables()/*: void*/
     {
-        self::dic()->database()->dropTable(Config::TABLE_NAME, false);
+        $this->config()->dropTables();
         $this->enrolmentWorkflow()->dropTables();
         $this->excelImport()->dropTables();
         $this->notifications4plugin()->dropTables();
@@ -109,7 +119,7 @@ final class Repository
      */
     public function installTables()/*: void*/
     {
-        Config::updateDB();
+        $this->config()->installTables();
         $this->enrolmentWorkflow()->installTables();
         $this->excelImport()->installTables();
         $this->notifications4plugin()->installTables();
@@ -122,7 +132,7 @@ final class Repository
     /**
      * @inheritDoc
      */
-    public function notifications4plugin() : NotificationRepositoryInterface
+    public function notifications4plugin() : Notifications4PluginRepositoryInterface
     {
         return self::_notifications4plugin();
     }
@@ -163,7 +173,7 @@ final class Repository
     public function userHasRole(int $user_id) : bool
     {
         $user_roles = self::dic()->rbacreview()->assignedGlobalRoles($user_id);
-        $config_roles = Config::getField(Config::KEY_ROLES);
+        $config_roles = self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_ROLES);
 
         foreach ($user_roles as $user_role) {
             if (in_array($user_role, $config_roles)) {

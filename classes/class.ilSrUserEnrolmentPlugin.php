@@ -25,6 +25,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     const PLUGIN_NAME = "SrUserEnrolment";
     const PLUGIN_CLASS_NAME = self::class;
     const EVENT_AFTER_REQUEST = "after_request";
+    const EVENT_COLLECT_ASSISTANTS_REQUESTS_TABLE_MODIFICATIONS = "collect_assistants_requests_table_modifications";
     const EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS = "collect_requests_table_modifications";
     const EVENT_EXTENDS_SRUSRENR = "extends_" . self::PLUGIN_ID;
     /**
@@ -56,7 +57,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getPluginName() : string
     {
@@ -65,9 +66,9 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function updateLanguages($a_lang_keys = null)
+    public function updateLanguages(/*?array*/ $a_lang_keys = null)/*:void*/
     {
         parent::updateLanguages($a_lang_keys);
 
@@ -81,7 +82,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
     {
@@ -90,7 +91,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function deleteData()/*: void*/
     {

@@ -5,7 +5,8 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step;
 use ilCheckboxInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\TabsInputGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -17,7 +18,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class StepFormGUI extends ObjectPropertyFormGUI
+class StepFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
@@ -26,18 +27,20 @@ class StepFormGUI extends ObjectPropertyFormGUI
     /**
      * @var Step
      */
-    protected $object;
+    protected $step;
 
 
     /**
      * StepFormGUI constructor
      *
      * @param StepGUI $parent
-     * @param Step    $object
+     * @param Step    $step
      */
-    public function __construct(StepGUI $parent, Step $object)
+    public function __construct(StepGUI $parent, Step $step)
     {
-        parent::__construct($parent, $object, false);
+        $this->step = $step;
+
+        parent::__construct($parent);
     }
 
 
@@ -48,7 +51,7 @@ class StepFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                return parent::getValue($key);
+                return Items::getter($this->step, $key);
         }
     }
 
@@ -58,7 +61,7 @@ class StepFormGUI extends ObjectPropertyFormGUI
      */
     protected function initCommands()/*: void*/
     {
-        if (!empty($this->object->getStepId())) {
+        if (!empty($this->step->getStepId())) {
             $this->addCommandButton(StepGUI::CMD_UPDATE_STEP, $this->txt("save"));
         } else {
             $this->addCommandButton(StepGUI::CMD_CREATE_STEP, $this->txt("add"));
@@ -124,7 +127,7 @@ class StepFormGUI extends ObjectPropertyFormGUI
      */
     protected function initTitle()/*: void*/
     {
-        $this->setTitle($this->txt(!empty($this->object->getStepId()) ? "edit_step" : "add_step"));
+        $this->setTitle($this->txt(!empty($this->step->getStepId()) ? "edit_step" : "add_step"));
     }
 
 
@@ -135,7 +138,7 @@ class StepFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                parent::storeValue($key, $value);
+                Items::setter($this->step, $key, $value);
                 break;
         }
     }
@@ -150,11 +153,11 @@ class StepFormGUI extends ObjectPropertyFormGUI
             return false;
         }
 
-        if (empty($this->object->getStepId())) {
-            $this->object->setWorkflowId($this->parent->getParent()->getParent()->getWorkflow()->getWorkflowId());
+        if (empty($this->step->getStepId())) {
+            $this->step->setWorkflowId($this->parent->getParent()->getParent()->getWorkflow()->getWorkflowId());
         }
 
-        self::srUserEnrolment()->enrolmentWorkflow()->steps()->storeStep($this->object);
+        self::srUserEnrolment()->enrolmentWorkflow()->steps()->storeStep($this->step);
 
         return true;
     }

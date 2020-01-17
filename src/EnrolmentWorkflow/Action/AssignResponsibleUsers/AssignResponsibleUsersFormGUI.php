@@ -22,15 +22,15 @@ class AssignResponsibleUsersFormGUI extends AbstractActionFormGUI
     /**
      * @var AssignResponsibleUsers
      */
-    protected $object;
+    protected $action;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(ActionGUI $parent, AssignResponsibleUsers $object)
+    public function __construct(ActionGUI $parent, AssignResponsibleUsers $action)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $action);
     }
 
 

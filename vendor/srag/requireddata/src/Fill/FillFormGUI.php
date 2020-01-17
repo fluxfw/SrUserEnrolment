@@ -69,17 +69,7 @@ class FillFormGUI extends PropertyFormGUI
      */
     protected function initFields()/*: void*/
     {
-        foreach (self::requiredData()->fields()->getFields($this->parent->getParentContext(), $this->parent->getParentId()) as $field) {
-            $this->fields["field_" . $field->getId()] = array_merge(
-                [
-                    "setTitle" => $field->getLabel(),
-                    "setInfo"  => $field->getDescription()
-                ],
-                self::requiredData()->fills()->factory()->newFillFieldInstance($field)->getFormFields(),
-                [
-                    self::PROPERTY_REQUIRED => $field->isRequired()
-                ]);
-        }
+        $this->fields = self::requiredData()->fills()->getFormFields($this->parent->getParentContext(), $this->parent->getParentId());
     }
 
 

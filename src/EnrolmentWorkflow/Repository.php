@@ -4,13 +4,14 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\Repository as ActionRepository;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Repository as RequestRepository;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Repository as RuleRepository;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\Repository as SelectedWorkflowRepository;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Repository as StepRepository;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\Repository as WorkflowRepository;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\Repository as ActionsRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Repository as AssistantsRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Repository as RequestsRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Repository as RulesRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\Repository as SelectedWorkflowsRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Repository as StepsRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\Repository as WorkflowsRepository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -55,11 +56,20 @@ final class Repository
 
 
     /**
-     * @return ActionRepository
+     * @return ActionsRepository
      */
-    public function actions() : ActionRepository
+    public function actions() : ActionsRepository
     {
-        return ActionRepository::getInstance();
+        return ActionsRepository::getInstance();
+    }
+
+
+    /**
+     * @return AssistantsRepository
+     */
+    public function assistants() : AssistantsRepository
+    {
+        return AssistantsRepository::getInstance();
     }
 
 
@@ -69,6 +79,7 @@ final class Repository
     public function dropTables()/*: void*/
     {
         $this->actions()->dropTables();
+        $this->assistants()->dropTables();
         $this->requests()->dropTables();
         $this->rules()->dropTables();
         $this->selectedWorkflows()->dropTables();
@@ -104,6 +115,7 @@ final class Repository
     public function installTables()/*: void*/
     {
         $this->actions()->installTables();
+        $this->assistants()->installTables();
         $this->requests()->installTables();
         $this->rules()->installTables();
         $this->selectedWorkflows()->installTables();
@@ -119,51 +131,51 @@ final class Repository
      */
     public function isEnabled(bool $plugin_active_check = true) : bool
     {
-        return (($plugin_active_check ? self::plugin()->getPluginObject()->isActive() : true) && Config::getField(Config::KEY_SHOW_ENROLMENT_WORKFLOW));
+        return (($plugin_active_check ? self::plugin()->getPluginObject()->isActive() : true) && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW));
     }
 
 
     /**
-     * @return RequestRepository
+     * @return RequestsRepository
      */
-    public function requests() : RequestRepository
+    public function requests() : RequestsRepository
     {
-        return RequestRepository::getInstance();
+        return RequestsRepository::getInstance();
     }
 
 
     /**
-     * @return RuleRepository
+     * @return RulesRepository
      */
-    public function rules() : RuleRepository
+    public function rules() : RulesRepository
     {
-        return RuleRepository::getInstance();
+        return RulesRepository::getInstance();
     }
 
 
     /**
-     * @return SelectedWorkflowRepository
+     * @return SelectedWorkflowsRepository
      */
-    public function selectedWorkflows() : SelectedWorkflowRepository
+    public function selectedWorkflows() : SelectedWorkflowsRepository
     {
-        return SelectedWorkflowRepository::getInstance();
+        return SelectedWorkflowsRepository::getInstance();
     }
 
 
     /**
-     * @return StepRepository
+     * @return StepsRepository
      */
-    public function steps() : StepRepository
+    public function steps() : StepsRepository
     {
-        return StepRepository::getInstance();
+        return StepsRepository::getInstance();
     }
 
 
     /**
-     * @return WorkflowRepository
+     * @return WorkflowsRepository
      */
-    public function workflows() : WorkflowRepository
+    public function workflows() : WorkflowsRepository
     {
-        return WorkflowRepository::getInstance();
+        return WorkflowsRepository::getInstance();
     }
 }

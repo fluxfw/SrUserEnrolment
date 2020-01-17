@@ -10,9 +10,9 @@ use ilObjUser;
 use ilOrgUnitPosition;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs\Repository as LogRepository;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Repository as RuleRepository;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs\Repository as LogsRepository;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Repository as RulesRepository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -190,25 +190,25 @@ final class Repository
      */
     public function isEnabled() : bool
     {
-        return (self::plugin()->getPluginObject()->isActive() && Config::getField(Config::KEY_SHOW_RULES_ENROLL));
+        return (self::plugin()->getPluginObject()->isActive() && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_RULES_ENROLL));
     }
 
 
     /**
-     * @return LogRepository
+     * @return LogsRepository
      */
-    public function logs() : LogRepository
+    public function logs() : LogsRepository
     {
-        return LogRepository::getInstance();
+        return LogsRepository::getInstance();
     }
 
 
     /**
-     * @return RuleRepository
+     * @return RulesRepository
      */
-    public function rules() : RuleRepository
+    public function rules() : RulesRepository
     {
-        return RuleRepository::getInstance();
+        return RulesRepository::getInstance();
     }
 
 

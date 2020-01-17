@@ -18,15 +18,15 @@ class AlwaysFormGUI extends AbstractRuleFormGUI
     /**
      * @var Always
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, Always $object)
+    public function __construct(RuleGUI $parent, Always $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

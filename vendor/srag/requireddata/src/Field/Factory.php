@@ -102,16 +102,16 @@ final class Factory
      */
     public function newInstance(string $type) /*: ?AbstractField*/
     {
-        $action = null;
+        $field = null;
 
         foreach ($this->getClasses() as $type_class => $class) {
             if ($type_class === $type) {
-                $action = new $class();
+                $field = new $class();
                 break;
             }
         }
 
-        return $action;
+        return $field;
     }
 
 

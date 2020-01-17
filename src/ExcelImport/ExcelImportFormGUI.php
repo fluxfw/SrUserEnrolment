@@ -14,7 +14,7 @@ use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiLineNewInputGUI\MultiLineNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
-use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -66,7 +66,6 @@ class ExcelImportFormGUI extends PropertyFormGUI
             self::KEY_FIELDS => [
                 self::PROPERTY_CLASS    => MultiLineNewInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
-                "setShowInputLabel"     => MultiLineNewInputGUI::SHOW_INPUT_LABEL_ALWAYS,
                 "setShowSort"           => false,
                 self::PROPERTY_SUBITEMS => [
                     "type"           => [
@@ -472,7 +471,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function getValue(/*string*/ $key)
     {
@@ -481,13 +480,13 @@ class ExcelImportFormGUI extends PropertyFormGUI
                 return $this->{$key};
 
             default:
-                return Config::getField($key);
+                return self::srUserEnrolment()->config()->getValue($key);
         }
     }
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initCommands()/*: void*/
     {
@@ -497,7 +496,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initFields()/*: void*/
     {
@@ -509,7 +508,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
             ]
         ];
 
-        if (Config::getField(Config::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
             $this->fields += self::getExcelImportFields($this->parent);
         } else {
             foreach (get_object_vars($this) as $key => $value) {
@@ -522,7 +521,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initId()/*: void*/
     {
@@ -531,7 +530,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function initTitle()/*: void*/
     {
@@ -549,7 +548,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     protected function storeValue(/*string*/ $key, $value)/*: void*/
     {

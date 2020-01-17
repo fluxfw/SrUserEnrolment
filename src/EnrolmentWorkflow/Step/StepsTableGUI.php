@@ -219,9 +219,9 @@ class StepsTableGUI extends TableGUI
         parent::fillRow($step);
 
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->button()->shy($this->txt("edit_step"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_step"), self::dic()->ctrl()
                 ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_EDIT_STEP)),
-            self::dic()->ui()->factory()->button()->shy($this->txt("remove_step"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_step"), self::dic()->ctrl()
                 ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_REMOVE_STEP_CONFIRM))
         ])->withLabel($this->txt("actions"))));
     }

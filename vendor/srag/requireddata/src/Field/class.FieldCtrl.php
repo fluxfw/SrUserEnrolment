@@ -182,7 +182,7 @@ class FieldCtrl
             return;
         }
 
-        $this->field = $form->getObject();
+        $this->field = $form->getField();
 
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_FIELD_TYPE, $this->field->getType());
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_FIELD_ID, $this->field->getFieldId());

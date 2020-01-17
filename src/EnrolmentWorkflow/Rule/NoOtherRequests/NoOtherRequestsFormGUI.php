@@ -18,15 +18,15 @@ class NoOtherRequestsFormGUI extends AbstractRuleFormGUI
     /**
      * @var NoOtherRequests
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, NoOtherRequests $object)
+    public function __construct(RuleGUI $parent, NoOtherRequests $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

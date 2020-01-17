@@ -14,7 +14,7 @@ actions_enabled_actions#:#Aktionen aktiviert
 actions_field_course_end#:#Feld Kurs-Ende
 actions_field_course_start#:#Feld Kurs-Start
 actions_field_course_title#:#Feld Kurs-Titel
-actions_move_request#:#Anforderung verschieben
+actions_move_request#:#Anfrage verschieben
 actions_remove#:#Entfernen
 actions_remove_action#:#Aktion entfernen
 actions_remove_action_confirm#:#Möchten Sie den Aktion wirklich entfernen: %s ?
@@ -39,6 +39,25 @@ actions_type_sendnotification#:#Benachrichtigung versenden
 actions_userstype#:#Benutzer
 actions_userstype_position#:#Benutzer mit Position innerhalb einer Organisation des anfordernden Benutzers
 actions_userstype_specific_users#:#Bestimmte Benutzer
+assistants_actions#:#Aktionen
+assistants_active#:#Aktiv
+assistants_assistants#:#Assistenten
+assistants_assistant_of#:#Assistent von
+assistants_back#:#Zurück
+assistants_edit#:#Bearbeiten
+assistants_my_assistants#:#Meine Assistenten
+assistants_multi_requests_not_available#:#Mehrfach-Anfordern mit Benötigte Daten momentan nicht verfügbar
+assistants_nonone#:#Niemandem
+assistants_save#:#Speichern
+assistants_saved#:#Gespeichert
+assistants_step_action#:#%s für andere
+assistants_until#:#Bis
+assistants_until_date#:#Bis %s
+assistants_user#:#Benutzer
+assistants_user_email#:#E-Mail
+assistants_user_firstname#:#Vorname
+assistants_user_lastname#:#Nachname
+assistants_users#:#Benutzer
 config_configuration#:#Konfiguration
 config_configuration_saved#:#Konfiguration gespeichert
 config_roles#:#Rollen
@@ -114,11 +133,11 @@ logs_user_id#:#Benutzer Login
 requests_accepted#:#Angenommen
 requests_accepted_message#:#%s angenommen
 requests_actions#:#Aktionen
-requests_my_requests#:#Meine Anforderungen
+requests_my_requests#:#Meine Anfragen
 requests_no#:#Nein
 requests_object_title#:#Objekt-Titel
 requests_requested#:#%s angefordert
-requests_requests#:#Anforderungen
+requests_requests#:#Anfragen
 requests_responsible_users#:#Verantwortliche Benutzer
 requests_user_email#:#E-Mail
 requests_user_firstname#:#Vorname
@@ -176,7 +195,8 @@ rules_rule_type_group#:#Gruppe
 rules_rule_type_iliaspermission#:#ILIAS-Recht
 rules_rule_type_language#:#Benutzer-Sprache
 rules_rule_type_nomembership#:#Keine Mitgliedschaft
-rules_rule_type_nootherrequests#:#Keine anderen Anforderungen
+rules_rule_type_nootherrequests#:#Keine anderen Anfragen
+rules_rule_type_noresponsibleusersassigned#:#Keine verantwortliche Benutzer zugewiesen
 rules_rule_type_orgunitsuperior#:#Benutzer hat Position in übergeordneter Organisationseinheit
 rules_rule_type_orgunitusertype#:#Organisationseinheit Benutzer
 rules_rule_type_udf#:#Benutzerdefiniertes Feld
@@ -188,7 +208,7 @@ rules_title_field#:#Titel
 rules_type_action#:#Berechtigungen Aktion
 rules_type_check_action#:#Berechtigungen Aktion prüfen
 rules_type_course_rule#:#Einschreiben per Regel
-rules_rule_group#:#Gruppe
+rules_type_group#:#Gruppe
 rules_type_if#:#Wenn
 rules_value#:#Wert
 rules_ungroup#:#Gruppe auflösen

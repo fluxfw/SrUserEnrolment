@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group\Group;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -146,24 +147,25 @@ final class Repository
 
 
     /**
-     * @param int    $parent_context
-     * @param string $parent_id
-     * @param int    $type
-     * @param int    $user_id
-     * @param int    $obj_ref_id
-     * @param bool   $and_operator
+     * @param int          $parent_context
+     * @param string       $parent_id
+     * @param int          $type
+     * @param int          $user_id
+     * @param int          $obj_ref_id
+     * @param bool         $and_operator
+     * @param Request|null $request
      *
      * @return AbstractRule[]
      */
-    public function getCheckedRules(int $parent_context, string $parent_id, int $type, int $user_id, int $obj_ref_id, bool $and_operator = false) : array
+    public function getCheckedRules(int $parent_context, string $parent_id, int $type, int $user_id, int $obj_ref_id, bool $and_operator = false,/*?*/ Request $request = null) : array
     {
         $rules = $this->getRules($parent_context, $type, $parent_id);
         if (empty($rules)) {
             return [];
         }
 
-        $checked_rules = array_filter($rules, function (AbstractRule $rule) use ($user_id, $obj_ref_id): bool {
-            return $this->factory()->newCheckerInstance($rule)->check($user_id, $obj_ref_id);
+        $checked_rules = array_filter($rules, function (AbstractRule $rule) use ($request, $user_id, $obj_ref_id): bool {
+            return $this->factory()->newCheckerInstance($rule)->withRequest($request)->check($user_id, $obj_ref_id);
         });
         if (empty($checked_rules)) {
             return [];

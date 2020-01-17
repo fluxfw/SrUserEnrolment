@@ -4,7 +4,8 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action;
 
 use ilCheckboxInputGUI;
 use ilSrUserEnrolmentPlugin;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -14,7 +15,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractActionFormGUI extends ObjectPropertyFormGUI
+abstract class AbstractActionFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
@@ -23,18 +24,20 @@ abstract class AbstractActionFormGUI extends ObjectPropertyFormGUI
     /**
      * @var AbstractAction
      */
-    protected $object;
+    protected $action;
 
 
     /**
      * AbstractActionFormGUI constructor
      *
      * @param ActionGUI      $parent
-     * @param AbstractAction $object
+     * @param AbstractAction $action
      */
-    public function __construct(ActionGUI $parent, AbstractAction $object)
+    public function __construct(ActionGUI $parent, AbstractAction $action)
     {
-        parent::__construct($parent, $object);
+        $this->action = $action;
+
+        parent::__construct($parent);
     }
 
 
@@ -45,7 +48,7 @@ abstract class AbstractActionFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                return parent::getValue($key);
+                return Items::getter($this->action, $key);
         }
     }
 
@@ -97,8 +100,23 @@ abstract class AbstractActionFormGUI extends ObjectPropertyFormGUI
     {
         switch ($key) {
             default:
-                parent::storeValue($key, $value);
+                Items::setter($this->action, $key, $value);
                 break;
         }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        self::srUserEnrolment()->enrolmentWorkflow()->actions()->storeAction($this->action);
+
+        return true;
     }
 }

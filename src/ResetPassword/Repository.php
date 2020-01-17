@@ -7,7 +7,7 @@ use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\Config;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -99,7 +99,7 @@ final class Repository
      */
     public function isEnabled() : bool
     {
-        return (self::plugin()->getPluginObject()->isActive() && Config::getField(Config::KEY_SHOW_RESET_PASSWORD));
+        return (self::plugin()->getPluginObject()->isActive() && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_RESET_PASSWORD));
     }
 
 

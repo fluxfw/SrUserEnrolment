@@ -50,22 +50,22 @@ class Rule extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      *
      * @deprecated
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }
 
 
     /**
-     * @return string
+     * @inheritDoc
      *
      * @deprecated
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
@@ -199,9 +199,7 @@ class Rule extends ActiveRecord
 
 
     /**
-     * @param string $field_name
-     *
-     * @return mixed|null
+     * @inheritDoc
      *
      * @deprecated
      */
@@ -217,10 +215,7 @@ class Rule extends ActiveRecord
 
 
     /**
-     * @param string $field_name
-     * @param mixed  $field_value
-     *
-     * @return mixed|null
+     * @inheritDoc
      *
      * @deprecated
      */

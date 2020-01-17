@@ -24,15 +24,15 @@ class UDFFormGUI extends AbstractRuleFormGUI
     /**
      * @var UDF
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, UDF $object)
+    public function __construct(RuleGUI $parent, UDF $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

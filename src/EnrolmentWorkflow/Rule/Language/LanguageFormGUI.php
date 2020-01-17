@@ -20,15 +20,15 @@ class LanguageFormGUI extends AbstractRuleFormGUI
     /**
      * @var Language
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, Language $object)
+    public function __construct(RuleGUI $parent, Language $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

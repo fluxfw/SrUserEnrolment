@@ -4,7 +4,7 @@ namespace srag\RequiredData\SrUserEnrolment\Field;
 
 use ilRadioGroupInputGUI;
 use ilRadioOption;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
 
 /**
@@ -14,15 +14,15 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class CreateFieldFormGUI extends ObjectPropertyFormGUI
+class CreateFieldFormGUI extends PropertyFormGUI
 {
 
     use RequiredDataTrait;
     const LANG_MODULE = FieldsCtrl::LANG_MODULE;
     /**
-     * @var AbstractField
+     * @var AbstractField|null
      */
-    protected $object;
+    protected $field = null;
     /**
      * @var string
      */
@@ -38,7 +38,7 @@ class CreateFieldFormGUI extends ObjectPropertyFormGUI
     {
         $this->type = current(array_keys(self::requiredData()->fields()->factory()->getClasses()));
 
-        parent::__construct($parent, null, false);
+        parent::__construct($parent);
     }
 
 
@@ -124,12 +124,12 @@ class CreateFieldFormGUI extends ObjectPropertyFormGUI
             return false;
         }
 
-        $this->object = self::requiredData()->fields()->factory()->newInstance($this->type);
+        $this->field = self::requiredData()->fields()->factory()->newInstance($this->type);
 
-        $this->object->setParentContext($this->parent->getParent()->getParentContext());
-        $this->object->setParentId($this->parent->getParent()->getParentId());
+        $this->field->setParentContext($this->parent->getParent()->getParentContext());
+        $this->field->setParentId($this->parent->getParent()->getParentId());
 
-        self::requiredData()->fields()->storeField($this->object);
+        self::requiredData()->fields()->storeField($this->field);
 
         return true;
     }
@@ -145,5 +145,14 @@ class CreateFieldFormGUI extends ObjectPropertyFormGUI
         } else {
             return self::requiredData()->getPlugin()->translate($key, self::LANG_MODULE);
         }
+    }
+
+
+    /**
+     * @return AbstractField
+     */
+    public function getField() : AbstractField
+    {
+        return $this->field;
     }
 }

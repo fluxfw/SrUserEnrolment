@@ -222,9 +222,9 @@ class ActionsTableGUI extends TableGUI
         parent::fillRow($action);
 
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->button()->shy($this->txt("edit_action"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_action"), self::dic()->ctrl()
                 ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_EDIT_ACTION)),
-            self::dic()->ui()->factory()->button()->shy($this->txt("remove_action"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_action"), self::dic()->ctrl()
                 ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_REMOVE_ACTION_CONFIRM))
         ])->withLabel($this->txt("actions"))));
     }

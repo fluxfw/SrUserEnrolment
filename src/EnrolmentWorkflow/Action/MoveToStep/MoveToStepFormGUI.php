@@ -21,15 +21,15 @@ class MoveToStepFormGUI extends AbstractActionFormGUI
     /**
      * @var MoveToStep
      */
-    protected $object;
+    protected $action;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(ActionGUI $parent, MoveToStep $object)
+    public function __construct(ActionGUI $parent, MoveToStep $action)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $action);
     }
 
 
@@ -51,10 +51,10 @@ class MoveToStepFormGUI extends AbstractActionFormGUI
                         }, array_filter(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps(self::srUserEnrolment()
                             ->enrolmentWorkflow()
                             ->steps()
-                            ->getStepById($this->object->getStepId())
+                            ->getStepById($this->action->getStepId())
                             ->getWorkflowId()),
                             function (Step $step) : bool {
-                                return ($step->getStepId() !== $this->object->getStepId());
+                                return ($step->getStepId() !== $this->action->getStepId());
                             })),
                     "setTitle"              => self::plugin()->translate("step", StepsGUI::LANG_MODULE)
                 ]

@@ -18,15 +18,15 @@ class EnrollToCourseFormGUI extends AbstractActionFormGUI
     /**
      * @var EnrollToCourse
      */
-    protected $object;
+    protected $action;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(ActionGUI $parent, EnrollToCourse $object)
+    public function __construct(ActionGUI $parent, EnrollToCourse $action)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $action);
     }
 
 

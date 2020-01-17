@@ -25,20 +25,20 @@ class SelectedWorkflow extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }
 
 
     /**
-     * @return string
+     * @inheritDoc
      *
      * @deprecated
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
@@ -78,9 +78,7 @@ class SelectedWorkflow extends ActiveRecord
 
 
     /**
-     * @param string $field_name
-     *
-     * @return mixed|null
+     * @inheritDoc
      */
     public function sleep(/*string*/ $field_name)
     {
@@ -94,10 +92,7 @@ class SelectedWorkflow extends ActiveRecord
 
 
     /**
-     * @param string $field_name
-     * @param mixed  $field_value
-     *
-     * @return mixed|null
+     * @inheritDoc
      */
     public function wakeUp(/*string*/ $field_name, $field_value)
     {

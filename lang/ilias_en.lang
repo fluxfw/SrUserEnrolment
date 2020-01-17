@@ -39,6 +39,25 @@ actions_type_sendnotification#:#Send notification
 actions_userstype#:#Users
 actions_userstype_position#:#Users with position within a organisation of the requesting user
 actions_userstype_specific_users#:#Specific users
+assistants_actions#:#Actions
+assistants_active#:#Active
+assistants_assistants#:#Assistants
+assistants_assistant_of#:#Assistant of
+assistants_back#:#Back
+assistants_edit#:#Edit
+assistants_my_assistants#:#My assistants
+assistants_multi_requests_not_available#:#Mutli requests with required data currently not available
+assistants_nonone#:#No one
+assistants_save#:#Save
+assistants_saved#:#Saved
+assistants_step_action#:#%s for others
+assistants_until#:#Until
+assistants_until_date#:#Until %s
+assistants_user#:#User
+assistants_user_email#:#Email
+assistants_user_firstname#:#First name
+assistants_user_lastname#:#Last name
+assistants_users#:#Users
 config_configuration#:#Configuration
 config_configuration_saved#:#Configuration saved
 config_roles#:#Roles
@@ -177,6 +196,7 @@ rules_rule_type_iliaspermission#:#ILIAS permission
 rules_rule_type_language#:#User language
 rules_rule_type_nomembership#:#No membership
 rules_rule_type_nootherrequests#:#No other requests
+rules_rule_type_noresponsibleusersassigned#:#No responsible users assigned
 rules_rule_type_orgunitsuperior#:#User has position in superior organisation unit
 rules_rule_type_orgunitusertype#:#Organisation unit user
 rules_rule_type_udf#:#User definied field

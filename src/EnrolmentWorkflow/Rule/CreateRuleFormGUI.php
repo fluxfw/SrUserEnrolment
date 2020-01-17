@@ -5,7 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilSrUserEnrolmentPlugin;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\ObjectPropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -15,12 +15,16 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class CreateRuleFormGUI extends ObjectPropertyFormGUI
+class CreateRuleFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = RulesGUI::LANG_MODULE;
+    /**
+     * @var AbstractRule|null
+     */
+    protected $rule = null;
     /**
      * @var string
      */
@@ -36,7 +40,7 @@ class CreateRuleFormGUI extends ObjectPropertyFormGUI
     {
         $this->rule_type = current(array_keys(self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->getRuleTypes($parent->getParent()->getParentContext())));
 
-        parent::__construct($parent, null, false);
+        parent::__construct($parent);
     }
 
 
@@ -122,14 +126,23 @@ class CreateRuleFormGUI extends ObjectPropertyFormGUI
             return false;
         }
 
-        $this->object = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newInstance($this->rule_type);
+        $this->rule = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newInstance($this->rule_type);
 
-        $this->object->setType($this->parent->getParent()->getType());
-        $this->object->setParentContext($this->parent->getParent()->getParentContext());
-        $this->object->setParentId($this->parent->getParent()->getParentId());
+        $this->rule->setType($this->parent->getParent()->getType());
+        $this->rule->setParentContext($this->parent->getParent()->getParentContext());
+        $this->rule->setParentId($this->parent->getParent()->getParentId());
 
-        self::srUserEnrolment()->enrolmentWorkflow()->rules()->storeRule($this->object);
+        self::srUserEnrolment()->enrolmentWorkflow()->rules()->storeRule($this->rule);
 
         return true;
+    }
+
+
+    /**
+     * @return AbstractRule
+     */
+    public function getRule() : AbstractRule
+    {
+        return $this->rule;
     }
 }

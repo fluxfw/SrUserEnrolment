@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -44,6 +45,25 @@ final class Repository
     private function __construct()
     {
 
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     * @param int $step_id
+     * @param int $user_id
+     *
+     * @return bool
+     */
+    public function canRequestWithAssistant(int $obj_ref_id, int $step_id, int $user_id) : bool
+    {
+        return (($user_id === self::dic()->user()->getId()
+                && in_array($step_id,
+                    array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $user_id, $obj_ref_id))))
+            || (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())
+                && self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistant($user_id, self::dic()->user()->getId()) !== null
+                && in_array($step_id,
+                    array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $user_id, $obj_ref_id)))));
     }
 
 

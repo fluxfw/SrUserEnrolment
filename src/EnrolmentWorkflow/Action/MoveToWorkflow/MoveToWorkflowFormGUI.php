@@ -23,15 +23,15 @@ class MoveToWorkflowFormGUI extends AbstractActionFormGUI
     /**
      * @var MoveToWorkflow
      */
-    protected $object;
+    protected $action;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(ActionGUI $parent, MoveToWorkflow $object)
+    public function __construct(ActionGUI $parent, MoveToWorkflow $action)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $action);
     }
 
 
@@ -51,18 +51,18 @@ class MoveToWorkflowFormGUI extends AbstractActionFormGUI
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (Workflow $workflow) : string {
                             return $workflow->getTitle();
                         }, array_filter(self::srUserEnrolment()->enrolmentWorkflow()->workflows()->getWorkflows(), function (Workflow $workflow) : bool {
-                            return ($workflow->getWorkflowId() !== self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById($this->object->getStepId())->getWorkflowId());
+                            return ($workflow->getWorkflowId() !== self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById($this->action->getStepId())->getWorkflowId());
                         })),
                     "setTitle"              => self::plugin()->translate("workflow", WorkflowsGUI::LANG_MODULE)
                 ],
                 "move_to_step_id"     => [
                     self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
-                    self::PROPERTY_OPTIONS  => (!empty($this->object->getMoveToWorkflowId()) ? ["" => ""] + array_map(function (Step $step) : string {
+                    self::PROPERTY_OPTIONS  => (!empty($this->action->getMoveToWorkflowId()) ? ["" => ""] + array_map(function (Step $step) : string {
                             return $step->getTitle();
-                        }, self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($this->object->getMoveToWorkflowId())) : []),
+                        }, self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($this->action->getMoveToWorkflowId())) : []),
                     "setTitle"              => self::plugin()->translate("step", StepsGUI::LANG_MODULE),
-                    self::PROPERTY_NOT_ADD  => empty($this->object->getMoveToWorkflowId())
+                    self::PROPERTY_NOT_ADD  => empty($this->action->getMoveToWorkflowId())
                 ]
             ]);
     }

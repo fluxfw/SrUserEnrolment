@@ -18,15 +18,15 @@ class NoMembershipFormGUI extends AbstractRuleFormGUI
     /**
      * @var NoMembership
      */
-    protected $object;
+    protected $rule;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(RuleGUI $parent, NoMembership $object)
+    public function __construct(RuleGUI $parent, NoMembership $rule)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $rule);
     }
 
 

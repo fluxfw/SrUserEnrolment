@@ -44,9 +44,7 @@ class Job extends ilCronJob
 
 
     /**
-     * Get id
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getId() : string
     {
@@ -55,7 +53,7 @@ class Job extends ilCronJob
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getTitle() : string
     {
@@ -64,7 +62,7 @@ class Job extends ilCronJob
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getDescription() : string
     {
@@ -73,9 +71,7 @@ class Job extends ilCronJob
 
 
     /**
-     * Is to be activated on "installation"
-     *
-     * @return boolean
+     * @inheritDoc
      */
     public function hasAutoActivation() : bool
     {
@@ -84,9 +80,7 @@ class Job extends ilCronJob
 
 
     /**
-     * Can the schedule be configured?
-     *
-     * @return boolean
+     * @inheritDoc
      */
     public function hasFlexibleSchedule() : bool
     {
@@ -95,9 +89,7 @@ class Job extends ilCronJob
 
 
     /**
-     * Get schedule type
-     *
-     * @return int
+     * @inheritDoc
      */
     public function getDefaultScheduleType() : int
     {
@@ -106,20 +98,16 @@ class Job extends ilCronJob
 
 
     /**
-     * Get schedule value
-     *
-     * @return int|array
+     * @inheritDoc
      */
-    public function getDefaultScheduleValue() : int
+    public function getDefaultScheduleValue()/*:?int*/
     {
         return 12;
     }
 
 
     /**
-     * Run job
-     *
-     * @return ilCronJobResult
+     * @inheritDoc
      */
     public function run() : ilCronJobResult
     {

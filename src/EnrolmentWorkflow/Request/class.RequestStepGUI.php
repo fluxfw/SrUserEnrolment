@@ -4,13 +4,13 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ILIAS\UI\Component\Component;
 use ilLink;
-use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilSrUserEnrolmentUIHookGUI;
 use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FieldCtrl;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsRequestGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FillCtrl;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Step;
@@ -35,6 +35,7 @@ class RequestStepGUI
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_REQUEST_STEP = "requestStep";
+    const GET_PARAM_USER_ID = "user_id";
     /**
      * @var int
      */
@@ -43,6 +44,10 @@ class RequestStepGUI
      * @var Step
      */
     protected $step;
+    /**
+     * @var int
+     */
+    protected $user_id;
 
 
     /**
@@ -61,17 +66,17 @@ class RequestStepGUI
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
         $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
+        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
 
-        if (
-            self::dic()->ctrl()->getCmd() !== self::CMD_BACK
-            && !in_array($this->step->getStepId(),
-                array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, self::dic()->user()->getId(), $this->obj_ref_id)))
+        if (self::dic()->ctrl()->getCmd() !== self::CMD_BACK
+            && !self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($this->obj_ref_id, $this->step->getStepId(), $this->user_id)
         ) {
             die();
         }
 
         self::dic()->ctrl()->saveParameter($this, RequestsGUI::GET_PARAM_REF_ID);
         self::dic()->ctrl()->saveParameter($this, StepGUI::GET_PARAM_STEP_ID);
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
 
         $this->setTabs();
 
@@ -115,12 +120,30 @@ class RequestStepGUI
             $obj_ref_id = intval($matches[1]);
 
             self::dic()->ctrl()->setParameterByClass(self::class, RequestsGUI::GET_PARAM_REF_ID, $obj_ref_id);
+            self::dic()->ctrl()->setParameterByClass(AssistantsRequestGUI::class, RequestsGUI::GET_PARAM_REF_ID, $obj_ref_id);
+
             $actions = [];
             foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, self::dic()->user()->getId(), $obj_ref_id) as $step) {
                 self::dic()->ctrl()->setParameterByClass(self::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, self::dic()->user()->getId());
                 $actions[] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' . $step->getActionTitle() . '</span>',
                     self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_REQUEST_STEP));
+
+                if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
+                    foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId()) as $assistant) {
+                        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($obj_ref_id, $step->getStepId(), $assistant->getUserId())) {
+                            self::dic()->ctrl()->setParameterByClass(AssistantsRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
+                            $actions[] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' .
+                                self::plugin()->translate("step_action", AssistantsGUI::LANG_MODULE, [
+                                    $step->getActionTitle()
+                                ]) . '</span>',
+                                self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, AssistantsRequestGUI::class], AssistantsRequestGUI::CMD_LIST_USERS));
+                            break;
+                        }
+                    }
+                }
             }
+
             if (!empty($actions)) {
                 $actions_html = self::output()->getHTML(array_map(function (Component $action) : string {
                     return '<li>' . self::output()->getHTML($action) . '</li>';
@@ -178,7 +201,7 @@ class RequestStepGUI
             }
         }
 
-        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->obj_ref_id, $this->step->getStepId(), self::dic()->user()->getId());
+        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->obj_ref_id, $this->step->getStepId(), $this->user_id);
 
         ilUtil::sendSuccess(self::plugin()->translate("requested", RequestsGUI::LANG_MODULE, [$this->step->getActionTitle()]), true);
 

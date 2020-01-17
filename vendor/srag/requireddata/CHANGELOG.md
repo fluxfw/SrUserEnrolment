@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.5]
+- Fix
+
+## [0.4.4]
+- Fix dropdown usability
+
+## [0.4.3]
+- Possibility to keep field id in `formatAsStrings`
+
+## [0.4.2]
+- `getFormFields`
+
 ## [0.4.1]
 - Fix fill working without fields
 

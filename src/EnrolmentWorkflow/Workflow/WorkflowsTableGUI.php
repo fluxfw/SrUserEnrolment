@@ -166,9 +166,9 @@ class WorkflowsTableGUI extends TableGUI
         parent::fillRow($workflow);
 
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->button()->shy($this->txt("edit_workflow"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_workflow"), self::dic()->ctrl()
                 ->getLinkTargetByClass(WorkflowGUI::class, WorkflowGUI::CMD_EDIT_WORKFLOW)),
-            self::dic()->ui()->factory()->button()->shy($this->txt("remove_workflow"), self::dic()->ctrl()
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_workflow"), self::dic()->ctrl()
                 ->getLinkTargetByClass(WorkflowGUI::class, WorkflowGUI::CMD_REMOVE_WORKFLOW_CONFIRM))
         ])->withLabel($this->txt("actions"))));
     }
