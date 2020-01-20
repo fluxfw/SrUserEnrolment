@@ -63,6 +63,9 @@ class Menu extends AbstractStaticPluginMainMenuProvider
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "slot_id", "uihk");
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "pname", ilSrUserEnrolmentPlugin::PLUGIN_NAME);
 
+        self::dic()->ctrl()->setParameterByClass(AssistantsGUI::class, AssistantsGUI::GET_PARAM_USER_ID, self::dic()->user()->getId());
+        self::dic()->ctrl()->setParameterByClass(DeputiesGUI::class, DeputiesGUI::GET_PARAM_USER_ID, self::dic()->user()->getId());
+
         return [
             $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_workflows"))
                 ->withParent($parent->getProviderIdentification())

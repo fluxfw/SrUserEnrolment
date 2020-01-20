@@ -73,7 +73,10 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
         if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_RIGHT_COLUMN) {
 
-            return ["mode" => ilSrUserEnrolmentUIHookGUI::PREPEND, "html" => AssistantsGUI::getAssistantsForPersonalDesktop() . DeputiesGUI::getDeputiesForPersonalDesktop()];
+            return [
+                "mode" => ilSrUserEnrolmentUIHookGUI::PREPEND,
+                "html" => AssistantsGUI::getAssistantsForPersonalDesktop(self::dic()->user()->getId()) . DeputiesGUI::getDeputiesForPersonalDesktop(self::dic()->user()->getId())
+            ];
         }
 
         return parent::getHTML($a_comp, $a_part, $a_par);

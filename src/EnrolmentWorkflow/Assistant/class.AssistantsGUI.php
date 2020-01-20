@@ -2,7 +2,9 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
+use ilAdministrationGUI;
 use ilDatePresentation;
+use ilObjUserGUI;
 use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTemplate;
@@ -93,23 +95,27 @@ class AssistantsGUI
 
 
     /**
+     * @param int $user_id
+     *
      * @return string
      */
-    public static function getAssistantsForPersonalDesktop() : string
+    public static function getAssistantsForPersonalDesktop(int $user_id) : string
     {
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($user_id)) {
             return "";
         }
+
+        self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
 
         $tpl = self::plugin()->template("EnrolmentWorkflow/pd_assistants.html");
         $tpl->setVariable("TITLE", self::plugin()->translate("my_assistants", self::LANG_MODULE));
         $tpl->setVariable("EDIT_LINK", self::output()->getHTML(self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("edit", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_ASSISTANTS))));
-        $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants(self::dic()->user()->getId());
+        $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants($user_id);
         if (!empty($assistants)) {
             $tpl->setCurrentBlock("assistants");
 
-            foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants(self::dic()->user()->getId()) as $assistant) {
+            foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants($user_id) as $assistant) {
                 $tpl->setVariable("USER", $assistant->getAssistantUser()->getFullname());
                 if ($assistant->getUntil() !== null) {
                     $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
@@ -126,7 +132,7 @@ class AssistantsGUI
 
         $tpl2 = self::plugin()->template("EnrolmentWorkflow/pd_assistants.html");
         $tpl2->setVariable("TITLE", self::plugin()->translate("assistant_of", self::LANG_MODULE));
-        $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId());
+        $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf($user_id);
         if (!empty($assistants)) {
             $tpl2->setCurrentBlock("assistants");
 
@@ -176,7 +182,7 @@ class AssistantsGUI
 
         self::dic()
             ->tabs()
-            ->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate(($this->user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "assistants", self::LANG_MODULE), self::dic()->ctrl()
+            ->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate(($this->user_id === intval($user_id) ? "my_" : "") . "assistants", self::LANG_MODULE), self::dic()->ctrl()
                 ->getLinkTargetByClass(self::class, self::CMD_EDIT_ASSISTANTS));
     }
 
@@ -186,7 +192,12 @@ class AssistantsGUI
      */
     protected function back()/*:void*/
     {
-        self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
+        if ($this->user_id === intval(self::dic()->user()->getId())) {
+            self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
+        } else {
+            self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "obj_id", $this->user_id);
+            self::dic()->ctrl()->redirectByClass([ilAdministrationGUI::class, ilObjUserGUI::class], "view");
+        }
     }
 
 

@@ -2,7 +2,9 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy;
 
+use ilAdministrationGUI;
 use ilDatePresentation;
+use ilObjUserGUI;
 use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTemplate;
@@ -93,23 +95,27 @@ class DeputiesGUI
 
 
     /**
+     * @param int $user_id
+     *
      * @return string
      */
-    public static function getDeputiesForPersonalDesktop() : string
+    public static function getDeputiesForPersonalDesktop(int $user_id) : string
     {
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId())) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($user_id)) {
             return "";
         }
+
+        self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
 
         $tpl = self::plugin()->template("EnrolmentWorkflow/pd_deputies.html");
         $tpl->setVariable("TITLE", self::plugin()->translate("my_deputies", self::LANG_MODULE));
         $tpl->setVariable("EDIT_LINK", self::output()->getHTML(self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("edit", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_DEPUTIES))));
-        $deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputies(self::dic()->user()->getId());
+        $deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputies($user_id);
         if (!empty($deputies)) {
             $tpl->setCurrentBlock("deputies");
 
-            foreach (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputies(self::dic()->user()->getId()) as $deputy) {
+            foreach (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputies($user_id) as $deputy) {
                 $tpl->setVariable("USER", $deputy->getDeputyUser()->getFullname());
                 if ($deputy->getUntil() !== null) {
                     $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
@@ -126,7 +132,7 @@ class DeputiesGUI
 
         $tpl2 = self::plugin()->template("EnrolmentWorkflow/pd_deputies.html");
         $tpl2->setVariable("TITLE", self::plugin()->translate("deputy_of", self::LANG_MODULE));
-        $deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputiesOf(self::dic()->user()->getId());
+        $deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputiesOf($user_id);
         if (!empty($deputies)) {
             foreach ($deputies as $deputy) {
                 $tpl2->setCurrentBlock("deputies");
@@ -176,7 +182,7 @@ class DeputiesGUI
 
         self::dic()
             ->tabs()
-            ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($this->user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
+            ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($this->user_id === intval($user_id) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
                 ->getLinkTargetByClass(self::class, self::CMD_EDIT_DEPUTIES));
     }
 
@@ -186,7 +192,12 @@ class DeputiesGUI
      */
     protected function back()/*:void*/
     {
-        self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
+        if ($this->user_id === intval(self::dic()->user()->getId())) {
+            self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
+        } else {
+            self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "obj_id", $this->user_id);
+            self::dic()->ctrl()->redirectByClass([ilAdministrationGUI::class, ilObjUserGUI::class], "view");
+        }
     }
 
 
