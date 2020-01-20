@@ -209,7 +209,7 @@ class AssistantsRequestGUI
         }
 
         $user_ids = array_filter($user_ids, function (int $user_id) use ($obj_ref_id, $step): bool {
-            return self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($obj_ref_id, $step->getStepId(), $user_id);
+            return self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($obj_ref_id, $step->getStepId(), self::dic()->user()->getId(), $user_id);
         });
 
         foreach ($user_ids as $user_id) {

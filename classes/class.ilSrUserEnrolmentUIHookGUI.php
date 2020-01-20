@@ -2,6 +2,7 @@
 
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestInfoGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
@@ -72,7 +73,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
         if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_RIGHT_COLUMN) {
 
-            return AssistantsGUI::addAssistantsToPersonalDesktop();
+            return ["mode" => ilSrUserEnrolmentUIHookGUI::PREPEND, "html" => AssistantsGUI::getAssistantsForPersonalDesktop() . DeputiesGUI::getDeputiesForPersonalDesktop()];
         }
 
         return parent::getHTML($a_comp, $a_part, $a_par);
@@ -91,6 +92,8 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
             ) {
 
                 AssistantsGUI::addTabs();
+
+                DeputiesGUI::addTabs();
             }
         }
 

@@ -65,6 +65,20 @@ config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
 config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
+deputies_actions#:#Aktionen
+deputies_active#:#Aktiv
+deputies_deputies#:#Vertreter
+deputies_deputy_of#:#Vertreter von
+deputies_back#:#Zurück
+deputies_edit#:#Bearbeiten
+deputies_info#:#Vertreter, welche ein Benutzer selber definiert, können in dessen Namen berechtigte Anfragen annehmen
+deputies_my_deputies#:#Meine Vertreter
+deputies_nonone#:#Niemandem
+deputies_save#:#Speichern
+deputies_saved#:#Gespeichert
+deputies_until#:#Bis
+deputies_until_date#:#Bis %s
+deputies_user#:#Benutzer
 excel_import_cancel#:#Abbrechen
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_count_skip_top_rows_info#:#Bitte Spalten-Überschriff-Zeile nicht mit einbeziehen

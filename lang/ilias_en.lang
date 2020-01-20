@@ -45,7 +45,7 @@ assistants_assistants#:#Assistants
 assistants_assistant_of#:#Assistant of
 assistants_back#:#Back
 assistants_edit#:#Edit
-assistants_info#:#Assistants, which an user defines self, can start request in its name
+assistants_info#:#Assistants, which an user defines self, can start requests in its name
 assistants_my_assistants#:#My assistants
 assistants_nonone#:#No one
 assistants_save#:#Save
@@ -65,6 +65,20 @@ config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
 config_show_excel_import_config#:#User can adjust these values on import
+deputies_actions#:#Actions
+deputies_active#:#Active
+deputies_deputies#:#Deputies
+deputies_deputy_of#:#Deputy of
+deputies_back#:#Back
+deputies_edit#:#Edit
+deputies_info#:#Deputies, which an user defines self, can accept permitted requests in its name
+deputies_my_deputies#:#My deputies
+deputies_nonone#:#No one
+deputies_save#:#Save
+deputies_saved#:#Saved
+deputies_until#:#Until
+deputies_until_date#:#Until %s
+deputies_user#:#User
 excel_import_cancel#:#Cancel
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_count_skip_top_rows_info#:#Please not include column heading row

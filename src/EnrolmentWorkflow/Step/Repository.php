@@ -135,12 +135,13 @@ final class Repository
 
     /**
      * @param int $type
-     * @param int $user_id
+     * @param int $check_user_id
+     * @param int $request_user_id
      * @param int $obj_ref_id
      *
      * @return Step[]
      */
-    public function getStepsForRequest(int $type, int $user_id, int $obj_ref_id) : array
+    public function getStepsForRequest(int $type, int $check_user_id, int $request_user_id, int $obj_ref_id) : array
     {
         if (!self::srUserEnrolment()->enrolmentWorkflow()->isEnabled()) {
             return [];
@@ -152,14 +153,14 @@ final class Repository
             return [];
         }
 
-        $steps = array_filter($this->getSteps($workflow_id), function (Step $step) use ($type, $user_id, $obj_ref_id): bool {
-            if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($obj_ref_id, $step->getStepId(), $user_id) !== null) {
+        $steps = array_filter($this->getSteps($workflow_id), function (Step $step) use ($type, $check_user_id, $request_user_id, $obj_ref_id): bool {
+            if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($obj_ref_id, $step->getStepId(), $request_user_id) !== null) {
                 return false;
             }
 
             return (!empty(self::srUserEnrolment()->enrolmentWorkflow()
                 ->rules()
-                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_STEP, $step->getStepId(), $type, $user_id, $obj_ref_id)));
+                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_STEP, $step->getStepId(), $type, $check_user_id, $obj_ref_id)));
         });
 
         return $steps;
@@ -168,34 +169,41 @@ final class Repository
 
     /**
      * @param Request $request
-     * @param int     $user_id
+     * @param int     $check_user_id
      *
      * @return Step[]
      */
-    public function getStepsForAcceptRequest(Request $request, int $user_id) : array
+    public function getStepsForAcceptRequest(Request $request, int $check_user_id) : array
     {
         if ($request->isAccepted()) {
             return [];
         }
 
-        return array_filter($this->getStepsForRequest(AbstractRule::TYPE_STEP_CHECK_ACTION, $user_id, $request->getObjRefId()), function (Step $step) use ($request): bool {
+        return array_filter($this->getStepsForRequest(AbstractRule::TYPE_STEP_CHECK_ACTION, $check_user_id, $request->getUserId(), $request->getObjRefId()) + ((self::srUserEnrolment()
+                    ->enrolmentWorkflow()
+                    ->deputies()
+                    ->hasAccess($check_user_id)
+                && self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputy($request->getUserId(), $check_user_id) !== null)
+                ? $this->getStepsForRequest(AbstractRule::TYPE_STEP_CHECK_ACTION,
+                    $request->getUserId(), $request->getUserId(), $request->getObjRefId()) : []),
+            function (Step $step) use ($request): bool {
 
-            if ($step->getStepId() === $request->getStepId()) {
-                return false;
-            }
+                if ($step->getStepId() === $request->getStepId()) {
+                    return false;
+                }
 
-            if ($step->getSort() < $request->getStep()->getSort()) {
-                return false;
-            }
+                if ($step->getSort() < $request->getStep()->getSort()) {
+                    return false;
+                }
 
-            $step_request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($request->getObjRefId(), $step->getStepId(), $request->getUserId());
+                $step_request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($request->getObjRefId(), $step->getStepId(), $request->getUserId());
 
-            if ($step_request !== null/* || $step_request->isAccepted()*/) {
-                return false;
-            }
+                if ($step_request !== null/* || $step_request->isAccepted()*/) {
+                    return false;
+                }
 
-            return true;
-        });
+                return true;
+            });
     }
 
 

@@ -10,6 +10,7 @@ use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -95,7 +96,7 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 }),
             $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_assistants"))
                 ->withParent($parent->getProviderIdentification())
-                ->withTitle(self::plugin()->translate("assistants", AssistantsGUI::LANG_MODULE))
+                ->withTitle(self::plugin()->translate("my_assistants", AssistantsGUI::LANG_MODULE))
                 ->withAction(self::dic()->ctrl()
                     ->getLinkTargetByClass([
                         ilUIPluginRouterGUI::class,
@@ -107,6 +108,20 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 ->withVisibilityCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId());
                 }),
+            $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_deputies"))
+                ->withParent($parent->getProviderIdentification())
+                ->withTitle(self::plugin()->translate("my_deputies", DeputiesGUI::LANG_MODULE))
+                ->withAction(self::dic()->ctrl()
+                    ->getLinkTargetByClass([
+                        ilUIPluginRouterGUI::class,
+                        DeputiesGUI::class
+                    ], DeputiesGUI::CMD_EDIT_DEPUTIES))
+                ->withAvailableCallable(function () : bool {
+                    return self::srUserEnrolment()->enrolmentWorkflow()->deputies()->isEnabled();
+                })
+                ->withVisibilityCallable(function () : bool {
+                    return self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId());
+                })
         ];
     }
 }

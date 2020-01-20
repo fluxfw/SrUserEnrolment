@@ -155,7 +155,10 @@ class AssistantsRequestTableGUI extends TableGUI
         $data = array_filter(self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId()),
             function (Assistant $assistant) use ($user_lastname, $user_firstname, $user_email) : bool {
                 if (!in_array($this->parent_obj->getStep()->getStepId(),
-                    array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $assistant->getUserId(), $this->parent_obj->getObjRefId())))
+                    array_keys(self::srUserEnrolment()
+                        ->enrolmentWorkflow()
+                        ->steps()
+                        ->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $assistant->getUserId(), $assistant->getUserId(), $this->parent_obj->getObjRefId())))
                 ) {
                     return false;
                 }

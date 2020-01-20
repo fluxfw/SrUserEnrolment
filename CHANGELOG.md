@@ -1,7 +1,9 @@
 # Changelog
 
 ## [x]
+- Enrolment workflow deputies
 - Support required data for multiple requests
+- Fixes
 
 ## [3.1.0]
 - 'No responsible users assigned' rule

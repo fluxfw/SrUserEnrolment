@@ -9,19 +9,19 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\' => 18,
+            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
-            'srag\\ActiveRecordConfig\\' => 24,
+            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\' => 
+        'srag\\RequiredData\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
@@ -49,7 +49,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\ActiveRecordConfig\\' => 
+        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -413,6 +413,11 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\AssistantsRequestTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Assistant/AssistantsRequestTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\Factory' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Assistant/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Assistant\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Assistant/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\DeputiesFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/DeputiesFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\DeputiesGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/class.DeputiesGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Deputy' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Deputy.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Factory' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Factory.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\AbstractRequestsTableModifications' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/AbstractRequestsTableModifications.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\AcceptRequestGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.AcceptRequestGUI.php',
