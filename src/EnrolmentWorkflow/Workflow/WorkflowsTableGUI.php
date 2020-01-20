@@ -76,7 +76,7 @@ class WorkflowsTableGUI extends TableGUI
                 "id"      => "title",
                 "default" => true,
                 "sort"    => false,
-                "txt"     => $this->txt("title_field")
+                "txt"     => $this->txt("title")
             ]
         ];
 

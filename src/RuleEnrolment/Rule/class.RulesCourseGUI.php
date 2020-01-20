@@ -108,7 +108,7 @@ class RulesCourseGUI
         if (self::srUserEnrolment()->ruleEnrolment()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
-            self::dic()->tabs()->addSubTab(self::TAB_RULES, self::plugin()->translate("title", RulesGUI::LANG_MODULE), self::dic()
+            self::dic()->tabs()->addSubTab(self::TAB_RULES, self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE), self::dic()
                 ->ctrl()->getLinkTargetByClass([
                     ilUIPluginRouterGUI::class,
                     self::class

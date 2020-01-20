@@ -83,8 +83,8 @@ class ConfigFormGUI extends PropertyFormGUI
             ],
             self::KEY_SHOW_RULES_ENROLL       => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
-                    self::plugin()->translate("title", RulesGUI::LANG_MODULE)
+                "setTitle"           => self::plugin()->translate("enable", self::LANG_MODULE, [
+                    self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE)
                 ])
             ],
             self::KEY_SHOW_EXCEL_IMPORT       => [
@@ -94,13 +94,13 @@ class ConfigFormGUI extends PropertyFormGUI
                             self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                         ]
                     ] + ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI()),
-                "setTitle"              => self::plugin()->translate("show", self::LANG_MODULE, [
+                "setTitle"              => self::plugin()->translate("enable", self::LANG_MODULE, [
                     self::plugin()->translate("title", ExcelImportGUI::LANG_MODULE)
                 ])
             ],
             self::KEY_SHOW_RESET_PASSWORD     => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
+                "setTitle"           => self::plugin()->translate("enable", self::LANG_MODULE, [
                     self::plugin()->translate("title", ResetPasswordGUI::LANG_MODULE)
                 ])
             ],
@@ -109,13 +109,14 @@ class ConfigFormGUI extends PropertyFormGUI
                 self::PROPERTY_SUBITEMS => [
                     self::KEY_SHOW_ASSISTANTS => [
                         self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                        "setTitle"           => self::plugin()->translate("show", self::LANG_MODULE, [
+                        "setTitle"           => self::plugin()->translate("enable", self::LANG_MODULE, [
                             self::plugin()->translate("assistants", AssistantsGUI::LANG_MODULE)
-                        ])
+                        ]),
+                        "setInfo"            => self::plugin()->translate("info", AssistantsGUI::LANG_MODULE)
                     ],
                 ],
-                "setTitle"              => self::plugin()->translate("show", self::LANG_MODULE, [
-                    self::plugin()->translate("title", WorkflowsGUI::LANG_MODULE)
+                "setTitle"              => self::plugin()->translate("enable", self::LANG_MODULE, [
+                    self::plugin()->translate("workflows", WorkflowsGUI::LANG_MODULE)
                 ])
             ]
         ];

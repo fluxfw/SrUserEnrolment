@@ -70,7 +70,7 @@ class OrgUnitUserType extends AbstractRule
 
         switch ($this->org_unit_use_type) {
             case self::ORG_UNIT_USER_TYPE_TITLE:
-                $descriptions[] = self::plugin()->translate("title_field", RulesGUI::LANG_MODULE) . " " . $this->getOperatorTitle() . " " . $this->title;
+                $descriptions[] = self::plugin()->translate("title", RulesGUI::LANG_MODULE) . " " . $this->getOperatorTitle() . " " . $this->title;
                 break;
 
             case self::ORG_UNIT_USER_TYPE_TREE:
