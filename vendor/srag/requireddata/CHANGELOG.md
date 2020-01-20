@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.4.6]
+- `clearTempFillValues`
+
 ## [0.4.5]
 - Fix
 

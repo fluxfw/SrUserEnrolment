@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Support required data for multiple requests
+
 ## [3.1.0]
 - 'No responsible users assigned' rule
 - Enrolment workflow assistants

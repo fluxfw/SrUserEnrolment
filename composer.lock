@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "srag/activerecordconfig",
-            "version": "v0.19.0",
+            "version": "v0.19.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/ActiveRecordConfig.git",
-                "reference": "c63344d4ba5414617266773793eb57d7a7ffd61c"
+                "reference": "cb6cd5ea2357897df116ea877f2705386658b8cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/c63344d4ba5414617266773793eb57d7a7ffd61c",
-                "reference": "c63344d4ba5414617266773793eb57d7a7ffd61c",
+                "url": "https://api.github.com/repos/studer-raimann/ActiveRecordConfig/zipball/cb6cd5ea2357897df116ea877f2705386658b8cd",
+                "reference": "cb6cd5ea2357897df116ea877f2705386658b8cd",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
                 "activerecord",
                 "config"
             ],
-            "time": "2020-01-17T09:04:56+00:00"
+            "time": "2020-01-17T11:46:52+00:00"
         },
         {
             "name": "srag/custominputguis",
@@ -282,16 +282,16 @@
         },
         {
             "name": "srag/requireddata",
-            "version": "v0.4.5",
+            "version": "v0.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/RequiredData.git",
-                "reference": "5fc21865766b9a3cb0c36b41d07aa401e70f29a5"
+                "reference": "c1f32ed1f871ac6f82a8ce21d1fff0b34cc52ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/5fc21865766b9a3cb0c36b41d07aa401e70f29a5",
-                "reference": "5fc21865766b9a3cb0c36b41d07aa401e70f29a5",
+                "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/c1f32ed1f871ac6f82a8ce21d1fff0b34cc52ffb",
+                "reference": "c1f32ed1f871ac6f82a8ce21d1fff0b34cc52ffb",
                 "shasum": ""
             },
             "require": {
@@ -302,7 +302,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\RequiredData\\SrUserEnrolment\\": "src/"
+                    "srag\\RequiredData\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -324,7 +324,7 @@
                 "field",
                 "required"
             ],
-            "time": "2020-01-16T08:13:36+00:00"
+            "time": "2020-01-20T07:10:42+00:00"
         },
         {
             "name": "twig/twig",

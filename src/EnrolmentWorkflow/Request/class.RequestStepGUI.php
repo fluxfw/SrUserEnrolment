@@ -84,7 +84,7 @@ class RequestStepGUI
 
         switch (strtolower($next_class)) {
             case strtolower(FillCtrl::class):
-                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId()));
+                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId(), FillCtrl::RETURN_REQUEST_STEP));
                 break;
 
             default:
@@ -180,6 +180,8 @@ class RequestStepGUI
      */
     protected function back()/*: void*/
     {
+        self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
+
         self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->tree()->getParentId($this->obj_ref_id)));
     }
 
@@ -199,9 +201,11 @@ class RequestStepGUI
 
                 return;
             }
+        } else {
+            $required_data = null;
         }
 
-        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->obj_ref_id, $this->step->getStepId(), $this->user_id);
+        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->obj_ref_id, $this->step->getStepId(), $this->user_id, $required_data);
 
         ilUtil::sendSuccess(self::plugin()->translate("requested", RequestsGUI::LANG_MODULE, [$this->step->getActionTitle()]), true);
 
