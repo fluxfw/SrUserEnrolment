@@ -106,7 +106,7 @@ class AssistantsFormGUI extends PropertyFormGUI
      */
     protected function initTitle()/*: void*/
     {
-        $this->setTitle($this->txt("my_assistants"));
+        $this->setTitle($this->txt(($this->parent->getUserId() === intval(self::dic()->user()->getId()) ? "my_" : "") . "assistants"));
     }
 
 

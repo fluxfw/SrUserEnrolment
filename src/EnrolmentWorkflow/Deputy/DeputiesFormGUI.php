@@ -106,7 +106,7 @@ class DeputiesFormGUI extends PropertyFormGUI
      */
     protected function initTitle()/*: void*/
     {
-        $this->setTitle($this->txt("my_deputies"));
+        $this->setTitle($this->txt(($this->parent->getUserId() === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies"));
     }
 
 

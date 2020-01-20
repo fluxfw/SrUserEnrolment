@@ -31,8 +31,13 @@ class AssistantsGUI
     const CMD_EDIT_ASSISTANTS = "editAssistants";
     const CMD_UPDATE_ASSISTANTS = "updateAssistants";
     const CMD_USER_AUTOCOMPLETE = "userAutoComplete";
+    const GET_PARAM_USER_ID = "user_id";
     const LANG_MODULE = "assistants";
     const TAB_EDIT_ASSISTANTS = "edit_assistants";
+    /**
+     * @var int
+     */
+    protected $user_id;
     /**
      * @var array
      */
@@ -53,11 +58,15 @@ class AssistantsGUI
      */
     public function executeCommand()/*: void*/
     {
-        $this->assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistantsArray(self::dic()->user()->getId());
+        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
 
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($this->user_id)) {
             die();
         }
+
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
+
+        $this->assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistantsArray($this->user_id);
 
         $this->setTabs();
 
@@ -141,13 +150,16 @@ class AssistantsGUI
 
 
     /**
-     *
+     * @param int $user_id
      */
-    public static function addTabs()/*: void*/
+    public static function addTabs(int $user_id)/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
-            self::dic()->tabs()->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate("my_assistants", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_ASSISTANTS));
+        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($user_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
+            self::dic()
+                ->tabs()
+                ->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate(($user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "assistants", self::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_ASSISTANTS));
         }
     }
 
@@ -162,8 +174,10 @@ class AssistantsGUI
         self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));
 
-        self::dic()->tabs()->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate("my_assistants", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTargetByClass(self::class, self::CMD_EDIT_ASSISTANTS));
+        self::dic()
+            ->tabs()
+            ->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate(($this->user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "assistants", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass(self::class, self::CMD_EDIT_ASSISTANTS));
     }
 
 
@@ -204,7 +218,7 @@ class AssistantsGUI
             return;
         }
 
-        $this->assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->storeUserAssistantsArray(self::dic()->user()->getId(), $form->getAssistants());
+        $this->assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->storeUserAssistantsArray($this->user_id, $form->getAssistants());
 
         ilUtil::sendSuccess(self::plugin()->translate("saved", self::LANG_MODULE), true);
 
@@ -231,5 +245,14 @@ class AssistantsGUI
         echo $auto->getList(filter_input(INPUT_GET, "term"));
 
         exit;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getUserId() : int
+    {
+        return $this->user_id;
     }
 }

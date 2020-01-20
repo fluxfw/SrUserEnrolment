@@ -186,7 +186,15 @@ final class Repository
             return false;
         }
 
-        return ($user_id !== ANONYMOUS_USER_ID);
+        if ($user_id === ANONYMOUS_USER_ID) {
+            return false;
+        }
+
+        if ($user_id === intval(self::dic()->user()->getId())) {
+            return true;
+        }
+
+        return self::dic()->access()->checkAccessOfUser(self::dic()->user()->getId(), "write", "", 7);
     }
 
 

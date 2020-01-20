@@ -31,8 +31,13 @@ class DeputiesGUI
     const CMD_EDIT_DEPUTIES = "editDeputies";
     const CMD_UPDATE_DEPUTIES = "updateDeputies";
     const CMD_USER_AUTOCOMPLETE = "userAutoComplete";
+    const GET_PARAM_USER_ID = "user_id";
     const LANG_MODULE = "deputies";
     const TAB_EDIT_DEPUTIES = "edit_deputies";
+    /**
+     * @var int
+     */
+    protected $user_id;
     /**
      * @var array
      */
@@ -53,11 +58,15 @@ class DeputiesGUI
      */
     public function executeCommand()/*: void*/
     {
-        $this->deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputiesArray(self::dic()->user()->getId());
+        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
 
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId())) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($this->user_id)) {
             die();
         }
+
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
+
+        $this->deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputiesArray($this->user_id);
 
         $this->setTabs();
 
@@ -141,13 +150,16 @@ class DeputiesGUI
 
 
     /**
-     *
+     * @param int $user_id
      */
-    public static function addTabs()/*: void*/
+    public static function addTabs(int $user_id)/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId())) {
-            self::dic()->tabs()->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate("my_deputies", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_DEPUTIES));
+        if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($user_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
+            self::dic()
+                ->tabs()
+                ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_DEPUTIES));
         }
     }
 
@@ -162,8 +174,10 @@ class DeputiesGUI
         self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));
 
-        self::dic()->tabs()->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate("my_deputies", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTargetByClass(self::class, self::CMD_EDIT_DEPUTIES));
+        self::dic()
+            ->tabs()
+            ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($this->user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass(self::class, self::CMD_EDIT_DEPUTIES));
     }
 
 
@@ -204,7 +218,7 @@ class DeputiesGUI
             return;
         }
 
-        $this->deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->storeUserDeputiesArray(self::dic()->user()->getId(), $form->getDeputies());
+        $this->deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->storeUserDeputiesArray($this->user_id, $form->getDeputies());
 
         ilUtil::sendSuccess(self::plugin()->translate("saved", self::LANG_MODULE), true);
 
@@ -231,5 +245,14 @@ class DeputiesGUI
         echo $auto->getList(filter_input(INPUT_GET, "term"));
 
         exit;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getUserId() : int
+    {
+        return $this->user_id;
     }
 }

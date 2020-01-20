@@ -3,6 +3,7 @@
 ## [x]
 - Enrolment workflow deputies
 - Support required data for multiple requests
+- Manage assistants for each user also on administration (like deputies)
 - Fixes
 
 ## [3.1.0]

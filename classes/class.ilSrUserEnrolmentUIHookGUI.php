@@ -91,9 +91,23 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 })) > 0
             ) {
 
-                AssistantsGUI::addTabs();
+                AssistantsGUI::addTabs(self::dic()->user()->getId());
 
-                DeputiesGUI::addTabs();
+                DeputiesGUI::addTabs(self::dic()->user()->getId());
+            }
+        }
+
+        if ($a_part === self::PAR_TABS) {
+            if (count(array_filter(self::dic()->ctrl()->getCallHistory(), function (array $history) : bool {
+                    return (strtolower($history["class"]) === strtolower(ilObjUserGUI::class));
+                })) > 0
+            ) {
+
+                $user_id = intval(filter_input(INPUT_GET, "obj_id"));
+
+                AssistantsGUI::addTabs($user_id);
+
+                DeputiesGUI::addTabs($user_id);
             }
         }
 
