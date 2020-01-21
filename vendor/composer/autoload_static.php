@@ -9,23 +9,23 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
-            'srag\\RemovePluginDataConfirm\\' => 29,
+            'srag\\RequiredData\\' => 18,
+            'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
-            'srag\\ActiveRecordConfig\\' => 24,
+            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\SrUserEnrolment\\' => 
+        'srag\\RequiredData\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
-        'srag\\RemovePluginDataConfirm\\' => 
+        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -49,7 +49,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\ActiveRecordConfig\\' => 
+        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -551,6 +551,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Date\\DateField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Date/DateField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Date\\DateFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Date/DateFieldFormGUI.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Date\\DateFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Date/DateFillField.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\Email\\EmailField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Email/EmailField.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\Email\\EmailFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Email/EmailFieldFormGUI.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\Email\\EmailFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Email/EmailFillField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Factory' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Factory.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\FieldCtrl' => __DIR__ . '/..' . '/srag/requireddata/src/Field/class.FieldCtrl.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\FieldsCtrl' => __DIR__ . '/..' . '/srag/requireddata/src/Field/class.FieldsCtrl.php',

@@ -19,6 +19,7 @@ required_data_label#:#Label
 required_data_max_value#:#Max value
 required_data_min_value#:#Min value
 required_data_options#:#Options
+required_data_please_select#:#please select
 required_data_remove#:#Remove
 required_data_remove_field#:#Remove field
 required_data_remove_field_confirm#:#Are you really want to remove the field: %s ?
@@ -32,6 +33,7 @@ required_data_saved_field#:#Field %s saved
 required_data_type#:#Type
 required_data_type_checkboxfield#:#Checkbox
 required_data_type_datefield#:#Date
+required_data_type_emailfield#:#Email
 required_data_type_floatfield#:#Float
 required_data_type_integerfield#:#Integer
 required_data_type_multilinetextfield#:#Multiline text

@@ -4,6 +4,7 @@ namespace srag\RequiredData\SrUserEnrolment\Field\Select;
 
 use ilSelectInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\RequiredData\SrUserEnrolment\Field\FieldsCtrl;
 use srag\RequiredData\SrUserEnrolment\Fill\AbstractFillField;
 
 /**
@@ -38,7 +39,7 @@ class SelectFillField extends AbstractFillField
     {
         return [
             PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
-            PropertyFormGUI::PROPERTY_OPTIONS => ["" => ""] + $this->field->getSelectOptions()
+            PropertyFormGUI::PROPERTY_OPTIONS => ["&lt;" . self::requiredData()->getPlugin()->translate("please_select", FieldsCtrl::LANG_MODULE) . "&gt;"] + $this->field->getSelectOptions()
         ];
     }
 

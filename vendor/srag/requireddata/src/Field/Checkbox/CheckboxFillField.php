@@ -58,11 +58,13 @@ class CheckboxFillField extends AbstractFillField
     public function formatAsString($fill_value) : string
     {
         if ($fill_value) {
-            $img = ilUtil::getImagePath("icon_ok.svg");
+            $img_path = ilUtil::getImagePath("icon_ok.svg");
         } else {
-            $img = ilUtil::getImagePath("icon_not_ok.svg");
+            $img_path = ilUtil::getImagePath("icon_not_ok.svg");
         }
 
-        return self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($img, ""));
+        $img_path = ILIAS_HTTP_PATH . substr($img_path, 1);
+
+        return self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($img_path, ""));
     }
 }
