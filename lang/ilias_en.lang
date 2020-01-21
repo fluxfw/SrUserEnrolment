@@ -48,7 +48,7 @@ assistants_check_inactive_assistants#:#Check inactive assistants
 assistants_check_inactive_assistants_description#:#Removes disabled users as assistant and set assistants inactive if the until date is reached
 assistants_check_inactive_assistants_status#:#%1$s assistants removed\n%2$s assistants set inactive
 assistants_edit#:#Edit
-assistants_info#:#Assistants, which an user defines self, can start requests in its name
+assistants_info#:#Assistants, which an user defines self, can start permitted requests in its name
 assistants_my_assistants#:#My assistants
 assistants_nonone#:#No one
 assistants_save#:#Save
