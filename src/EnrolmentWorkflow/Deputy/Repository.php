@@ -67,7 +67,7 @@ final class Repository
     /**
      * @param Deputy $deputy
      */
-    protected function deleteDeputy(Deputy $deputy)/*:void*/
+    public function deleteDeputy(Deputy $deputy)/*:void*/
     {
         $deputy->delete();
     }
@@ -115,6 +115,15 @@ final class Repository
         $deputy = $where->first();
 
         return $deputy;
+    }
+
+
+    /**
+     * @return Deputy[]
+     */
+    public function getDeputies() : array
+    {
+        return Deputy::get();
     }
 
 
@@ -264,7 +273,7 @@ final class Repository
     /**
      * @param Deputy $deputy
      */
-    protected function storeDeputy(Deputy $deputy)/*:void*/
+    public function storeDeputy(Deputy $deputy)/*:void*/
     {
         $deputy->store();
     }

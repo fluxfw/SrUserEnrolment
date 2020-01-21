@@ -44,6 +44,9 @@ assistants_active#:#Active
 assistants_assistants#:#Assistants
 assistants_assistant_of#:#Assistant of
 assistants_back#:#Back
+assistants_check_inactive_assistants#:#Check inactive assistants
+assistants_check_inactive_assistants_description#:#Removes disabled users as assistant and set assistants inactive if the until date is reached
+assistants_check_inactive_assistants_status#:#%1$s assistants removed\n%2$s assistants set inactive
 assistants_edit#:#Edit
 assistants_info#:#Assistants, which an user defines self, can start requests in its name
 assistants_my_assistants#:#My assistants
@@ -70,6 +73,9 @@ deputies_active#:#Active
 deputies_deputies#:#Deputies
 deputies_deputy_of#:#Deputy of
 deputies_back#:#Back
+deputies_check_inactive_deputies#:#Check inactive deputies
+deputies_check_inactive_deputies_description#:#Removes disabled users as deputy and set deputies inactive if the until date is reached
+deputies_check_inactive_deputies_status#:#%1$s deputies removed\n%2$s deputies set inactive
 deputies_edit#:#Edit
 deputies_info#:#Deputies, which an user defines self, can accept permitted requests in its name
 deputies_my_deputies#:#My deputies

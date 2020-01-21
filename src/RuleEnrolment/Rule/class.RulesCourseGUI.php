@@ -168,7 +168,7 @@ class RulesCourseGUI
      */
     protected function runRules()/*: void*/
     {
-        $result_count = (new Job(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)))->run()->getMessage();
+        $result_count = self::srUserEnrolment()->ruleEnrolment()->rules()->factory()->newJobInstance(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))->run()->getMessage();
 
         ilUtil::sendInfo($result_count, true);
 

@@ -1,19 +1,19 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy;
+namespace srag\Plugins\SrUserEnrolment\Job;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class Factory
+ * Class Repository
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy
+ * @package srag\Plugins\SrUserEnrolment\Job
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-final class Factory
+final class Repository
 {
 
     use DICTrait;
@@ -39,7 +39,7 @@ final class Factory
 
 
     /**
-     * Factory constructor
+     * Repository constructor
      */
     private function __construct()
     {
@@ -48,37 +48,28 @@ final class Factory
 
 
     /**
-     * @return Deputy
+     * @internal
      */
-    public function newInstance() : Deputy
+    public function dropTables()/*: void*/
     {
-        $deputy = new Deputy();
 
-        return $deputy;
     }
 
 
     /**
-     * @param DeputiesGUI $parent
-     * @param array       $deputies
-     *
-     * @return DeputiesFormGUI
+     * @return Factory
      */
-    public function newFormInstance(DeputiesGUI $parent, array $deputies) : DeputiesFormGUI
+    public function factory() : Factory
     {
-        $form = new DeputiesFormGUI($parent, $deputies);
-
-        return $form;
+        return Factory::getInstance();
     }
 
 
     /**
-     * @return CheckInactiveDeputiesJob
+     * @internal
      */
-    public function newCheckInactiveDeputiesJobInstance() : CheckInactiveDeputiesJob
+    public function installTables()/*: void*/
     {
-        $job = new CheckInactiveDeputiesJob();
 
-        return $job;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy;
+namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -9,7 +9,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class Factory
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy
+ * @package srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -48,36 +48,13 @@ final class Factory
 
 
     /**
-     * @return Deputy
-     */
-    public function newInstance() : Deputy
-    {
-        $deputy = new Deputy();
-
-        return $deputy;
-    }
-
-
-    /**
-     * @param DeputiesGUI $parent
-     * @param array       $deputies
+     * @param int|null $parent_id
      *
-     * @return DeputiesFormGUI
+     * @return RuleEnrolmentJob
      */
-    public function newFormInstance(DeputiesGUI $parent, array $deputies) : DeputiesFormGUI
+    public function newJobInstance(/*?*/ int $parent_id = null) : RuleEnrolmentJob
     {
-        $form = new DeputiesFormGUI($parent, $deputies);
-
-        return $form;
-    }
-
-
-    /**
-     * @return CheckInactiveDeputiesJob
-     */
-    public function newCheckInactiveDeputiesJobInstance() : CheckInactiveDeputiesJob
-    {
-        $job = new CheckInactiveDeputiesJob();
+        $job = new RuleEnrolmentJob($parent_id);
 
         return $job;
     }

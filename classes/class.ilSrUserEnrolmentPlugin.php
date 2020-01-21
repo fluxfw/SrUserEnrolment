@@ -6,7 +6,6 @@ if (file_exists(__DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor
 }
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
-use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
 use srag\Plugins\SrUserEnrolment\Menu\Menu;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
@@ -72,8 +71,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     {
         parent::updateLanguages($a_lang_keys);
 
-        LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
-            . "/../vendor/srag/removeplugindataconfirm/lang")->updateLanguages();
+        $this->installRemovePluginDataConfirmLanguages();
 
         self::srUserEnrolment()->notifications4plugin()->installLanguages();
 

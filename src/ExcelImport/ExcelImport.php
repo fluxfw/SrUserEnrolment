@@ -565,7 +565,7 @@ class ExcelImport
             return $logs;
         }, []);
 
-        return implode("<br>", $logs);
+        return nl2br(implode("\n", $logs), false);
     }
 
 
@@ -627,7 +627,7 @@ class ExcelImport
             return $logs;
         }, []);
 
-        return implode("<br>", $logs);
+        return nl2br(implode("\n", $logs), false);
     }
 
 

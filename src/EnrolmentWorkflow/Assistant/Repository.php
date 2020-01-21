@@ -67,7 +67,7 @@ final class Repository
     /**
      * @param Assistant $assistant
      */
-    protected function deleteAssistant(Assistant $assistant)/*:void*/
+    public function deleteAssistant(Assistant $assistant)/*:void*/
     {
         $assistant->delete();
     }
@@ -115,6 +115,15 @@ final class Repository
         $assistant = $where->first();
 
         return $assistant;
+    }
+
+
+    /**
+     * @return Assistant[]
+     */
+    public function getAssistants() : array
+    {
+        return Assistant::get();
     }
 
 
@@ -264,7 +273,7 @@ final class Repository
     /**
      * @param Assistant $assistant
      */
-    protected function storeAssistant(Assistant $assistant)/*:void*/
+    public function storeAssistant(Assistant $assistant)/*:void*/
     {
         $assistant->store();
     }
