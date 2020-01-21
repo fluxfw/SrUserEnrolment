@@ -95,10 +95,11 @@ final class Repository
      * @param int  $user_id
      * @param int  $deputy_user_id
      * @param bool $deputy_user_id
+     * @param bool $create_new
      *
      * @return Deputy|null
      */
-    public function getDeputy(int $user_id, int $deputy_user_id, bool $active_check = true)/* : ?Deputy*/
+    public function getDeputy(int $user_id, int $deputy_user_id, bool $active_check = true, bool $create_new = false)/* : ?Deputy*/
     {
         $where = Deputy::where([
             "user_id"        => $user_id,
@@ -113,6 +114,16 @@ final class Repository
          * @var Deputy|null $deputy
          */
         $deputy = $where->first();
+
+        if ($deputy === null && $create_new) {
+            $deputy = $this->factory()->newInstance();
+
+            $deputy->setUserId($user_id);
+
+            $deputy->setDeputyUserId($deputy_user_id);
+
+            $this->storeDeputy($deputy);
+        }
 
         return $deputy;
     }

@@ -95,10 +95,11 @@ final class Repository
      * @param int  $user_id
      * @param int  $assistant_user_id
      * @param bool $assistant_user_id
+     * @param bool $create_new
      *
      * @return Assistant|null
      */
-    public function getAssistant(int $user_id, int $assistant_user_id, bool $active_check = true)/* : ?Assistant*/
+    public function getAssistant(int $user_id, int $assistant_user_id, bool $active_check = true, bool $create_new = false)/* : ?Assistant*/
     {
         $where = Assistant::where([
             "user_id"           => $user_id,
@@ -113,6 +114,16 @@ final class Repository
          * @var Assistant|null $assistant
          */
         $assistant = $where->first();
+
+        if ($assistant === null && $create_new) {
+            $assistant = $this->factory()->newInstance();
+
+            $assistant->setUserId($user_id);
+
+            $assistant->setAssistantUserId($assistant_user_id);
+
+            $this->storeAssistant($assistant);
+        }
 
         return $assistant;
     }
