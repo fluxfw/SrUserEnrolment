@@ -2,6 +2,7 @@
 
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestInfoGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
@@ -72,7 +73,10 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
         if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_RIGHT_COLUMN) {
 
-            return AssistantsGUI::addAssistantsToPersonalDesktop();
+            return [
+                "mode" => self::PREPEND,
+                "html" => AssistantsGUI::getAssistantsForPersonalDesktop(self::dic()->user()->getId()) . DeputiesGUI::getDeputiesForPersonalDesktop(self::dic()->user()->getId())
+            ];
         }
 
         return parent::getHTML($a_comp, $a_part, $a_par);
@@ -90,7 +94,23 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 })) > 0
             ) {
 
-                AssistantsGUI::addTabs();
+                AssistantsGUI::addTabs(self::dic()->user()->getId());
+
+                DeputiesGUI::addTabs(self::dic()->user()->getId());
+            }
+        }
+
+        if ($a_part === self::PAR_TABS) {
+            if (count(array_filter(self::dic()->ctrl()->getCallHistory(), function (array $history) : bool {
+                    return (strtolower($history["class"]) === strtolower(ilObjUserGUI::class));
+                })) > 0
+            ) {
+
+                $user_id = intval(filter_input(INPUT_GET, "obj_id"));
+
+                AssistantsGUI::addTabs($user_id);
+
+                DeputiesGUI::addTabs($user_id);
             }
         }
 

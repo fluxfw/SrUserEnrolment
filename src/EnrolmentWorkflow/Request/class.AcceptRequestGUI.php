@@ -72,7 +72,7 @@ class AcceptRequestGUI
 
         switch (strtolower($next_class)) {
             case strtolower(FillCtrl::class):
-                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId(), true));
+                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId(), FillCtrl::RETURN_ACCEPT_STEP));
                 break;
 
             default:
@@ -106,6 +106,8 @@ class AcceptRequestGUI
      */
     protected function back()/*: void*/
     {
+        self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
+
         self::dic()->ctrl()->redirectByClass(RequestsGUI::class, RequestsGUI::CMD_LIST_REQUESTS);
     }
 
@@ -125,9 +127,12 @@ class AcceptRequestGUI
 
                 return;
             }
+        } else {
+            $required_data = null;
         }
 
-        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->parent->getRequest()->getObjRefId(), $this->step->getStepId(), $this->parent->getRequest()->getUserId());
+        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->parent->getRequest()->getObjRefId(), $this->step->getStepId(), $this->parent->getRequest()->getUserId(),
+            $required_data);
 
         $this->parent->getRequest()->setAccepted(true);
         self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->parent->getRequest());

@@ -23,7 +23,7 @@ trait TitleFormGUI
             "title" => [
                 self::PROPERTY_CLASS    => ilTextInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
-                "setTitle"              => $this->txt("title_field")
+                "setTitle"              => $this->txt("title")
             ]
         ];
     }

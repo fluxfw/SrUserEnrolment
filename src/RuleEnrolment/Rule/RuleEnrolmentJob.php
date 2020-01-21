@@ -7,19 +7,20 @@ use ilCronJobResult;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use Throwable;
 
 /**
- * Class Job
+ * Class RuleEnrolmentJob
  *
  * @package srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class Job extends ilCronJob
+class RuleEnrolmentJob extends ilCronJob
 {
 
     use DICTrait;
@@ -33,7 +34,7 @@ class Job extends ilCronJob
 
 
     /**
-     * Job constructor
+     * RuleEnrolmentJob constructor
      *
      * @param int|null $parent_id
      */
@@ -57,7 +58,7 @@ class Job extends ilCronJob
      */
     public function getTitle() : string
     {
-        return ilSrUserEnrolmentPlugin::PLUGIN_NAME;
+        return ilSrUserEnrolmentPlugin::PLUGIN_NAME . ": " . self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE);
     }
 
 
@@ -66,7 +67,7 @@ class Job extends ilCronJob
      */
     public function getDescription() : string
     {
-        return "";
+        return self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE);
     }
 
 
@@ -113,6 +114,12 @@ class Job extends ilCronJob
     {
         $result = new ilCronJobResult();
 
+        if (!self::srUserEnrolment()->ruleEnrolment()->isEnabled()) {
+            $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
+
+            return $result;
+        }
+
         $rules = self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRules(AbstractRule::PARENT_CONTEXT_COURSE, AbstractRule::TYPE_COURSE_RULE, $this->parent_id);
 
         $objects = [];
@@ -147,7 +154,7 @@ class Job extends ilCronJob
             self::plugin()->translate("objects", LogsGUI::LANG_MODULE) . ": " . count($objects)
         ]);
 
-        $result_count = implode("<br>", $logs);
+        $result_count = nl2br(implode("\n", $logs), false);
 
         $result->setStatus(ilCronJobResult::STATUS_OK);
 

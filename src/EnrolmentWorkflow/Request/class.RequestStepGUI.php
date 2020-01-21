@@ -69,7 +69,7 @@ class RequestStepGUI
         $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
 
         if (self::dic()->ctrl()->getCmd() !== self::CMD_BACK
-            && !self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($this->obj_ref_id, $this->step->getStepId(), $this->user_id)
+            && !self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($this->obj_ref_id, $this->step->getStepId(), self::dic()->user()->getId(), $this->user_id)
         ) {
             die();
         }
@@ -84,7 +84,7 @@ class RequestStepGUI
 
         switch (strtolower($next_class)) {
             case strtolower(FillCtrl::class):
-                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId()));
+                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId(), FillCtrl::RETURN_REQUEST_STEP));
                 break;
 
             default:
@@ -123,23 +123,37 @@ class RequestStepGUI
             self::dic()->ctrl()->setParameterByClass(AssistantsRequestGUI::class, RequestsGUI::GET_PARAM_REF_ID, $obj_ref_id);
 
             $actions = [];
-            foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, self::dic()->user()->getId(), $obj_ref_id) as $step) {
+            foreach (
+                self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, self::dic()->user()->getId(), self::dic()->user()->getId(), $obj_ref_id) as
+                $step
+            ) {
                 self::dic()->ctrl()->setParameterByClass(self::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
                 self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, self::dic()->user()->getId());
-                $actions[] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' . $step->getActionTitle() . '</span>',
+                if (!is_array($actions[$step->getStepId()])) {
+                    $actions[$step->getStepId()] = [];
+                }
+                $actions[$step->getStepId()][] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' . $step->getActionTitle() . '</span>',
                     self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_REQUEST_STEP));
+            }
 
-                if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
-                    foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId()) as $assistant) {
-                        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($obj_ref_id, $step->getStepId(), $assistant->getUserId())) {
-                            self::dic()->ctrl()->setParameterByClass(AssistantsRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
-                            $actions[] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' .
-                                self::plugin()->translate("step_action", AssistantsGUI::LANG_MODULE, [
-                                    $step->getActionTitle()
-                                ]) . '</span>',
-                                self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, AssistantsRequestGUI::class], AssistantsRequestGUI::CMD_LIST_USERS));
-                            break;
+            if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
+                foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId()) as $assistant) {
+                    foreach (
+                        self::srUserEnrolment()
+                            ->enrolmentWorkflow()
+                            ->steps()
+                            ->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $assistant->getUserId(), $assistant->getUserId(), $obj_ref_id) as
+                        $step
+                    ) {
+                        self::dic()->ctrl()->setParameterByClass(AssistantsRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
+                        if (!is_array($actions[$step->getStepId()])) {
+                            $actions[$step->getStepId()] = [];
                         }
+                        $actions[$step->getStepId()][] = self::dic()->ui()->factory()->link()->standard('<span class="xsmall">' .
+                            self::plugin()->translate("step_action", AssistantsGUI::LANG_MODULE, [
+                                $step->getActionTitle()
+                            ]) . '</span>',
+                            self::dic()->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, AssistantsRequestGUI::class], AssistantsRequestGUI::CMD_LIST_USERS));
                     }
                 }
             }
@@ -147,10 +161,14 @@ class RequestStepGUI
             if (!empty($actions)) {
                 $actions_html = self::output()->getHTML(array_map(function (Component $action) : string {
                     return '<li>' . self::output()->getHTML($action) . '</li>';
-                }, $actions));
+                }, array_reduce($actions, function (array $actions, array $actions2) : array {
+                    $actions = array_merge($actions, $actions2);
+
+                    return $actions;
+                }, [])));
 
                 $matches = [];
-                preg_match('/<ul class="dropdown-menu pull-right" role="menu" id="ilAdvSelListTable_.*">/',
+                preg_match('/<ul\s+class="dropdown-menu pull-right"\s+role="menu"\s+id="ilAdvSelListTable_.*"\s*>/',
                     $html, $matches);
                 if (is_array($matches) && count($matches) >= 1) {
                     $html = str_ireplace($matches[0], $matches[0] . $actions_html, $html);
@@ -180,6 +198,8 @@ class RequestStepGUI
      */
     protected function back()/*: void*/
     {
+        self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
+
         self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->tree()->getParentId($this->obj_ref_id)));
     }
 
@@ -199,9 +219,11 @@ class RequestStepGUI
 
                 return;
             }
+        } else {
+            $required_data = null;
         }
 
-        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->obj_ref_id, $this->step->getStepId(), $this->user_id);
+        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->obj_ref_id, $this->step->getStepId(), $this->user_id, $required_data);
 
         ilUtil::sendSuccess(self::plugin()->translate("requested", RequestsGUI::LANG_MODULE, [$this->step->getActionTitle()]), true);
 

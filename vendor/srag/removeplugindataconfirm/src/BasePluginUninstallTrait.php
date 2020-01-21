@@ -4,6 +4,7 @@ namespace srag\RemovePluginDataConfirm\SrUserEnrolment;
 
 use ilUIPluginRouterGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
 
 /**
  * Trait BasePluginUninstallTrait
@@ -53,6 +54,16 @@ trait BasePluginUninstallTrait
         }
 
         return true;
+    }
+
+
+    /**
+     *
+     */
+    protected function installRemovePluginDataConfirmLanguages()/*:void*/
+    {
+        LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__
+            . "/../lang")->updateLanguages();
     }
 
 

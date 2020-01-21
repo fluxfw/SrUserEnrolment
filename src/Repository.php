@@ -12,6 +12,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Repository as EnrolmentWorkfl
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect\UserSelectField;
 use srag\Plugins\SrUserEnrolment\ExcelImport\Repository as ExcelImportRepository;
+use srag\Plugins\SrUserEnrolment\Job\Repository as JobsRepository;
 use srag\Plugins\SrUserEnrolment\ResetPassword\Repository as ResetUserPasswordRepository;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Repository as RuleEnrolmentRepository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -89,6 +90,7 @@ final class Repository
         $this->config()->dropTables();
         $this->enrolmentWorkflow()->dropTables();
         $this->excelImport()->dropTables();
+        $this->jobs()->dropTables();
         $this->notifications4plugin()->dropTables();
         $this->requiredData()->dropTables();
         $this->resetUserPassword()->dropTables();
@@ -122,10 +124,20 @@ final class Repository
         $this->config()->installTables();
         $this->enrolmentWorkflow()->installTables();
         $this->excelImport()->installTables();
+        $this->jobs()->installTables();
         $this->notifications4plugin()->installTables();
         $this->requiredData()->installTables();
         $this->resetUserPassword()->installTables();
         $this->ruleEnrolment()->installTables();
+    }
+
+
+    /**
+     * @return JobsRepository
+     */
+    public function jobs() : JobsRepository
+    {
+        return JobsRepository::getInstance();
     }
 
 

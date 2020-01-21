@@ -42,7 +42,7 @@ class GlobalRoleFormGUI extends AbstractRuleFormGUI
             "global_role" => [
                 self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
-                self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles(),
+                self::PROPERTY_OPTIONS  => ["" => ""] + self::srUserEnrolment()->ruleEnrolment()->getAllRoles(),
                 "setTitle"              => $this->txt("rule_type_globalrole")
             ]
         ]);

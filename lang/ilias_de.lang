@@ -44,9 +44,12 @@ assistants_active#:#Aktiv
 assistants_assistants#:#Assistenten
 assistants_assistant_of#:#Assistent von
 assistants_back#:#Zurück
+assistants_check_inactive_assistants#:#Inaktive Assistenten prüfen
+assistants_check_inactive_assistants_description#:#Entfernt deaktivierte Benutzer als Assistent und setzt Assistenten inaktiv, wenn das Bis-Datum erreicht ist
+assistants_check_inactive_assistants_status#:#%1$s Assistenten entfernt\n%2$s Assistenten inaktiv gesetzt
 assistants_edit#:#Bearbeiten
+assistants_info#:#Assistenten, welche ein Benutzer selber definiert, können in dessen Namen berechtigte Anfragen starten
 assistants_my_assistants#:#Meine Assistenten
-assistants_multi_requests_not_available#:#Mehrfach-Anfordern mit Benötigte Daten momentan nicht verfügbar
 assistants_nonone#:#Niemandem
 assistants_save#:#Speichern
 assistants_saved#:#Gespeichert
@@ -60,11 +63,28 @@ assistants_user_lastname#:#Nachname
 assistants_users#:#Benutzer
 config_configuration#:#Konfiguration
 config_configuration_saved#:#Konfiguration gespeichert
+config_enable#:#%s aktivieren
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
 config_save#:#Speichern
-config_show#:#%s anzeigen
 config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
+deputies_actions#:#Aktionen
+deputies_active#:#Aktiv
+deputies_deputies#:#Vertreter
+deputies_deputy_of#:#Vertreter von
+deputies_back#:#Zurück
+deputies_check_inactive_deputies#:#Inaktive Vertreter prüfen
+deputies_check_inactive_deputies_description#:#Entfernt deaktivierte Benutzer als Vertreter und setzt Vertreter inaktiv, wenn das Bis-Datum erreicht ist
+deputies_check_inactive_deputies_status#:#%1$s Vertreter entfernt\n%2$s Vertreter inaktiv gesetzt
+deputies_edit#:#Bearbeiten
+deputies_info#:#Vertreter, welche ein Benutzer selber definiert, können in dessen Namen berechtigte Anfragen annehmen
+deputies_my_deputies#:#Meine Vertreter
+deputies_nonone#:#Niemandem
+deputies_save#:#Speichern
+deputies_saved#:#Gespeichert
+deputies_until#:#Bis
+deputies_until_date#:#Bis %s
+deputies_user#:#Benutzer
 excel_import_cancel#:#Abbrechen
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_count_skip_top_rows_info#:#Bitte Spalten-Überschriff-Zeile nicht mit einbeziehen
@@ -204,8 +224,7 @@ rules_rule_type_udf#:#Benutzerdefiniertes Feld
 rules_run_rules#:#Regeln ausführen
 rules_save#:#Speichern
 rules_saved_rule#:#Regel %s gespeichert
-rules_title#:#Einschreiben per Regel
-rules_title_field#:#Titel
+rules_title#:#Titel
 rules_type_action#:#Berechtigungen Aktion
 rules_type_check_action#:#Berechtigungen Aktion prüfen
 rules_type_course_rule#:#Einschreiben per Regel
@@ -265,7 +284,6 @@ workflows_removed_workflows#:#Workflows entfernt
 workflows_save#:#Speichern
 workflows_saved_workflow#:#Workflow %s gespeichert
 workflows_settings#:#Einstellungen
-workflows_title#:#Einschreibe-Workflows
-workflows_title_field#:#Titel
+workflows_title#:#Titel
 workflows_workflow#:#Workflow
 workflows_workflows#:#Workflows

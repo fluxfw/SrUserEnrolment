@@ -67,7 +67,7 @@ final class Repository
     /**
      * @param Assistant $assistant
      */
-    protected function deleteAssistant(Assistant $assistant)/*:void*/
+    public function deleteAssistant(Assistant $assistant)/*:void*/
     {
         $assistant->delete();
     }
@@ -95,10 +95,11 @@ final class Repository
      * @param int  $user_id
      * @param int  $assistant_user_id
      * @param bool $assistant_user_id
+     * @param bool $create_new
      *
      * @return Assistant|null
      */
-    public function getAssistant(int $user_id, int $assistant_user_id, bool $active_check = true)/* : ?Assistant*/
+    public function getAssistant(int $user_id, int $assistant_user_id, bool $active_check = true, bool $create_new = false)/* : ?Assistant*/
     {
         $where = Assistant::where([
             "user_id"           => $user_id,
@@ -114,7 +115,26 @@ final class Repository
          */
         $assistant = $where->first();
 
+        if ($assistant === null && $create_new) {
+            $assistant = $this->factory()->newInstance();
+
+            $assistant->setUserId($user_id);
+
+            $assistant->setAssistantUserId($assistant_user_id);
+
+            $this->storeAssistant($assistant);
+        }
+
         return $assistant;
+    }
+
+
+    /**
+     * @return Assistant[]
+     */
+    public function getAssistants() : array
+    {
+        return Assistant::get();
     }
 
 
@@ -186,7 +206,15 @@ final class Repository
             return false;
         }
 
-        return ($user_id !== ANONYMOUS_USER_ID);
+        if ($user_id === ANONYMOUS_USER_ID) {
+            return false;
+        }
+
+        if ($user_id === intval(self::dic()->user()->getId())) {
+            return true;
+        }
+
+        return self::dic()->access()->checkAccessOfUser(self::dic()->user()->getId(), "write", "", 7);
     }
 
 
@@ -256,7 +284,7 @@ final class Repository
     /**
      * @param Assistant $assistant
      */
-    protected function storeAssistant(Assistant $assistant)/*:void*/
+    public function storeAssistant(Assistant $assistant)/*:void*/
     {
         $assistant->store();
     }

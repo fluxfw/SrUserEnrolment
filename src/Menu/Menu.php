@@ -10,6 +10,7 @@ use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -62,6 +63,9 @@ class Menu extends AbstractStaticPluginMainMenuProvider
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "slot_id", "uihk");
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "pname", ilSrUserEnrolmentPlugin::PLUGIN_NAME);
 
+        self::dic()->ctrl()->setParameterByClass(AssistantsGUI::class, AssistantsGUI::GET_PARAM_USER_ID, self::dic()->user()->getId());
+        self::dic()->ctrl()->setParameterByClass(DeputiesGUI::class, DeputiesGUI::GET_PARAM_USER_ID, self::dic()->user()->getId());
+
         return [
             $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_workflows"))
                 ->withParent($parent->getProviderIdentification())
@@ -95,7 +99,7 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 }),
             $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_assistants"))
                 ->withParent($parent->getProviderIdentification())
-                ->withTitle(self::plugin()->translate("assistants", AssistantsGUI::LANG_MODULE))
+                ->withTitle(self::plugin()->translate("my_assistants", AssistantsGUI::LANG_MODULE))
                 ->withAction(self::dic()->ctrl()
                     ->getLinkTargetByClass([
                         ilUIPluginRouterGUI::class,
@@ -107,6 +111,20 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 ->withVisibilityCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId());
                 }),
+            $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_deputies"))
+                ->withParent($parent->getProviderIdentification())
+                ->withTitle(self::plugin()->translate("my_deputies", DeputiesGUI::LANG_MODULE))
+                ->withAction(self::dic()->ctrl()
+                    ->getLinkTargetByClass([
+                        ilUIPluginRouterGUI::class,
+                        DeputiesGUI::class
+                    ], DeputiesGUI::CMD_EDIT_DEPUTIES))
+                ->withAvailableCallable(function () : bool {
+                    return self::srUserEnrolment()->enrolmentWorkflow()->deputies()->isEnabled();
+                })
+                ->withVisibilityCallable(function () : bool {
+                    return self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId());
+                })
         ];
     }
 }

@@ -44,9 +44,12 @@ assistants_active#:#Active
 assistants_assistants#:#Assistants
 assistants_assistant_of#:#Assistant of
 assistants_back#:#Back
+assistants_check_inactive_assistants#:#Check inactive assistants
+assistants_check_inactive_assistants_description#:#Removes disabled users as assistant and set assistants inactive if the until date is reached
+assistants_check_inactive_assistants_status#:#%1$s assistants removed\n%2$s assistants set inactive
 assistants_edit#:#Edit
+assistants_info#:#Assistants, which an user defines self, can start permitted requests in its name
 assistants_my_assistants#:#My assistants
-assistants_multi_requests_not_available#:#Mutli requests with required data currently not available
 assistants_nonone#:#No one
 assistants_save#:#Save
 assistants_saved#:#Saved
@@ -60,11 +63,28 @@ assistants_user_lastname#:#Last name
 assistants_users#:#Users
 config_configuration#:#Configuration
 config_configuration_saved#:#Configuration saved
+config_enable#:#Enable %s
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
 config_save#:#Save
-config_show#:#Show %s
 config_show_excel_import_config#:#User can adjust these values on import
+deputies_actions#:#Actions
+deputies_active#:#Active
+deputies_deputies#:#Deputies
+deputies_deputy_of#:#Deputy of
+deputies_back#:#Back
+deputies_check_inactive_deputies#:#Check inactive deputies
+deputies_check_inactive_deputies_description#:#Removes disabled users as deputy and set deputies inactive if the until date is reached
+deputies_check_inactive_deputies_status#:#%1$s deputies removed\n%2$s deputies set inactive
+deputies_edit#:#Edit
+deputies_info#:#Deputies, which an user defines self, can accept permitted requests in its name
+deputies_my_deputies#:#My deputies
+deputies_nonone#:#No one
+deputies_save#:#Save
+deputies_saved#:#Saved
+deputies_until#:#Until
+deputies_until_date#:#Until %s
+deputies_user#:#User
 excel_import_cancel#:#Cancel
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_count_skip_top_rows_info#:#Please not include column heading row
@@ -204,8 +224,7 @@ rules_rule_type_udf#:#User definied field
 rules_run_rules#:#Run rules
 rules_save#:#Save
 rules_saved_rule#:#Rule %s saved
-rules_title#:#Enrol by rule
-rules_title_field#:#Title
+rules_title#:#Title
 rules_type_action#:#Permissions action
 rules_type_check_action#:#Permissions check action
 rules_type_course_rule#:#Enrol by rule
@@ -265,7 +284,6 @@ workflows_removed_workflows#:#Workflows removed
 workflows_save#:#Save
 workflows_saved_workflow#:#Workflow %s saved
 workflows_settings#:#Settings
-workflows_title#:#Enrolment workflows
-workflows_title_field#:#Title
+workflows_title#:#Title
 workflows_workflow#:#Workflow
 workflows_workflows#:#Workflows

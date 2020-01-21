@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy;
 
 use ilAdministrationGUI;
 use ilDatePresentation;
@@ -15,27 +15,27 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class AssistantsGUI
+ * Class DeputiesGUI
  *
- * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant
+ * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI: ilUIPluginRouterGUI
  */
-class AssistantsGUI
+class DeputiesGUI
 {
 
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
-    const CMD_EDIT_ASSISTANTS = "editAssistants";
-    const CMD_UPDATE_ASSISTANTS = "updateAssistants";
+    const CMD_EDIT_DEPUTIES = "editDeputies";
+    const CMD_UPDATE_DEPUTIES = "updateDeputies";
     const CMD_USER_AUTOCOMPLETE = "userAutoComplete";
     const GET_PARAM_USER_ID = "user_id";
-    const LANG_MODULE = "assistants";
-    const TAB_EDIT_ASSISTANTS = "edit_assistants";
+    const LANG_MODULE = "deputies";
+    const TAB_EDIT_DEPUTIES = "edit_deputies";
     /**
      * @var int
      */
@@ -43,11 +43,11 @@ class AssistantsGUI
     /**
      * @var array
      */
-    protected $assistants;
+    protected $deputies;
 
 
     /**
-     * AssistantsGUI constructor
+     * DeputiesGUI constructor
      */
     public function __construct()
     {
@@ -62,13 +62,13 @@ class AssistantsGUI
     {
         $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
 
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($this->user_id)) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($this->user_id)) {
             die();
         }
 
         self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
 
-        $this->assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistantsArray($this->user_id);
+        $this->deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputiesArray($this->user_id);
 
         $this->setTabs();
 
@@ -80,8 +80,8 @@ class AssistantsGUI
 
                 switch ($cmd) {
                     case self::CMD_BACK:
-                    case self::CMD_EDIT_ASSISTANTS:
-                    case self::CMD_UPDATE_ASSISTANTS:
+                    case self::CMD_EDIT_DEPUTIES:
+                    case self::CMD_UPDATE_DEPUTIES:
                     case self::CMD_USER_AUTOCOMPLETE:
                         $this->{$cmd}();
                         break;
@@ -99,28 +99,28 @@ class AssistantsGUI
      *
      * @return string
      */
-    public static function getAssistantsForPersonalDesktop(int $user_id) : string
+    public static function getDeputiesForPersonalDesktop(int $user_id) : string
     {
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($user_id)) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($user_id)) {
             return "";
         }
 
         self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
 
-        $tpl = self::plugin()->template("EnrolmentWorkflow/pd_assistants.html");
-        $tpl->setVariable("TITLE", self::plugin()->translate("my_assistants", self::LANG_MODULE));
+        $tpl = self::plugin()->template("EnrolmentWorkflow/pd_deputies.html");
+        $tpl->setVariable("TITLE", self::plugin()->translate("my_deputies", self::LANG_MODULE));
         $tpl->setVariable("EDIT_LINK", self::output()->getHTML(self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("edit", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_ASSISTANTS))));
-        $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants($user_id);
-        if (!empty($assistants)) {
-            $tpl->setCurrentBlock("assistants");
+            ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_DEPUTIES))));
+        $deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputies($user_id);
+        if (!empty($deputies)) {
+            $tpl->setCurrentBlock("deputies");
 
-            foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants($user_id) as $assistant) {
-                $tpl->setVariable("USER", $assistant->getAssistantUser()->getFullname());
-                if ($assistant->getUntil() !== null) {
+            foreach (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputies($user_id) as $deputy) {
+                $tpl->setVariable("USER", $deputy->getDeputyUser()->getFullname());
+                if ($deputy->getUntil() !== null) {
                     $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
                     $tpl_until->setVariable("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
-                        ilDatePresentation::formatDate($assistant->getUntil())
+                        ilDatePresentation::formatDate($deputy->getUntil())
                     ]));
                     $tpl->setVariable("UNTIL", self::output()->getHTML($tpl_until));
                 }
@@ -130,18 +130,18 @@ class AssistantsGUI
             $tpl->setVariable("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
         }
 
-        $tpl2 = self::plugin()->template("EnrolmentWorkflow/pd_assistants.html");
-        $tpl2->setVariable("TITLE", self::plugin()->translate("assistant_of", self::LANG_MODULE));
-        $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf($user_id);
-        if (!empty($assistants)) {
-            $tpl2->setCurrentBlock("assistants");
+        $tpl2 = self::plugin()->template("EnrolmentWorkflow/pd_deputies.html");
+        $tpl2->setVariable("TITLE", self::plugin()->translate("deputy_of", self::LANG_MODULE));
+        $deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputiesOf($user_id);
+        if (!empty($deputies)) {
+            foreach ($deputies as $deputy) {
+                $tpl2->setCurrentBlock("deputies");
 
-            foreach ($assistants as $assistant) {
-                $tpl2->setVariable("USER", $assistant->getUser()->getFullname());
-                if ($assistant->getUntil() !== null) {
+                $tpl2->setVariable("USER", $deputy->getUser()->getFullname());
+                if ($deputy->getUntil() !== null) {
                     $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
                     $tpl_until->setVariable("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
-                        ilDatePresentation::formatDate($assistant->getUntil())
+                        ilDatePresentation::formatDate($deputy->getUntil())
                     ]));
                     $tpl2->setVariable("UNTIL", self::output()->getHTML($tpl_until));
                 }
@@ -160,12 +160,12 @@ class AssistantsGUI
      */
     public static function addTabs(int $user_id)/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($user_id)) {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($user_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
             self::dic()
                 ->tabs()
-                ->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate(($user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "assistants", self::LANG_MODULE), self::dic()->ctrl()
-                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_ASSISTANTS));
+                ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_DEPUTIES));
         }
     }
 
@@ -182,8 +182,8 @@ class AssistantsGUI
 
         self::dic()
             ->tabs()
-            ->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate(($this->user_id === intval($user_id) ? "my_" : "") . "assistants", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass(self::class, self::CMD_EDIT_ASSISTANTS));
+            ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($this->user_id === intval($user_id) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass(self::class, self::CMD_EDIT_DEPUTIES));
     }
 
 
@@ -204,11 +204,11 @@ class AssistantsGUI
     /**
      *
      */
-    protected function editAssistants()/*: void*/
+    protected function editDeputies()/*: void*/
     {
-        self::dic()->tabs()->activateTab(self::TAB_EDIT_ASSISTANTS);
+        self::dic()->tabs()->activateTab(self::TAB_EDIT_DEPUTIES);
 
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->factory()->newFormInstance($this, $this->assistants);
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->factory()->newFormInstance($this, $this->deputies);
 
         self::output()->output($form, true);
     }
@@ -217,11 +217,11 @@ class AssistantsGUI
     /**
      *
      */
-    protected function updateAssistants()/*: void*/
+    protected function updateDeputies()/*: void*/
     {
-        self::dic()->tabs()->activateTab(self::TAB_EDIT_ASSISTANTS);
+        self::dic()->tabs()->activateTab(self::TAB_EDIT_DEPUTIES);
 
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->factory()->newFormInstance($this, $this->assistants);
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->factory()->newFormInstance($this, $this->deputies);
 
         if (!$form->storeForm()) {
             self::output()->output($form, true);
@@ -229,11 +229,11 @@ class AssistantsGUI
             return;
         }
 
-        $this->assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->storeUserAssistantsArray($this->user_id, $form->getAssistants());
+        $this->deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->storeUserDeputiesArray($this->user_id, $form->getDeputies());
 
         ilUtil::sendSuccess(self::plugin()->translate("saved", self::LANG_MODULE), true);
 
-        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_ASSISTANTS);
+        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_DEPUTIES);
     }
 
 

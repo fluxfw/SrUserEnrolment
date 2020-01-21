@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.2.0]
+- Enrolment workflow deputies
+- Support required data for multiple requests
+- Manage assistants for each user also on administration (like deputies)
+- Fixes
+
 ## [3.1.0]
 - 'No responsible users assigned' rule
 - Enrolment workflow assistants

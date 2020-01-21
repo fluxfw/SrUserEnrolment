@@ -49,6 +49,15 @@ final class Repository
 
 
     /**
+     *
+     */
+    public function clearTempFillValues()/*:void*/
+    {
+        ilSession::clear(self::SESSION_TEMP_FILL_VALUES_STORAGE);
+    }
+
+
+    /**
      * @param FillStorage $fill_storage
      */
     protected function deleteFillStorage(FillStorage $fill_storage)/*: void*/
@@ -129,7 +138,7 @@ final class Repository
             if ($field !== null) {
                 $value = $this->factory()->newFillFieldInstance($field)->formatAsString($value);
                 if ($keep_field_id) {
-                    $formatted_fill_values[$keep_field_id] = [$field->getLabel(), $value];
+                    $formatted_fill_values[$type . "_" . $field_id] = [$field->getLabel(), $value];
                 } else {
                     $formatted_fill_values[$field->getLabel()] = $value;
                 }
@@ -265,7 +274,7 @@ final class Repository
                 if (isset($_SESSION[self::SESSION_TEMP_FILL_VALUES_STORAGE])) {
                     $fill_values = (array) ilSession::get(self::SESSION_TEMP_FILL_VALUES_STORAGE);
 
-                    ilSession::clear(self::SESSION_TEMP_FILL_VALUES_STORAGE);
+                    $this->clearTempFillValues();
                 } else {
                     $fill_values = [];
                 }

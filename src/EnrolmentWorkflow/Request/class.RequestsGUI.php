@@ -54,7 +54,7 @@ class RequestsGUI
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
 
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id)) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId())) {
             die("");
         }
 
@@ -94,7 +94,7 @@ class RequestsGUI
      */
     public static function addTabs(int $obj_ref_id)/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId())) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
             self::dic()->tabs()->addTab(self::TAB_REQUESTS, self::plugin()->translate("requests", self::LANG_MODULE), self::dic()->ctrl()

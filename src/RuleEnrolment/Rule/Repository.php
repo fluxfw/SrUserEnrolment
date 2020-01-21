@@ -7,7 +7,6 @@ use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitUserType\OrgUnitUserType;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Enroll\Enrolled;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -54,8 +53,6 @@ final class Repository
 
     /**
      * @internal
-     *
-     * @deprecated
      */
     public function dropTables()/*: void*/
     {
@@ -65,11 +62,20 @@ final class Repository
 
 
     /**
+     * @return Factory
+     */
+    public function factory() : Factory
+    {
+        return Factory::getInstance();
+    }
+
+
+    /**
      * @return Rule[]
      *
      * @deprecated
      */
-    public function getRules() : array
+    protected function getRules() : array
     {
         $where = Rule::where([]);
 
@@ -79,8 +85,6 @@ final class Repository
 
     /**
      * @internal
-     *
-     * @deprecated
      */
     public function installTables()/*: void*/
     {

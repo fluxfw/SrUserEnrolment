@@ -108,7 +108,7 @@ class RulesCourseGUI
         if (self::srUserEnrolment()->ruleEnrolment()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
-            self::dic()->tabs()->addSubTab(self::TAB_RULES, self::plugin()->translate("title", RulesGUI::LANG_MODULE), self::dic()
+            self::dic()->tabs()->addSubTab(self::TAB_RULES, self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE), self::dic()
                 ->ctrl()->getLinkTargetByClass([
                     ilUIPluginRouterGUI::class,
                     self::class
@@ -168,7 +168,7 @@ class RulesCourseGUI
      */
     protected function runRules()/*: void*/
     {
-        $result_count = (new Job(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)))->run()->getMessage();
+        $result_count = self::srUserEnrolment()->ruleEnrolment()->rules()->factory()->newJobInstance(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))->run()->getMessage();
 
         ilUtil::sendInfo($result_count, true);
 

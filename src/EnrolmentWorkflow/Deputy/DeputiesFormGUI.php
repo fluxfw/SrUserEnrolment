@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy;
 
 use ilCheckboxInputGUI;
 use ilDateTimeInputGUI;
@@ -11,33 +11,33 @@ use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAuto
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class AssistantsFormGUI
+ * Class DeputiesFormGUI
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant
+ * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AssistantsFormGUI extends PropertyFormGUI
+class DeputiesFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const LANG_MODULE = AssistantsGUI::LANG_MODULE;
+    const LANG_MODULE = DeputiesGUI::LANG_MODULE;
     /**
      * @var array
      */
-    protected $assistants;
+    protected $deputies;
 
 
     /**
-     * AssistantsFormGUI constructor
+     * DeputiesFormGUI constructor
      *
-     * @param AssistantsGUI $parent
-     * @param array         $assistants
+     * @param DeputiesGUI $parent
+     * @param array       $deputies
      */
-    public function __construct(AssistantsGUI $parent, array $assistants)
+    public function __construct(DeputiesGUI $parent, array $deputies)
     {
-        $this->assistants = $assistants;
+        $this->deputies = $deputies;
 
         parent::__construct($parent);
     }
@@ -60,7 +60,7 @@ class AssistantsFormGUI extends PropertyFormGUI
      */
     protected function initCommands()/*: void*/
     {
-        $this->addCommandButton(AssistantsGUI::CMD_UPDATE_ASSISTANTS, $this->txt("save"));
+        $this->addCommandButton(DeputiesGUI::CMD_UPDATE_DEPUTIES, $this->txt("save"));
     }
 
 
@@ -70,19 +70,19 @@ class AssistantsFormGUI extends PropertyFormGUI
     protected function initFields()/*: void*/
     {
         $this->fields = [
-            "assistants" => [
+            "deputies" => [
                 self::PROPERTY_CLASS    => MultiLineNewInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
-                    "assistant_user_id" => [
+                    "deputy_user_id" => [
                         self::PROPERTY_CLASS    => TextInputGUIWithModernAutoComplete::class,
                         self::PROPERTY_REQUIRED => true,
                         "setTitle"              => $this->txt("user"),
-                        "setDataSource"         => self::dic()->ctrl()->getLinkTarget($this->parent, AssistantsGUI::CMD_USER_AUTOCOMPLETE, "", true, false)
+                        "setDataSource"         => self::dic()->ctrl()->getLinkTarget($this->parent, DeputiesGUI::CMD_USER_AUTOCOMPLETE, "", true, false)
                     ],
-                    "until"             => [
+                    "until"          => [
                         self::PROPERTY_CLASS => ilDateTimeInputGUI::class
                     ],
-                    "active"            => [
+                    "active"         => [
                         self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                     ]
                 ],
@@ -106,7 +106,7 @@ class AssistantsFormGUI extends PropertyFormGUI
      */
     protected function initTitle()/*: void*/
     {
-        $this->setTitle($this->txt(($this->parent->getUserId() === intval(self::dic()->user()->getId()) ? "my_" : "") . "assistants"));
+        $this->setTitle($this->txt(($this->parent->getUserId() === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies"));
     }
 
 
@@ -126,8 +126,8 @@ class AssistantsFormGUI extends PropertyFormGUI
     /**
      * @return array
      */
-    public function getAssistants() : array
+    public function getDeputies() : array
     {
-        return $this->assistants;
+        return $this->deputies;
     }
 }

@@ -2,8 +2,6 @@
 
 namespace srag\RequiredData\SrUserEnrolment\Field\Text;
 
-use ilTextInputGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\RequiredData\SrUserEnrolment\Field\AbstractFieldFormGUI;
 
 /**
@@ -20,15 +18,4 @@ class TextFieldFormGUI extends AbstractFieldFormGUI
      * @var TextField
      */
     protected $object;
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getFormFields() : array
-    {
-        return [
-            PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class
-        ];
-    }
 }

@@ -51,19 +51,29 @@ final class Repository
     /**
      * @param int $obj_ref_id
      * @param int $step_id
-     * @param int $user_id
+     * @param int $check_user_id
+     * @param int $request_user_id
      *
      * @return bool
      */
-    public function canRequestWithAssistant(int $obj_ref_id, int $step_id, int $user_id) : bool
+    public function canRequestWithAssistant(int $obj_ref_id, int $step_id, int $check_user_id, int $request_user_id) : bool
     {
-        return (($user_id === self::dic()->user()->getId()
-                && in_array($step_id,
-                    array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $user_id, $obj_ref_id))))
-            || (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())
-                && self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistant($user_id, self::dic()->user()->getId()) !== null
-                && in_array($step_id,
-                    array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $user_id, $obj_ref_id)))));
+        if ($check_user_id === intval(self::dic()->user()->getId())
+            && in_array($step_id,
+                array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $check_user_id, $request_user_id, $obj_ref_id)))
+        ) {
+            return true;
+        }
+
+        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($check_user_id)
+            && self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistant($request_user_id, $check_user_id) !== null
+            && in_array($step_id,
+                array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $request_user_id, $request_user_id, $obj_ref_id)))
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -186,10 +196,6 @@ final class Repository
 
         $requests = Request::where($wheres)->get();
 
-        $requests = array_filter($requests, function (Request $request) : bool {
-            return $this->hasRequestAccess($request, self::dic()->user()->getId());
-        });
-
         if (!empty($object_title)) {
             $requests = array_filter($requests, function (Request $request) use ($object_title): bool {
                 return (stripos($request->getObject()->getTitle(), $object_title) !== false);
@@ -225,61 +231,18 @@ final class Repository
 
 
     /**
-     * @param int|null $user_id
-     * @param int|null $obj_ref_id
+     * @param int|null $check_user_id
      *
      * @return bool
      */
-    public function hasAccess(/*?*/ int $user_id = null, /*?*/ int $obj_ref_id = null) : bool
+    public function hasAccess(/*?*/ int $check_user_id = null) : bool
     {
-        if (empty($user_id)) {
+        if (empty($check_user_id)) {
             // TODO: Remove if no CtrlMainMenu
-            $user_id = self::dic()->user()->getId();
+            $check_user_id = self::dic()->user()->getId();
         }
 
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->isEnabled()) {
-            return false;
-        }
-
-        if (empty($this->getRequests($obj_ref_id, null, null))) {
-            return false;
-        }
-
-        if (self::srUserEnrolment()->userHasRole($user_id)) {
-            return true;
-        }
-
-        if (!empty($obj_ref_id)) {
-            if (self::dic()->access()->checkAccessOfUser($user_id, "manage_members", "", $obj_ref_id)) {
-                return true;
-            }
-        }
-
-        return (!empty($this->getRequests($obj_ref_id, null, null, [$user_id])));
-    }
-
-
-    /**
-     * @param Request $request
-     * @param int     $user_id
-     *
-     * @return bool
-     */
-    public function hasRequestAccess(Request $request, int $user_id) : bool
-    {
-        if ($request->getUserId() === $user_id) {
-            return true;
-        }
-
-        if (self::srUserEnrolment()->userHasRole($user_id)) {
-            return true;
-        }
-
-        if (self::dic()->access()->checkAccessOfUser($user_id, "manage_members", "", $request->getObjRefId())) {
-            return true;
-        }
-
-        return false;
+        return self::srUserEnrolment()->userHasRole($check_user_id);
     }
 
 
@@ -293,13 +256,14 @@ final class Repository
 
 
     /**
-     * @param int $obj_ref_id
-     * @param int $step_id
-     * @param int $user_id
+     * @param int        $obj_ref_id
+     * @param int        $step_id
+     * @param int        $user_id
+     * @param array|null $required_data
      *
      * @return Request
      */
-    public function request(int $obj_ref_id, int $step_id, int $user_id) : Request
+    public function request(int $obj_ref_id, int $step_id, int $user_id,/*?*/ array $required_data = null) : Request
     {
         $request = $this->getRequest($obj_ref_id, $step_id, $user_id);
 
@@ -319,13 +283,13 @@ final class Repository
 
                 if ($request->getStep()->getWorkflowId() === $request_backup->getStep()->getWorkflowId()) {
                     if (in_array($request->getStepId(), array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($request_backup, self::dic()->user()->getId())))) {
-                        return $this->request($request->getObjRefId(), $request->getStepId(), $request->getUserId());
+                        return $this->request($request->getObjRefId(), $request->getStepId(), $request->getUserId(), $required_data);
                     }
 
                     $request = $request_backup;
                 } else {
                     if (in_array($request->getStepId(), array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($request, self::dic()->user()->getId())))) {
-                        return $this->request($request->getObjRefId(), $request->getStepId(), $request->getUserId());
+                        return $this->request($request->getObjRefId(), $request->getStepId(), $request->getUserId(), $required_data);
                     }
 
                     $request = $request_backup;
@@ -334,7 +298,7 @@ final class Repository
 
             $this->storeRequest($request);
 
-            self::srUserEnrolment()->requiredData()->fills()->storeFillValues($request->getRequestId());
+            self::srUserEnrolment()->requiredData()->fills()->storeFillValues($request->getRequestId(), $required_data);
 
             self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_AFTER_REQUEST, [
                 "request" => $request

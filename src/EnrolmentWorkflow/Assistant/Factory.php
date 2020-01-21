@@ -84,4 +84,15 @@ final class Factory
 
         return $table;
     }
+
+
+    /**
+     * @return CheckInactiveAssistantsJob
+     */
+    public function newCheckInactiveAssistantsJobInstance() : CheckInactiveAssistantsJob
+    {
+        $job = new CheckInactiveAssistantsJob();
+
+        return $job;
+    }
 }
