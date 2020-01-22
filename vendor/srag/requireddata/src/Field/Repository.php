@@ -125,8 +125,8 @@ final class Repository
     {
         $fields = [];
 
-        foreach ($this->factory()->getClasses() as $class) {
-            if (!empty($types) && !in_array($class, $types)) {
+        foreach ($this->factory()->getClasses() as $type => $class) {
+            if (!empty($types) && !in_array($type, $types)) {
                 continue;
             }
 

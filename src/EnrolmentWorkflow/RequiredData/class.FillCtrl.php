@@ -23,7 +23,6 @@ class FillCtrl extends AbstractFillCtrl
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const RETURN_REQUEST_STEP = 1;
     const RETURN_ACCEPT_STEP = 2;
-    const RETURN_MULTIPLE_REQUESTS = 3;
     /**
      * @var int
      */
@@ -57,10 +56,6 @@ class FillCtrl extends AbstractFillCtrl
                 self::dic()->ctrl()->redirectByClass(AcceptRequestGUI::class, AcceptRequestGUI::CMD_ACCEPT_REQUEST);
                 break;
 
-            case self::RETURN_MULTIPLE_REQUESTS:
-                self::dic()->ctrl()->redirectByClass(AssistantsRequestGUI::class, AssistantsRequestGUI::CMD_MULTIPLE_REQUESTS);
-                break;
-
             default:
                 break;
         }
@@ -79,10 +74,6 @@ class FillCtrl extends AbstractFillCtrl
 
             case self::RETURN_ACCEPT_STEP:
                 self::dic()->ctrl()->redirectByClass(AcceptRequestGUI::class, AcceptRequestGUI::CMD_BACK);
-                break;
-
-            case self::RETURN_MULTIPLE_REQUESTS:
-                self::dic()->ctrl()->redirectByClass(AssistantsRequestGUI::class, AssistantsRequestGUI::CMD_BACK);
                 break;
 
             default:

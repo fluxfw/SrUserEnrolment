@@ -1,9 +1,13 @@
 # Changelog
 
+## [x]
+- Request new users from requests table
+
 ## [3.2.0]
 - Enrolment workflow deputies
 - Support required data for multiple requests
 - Manage assistants for each user also on administration (like deputies)
+- Cron job for remove inactive users as assistsants/deputies
 - Fixes
 
 ## [3.1.0]

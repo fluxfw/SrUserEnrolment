@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.6]
+- Use type for get fields
+
+## [0.5.5]
+- Use type for get fields
+
 ## [0.5.4]
 - Empty select text
 
