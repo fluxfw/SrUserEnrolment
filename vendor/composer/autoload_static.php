@@ -15,7 +15,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
+            'srag\\CustomInputGUIs\\' => 21,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -45,7 +45,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -277,6 +277,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiLineNewInputGUI\\MultiLineNewInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiLineNewInputGUI/MultiLineNewInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchInputGUI\\MultiSelectSearchInput2GUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInput2GUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchInputGUI\\MultiSelectSearchInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInputGUI.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchNewInputGUI\\MultiSelectSearchNewInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchNewInputGUI/MultiSelectSearchNewInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\NumberInputGUI\\NumberInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/NumberInputGUI/NumberInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\LegendEntry' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/LegendEntry.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\PieChart' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/PieChart.php',
@@ -551,6 +552,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Date\\DateField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Date/DateField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Date\\DateFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Date/DateFieldFormGUI.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Date\\DateFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Date/DateFillField.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\DynamicValue\\DynamicValueField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/DynamicValue/DynamicValueField.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\DynamicValue\\DynamicValueFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/DynamicValue/DynamicValueFieldFormGUI.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\DynamicValue\\DynamicValueFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/DynamicValue/DynamicValueFillField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Email\\EmailField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Email/EmailField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Email\\EmailFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Email/EmailFieldFormGUI.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Email\\EmailFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Email/EmailFillField.php',
@@ -577,6 +581,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Radio\\RadioFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Radio/RadioFieldFormGUI.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Radio\\RadioFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Radio/RadioFillField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Repository' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Repository.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\SearchSelect\\SearchSelectField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/SearchSelect/SearchSelectField.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\SearchSelect\\SearchSelectFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/SearchSelect/SearchSelectFieldFormGUI.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\SearchSelect\\SearchSelectFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/SearchSelect/SearchSelectFillField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Select\\SelectField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Select/SelectField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Select\\SelectFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Select/SelectFieldFormGUI.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Select\\SelectFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Select/SelectFillField.php',

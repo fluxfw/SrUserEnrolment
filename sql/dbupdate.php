@@ -20,5 +20,9 @@
 ?>
 <#6>
 <?php
+//
+?>
+<#7>
+<?php
 \srag\Plugins\SrUserEnrolment\Repository::getInstance()->installTables();
 ?>

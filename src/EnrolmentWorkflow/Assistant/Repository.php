@@ -187,7 +187,7 @@ final class Repository
     {
         return array_map(function (Assistant $assistant) : array {
             return [
-                "assistant_user_id" => $assistant->getAssistantUserId(),
+                "assistant_user_id" => [$assistant->getAssistantUserId()],
                 "until"             => $assistant->getUntil(),
                 "active"            => $assistant->isActive()
             ];
@@ -269,7 +269,7 @@ final class Repository
 
                 $assistant->setUserId($user_id);
 
-                $assistant->setAssistantUserId($array["assistant_user_id"]);
+                $assistant->setAssistantUserId(current($array["assistant_user_id"]));
 
                 $assistant->setUntil($array["until"] ? new ilDate($array["until"], IL_CAL_DATE) : null);
 

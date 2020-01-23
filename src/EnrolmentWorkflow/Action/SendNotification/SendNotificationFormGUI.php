@@ -5,7 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\SendNotification
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilSelectInputGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationInterface;
 use srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationsCtrl;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AbstractActionFormGUI;
@@ -66,7 +66,7 @@ class SendNotificationFormGUI extends AbstractActionFormGUI
                             case SendNotification::TO_TYPE_SPECIFIC_USERS:
                                 $items = [
                                     "to_specific_users" => [
-                                        self::PROPERTY_CLASS    => MultiSelectSearchInputGUI::class,
+                                        self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
                                         self::PROPERTY_REQUIRED => true,
                                         self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->searchUsers(),
                                         "setAjaxLink"           => self::dic()->ctrl()->getLinkTarget($this->parent, ActionGUI::CMD_GET_USERS_AUTO_COMPLETE, "", true, false),

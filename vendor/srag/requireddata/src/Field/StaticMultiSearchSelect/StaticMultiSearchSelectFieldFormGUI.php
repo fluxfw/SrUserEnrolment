@@ -2,7 +2,7 @@
 
 namespace srag\RequiredData\SrUserEnrolment\Field\StaticMultiSearchSelect;
 
-use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
 use srag\RequiredData\SrUserEnrolment\Field\MultiSearchSelect\MultiSearchSelectFieldFormGUI;
 
@@ -59,7 +59,7 @@ abstract class StaticMultiSearchSelectFieldFormGUI extends MultiSearchSelectFiel
             $this->fields,
             [
                 "options" => [
-                    self::PROPERTY_CLASS    => MultiSelectSearchInputGUI::class,
+                    self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_OPTIONS  => $this->deliverPossibleOptions(),
                     "setAjaxLink"           => self::dic()->ctrl()->getLinkTarget($this->parent, FieldCtrl::CMD_STATIC_MULTI_SEARCH_SELECT_GET_DATA_AUTOCOMPLETE, "", true, false)

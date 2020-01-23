@@ -7,7 +7,7 @@ use ilSelectInputGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use ilUtil;
-use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
@@ -284,7 +284,7 @@ class RequestsTableGUI extends TableGUI
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class
             ],
             "responsible_users" => [
-                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => self::srUserEnrolment()->ruleEnrolment()->searchUsers(),
                 "setAjaxLink"                     => self::dic()->ctrl()->getLinkTarget($this->parent_obj, RequestsGUI::CMD_GET_USERS_AUTO_COMPLETE, "", true, false)
             ]

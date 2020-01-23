@@ -2,7 +2,7 @@
 
 namespace srag\RequiredData\SrUserEnrolment\Field\MultiSearchSelect;
 
-use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\RequiredData\SrUserEnrolment\Field\MultiSelect\MultiSelectFillField;
 
@@ -37,7 +37,7 @@ class MultiSearchSelectFillField extends MultiSelectFillField
     public function getFormFields() : array
     {
         return [
-            PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchInputGUI::class,
+            PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
             PropertyFormGUI::PROPERTY_OPTIONS => $this->field->getSelectOptions()
         ];
     }

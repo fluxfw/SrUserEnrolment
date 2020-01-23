@@ -7,7 +7,7 @@ use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
 use ilSubmitButton;
 use ilUIPluginRouterGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchInputGUI\MultiSelectSearchInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -125,7 +125,7 @@ class RequestsGUI
             self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
             self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormActionByClass(RequestStepGUI::class));
 
-            $users = new MultiSelectSearchInputGUI("", RequestStepGUI::GET_PARAM_USER_ID);
+            $users = new MultiSelectSearchNewInputGUI("", RequestStepGUI::GET_PARAM_USER_ID);
             $users->setAjaxLink(self::dic()->ctrl()->getLinkTarget($this, self::CMD_GET_USERS_AUTO_COMPLETE_REQUEST, "", true, false));
             self::dic()->toolbar()->addInputItem($users);
 
@@ -183,7 +183,7 @@ class RequestsGUI
             ];
         }
 
-        self::output()->outputJSON(["result" => $options]);
+        self::output()->outputJSON(["results" => $options]);
     }
 
 
@@ -212,7 +212,7 @@ class RequestsGUI
             }
         }
 
-        self::output()->outputJSON(["result" => $options]);
+        self::output()->outputJSON(["results" => $options]);
     }
 
 
