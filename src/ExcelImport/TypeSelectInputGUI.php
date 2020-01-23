@@ -26,12 +26,12 @@ class TypeSelectInputGUI extends ilSelectInputGUI
     /**
      *
      */
-    protected function initJS()/*: void*/
+    public static function init()/*: void*/
     {
         if (self::$init === false) {
             self::$init = true;
 
-            (new TextInputGUIWithModernAutoComplete())->initJS();
+            TextInputGUIWithModernAutoComplete::init();
 
             $dir = __DIR__;
             $dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1);
@@ -42,14 +42,15 @@ class TypeSelectInputGUI extends ilSelectInputGUI
 
 
     /**
-     * @param string $a_mode
+     * TypeSelectInputGUI constructor
      *
-     * @return string
+     * @param string $a_title
+     * @param string $a_postvar
      */
-    public function render(/*string*/ $a_mode = "") : string
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
-        $this->initJS();
+        parent::__construct($a_title, $a_postvar);
 
-        return parent::render();
+        self::init();
     }
 }
