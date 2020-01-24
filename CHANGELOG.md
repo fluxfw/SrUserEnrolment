@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [3.3.0]
 - Improve user selection in assistants and deputies
 - Request new users from requests table
 - Request create user and accept time/user
