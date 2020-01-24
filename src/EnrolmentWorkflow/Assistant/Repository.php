@@ -94,7 +94,7 @@ final class Repository
     /**
      * @param int  $user_id
      * @param int  $assistant_user_id
-     * @param bool $assistant_user_id
+     * @param bool $active_check
      * @param bool $create_new
      *
      * @return Assistant|null

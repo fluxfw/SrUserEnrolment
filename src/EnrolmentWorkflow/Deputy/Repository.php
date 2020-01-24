@@ -94,7 +94,7 @@ final class Repository
     /**
      * @param int  $user_id
      * @param int  $deputy_user_id
-     * @param bool $deputy_user_id
+     * @param bool $active_check
      * @param bool $create_new
      *
      * @return Deputy|null
