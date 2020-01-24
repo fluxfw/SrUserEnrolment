@@ -189,16 +189,26 @@ class RequestInfoGUI
     {
         $steps = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($this->request->getStep()->getWorkflowId());
 
-        $workflow_list = '<ul>';
+        $workflow_list = '';
 
         foreach ($steps as $step) {
             $request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($this->request->getObjRefId(), $step->getStepId(), $this->request->getUserId());
 
-            $text = '<div>' . $step->getTitle() . '</div>';
+            $icon = "";
+            $text = $step->getTitle();
+            $info = [];
 
             if ($request !== null) {
-                $text = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($request->isAccepted() ? ilUtil::getImagePath("icon_ok.svg") : ilUtil::getImagePath("icon_not_ok.svg"),
-                        "")) . $text;
+                if ($request->isAccepted()) {
+                    $icon = "icon_ok.svg";
+
+                    $info = [
+                        $request->getFormattedAcceptTime(),
+                        $request->getAcceptUser()->getFullname()
+                    ];
+                } else {
+                    $icon = "icon_not_ok.svg";
+                }
 
                 if ($request->getRequestId() === $this->request->getRequestId()) {
                     $text = '<b>' . $text . '</b>';
@@ -207,18 +217,23 @@ class RequestInfoGUI
                 self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUEST_ID, $request->getRequestId());
                 $text = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($text, self::dic()->ctrl()->getLinkTarget($this, self::CMD_SHOW_WORKFLOW)));
             } else {
-                $text = '<span>' . $text . '</span>';
+                if ($this->single) {
+                    continue;
+                }
             }
 
-            $workflow_list .= '<li>' . $text . '</li>';
+            if ($icon) {
+                $icon = self::dic()->ui()->factory()->image()->standard(ilUtil::getImagePath($icon), "");
+            } else {
+                $icon = '<img style="width:25px;">';
+            }
+
+            $info_tpl = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
+            $info_tpl->setVariable("INFO", nl2br(implode("\n", $info)));
+
+            $workflow_list .= '<div>' . self::output()->getHTML([$icon, $text, $info_tpl]) . '</div>';
         }
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUEST_ID, filter_input(INPUT_GET, self::GET_PARAM_REQUEST_ID));
-
-        $workflow_list .= '</ul>';
-
-        // Can not use `ilChecklistGUI` because in `ilGroupedListGUI` links are top and nolinks bottom (because bad different `ilTemplate` block) and this will break the step sort
-        $workflow_tpl = new ilTemplate("Services/UIComponent/Checklist/templates/default/tpl.checklist.html", true, true);
-        $workflow_tpl->setVariable("LIST", $workflow_list);
 
         if (!$this->single) {
             $actions = [];
@@ -234,7 +249,7 @@ class RequestInfoGUI
                 ->translate("actions", RequestsGUI::LANG_MODULE))));
         }
 
-        self::output()->output([$workflow_tpl, self::dic()->ui()->factory()->listing()->descriptive($this->request->getFormattedRequiredData())], true);
+        self::output()->output([$workflow_list, "<br><br>", self::dic()->ui()->factory()->listing()->descriptive($this->request->getFormattedRequiredData())], true);
     }
 
 

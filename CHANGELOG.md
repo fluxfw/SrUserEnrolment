@@ -1,9 +1,16 @@
 # Changelog
 
+## [3.3.0]
+- Improve user selection in assistants and deputies
+- Request new users from requests table
+- Request create user and accept time/user
+- Some changes in request info
+
 ## [3.2.0]
 - Enrolment workflow deputies
 - Support required data for multiple requests
 - Manage assistants for each user also on administration (like deputies)
+- Cron job for remove inactive users as assistsants/deputies
 - Fixes
 
 ## [3.1.0]

@@ -135,6 +135,8 @@ class AcceptRequestGUI
             $required_data);
 
         $this->parent->getRequest()->setAccepted(true);
+        $this->parent->getRequest()->setAcceptTime(time());
+        $this->parent->getRequest()->setAcceptUserId(self::dic()->user()->getId());
         self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->parent->getRequest());
 
         ilUtil::sendSuccess(self::plugin()

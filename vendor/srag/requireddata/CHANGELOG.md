@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.7.1]
+- Fix
+
+## [0.7.0]
+- `SearchSelectField`
+
+## [0.6.0]
+- `DynamicValue`
+
+## [0.5.6]
+- Use type for get fields
+
+## [0.5.5]
+- Use type for get fields
+
 ## [0.5.4]
 - Empty select text
 

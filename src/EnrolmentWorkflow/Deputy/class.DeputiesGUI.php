@@ -9,7 +9,6 @@ use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
 use ilTemplate;
 use ilUIPluginRouterGUI;
-use ilUserAutoComplete;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -242,20 +241,20 @@ class DeputiesGUI
      */
     protected function userAutoComplete()/*:void*/
     {
-        $auto = new ilUserAutoComplete();
-        $auto->setSearchFields(["login", "firstname", "lastname", "email", "usr_id"]);
-        $auto->setMoreLinkAvailable(true);
-        $auto->setResultField("usr_id");
+        $search = strval(filter_input(INPUT_GET, "term", FILTER_DEFAULT, FILTER_FORCE_ARRAY)["term"]);
 
-        if (filter_input(INPUT_GET, "fetchall")) {
-            $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        }
+        $options = [];
 
         // TODO: Skip self
 
-        echo $auto->getList(filter_input(INPUT_GET, "term"));
+        foreach (self::srUserEnrolment()->ruleEnrolment()->searchUsers($search) as $id => $title) {
+            $options[] = [
+                "id"   => $id,
+                "text" => $title
+            ];
+        }
 
-        exit;
+        self::output()->outputJSON(["results" => $options]);
     }
 
 

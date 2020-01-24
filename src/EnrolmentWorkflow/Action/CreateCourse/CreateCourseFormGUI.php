@@ -89,7 +89,7 @@ class CreateCourseFormGUI extends AbstractActionFormGUI
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
                         }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->action->getRequiredDataFromStepId(), [
-                            TextField::class
+                            TextField::getType()
                         ])),
                     self::PROPERTY_NOT_ADD  => empty($this->action->getRequiredDataFromStepId())
                 ],
@@ -99,7 +99,7 @@ class CreateCourseFormGUI extends AbstractActionFormGUI
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
                         }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->action->getRequiredDataFromStepId(), [
-                            DateField::class
+                            DateField::getType()
                         ])),
                     self::PROPERTY_NOT_ADD  => empty($this->action->getRequiredDataFromStepId())
                 ],
@@ -109,7 +109,7 @@ class CreateCourseFormGUI extends AbstractActionFormGUI
                     self::PROPERTY_OPTIONS  => ["" => ""] + array_map(function (AbstractField $field) : string {
                             return $field->getLabel();
                         }, self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->action->getRequiredDataFromStepId(), [
-                            DateField::class
+                            DateField::getType()
                         ])),
                     self::PROPERTY_NOT_ADD  => empty($this->action->getRequiredDataFromStepId())
                 ]

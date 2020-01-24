@@ -229,7 +229,7 @@ class ActionGUI
             ];
         }
 
-        self::output()->outputJSON(["result" => $options]);
+        self::output()->outputJSON(["results" => $options]);
     }
 
 

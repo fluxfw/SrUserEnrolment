@@ -316,6 +316,7 @@ final class Repository
     {
         if (empty($request->getRequestId())) {
             $request->setCreateTime(time());
+            $request->setCreateUserId(self::dic()->user()->getId());
         }
 
         $request->store();

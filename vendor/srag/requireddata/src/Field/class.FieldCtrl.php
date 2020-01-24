@@ -222,7 +222,7 @@ class FieldCtrl
             ];
         }
 
-        self::output()->outputJSON(["result" => $options]);
+        self::output()->outputJSON(["results" => $options]);
     }
 
 

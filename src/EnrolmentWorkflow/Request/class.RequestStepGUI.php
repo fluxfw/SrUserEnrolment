@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ILIAS\UI\Component\Component;
 use ilLink;
+use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilSrUserEnrolmentUIHookGUI;
 use ilUIPluginRouterGUI;
@@ -36,6 +37,7 @@ class RequestStepGUI
     const CMD_BACK = "back";
     const CMD_REQUEST_STEP = "requestStep";
     const GET_PARAM_USER_ID = "user_id";
+    const SESSION_USERS = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_users";
     /**
      * @var int
      */
@@ -45,9 +47,9 @@ class RequestStepGUI
      */
     protected $step;
     /**
-     * @var int
+     * @var int[]
      */
-    protected $user_id;
+    protected $user_ids;
 
 
     /**
@@ -66,17 +68,18 @@ class RequestStepGUI
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
         $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
-        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
+        if (strtolower(self::dic()->http()->request()->getMethod()) === "post") {
+            $this->user_ids = filter_input(INPUT_POST, self::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+        } else {
+            $this->user_ids = [intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID))];
 
-        if (self::dic()->ctrl()->getCmd() !== self::CMD_BACK
-            && !self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($this->obj_ref_id, $this->step->getStepId(), self::dic()->user()->getId(), $this->user_id)
-        ) {
-            die();
+            if (empty($this->user_ids[0])) {
+                $this->user_ids = ilSession::get(self::SESSION_USERS);
+            }
         }
 
         self::dic()->ctrl()->saveParameter($this, RequestsGUI::GET_PARAM_REF_ID);
         self::dic()->ctrl()->saveParameter($this, StepGUI::GET_PARAM_STEP_ID);
-        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
 
         $this->setTabs();
 
@@ -198,6 +201,7 @@ class RequestStepGUI
      */
     protected function back()/*: void*/
     {
+        ilSession::clear(self::SESSION_USERS);
         self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
 
         self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->tree()->getParentId($this->obj_ref_id)));
@@ -209,12 +213,20 @@ class RequestStepGUI
      */
     protected function requestStep()/*: void*/
     {
+        if (!is_array($this->user_ids) || empty($this->user_ids)) {
+            self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+
+            return;
+        }
+
         $required_data_fields = self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId());
 
         if (!empty($required_data_fields)) {
             $required_data = self::srUserEnrolment()->requiredData()->fills()->getFillValues();
 
             if (empty($required_data)) {
+                ilSession::set(self::SESSION_USERS, $this->user_ids);
+
                 self::dic()->ctrl()->redirectByClass([FillCtrl::class], FillCtrl::CMD_FILL_FIELDS);
 
                 return;
@@ -223,7 +235,13 @@ class RequestStepGUI
             $required_data = null;
         }
 
-        self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->obj_ref_id, $this->step->getStepId(), $this->user_id, $required_data);
+        $this->user_ids = array_filter($this->user_ids, function (int $user_id) : bool {
+            return self::srUserEnrolment()->enrolmentWorkflow()->requests()->canRequestWithAssistant($this->obj_ref_id, $this->step->getStepId(), self::dic()->user()->getId(), $user_id);
+        });
+
+        foreach ($this->user_ids as $user_id) {
+            self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->obj_ref_id, $this->step->getStepId(), $user_id, $required_data);
+        }
 
         ilUtil::sendSuccess(self::plugin()->translate("requested", RequestsGUI::LANG_MODULE, [$this->step->getActionTitle()]), true);
 

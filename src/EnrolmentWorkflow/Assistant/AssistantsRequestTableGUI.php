@@ -134,7 +134,7 @@ class AssistantsRequestTableGUI extends TableGUI
     protected function initCommands()/*: void*/
     {
         $this->setSelectAllCheckbox(RequestStepGUI::GET_PARAM_USER_ID);
-        $this->addMultiCommand(AssistantsRequestGUI::CMD_MULTIPLE_REQUESTS, $this->parent_obj->getStep()->getActionTitle());
+        $this->addMultiCommand(RequestStepGUI::CMD_REQUEST_STEP, $this->parent_obj->getStep()->getActionTitle());
     }
 
 

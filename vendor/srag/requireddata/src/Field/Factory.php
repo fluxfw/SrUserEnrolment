@@ -12,6 +12,7 @@ use srag\RequiredData\SrUserEnrolment\Field\MultilineText\MultilineTextField;
 use srag\RequiredData\SrUserEnrolment\Field\MultiSearchSelect\MultiSearchSelectField;
 use srag\RequiredData\SrUserEnrolment\Field\MultiSelect\MultiSelectField;
 use srag\RequiredData\SrUserEnrolment\Field\Radio\RadioField;
+use srag\RequiredData\SrUserEnrolment\Field\SearchSelect\SearchSelectField;
 use srag\RequiredData\SrUserEnrolment\Field\Select\SelectField;
 use srag\RequiredData\SrUserEnrolment\Field\Text\TextField;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
@@ -62,6 +63,7 @@ final class Factory
             MultiSelectField::class,
             RadioField::class,
             SelectField::class,
+            SearchSelectField::class,
             TextField::class
         ];
 

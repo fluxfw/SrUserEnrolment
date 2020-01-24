@@ -124,6 +124,9 @@ self::requiredData()->fields()->factory()->addClass(XField::class);
 #### Deliver multi search select with own static options
 Just extends the `StaticMultiSearchSelect` classes
 
+#### Deliver value which user can't change
+Just extends the `DynamicValue` classes
+
 ### Requirements
 * ILIAS 5.3 or ILIAS 5.4
 * PHP >=7.0
