@@ -2,6 +2,7 @@
 
 ## [x]
 - Request new users from requests table
+- Request create user and accept time/user
 - Some changes in request info
 
 ## [3.2.0]
