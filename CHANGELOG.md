@@ -2,6 +2,7 @@
 
 ## [x]
 - Request new users from requests table
+- Some changes in request info
 
 ## [3.2.0]
 - Enrolment workflow deputies

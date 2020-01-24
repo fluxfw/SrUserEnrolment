@@ -124,6 +124,33 @@ class Request extends ActiveRecord
      * @con_is_notnull   true
      */
     protected $create_time;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $create_user_id;
+    /**
+     * @var int|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $accept_time = null;
+    /**
+     * @var int|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $accept_user_id = null;
 
 
     /**
@@ -196,6 +223,17 @@ class Request extends ActiveRecord
 
 
     /**
+     * @return ilObjUser[]
+     */
+    public function getFormattedResponsibleUsers() : array
+    {
+        return array_combine($this->responsible_users, array_map(function (int $responsible_user_id) : ilObjUser {
+            return new ilObjUser($responsible_user_id);
+        }, $this->responsible_users));
+    }
+
+
+    /**
      * @return string
      */
     public function getFormattedCreatedTime() : string
@@ -205,13 +243,29 @@ class Request extends ActiveRecord
 
 
     /**
-     * @return ilObjUser[]
+     * @return ilObjUser
      */
-    public function getFormattedResponsibleUsers() : array
+    public function getCreateUser() : ilObjUser
     {
-        return array_combine($this->responsible_users, array_map(function (int $responsible_user_id) : ilObjUser {
-            return new ilObjUser($responsible_user_id);
-        }, $this->responsible_users));
+        return new ilObjUser($this->create_user_id);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFormattedAcceptTime() : string
+    {
+        return ilDatePresentation::formatDate(new ilDateTime($this->accept_time, IL_CAL_UNIX));
+    }
+
+
+    /**
+     * @return ilObjUser
+     */
+    public function getAcceptUser() : ilObjUser
+    {
+        return new ilObjUser($this->accept_user_id);
     }
 
 
@@ -394,5 +448,59 @@ class Request extends ActiveRecord
     public function setCreateTime(int $create_time)/* : void*/
     {
         $this->create_time = $create_time;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getCreateUserId() : int
+    {
+        return $this->create_user_id;
+    }
+
+
+    /**
+     * @param int $create_user_id
+     */
+    public function setCreateUserId(int $create_user_id)/* : void*/
+    {
+        $this->create_user_id = $create_user_id;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getAcceptTime()/* : ?int*/
+    {
+        return $this->accept_time;
+    }
+
+
+    /**
+     * @param int|null $accept_time
+     */
+    public function setAcceptTime(/*?*/ int $accept_time = null)/* : void*/
+    {
+        $this->accept_time = $accept_time;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getAcceptUserId()/* : int*/
+    {
+        return $this->accept_user_id;
+    }
+
+
+    /**
+     * @param int|null $accept_user_id
+     */
+    public function setAcceptUserId(/*?*/ int $accept_user_id = null)/* : void*/
+    {
+        $this->accept_user_id = $accept_user_id;
     }
 }
