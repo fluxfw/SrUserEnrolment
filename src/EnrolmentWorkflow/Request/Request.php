@@ -236,7 +236,7 @@ class Request extends ActiveRecord
     /**
      * @return string
      */
-    public function getFormattedCreatedTime() : string
+    public function getFormattedCreateTime() : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($this->create_time, IL_CAL_UNIX));
     }

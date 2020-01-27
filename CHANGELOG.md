@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Requests table: All, own, open
+
 ## [3.3.0]
 - Improve user selection in assistants and deputies
 - Request new users from requests table

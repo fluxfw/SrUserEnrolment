@@ -153,16 +153,26 @@ logs_status_500#:#User failed
 logs_user_id#:#User login
 requests_accepted#:#Accepted
 requests_accepted_message#:#%s accepted
+requests_accept_time#:#Accept time
+requests_accept_user#:#Accept user
 requests_actions#:#Actions
+requests_create_time#:#Create time
+requests_create_user#:#Create user
 requests_my_requests#:#My requests
 requests_no#:#No
-requests_object_title#:#Object title
+requests_object#:#Object
+requests_object_end#:#End
+requests_object_start#:#Start
 requests_requested#:#%s requested
 requests_requests#:#Requests
 requests_responsible_users#:#Responsible users
+requests_type_all#:#All requests
+requests_type_open#:#Open requests
+requests_type_own#:#Own requests
 requests_user_email#:#Email
 requests_user_firstname#:#First name
 requests_user_lastname#:#Last name
+requests_user_org_units#:#Org units
 requests_yes#:#Yes
 required_data_type_userselectfield#:#User select
 reset_password_cancel#:#Cancel

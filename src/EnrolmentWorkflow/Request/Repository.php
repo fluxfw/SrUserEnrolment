@@ -162,11 +162,13 @@ final class Repository
      * @param string|null $user_lastname
      * @param string|null $user_firstname
      * @param string|null $user_email
+     * @param string|null $user_org_units
      *
      * @return Request[]
      */
     public function getRequests(/*?*/ int $obj_ref_id = null, /*?*/ int $step_id = null,/*?*/ int $user_id = null,/*?*/ array $responsible_user_ids = null, /*?*/ string $object_title = null,/*?*/
-        int $workflow_id = null, /*?*/ bool $accepted = null,/*?*/ string $user_lastname = null,/*?*/ string $user_firstname = null, /*?*/ string $user_email = null
+        int $workflow_id = null, /*?*/ bool $accepted = null,/*?*/ string $user_lastname = null,/*?*/ string $user_firstname = null, /*?*/ string $user_email = null, /*?*/
+        string $user_org_units = null
     ) : array {
         if (!self::srUserEnrolment()->enrolmentWorkflow()->isEnabled()) {
             return []; // TODO:
@@ -223,6 +225,12 @@ final class Repository
         if (!empty($user_email)) {
             $requests = array_filter($requests, function (Request $request) use ($user_email): bool {
                 return (stripos($request->getUser()->getEmail(), $user_email) !== false);
+            });
+        }
+
+        if (!empty($user_org_units)) {
+            $requests = array_filter($requests, function (Request $request) use ($user_org_units): bool {
+                return (stripos($request->getUser()->getOrgUnitsRepresentation(), $user_org_units) !== false);
             });
         }
 

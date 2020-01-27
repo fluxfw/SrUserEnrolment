@@ -60,6 +60,9 @@ abstract class TableGUI extends ilTable2GUI
      */
     public function __construct($parent, /*string*/ $parent_cmd)
     {
+        $this->parent_obj = $parent;
+        $this->parent_cmd = $parent_cmd;
+
         $this->initId();
 
         parent::__construct($parent, $parent_cmd);

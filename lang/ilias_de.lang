@@ -153,16 +153,26 @@ logs_status_500#:#Benutzer fehlgeschlagen
 logs_user_id#:#Benutzer Login
 requests_accepted#:#Angenommen
 requests_accepted_message#:#%s angenommen
+requests_accept_time#:#Akzeptieren-Zeitpunkt
+requests_accept_user#:#Akzeptieren-Benutzer
 requests_actions#:#Aktionen
+requests_create_time#:#Erstell-Zeitpunkt
+requests_create_user#:#Erstell-Benutzer
 requests_my_requests#:#Meine Anfragen
 requests_no#:#Nein
-requests_object_title#:#Objekt-Titel
+requests_object#:#Objekt
+requests_object_end#:#Ende
+requests_object_start#:#Start
 requests_requested#:#%s angefordert
 requests_requests#:#Anfragen
 requests_responsible_users#:#Verantwortliche Benutzer
+requests_type_all#:#Alle Anfragen
+requests_type_open#:#Offene Anfragen
+requests_type_own#:#Eigene Anfragen
 requests_user_email#:#E-Mail
 requests_user_firstname#:#Vorname
 requests_user_lastname#:#Nachname
+requests_user_org_units#:#Org-Units
 requests_yes#:#Ja
 required_data_type_userselectfield#:#Benutzer-Auswahl
 reset_password_cancel#:#Abbrechen
