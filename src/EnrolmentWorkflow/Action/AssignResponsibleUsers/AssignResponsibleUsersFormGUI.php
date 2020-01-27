@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AssignResponsibleUsers;
 
-use ilMultiSelectInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
@@ -52,7 +51,7 @@ class AssignResponsibleUsersFormGUI extends AbstractActionFormGUI
                             case AssignResponsibleUsers::USER_TYPE_POSITION:
                                 $items = [
                                     "assign_positions" => [
-                                        self::PROPERTY_CLASS    => ilMultiSelectInputGUI::class,
+                                        self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
                                         self::PROPERTY_REQUIRED => true,
                                         self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getPositions()
                                     ]

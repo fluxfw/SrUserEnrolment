@@ -3,9 +3,9 @@
 namespace srag\Plugins\SrUserEnrolment\Config;
 
 use ilCheckboxInputGUI;
-use ilMultiSelectInputGUI;
 use ilSrUserEnrolmentConfigGUI;
 use ilSrUserEnrolmentPlugin;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI;
@@ -78,10 +78,9 @@ class ConfigFormGUI extends PropertyFormGUI
     {
         $this->fields = [
             self::KEY_ROLES                   => [
-                self::PROPERTY_CLASS    => ilMultiSelectInputGUI::class,
+                self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
-                self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles(),
-                "enableSelectAll"       => true
+                self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles()
             ],
             self::KEY_SHOW_RULES_ENROLL       => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
@@ -166,18 +165,6 @@ class ConfigFormGUI extends PropertyFormGUI
     protected function storeValue(/*string*/ $key, $value)/*: void*/
     {
         switch ($key) {
-            case self::KEY_ROLES:
-                if ($value[0] === "") {
-                    array_shift($value);
-                }
-
-                $value = array_map(function (string $role_id) : int {
-                    return intval($role_id);
-                }, $value);
-
-                self::srUserEnrolment()->config()->setValue($key, $value);
-                break;
-
             case ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
                 break;
 

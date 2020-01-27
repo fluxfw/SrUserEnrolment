@@ -126,6 +126,7 @@ class RequestsGUI
             self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormActionByClass(RequestStepGUI::class));
 
             $users = new MultiSelectSearchNewInputGUI("", RequestStepGUI::GET_PARAM_USER_ID);
+            $users->setOptions(self::srUserEnrolment()->ruleEnrolment()->searchUsers());
             $users->setAjaxLink(self::dic()->ctrl()->getLinkTarget($this, self::CMD_GET_USERS_AUTO_COMPLETE_REQUEST, "", true, false));
             self::dic()->toolbar()->addInputItem($users);
 

@@ -24,6 +24,7 @@ class NoResponsibleUsersAssigned extends AbstractRule
     {
         switch ($parent_context) {
             case self::PARENT_CONTEXT_ACTION:
+            case null:
                 return true;
 
             default:
