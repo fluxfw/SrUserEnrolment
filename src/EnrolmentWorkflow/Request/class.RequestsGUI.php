@@ -36,7 +36,6 @@ class RequestsGUI
     const GET_PARAM_REF_ID = "ref_id";
     const GET_PARAM_REQUESTS_TYPE = "requests_type";
     const LANG_MODULE = "requests";
-    const TAB_REQUESTS = "requests_";
     const REQUESTS_TYPE_ALL = 1;
     const REQUESTS_TYPE_OWN = 2;
     const REQUESTS_TYPE_OPEN = 3;
@@ -46,6 +45,7 @@ class RequestsGUI
             self::REQUESTS_TYPE_OWN  => "own",
             self::REQUESTS_TYPE_OPEN => "open"
         ];
+    const TAB_REQUESTS = "requests_";
     /**
      * @var int|null
      */
