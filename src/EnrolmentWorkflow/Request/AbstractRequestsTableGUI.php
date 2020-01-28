@@ -88,6 +88,8 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
             case "object_title":
                 $column = htmlspecialchars($request->getObject()->getTitle());
+                $column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::dic()->ctrl()
+                    ->getLinkTargetByClass(RequestInfoGUI::class, RequestInfoGUI::CMD_SHOW_WORKFLOW)));
                 break;
 
             case "object_start":
@@ -108,8 +110,6 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
             case "workflow_title":
                 $column = htmlspecialchars($request->getWorkflow()->getTitle());
-                $column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::dic()->ctrl()
-                    ->getLinkTargetByClass(RequestInfoGUI::class, RequestInfoGUI::CMD_SHOW_WORKFLOW)));
                 break;
 
             case "step_title":
