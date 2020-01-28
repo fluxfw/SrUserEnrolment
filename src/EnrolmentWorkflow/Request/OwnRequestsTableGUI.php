@@ -27,15 +27,15 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
                 "default" => true,
                 "sort"    => false
             ],
-            "create_time"       => [
-                "id"      => "create_time",
+            "create_time_workflow"       => [
+                "id"      => "create_time_workflow",
                 "default" => true,
-                "sort"    => false,
+                "sort"    => false
             ],
             "create_user"       => [
                 "id"      => "create_user",
                 "default" => true,
-                "sort"    => false,
+                "sort"    => false
             ],
             "object_title"      => [
                 "id"      => "object_title",

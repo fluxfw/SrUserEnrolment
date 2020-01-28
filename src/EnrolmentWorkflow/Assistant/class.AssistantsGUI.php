@@ -181,8 +181,8 @@ class AssistantsGUI
 
         self::dic()
             ->tabs()
-            ->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate(($this->user_id === intval($user_id) ? "my_" : "") . "assistants", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass(self::class, self::CMD_EDIT_ASSISTANTS));
+            ->addTab(self::TAB_EDIT_ASSISTANTS, self::plugin()->translate(($this->user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "assistants", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTarget($this, self::CMD_EDIT_ASSISTANTS));
     }
 
 

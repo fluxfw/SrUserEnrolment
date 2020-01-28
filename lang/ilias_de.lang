@@ -157,6 +157,7 @@ requests_accept_time#:#Akzeptieren-Zeitpunkt
 requests_accept_user#:#Akzeptieren-Benutzer
 requests_actions#:#Aktionen
 requests_create_time#:#Erstell-Zeitpunkt
+requests_create_time_workflow#:#Worklfow-Erstell-Zeitpunkt
 requests_create_user#:#Erstell-Benutzer
 requests_my_requests#:#Meine Anfragen
 requests_no#:#Nein

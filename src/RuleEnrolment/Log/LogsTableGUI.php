@@ -164,7 +164,7 @@ class LogsTableGUI extends TableGUI
             "status"  => [
                 PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => [
-                        "" => "",
+                        "" => ""
                     ] + array_map(function (int $status) : string {
                         return $this->txt("status_" . $status);
                     }, Log::$status_all)

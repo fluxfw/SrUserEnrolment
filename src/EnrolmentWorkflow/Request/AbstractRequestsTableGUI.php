@@ -65,6 +65,13 @@ abstract class AbstractRequestsTableGUI extends TableGUI
                 $column = htmlspecialchars($request->getFormattedCreateTime());
                 break;
 
+            case "create_time_workflow":
+                $column = htmlspecialchars(current(self::srUserEnrolment()
+                    ->enrolmentWorkflow()
+                    ->requests()
+                    ->getRequests($request->getObjRefId(), null, $request->getUserId()))->getFormattedCreateTime());
+                break;
+
             case "create_user":
                 $column = htmlspecialchars($request->getCreateUser()->getFullname());
                 break;

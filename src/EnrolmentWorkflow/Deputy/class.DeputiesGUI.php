@@ -181,8 +181,8 @@ class DeputiesGUI
 
         self::dic()
             ->tabs()
-            ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($this->user_id === intval($user_id) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass(self::class, self::CMD_EDIT_DEPUTIES));
+            ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($this->user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTarget($this, self::CMD_EDIT_DEPUTIES));
     }
 
 

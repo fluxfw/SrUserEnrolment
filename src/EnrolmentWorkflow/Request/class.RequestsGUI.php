@@ -155,10 +155,11 @@ class RequestsGUI
         }
 
         foreach (self::REQUESTS_TYPES as $requests_type => $requests_type_lang_key) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REQUESTS_TYPE, $requests_type);
+            self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUESTS_TYPE, $requests_type);
             self::dic()->tabs()->addTab(self::TAB_REQUESTS . $requests_type, self::plugin()->translate("type_" . $requests_type_lang_key, self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass(self::class, self::CMD_LIST_REQUESTS));
+                ->getLinkTarget($this, self::CMD_LIST_REQUESTS));
         }
+        self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUESTS_TYPE, $this->requests_type);
     }
 
 

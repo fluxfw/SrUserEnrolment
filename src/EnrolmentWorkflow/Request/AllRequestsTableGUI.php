@@ -23,58 +23,58 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "accepted"          => [
+            "accepted"             => [
                 "id"      => "accepted",
                 "default" => true,
                 "sort"    => false
             ],
-            "create_time"       => [
-                "id"      => "create_time",
+            "create_time_workflow" => [
+                "id"      => "create_time_workflow",
                 "default" => true,
-                "sort"    => false,
+                "sort"    => false
             ],
-            "create_user"       => [
+            "create_user"          => [
                 "id"      => "create_user",
                 "default" => true,
-                "sort"    => false,
+                "sort"    => false
             ],
-            "object_title"      => [
+            "object_title"         => [
                 "id"      => "object_title",
                 "default" => true,
                 "sort"    => false,
                 "txt"     => self::plugin()->translate("object", RequestsGUI::LANG_MODULE)
             ],
-            "object_start"      => [
+            "object_start"         => [
                 "id"      => "object_start",
                 "default" => true,
-                "sort"    => false,
+                "sort"    => false
             ],
-            "object_end"        => [
+            "object_end"           => [
                 "id"      => "object_end",
                 "default" => true,
-                "sort"    => false,
+                "sort"    => false
             ],
-            "user_firstname"    => [
+            "user_firstname"       => [
                 "id"      => "user_firstname",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_lastname"     => [
+            "user_lastname"        => [
                 "id"      => "user_lastname",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_email"        => [
+            "user_email"           => [
                 "id"      => "user_email",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_org_units"    => [
+            "user_org_units"       => [
                 "id"      => "user_org_units",
                 "default" => true,
                 "sort"    => false
             ],
-            "responsible_users" => [
+            "responsible_users"    => [
                 "id"      => "responsible_users",
                 "default" => true,
                 "sort"    => false
