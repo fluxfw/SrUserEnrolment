@@ -51,7 +51,7 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
         ];
 
         foreach ($this->modifications as $modification) {
-            $columns = array_merge($columns, $modification->getAdditionalColumns());
+            $columns = array_merge($columns, $modification->getAdditionalColumns($this->parent_obj->getRequestsType()));
         }
 
         return $columns;
@@ -192,7 +192,7 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
         ];
 
         foreach ($this->modifications as $modification) {
-            $this->filter_fields = array_merge($this->filter_fields, $modification->getAdditionalFilterFields());
+            $this->filter_fields = array_merge($this->filter_fields, $modification->getAdditionalFilterFields($this->parent_obj->getRequestsType()));
         }
     }
 }

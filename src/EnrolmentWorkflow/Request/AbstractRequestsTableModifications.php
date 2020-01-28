@@ -29,15 +29,19 @@ abstract class AbstractRequestsTableModifications
 
 
     /**
+     * @param int $requests_type
+     *
      * @return array
      */
-    public abstract function getAdditionalColumns() : array;
+    public abstract function getAdditionalColumns(int $requests_type) : array;
 
 
     /**
+     * @param int $requests_type
+     *
      * @return array
      */
-    public abstract function getAdditionalFilterFields() : array;
+    public abstract function getAdditionalFilterFields(int $requests_type) : array;
 
 
     /**
