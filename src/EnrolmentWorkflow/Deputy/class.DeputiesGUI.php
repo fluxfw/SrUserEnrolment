@@ -7,9 +7,9 @@ use ilDatePresentation;
 use ilObjUserGUI;
 use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
-use ilTemplate;
 use ilUIPluginRouterGUI;
 use ilUtil;
+use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -107,7 +107,7 @@ class DeputiesGUI
         self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
 
         $tpl = self::plugin()->template("EnrolmentWorkflow/pd_deputies.html");
-        $tpl->setVariable("TITLE", self::plugin()->translate("my_deputies", self::LANG_MODULE));
+        $tpl->setVariableEscaped("TITLE", self::plugin()->translate("my_deputies", self::LANG_MODULE));
         $tpl->setVariable("EDIT_LINK", self::output()->getHTML(self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("edit", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_DEPUTIES))));
         $deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputies($user_id);
@@ -115,10 +115,10 @@ class DeputiesGUI
             $tpl->setCurrentBlock("deputies");
 
             foreach (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputies($user_id) as $deputy) {
-                $tpl->setVariable("USER", $deputy->getDeputyUser()->getFullname());
+                $tpl->setVariableEscaped("USER", $deputy->getDeputyUser()->getFullname());
                 if ($deputy->getUntil() !== null) {
-                    $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
-                    $tpl_until->setVariable("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
+                    $tpl_until = new Template(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
+                    $tpl_until->setVariableEscaped("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
                         ilDatePresentation::formatDate($deputy->getUntil())
                     ]));
                     $tpl->setVariable("UNTIL", self::output()->getHTML($tpl_until));
@@ -126,20 +126,20 @@ class DeputiesGUI
                 $tpl->parseCurrentBlock();
             }
         } else {
-            $tpl->setVariable("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
+            $tpl->setVariableEscaped("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
         }
 
         $tpl2 = self::plugin()->template("EnrolmentWorkflow/pd_deputies.html");
-        $tpl2->setVariable("TITLE", self::plugin()->translate("deputy_of", self::LANG_MODULE));
+        $tpl2->setVariableEscaped("TITLE", self::plugin()->translate("deputy_of", self::LANG_MODULE));
         $deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputiesOf($user_id);
         if (!empty($deputies)) {
             foreach ($deputies as $deputy) {
                 $tpl2->setCurrentBlock("deputies");
 
-                $tpl2->setVariable("USER", $deputy->getUser()->getFullname());
+                $tpl2->setVariableEscaped("USER", $deputy->getUser()->getFullname());
                 if ($deputy->getUntil() !== null) {
-                    $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
-                    $tpl_until->setVariable("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
+                    $tpl_until = new Template(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
+                    $tpl_until->setVariableEscaped("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
                         ilDatePresentation::formatDate($deputy->getUntil())
                     ]));
                     $tpl2->setVariable("UNTIL", self::output()->getHTML($tpl_until));
@@ -147,7 +147,7 @@ class DeputiesGUI
                 $tpl2->parseCurrentBlock();
             }
         } else {
-            $tpl2->setVariable("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
+            $tpl2->setVariableEscaped("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
         }
 
         return self::output()->getHTML([$tpl, $tpl2]);

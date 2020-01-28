@@ -6,9 +6,9 @@ use ilObject;
 use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
 use ilSrUserEnrolmentUIHookGUI;
-use ilTemplate;
 use ilUIPluginRouterGUI;
 use ilUtil;
+use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepsGUI;
@@ -110,7 +110,7 @@ class RequestInfoGUI
         if (!empty($requests)) {
             $tpl = self::plugin()->template("EnrolmentWorkflow/pd_my_requests.html");
 
-            $tpl->setVariable("MY_REQUESTS_TITLE", self::plugin()->translate("my_requests", RequestsGUI::LANG_MODULE));
+            $tpl->setVariableEscaped("MY_REQUESTS_TITLE", self::plugin()->translate("my_requests", RequestsGUI::LANG_MODULE));
 
             foreach ($requests as $request
             ) {
@@ -124,14 +124,14 @@ class RequestInfoGUI
                 $tpl->setVariable("LINK", self::dic()->ctrl()
                     ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_SHOW_WORKFLOW));
 
-                $tpl->setVariable("OBJECT_TITLE", self::dic()->objDataCache()->lookupTitle($request->getObjId()));
+                $tpl->setVariableEscaped("OBJECT_TITLE", self::dic()->objDataCache()->lookupTitle($request->getObjId()));
 
                 $tpl->setVariable("OBJECT_ICON", self::output()->getHTML(self::dic()->ui()->factory()->image()->standard(ilObject::_getIcon($request->getObjId()), "")));
 
                 $current_request = current(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, $request->getUserId(), null, null, null, false));
                 if ($current_request !== false) {
                     $current_step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById($current_request->getStepId());
-                    $tpl->setVariable("CURRENT_STEP", self::plugin()->translate("step", StepsGUI::LANG_MODULE) . ": " . $current_step->getTitle());
+                    $tpl->setVariableEscaped("CURRENT_STEP", self::plugin()->translate("step", StepsGUI::LANG_MODULE) . ": " . $current_step->getTitle());
                 }
 
                 $tpl->parseCurrentBlock();
@@ -151,10 +151,10 @@ class RequestInfoGUI
     {
         self::dic()->tabs()->clearTargets();
 
-        self::dic()->mainTemplate()->setTitleIcon(ilObject::_getIcon("", "tiny",
+        self::dic()->ui()->mainTemplate()->setTitleIcon(ilObject::_getIcon("", "tiny",
             self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->request->getObjRefId()))));
 
-        self::dic()->mainTemplate()->setTitle(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->request->getObjRefId())));
+        self::dic()->ui()->mainTemplate()->setTitle(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->request->getObjRefId())));
 
         if ($this->single) {
             self::dic()->tabs()->setBackTarget(self::dic()->language()->txt("personal_desktop"), self::dic()->ctrl()
@@ -195,7 +195,7 @@ class RequestInfoGUI
             $request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($this->request->getObjRefId(), $step->getStepId(), $this->request->getUserId());
 
             $icon = "";
-            $text = $step->getTitle();
+            $text = htmlspecialchars($step->getTitle());
             $info = [];
 
             if ($request !== null) {
@@ -228,8 +228,10 @@ class RequestInfoGUI
                 $icon = '<img style="width:25px;">';
             }
 
-            $info_tpl = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
-            $info_tpl->setVariable("INFO", nl2br(implode("\n", $info)));
+            $info_tpl = new Template(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
+            $info_tpl->setVariable("INFO", nl2br(implode("\n", array_map(function (string $info) : string {
+                return htmlspecialchars($info);
+            }, $info))));
 
             $workflow_list .= '<div>' . self::output()->getHTML([$icon, $text, $info_tpl]) . '</div>';
         }
@@ -245,7 +247,7 @@ class RequestInfoGUI
                     ->getLinkTargetByClass(AcceptRequestGUI::class, AcceptRequestGUI::CMD_ACCEPT_REQUEST));
             }
 
-            self::dic()->mainTemplate()->setHeaderActionMenu(self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel(self::plugin()
+            self::dic()->ui()->mainTemplate()->setHeaderActionMenu(self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel(self::plugin()
                 ->translate("actions", RequestsGUI::LANG_MODULE))));
         }
 

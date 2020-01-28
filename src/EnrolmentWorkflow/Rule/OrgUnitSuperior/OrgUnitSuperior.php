@@ -24,6 +24,6 @@ class OrgUnitSuperior extends AbstractRule
      */
     public function getRuleDescription() : string
     {
-        return $this->getPositionTitle();
+        return htmlspecialchars($this->getPositionTitle());
     }
 }

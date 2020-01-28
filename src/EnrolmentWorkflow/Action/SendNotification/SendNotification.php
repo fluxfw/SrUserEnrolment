@@ -66,7 +66,9 @@ class SendNotification extends AbstractAction
 
         $descriptions[] = self::plugin()->translate("totype_" . self::TO_TYPES[$this->to_type], ActionsGUI::LANG_MODULE);
 
-        return nl2br(implode("\n", $descriptions), false);
+        return nl2br(implode("\n", array_map(function (string $description) : string {
+            return htmlspecialchars($description);
+        }, $descriptions)), false);
     }
 
 

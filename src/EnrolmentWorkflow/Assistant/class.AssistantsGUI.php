@@ -7,9 +7,9 @@ use ilDatePresentation;
 use ilObjUserGUI;
 use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
-use ilTemplate;
 use ilUIPluginRouterGUI;
 use ilUtil;
+use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -107,7 +107,7 @@ class AssistantsGUI
         self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
 
         $tpl = self::plugin()->template("EnrolmentWorkflow/pd_assistants.html");
-        $tpl->setVariable("TITLE", self::plugin()->translate("my_assistants", self::LANG_MODULE));
+        $tpl->setVariableEscaped("TITLE", self::plugin()->translate("my_assistants", self::LANG_MODULE));
         $tpl->setVariable("EDIT_LINK", self::output()->getHTML(self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("edit", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_ASSISTANTS))));
         $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants($user_id);
@@ -115,10 +115,10 @@ class AssistantsGUI
             $tpl->setCurrentBlock("assistants");
 
             foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getUserAssistants($user_id) as $assistant) {
-                $tpl->setVariable("USER", $assistant->getAssistantUser()->getFullname());
+                $tpl->setVariableEscaped("USER", $assistant->getAssistantUser()->getFullname());
                 if ($assistant->getUntil() !== null) {
-                    $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
-                    $tpl_until->setVariable("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
+                    $tpl_until = new Template(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
+                    $tpl_until->setVariableEscaped("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
                         ilDatePresentation::formatDate($assistant->getUntil())
                     ]));
                     $tpl->setVariable("UNTIL", self::output()->getHTML($tpl_until));
@@ -126,20 +126,20 @@ class AssistantsGUI
                 $tpl->parseCurrentBlock();
             }
         } else {
-            $tpl->setVariable("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
+            $tpl->setVariableEscaped("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
         }
 
         $tpl2 = self::plugin()->template("EnrolmentWorkflow/pd_assistants.html");
-        $tpl2->setVariable("TITLE", self::plugin()->translate("assistant_of", self::LANG_MODULE));
+        $tpl2->setVariableEscaped("TITLE", self::plugin()->translate("assistant_of", self::LANG_MODULE));
         $assistants = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf($user_id);
         if (!empty($assistants)) {
             $tpl2->setCurrentBlock("assistants");
 
             foreach ($assistants as $assistant) {
-                $tpl2->setVariable("USER", $assistant->getUser()->getFullname());
+                $tpl2->setVariableEscaped("USER", $assistant->getUser()->getFullname());
                 if ($assistant->getUntil() !== null) {
-                    $tpl_until = new ilTemplate(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
-                    $tpl_until->setVariable("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
+                    $tpl_until = new Template(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
+                    $tpl_until->setVariableEscaped("INFO", self::plugin()->translate("until_date", self::LANG_MODULE, [
                         ilDatePresentation::formatDate($assistant->getUntil())
                     ]));
                     $tpl2->setVariable("UNTIL", self::output()->getHTML($tpl_until));
@@ -147,7 +147,7 @@ class AssistantsGUI
                 $tpl2->parseCurrentBlock();
             }
         } else {
-            $tpl2->setVariable("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
+            $tpl2->setVariableEscaped("NO_ONE", self::plugin()->translate("nonone", self::LANG_MODULE));
         }
 
         return self::output()->getHTML([$tpl, $tpl2]);

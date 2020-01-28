@@ -72,9 +72,9 @@ class RulesCourseGUI
 
                 // TODO: Use DICTrait
                 if (self::version()->is60()) {
-                    self::dic()->mainTemplate()->printToStdout();
+                    self::dic()->ui()->mainTemplate()->printToStdout();
                 } else {
-                    self::dic()->mainTemplate()->show();
+                    self::dic()->ui()->mainTemplate()->show();
                 }
                 break;
 

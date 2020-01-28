@@ -53,7 +53,7 @@ class WorkflowsTableGUI extends TableGUI
                 break;
 
             default:
-                $column = Items::getter($workflow, $column);
+                $column = htmlspecialchars(Items::getter($workflow, $column));
                 break;
         }
 
@@ -159,8 +159,8 @@ class WorkflowsTableGUI extends TableGUI
         self::dic()->ctrl()->setParameterByClass(WorkflowGUI::class, WorkflowGUI::GET_PARAM_WORKFLOW_ID, $workflow->getWorkflowId());
 
         $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariable("CHECKBOX_POST_VAR", WorkflowGUI::GET_PARAM_WORKFLOW_ID);
-        $this->tpl->setVariable("ID", $workflow->getWorkflowId());
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", WorkflowGUI::GET_PARAM_WORKFLOW_ID);
+        $this->tpl->setVariableEscaped("ID", $workflow->getWorkflowId());
         $this->tpl->parseCurrentBlock();
 
         parent::fillRow($workflow);

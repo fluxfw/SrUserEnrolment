@@ -62,11 +62,11 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
         switch ($column) {
             case "create_time":
-                $column = $request->getFormattedCreateTime();
+                $column = htmlspecialchars($request->getFormattedCreateTime());
                 break;
 
             case "create_user":
-                $column = $request->getCreateUser()->getFullname();
+                $column = htmlspecialchars($request->getCreateUser()->getFullname());
                 break;
 
             case "accepted":
@@ -79,20 +79,20 @@ abstract class AbstractRequestsTableGUI extends TableGUI
                 break;
 
             case "accept_time":
-                $column = $request->getFormattedAcceptTime();
+                $column = htmlspecialchars($request->getFormattedAcceptTime());
                 break;
 
             case "accept_user":
-                $column = $request->getAcceptUser()->getFullname();
+                $column = htmlspecialchars($request->getAcceptUser()->getFullname());
                 break;
 
             case "object_title":
-                $column = $request->getObject()->getTitle();
+                $column = htmlspecialchars($request->getObject()->getTitle());
                 break;
 
             case "object_start":
                 if ($request->getObject()->getCourseStart()) {
-                    $column = ilDatePresentation::formatDate($request->getObject()->getCourseStart());
+                    $column = htmlspecialchars(ilDatePresentation::formatDate($request->getObject()->getCourseStart()));
                 } else {
                     $column = "";
                 }
@@ -100,46 +100,46 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
             case "object_end":
                 if ($request->getObject()->getCourseEnd()) {
-                    $column = ilDatePresentation::formatDate($request->getObject()->getCourseEnd());
+                    $column = htmlspecialchars(ilDatePresentation::formatDate($request->getObject()->getCourseEnd()));
                 } else {
                     $column = "";
                 }
                 break;
 
             case "workflow_title":
-                $column = $request->getWorkflow()->getTitle();
+                $column = htmlspecialchars($request->getWorkflow()->getTitle());
                 $column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, self::dic()->ctrl()
                     ->getLinkTargetByClass(RequestInfoGUI::class, RequestInfoGUI::CMD_SHOW_WORKFLOW)));
                 break;
 
             case "step_title":
-                $column = $request->getStep()->getTitle();
+                $column = htmlspecialchars($request->getStep()->getTitle());
                 break;
 
             case "user_firstname":
-                $column = $request->getUser()->getFirstname();
+                $column = htmlspecialchars($request->getUser()->getFirstname());
                 break;
 
             case "user_lastname":
-                $column = $request->getUser()->getLastname();
+                $column = htmlspecialchars($request->getUser()->getLastname());
                 break;
 
             case "user_email":
-                $column = $request->getUser()->getEmail();
+                $column = htmlspecialchars($request->getUser()->getEmail());
                 break;
 
             case "user_org_units":
-                $column = $request->getUser()->getOrgUnitsRepresentation();
+                $column = htmlspecialchars($request->getUser()->getOrgUnitsRepresentation());
                 break;
 
             case "responsible_users":
                 $column = nl2br(implode("\n", array_map(function (ilObjUser $responsible_user) : string {
-                    return $responsible_user->getFullname();
+                    return htmlspecialchars($responsible_user->getFullname());
                 }, $request->getFormattedResponsibleUsers())), false);
                 break;
 
             default:
-                $column = Items::getter($request, $column);
+                $column = htmlspecialchars(Items::getter($request, $column));
                 break;
         }
 

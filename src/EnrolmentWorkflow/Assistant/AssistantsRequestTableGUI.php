@@ -64,19 +64,19 @@ class AssistantsRequestTableGUI extends TableGUI
 
         switch ($column) {
             case "user_lastname":
-                $column = $assistant->getUser()->getLastname();
+                $column = htmlspecialchars($assistant->getUser()->getLastname());
                 break;
 
             case "user_firstname":
-                $column = $assistant->getUser()->getFirstname();
+                $column = htmlspecialchars($assistant->getUser()->getFirstname());
                 break;
 
             case "user_email":
-                $column = $assistant->getUser()->getEmail();
+                $column = htmlspecialchars($assistant->getUser()->getEmail());
                 break;
 
             default:
-                $column = Items::getter($assistant, $column);
+                $column = htmlspecialchars(Items::getter($assistant, $column));
                 break;
         }
 
@@ -237,8 +237,8 @@ class AssistantsRequestTableGUI extends TableGUI
         self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_USER_ID, $assistant->getUserId());
 
         $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariable("CHECKBOX_POST_VAR", RequestStepGUI::GET_PARAM_USER_ID);
-        $this->tpl->setVariable("ID", $assistant->getUserId());
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", RequestStepGUI::GET_PARAM_USER_ID);
+        $this->tpl->setVariableEscaped("ID", $assistant->getUserId());
         $this->tpl->parseCurrentBlock();
 
         parent::fillRow($assistant);

@@ -32,7 +32,9 @@ class UDF extends AbstractRule
 
         $descriptions[] = $this->field . " " . $this->getOperatorTitle() . "  " . $this->value;
 
-        return nl2br(implode("\n", $descriptions), false);
+        return nl2br(implode("\n", array_map(function (string $description) : string {
+            return htmlspecialchars($description);
+        }, $descriptions)), false);
     }
 
 

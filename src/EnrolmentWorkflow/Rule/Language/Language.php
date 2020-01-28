@@ -32,7 +32,7 @@ class Language extends AbstractRule
     public function getRuleDescription() : string
     {
         return nl2br(implode("\n", array_map(function (string $language) : string {
-            return strval(MultilangualTabsInputGUI::getLanguages()[$language]);
+            return htmlspecialchars(strval(MultilangualTabsInputGUI::getLanguages()[$language]));
         }, $this->languages)), false);
     }
 

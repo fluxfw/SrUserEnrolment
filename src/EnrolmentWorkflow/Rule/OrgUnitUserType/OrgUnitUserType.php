@@ -85,7 +85,9 @@ class OrgUnitUserType extends AbstractRule
             $descriptions[] = self::plugin()->translate("position", RulesGUI::LANG_MODULE) . " " . $this->getPositionTitle();
         }
 
-        return nl2br(implode("\n", $descriptions), false);
+        return nl2br(implode("\n", array_map(function (string $description) : string {
+            return htmlspecialchars($description);
+        }, $descriptions)), false);
     }
 
 

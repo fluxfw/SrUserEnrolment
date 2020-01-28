@@ -54,8 +54,12 @@ class RulesTableGUI extends TableGUI
                 $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
                 break;
 
+            case "rule_description":
+                $column = $rule->getRuleDescription();
+                break;
+
             default:
-                $column = Items::getter($rule, $column);
+                $column = htmlspecialchars(Items::getter($rule, $column));
                 break;
         }
 
@@ -170,8 +174,8 @@ class RulesTableGUI extends TableGUI
         self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext(), $rule->getRuleId());
 
         $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariable("CHECKBOX_POST_VAR", RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext());
-        $this->tpl->setVariable("ID", $rule->getId());
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext());
+        $this->tpl->setVariableEscaped("ID", $rule->getId());
         $this->tpl->parseCurrentBlock();
 
         parent::fillRow($rule);

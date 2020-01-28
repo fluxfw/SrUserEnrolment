@@ -38,7 +38,7 @@ class FloatField extends IntegerField
                 $description .= "\n";
             }
 
-            $description .= "." . str_repeat("x", $this->count_decimals);
+            $description .= "." . str_repeat("x", htmlspecialchars($this->count_decimals));
         }
 
         return nl2br($description, false);

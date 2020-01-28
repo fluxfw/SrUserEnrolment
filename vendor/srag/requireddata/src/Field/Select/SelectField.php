@@ -31,7 +31,9 @@ class SelectField extends AbstractField
      */
     public function getFieldDescription() : string
     {
-        return nl2br(implode("\n", $this->getSelectOptions()), false);
+        return nl2br(implode("\n", array_map(function (string $option) : string {
+            return htmlspecialchars($option);
+        }, $this->getSelectOptions())), false);
     }
 
 

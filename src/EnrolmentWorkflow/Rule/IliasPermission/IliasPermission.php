@@ -54,7 +54,7 @@ class IliasPermission extends AbstractRule
      */
     public function getRuleDescription() : string
     {
-        return self::plugin()->translate("iliaspermission_" . self::ILIAS_PERMISSIONS[$this->ilias_permission], RulesGUI::LANG_MODULE);
+        return htmlspecialchars(self::plugin()->translate("iliaspermission_" . self::ILIAS_PERMISSIONS[$this->ilias_permission], RulesGUI::LANG_MODULE));
     }
 
 

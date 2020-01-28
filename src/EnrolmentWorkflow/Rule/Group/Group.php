@@ -44,6 +44,8 @@ class Group extends AbstractRule
             ->rules()
             ->getRules(self::PARENT_CONTEXT_RULE_GROUP, self::TYPE_RULE_GROUP, $this->rule_id));
 
-        return nl2br(implode("\n", $descriptions), false);
+        return nl2br(implode("\n", array_map(function (string $description) : string {
+            return htmlspecialchars($description);
+        }, $descriptions)), false);
     }
 }
