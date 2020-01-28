@@ -2,6 +2,7 @@
 
 namespace srag\RequiredData\SrUserEnrolment\Field\Email;
 
+use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
 use srag\RequiredData\SrUserEnrolment\Field\Text\TextFieldFormGUI;
 
 /**
@@ -18,4 +19,13 @@ class EmailFieldFormGUI extends TextFieldFormGUI
      * @var EmailField
      */
     protected $object;
+
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(FieldCtrl $parent, EmailField $object)
+    {
+        parent::__construct($parent, $object);
+    }
 }

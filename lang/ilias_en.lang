@@ -28,6 +28,7 @@ actions_saved_action#:#Action %s saved
 actions_totype#:#Send to
 actions_totype_requestor#:#Requestor
 actions_totype_responsible_users#:#Responsible users
+actions_totype_responsible_users_and_deputies#:#Responsible users and deputies
 actions_totype_specific_users#:#Specific users
 actions_type#:#Type
 actions_type_assignresponsibleusers#:#Assign responsible users

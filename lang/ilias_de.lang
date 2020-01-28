@@ -28,6 +28,7 @@ actions_saved_action#:#Aktion %s gespeichert
 actions_totype#:#Senden an
 actions_totype_requestor#:#Anforderer
 actions_totype_responsible_users#:#Verantwortliche Benutzer
+actions_totype_responsible_users_and_deputies#:#Verantwortliche Benutzer und Vertreter
 actions_totype_specific_users#:#Bestimmte Benutzer
 actions_type#:#Typ
 actions_type_assignresponsibleusers#:#Verantwortliche Benutzer zuweisen
