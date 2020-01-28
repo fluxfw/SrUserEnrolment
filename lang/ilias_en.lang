@@ -156,8 +156,8 @@ requests_accepted_message#:#%s accepted
 requests_accept_time#:#Accept time
 requests_accept_user#:#Accept user
 requests_actions#:#Actions
-requests_create_time#:#Create time
-requests_create_time_workflow#:#Worklfow create time
+requests_create_time#:#Request create time
+requests_create_time_workflow#:#Request create time 1. step
 requests_create_user#:#Create user
 requests_my_requests#:#My requests
 requests_no#:#No
