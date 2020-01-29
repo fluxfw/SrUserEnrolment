@@ -6,8 +6,10 @@ use ilObject;
 use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
 use ilSrUserEnrolmentUIHookGUI;
+use ilSubmitButton;
 use ilUIPluginRouterGUI;
 use ilUtil;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
@@ -30,6 +32,7 @@ class RequestInfoGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const CMD_ADD_RESPONSIBLE_USERS = "addResponsibleUsers";
     const CMD_BACK = "back";
     const CMD_SHOW_WORKFLOW = "showWorkflow";
     const GET_PARAM_REQUEST_ID = "request_id";
@@ -83,6 +86,7 @@ class RequestInfoGUI
                 $cmd = self::dic()->ctrl()->getCmd();
 
                 switch ($cmd) {
+                    case self::CMD_ADD_RESPONSIBLE_USERS:
                     case self::CMD_BACK:
                     case self::CMD_SHOW_WORKFLOW:
                         $this->{$cmd}();
@@ -166,6 +170,21 @@ class RequestInfoGUI
 
         self::dic()->tabs()->addTab(self::TAB_WORKFLOW, $this->request->getWorkflow()->getTitle(), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_SHOW_WORKFLOW));
+
+        if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->request, self::dic()->user()->getId()))) {
+
+            self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+            $users = new MultiSelectSearchNewInputGUI("", RequestStepGUI::GET_PARAM_USER_ID);
+            $users->setOptions(self::srUserEnrolment()->ruleEnrolment()->searchUsers());
+            $users->setAjaxLink(self::dic()->ctrl()->getLinkTargetByClass(RequestsGUI::class, RequestsGUI::CMD_GET_USERS_AUTO_COMPLETE, "", true, false));
+            self::dic()->toolbar()->addInputItem($users);
+
+            $add_responsible_users_button = ilSubmitButton::getInstance();
+            $add_responsible_users_button->setCaption(self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE), false);
+            $add_responsible_users_button->setCommand(self::CMD_ADD_RESPONSIBLE_USERS);
+            self::dic()->toolbar()->addButtonInstance($add_responsible_users_button);
+        }
     }
 
 
@@ -252,6 +271,28 @@ class RequestInfoGUI
         }
 
         self::output()->output([$workflow_list, "<br><br>", self::dic()->ui()->factory()->listing()->descriptive($this->request->getFormattedRequiredData())], true);
+    }
+
+
+    /**
+     *
+     */
+    protected function addResponsibleUsers()/*:void*/
+    {
+        if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->request, self::dic()->user()->getId()))) {
+            $user_ids = filter_input(INPUT_POST, RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+            if (!is_array($user_ids)) {
+                $user_ids = [];
+            }
+
+            foreach ($user_ids as $user_id) {
+                $this->request->addResponsibleUser($user_id);
+            }
+
+            self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->request);
+        }
+
+        self::dic()->ctrl()->redirect($this, self::CMD_SHOW_WORKFLOW);
     }
 
 

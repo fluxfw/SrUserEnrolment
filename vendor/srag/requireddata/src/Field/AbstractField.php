@@ -271,6 +271,15 @@ abstract class AbstractField extends ActiveRecord
 
 
     /**
+     * @return bool
+     */
+    public static function canBeAddedOnlyOnce() : bool
+    {
+        return false;
+    }
+
+
+    /**
      * @inheritDoc
      */
     public function sleep(/*string*/ $field_name)

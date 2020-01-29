@@ -89,13 +89,31 @@ final class Factory
 
 
     /**
+     * @param bool     $check_can_be_added_only_once
+     * @param int|null $parent_context
+     * @param int|null $parent_id
+     *
      * @return string[]
      */
-    public function getClasses() : array
+    public function getClasses(bool $check_can_be_added_only_once = false,/*?*/ int $parent_context = null, /*?*/ int $parent_id = null) : array
     {
-        return array_combine(array_map(function (string $class) : string {
+        $classes = array_combine(array_map(function (string $class) : string {
             return $class::getType();
         }, $this->classes), $this->classes);
+
+        if ($check_can_be_added_only_once) {
+            $classes = array_filter($classes, function (string $class) use ($parent_context, $parent_id): bool {
+                if ($class::canBeAddedOnlyOnce()) {
+                    return empty(self::requiredData()->fields()->getFields($parent_context, $parent_id, [
+                        $class::getType()
+                    ], false));
+                } else {
+                    return true;
+                }
+            });
+        }
+
+        return $classes;
     }
 
 

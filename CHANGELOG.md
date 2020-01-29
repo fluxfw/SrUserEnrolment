@@ -3,6 +3,7 @@
 ## [x]
 - Requests table: All, own, open
 - Send notification option to responsible users and deputies
+- Add responsible users to request
 - 'User definied field of supervisors' rule
 
 ## [3.3.0]

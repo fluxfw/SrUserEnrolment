@@ -157,6 +157,7 @@ requests_accepted_message#:#%s accepted
 requests_accept_time#:#Accept time
 requests_accept_user#:#Accept user
 requests_actions#:#Actions
+requests_add_responsible_users#:#Add responsible users
 requests_create_time#:#Request create time
 requests_create_time_workflow#:#Request create time 1. step
 requests_create_user#:#Create user

@@ -58,6 +58,6 @@ class SelectFillField extends AbstractFillField
      */
     public function formatAsString($fill_value) : string
     {
-        return strval($this->field->getSelectOptions()[strval($fill_value)]);
+        return htmlspecialchars($this->field->getSelectOptions()[strval($fill_value)]);
     }
 }

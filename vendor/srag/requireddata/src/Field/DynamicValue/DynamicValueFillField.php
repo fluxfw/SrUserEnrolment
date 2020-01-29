@@ -57,6 +57,6 @@ abstract class DynamicValueFillField extends AbstractFillField
      */
     public function formatAsString($fill_value) : string
     {
-        return strval($fill_value);
+        return htmlspecialchars($fill_value);
     }
 }

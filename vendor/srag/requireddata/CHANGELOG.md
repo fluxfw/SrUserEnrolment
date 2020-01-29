@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.1]
+- Fix
+
+## [0.8.0]
+- Possibility that fields can be added only once
+
 ## [0.7.5]
 - Fix
 

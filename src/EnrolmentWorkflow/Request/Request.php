@@ -425,6 +425,17 @@ class Request extends ActiveRecord
 
 
     /**
+     * @param int $responsible_user_id
+     */
+    public function addResponsibleUser(int $responsible_user_id)/*:void*/
+    {
+        if (!in_array($responsible_user_id, $this->responsible_users)) {
+            $this->responsible_users[] = $responsible_user_id;
+        }
+    }
+
+
+    /**
      * @param int[] $responsible_users
      */
     public function setResponsibleUsers(array $responsible_users)/* : void*/
