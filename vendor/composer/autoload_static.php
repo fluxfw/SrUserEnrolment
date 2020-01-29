@@ -9,7 +9,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\' => 18,
+            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
@@ -21,7 +21,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\' => 
+        'srag\\RequiredData\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
@@ -492,6 +492,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\RuleGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/class.RuleGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\RulesGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/class.RulesGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\RulesTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/RulesTableGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDFSupervisor\\UDFSupervisor' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDFSupervisor/UDFSupervisor.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDFSupervisor\\UDFSupervisorChecker' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDFSupervisor/UDFSupervisorChecker.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDFSupervisor\\UDFSupervisorFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDFSupervisor/UDFSupervisorFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDF\\UDF' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDF/UDF.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDF\\UDFChecker' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDF/UDFChecker.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDF\\UDFFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDF/UDFFormGUI.php',

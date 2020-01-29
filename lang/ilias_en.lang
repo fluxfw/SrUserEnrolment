@@ -233,6 +233,7 @@ rules_rule_type_noresponsibleusersassigned#:#No responsible users assigned
 rules_rule_type_orgunitsuperior#:#User has position in superior organisation unit
 rules_rule_type_orgunitusertype#:#Organisation unit user
 rules_rule_type_udf#:#User definied field
+rules_rule_type_udfsupervisor#:#User definied field of supervisors
 rules_run_rules#:#Run rules
 rules_save#:#Save
 rules_saved_rule#:#Rule %s saved

@@ -99,8 +99,10 @@ class OrgUnitUserTypeChecker extends AbstractRuleChecker
         $values = ["orgu"];
 
         return self::dic()->database()->fetchAllCallback(self::srUserEnrolment()->ruleEnrolment()
-            ->getObjectFilterStatement($wheres, $types, $values, ["ref_id", "user_id"], 'INNER JOIN il_orgu_ua ON object_reference.ref_id=il_orgu_ua.orgu_id'), function (stdClass $data) : stdClass {
-            return (object) ["obj_ref_id" => $data->ref_id, "user_id" => $data->user_id];
-        });
+            ->getObjectFilterStatement($wheres, $types, $values, ["ref_id", "user_id"],
+                'INNER JOIN ' . ilOrgUnitUserAssignment::returnDbTableName() . ' ON object_reference.ref_id=' . ilOrgUnitUserAssignment::returnDbTableName() . '.orgu_id'),
+            function (stdClass $data) : stdClass {
+                return (object) ["obj_ref_id" => $data->ref_id, "user_id" => $data->user_id];
+            });
     }
 }

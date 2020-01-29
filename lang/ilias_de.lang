@@ -233,6 +233,7 @@ rules_rule_type_noresponsibleusersassigned#:#Keine verantwortliche Benutzer zuge
 rules_rule_type_orgunitsuperior#:#Benutzer hat Position in übergeordneter Organisationseinheit
 rules_rule_type_orgunitusertype#:#Organisationseinheit Benutzer
 rules_rule_type_udf#:#Benutzerdefiniertes Feld
+rules_rule_type_udfsupervisor#:#Benutzerdefiniertes Feld von Vorgesetzten
 rules_run_rules#:#Regeln ausführen
 rules_save#:#Speichern
 rules_saved_rule#:#Regel %s gespeichert
