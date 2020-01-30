@@ -12,6 +12,6 @@ return array(
     'srag\\Notifications4Plugin\\SrUserEnrolment\\' => array($vendorDir . '/srag/notifications4plugin/src'),
     'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
     'srag\\DIC\\SrUserEnrolment\\' => array($vendorDir . '/srag/dic/src'),
-    'srag\\CustomInputGUIs\\' => array($vendorDir . '/srag/custominputguis/src'),
+    'srag\\CustomInputGUIs\\SrUserEnrolment\\' => array($vendorDir . '/srag/custominputguis/src'),
     'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => array($vendorDir . '/srag/activerecordconfig/src'),
 );
