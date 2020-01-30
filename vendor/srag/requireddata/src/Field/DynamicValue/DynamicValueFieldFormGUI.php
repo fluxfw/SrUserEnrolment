@@ -2,6 +2,7 @@
 
 namespace srag\RequiredData\SrUserEnrolment\Field\DynamicValue;
 
+use ilCheckboxInputGUI;
 use srag\RequiredData\SrUserEnrolment\Field\AbstractFieldFormGUI;
 use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
 
@@ -27,5 +28,22 @@ abstract class DynamicValueFieldFormGUI extends AbstractFieldFormGUI
     public function __construct(FieldCtrl $parent, DynamicValueField $object)
     {
         parent::__construct($parent, $object);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function initFields()/*:void*/
+    {
+        parent::initFields();
+
+        $this->fields = array_merge(
+            $this->fields,
+            [
+                "hide" => [
+                    self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+                ]
+            ]);
     }
 }

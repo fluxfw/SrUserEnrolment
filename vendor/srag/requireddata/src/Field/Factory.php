@@ -113,6 +113,8 @@ final class Factory
             });
         }
 
+        ksort($classes);
+
         return $classes;
     }
 

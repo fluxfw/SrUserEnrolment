@@ -83,9 +83,13 @@ final class Factory
      */
     public function getTypes() : array
     {
-        return array_combine(array_map(function (string $class) : string {
+        $types = array_combine(array_map(function (string $class) : string {
             return $class::getType();
         }, $this->classes), $this->classes);
+
+        ksort($types);
+
+        return $types;
     }
 
 

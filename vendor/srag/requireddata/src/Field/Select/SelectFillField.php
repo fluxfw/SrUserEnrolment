@@ -39,7 +39,13 @@ class SelectFillField extends AbstractFillField
     {
         return [
             PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
-            PropertyFormGUI::PROPERTY_OPTIONS => ["&lt;" . self::requiredData()->getPlugin()->translate("please_select", FieldsCtrl::LANG_MODULE) . "&gt;"] + $this->field->getSelectOptions()
+            PropertyFormGUI::PROPERTY_OPTIONS => ($this->field->isRequired() && count($this->field->getSelectOptions()) === 1
+                    ? []
+                    : [
+                        "&lt;" . self::requiredData()
+                            ->getPlugin()
+                            ->translate("please_select", FieldsCtrl::LANG_MODULE) . "&gt;"
+                    ]) + $this->field->getSelectOptions()
         ];
     }
 

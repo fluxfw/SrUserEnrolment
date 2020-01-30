@@ -105,6 +105,8 @@ final class Factory
             return $class::getRuleType();
         }, $rule_types), $rule_types);
 
+        ksort($rule_types);
+
         return $rule_types;
     }
 
