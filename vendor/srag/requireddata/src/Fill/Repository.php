@@ -138,7 +138,11 @@ final class Repository
             if ($field !== null) {
                 $value = $this->factory()->newFillFieldInstance($field)->formatAsString($value);
                 if ($keep_field_id) {
-                    $formatted_fill_values[$type . "_" . $field_id] = [$field->getLabel(), $value];
+                    if (self::requiredData()->isEnableNames()) {
+                        $formatted_fill_values[$type . "_" . $field_id] = [$field->getName(), $field->getLabel(), $value];
+                    } else {
+                        $formatted_fill_values[$type . "_" . $field_id] = [$field->getLabel(), $value];
+                    }
                 } else {
                     $formatted_fill_values[$field->getLabel()] = $value;
                 }

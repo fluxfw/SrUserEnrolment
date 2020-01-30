@@ -71,6 +71,22 @@ class FieldsTableGUI extends TableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
+            "enabled" => [
+                "id"      => "enabled",
+                "default" => true,
+                "sort"    => false
+            ]
+        ];
+
+        if (self::requiredData()->isEnableNames()) {
+            $columns["name"] = [
+                "id"      => "name",
+                "default" => true,
+                "sort"    => false
+            ];
+        }
+
+        $columns = array_merge($columns, [
             "enabled"           => [
                 "id"      => "enabled",
                 "default" => true,
@@ -102,7 +118,7 @@ class FieldsTableGUI extends TableGUI
                 "default" => true,
                 "sort"    => false
             ]
-        ];
+        ]);
 
         return $columns;
     }

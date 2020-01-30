@@ -119,6 +119,14 @@ abstract class AbstractField extends ActiveRecord
      */
     protected $sort;
     /**
+     * @var string|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   false
+     */
+    protected $name = null;
+    /**
      * @var bool
      *
      * @con_has_field    true
@@ -408,6 +416,24 @@ abstract class AbstractField extends ActiveRecord
     public function setSort(int $sort)/*: void*/
     {
         $this->sort = $sort;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getName()/* : ?string*/
+    {
+        return $this->name;
+    }
+
+
+    /**
+     * @param string|null $name
+     */
+    public function setName(/*?*/ string $name = null)/* : void*/
+    {
+        $this->name = $name;
     }
 
 

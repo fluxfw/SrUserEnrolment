@@ -50,6 +50,10 @@ final class Repository implements Pluginable
      * @var PluginInterface
      */
     protected $plugin;
+    /**
+     * @var bool
+     */
+    protected $enableNames = false;
 
 
     /**
@@ -136,6 +140,15 @@ final class Repository implements Pluginable
 
 
     /**
+     * @return bool
+     */
+    public function isEnableNames() : bool
+    {
+        return $this->enableNames;
+    }
+
+
+    /**
      * @inheritDoc
      */
     public function withPlugin(PluginInterface $plugin) : self
@@ -154,6 +167,19 @@ final class Repository implements Pluginable
     public function withTableNamePrefix(string $table_name_prefix) : self
     {
         $this->table_name_prefix = $table_name_prefix;
+
+        return $this;
+    }
+
+
+    /**
+     * @param bool $enableNames
+     *
+     * @return self
+     */
+    public function withEnableNames(bool $enableNames) : self
+    {
+        $this->enableNames = $enableNames;
 
         return $this;
     }

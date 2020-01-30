@@ -19,6 +19,7 @@ required_data_fill_fields#:#Fill fields
 required_data_label#:#Label
 required_data_max_value#:#Max value
 required_data_min_value#:#Min value
+required_data_name#:#Name
 required_data_options#:#Options
 required_data_please_select#:#please select
 required_data_remove#:#Remove

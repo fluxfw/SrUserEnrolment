@@ -73,6 +73,10 @@ abstract class AbstractFieldFormGUI extends PropertyFormGUI
             "enabled"      => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class
             ],
+            "name" => [
+                self::PROPERTY_CLASS   => ilTextInputGUI::class,
+                self::PROPERTY_NOT_ADD => (!self::requiredData()->isEnableNames())
+            ],
             "required"     => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class
             ],
