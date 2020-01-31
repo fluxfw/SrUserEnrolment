@@ -73,7 +73,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CustomInputGUIs\\": "src/"
+                    "srag\\CustomInputGUIs\\SrUserEnrolment\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -282,16 +282,16 @@
         },
         {
             "name": "srag/requireddata",
-            "version": "v0.10.4",
+            "version": "v0.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/RequiredData.git",
-                "reference": "36ccc31990c65216aaf36baca49efcc5de32e7b1"
+                "reference": "6d70dbbdba4e13c240bb773a28acac6b117cbad1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/36ccc31990c65216aaf36baca49efcc5de32e7b1",
-                "reference": "36ccc31990c65216aaf36baca49efcc5de32e7b1",
+                "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/6d70dbbdba4e13c240bb773a28acac6b117cbad1",
+                "reference": "6d70dbbdba4e13c240bb773a28acac6b117cbad1",
                 "shasum": ""
             },
             "require": {
@@ -302,7 +302,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\RequiredData\\SrUserEnrolment\\": "src/"
+                    "srag\\RequiredData\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -324,7 +324,7 @@
                 "field",
                 "required"
             ],
-            "time": "2020-01-30T14:23:51+00:00"
+            "time": "2020-01-31T14:54:22+00:00"
         },
         {
             "name": "twig/twig",
