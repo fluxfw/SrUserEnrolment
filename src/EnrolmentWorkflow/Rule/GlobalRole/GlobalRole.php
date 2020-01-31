@@ -31,7 +31,7 @@ class GlobalRole extends AbstractRule
      */
     public function getRuleDescription() : string
     {
-        return strval(self::srUserEnrolment()->ruleEnrolment()->getAllRoles()[$this->global_role]);
+        return htmlspecialchars(strval(self::srUserEnrolment()->ruleEnrolment()->getAllRoles()[$this->global_role]));
     }
 
 

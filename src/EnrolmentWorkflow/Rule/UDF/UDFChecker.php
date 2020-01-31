@@ -38,16 +38,22 @@ class UDFChecker extends AbstractRuleChecker
      */
     public function check(int $user_id, int $obj_ref_id) : bool
     {
-        $user = new ilObjUser($user_id);
+        foreach ($this->getUserIds($user_id) as $user_id) {
+            $user = new ilObjUser($user_id);
 
-        $udf_values = $user->getUserDefinedData();
+            $udf_values = $user->getUserDefinedData();
 
-        $field_id = self::srUserEnrolment()->excelImport()->getUserDefinedFieldID($this->rule->getField());
-        if (empty($field_id) || empty($udf_value = strval($udf_values[($field_id = "f_" . $field_id)]))) {
-            return false;
+            $field_id = self::srUserEnrolment()->excelImport()->getUserDefinedFieldID($this->rule->getField());
+            if (empty($field_id) || empty($udf_value = strval($udf_values[($field_id = "f_" . $field_id)]))) {
+                return false;
+            }
+
+            if ($this->checkOperator($udf_value, $this->rule->getValue())) {
+                return true;
+            }
         }
 
-        return $this->checkOperator($udf_value, $this->rule->getValue());
+        return false;
     }
 
 
@@ -62,5 +68,16 @@ class UDFChecker extends AbstractRuleChecker
                 "user_id"    => $user_id
             ];
         }, array_keys(self::srUserEnrolment()->ruleEnrolment()->getUsers()));
+    }
+
+
+    /**
+     * @param int $user_id
+     *
+     * @return int[]
+     */
+    protected function getUserIds(int $user_id) : array
+    {
+        return [$user_id];
     }
 }

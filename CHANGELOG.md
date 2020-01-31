@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.4.0]
+- Requests table: All, own, open
+- Send notification option to responsible users and deputies
+- Add responsible users to request
+- 'User definied field of supervisors' rule
+
 ## [3.3.0]
 - Improve user selection in assistants and deputies
 - Request new users from requests table

@@ -236,7 +236,7 @@ class Request extends ActiveRecord
     /**
      * @return string
      */
-    public function getFormattedCreatedTime() : string
+    public function getFormattedCreateTime() : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($this->create_time, IL_CAL_UNIX));
     }
@@ -421,6 +421,17 @@ class Request extends ActiveRecord
     public function getResponsibleUsers() : array
     {
         return $this->responsible_users;
+    }
+
+
+    /**
+     * @param int $responsible_user_id
+     */
+    public function addResponsibleUser(int $responsible_user_id)/*:void*/
+    {
+        if (!in_array($responsible_user_id, $this->responsible_users)) {
+            $this->responsible_users[] = $responsible_user_id;
+        }
     }
 
 

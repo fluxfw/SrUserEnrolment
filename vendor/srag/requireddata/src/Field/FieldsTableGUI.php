@@ -52,8 +52,12 @@ class FieldsTableGUI extends TableGUI
                 $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
                 break;
 
+            case "field_description":
+                $column = $field->getFieldDescription();
+                break;
+
             default:
-                $column = Items::getter($field, $column);
+                $column = htmlspecialchars(Items::getter($field, $column));
                 break;
         }
 
@@ -67,6 +71,22 @@ class FieldsTableGUI extends TableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
+            "enabled" => [
+                "id"      => "enabled",
+                "default" => true,
+                "sort"    => false
+            ]
+        ];
+
+        if (self::requiredData()->isEnableNames()) {
+            $columns["name"] = [
+                "id"      => "name",
+                "default" => true,
+                "sort"    => false
+            ];
+        }
+
+        $columns = array_merge($columns, [
             "enabled"           => [
                 "id"      => "enabled",
                 "default" => true,
@@ -98,7 +118,7 @@ class FieldsTableGUI extends TableGUI
                 "default" => true,
                 "sort"    => false
             ]
-        ];
+        ]);
 
         return $columns;
     }
@@ -182,8 +202,8 @@ class FieldsTableGUI extends TableGUI
         self::dic()->ctrl()->setParameterByClass(FieldCtrl::class, FieldCtrl::GET_PARAM_FIELD_ID, $field->getFieldId());
 
         $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariable("CHECKBOX_POST_VAR", FieldCtrl::GET_PARAM_FIELD_ID);
-        $this->tpl->setVariable("ID", $field->getId());
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", FieldCtrl::GET_PARAM_FIELD_ID);
+        $this->tpl->setVariableEscaped("ID", $field->getId());
         $this->tpl->parseCurrentBlock();
         $this->tpl->setCurrentBlock("column");
         $this->tpl->setVariable("COLUMN", self::output()->getHTML([

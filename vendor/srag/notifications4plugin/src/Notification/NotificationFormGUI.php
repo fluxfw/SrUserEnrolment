@@ -12,7 +12,6 @@ use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\TabsInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TextAreaInputGUI\TextAreaInputGUI;
-use srag\Notifications4Plugin\SrUserEnrolment\Parser\twigParser;
 use srag\Notifications4Plugin\SrUserEnrolment\Utils\Notifications4PluginTrait;
 
 /**
@@ -90,7 +89,7 @@ class NotificationFormGUI extends PropertyFormGUI
     protected function initFields()/*: void*/
     {
         ilUtil::sendInfo(self::output()->getHTML([
-            self::notifications4plugin()->getPlugin()->translate("placeholder_types_info", NotificationsCtrl::LANG_MODULE),
+            htmlspecialchars(self::notifications4plugin()->getPlugin()->translate("placeholder_types_info", NotificationsCtrl::LANG_MODULE)),
             "<br><br>",
             self::dic()->ui()->factory()->listing()->descriptive(self::notifications4plugin()->getPlaceholderTypes())
         ]));
@@ -117,8 +116,10 @@ class NotificationFormGUI extends PropertyFormGUI
                     self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_OPTIONS  => self::notifications4plugin()->parser()->getPossibleParsers(),
-                    "setInfo"               => twigParser::NAME . ": " . self::output()->getHTML(self::dic()->ui()->factory()->link()
-                            ->standard(twigParser::DOC_LINK, twigParser::DOC_LINK)->withOpenInNewViewport(true))
+                    "setInfo"               => nl2br(implode("\n", array_map(function (string $parser_class) : string {
+                        return $parser_class::NAME . ": " . self::output()->getHTML(self::dic()->ui()->factory()->link()
+                                ->standard($parser_class::DOC_LINK, $parser_class::DOC_LINK)->withOpenInNewViewport(true));
+                    }, array_keys(self::notifications4plugin()->parser()->getPossibleParsers()))), false)
                 ],
                 "subjects"    => [
                     self::PROPERTY_CLASS    => TabsInputGUI::class,

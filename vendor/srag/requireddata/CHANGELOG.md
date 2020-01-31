@@ -1,5 +1,48 @@
 # Changelog
 
+## [0.10.6]
+- Fix
+
+## [0.10.5]
+- Fix
+
+## [0.10.4]
+- Fix
+
+## [0.10.3]
+- Fix
+
+## [0.10.2]
+- Fix
+
+## [0.10.1]
+- Fix
+
+## [0.10.0]
+- Make dynamic value fields hide
+- Take first as default if a select field has only one
+
+## [0.9.0]
+- Field name
+
+## [0.8.1]
+- Fix
+
+## [0.8.0]
+- Possibility that fields can be added only once
+
+## [0.7.5]
+- Fix
+
+## [0.7.4]
+- Fix
+
+## [0.7.3]
+- Fix
+
+## [0.7.2]
+- Fix
+
 ## [0.7.1]
 - Fix
 

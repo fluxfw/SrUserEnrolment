@@ -15,6 +15,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoResponsibleUsersAssign
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitSuperior\OrgUnitSuperior;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitUserType\OrgUnitUserType;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF\UDF;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDFSupervisor\UDFSupervisor;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -64,7 +65,8 @@ final class Factory
             NoResponsibleUsersAssigned::class,
             OrgUnitSuperior::class,
             OrgUnitUserType::class,
-            UDF::class
+            UDF::class,
+            UDFSupervisor::class
         ];
 
 
@@ -102,6 +104,8 @@ final class Factory
         $rule_types = array_combine(array_map(function (string $class) : string {
             return $class::getRuleType();
         }, $rule_types), $rule_types);
+
+        ksort($rule_types);
 
         return $rule_types;
     }

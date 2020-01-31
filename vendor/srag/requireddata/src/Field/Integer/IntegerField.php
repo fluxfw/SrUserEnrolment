@@ -41,18 +41,20 @@ class IntegerField extends AbstractField
     public function getFieldDescription() : string
     {
         if ($this->min_value !== null && $this->min_value !== null) {
-            return $this->min_value . " - " . $this->max_value;
+            $description = $this->min_value . " - " . $this->max_value;
         } else {
             if ($this->min_value !== null) {
-                return ">=" . $this->min_value;
+                $description = ">=" . $this->min_value;
             } else {
                 if ($this->max_value !== null) {
-                    return "<=" . $this->max_value;
+                    $description = "<=" . $this->max_value;
+                } else {
+                    $description = "";
                 }
             }
         }
 
-        return "";
+        return htmlspecialchars($description);
     }
 
 

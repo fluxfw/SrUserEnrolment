@@ -8,7 +8,7 @@ required_data_count_decimals#:#Restrict decimal parts
 required_data_description#:#Description
 required_data_disable_fields#:#Disable fields
 required_data_disabled_fields#:#Fields disabled
-required_data_dynamic_value#:#Current value: %s
+required_data_dynamic_value#:#Dynamic value: %s
 required_data_edit_field#:#Edit field
 required_data_enable_fields#:#Enable fields
 required_data_enabled#:#Enabled
@@ -16,9 +16,13 @@ required_data_enabled_fields#:#Fields enabled
 required_data_field_description#:#Field
 required_data_fields#:#Fields
 required_data_fill_fields#:#Fill fields
+required_data_hide#:#Hide
+required_data_hide_info#:#If enabled, the field is not shown to the user, but is still filled
 required_data_label#:#Label
 required_data_max_value#:#Max value
 required_data_min_value#:#Min value
+required_data_name#:#Name
+required_data_name_info#:#Using of the field by name
 required_data_options#:#Options
 required_data_please_select#:#please select
 required_data_remove#:#Remove

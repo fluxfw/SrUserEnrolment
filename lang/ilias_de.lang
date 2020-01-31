@@ -28,6 +28,7 @@ actions_saved_action#:#Aktion %s gespeichert
 actions_totype#:#Senden an
 actions_totype_requestor#:#Anforderer
 actions_totype_responsible_users#:#Verantwortliche Benutzer
+actions_totype_responsible_users_and_deputies#:#Verantwortliche Benutzer und Vertreter
 actions_totype_specific_users#:#Bestimmte Benutzer
 actions_type#:#Typ
 actions_type_assignresponsibleusers#:#Verantwortliche Benutzer zuweisen
@@ -153,16 +154,28 @@ logs_status_500#:#Benutzer fehlgeschlagen
 logs_user_id#:#Benutzer Login
 requests_accepted#:#Angenommen
 requests_accepted_message#:#%s angenommen
+requests_accept_time#:#Akzeptieren-Zeitpunkt
+requests_accept_user#:#Akzeptieren-Benutzer
 requests_actions#:#Aktionen
+requests_add_responsible_users#:#Verantwortliche Benutzer hinzufügen
+requests_create_time#:#Anfrage-Zeitpunkt
+requests_create_time_workflow#:#Anfrage-Zeitpunkt 1. Schritt
+requests_create_user#:#Erstell-Benutzer
 requests_my_requests#:#Meine Anfragen
 requests_no#:#Nein
-requests_object_title#:#Objekt-Titel
+requests_object#:#Objekt
+requests_object_end#:#Ende
+requests_object_start#:#Start
 requests_requested#:#%s angefordert
 requests_requests#:#Anfragen
 requests_responsible_users#:#Verantwortliche Benutzer
+requests_type_all#:#Alle Anfragen
+requests_type_open#:#Offene Anfragen
+requests_type_own#:#Eigene Anfragen
 requests_user_email#:#E-Mail
 requests_user_firstname#:#Vorname
 requests_user_lastname#:#Nachname
+requests_user_org_units#:#Org-Units
 requests_yes#:#Ja
 required_data_type_userselectfield#:#Benutzer-Auswahl
 reset_password_cancel#:#Abbrechen
@@ -221,6 +234,7 @@ rules_rule_type_noresponsibleusersassigned#:#Keine verantwortliche Benutzer zuge
 rules_rule_type_orgunitsuperior#:#Benutzer hat Position in übergeordneter Organisationseinheit
 rules_rule_type_orgunitusertype#:#Organisationseinheit Benutzer
 rules_rule_type_udf#:#Benutzerdefiniertes Feld
+rules_rule_type_udfsupervisor#:#Benutzerdefiniertes Feld von Vorgesetzten
 rules_run_rules#:#Regeln ausführen
 rules_save#:#Speichern
 rules_saved_rule#:#Regel %s gespeichert

@@ -102,7 +102,7 @@ class AssistantsRequestGUI
             ->getLinkTarget($this, self::CMD_BACK));
 
         self::dic()->tabs()->addTab(self::TAB_USERS, self::plugin()->translate("users", AssistantsGUI::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTargetByClass(self::class, self::CMD_LIST_USERS));
+            ->getLinkTarget($this, self::CMD_LIST_USERS));
     }
 
 

@@ -90,7 +90,7 @@ final class Repository
 
     /**
      * @param int    $parent_context
-     * @param int    $parent_id ,
+     * @param int    $parent_id
      * @param string $type
      * @param int    $field_id
      *
@@ -105,6 +105,30 @@ final class Repository
                  */
                 $field = $class::where(["parent_context" => $parent_context, "parent_id" => $parent_id, "field_id" => $field_id])->first();
 
+                return $field;
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @param int    $parent_context
+     * @param int    $parent_id
+     * @param string $name
+     *
+     * @return AbstractField|null
+     */
+    public function getFieldByName(int $parent_context, int $parent_id, string $name)/*: ?AbstractField*/
+    {
+        foreach ($this->factory()->getClasses() as $type_class => $class) {
+            /**
+             * @var AbstractField|null $field
+             */
+            $field = $class::where(["parent_context" => $parent_context, "parent_id" => $parent_id, "name" => $name])->first();
+
+            if ($field !== null) {
                 return $field;
             }
         }

@@ -3,6 +3,7 @@
 namespace srag\RequiredData\SrUserEnrolment\Field\Text;
 
 use srag\RequiredData\SrUserEnrolment\Field\AbstractFieldFormGUI;
+use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
 
 /**
  * Class TextFieldFormGUI
@@ -18,4 +19,13 @@ class TextFieldFormGUI extends AbstractFieldFormGUI
      * @var TextField
      */
     protected $object;
+
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(FieldCtrl $parent, TextField $object)
+    {
+        parent::__construct($parent, $object);
+    }
 }

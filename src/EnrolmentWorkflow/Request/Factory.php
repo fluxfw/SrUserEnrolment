@@ -62,11 +62,13 @@ final class Factory
      * @param RequestsGUI $parent
      * @param string      $cmd
      *
-     * @return RequestsTableGUI
+     * @return AbstractRequestsTableGUI
      */
-    public function newTableInstance(RequestsGUI $parent, string $cmd = RequestsGUI::CMD_LIST_REQUESTS) : RequestsTableGUI
+    public function newTableInstance(RequestsGUI $parent, string $cmd = RequestsGUI::CMD_LIST_REQUESTS) : AbstractRequestsTableGUI
     {
-        $table = new RequestsTableGUI($parent, $cmd);
+        $class = str_replace("Abstract", ucfirst(RequestsGUI::REQUESTS_TYPES[$parent->getRequestsType()]), AbstractRequestsTableGUI::class);
+
+        $table = new $class($parent, $cmd);
 
         return $table;
     }

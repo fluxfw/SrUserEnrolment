@@ -160,7 +160,9 @@ abstract class AbstractAction extends ActiveRecord
             ->rules()
             ->getRules(AbstractRule::PARENT_CONTEXT_ACTION, AbstractRule::TYPE_ACTION_IF, $this->getId()));
 
-        return nl2br(implode("\n", $descriptions), false);
+        return nl2br(implode("\n", array_map(function (string $description) : string {
+            return htmlspecialchars($description);
+        }, $descriptions)), false);
     }
 
 

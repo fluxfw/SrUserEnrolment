@@ -51,11 +51,11 @@ class LogsTableGUI extends TableGUI
 
         switch ($column) {
             case "status":
-                $value = $this->txt("status_" . $value);
+                $value = htmlspecialchars($this->txt("status_" . $value));
                 break;
 
             case "user_id":
-                $value = ilObjUser::_lookupLogin($value);
+                $value = htmlspecialchars(ilObjUser::_lookupLogin($value));
                 break;
 
             default:
@@ -164,7 +164,7 @@ class LogsTableGUI extends TableGUI
             "status"  => [
                 PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => [
-                        "" => "",
+                        "" => ""
                     ] + array_map(function (int $status) : string {
                         return $this->txt("status_" . $status);
                     }, Log::$status_all)

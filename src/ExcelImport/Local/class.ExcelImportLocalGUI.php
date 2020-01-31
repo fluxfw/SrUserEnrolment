@@ -63,7 +63,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
 
                 self::dic()->ctrl()->redirectByClass([
                     ilRepositoryGUI::class,
-                    ilObjCategoryGUI::class,
+                    ilObjCategoryGUI::class
                 ], "listUsers");
                 break;
 
@@ -73,7 +73,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
                 self::dic()->ctrl()->redirectByClass([
                     ilAdministrationGUI::class,
                     ilObjOrgUnitGUI::class,
-                    ilLocalUserGUI::class,
+                    ilLocalUserGUI::class
                 ], "index");
                 break;
 

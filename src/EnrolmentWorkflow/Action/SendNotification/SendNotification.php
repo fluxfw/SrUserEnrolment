@@ -19,11 +19,13 @@ class SendNotification extends AbstractAction
     const TO_TYPE_REQUESTOR = 1;
     const TO_TYPE_RESPONSIBLE_USERS = 2;
     const TO_TYPE_SPECIFIC_USERS = 3;
+    const TO_TYPE_RESPONSIBLE_USERS_AND_DEPUTIES = 4;
     const TO_TYPES
         = [
-            self::TO_TYPE_REQUESTOR         => "requestor",
-            self::TO_TYPE_RESPONSIBLE_USERS => "responsible_users",
-            self::TO_TYPE_SPECIFIC_USERS    => "specific_users"
+            self::TO_TYPE_REQUESTOR                      => "requestor",
+            self::TO_TYPE_RESPONSIBLE_USERS              => "responsible_users",
+            self::TO_TYPE_SPECIFIC_USERS                 => "specific_users",
+            self::TO_TYPE_RESPONSIBLE_USERS_AND_DEPUTIES => "responsible_users_and_deputies"
         ];
     /**
      * @var string
@@ -66,7 +68,9 @@ class SendNotification extends AbstractAction
 
         $descriptions[] = self::plugin()->translate("totype_" . self::TO_TYPES[$this->to_type], ActionsGUI::LANG_MODULE);
 
-        return nl2br(implode("\n", $descriptions), false);
+        return nl2br(implode("\n", array_map(function (string $description) : string {
+            return htmlspecialchars($description);
+        }, $descriptions)), false);
     }
 
 

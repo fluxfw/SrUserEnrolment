@@ -3,6 +3,7 @@
 namespace srag\RequiredData\SrUserEnrolment\Field\DynamicValue;
 
 use ilNonEditableValueGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\HiddenInputGUI\HiddenInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\RequiredData\SrUserEnrolment\Fill\AbstractFillField;
 
@@ -36,10 +37,16 @@ abstract class DynamicValueFillField extends AbstractFillField
      */
     public function getFormFields() : array
     {
-        return [
-            PropertyFormGUI::PROPERTY_CLASS => ilNonEditableValueGUI::class,
-            PropertyFormGUI::PROPERTY_VALUE => $this->field->deliverDynamicValue()
-        ];
+        if ($this->field->isHide()) {
+            return [
+                PropertyFormGUI::PROPERTY_CLASS => HiddenInputGUI::class
+            ];
+        } else {
+            return [
+                PropertyFormGUI::PROPERTY_CLASS => ilNonEditableValueGUI::class,
+                PropertyFormGUI::PROPERTY_VALUE => $this->field->deliverDynamicValue(),
+            ];
+        }
     }
 
 
@@ -57,6 +64,6 @@ abstract class DynamicValueFillField extends AbstractFillField
      */
     public function formatAsString($fill_value) : string
     {
-        return strval($fill_value);
+        return htmlspecialchars($fill_value);
     }
 }

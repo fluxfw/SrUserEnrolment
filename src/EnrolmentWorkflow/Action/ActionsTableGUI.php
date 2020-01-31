@@ -54,8 +54,16 @@ class ActionsTableGUI extends TableGUI
                 $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
                 break;
 
+            case "action_description":
+                $column = $action->getActionDescription();
+                break;
+
+            case "if_description":
+                $column = $action->getIfDescription();
+                break;
+
             default:
-                $column = Items::getter($action, $column);
+                $column = htmlspecialchars(Items::getter($action, $column));
                 break;
         }
 
@@ -175,8 +183,8 @@ class ActionsTableGUI extends TableGUI
         self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_ID, $action->getActionId());
 
         $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariable("CHECKBOX_POST_VAR", ActionGUI::GET_PARAM_ACTION_ID);
-        $this->tpl->setVariable("ID", $action->getId());
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", ActionGUI::GET_PARAM_ACTION_ID);
+        $this->tpl->setVariableEscaped("ID", $action->getId());
         $this->tpl->parseCurrentBlock();
         $this->tpl->setCurrentBlock("column");
         $this->tpl->setVariable("COLUMN", self::output()->getHTML([

@@ -36,7 +36,7 @@ class CreateFieldFormGUI extends PropertyFormGUI
      */
     public function __construct(FieldCtrl $parent)
     {
-        $this->type = current(array_keys(self::requiredData()->fields()->factory()->getClasses()));
+        $this->type = current(array_keys(self::requiredData()->fields()->factory()->getClasses(true, $parent->getParent()->getParentContext(), $parent->getParent()->getParentId())));
 
         parent::__construct($parent);
     }
@@ -78,7 +78,7 @@ class CreateFieldFormGUI extends PropertyFormGUI
                         self::PROPERTY_CLASS => ilRadioOption::class,
                         "setTitle"           => self::requiredData()->fields()->factory()->newInstance($class::getType())->getTypeTitle()
                     ];
-                }, self::requiredData()->fields()->factory()->getClasses())
+                }, self::requiredData()->fields()->factory()->getClasses(true, $this->parent->getParent()->getParentContext(), $this->parent->getParent()->getParentId()))
             ]
         ];
     }

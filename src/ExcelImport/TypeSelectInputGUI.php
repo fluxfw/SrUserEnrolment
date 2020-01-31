@@ -36,7 +36,7 @@ class TypeSelectInputGUI extends ilSelectInputGUI
             $dir = __DIR__;
             $dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1);
 
-            self::dic()->mainTemplate()->addJavaScript($dir . "/../../js/type_select_input_gui.min.js");
+            self::dic()->ui()->mainTemplate()->addJavaScript($dir . "/../../js/type_select_input_gui.min.js");
         }
     }
 
