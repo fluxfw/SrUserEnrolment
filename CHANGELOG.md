@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [3.4.0]
 - Requests table: All, own, open
 - Send notification option to responsible users and deputies
 - Add responsible users to request
