@@ -219,7 +219,7 @@ final class Repository
         foreach ($this->getActions($request->getStepId()) as $action) {
             if (empty(self::srUserEnrolment()->enrolmentWorkflow()
                 ->rules()
-                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_ACTION, $action->getId(), AbstractRule::TYPE_ACTION_IF, $request->getUserId(), $request->getObjRefId(), $request))
+                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_ACTION, $action->getId(), AbstractRule::TYPE_ACTION_IF, $request->getUserId(), $request->getObjRefId(), false, $request))
             ) {
                 continue;
             }
