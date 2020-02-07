@@ -241,7 +241,7 @@ class AssistantsGUI
      */
     protected function userAutoComplete()/*:void*/
     {
-        $search = strval(filter_input(INPUT_GET, "term", FILTER_DEFAULT, FILTER_FORCE_ARRAY)["term"]);
+        $search = strval(filter_input(INPUT_GET, "term"));
 
         $options = [];
 

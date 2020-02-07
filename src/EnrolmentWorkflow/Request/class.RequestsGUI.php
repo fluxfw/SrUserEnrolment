@@ -195,7 +195,7 @@ class RequestsGUI
      */
     protected function getUsersAutoComplete()/*: void*/
     {
-        $search = strval(filter_input(INPUT_GET, "term", FILTER_DEFAULT, FILTER_FORCE_ARRAY)["term"]);
+        $search = strval(filter_input(INPUT_GET, "term"));
 
         $options = [];
 
@@ -215,7 +215,7 @@ class RequestsGUI
      */
     protected function getUsersAutoCompleteRequest()/*: void*/
     {
-        $search = strval(filter_input(INPUT_GET, "term", FILTER_DEFAULT, FILTER_FORCE_ARRAY)["term"]);
+        $search = strval(filter_input(INPUT_GET, "term"));
 
         $options = [];
 
