@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.4.2]
+- Fix run action rules
+
 ## [3.4.1]
 - Fix users autocomplete not used search term
 
