@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.4.1]
+- Fix users autocomplete not used search term
+
 ## [3.4.0]
 - Requests table: All, own, open
 - Send notification option to responsible users and deputies
