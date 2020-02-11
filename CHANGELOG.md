@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.4.3]
+- Assign only responsible users which has no requests at self
+
 ## [3.4.2]
 - Fix run action rules
 

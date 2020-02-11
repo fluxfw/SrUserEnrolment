@@ -61,6 +61,10 @@ class AssignResponsibleUsersRunner extends AbstractActionRunner
                 break;
         }
 
+        $responsible_users = array_filter($responsible_users, function (int $user_id) use ($request): bool {
+            return (count(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, $user_id)) < 2);
+        });
+
         $request->setResponsibleUsers($responsible_users);
 
         return true;
