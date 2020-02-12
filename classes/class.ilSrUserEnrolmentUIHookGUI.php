@@ -145,6 +145,34 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
 
     /**
+     * @inheritDoc
+     */
+    public function gotoHook()/*: void*/
+    {
+        $target = filter_input(INPUT_GET, "target");
+
+        $matches = [];
+        preg_match("/^uihk_" . ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req(_(.*))?/uim", $target, $matches);
+
+        if (is_array($matches) && count($matches) >= 1) {
+            self::dic()->ctrl()->setTargetScript("ilias.php"); // Fix ILIAS 5.3 bug
+            self::dic()->ctrl()->initBaseClass(ilUIPluginRouterGUI::class); // Fix ILIAS bug
+
+            $request_id = explode("_", $matches[2]);
+            if (isset($request_id[1])) {
+                self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REF_ID, intval($request_id[1]));
+            }
+            $request_id = intval($request_id[0]);
+
+            self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_ALL);
+            self::dic()->ctrl()->setParameterByClass(RequestInfoGUI::class, RequestInfoGUI::GET_PARAM_REQUEST_ID, $request_id);
+
+            self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, RequestsGUI::class, RequestInfoGUI::class], RequestInfoGUI::CMD_SHOW_WORKFLOW);
+        }
+    }
+
+
+    /**
      * @return int|null
      */
     protected function getRefId()/*: ?int*/

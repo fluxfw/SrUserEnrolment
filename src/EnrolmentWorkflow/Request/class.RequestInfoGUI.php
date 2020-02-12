@@ -63,9 +63,15 @@ class RequestInfoGUI
      */
     public function executeCommand()/*: void*/
     {
+        $obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
+
         $this->request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestById(filter_input(INPUT_GET, self::GET_PARAM_REQUEST_ID));
 
-        if ($this->single ? $this->request->getUserId() !== intval(self::dic()->user()->getId()) : false) {
+        if ($this->request === null || (!empty($obj_ref_id) ? $this->request->getObjRefId() !== $obj_ref_id : false)
+            || ($this->single ? $this->request->getUserId() !== intval(self::dic()
+                    ->user()
+                    ->getId()) : false)
+        ) {
             die();
         }
 

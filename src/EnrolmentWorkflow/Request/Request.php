@@ -270,6 +270,17 @@ class Request extends ActiveRecord
 
 
     /**
+     * @param bool $obj_ref_id
+     *
+     * @return string
+     */
+    public function getRequestLink(bool $obj_ref_id = false) : string
+    {
+        return ILIAS_HTTP_PATH . "/goto.php?target=uihk_" . ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req_" . $this->request_id . ($obj_ref_id ? "_" . $this->obj_ref_id : "");
+    }
+
+
+    /**
      * @inheritDoc
      */
     public function sleep(/*string*/ $field_name)
