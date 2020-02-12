@@ -83,7 +83,7 @@ class Step extends ActiveRecord
      * @con_length       8
      * @con_is_notnull   true
      */
-    protected $sort;
+    protected $sort = 0;
     /**
      * @var array
      *
