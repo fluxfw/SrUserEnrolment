@@ -276,7 +276,13 @@ class RequestInfoGUI
                 ->translate("actions", RequestsGUI::LANG_MODULE))));
         }
 
-        self::output()->output([$workflow_list, "<br><br>", self::dic()->ui()->factory()->listing()->descriptive($this->request->getFormattedRequiredData())], true);
+        $required_data = $this->request->getFormattedRequiredData();
+        self::output()->output([
+            $workflow_list,
+            "<br><br>",
+            self::dic()->ui()->factory()->listing()->descriptive(array_combine(array_map("htmlspecialchars", array_keys($required_data)),
+                array_map("htmlspecialchars", $required_data)))
+        ], true);
     }
 
 

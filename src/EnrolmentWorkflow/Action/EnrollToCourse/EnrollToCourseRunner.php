@@ -33,10 +33,8 @@ class EnrollToCourseRunner extends AbstractActionRunner
     /**
      * @inheritDoc
      */
-    public function run(Request $request) : bool
+    public function run(Request $request)/*:void*/
     {
         self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($request->getObjId(), $request->getUserId());
-
-        return true;
     }
 }

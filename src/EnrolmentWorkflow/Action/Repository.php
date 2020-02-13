@@ -162,7 +162,20 @@ final class Repository
     public function installTables()/*:void*/
     {
         foreach ($this->factory()->getTypes() as $class) {
+            $upgrade_init_run_next_actions = (self::dic()->database()->tableExists($class::getTableName()) && !self::dic()->database()->tableColumnExists($class::getTableName(), "run_next_actions"));
+
             $class::updateDB();
+
+            if ($upgrade_init_run_next_actions) {
+                foreach ($class::get() as $action) {
+                    /**
+                     * @var AbstractAction $action
+                     */
+                    $action->setRunNextActions($action->getInitRunNextActions());
+
+                    $this->storeAction($action);
+                }
+            }
         }
     }
 
@@ -224,7 +237,9 @@ final class Repository
                 continue;
             }
 
-            if (!$this->factory()->newRunnerInstance($action)->run($request)) {
+            $this->factory()->newRunnerInstance($action)->run($request);
+
+            if (!$action->isRunNextActions()) {
                 break;
             }
         }

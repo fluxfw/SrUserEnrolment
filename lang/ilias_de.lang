@@ -23,6 +23,8 @@ actions_remove_actions_confirm#:#Möchten Sie die folgende Aktionen wirklich ent
 actions_removed_action#:#Aktion %s entfernt
 actions_removed_actions#:#Aktionen entfernt
 actions_required_data_from_step#:#Benötigte Daten vom Schritt
+actions_run_next_actions#:#Nächste Aktionen ausführen
+actions_run_next_actions_info#:#Wenn deaktiviert, werden die nachfolgende Aktionen nicht ausgeführt, wenn diese Aktion ausgeführt wurde
 actions_save#:#Speichern
 actions_saved_action#:#Aktion %s gespeichert
 actions_totype#:#Senden an

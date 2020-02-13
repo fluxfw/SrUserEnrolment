@@ -197,12 +197,12 @@ class ResetPasswordGUI
 
         $new_password = self::srUserEnrolment()->resetUserPassword()->resetPassword($user->getId());
 
-        ilUtil::sendSuccess(nl2br(str_replace("\\n", "\n", self::plugin()->translate("reset", self::LANG_MODULE, [
+        ilUtil::sendSuccess(nl2br(self::plugin()->translate("reset", self::LANG_MODULE, [
             $user->getFullname(),
             $user->getEmail(),
             $user->getLogin(),
             $new_password
-        ])), false), true);
+        ]), false), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_BACK);
     }

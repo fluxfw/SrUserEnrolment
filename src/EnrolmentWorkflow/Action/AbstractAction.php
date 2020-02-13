@@ -111,6 +111,15 @@ abstract class AbstractAction extends ActiveRecord
      * @con_is_notnull   true
      */
     protected $sort = 0;
+    /**
+     * @var bool
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     * @con_is_notnull   true
+     */
+    protected $run_next_actions = true;
 
 
     /**
@@ -121,6 +130,8 @@ abstract class AbstractAction extends ActiveRecord
      */
     public function __construct(/*int*/ $primary_key_value = 0, arConnector $connector = null)
     {
+        $this->run_next_actions = $this->getInitRunNextActions();
+
         parent::__construct($primary_key_value, $connector);
     }
 
@@ -147,6 +158,15 @@ abstract class AbstractAction extends ActiveRecord
      * @return string
      */
     public abstract function getActionDescription() : string;
+
+
+    /**
+     * @return bool
+     */
+    public function getInitRunNextActions() : bool
+    {
+        return true;
+    }
 
 
     /**
@@ -184,6 +204,7 @@ abstract class AbstractAction extends ActiveRecord
 
         switch ($field_name) {
             case "enabled":
+            case "run_next_actions":
                 return ($field_value ? 1 : 0);
 
             default:
@@ -199,6 +220,7 @@ abstract class AbstractAction extends ActiveRecord
     {
         switch ($field_name) {
             case "enabled":
+            case "run_next_actions":
                 return boolval($field_value);
 
             default:
@@ -276,5 +298,23 @@ abstract class AbstractAction extends ActiveRecord
     public function setSort(int $sort)/*: void*/
     {
         $this->sort = $sort;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isRunNextActions() : bool
+    {
+        return $this->run_next_actions;
+    }
+
+
+    /**
+     * @param bool $run_next_actions
+     */
+    public function setRunNextActions(bool $run_next_actions)/*: void*/
+    {
+        $this->run_next_actions = $run_next_actions;
     }
 }
