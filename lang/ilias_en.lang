@@ -24,7 +24,7 @@ actions_removed_action#:#Action %s removed
 actions_removed_actions#:#Actions removed
 actions_required_data_from_step#:#Required data from step
 actions_run_next_actions#:#Run next actions
-actions_run_next_actions_info#:#If disabled, the following actions will not be run, if this action will run
+actions_run_next_actions_info#:#If disabled, the following actions will not run, if this action is run
 actions_save#:#Save
 actions_saved_action#:#Action %s saved
 actions_totype#:#Send to
