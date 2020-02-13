@@ -136,10 +136,10 @@ class CheckInactiveAssistantsJob extends ilCronJob
 
         $result->setStatus(ilCronJobResult::STATUS_OK);
 
-        $result->setMessage(nl2br(str_replace("\\n", "\n", self::plugin()->translate("check_inactive_assistants_status", AssistantsGUI::LANG_MODULE, [
+        $result->setMessage(nl2br(self::plugin()->translate("check_inactive_assistants_status", AssistantsGUI::LANG_MODULE, [
             $count_removed_assistants,
             $count_inactived_assistants
-        ])), false));
+        ]), false));
 
         return $result;
     }

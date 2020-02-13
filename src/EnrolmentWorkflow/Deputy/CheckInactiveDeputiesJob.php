@@ -136,10 +136,10 @@ class CheckInactiveDeputiesJob extends ilCronJob
 
         $result->setStatus(ilCronJobResult::STATUS_OK);
 
-        $result->setMessage(nl2br(str_replace("\\n", "\n", self::plugin()->translate("check_inactive_deputies_status", DeputiesGUI::LANG_MODULE, [
+        $result->setMessage(nl2br(self::plugin()->translate("check_inactive_deputies_status", DeputiesGUI::LANG_MODULE, [
             $count_removed_deputies,
             $count_inactived_deputies
-        ])), false));
+        ]), false));
 
         return $result;
     }

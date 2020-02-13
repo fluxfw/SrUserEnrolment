@@ -45,6 +45,15 @@ class MoveToStep extends AbstractAction
 
 
     /**
+     * @inheritDoc
+     */
+    public function getInitRunNextActions() : bool
+    {
+        return false;
+    }
+
+
+    /**
      * @return int
      */
     public function getMoveToStepId() : int

@@ -299,6 +299,7 @@ return array(
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Notification\\NotificationsTableGUI' => $vendorDir . '/srag/notifications4plugin/src/Notification/NotificationsTableGUI.php',
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Notification\\Repository' => $vendorDir . '/srag/notifications4plugin/src/Notification/Repository.php',
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Notification\\RepositoryInterface' => $vendorDir . '/srag/notifications4plugin/src/Notification/RepositoryInterface.php',
+    'srag\\Notifications4Plugin\\SrUserEnrolment\\Parser\\AbstractParser' => $vendorDir . '/srag/notifications4plugin/src/Parser/AbstractParser.php',
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Parser\\Factory' => $vendorDir . '/srag/notifications4plugin/src/Parser/Factory.php',
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Parser\\FactoryInterface' => $vendorDir . '/srag/notifications4plugin/src/Parser/FactoryInterface.php',
     'srag\\Notifications4Plugin\\SrUserEnrolment\\Parser\\Parser' => $vendorDir . '/srag/notifications4plugin/src/Parser/Parser.php',

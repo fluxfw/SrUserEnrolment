@@ -39,8 +39,6 @@ abstract class AbstractActionRunner
 
     /**
      * @param Request $request
-     *
-     * @return bool
      */
-    public abstract function run(Request $request) : bool;
+    public abstract function run(Request $request)/*:void*/ ;
 }

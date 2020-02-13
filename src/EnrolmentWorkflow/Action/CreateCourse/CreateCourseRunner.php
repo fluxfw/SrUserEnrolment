@@ -35,7 +35,7 @@ class CreateCourseRunner extends AbstractActionRunner
     /**
      * @inheritDoc
      */
-    public function run(Request $request) : bool
+    public function run(Request $request)/*:void*/
     {
         if ($request->getStepId() !== $this->action->getRequiredDataFromStepId()) {
             $fields = self::srUserEnrolment()
@@ -69,7 +69,5 @@ class CreateCourseRunner extends AbstractActionRunner
             $request->setObjId($crs->getId());
             $request->setObjRefId($crs->getRefId());
         }
-
-        return true;
     }
 }

@@ -70,6 +70,9 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
         $this->fields = [
             "enabled" => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+            ],
+            "run_next_actions" => [
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class
             ]
         ];
     }

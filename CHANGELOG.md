@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.4.5]
+- Update Notifications4Plugin
+- 'Run next actions' config
+
 ## [3.4.4]
 - Static link to request
 
