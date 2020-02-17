@@ -288,20 +288,15 @@ final class Repository
             self::srUserEnrolment()->enrolmentWorkflow()->actions()->runActions($request);
 
             if ($request->getStepId() !== $request_backup->getStepId()) {
-
-                if ($request->getStep()->getWorkflowId() === $request_backup->getStep()->getWorkflowId()) {
-                    if (in_array($request->getStepId(), array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($request_backup, self::dic()->user()->getId())))) {
-                        return $this->request($request->getObjRefId(), $request->getStepId(), $request->getUserId(), $required_data);
-                    }
-
-                    $request = $request_backup;
-                } else {
-                    if (in_array($request->getStepId(), array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($request, self::dic()->user()->getId())))) {
-                        return $this->request($request->getObjRefId(), $request->getStepId(), $request->getUserId(), $required_data);
-                    }
-
-                    $request = $request_backup;
+                if (!empty(self::srUserEnrolment()
+                    ->enrolmentWorkflow()
+                    ->rules()
+                    ->getCheckedRules(AbstractRule::PARENT_CONTEXT_STEP, $request->getStepId(), AbstractRule::TYPE_STEP_ACTION, $request->getUserId(), $request->getObjRefId(), false, $request))
+                ) {
+                    return $this->request($request->getObjRefId(), $request->getStepId(), $request->getUserId(), $required_data);
                 }
+
+                $request = $request_backup;
             }
 
             $this->storeRequest($request);

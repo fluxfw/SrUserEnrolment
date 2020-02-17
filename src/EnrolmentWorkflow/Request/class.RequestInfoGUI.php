@@ -7,7 +7,6 @@ use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
 use ilSrUserEnrolmentUIHookGUI;
 use ilSubmitButton;
-use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
@@ -38,6 +37,10 @@ class RequestInfoGUI
     const GET_PARAM_REQUEST_ID = "request_id";
     const TAB_WORKFLOW = "workflow";
     /**
+     * @var int|null
+     */
+    protected $obj_ref_id = null;
+    /**
      * @var Request
      */
     protected $request;
@@ -63,11 +66,11 @@ class RequestInfoGUI
      */
     public function executeCommand()/*: void*/
     {
-        $obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
+        $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
 
         $this->request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestById(filter_input(INPUT_GET, self::GET_PARAM_REQUEST_ID));
 
-        if ($this->request === null || (!empty($obj_ref_id) ? $this->request->getObjRefId() !== $obj_ref_id : false)
+        if ($this->request === null || (!empty($this->obj_ref_id) ? $this->request->getObjRefId() !== $this->obj_ref_id : false)
             || ($this->single ? $this->request->getUserId() !== intval(self::dic()
                     ->user()
                     ->getId()) : false)
@@ -129,10 +132,7 @@ class RequestInfoGUI
                  * @var Request $current_request
                  */
 
-                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REQUEST_ID, $request->getRequestId());
-
-                $tpl->setVariable("LINK", self::dic()->ctrl()
-                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_SHOW_WORKFLOW));
+                $tpl->setVariable("LINK", $request->getRequestLink());
 
                 $tpl->setVariableEscaped("OBJECT_TITLE", self::dic()->objDataCache()->lookupTitle($request->getObjId()));
 
@@ -174,8 +174,7 @@ class RequestInfoGUI
                 ->getLinkTarget($this, self::CMD_BACK));
         }
 
-        self::dic()->tabs()->addTab(self::TAB_WORKFLOW, $this->request->getWorkflow()->getTitle(), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_SHOW_WORKFLOW));
+        self::dic()->tabs()->addTab(self::TAB_WORKFLOW, $this->request->getWorkflow()->getTitle(), $this->request->getRequestLink(!empty($this->obj_ref_id)));
 
         if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->request, self::dic()->user()->getId()))) {
 
@@ -239,8 +238,7 @@ class RequestInfoGUI
                     $text = '<b>' . $text . '</b>';
                 }
 
-                self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUEST_ID, $request->getRequestId());
-                $text = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($text, self::dic()->ctrl()->getLinkTarget($this, self::CMD_SHOW_WORKFLOW)));
+                $text = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($text, $request->getRequestLink(!empty($this->obj_ref_id))));
             } else {
                 if ($this->single) {
                     continue;
@@ -260,7 +258,6 @@ class RequestInfoGUI
 
             $workflow_list .= '<div>' . self::output()->getHTML([$icon, $text, $info_tpl]) . '</div>';
         }
-        self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUEST_ID, filter_input(INPUT_GET, self::GET_PARAM_REQUEST_ID));
 
         if (!$this->single) {
             $actions = [];
