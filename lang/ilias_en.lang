@@ -226,6 +226,7 @@ rules_removed_rules#:#Rules removed
 rules_rule_description#:#Rule
 rules_rule_type#:#Rule type
 rules_rule_type_always#:#Always
+rules_rule_type_currentuserisassignedasresponsibleuser#:#Current user is assigned as responsible user
 rules_rule_type_globalrole#:#Global role
 rules_rule_type_group#:#Group
 rules_rule_type_iliaspermission#:#ILIAS permission

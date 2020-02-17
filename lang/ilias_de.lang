@@ -226,6 +226,7 @@ rules_removed_rules#:#Regeln entfernt
 rules_rule_description#:#Regel
 rules_rule_type#:#Regel-Typ
 rules_rule_type_always#:#Immer
+rules_rule_type_currentuserisassignedasresponsibleuser#:#Aktueller Benutzer ist als verantwortlicher Benutzer zugewiesen
 rules_rule_type_globalrole#:#Globale Rolle
 rules_rule_type_group#:#Gruppe
 rules_rule_type_iliaspermission#:#ILIAS-Recht

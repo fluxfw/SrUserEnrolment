@@ -134,33 +134,38 @@ final class Repository
 
 
     /**
-     * @param int $type
-     * @param int $check_user_id
-     * @param int $request_user_id
-     * @param int $obj_ref_id
+     * @param int          $type
+     * @param int          $check_user_id
+     * @param int          $request_user_id
+     * @param int          $obj_ref_id
+     * @param Request|null $request
      *
      * @return Step[]
      */
-    public function getStepsForRequest(int $type, int $check_user_id, int $request_user_id, int $obj_ref_id) : array
+    public function getStepsForRequest(int $type, int $check_user_id, int $request_user_id, int $obj_ref_id,/*?*/ Request $request = null) : array
     {
         if (!self::srUserEnrolment()->enrolmentWorkflow()->isEnabled()) {
             return [];
         }
 
-        $workflow_id = self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->getWorkflowId(self::dic()->objDataCache()->lookupObjId($obj_ref_id));
+        if ($request !== null) {
+            $workflow_id = $request->getWorkflow()->getWorkflowId();
+        } else {
+            $workflow_id = self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->getWorkflowId(self::dic()->objDataCache()->lookupObjId($obj_ref_id));
+        }
 
         if (empty($workflow_id)) {
             return [];
         }
 
-        $steps = array_filter($this->getSteps($workflow_id), function (Step $step) use ($type, $check_user_id, $request_user_id, $obj_ref_id): bool {
+        $steps = array_filter($this->getSteps($workflow_id), function (Step $step) use ($type, $check_user_id, $request_user_id, $obj_ref_id, $request): bool {
             if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($obj_ref_id, $step->getStepId(), $request_user_id) !== null) {
                 return false;
             }
 
             return (!empty(self::srUserEnrolment()->enrolmentWorkflow()
                 ->rules()
-                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_STEP, $step->getStepId(), $type, $check_user_id, $obj_ref_id)));
+                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_STEP, $step->getStepId(), $type, $check_user_id, $obj_ref_id, false, $request)));
         });
 
         return $steps;
@@ -179,31 +184,33 @@ final class Repository
             return [];
         }
 
-        return array_filter($this->getStepsForRequest(AbstractRule::TYPE_STEP_CHECK_ACTION, $check_user_id, $request->getUserId(), $request->getObjRefId()) + ((self::srUserEnrolment()
-                    ->enrolmentWorkflow()
-                    ->deputies()
-                    ->hasAccess($check_user_id)
-                && self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputy($request->getUserId(), $check_user_id) !== null)
-                ? $this->getStepsForRequest(AbstractRule::TYPE_STEP_CHECK_ACTION,
-                    $request->getUserId(), $request->getUserId(), $request->getObjRefId()) : []),
-            function (Step $step) use ($request): bool {
+        $steps = $this->getStepsForRequest(AbstractRule::TYPE_STEP_CHECK_ACTION, $check_user_id, $request->getUserId(), $request->getObjRefId(), $request);
+        if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId())) {
+            foreach (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputiesOf($check_user_id) as $deputy) {
+                $steps += $this->getStepsForRequest(AbstractRule::TYPE_STEP_CHECK_ACTION, $deputy->getUserId(), $request->getUserId(), $request->getObjRefId(), $request);
+            }
+        }
 
-                if ($step->getStepId() === $request->getStepId()) {
-                    return false;
-                }
+        $steps = array_filter($steps, function (Step $step) use ($request): bool {
 
-                if ($step->getSort() < $request->getStep()->getSort()) {
-                    return false;
-                }
+            if ($step->getStepId() === $request->getStepId()) {
+                return false;
+            }
 
-                $step_request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($request->getObjRefId(), $step->getStepId(), $request->getUserId());
+            if ($step->getSort() < $request->getStep()->getSort()) {
+                return false;
+            }
 
-                if ($step_request !== null/* || $step_request->isAccepted()*/) {
-                    return false;
-                }
+            $step_request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($request->getObjRefId(), $step->getStepId(), $request->getUserId());
 
-                return true;
-            });
+            if ($step_request !== null/* || $step_request->isAccepted()*/) {
+                return false;
+            }
+
+            return true;
+        });
+
+        return $steps;
     }
 
 

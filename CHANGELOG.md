@@ -1,5 +1,9 @@
 # Changelog
 
+## [x]
+- Rule 'Current user is assigned as responsible user'
+- Fixes
+
 ## [3.4.5]
 - Update Notifications4Plugin
 - 'Run next actions' config
