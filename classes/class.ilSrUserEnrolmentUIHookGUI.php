@@ -169,7 +169,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
             self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_ALL);
             self::dic()->ctrl()->setParameterByClass(RequestInfoGUI::class, RequestInfoGUI::GET_PARAM_REQUEST_ID, $request_id);
 
-            if ($request !== null && $request->getUserId() === self::dic()->user()->getId()) {
+            if ($request !== null && $request->getUserId() === intval(self::dic()->user()->getId())) {
                 self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, RequestsGUI::class, RequestInfoGUI::class], RequestInfoGUI::CMD_SHOW_WORKFLOW);
             } else {
                 self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, RequestInfoGUI::class], RequestInfoGUI::CMD_SHOW_WORKFLOW);
