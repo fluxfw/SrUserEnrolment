@@ -187,7 +187,7 @@ final class Repository
     {
         return array_map(function (Deputy $deputy) : array {
             return [
-                "deputy_user_id" => $deputy->getDeputyUserId(),
+                "deputy_user_id" => [$deputy->getDeputyUserId()],
                 "until"          => $deputy->getUntil(),
                 "active"         => $deputy->isActive()
             ];
@@ -269,7 +269,7 @@ final class Repository
 
                 $deputy->setUserId($user_id);
 
-                $deputy->setDeputyUserId($array["deputy_user_id"]);
+                $deputy->setDeputyUserId(current($array["deputy_user_id"]));
 
                 $deputy->setUntil($array["until"] ? new ilDate($array["until"], IL_CAL_DATE) : null);
 
