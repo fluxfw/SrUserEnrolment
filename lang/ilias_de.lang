@@ -4,6 +4,7 @@ actions_add#:#Hinzufügen
 actions_add_action#:#Aktion hinzufügen
 actions_added_action#:#Aktion %s hinzugefügt
 actions_assign_positions#:#Ordne Benutzer als verantwortlicher Benutzer mit den folgenden Positionen in der gleichen Organisationseinheit wie der Anforderer
+actions_assign_positions_recursive#:#Rekursiv nach oben
 actions_cancel#:#Abbrechen
 actions_disable_actions#:#Aktionen deaktivieren
 actions_disabled_actions#:#Aktionen deaktiviert

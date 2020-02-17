@@ -2,8 +2,6 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Position;
 
-const POSITION_ALL = 0;
-
 /**
  * Trait Position
  *
@@ -22,7 +20,7 @@ trait Position
      * @con_length        8
      * @con_is_notnull    true
      */
-    protected $position = POSITION_ALL;
+    protected $position = PositionConstants::POSITION_ALL;
 
 
     /**
@@ -30,7 +28,7 @@ trait Position
      */
     protected function getPositionTitle() : string
     {
-        if ($this->getPosition() === POSITION_ALL) {
+        if ($this->getPosition() === PositionConstants::POSITION_ALL) {
             return "";
         }
 

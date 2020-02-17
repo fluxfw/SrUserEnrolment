@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Value;
 
 use ilTextInputGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 
 /**
  * Trait ValueFormGUI
@@ -22,7 +23,8 @@ trait ValueFormGUI
         return [
             "value" => [
                 self::PROPERTY_CLASS    => ilTextInputGUI::class,
-                self::PROPERTY_REQUIRED => true
+                self::PROPERTY_REQUIRED => true,
+                "setTitle"              => self::plugin()->translate("value", RulesGUI::LANG_MODULE)
             ]
         ];
     }

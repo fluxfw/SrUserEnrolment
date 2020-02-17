@@ -451,7 +451,7 @@ class Request extends ActiveRecord
      */
     public function setResponsibleUsers(array $responsible_users)/* : void*/
     {
-        $this->responsible_users = $responsible_users;
+        $this->responsible_users = array_map("intval", $responsible_users);
     }
 
 

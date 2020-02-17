@@ -24,23 +24,23 @@ trait OperatorChecker
         $check_value = $this->checkOperatorCaseSensitive($check_value);
 
         switch ($this->rule->getOperator()) {
-            case OPERATOR_EQUALS:
+            case OperatorConstants::OPERATOR_EQUALS:
                 $check = ($value == $check_value);
                 break;
 
-            case OPERATOR_STARTS_WITH:
+            case OperatorConstants::OPERATOR_STARTS_WITH:
                 $check = (strpos($value, $check_value) === 0);
                 break;
 
-            case OPERATOR_CONTAINS:
+            case OperatorConstants::OPERATOR_CONTAINS:
                 $check = (strpos($value, $check_value) !== false);
                 break;
 
-            case OPERATOR_ENDS_WITH:
+            case OperatorConstants::OPERATOR_ENDS_WITH:
                 $check = (strrpos($value, $check_value) === (strlen($value) - strlen($check_value)));
                 break;
 
-            case OPERATOR_REG_EX:
+            case OperatorConstants::OPERATOR_REG_EX:
                 // Fix RegExp
                 if ($check_value[0] !== "/" && $check_value[strlen($check_value) - 1] !== "/") {
                     $check_value = "/$check_value/";
@@ -48,19 +48,19 @@ trait OperatorChecker
                 $check = (preg_match($check_value, $value) === 1);
                 break;
 
-            case OPERATOR_LESS:
+            case OperatorConstants::OPERATOR_LESS:
                 $check = ($value < $check_value);
                 break;
 
-            case OPERATOR_LESS_EQUALS:
+            case OperatorConstants::OPERATOR_LESS_EQUALS:
                 $check = ($value <= $check_value);
                 break;
 
-            case OPERATOR_BIGGER:
+            case OperatorConstants::OPERATOR_BIGGER:
                 $check = ($value > $check_value);
                 break;
 
-            case OPERATOR_BIGGER_EQUALS:
+            case OperatorConstants::OPERATOR_BIGGER_EQUALS:
                 $check = ($value >= $check_value);
                 break;
 

@@ -5,10 +5,10 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitUserType;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\Operator;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Position\Position;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Position\PositionConstants;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\RefId\RefId;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Title\Title;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
-use const srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Position\POSITION_ALL;
 
 /**
  * Class OrgUnitUserType
@@ -81,7 +81,7 @@ class OrgUnitUserType extends AbstractRule
                 return "";
         }
 
-        if ($this->getPosition() !== POSITION_ALL) {
+        if ($this->getPosition() !== PositionConstants::POSITION_ALL) {
             $descriptions[] = self::plugin()->translate("position", RulesGUI::LANG_MODULE) . " " . $this->getPositionTitle();
         }
 

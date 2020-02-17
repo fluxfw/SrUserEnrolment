@@ -2,6 +2,7 @@
 
 ## [x]
 - Rule 'Current user is assigned as responsible user'
+- Filter recursive and UDF in action 'Assign responsible users'
 - Fixes
 
 ## [3.4.5]

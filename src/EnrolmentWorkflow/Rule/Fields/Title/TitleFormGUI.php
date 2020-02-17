@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Title;
 
 use ilTextInputGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 
 /**
  * Trait TitleFormGUI
@@ -23,7 +24,7 @@ trait TitleFormGUI
             "title" => [
                 self::PROPERTY_CLASS    => ilTextInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
-                "setTitle"              => $this->txt("title")
+                "setTitle"              => self::plugin()->translate("title", RulesGUI::LANG_MODULE)
             ]
         ];
     }

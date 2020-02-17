@@ -4,6 +4,7 @@ actions_add#:#Add
 actions_add_action#:#Add action
 actions_added_action#:#Action %s added
 actions_assign_positions#:#Assign users as responsible user with the following positions in the same organisation unit of requestor
+actions_assign_positions_recursive#:#Recursive to top
 actions_cancel#:#Cancel
 actions_disable_actions#:#Disable actions
 actions_disabled_actions#:#Actions disabled
