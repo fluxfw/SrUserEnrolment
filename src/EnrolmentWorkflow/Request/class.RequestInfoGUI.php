@@ -180,7 +180,7 @@ class RequestInfoGUI
 
             self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
-            $users = new MultiSelectSearchNewInputGUI("", RequestStepGUI::GET_PARAM_USER_ID);
+            $users = new MultiSelectSearchNewInputGUI("", "responsible_" . RequestStepGUI::GET_PARAM_USER_ID);
             $users->setOptions(self::srUserEnrolment()->ruleEnrolment()->searchUsers());
             $users->setAjaxLink(self::dic()->ctrl()->getLinkTargetByClass(RequestsGUI::class, RequestsGUI::CMD_GET_USERS_AUTO_COMPLETE, "", true, false));
             self::dic()->toolbar()->addInputItem($users);
@@ -289,7 +289,7 @@ class RequestInfoGUI
     protected function addResponsibleUsers()/*:void*/
     {
         if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->request, self::dic()->user()->getId()))) {
-            $user_ids = filter_input(INPUT_POST, RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+            $user_ids = filter_input(INPUT_POST, "responsible_" . RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
             if (!is_array($user_ids)) {
                 $user_ids = [];
             }
