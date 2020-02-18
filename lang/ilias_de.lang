@@ -201,6 +201,7 @@ rules_enabled_rules#:#Regeln aktiviert
 rules_field#:#Feld
 rules_iliaspermission_join#:#Beitreten
 rules_languages#:#Sprachen
+rules_only_next_step#:#Nur nächster Schritt
 rules_operator#:#Vergleicher
 rules_operator_bigger#:#Grösser als
 rules_operator_bigger_equals#:#Grösser als oder ist gleich

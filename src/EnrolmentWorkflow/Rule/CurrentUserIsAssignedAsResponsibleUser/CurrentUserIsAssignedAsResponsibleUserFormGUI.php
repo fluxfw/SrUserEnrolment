@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\CurrentUserIsAssignedAsResponsibleUser;
 
+use ilCheckboxInputGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI;
 
@@ -37,6 +38,10 @@ class CurrentUserIsAssignedAsResponsibleUserFormGUI extends AbstractRuleFormGUI
     {
         parent::initFields();
 
-        $this->fields = array_merge($this->fields, []);
+        $this->fields = array_merge($this->fields, [
+            "only_next_step" => [
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+            ]
+        ]);
     }
 }

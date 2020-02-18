@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\CurrentUserIsAssignedAsResponsibleUser;
 
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
 
 /**
@@ -34,7 +35,14 @@ class CurrentUserIsAssignedAsResponsibleUserChecker extends AbstractRuleChecker
      */
     public function check(int $user_id, int $obj_ref_id) : bool
     {
-        return ($this->request !== null && in_array($user_id, $this->request->getResponsibleUsers()));
+        return ($this->request !== null
+            && ($this->rule->isOnlyNextStep() ? $this->rule->getParentContext() === AbstractRule::PARENT_CONTEXT_STEP
+                && (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById($this->rule->getParentId())->getSort() - self::srUserEnrolment()
+                        ->enrolmentWorkflow()
+                        ->steps()
+                        ->getStepById($this->request->getStepId())
+                        ->getSort() === 10) : false)
+            && in_array($user_id, $this->request->getResponsibleUsers()));
     }
 
 
