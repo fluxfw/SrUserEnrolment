@@ -58,7 +58,7 @@ class StepsGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
-            case strtolower(StepGUI::class);
+            case strtolower(StepGUI::class):
                 self::dic()->ctrl()->forwardCommand(new StepGUI($this));
                 break;
 

@@ -75,15 +75,15 @@ class StepGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
-            case strtolower(RulesGUI::class);
+            case strtolower(RulesGUI::class):
                 self::dic()->ctrl()->forwardCommand(new RulesGUI(AbstractRule::PARENT_CONTEXT_STEP, $this->step->getStepId()));
                 break;
 
-            case strtolower(ActionsGUI::class);
+            case strtolower(ActionsGUI::class):
                 self::dic()->ctrl()->forwardCommand(new ActionsGUI($this));
                 break;
 
-            case strtolower(FieldsCtrl::class);
+            case strtolower(FieldsCtrl::class):
                 self::dic()->ctrl()->forwardCommand(new FieldsCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId()));
                 break;
 

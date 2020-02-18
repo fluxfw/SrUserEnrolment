@@ -62,7 +62,7 @@ class WorkflowGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
-            case strtolower(StepsGUI::class);
+            case strtolower(StepsGUI::class):
                 self::dic()->ctrl()->forwardCommand(new StepsGUI($this));
                 break;
 

@@ -58,7 +58,7 @@ class ActionsGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
-            case strtolower(ActionGUI::class);
+            case strtolower(ActionGUI::class):
                 self::dic()->ctrl()->forwardCommand(new ActionGUI($this));
                 break;
 

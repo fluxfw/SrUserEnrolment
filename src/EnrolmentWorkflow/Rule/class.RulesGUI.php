@@ -70,7 +70,7 @@ class RulesGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
-            case strtolower($this->getRuleGUIClass());
+            case strtolower($this->getRuleGUIClass()):
                 $class = $this->getRuleGUIClass();
                 self::dic()->ctrl()->forwardCommand(new $class($this));
                 break;
