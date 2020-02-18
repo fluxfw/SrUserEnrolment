@@ -2,9 +2,11 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AssignResponsibleUsers;
 
+use ilObjUser;
 use ilOrgUnitUserAssignment;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AbstractActionRunner;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OperatorChecker;
 
 /**
  * Class AssignResponsibleUsersRunner
@@ -16,6 +18,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
 class AssignResponsibleUsersRunner extends AbstractActionRunner
 {
 
+    use OperatorChecker;
     /**
      * @var AssignResponsibleUsers
      */
@@ -45,10 +48,33 @@ class AssignResponsibleUsersRunner extends AbstractActionRunner
                         "user_id" => $request->getUserId()
                     ])->getArray(null, "orgu_id") as $org_unit_ref_id
                 ) {
+                    if ($this->action->isAssignPositionsRecursive()) {
+                        $org_unit_ref_id = array_slice(array_map(function (array $child) : int {
+                            return $child["child"];
+                        }, self::dic()->tree()->getPathFull($org_unit_ref_id)), 3);
+                    }
+
                     $responsible_users = array_unique(array_merge($responsible_users, ilOrgUnitUserAssignment::where([
                         "orgu_id"     => $org_unit_ref_id,
                         "position_id" => $this->action->getAssignPositions()
                     ])->getArray(null, "user_id")));
+                }
+
+                if (!empty($this->action->getAssignPositionsUdf())) {
+                    $responsible_users = array_filter($responsible_users, function (int $user_id) : bool {
+                        return (count($this->action->getAssignPositionsUdf()) === count(array_filter($this->action->getAssignPositionsUdf(), function (array $field) use ($user_id) : bool {
+                                $user = new ilObjUser($user_id);
+
+                                $udf_values = $user->getUserDefinedData();
+
+                                $field_id = self::srUserEnrolment()->excelImport()->getUserDefinedFieldID($field["field"]);
+                                if (empty($field_id) || empty($udf_value = strval($udf_values[($field_id = "f_" . $field_id)]))) {
+                                    return false;
+                                }
+
+                                return $this->checkOperator($udf_value, $field["value"], intval($field["operator"]), boolval($field["operator_negated"]), boolval($field["operator_case_sensitive"]));
+                            })));
+                    });
                 }
                 break;
 

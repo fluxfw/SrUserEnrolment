@@ -43,7 +43,9 @@ class OrgUnitUserTypeChecker extends AbstractRuleChecker
     {
         switch ($this->rule->getOrgUnitUserType()) {
             case OrgUnitUserType::ORG_UNIT_USER_TYPE_TITLE:
-                if (!$this->checkOperator(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($obj_ref_id)), $this->rule->getTitle())) {
+                if (!$this->checkOperator(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($obj_ref_id)), $this->rule->getTitle(), $this->rule->getOperator(),
+                    $this->rule->isOperatorNegated(), $this->rule->isOperatorCaseSensitive())
+                ) {
                     return false;
                 }
                 break;
