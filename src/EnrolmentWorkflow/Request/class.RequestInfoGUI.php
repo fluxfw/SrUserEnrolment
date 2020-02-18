@@ -301,6 +301,8 @@ class RequestInfoGUI
             self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->request);
         }
 
+        ilUtil::sendSuccess(self::plugin()->translate("added_responsible_users", RequestsGUI::LANG_MODULE), true);
+
         self::dic()->ctrl()->redirect($this, self::CMD_SHOW_WORKFLOW);
     }
 
