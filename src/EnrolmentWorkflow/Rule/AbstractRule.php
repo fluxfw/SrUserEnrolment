@@ -102,13 +102,7 @@ abstract class AbstractRule extends ActiveRecord
      *
      * @return bool
      */
-    public static function supportsParentContext(/*?*/ int $parent_context = null) : bool
-    {
-        switch ($parent_context) {
-            default:
-                return true;
-        }
-    }
+    public static abstract function supportsParentContext(/*?*/ int $parent_context = null) : bool;
 
 
     /**

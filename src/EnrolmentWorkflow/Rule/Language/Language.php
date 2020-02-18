@@ -29,6 +29,18 @@ class Language extends AbstractRule
     /**
      * @inheritDoc
      */
+    public static function supportsParentContext(/*?*/ int $parent_context = null) : bool
+    {
+        switch ($parent_context) {
+            default:
+                return true;
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getRuleDescription() : string
     {
         return nl2br(implode("\n", array_map(function (string $language) : string {

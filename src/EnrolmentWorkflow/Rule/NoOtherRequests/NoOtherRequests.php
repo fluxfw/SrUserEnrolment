@@ -27,7 +27,7 @@ class NoOtherRequests extends AbstractRule
                 return false;
 
             default:
-                return parent::supportsParentContext($parent_context);
+                return true;
         }
     }
 
