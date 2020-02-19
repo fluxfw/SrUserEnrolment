@@ -11,6 +11,7 @@ use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Step;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -140,8 +141,12 @@ class RequestInfoGUI
 
                 $current_request = current(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, $request->getUserId(), null, null, null, false));
                 if ($current_request !== false) {
-                    $current_step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById($current_request->getStepId());
-                    $tpl->setVariableEscaped("CURRENT_STEP", self::plugin()->translate("step", StepsGUI::LANG_MODULE) . ": " . $current_step->getTitle());
+                    if (!empty(array_filter(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($current_request->getStep()->getWorkflowId()), function (Step $step) use ($current_request): bool {
+                        return ($step->getSort() >= $current_request->getStep()->getSort());
+                    }))
+                    ) {
+                        $tpl->setVariableEscaped("CURRENT_STEP", self::plugin()->translate("step", StepsGUI::LANG_MODULE) . ": " . $current_request->getStep()->getTitle());
+                    }
                 }
 
                 $tpl->parseCurrentBlock();

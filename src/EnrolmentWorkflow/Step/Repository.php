@@ -149,7 +149,7 @@ final class Repository
         }
 
         if ($request !== null) {
-            $workflow_id = $request->getWorkflow()->getWorkflowId();
+            $workflow_id = $request->getStep()->getWorkflowId();
         } else {
             $workflow_id = self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->getWorkflowId(self::dic()->objDataCache()->lookupObjId($obj_ref_id));
         }
