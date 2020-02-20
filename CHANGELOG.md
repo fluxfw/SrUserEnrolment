@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Comments for request
+
 ## [3.5.0]
 - Rule 'Current user is assigned as responsible user'
 - Filter recursive and UDF in action 'Assign responsible users'

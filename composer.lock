@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fac86eaac0739d33a9b6f917e41fc347",
+    "content-hash": "401b71cab5e3eec77f28f8fd2180625a",
     "packages": [
         {
             "name": "srag/activerecordconfig",
@@ -51,6 +51,51 @@
                 "config"
             ],
             "time": "2020-02-05T06:16:30+00:00"
+        },
+        {
+            "name": "srag/commentsui",
+            "version": "v0.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/studer-raimann/CommentsUI.git",
+                "reference": "db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f",
+                "reference": "db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "srag/dic": ">=0.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "srag\\CommentsUI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "studer + raimann ag - Team Custom 1",
+                    "email": "support-custom1@studer-raimann.ch",
+                    "homepage": "https://studer-raimann.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Comments ui",
+            "homepage": "https://github.com/studer-raimann/CommentsUI",
+            "keywords": [
+                "ILIAS",
+                "comments",
+                "ui"
+            ],
+            "time": "2020-02-20T08:51:51+00:00"
         },
         {
             "name": "srag/custominputguis",

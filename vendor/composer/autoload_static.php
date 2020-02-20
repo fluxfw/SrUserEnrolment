@@ -16,6 +16,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
+            'srag\\CommentsUI\\' => 16,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -48,6 +49,10 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
+        ),
+        'srag\\CommentsUI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
         'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
         array (
@@ -257,6 +262,17 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\ActiveRecordConfig\\SrUserEnrolment\\Config\\AbstractRepository' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Config/AbstractRepository.php',
         'srag\\ActiveRecordConfig\\SrUserEnrolment\\Config\\Config' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Config/Config.php',
         'srag\\ActiveRecordConfig\\SrUserEnrolment\\Exception\\ActiveRecordConfigException' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Exception/ActiveRecordConfigException.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\Comment' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Comment.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\CommentAR' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/CommentAR.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\Factory' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Factory.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\FactoryInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/FactoryInterface.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\Repository' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Repository.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\RepositoryInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/RepositoryInterface.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Ctrl\\AbstractCtrl' => __DIR__ . '/..' . '/srag/commentsui/src/Ctrl/AbstractCtrl.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Ctrl\\CtrlInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Ctrl/CtrlInterface.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\UI\\UIInterface' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UIInterface.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIsTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIsTrait.php',
@@ -377,6 +393,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\Sender' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Sender/Sender.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\vcalendarSender' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Sender/vcalendarSender.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Utils\\Notifications4PluginTrait' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Utils/Notifications4PluginTrait.php',
+        'srag\\Plugins\\SrUserEnrolment\\Comment\\RequestCommentsCtrl' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Comment/class.RequestCommentsCtrl.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Factory' => __DIR__ . '/../..' . '/src/Config/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Repository' => __DIR__ . '/../..' . '/src/Config/Repository.php',

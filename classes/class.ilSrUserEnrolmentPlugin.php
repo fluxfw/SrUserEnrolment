@@ -73,6 +73,8 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
         $this->installRemovePluginDataConfirmLanguages();
 
+        self::srUserEnrolment()->comments()->installLanguages();
+
         self::srUserEnrolment()->notifications4plugin()->installLanguages();
 
         self::srUserEnrolment()->requiredData()->installLanguages();

@@ -3,6 +3,9 @@
 namespace srag\Plugins\SrUserEnrolment;
 
 use ilSrUserEnrolmentPlugin;
+use srag\CommentsUI\SrUserEnrolment\Comment\RepositoryInterface as CommentsRepositoryInterface;
+use srag\CommentsUI\SrUserEnrolment\UI\UIInterface as CommentsUIRepositoryInterface;
+use srag\CommentsUI\SrUserEnrolment\Utils\CommentsUITrait;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Notifications4Plugin\SrUserEnrolment\RepositoryInterface as Notifications4PluginRepositoryInterface;
 use srag\Notifications4Plugin\SrUserEnrolment\Utils\Notifications4PluginTrait;
@@ -31,6 +34,10 @@ final class Repository
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+    use CommentsUITrait {
+        comments as protected _comments;
+        commentsUI as protected _commentsUI;
+    }
     use Notifications4PluginTrait {
         notifications4plugin as protected _notifications4plugin;
     }
@@ -64,12 +71,32 @@ final class Repository
      */
     private function __construct()
     {
+        $this->comments()->withTableNamePrefix(ilSrUserEnrolmentPlugin::PLUGIN_ID)->withPlugin(self::plugin());
+
         $this->notifications4plugin()->withTableNamePrefix(ilSrUserEnrolmentPlugin::PLUGIN_ID)->withPlugin(self::plugin())->withPlaceholderTypes([
             "request" => "object " . Request::class
         ]);
 
         $this->requiredData()->withTableNamePrefix(ilSrUserEnrolmentPlugin::PLUGIN_ID)->withPlugin(self::plugin());
         $this->requiredData()->fields()->factory()->addClass(UserSelectField::class);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function comments() : CommentsRepositoryInterface
+    {
+        return self::_comments();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function commentsUI() : CommentsUIRepositoryInterface
+    {
+        return self::_commentsUI();
     }
 
 
@@ -87,6 +114,7 @@ final class Repository
      */
     public function dropTables()/*: void*/
     {
+        $this->comments()->dropTables();
         $this->config()->dropTables();
         $this->enrolmentWorkflow()->dropTables();
         $this->excelImport()->dropTables();
@@ -121,6 +149,7 @@ final class Repository
      */
     public function installTables()/*: void*/
     {
+        $this->comments()->installTables();
         $this->config()->installTables();
         $this->enrolmentWorkflow()->installTables();
         $this->excelImport()->installTables();
