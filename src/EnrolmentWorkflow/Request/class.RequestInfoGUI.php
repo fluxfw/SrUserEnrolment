@@ -9,6 +9,7 @@ use ilSrUserEnrolmentUIHookGUI;
 use ilSubmitButton;
 use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Comment\RequestCommentsCtrl;
@@ -192,8 +193,7 @@ class RequestInfoGUI
             self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
             $users = new MultiSelectSearchNewInputGUI("", "responsible_" . RequestStepGUI::GET_PARAM_USER_ID);
-            $users->setOptions(self::srUserEnrolment()->ruleEnrolment()->searchUsers());
-            $users->setAjaxLink(self::dic()->ctrl()->getLinkTargetByClass(RequestsGUI::class, RequestsGUI::CMD_GET_USERS_AUTO_COMPLETE, "", true, false));
+            $users->setAjaxAutoCompleteCtrl(new UsersAjaxAutoCompleteCtrl());
             self::dic()->toolbar()->addInputItem($users);
 
             $add_responsible_users_button = ilSubmitButton::getInstance();

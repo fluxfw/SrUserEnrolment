@@ -19,15 +19,15 @@ abstract class DynamicValueFieldFormGUI extends AbstractFieldFormGUI
     /**
      * @var DynamicValueField
      */
-    protected $object;
+    protected $field;
 
 
     /**
      * @inheritDoc
      */
-    public function __construct(FieldCtrl $parent, DynamicValueField $object)
+    public function __construct(FieldCtrl $parent, DynamicValueField $field)
     {
-        parent::__construct($parent, $object);
+        parent::__construct($parent, $field);
     }
 
 

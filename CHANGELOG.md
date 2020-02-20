@@ -1,7 +1,8 @@
 # Changelog
 
-## [x]
+## [3.6.0]
 - Comments for request
+- Performance in multi search
 
 ## [3.5.0]
 - Rule 'Current user is assigned as responsible user'

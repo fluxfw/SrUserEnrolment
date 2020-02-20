@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action;
 use ilConfirmationGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
@@ -19,6 +20,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionsGUI
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionGUI
+ * @ilCtrl_isCalledBy srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionGUI
  */
 class ActionGUI
 {
@@ -30,7 +32,6 @@ class ActionGUI
     const CMD_BACK = "back";
     const CMD_CREATE_ACTION = "createAction";
     const CMD_EDIT_ACTION = "editAction";
-    const CMD_GET_USERS_AUTO_COMPLETE = "getUsersAutoComplete";
     const CMD_MOVE_ACTION_DOWN = "moveActionDown";
     const CMD_MOVE_ACTION_UP = "moveActionUp";
     const CMD_REMOVE_ACTION = "removeAction";
@@ -80,6 +81,10 @@ class ActionGUI
                 self::dic()->ctrl()->forwardCommand(new RulesGUI(AbstractRule::PARENT_CONTEXT_ACTION, $this->action->getId()));
                 break;
 
+            case strtolower(UsersAjaxAutoCompleteCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new UsersAjaxAutoCompleteCtrl());
+                break;
+
             default:
                 $cmd = self::dic()->ctrl()->getCmd();
 
@@ -88,7 +93,6 @@ class ActionGUI
                     case self::CMD_BACK:
                     case self::CMD_CREATE_ACTION:
                     case self::CMD_EDIT_ACTION:
-                    case self::CMD_GET_USERS_AUTO_COMPLETE:
                     case self::CMD_MOVE_ACTION_DOWN:
                     case self::CMD_MOVE_ACTION_UP:
                     case self::CMD_REMOVE_ACTION:
@@ -210,26 +214,6 @@ class ActionGUI
         $form = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newFormInstance($this, $this->action);
 
         self::output()->output($form);
-    }
-
-
-    /**
-     *
-     */
-    protected function getUsersAutoComplete()/*: void*/
-    {
-        $search = strval(filter_input(INPUT_GET, "term"));
-
-        $options = [];
-
-        foreach (self::srUserEnrolment()->ruleEnrolment()->searchUsers($search) as $id => $title) {
-            $options[] = [
-                "id"   => $id,
-                "text" => $title
-            ];
-        }
-
-        self::output()->outputJSON(["results" => $options]);
     }
 
 

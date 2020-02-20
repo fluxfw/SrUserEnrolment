@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 use ilSelectInputGUI;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 
 /**
@@ -239,9 +240,8 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class
             ],
             "responsible_users" => [
-                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
-                PropertyFormGUI::PROPERTY_OPTIONS => self::srUserEnrolment()->ruleEnrolment()->searchUsers(),
-                "setAjaxLink"                     => self::dic()->ctrl()->getLinkTarget($this->parent_obj, RequestsGUI::CMD_GET_USERS_AUTO_COMPLETE, "", true, false)
+                PropertyFormGUI::PROPERTY_CLASS => MultiSelectSearchNewInputGUI::class,
+                "setAjaxAutoCompleteCtrl"       => new UsersAjaxAutoCompleteCtrl()
             ]
         ];
 

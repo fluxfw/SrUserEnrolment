@@ -8,6 +8,7 @@ use ilSrUserEnrolmentPlugin;
 use ilSubmitButton;
 use ilUIPluginRouterGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -20,6 +21,8 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\UsersAssistantsAjaxAutoCompleteCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI
  */
 class RequestsGUI
 {
@@ -29,8 +32,6 @@ class RequestsGUI
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_APPLY_FILTER = "applyFilter";
     const CMD_BACK = "back";
-    const CMD_GET_USERS_AUTO_COMPLETE = "getUsersAutoComplete";
-    const CMD_GET_USERS_AUTO_COMPLETE_REQUEST = "getUsersAutoCompleteRequest";
     const CMD_LIST_REQUESTS = "listRequests";
     const CMD_RESET_FILTER = "resetFilter";
     const GET_PARAM_REF_ID = "ref_id";
@@ -89,14 +90,20 @@ class RequestsGUI
                 self::dic()->ctrl()->forwardCommand(new RequestInfoGUI(false));
                 break;
 
+            case strtolower(UsersAjaxAutoCompleteCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new UsersAjaxAutoCompleteCtrl());
+                break;
+
+            case strtolower(UsersAssistantsAjaxAutoCompleteCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new UsersAssistantsAjaxAutoCompleteCtrl($this));
+                break;
+
             default:
                 $cmd = self::dic()->ctrl()->getCmd();
 
                 switch ($cmd) {
                     case self::CMD_APPLY_FILTER:
                     case self::CMD_BACK:
-                    case self::CMD_GET_USERS_AUTO_COMPLETE:
-                    case self::CMD_GET_USERS_AUTO_COMPLETE_REQUEST:
                     case self::CMD_LIST_REQUESTS:
                     case self::CMD_RESET_FILTER:
                         $this->{$cmd}();
@@ -144,8 +151,7 @@ class RequestsGUI
             self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormActionByClass(RequestStepGUI::class));
 
             $users = new MultiSelectSearchNewInputGUI("", RequestStepGUI::GET_PARAM_USER_ID);
-            $users->setOptions(self::srUserEnrolment()->ruleEnrolment()->searchUsers());
-            $users->setAjaxLink(self::dic()->ctrl()->getLinkTarget($this, self::CMD_GET_USERS_AUTO_COMPLETE_REQUEST, "", true, false));
+            $users->setAjaxAutoCompleteCtrl(new UsersAssistantsAjaxAutoCompleteCtrl($this));
             self::dic()->toolbar()->addInputItem($users);
 
             $request_button = ilSubmitButton::getInstance();
@@ -187,55 +193,6 @@ class RequestsGUI
         $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this);
 
         self::output()->output($table, true);
-    }
-
-
-    /**
-     *
-     */
-    protected function getUsersAutoComplete()/*: void*/
-    {
-        $search = strval(filter_input(INPUT_GET, "term"));
-
-        $options = [];
-
-        foreach (self::srUserEnrolment()->ruleEnrolment()->searchUsers($search) as $id => $title) {
-            $options[] = [
-                "id"   => $id,
-                "text" => $title
-            ];
-        }
-
-        self::output()->outputJSON(["results" => $options]);
-    }
-
-
-    /**
-     *
-     */
-    protected function getUsersAutoCompleteRequest()/*: void*/
-    {
-        $search = strval(filter_input(INPUT_GET, "term"));
-
-        $options = [];
-
-        foreach (self::srUserEnrolment()->ruleEnrolment()->searchUsers($search) as $id => $title) {
-            if (self::srUserEnrolment()
-                ->enrolmentWorkflow()
-                ->requests()
-                ->canRequestWithAssistant($this->obj_ref_id, current(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps(self::srUserEnrolment()
-                    ->enrolmentWorkflow()
-                    ->selectedWorkflows()
-                    ->getWorkflowId(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))))->getStepId(), self::dic()->user()->getId(), $id)
-            ) {
-                $options[] = [
-                    "id"   => $id,
-                    "text" => $title
-                ];
-            }
-        }
-
-        self::output()->outputJSON(["results" => $options]);
     }
 
 

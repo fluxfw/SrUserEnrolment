@@ -9,6 +9,7 @@ use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use ilUtil;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -21,6 +22,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI
  */
 class AssistantsGUI
 {
@@ -31,7 +33,6 @@ class AssistantsGUI
     const CMD_BACK = "back";
     const CMD_EDIT_ASSISTANTS = "editAssistants";
     const CMD_UPDATE_ASSISTANTS = "updateAssistants";
-    const CMD_USER_AUTOCOMPLETE = "userAutoComplete";
     const GET_PARAM_USER_ID = "user_id";
     const LANG_MODULE = "assistants";
     const TAB_EDIT_ASSISTANTS = "edit_assistants";
@@ -74,6 +75,10 @@ class AssistantsGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
+            case strtolower(UsersAjaxAutoCompleteCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new UsersAjaxAutoCompleteCtrl());
+                break;
+
             default:
                 $cmd = self::dic()->ctrl()->getCmd();
 
@@ -81,7 +86,6 @@ class AssistantsGUI
                     case self::CMD_BACK:
                     case self::CMD_EDIT_ASSISTANTS:
                     case self::CMD_UPDATE_ASSISTANTS:
-                    case self::CMD_USER_AUTOCOMPLETE:
                         $this->{$cmd}();
                         break;
 
@@ -235,28 +239,6 @@ class AssistantsGUI
         ilUtil::sendSuccess(self::plugin()->translate("saved", self::LANG_MODULE), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_EDIT_ASSISTANTS);
-    }
-
-
-    /**
-     *
-     */
-    protected function userAutoComplete()/*:void*/
-    {
-        $search = strval(filter_input(INPUT_GET, "term"));
-
-        $options = [];
-
-        // TODO: Skip self
-
-        foreach (self::srUserEnrolment()->ruleEnrolment()->searchUsers($search) as $id => $title) {
-            $options[] = [
-                "id"   => $id,
-                "text" => $title
-            ];
-        }
-
-        self::output()->outputJSON(["results" => $options]);
     }
 
 

@@ -3,6 +3,8 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect;
 
 use ilSrUserEnrolmentPlugin;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\AbstractAjaxAutoCompleteCtrl;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
 use srag\RequiredData\SrUserEnrolment\Field\StaticMultiSearchSelect\StaticMultiSearchSelectFieldFormGUI;
@@ -37,8 +39,8 @@ class UserSelectFieldFormGUI extends StaticMultiSearchSelectFieldFormGUI
     /**
      * @inheritDoc
      */
-    public function deliverPossibleOptions(/*?*/ string $search = null) : array
+    public function getAjaxAutoCompleteCtrl() : AbstractAjaxAutoCompleteCtrl
     {
-        return self::srUserEnrolment()->ruleEnrolment()->searchUsers($search);
+        return new UsersAjaxAutoCompleteCtrl();
     }
 }

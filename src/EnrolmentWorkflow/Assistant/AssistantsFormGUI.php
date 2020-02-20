@@ -7,6 +7,7 @@ use ilDateTimeInputGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiLineNewInputGUI\MultiLineNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -74,12 +75,11 @@ class AssistantsFormGUI extends PropertyFormGUI
                 self::PROPERTY_CLASS    => MultiLineNewInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
                     "assistant_user_id" => [
-                        self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
-                        self::PROPERTY_REQUIRED => true,
-                        self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->searchUsers(),
-                        "setTitle"              => $this->txt("user"),
-                        "setAjaxLink"           => self::dic()->ctrl()->getLinkTarget($this->parent, AssistantsGUI::CMD_USER_AUTOCOMPLETE, "", true, false),
-                        "setLimitCount"         => 1
+                        self::PROPERTY_CLASS      => MultiSelectSearchNewInputGUI::class,
+                        self::PROPERTY_REQUIRED   => true,
+                        "setTitle"                => $this->txt("user"),
+                        "setAjaxAutoCompleteCtrl" => new UsersAjaxAutoCompleteCtrl(),
+                        "setLimitCount"           => 1
                     ],
                     "until"             => [
                         self::PROPERTY_CLASS => ilDateTimeInputGUI::class
