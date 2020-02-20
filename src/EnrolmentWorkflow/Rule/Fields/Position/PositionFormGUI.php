@@ -25,7 +25,7 @@ trait PositionFormGUI
             "position" => [
                 self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                 self::PROPERTY_REQUIRED => $required,
-                self::PROPERTY_OPTIONS  => [POSITION_ALL => ""] + self::srUserEnrolment()->ruleEnrolment()->getPositions()
+                self::PROPERTY_OPTIONS  => [PositionConstants::POSITION_ALL => ""] + self::srUserEnrolment()->ruleEnrolment()->getPositions()
             ]
         ];
     }

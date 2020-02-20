@@ -4,6 +4,7 @@ actions_add#:#Hinzufügen
 actions_add_action#:#Aktion hinzufügen
 actions_added_action#:#Aktion %s hinzugefügt
 actions_assign_positions#:#Ordne Benutzer als verantwortlicher Benutzer mit den folgenden Positionen in der gleichen Organisationseinheit wie der Anforderer
+actions_assign_positions_recursive#:#Rekursiv nach oben
 actions_cancel#:#Abbrechen
 actions_disable_actions#:#Aktionen deaktivieren
 actions_disabled_actions#:#Aktionen deaktiviert
@@ -154,12 +155,13 @@ logs_status_300#:#Benutzer angelegt
 logs_status_400#:#Benutzer aktualisiert
 logs_status_500#:#Benutzer fehlgeschlagen
 logs_user_id#:#Benutzer Login
-requests_accepted#:#Angenommen
-requests_accepted_message#:#%s angenommen
-requests_accept_time#:#Akzeptieren-Zeitpunkt
-requests_accept_user#:#Akzeptieren-Benutzer
+requests_accepted#:#Bearbeitet
+requests_accepted_message#:#%s bearbeitet
+requests_accept_time#:#Bearbeiten-Zeitpunkt
+requests_accept_user#:#Bearbeiten-Benutzer
 requests_actions#:#Aktionen
 requests_add_responsible_users#:#Verantwortliche Benutzer hinzufügen
+requests_added_responsible_users#:#Verantwortliche Benutzer hinzugefügt
 requests_create_time#:#Anfrage-Zeitpunkt
 requests_create_time_workflow#:#Anfrage-Zeitpunkt 1. Schritt
 requests_create_user#:#Erstell-Benutzer
@@ -199,6 +201,7 @@ rules_enabled_rules#:#Regeln aktiviert
 rules_field#:#Feld
 rules_iliaspermission_join#:#Beitreten
 rules_languages#:#Sprachen
+rules_only_next_step#:#Nur nächster Schritt
 rules_operator#:#Vergleicher
 rules_operator_bigger#:#Grösser als
 rules_operator_bigger_equals#:#Grösser als oder ist gleich
@@ -226,6 +229,7 @@ rules_removed_rules#:#Regeln entfernt
 rules_rule_description#:#Regel
 rules_rule_type#:#Regel-Typ
 rules_rule_type_always#:#Immer
+rules_rule_type_currentuserisassignedasresponsibleuser#:#Aktueller Benutzer ist als verantwortlicher Benutzer zugewiesen
 rules_rule_type_globalrole#:#Globale Rolle
 rules_rule_type_group#:#Gruppe
 rules_rule_type_iliaspermission#:#ILIAS-Recht
@@ -252,7 +256,7 @@ select_workflow_object_setting_changed#:#Kurs-Einstellung '%1$s' auf '%2$s' gese
 select_workflow_select_workflow#:#Workflow auswählen
 select_workflow_save#:#Speichern
 select_workflow_saved#:#Gespeichert
-steps_action_accept_title#:#Titel Aktion annehmen
+steps_action_accept_title#:#Titel Aktion bearbeiten
 steps_action_title#:#Titel Aktion
 steps_actions#:#Aktionen
 steps_add#:#Hinzufügen

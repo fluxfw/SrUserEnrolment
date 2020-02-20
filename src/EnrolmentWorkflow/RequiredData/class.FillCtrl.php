@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData;
 
 use ilSrUserEnrolmentPlugin;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsRequestGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\AcceptRequestGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;

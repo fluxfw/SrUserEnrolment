@@ -4,6 +4,7 @@ actions_add#:#Add
 actions_add_action#:#Add action
 actions_added_action#:#Action %s added
 actions_assign_positions#:#Assign users as responsible user with the following positions in the same organisation unit of requestor
+actions_assign_positions_recursive#:#Recursive to top
 actions_cancel#:#Cancel
 actions_disable_actions#:#Disable actions
 actions_disabled_actions#:#Actions disabled
@@ -154,12 +155,13 @@ logs_status_300#:#User created
 logs_status_400#:#User updated
 logs_status_500#:#User failed
 logs_user_id#:#User login
-requests_accepted#:#Accepted
-requests_accepted_message#:#%s accepted
-requests_accept_time#:#Accept time
-requests_accept_user#:#Accept user
+requests_accepted#:#Edited
+requests_accepted_message#:#%s edited
+requests_accept_time#:#Edit time
+requests_accept_user#:#Edit user
 requests_actions#:#Actions
 requests_add_responsible_users#:#Add responsible users
+requests_added_responsible_users#:#Added responsible users
 requests_create_time#:#Request create time
 requests_create_time_workflow#:#Request create time 1. step
 requests_create_user#:#Create user
@@ -199,6 +201,7 @@ rules_enabled_rules#:#Rules enabled
 rules_field#:#Field
 rules_iliaspermission_join#:#Join
 rules_languages#:#Languages
+rules_only_next_step#:#Only next step
 rules_operator#:#Operator
 rules_operator_bigger#:#Bigger than
 rules_operator_bigger_equals#:#Bigger than or is equals
@@ -226,6 +229,7 @@ rules_removed_rules#:#Rules removed
 rules_rule_description#:#Rule
 rules_rule_type#:#Rule type
 rules_rule_type_always#:#Always
+rules_rule_type_currentuserisassignedasresponsibleuser#:#Current user is assigned as responsible user
 rules_rule_type_globalrole#:#Global role
 rules_rule_type_group#:#Group
 rules_rule_type_iliaspermission#:#ILIAS permission
@@ -252,7 +256,7 @@ select_workflow_object_setting_changed#:#Set course setting '%1$s' to '%2$s'
 select_workflow_select_workflow#:#Select workflow
 select_workflow_save#:#Save
 select_workflow_saved#:#Saved
-steps_action_accept_title#:#Title accept action
+steps_action_accept_title#:#Title edit action
 steps_action_title#:#Title action
 steps_actions#:#Actions
 steps_add#:#Add

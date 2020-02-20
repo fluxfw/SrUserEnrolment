@@ -3,33 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator;
 
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
-const OPERATOR_EQUALS = 1;
-const OPERATOR_STARTS_WITH = 2;
-const OPERATOR_CONTAINS = 3;
-const OPERATOR_ENDS_WITH = 4;
-const OPERATOR_REG_EX = 5;
-const OPERATOR_EQUALS_SUBSEQUENT = 6;
-const OPERATOR_LESS = 7;
-const OPERATOR_LESS_EQUALS = 8;
-const OPERATOR_BIGGER = 9;
-const OPERATOR_BIGGER_EQUALS = 10;
-const OPERATORS
-= [
-    OPERATOR_EQUALS        => "equals",
-    OPERATOR_STARTS_WITH   => "starts_with",
-    OPERATOR_CONTAINS      => "contains",
-    OPERATOR_ENDS_WITH     => "ends_with",
-    OPERATOR_REG_EX        => "reg_ex",
-    OPERATOR_LESS          => "less",
-    OPERATOR_LESS_EQUALS   => "less_equals",
-    OPERATOR_BIGGER        => "bigger",
-    OPERATOR_BIGGER_EQUALS => "bigger_equals"
-];
-const OPERATORS_SUBSEQUENT
-= [
-    OPERATOR_EQUALS            => "equals",
-    OPERATOR_EQUALS_SUBSEQUENT => "equals_subsequent"
-];
 
 /**
  * Trait Operator
@@ -49,7 +22,7 @@ trait Operator
      * @con_length       2
      * @con_is_notnull   true
      */
-    protected $operator = OPERATOR_EQUALS;
+    protected $operator = OperatorConstants::OPERATOR_EQUALS;
     /**
      * @var bool
      *
@@ -75,7 +48,7 @@ trait Operator
      */
     protected function getOperatorTitle() : string
     {
-        return self::plugin()->translate("operator_" . (OPERATORS[$this->operator] ?? OPERATORS_SUBSEQUENT[$this->operator]), RulesGUI::LANG_MODULE);
+        return self::plugin()->translate("operator_" . (OperatorConstants::OPERATORS[$this->operator] ?? OperatorConstants::OPERATORS_SUBSEQUENT[$this->operator]), RulesGUI::LANG_MODULE);
     }
 
 

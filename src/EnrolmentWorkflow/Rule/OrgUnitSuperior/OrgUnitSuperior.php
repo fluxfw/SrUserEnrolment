@@ -22,6 +22,18 @@ class OrgUnitSuperior extends AbstractRule
     /**
      * @inheritDoc
      */
+    public static function supportsParentContext(/*?*/ int $parent_context = null) : bool
+    {
+        switch ($parent_context) {
+            default:
+                return true;
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getRuleDescription() : string
     {
         return htmlspecialchars($this->getPositionTitle());

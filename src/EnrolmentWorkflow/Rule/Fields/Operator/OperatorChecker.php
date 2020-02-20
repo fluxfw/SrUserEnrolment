@@ -15,32 +15,35 @@ trait OperatorChecker
     /**
      * @param mixed $value
      * @param mixed $check_value
+     * @param int   $operator
+     * @param bool  $operator_negated
+     * @param bool  $operator_case_sensitive
      *
      * @return bool
      */
-    public function checkOperator($value, $check_value) : bool
+    public function checkOperator($value, $check_value, int $operator, bool $operator_negated, bool $operator_case_sensitive) : bool
     {
-        $value = $this->checkOperatorCaseSensitive($value);
-        $check_value = $this->checkOperatorCaseSensitive($check_value);
+        $value = $this->checkOperatorCaseSensitive($value, $operator_case_sensitive);
+        $check_value = $this->checkOperatorCaseSensitive($check_value, $operator_case_sensitive);
 
-        switch ($this->rule->getOperator()) {
-            case OPERATOR_EQUALS:
+        switch ($operator) {
+            case OperatorConstants::OPERATOR_EQUALS:
                 $check = ($value == $check_value);
                 break;
 
-            case OPERATOR_STARTS_WITH:
+            case OperatorConstants::OPERATOR_STARTS_WITH:
                 $check = (strpos($value, $check_value) === 0);
                 break;
 
-            case OPERATOR_CONTAINS:
+            case OperatorConstants::OPERATOR_CONTAINS:
                 $check = (strpos($value, $check_value) !== false);
                 break;
 
-            case OPERATOR_ENDS_WITH:
+            case OperatorConstants::OPERATOR_ENDS_WITH:
                 $check = (strrpos($value, $check_value) === (strlen($value) - strlen($check_value)));
                 break;
 
-            case OPERATOR_REG_EX:
+            case OperatorConstants::OPERATOR_REG_EX:
                 // Fix RegExp
                 if ($check_value[0] !== "/" && $check_value[strlen($check_value) - 1] !== "/") {
                     $check_value = "/$check_value/";
@@ -48,19 +51,19 @@ trait OperatorChecker
                 $check = (preg_match($check_value, $value) === 1);
                 break;
 
-            case OPERATOR_LESS:
+            case OperatorConstants::OPERATOR_LESS:
                 $check = ($value < $check_value);
                 break;
 
-            case OPERATOR_LESS_EQUALS:
+            case OperatorConstants::OPERATOR_LESS_EQUALS:
                 $check = ($value <= $check_value);
                 break;
 
-            case OPERATOR_BIGGER:
+            case OperatorConstants::OPERATOR_BIGGER:
                 $check = ($value > $check_value);
                 break;
 
-            case OPERATOR_BIGGER_EQUALS:
+            case OperatorConstants::OPERATOR_BIGGER_EQUALS:
                 $check = ($value >= $check_value);
                 break;
 
@@ -68,7 +71,7 @@ trait OperatorChecker
                 return false;
         }
 
-        $check = $this->checkOperatorNegated($check);
+        $check = $this->checkOperatorNegated($check, $operator_negated);
 
         return $check;
     }
@@ -76,13 +79,14 @@ trait OperatorChecker
 
     /**
      * @param mixed $value
+     * @param bool  $operator_case_sensitive
      *
      * @return mixed
      */
-    public function checkOperatorCaseSensitive($value)
+    public function checkOperatorCaseSensitive($value, bool $operator_case_sensitive)
     {
         if (is_string($value)) {
-            if (!$this->rule->isOperatorCaseSensitive()) {
+            if (!$operator_case_sensitive) {
                 $value = strtolower($value);
             }
         }
@@ -93,12 +97,13 @@ trait OperatorChecker
 
     /**
      * @param bool $check
+     * @param bool $operator_negated
      *
      * @return bool
      */
-    public function checkOperatorNegated(bool $check) : bool
+    public function checkOperatorNegated(bool $check, bool $operator_negated) : bool
     {
-        if ($this->rule->isOperatorNegated()) {
+        if ($operator_negated) {
             $check = (!$check);
         }
 

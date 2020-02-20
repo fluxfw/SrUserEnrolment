@@ -194,6 +194,8 @@ class AssistantsGUI
         if ($this->user_id === intval(self::dic()->user()->getId())) {
             self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
         } else {
+            self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "ref_id", 7);
+            self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "admin_mode", "settings");
             self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "obj_id", $this->user_id);
             self::dic()->ctrl()->redirectByClass([ilAdministrationGUI::class, ilObjUserGUI::class], "view");
         }

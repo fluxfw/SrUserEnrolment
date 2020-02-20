@@ -48,7 +48,7 @@ class ilXPlugin extends ...
 		switch ($a_component) {
 			case IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME:
 				switch ($a_event) {
-					case ilSrUserEnrolmentPlugin::EVENT_...;
+					case ilSrUserEnrolmentPlugin::EVENT_...:
 						...
 						break;
 

@@ -41,6 +41,23 @@ class AssignResponsibleUsers extends AbstractAction
      */
     protected $assign_positions = [];
     /**
+     * @var bool
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     * @con_is_notnull   true
+     */
+    protected $assign_positions_recursive = false;
+    /**
+     * @var array
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   true
+     */
+    protected $assign_positions_udf = [];
+    /**
      * @var int[]
      *
      * @con_has_field    true
@@ -91,8 +108,12 @@ class AssignResponsibleUsers extends AbstractAction
 
         switch ($field_name) {
             case "assign_positions":
+            case "assign_positions_udf":
             case "specific_users":
                 return json_encode($field_value);
+
+            case "assign_positions_recursive":
+                return ($field_value ? 1 : 0);
 
             default:
                 return parent::sleep($field_name);
@@ -107,8 +128,12 @@ class AssignResponsibleUsers extends AbstractAction
     {
         switch ($field_name) {
             case "assign_positions":
+            case "assign_positions_udf":
             case "specific_users":
-                return json_decode($field_value, true);
+                return (json_decode($field_value, true) ?? []);
+
+            case "assign_positions_recursive":
+                return boolval($field_value);
 
             default:
                 return parent::wakeUp($field_name, $field_value);
@@ -149,6 +174,42 @@ class AssignResponsibleUsers extends AbstractAction
     public function setAssignPositions(array $assign_positions)/* : void*/
     {
         $this->assign_positions = $assign_positions;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isAssignPositionsRecursive() : bool
+    {
+        return $this->assign_positions_recursive;
+    }
+
+
+    /**
+     * @param bool $assign_positions_recursive
+     */
+    public function setAssignPositionsRecursive(bool $assign_positions_recursive)/* : void*/
+    {
+        $this->assign_positions_recursive = $assign_positions_recursive;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getAssignPositionsUdf() : array
+    {
+        return $this->assign_positions_udf;
+    }
+
+
+    /**
+     * @param array $assign_positions_udf
+     */
+    public function setAssignPositionsUdf(array $assign_positions_udf)/* : void*/
+    {
+        $this->assign_positions_udf = $assign_positions_udf;
     }
 
 

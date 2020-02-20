@@ -89,7 +89,7 @@ class ActionGUI
                     case self::CMD_CREATE_ACTION:
                     case self::CMD_EDIT_ACTION:
                     case self::CMD_GET_USERS_AUTO_COMPLETE:
-                    case self::CMD_MOVE_ACTION_DOWN;
+                    case self::CMD_MOVE_ACTION_DOWN:
                     case self::CMD_MOVE_ACTION_UP:
                     case self::CMD_REMOVE_ACTION:
                     case self::CMD_REMOVE_ACTION_CONFIRM:

@@ -2,11 +2,18 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AssignResponsibleUsers;
 
+use ilCheckboxInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiLineNewInputGUI\MultiLineNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AbstractActionFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Field\FieldFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OperatorFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Value\ValueFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF\UDF;
 
 /**
  * Class AssignResponsibleUsersFormGUI
@@ -18,6 +25,9 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionGUI;
 class AssignResponsibleUsersFormGUI extends AbstractActionFormGUI
 {
 
+    use FieldFormGUI;
+    use OperatorFormGUI;
+    use ValueFormGUI;
     /**
      * @var AssignResponsibleUsers
      */
@@ -50,10 +60,23 @@ class AssignResponsibleUsersFormGUI extends AbstractActionFormGUI
                         switch ($user_type) {
                             case AssignResponsibleUsers::USER_TYPE_POSITION:
                                 $items = [
-                                    "assign_positions" => [
+                                    "assign_positions"           => [
                                         self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
                                         self::PROPERTY_REQUIRED => true,
                                         self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getPositions()
+                                    ],
+                                    "assign_positions_recursive" => [
+                                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+                                    ],
+                                    "assign_positions_udf"       => [
+                                        self::PROPERTY_CLASS    => MultiLineNewInputGUI::class,
+                                        self::PROPERTY_SUBITEMS => array_merge(
+                                            $this->getFieldFormFields(),
+                                            $this->getOperatorFormFields1(),
+                                            $this->getValueFormFields(),
+                                            $this->getOperatorFormFields2()
+                                        ),
+                                        "setTitle"              => self::plugin()->translate("rule_type_" . UDF::getRuleType(), RulesGUI::LANG_MODULE)
                                     ]
                                 ];
                                 break;

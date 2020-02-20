@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.5.0]
+- Rule 'Current user is assigned as responsible user'
+- Filter recursive and UDF in action 'Assign responsible users'
+- Fixes
+
 ## [3.4.5]
 - Update Notifications4Plugin
 - 'Run next actions' config

@@ -22,28 +22,28 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "accepted"          => [
+            "accepted"             => [
                 "id"      => "accepted",
                 "default" => true,
                 "sort"    => false
             ],
-            "create_time_workflow"       => [
+            "create_time_workflow" => [
                 "id"      => "create_time_workflow",
                 "default" => true,
                 "sort"    => false
             ],
-            "create_user"       => [
+            "create_user"          => [
                 "id"      => "create_user",
                 "default" => true,
                 "sort"    => false
             ],
-            "object_title"      => [
+            "object_title"         => [
                 "id"      => "object_title",
                 "default" => true,
                 "sort"    => false,
                 "txt"     => self::plugin()->translate("object", RequestsGUI::LANG_MODULE)
             ],
-            "responsible_users" => [
+            "responsible_users"    => [
                 "id"      => "responsible_users",
                 "default" => true,
                 "sort"    => false

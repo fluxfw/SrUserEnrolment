@@ -37,7 +37,7 @@ class GroupChecker extends AbstractRuleChecker
     {
         return (!empty(self::srUserEnrolment()->enrolmentWorkflow()
             ->rules()
-            ->getCheckedRules(AbstractRule::PARENT_CONTEXT_RULE_GROUP, $this->rule->getRuleId(), AbstractRule::TYPE_RULE_GROUP, $user_id, $obj_ref_id, true)));
+            ->getCheckedRules(AbstractRule::PARENT_CONTEXT_RULE_GROUP, $this->rule->getRuleId(), AbstractRule::TYPE_RULE_GROUP, $user_id, $obj_ref_id, true, $this->request)));
     }
 
 

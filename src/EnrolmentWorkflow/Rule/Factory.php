@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Always\Always;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\CurrentUserIsAssignedAsResponsibleUser\CurrentUserIsAssignedAsResponsibleUser;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\GlobalRole\GlobalRole;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group\Group;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\IliasPermission\IliasPermission;
@@ -56,6 +57,7 @@ final class Factory
     protected $classes
         = [
             Always::class,
+            CurrentUserIsAssignedAsResponsibleUser::class,
             GlobalRole::class,
             Group::class,
             IliasPermission::class,

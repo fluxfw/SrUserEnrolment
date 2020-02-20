@@ -48,7 +48,9 @@ class UDFChecker extends AbstractRuleChecker
                 return false;
             }
 
-            if ($this->checkOperator($udf_value, $this->rule->getValue())) {
+            if ($this->checkOperator($udf_value, $this->rule->getValue(), $this->rule->getOperator(),
+                $this->rule->isOperatorNegated(), $this->rule->isOperatorCaseSensitive())
+            ) {
                 return true;
             }
         }

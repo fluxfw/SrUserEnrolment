@@ -6,10 +6,9 @@ use ilDBConstants;
 use ilOrgUnitUserAssignment;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OperatorChecker;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OperatorConstants;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Position\PositionConstants;
 use stdClass;
-use const srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OPERATOR_EQUALS;
-use const srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OPERATOR_EQUALS_SUBSEQUENT;
-use const srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Position\POSITION_ALL;
 
 /**
  * Class OrgUnitUserTypeChecker
@@ -44,20 +43,22 @@ class OrgUnitUserTypeChecker extends AbstractRuleChecker
     {
         switch ($this->rule->getOrgUnitUserType()) {
             case OrgUnitUserType::ORG_UNIT_USER_TYPE_TITLE:
-                if (!$this->checkOperator(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($obj_ref_id)), $this->rule->getTitle())) {
+                if (!$this->checkOperator(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($obj_ref_id)), $this->rule->getTitle(), $this->rule->getOperator(),
+                    $this->rule->isOperatorNegated(), $this->rule->isOperatorCaseSensitive())
+                ) {
                     return false;
                 }
                 break;
 
             case OrgUnitUserType::ORG_UNIT_USER_TYPE_TREE:
                 switch ($this->rule->getOperator()) {
-                    case OPERATOR_EQUALS:
+                    case OperatorConstants::OPERATOR_EQUALS:
                         if ($obj_ref_id !== $this->rule->getRefId()) {
                             return false;
                         }
                         break;
 
-                    case OPERATOR_EQUALS_SUBSEQUENT:
+                    case OperatorConstants::OPERATOR_EQUALS_SUBSEQUENT:
                         if ($obj_ref_id !== $this->rule->getRefId()) {
                             if (!in_array($obj_ref_id, self::dic()->tree()->getSubTree(self::dic()->tree()->getNodeData($this->rule->getRefId()), false))) {
                                 return false;
@@ -74,7 +75,7 @@ class OrgUnitUserTypeChecker extends AbstractRuleChecker
                 return false;
         }
 
-        if ($this->rule->getPosition() !== POSITION_ALL) {
+        if ($this->rule->getPosition() !== PositionConstants::POSITION_ALL) {
             if (ilOrgUnitUserAssignment::where([
                     "user_id"     => $user_id,
                     "orgu_id"     => $obj_ref_id,

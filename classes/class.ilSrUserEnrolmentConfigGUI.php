@@ -46,18 +46,18 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
-            case strtolower(ExcelImportGUI::class);
+            case strtolower(ExcelImportGUI::class):
                 self::dic()->ctrl()->forwardCommand(new ExcelImportGUI());
                 break;
 
-            case strtolower(WorkflowsGUI::class);
+            case strtolower(WorkflowsGUI::class):
                 if (!self::srUserEnrolment()->enrolmentWorkflow()->hasAccess(self::dic()->user()->getId(), false)) {
                     die();
                 }
                 self::dic()->ctrl()->forwardCommand(new WorkflowsGUI());
                 break;
 
-            case strtolower(NotificationsCtrl::class);
+            case strtolower(NotificationsCtrl::class):
                 if (!self::srUserEnrolment()->enrolmentWorkflow()->hasAccess(self::dic()->user()->getId(), false)) {
                     die();
                 }

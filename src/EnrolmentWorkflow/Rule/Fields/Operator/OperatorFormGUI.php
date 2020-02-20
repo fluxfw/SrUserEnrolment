@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator;
 
 use ilCheckboxInputGUI;
 use ilSelectInputGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 
 /**
  * Trait OperatorFormGUI
@@ -25,8 +26,9 @@ trait OperatorFormGUI
                 self::PROPERTY_CLASS    => ilSelectInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
                 self::PROPERTY_OPTIONS  => array_map(function (string $operator_lang_key) : string {
-                    return $this->txt("operator_" . $operator_lang_key);
-                }, OPERATORS)
+                    return self::plugin()->translate("operator_" . $operator_lang_key, RulesGUI::LANG_MODULE);
+                }, OperatorConstants::OPERATORS),
+                "setTitle"              => self::plugin()->translate("operator", RulesGUI::LANG_MODULE)
             ]
         ];
     }
@@ -43,7 +45,7 @@ trait OperatorFormGUI
                 self::PROPERTY_REQUIRED => true,
                 self::PROPERTY_OPTIONS  => array_map(function (string $operator_lang_key) : string {
                     return $this->txt("operator_" . $operator_lang_key);
-                }, OPERATORS_SUBSEQUENT),
+                }, OperatorConstants::OPERATORS_SUBSEQUENT),
                 "setTitle"              => $this->txt("operator")
             ]
         ];
@@ -57,10 +59,12 @@ trait OperatorFormGUI
     {
         return [
             "operator_negated"        => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                "setTitle"           => self::plugin()->translate("operator_negated", RulesGUI::LANG_MODULE)
             ],
             "operator_case_sensitive" => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                "setTitle"           => self::plugin()->translate("operator_case_sensitive", RulesGUI::LANG_MODULE)
             ]
         ];
     }

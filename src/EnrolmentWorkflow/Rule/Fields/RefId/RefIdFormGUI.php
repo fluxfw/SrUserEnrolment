@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\RefId;
 
 use ilNumberInputGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 
 /**
  * Trait RefIdFormGUI
@@ -22,7 +23,8 @@ trait RefIdFormGUI
         return [
             "ref_id" => [
                 self::PROPERTY_CLASS    => ilNumberInputGUI::class,
-                self::PROPERTY_REQUIRED => true
+                self::PROPERTY_REQUIRED => true,
+                "setTitle"              => self::plugin()->translate("ref_id", RulesGUI::LANG_MODULE)
             ]
         ];
     }
