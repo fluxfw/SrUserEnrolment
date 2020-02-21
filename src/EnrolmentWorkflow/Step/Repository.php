@@ -193,6 +193,10 @@ final class Repository
 
         $steps = array_filter($steps, function (Step $step) use ($request): bool {
 
+            if ($request->getUserId() === intval(self::dic()->user()->getId())) {
+                return false;
+            }
+
             if ($step->getStepId() === $request->getStepId()) {
                 return false;
             }
