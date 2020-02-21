@@ -76,7 +76,7 @@ abstract class AbstractAjaxAutoCompleteCtrl
      *
      * @return bool
      */
-    public function validate(array $ids) : bool
+    public function validateOptions(array $ids) : bool
     {
         return (count($ids) === count($this->fillOptions($ids)));
     }

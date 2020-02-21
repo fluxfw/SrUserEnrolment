@@ -118,7 +118,7 @@ class MultiSelectSearchNewInputGUI extends ilFormPropertyGUI implements ilTableF
         }
 
         if ($this->getAjaxAutoCompleteCtrl() !== null) {
-            if (!$this->getAjaxAutoCompleteCtrl()->validate($values)) {
+            if (!$this->getAjaxAutoCompleteCtrl()->validateOptions($values)) {
                 $this->setAlert(self::dic()->language()->txt("form_input_not_valid"));
 
                 return false;
