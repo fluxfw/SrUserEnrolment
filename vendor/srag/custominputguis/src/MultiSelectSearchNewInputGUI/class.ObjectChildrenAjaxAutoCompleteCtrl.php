@@ -5,13 +5,13 @@ namespace srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI;
 use ilObjOrgUnit;
 
 /**
- * Class OrgUnitsAjaxAutoCompleteCtrl
+ * Class ObjectChildrenAjaxAutoCompleteCtrl
  *
  * @package srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class OrgUnitsAjaxAutoCompleteCtrl extends AbstractAjaxAutoCompleteCtrl
+class ObjectChildrenAjaxAutoCompleteCtrl extends ObjectsAjaxAutoCompleteCtrl
 {
 
     /**
@@ -21,15 +21,16 @@ class OrgUnitsAjaxAutoCompleteCtrl extends AbstractAjaxAutoCompleteCtrl
 
 
     /**
-     * OrgUnitsAjaxAutoCompleteCtrl constructor
+     * ObjectChildrenAjaxAutoCompleteCtrl constructor
      *
+     * @param string   $type
      * @param int|null $parent_ref_id
      */
-    public function __construct(/*?*/ int $parent_ref_id = null)
+    public function __construct(string $type,/*?*/ int $parent_ref_id = null)
     {
-        parent::__construct();
+        parent::__construct($type, true);
 
-        $this->parent_ref_id = $parent_ref_id ?? ilObjOrgUnit::getRootOrgRefId();
+        $this->parent_ref_id = $parent_ref_id ?? ($type === "orgu" ? ilObjOrgUnit::getRootOrgRefId() : 1);
     }
 
 
@@ -49,16 +50,6 @@ class OrgUnitsAjaxAutoCompleteCtrl extends AbstractAjaxAutoCompleteCtrl
         }
 
         return $org_units;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function fillOptions(array $ids) : array
-    {
-        return array_combine($ids, array_map(function (int $org_unit_ref_id) : string {
-            return self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($org_unit_ref_id));
-        }, $ids));
+        // TODO: fillOptions check parent_ref_id
     }
 }

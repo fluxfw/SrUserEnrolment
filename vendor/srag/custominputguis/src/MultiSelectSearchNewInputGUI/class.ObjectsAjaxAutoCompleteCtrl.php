@@ -18,18 +18,24 @@ class ObjectsAjaxAutoCompleteCtrl extends AbstractAjaxAutoCompleteCtrl
      * @var string
      */
     protected $type;
+    /**
+     * @var bool
+     */
+    protected $ref_id;
 
 
     /**
      * ObjectsAjaxAutoCompleteCtrl constructor
      *
      * @param string $type
+     * @param bool   $ref_id
      */
-    public function __construct(string $type)
+    public function __construct(string $type, bool $ref_id = false)
     {
         parent::__construct();
 
         $this->type = $type;
+        $this->ref_id = $ref_id;
     }
 
 
@@ -39,7 +45,7 @@ class ObjectsAjaxAutoCompleteCtrl extends AbstractAjaxAutoCompleteCtrl
     public function searchOptions(string $search = null) : array
     {
         $result = self::dic()->database()->queryF('
-SELECT object_data.obj_id, title
+SELECT ' . ($this->ref_id ? 'object_reference.ref_id' : 'object_data.obj_id') . ', title
 FROM object_data
 INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id
 WHERE type=%s
@@ -58,14 +64,14 @@ AND object_reference.deleted IS NULL
     public function fillOptions(array $ids) : array
     {
         $result = self::dic()->database()->queryF('
-SELECT object_data.obj_id, title
+SELECT ' . ($this->ref_id ? 'object_reference.ref_id' : 'object_data.obj_id') . ', title
 FROM object_data
 INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id
 WHERE type=%s
 AND object_reference.deleted IS NULL
-AND' . self::dic()
+AND ' . self::dic()
                 ->database()
-                ->in("obj_id", $ids, false, ilDBConstants::T_INTEGER) . ' ORDER BY title ASC', [ilDBConstants::T_TEXT], [$this->type]);
+                ->in(($this->ref_id ? 'object_reference.ref_id' : 'object_data.obj_id'), $ids, false, ilDBConstants::T_INTEGER) . ' ORDER BY title ASC', [ilDBConstants::T_TEXT], [$this->type]);
 
         return $this->formatObjects(self::dic()->database()->fetchAll($result));
     }
@@ -81,7 +87,7 @@ AND' . self::dic()
         $formatted_objects = [];
 
         foreach ($objects as $object) {
-            $formatted_objects[$object["obj_id"]] = $object["title"];
+            $formatted_objects[$object[($this->ref_id ? 'ref_id' : 'obj_id')]] = $object["title"];
         }
 
         return $formatted_objects;
