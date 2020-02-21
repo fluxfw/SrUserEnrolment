@@ -28,7 +28,7 @@ class ObjectChildrenAjaxAutoCompleteCtrl extends ObjectsAjaxAutoCompleteCtrl
      */
     public function __construct(string $type,/*?*/ int $parent_ref_id = null)
     {
-        parent::__construct($type, true);
+        parent::__construct($type, ($type === "orgu"));
 
         $this->parent_ref_id = $parent_ref_id ?? ($type === "orgu" ? ilObjOrgUnit::getRootOrgRefId() : 1);
     }

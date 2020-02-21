@@ -308,7 +308,9 @@ class RequestInfoGUI
             }
 
             foreach ($user_ids as $user_id) {
-                $this->request->addResponsibleUser($user_id);
+                if ($this->request->getUserId() !== intval($user_id)) {
+                    $this->request->addResponsibleUser($user_id);
+                }
             }
 
             self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->request);

@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.6.1]
+- Request user is not allowed to accept steps or be a request responsible user
+
 ## [3.6.0]
 - Comments for request
 - Performance in multi search
