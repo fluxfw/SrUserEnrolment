@@ -48,25 +48,72 @@
         ]
     },
     {
-        "name": "srag/custominputguis",
-        "version": "v0.31.8",
-        "version_normalized": "0.31.8.0",
+        "name": "srag/commentsui",
+        "version": "v0.8.3",
+        "version_normalized": "0.8.3.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-            "reference": "71fa066e505c4cce9492ca2242f3d3c87a9477d3"
+            "url": "https://github.com/studer-raimann/CommentsUI.git",
+            "reference": "db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/71fa066e505c4cce9492ca2242f3d3c87a9477d3",
-            "reference": "71fa066e505c4cce9492ca2242f3d3c87a9477d3",
+            "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f",
+            "reference": "db0c17d08b4e8836592aeb52c6e9afe32a6a1e5f",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.6",
+            "php": ">=7.0",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2020-02-10T11:31:05+00:00",
+        "time": "2020-02-20T08:51:51+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\CommentsUI\\SrUserEnrolment\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "studer + raimann ag - Team Custom 1",
+                "email": "support-custom1@studer-raimann.ch",
+                "homepage": "https://studer-raimann.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Comments ui",
+        "homepage": "https://github.com/studer-raimann/CommentsUI",
+        "keywords": [
+            "ILIAS",
+            "comments",
+            "ui"
+        ]
+    },
+    {
+        "name": "srag/custominputguis",
+        "version": "v0.32.3",
+        "version_normalized": "0.32.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
+            "reference": "9cc454e2f3e74726ffa9b544f7d8d8a5b5d125f3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/9cc454e2f3e74726ffa9b544f7d8d8a5b5d125f3",
+            "reference": "9cc454e2f3e74726ffa9b544f7d8d8a5b5d125f3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0",
+            "srag/dic": ">=0.1.0"
+        },
+        "time": "2020-02-21T06:41:14+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -287,17 +334,17 @@
     },
     {
         "name": "srag/requireddata",
-        "version": "v0.10.8",
-        "version_normalized": "0.10.8.0",
+        "version": "v0.10.9",
+        "version_normalized": "0.10.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/RequiredData.git",
-            "reference": "7ea657755079cfac929e765796a94ae3ffcbe527"
+            "reference": "7a0f3588e6d2213cc19f5f4f3d209c49ee0b0dab"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/7ea657755079cfac929e765796a94ae3ffcbe527",
-            "reference": "7ea657755079cfac929e765796a94ae3ffcbe527",
+            "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/7a0f3588e6d2213cc19f5f4f3d209c49ee0b0dab",
+            "reference": "7a0f3588e6d2213cc19f5f4f3d209c49ee0b0dab",
             "shasum": ""
         },
         "require": {
@@ -305,7 +352,7 @@
             "srag/custominputguis": ">=0.1.0",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2020-02-13T08:05:09+00:00",
+        "time": "2020-02-20T13:37:15+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

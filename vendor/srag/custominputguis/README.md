@@ -50,7 +50,7 @@ So I recommand to use [srag/librariesnamespacechanger](https://packagist.org/pac
 
 ### Requirements
 * ILIAS 5.3 or ILIAS 5.4
-* PHP >=5.6
+* PHP >=7.0
 
 ### Adjustment suggestions
 * External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LINP

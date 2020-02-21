@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.6.0]
+- Comments for request
+- Performance in multi search
+
 ## [3.5.0]
 - Rule 'Current user is assigned as responsible user'
 - Filter recursive and UDF in action 'Assign responsible users'

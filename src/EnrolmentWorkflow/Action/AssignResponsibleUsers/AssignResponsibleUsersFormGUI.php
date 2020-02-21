@@ -7,6 +7,7 @@ use ilRadioGroupInputGUI;
 use ilRadioOption;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiLineNewInputGUI\MultiLineNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AbstractActionFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Field\FieldFormGUI;
@@ -84,11 +85,10 @@ class AssignResponsibleUsersFormGUI extends AbstractActionFormGUI
                             case AssignResponsibleUsers::USER_TYPE_SPECIFIC_USERS:
                                 $items = [
                                     "specific_users" => [
-                                        self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
-                                        self::PROPERTY_REQUIRED => true,
-                                        self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->searchUsers(),
-                                        "setAjaxLink"           => self::dic()->ctrl()->getLinkTarget($this->parent, ActionGUI::CMD_GET_USERS_AUTO_COMPLETE, "", true, false),
-                                        "setTitle"              => $this->txt("userstype_specific_users")
+                                        self::PROPERTY_CLASS      => MultiSelectSearchNewInputGUI::class,
+                                        self::PROPERTY_REQUIRED   => true,
+                                        "setAjaxAutoCompleteCtrl" => new UsersAjaxAutoCompleteCtrl(),
+                                        "setTitle"                => $this->txt("userstype_specific_users")
                                     ]
                                 ];
                                 break;

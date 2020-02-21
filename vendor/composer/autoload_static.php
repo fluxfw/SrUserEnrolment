@@ -15,7 +15,8 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
+            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -45,9 +46,13 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
+        ),
+        'srag\\CommentsUI\\SrUserEnrolment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
         'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
         array (
@@ -257,6 +262,17 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\ActiveRecordConfig\\SrUserEnrolment\\Config\\AbstractRepository' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Config/AbstractRepository.php',
         'srag\\ActiveRecordConfig\\SrUserEnrolment\\Config\\Config' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Config/Config.php',
         'srag\\ActiveRecordConfig\\SrUserEnrolment\\Exception\\ActiveRecordConfigException' => __DIR__ . '/..' . '/srag/activerecordconfig/src/Exception/ActiveRecordConfigException.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\Comment' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Comment.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\CommentAR' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/CommentAR.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\Factory' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Factory.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\FactoryInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/FactoryInterface.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\Repository' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/Repository.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Comment\\RepositoryInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Comment/RepositoryInterface.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Ctrl\\AbstractCtrl' => __DIR__ . '/..' . '/srag/commentsui/src/Ctrl/AbstractCtrl.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Ctrl\\CtrlInterface' => __DIR__ . '/..' . '/srag/commentsui/src/Ctrl/CtrlInterface.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\UI\\UIInterface' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UIInterface.php',
+        'srag\\CommentsUI\\SrUserEnrolment\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIsTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIsTrait.php',
@@ -277,7 +293,11 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiLineNewInputGUI\\MultiLineNewInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiLineNewInputGUI/MultiLineNewInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchInputGUI\\MultiSelectSearchInput2GUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInput2GUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchInputGUI\\MultiSelectSearchInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchInputGUI/MultiSelectSearchInputGUI.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchNewInputGUI\\AbstractAjaxAutoCompleteCtrl' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchNewInputGUI/AbstractAjaxAutoCompleteCtrl.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchNewInputGUI\\MultiSelectSearchNewInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchNewInputGUI/MultiSelectSearchNewInputGUI.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchNewInputGUI\\ObjectChildrenAjaxAutoCompleteCtrl' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchNewInputGUI/class.ObjectChildrenAjaxAutoCompleteCtrl.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchNewInputGUI\\ObjectsAjaxAutoCompleteCtrl' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchNewInputGUI/class.ObjectsAjaxAutoCompleteCtrl.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\MultiSelectSearchNewInputGUI\\UsersAjaxAutoCompleteCtrl' => __DIR__ . '/..' . '/srag/custominputguis/src/MultiSelectSearchNewInputGUI/class.UsersAjaxAutoCompleteCtrl.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\NumberInputGUI\\NumberInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/NumberInputGUI/NumberInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\LegendEntry' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/LegendEntry.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Component\\PieChart' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Component/PieChart.php',
@@ -377,6 +397,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\Sender' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Sender/Sender.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\vcalendarSender' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Sender/vcalendarSender.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Utils\\Notifications4PluginTrait' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Utils/Notifications4PluginTrait.php',
+        'srag\\Plugins\\SrUserEnrolment\\Comment\\RequestCommentsCtrl' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Comment/class.RequestCommentsCtrl.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Factory' => __DIR__ . '/../..' . '/src/Config/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Repository' => __DIR__ . '/../..' . '/src/Config/Repository.php',
@@ -435,6 +456,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\RequestInfoGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.RequestInfoGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\RequestStepGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.RequestStepGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\RequestsGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.RequestsGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\UsersAssistantsAjaxAutoCompleteCtrl' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.UsersAssistantsAjaxAutoCompleteCtrl.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\UserSelectField' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/UserSelectField.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\UserSelectFieldFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/UserSelectFieldFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\UserSelectFillField' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/UserSelectFillField.php',
@@ -599,6 +621,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Select\\SelectField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Select/SelectField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Select\\SelectFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Select/SelectFieldFormGUI.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\Select\\SelectFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/Select/SelectFillField.php',
+        'srag\\RequiredData\\SrUserEnrolment\\Field\\StaticMultiSearchSelect\\SMSSAjaxAutoCompleteCtrl' => __DIR__ . '/..' . '/srag/requireddata/src/Field/StaticMultiSearchSelect/class.SMSSAjaxAutoCompleteCtrl.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\StaticMultiSearchSelect\\StaticMultiSearchSelectField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/StaticMultiSearchSelect/StaticMultiSearchSelectField.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\StaticMultiSearchSelect\\StaticMultiSearchSelectFieldFormGUI' => __DIR__ . '/..' . '/srag/requireddata/src/Field/StaticMultiSearchSelect/StaticMultiSearchSelectFieldFormGUI.php',
         'srag\\RequiredData\\SrUserEnrolment\\Field\\StaticMultiSearchSelect\\StaticMultiSearchSelectFillField' => __DIR__ . '/..' . '/srag/requireddata/src/Field/StaticMultiSearchSelect/StaticMultiSearchSelectFillField.php',

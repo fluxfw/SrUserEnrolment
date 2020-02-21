@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.10.9]
+- Improve
+
 ## [0.10.8]
 - Remove formatted value html escape because it's depends on output context
 

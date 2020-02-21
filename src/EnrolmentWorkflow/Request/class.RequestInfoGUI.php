@@ -9,8 +9,10 @@ use ilSrUserEnrolmentUIHookGUI;
 use ilSubmitButton;
 use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Comment\RequestCommentsCtrl;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Step;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepsGUI;
@@ -92,6 +94,10 @@ class RequestInfoGUI
                 }
                 break;
 
+            case strtolower(RequestCommentsCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new RequestCommentsCtrl($this));
+                break;
+
             default:
                 $cmd = self::dic()->ctrl()->getCmd();
 
@@ -141,9 +147,10 @@ class RequestInfoGUI
 
                 $current_request = current(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, $request->getUserId(), null, null, null, false));
                 if ($current_request !== false) {
-                    if (!empty(array_filter(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($current_request->getStep()->getWorkflowId()), function (Step $step) use ($current_request): bool {
-                        return ($step->getSort() >= $current_request->getStep()->getSort());
-                    }))
+                    if (!empty(array_filter(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($current_request->getStep()->getWorkflowId()),
+                        function (Step $step) use ($current_request): bool {
+                            return ($step->getSort() >= $current_request->getStep()->getSort());
+                        }))
                     ) {
                         $tpl->setVariableEscaped("CURRENT_STEP", self::plugin()->translate("step", StepsGUI::LANG_MODULE) . ": " . $current_request->getStep()->getTitle());
                     }
@@ -186,8 +193,7 @@ class RequestInfoGUI
             self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
             $users = new MultiSelectSearchNewInputGUI("", "responsible_" . RequestStepGUI::GET_PARAM_USER_ID);
-            $users->setOptions(self::srUserEnrolment()->ruleEnrolment()->searchUsers());
-            $users->setAjaxLink(self::dic()->ctrl()->getLinkTargetByClass(RequestsGUI::class, RequestsGUI::CMD_GET_USERS_AUTO_COMPLETE, "", true, false));
+            $users->setAjaxAutoCompleteCtrl(new UsersAjaxAutoCompleteCtrl());
             self::dic()->toolbar()->addInputItem($users);
 
             $add_responsible_users_button = ilSubmitButton::getInstance();
@@ -278,6 +284,8 @@ class RequestInfoGUI
                 ->translate("actions", RequestsGUI::LANG_MODULE))));
         }
 
+        self::dic()->ui()->mainTemplate()->setRightContent(self::output()->getHTML(self::srUserEnrolment()->commentsUI()->withCtrlClass(new RequestCommentsCtrl($this))));
+
         $required_data = $this->request->getFormattedRequiredData();
         self::output()->output([
             $workflow_list,
@@ -318,5 +326,14 @@ class RequestInfoGUI
     public function getRequest() : Request
     {
         return $this->request;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isSingle() : bool
+    {
+        return $this->single;
     }
 }
