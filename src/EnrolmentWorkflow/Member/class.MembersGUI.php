@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
 use ilLink;
 use ilSrUserEnrolmentPlugin;
@@ -14,11 +14,11 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class MembersGUI
  *
- * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members
+ * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members\MembersGUI: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MemberGUI: ilUIPluginRouterGUI
  */
 class MembersGUI
 {

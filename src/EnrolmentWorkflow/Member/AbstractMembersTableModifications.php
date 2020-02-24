@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -8,7 +8,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class AbstractMembersTableModifications
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members
+ * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

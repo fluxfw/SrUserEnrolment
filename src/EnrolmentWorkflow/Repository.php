@@ -8,7 +8,7 @@ use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\Repository as ActionsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Repository as AssistantsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\Repository as DeputiesRepository;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members\Repository as MembersRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Repository as MembersRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Repository as RequestsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Repository as RulesRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\Repository as SelectedWorkflowsRepository;
