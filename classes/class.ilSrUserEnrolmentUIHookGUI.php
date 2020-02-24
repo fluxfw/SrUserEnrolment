@@ -3,6 +3,7 @@
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members\MembersGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestInfoGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
@@ -34,6 +35,10 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     const PART_RIGHT_COLUMN = "right_column";
     const GET_PARAM_REF_ID = "ref_id";
     const GET_PARAM_TARGET = "target";
+    /**
+     * @var bool
+     */
+    protected static $redirected = false;
 
 
     /**
@@ -50,6 +55,25 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
      */
     public function getHTML(/*string*/ $a_comp, /*string*/ $a_part, $a_par = []) : array
     {
+        if (self::dic()->ctrl()->getCmdClass() === strtolower(ilCourseMembershipGUI::class)
+            || self::dic()->ctrl()->getCmdClass() === strtolower(ilCourseParticipantsGroupsGUI::class)
+            || self::dic()->ctrl()->getCmdClass() === strtolower(ilUsersGalleryGUI::class)
+            || self::dic()->ctrl()->getCmdClass() === strtolower(ilMemberExportGUI::class)
+        ) {
+
+            if (!self::$redirected) {
+
+                self::$redirected = true;
+
+                if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess($this->getRefId(), self::dic()->user()->getId())) {
+
+                    $this->fixRedirect();
+
+                    MembersGUI::redirect($this->getRefId());
+                }
+            }
+        }
+
         if (self::dic()->ctrl()->getCmdClass() === strtolower(ilCourseMembershipGUI::class)
             && (empty(self::dic()->ctrl()->getCmd())
                 || self::dic()->ctrl()->getCmd() === "participants")
@@ -98,9 +122,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
                 DeputiesGUI::addTabs(self::dic()->user()->getId());
             }
-        }
 
-        if ($a_part === self::PAR_TABS) {
             if (count(array_filter(self::dic()->ctrl()->getCallHistory(), function (array $history) : bool {
                     return (strtolower($history["class"]) === strtolower(ilObjUserGUI::class));
                 })) > 0
@@ -119,6 +141,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilCourseMembershipGUI::class)
                 || self::dic()->ctrl()->getCmdClass() === strtolower(ilCourseParticipantsGroupsGUI::class)
                 || self::dic()->ctrl()->getCmdClass() === strtolower(ilUsersGalleryGUI::class)
+                || self::dic()->ctrl()->getCmdClass() === strtolower(ilMemberExportGUI::class)
             ) {
 
                 RulesCourseGUI::addTabs($this->getRefId());
@@ -155,8 +178,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
         preg_match("/^uihk_" . ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req(_(.*))?/uim", $target, $matches);
 
         if (is_array($matches) && count($matches) >= 1) {
-            self::dic()->ctrl()->setTargetScript("ilias.php"); // Fix ILIAS 5.3 bug
-            self::dic()->ctrl()->initBaseClass(ilUIPluginRouterGUI::class); // Fix ILIAS bug
+            $this->fixRedirect();
 
             $request_id = explode("_", $matches[2]);
             if (isset($request_id[1])) {
@@ -198,5 +220,15 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
         } else {
             return null;
         }
+    }
+
+
+    /**
+     *
+     */
+    protected function fixRedirect()/*: void*/
+    {
+        self::dic()->ctrl()->setTargetScript("ilias.php"); // Fix ILIAS 5.3 bug
+        self::dic()->ctrl()->initBaseClass(ilUIPluginRouterGUI::class); // Fix ILIAS bug
     }
 }

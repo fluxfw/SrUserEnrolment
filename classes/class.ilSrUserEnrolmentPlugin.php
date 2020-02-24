@@ -25,6 +25,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     const PLUGIN_CLASS_NAME = self::class;
     const EVENT_AFTER_REQUEST = "after_request";
     const EVENT_COLLECT_ASSISTANTS_REQUESTS_TABLE_MODIFICATIONS = "collect_assistants_requests_table_modifications";
+    const EVENT_COLLECT_MEMBERS_TABLE_MODIFICATIONS = "collect_members_table_modifications";
     const EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS = "collect_requests_table_modifications";
     const EVENT_EXTENDS_SRUSRENR = "extends_" . self::PLUGIN_ID;
     /**

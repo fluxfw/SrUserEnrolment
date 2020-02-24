@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -9,7 +9,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class Factory
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy
+ * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -48,37 +48,29 @@ final class Factory
 
 
     /**
-     * @return Deputy
-     */
-    public function newInstance() : Deputy
-    {
-        $deputy = new Deputy();
-
-        return $deputy;
-    }
-
-
-    /**
-     * @param DeputiesGUI $parent
-     * @param array       $deputies
+     * @param int $obj_ref_id
+     * @param int $usr_id
      *
-     * @return DeputiesFormGUI
+     * @return Member
      */
-    public function newFormInstance(DeputiesGUI $parent, array $deputies) : DeputiesFormGUI
+    public function newInstance(int $obj_ref_id, int $usr_id) : Member
     {
-        $form = new DeputiesFormGUI($parent, $deputies);
+        $member = new Member($obj_ref_id, $usr_id);
 
-        return $form;
+        return $member;
     }
 
 
     /**
-     * @return CheckInactiveDeputiesJob
+     * @param MembersGUI $parent
+     * @param string     $cmd
+     *
+     * @return MembersTableGUI
      */
-    public function newCheckInactiveDeputiesJobInstance() : CheckInactiveDeputiesJob
+    public function newTableInstance(MembersGUI $parent, string $cmd = MembersGUI::CMD_LIST_MEMBERS) : MembersTableGUI
     {
-        $job = new CheckInactiveDeputiesJob();
+        $table = new MembersTableGUI($parent, $cmd);
 
-        return $job;
+        return $table;
     }
 }

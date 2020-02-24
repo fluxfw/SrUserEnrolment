@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\ResetPassword;
 
 use ilConfirmationGUI;
 use ilCourseMembershipGUI;
+use ILIAS\UI\Component\Link\Link;
 use ilObjCourseGUI;
 use ilObjUser;
 use ilRepositoryGUI;
@@ -133,6 +134,27 @@ class ResetPasswordGUI
         }, $html);
 
         return ["mode" => ilSrUserEnrolmentUIHookGUI::REPLACE, "html" => $html];
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     * @param int $member_id
+     *
+     * @return Link|null
+     */
+    public static function getAction(int $obj_ref_id, int $member_id)/* : ?Link*/
+    {
+        if (self::srUserEnrolment()->resetUserPassword()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $member_id)) {
+
+            return self::dic()->ui()->factory()->link()->standard(self::plugin()
+                ->translate("title", self::LANG_MODULE), self::dic()->ctrl()->getLinkTargetByClass([
+                ilUIPluginRouterGUI::class,
+                self::class
+            ], self::CMD_RESET_PASSWORD_CONFIRM));
+        }
+
+        return null;
     }
 
 

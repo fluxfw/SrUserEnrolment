@@ -155,6 +155,13 @@ logs_status_300#:#Benutzer angelegt
 logs_status_400#:#Benutzer aktualisiert
 logs_status_500#:#Benutzer fehlgeschlagen
 logs_user_id#:#Benutzer Login
+members_actions#:#Aktionen
+members_info#:#Wenn aktiviert, wird die Mitglieder-Ansicht ausgetauscht und zeigt auch Benutzer von Anfragen
+members_members#:#Mitglieder
+members_user_email#:#E-Mail
+members_user_department#:#Abteilung
+members_user_firstname#:#Vorname
+members_user_lastname#:#Nachname
 requests_accepted#:#Bearbeitet
 requests_accepted_message#:#%s bearbeitet
 requests_accept_time#:#Bearbeiten-Zeitpunkt

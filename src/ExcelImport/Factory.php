@@ -23,7 +23,7 @@ final class Factory
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @var self
+     * @var self|null
      */
     protected static $instance = null;
 

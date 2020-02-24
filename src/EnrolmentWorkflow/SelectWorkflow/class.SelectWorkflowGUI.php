@@ -2,8 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow;
 
-use ilObjCourseGUI;
-use ilRepositoryGUI;
+use ilLink;
 use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use ilUtil;
@@ -114,12 +113,7 @@ class SelectWorkflowGUI
      */
     protected function back()/*: void*/
     {
-        self::dic()->ctrl()->saveParameterByClass(ilObjCourseGUI::class, self::GET_PARAM_REF_ID);
-
-        self::dic()->ctrl()->redirectByClass([
-            ilRepositoryGUI::class,
-            ilObjCourseGUI::class
-        ]);
+        self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
     }
 
 

@@ -15,7 +15,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
@@ -46,7 +46,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -443,6 +443,12 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Deputy' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Deputy.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Factory' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Members\\AbstractMembersTableModifications' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Members/AbstractMembersTableModifications.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Members\\Factory' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Members/Factory.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Members\\Member' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Members/Member.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Members\\MembersGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Members/class.MembersGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Members\\MembersTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Members/MembersTableGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Members\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Members/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\AbstractRequestsTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/AbstractRequestsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\AbstractRequestsTableModifications' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/AbstractRequestsTableModifications.php',

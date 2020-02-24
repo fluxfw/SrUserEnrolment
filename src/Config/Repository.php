@@ -23,7 +23,7 @@ final class Repository extends AbstractRepository
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @var self
+     * @var self|null
      */
     protected static $instance = null;
 
@@ -82,6 +82,7 @@ final class Repository extends AbstractRepository
             ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW                    => [Config::TYPE_BOOLEAN, false],
             ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT                          => [Config::TYPE_BOOLEAN, false],
             ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG                   => [Config::TYPE_BOOLEAN, true],
+            ConfigFormGUI::KEY_SHOW_MEMBERS                               => [Config::TYPE_BOOLEAN, false],
             ConfigFormGUI::KEY_SHOW_RESET_PASSWORD                        => [Config::TYPE_BOOLEAN, false],
             ConfigFormGUI::KEY_SHOW_RULES_ENROLL                          => [Config::TYPE_BOOLEAN, false],
             ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS                   => [Config::TYPE_INTEGER, 0],

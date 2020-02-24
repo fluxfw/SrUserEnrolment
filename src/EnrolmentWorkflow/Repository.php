@@ -8,6 +8,7 @@ use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\Repository as ActionsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Repository as AssistantsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\Repository as DeputiesRepository;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Members\Repository as MembersRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Repository as RequestsRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Repository as RulesRepository;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\Repository as SelectedWorkflowsRepository;
@@ -29,7 +30,7 @@ final class Repository
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @var self
+     * @var self|null
      */
     protected static $instance = null;
 
@@ -91,6 +92,7 @@ final class Repository
         $this->actions()->dropTables();
         $this->assistants()->dropTables();
         $this->deputies()->dropTables();
+        $this->members()->dropTables();
         $this->requests()->dropTables();
         $this->rules()->dropTables();
         $this->selectedWorkflows()->dropTables();
@@ -128,6 +130,7 @@ final class Repository
         $this->actions()->installTables();
         $this->assistants()->installTables();
         $this->deputies()->installTables();
+        $this->members()->installTables();
         $this->requests()->installTables();
         $this->rules()->installTables();
         $this->selectedWorkflows()->installTables();
@@ -144,6 +147,15 @@ final class Repository
     public function isEnabled(bool $plugin_active_check = true) : bool
     {
         return (($plugin_active_check ? self::plugin()->getPluginObject()->isActive() : true) && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW));
+    }
+
+
+    /**
+     * @return MembersRepository
+     */
+    public function members() : MembersRepository
+    {
+        return MembersRepository::getInstance();
     }
 
 

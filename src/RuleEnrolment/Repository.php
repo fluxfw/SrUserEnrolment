@@ -29,7 +29,7 @@ final class Repository
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @var self
+     * @var self|null
      */
     protected static $instance = null;
 
@@ -74,12 +74,12 @@ final class Repository
      */
     public function enrollMemberToCourse(int $obj_id, int $user_id) : bool
     {
-        $course = ilObjectFactory::getInstanceByObjId($obj_id, false);
+        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
-        if ($course instanceof ilObjCourse) {
+        if ($obj instanceof ilObjCourse) {
 
-            if (!$course->getMembersObject()->isAssigned($user_id)) {
-                $course->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+            if (!$obj->getMembersObject()->isAssigned($user_id)) {
+                $obj->getMembersObject()->add($user_id, IL_CRS_MEMBER);
 
                 return true;
             }
