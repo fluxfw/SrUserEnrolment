@@ -7,6 +7,7 @@ use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\SelectWorkflowGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -126,6 +127,8 @@ class MembersGUI
             ->tabs()
             ->addTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
                 ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
+
+        SelectWorkflowGUI::addTabs($this->obj_ref_id);
 
         RequestsGUI::addTabs($this->obj_ref_id);
 

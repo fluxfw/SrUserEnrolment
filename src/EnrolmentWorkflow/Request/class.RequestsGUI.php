@@ -10,6 +10,7 @@ use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelec
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\SelectWorkflowGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -143,6 +144,8 @@ class RequestsGUI
                 ->getLinkTarget($this, self::CMD_BACK));
 
             MembersGUI::addTabs($this->obj_ref_id);
+
+            SelectWorkflowGUI::addTabs($this->obj_ref_id);
 
             self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, self::GET_PARAM_REF_ID);
             $step = current(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps(self::srUserEnrolment()
