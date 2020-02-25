@@ -29,7 +29,7 @@ final class CustomInputGUIs
 
     use DICTrait;
     /**
-     * @var self
+     * @var self|null
      */
     protected static $instance = null;
 

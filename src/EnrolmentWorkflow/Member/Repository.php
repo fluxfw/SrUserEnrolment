@@ -52,11 +52,20 @@ final class Repository
 
 
     /**
+     * @param Member $member
+     */
+    public function deleteMember(Member $member)/*:void*/
+    {
+        $member->delete();
+    }
+
+
+    /**
      * @internal
      */
     public function dropTables()/*:void*/
     {
-
+        self::dic()->database()->dropTable(Member::TABLE_NAME, false);
     }
 
 
@@ -76,21 +85,56 @@ final class Repository
      */
     public function getMembers(int $obj_ref_id) : array
     {
-        $usr_ids = [];
+        $usr_ids = array_map(function (Request $request) : int {
+            return $request->getUserId();
+        }, self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($obj_ref_id));
 
         $obj = ilObjectFactory::getInstanceByRefId($obj_ref_id, false);
-
         if ($obj instanceof ilObjCourse) {
-            $usr_ids = array_merge($usr_ids, $obj->getMembersObject()->getMembers());
+
+            $usr_ids = array_merge($usr_ids, $obj->getMembersObject()->getParticipants());
         }
 
-        $usr_ids = array_merge($usr_ids, array_map(function (Request $request) : int {
-            return $request->getUserId();
-        }, self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($obj_ref_id)));
+        return array_reduce(array_unique($usr_ids), function (array $members, int $usr_id) use ($obj_ref_id): array {
+            $members[$usr_id] = $this->getMember($obj_ref_id, $usr_id);
 
-        return array_map(function (int $usr_id) use ($obj_ref_id) : Member {
-            return self::srUserEnrolment()->enrolmentWorkflow()->members()->factory()->newInstance($obj_ref_id, $usr_id);
-        }, array_unique($usr_ids));
+            return $members;
+        }, []);
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     * @param int $usr_id
+     *
+     * @return Member
+     */
+    public function getMember(int $obj_ref_id, int $usr_id) : Member
+    {
+        /**
+         * @var Member|null $member
+         */
+
+        $obj_id = self::dic()->objDataCache()->lookupObjId($obj_ref_id);
+
+        $member = Member::where([
+            "obj_id" => $obj_id,
+            "usr_id" => $usr_id
+        ])->first();
+
+        if ($member === null) {
+            $member = $this->factory()->newInstance();
+
+            $member->setObjRefId($obj_ref_id);
+
+            $member->setObjId($obj_id);
+
+            $member->setUsrId($usr_id);
+
+            $this->storeMember($member);
+        }
+
+        return $member;
     }
 
 
@@ -119,7 +163,7 @@ final class Repository
      */
     public function installTables()/*:void*/
     {
-
+        Member::updateDB();
     }
 
 
@@ -129,5 +173,45 @@ final class Repository
     public function isEnabled() : bool
     {
         return (self::srUserEnrolment()->enrolmentWorkflow()->isEnabled() && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_MEMBERS));
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int      $usr_id
+     * @param int|null $time
+     *
+     * @return Member
+     */
+    public function setEnrollmentTime(int $obj_ref_id, int $usr_id, /*?*/ int $time = null) : Member
+    {
+        $member = $this->getMember($obj_ref_id, $usr_id);
+
+        $member->setEnrollmentTime($time);
+
+        $this->storeMember($member);
+
+        return $member;
+    }
+
+
+    /**
+     * @param Member $member
+     */
+    public function storeMember(Member $member)/*:void*/
+    {
+        $time = time();
+
+        if (empty($member->getMemberId())) {
+            $member->setCreatedTime($time);
+
+            $member->setCreatedUserId(self::dic()->user()->getId());
+        }
+
+        $member->setUpdatedTime($time);
+
+        $member->setUpdatedUserId(self::dic()->user()->getId());
+
+        $member->store();
     }
 }

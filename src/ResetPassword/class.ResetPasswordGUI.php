@@ -147,6 +147,9 @@ class ResetPasswordGUI
     {
         if (self::srUserEnrolment()->resetUserPassword()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $member_id)) {
 
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $member_id);
+
             return self::dic()->ui()->factory()->link()->standard(self::plugin()
                 ->translate("title", self::LANG_MODULE), self::dic()->ctrl()->getLinkTargetByClass([
                 ilUIPluginRouterGUI::class,

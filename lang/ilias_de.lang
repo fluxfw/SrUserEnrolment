@@ -156,8 +156,27 @@ logs_status_400#:#Benutzer aktualisiert
 logs_status_500#:#Benutzer fehlgeschlagen
 logs_user_id#:#Benutzer Login
 members_actions#:#Aktionen
+members_cancel#:#Abbrechen
+members_edit_member#:#Mitglied bearbeiten
+members_enroll_users_as#:#Einschreiben als %s
+members_enrolled_users#:#Eingeschrieben
 members_info#:#Wenn aktiviert, wird die Mitglieder-Ansicht ausgetauscht und zeigt auch Benutzer von Anfragen
 members_members#:#Mitglieder
+members_member_completed#:#Abgeschlossen
+members_member_learning_progress#:#Lernfortschritt
+members_member_type#:#Typ
+members_member_type_admin#:#Administrator
+members_member_type_member#:#Mitglied
+members_member_type_request#:#Anfrage
+members_member_type_tutor#:#Tutor
+members_remove#:#Entfernen
+members_remove_member#:#Mitglied entfernen
+members_remove_member_confirm#:#Möchten Sie das Mitglied wirklich entfernen: %s ?
+members_removed_member#:#Mitglied %s entfernt
+members_save#:#Speichern
+members_saved_member#:#Mitglied %s gespeichert
+members_updated_time#:#Zuletzt geändert am
+members_updated_user#:#Zuletzt geändert von
 members_user_email#:#E-Mail
 members_user_department#:#Abteilung
 members_user_firstname#:#Vorname

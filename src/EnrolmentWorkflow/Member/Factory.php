@@ -48,14 +48,11 @@ final class Factory
 
 
     /**
-     * @param int $obj_ref_id
-     * @param int $usr_id
-     *
      * @return Member
      */
-    public function newInstance(int $obj_ref_id, int $usr_id) : Member
+    public function newInstance() : Member
     {
-        $member = new Member($obj_ref_id, $usr_id);
+        $member = new Member();
 
         return $member;
     }
@@ -72,5 +69,19 @@ final class Factory
         $table = new MembersTableGUI($parent, $cmd);
 
         return $table;
+    }
+
+
+    /**
+     * @param MemberGUI $parent
+     * @param Member    $member
+     *
+     * @return MemberFormGUI
+     */
+    public function newFormInstance(MemberGUI $parent, Member $member) : MemberFormGUI
+    {
+        $form = new MemberFormGUI($parent, $member);
+
+        return $form;
     }
 }

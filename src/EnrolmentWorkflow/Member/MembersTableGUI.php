@@ -2,7 +2,9 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
+use ilLearningProgressBaseGUI;
 use ilSrUserEnrolmentPlugin;
+use srag\CustomInputGUIs\SrUserEnrolment\CheckboxInputGUI\AjaxCheckbox;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepsGUI;
@@ -59,6 +61,10 @@ class MembersTableGUI extends TableGUI
         }
 
         switch ($column) {
+            case "member_type":
+                $column = htmlspecialchars($this->txt("member_type_" . Member::TYPES[$member->getType()]));
+                break;
+
             case "user_firstname":
                 $column = htmlspecialchars($member->getUser()->getFirstname());
                 break;
@@ -75,9 +81,38 @@ class MembersTableGUI extends TableGUI
                 $column = htmlspecialchars($member->getUser()->getDepartment());
                 break;
 
+            case "member_learning_progress":
+                if ($member->getLpStatus() !== null) {
+                    self::dic()->language()->loadLanguageModule("trac");
+
+                    $column = self::output()->getHTML([
+                        self::dic()
+                            ->ui()
+                            ->factory()
+                            ->image()
+                            ->standard(ilLearningProgressBaseGUI::_getImagePathForStatus($member->getLpStatus()), ilLearningProgressBaseGUI::_getStatusText($member->getLpStatus())),
+                        htmlspecialchars(ilLearningProgressBaseGUI::_getStatusText($member->getLpStatus()))
+                    ]);
+                } else {
+                    $column = "";
+                }
+                break;
+
+            case "member_completed":
+                if ($member->isLpCompleted() !== null) {
+                    $column = self::output()->getHTML((new AjaxCheckbox())->withChecked($member->isLpCompleted())->withAjaxChangeLink(self::dic()
+                        ->ctrl()
+                        ->getLinkTargetByClass(MemberGUI::class, MemberGUI::CMD_SET_COMPLETED, "", true, false)));
+                } else {
+                    $column = "";
+                }
+                break;
+
             case "request_step_title":
                 if ($member->getRequest() !== null) {
                     $column = htmlspecialchars($member->getRequest()->getStep()->getTitle());
+                } else {
+                    $column = "";
                 }
                 break;
 
@@ -96,27 +131,42 @@ class MembersTableGUI extends TableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "user_firstname"     => [
+            "member_type"              => [
+                "id"      => "member_type",
+                "default" => true,
+                "sort"    => false
+            ],
+            "user_firstname"           => [
                 "id"      => "user_firstname",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_lastname"      => [
+            "user_lastname"            => [
                 "id"      => "user_lastname",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_email"         => [
+            "user_email"               => [
                 "id"      => "user_email",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_department"    => [
+            "user_department"          => [
                 "id"      => "user_department",
                 "default" => true,
                 "sort"    => false
             ],
-            "request_step_title" => [
+            "member_learning_progress" => [
+                "id"      => "member_learning_progress",
+                "default" => true,
+                "sort"    => false
+            ],
+            "member_completed"         => [
+                "id"      => "member_completed",
+                "default" => true,
+                "sort"    => false
+            ],
+            "request_step_title"       => [
                 "id"      => "request_step_title",
                 "default" => true,
                 "sort"    => false,
@@ -208,6 +258,8 @@ class MembersTableGUI extends TableGUI
      */
     protected function fillRow(/*Member*/ $member)/*: void*/
     {
+        self::dic()->ctrl()->setParameterByClass(MemberGUI::class, MemberGUI::GET_PARAM_USER_ID, $member->getUsrId());
+
         parent::fillRow($member);
 
         $actions = [];
@@ -217,6 +269,16 @@ class MembersTableGUI extends TableGUI
             $actions[] = $reset_password_action;
         }
 
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
+        if ($member->getType() !== Member::TYPE_REQUEST) {
+            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("edit_member"), self::dic()->ctrl()
+                ->getLinkTargetByClass(MemberGUI::class, MemberGUI::CMD_EDIT_MEMBER));
+
+            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("remove_member"), self::dic()->ctrl()
+                ->getLinkTargetByClass(MemberGUI::class, MemberGUI::CMD_REMOVE_MEMBER_CONFIRM));
+
+            $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
+        }
+
+        self::dic()->ctrl()->setParameterByClass(MemberGUI::class, MemberGUI::GET_PARAM_USER_ID, null);
     }
 }
