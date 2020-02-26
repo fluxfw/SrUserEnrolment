@@ -6,6 +6,7 @@ use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AssignResponsibleUsers\AssignResponsibleUsers;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\CreateCourse\CreateCourse;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\DeleteRequests\DeleteRequests;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\EnrollToCourse\EnrollToCourse;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\MoveToStep\MoveToStep;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\MoveToWorkflow\MoveToWorkflow;
@@ -51,6 +52,7 @@ final class Factory
         = [
             AssignResponsibleUsers::class,
             CreateCourse::class,
+            DeleteRequests::class,
             EnrollToCourse::class,
             MoveToStep::class,
             MoveToWorkflow::class,

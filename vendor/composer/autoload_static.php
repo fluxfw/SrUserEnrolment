@@ -15,9 +15,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
-            'srag\\ActiveRecordConfig\\' => 24,
+            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
 
@@ -46,7 +46,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -54,7 +54,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
-        'srag\\ActiveRecordConfig\\' => 
+        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -415,6 +415,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\CreateCourse\\CreateCourse' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/CreateCourse/CreateCourse.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\CreateCourse\\CreateCourseFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/CreateCourse/CreateCourseFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\CreateCourse\\CreateCourseRunner' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/CreateCourse/CreateCourseRunner.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\DeleteRequests\\DeleteRequests' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/DeleteRequests/DeleteRequests.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\DeleteRequests\\DeleteRequestsFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/DeleteRequests/DeleteRequestsFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\DeleteRequests\\DeleteRequestsRunner' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/DeleteRequests/DeleteRequestsRunner.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\EnrollToCourse\\EnrollToCourse' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/EnrollToCourse/EnrollToCourse.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\EnrollToCourse\\EnrollToCourseFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/EnrollToCourse/EnrollToCourseFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Action\\EnrollToCourse\\EnrollToCourseRunner' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Action/EnrollToCourse/EnrollToCourseRunner.php',

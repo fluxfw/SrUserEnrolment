@@ -40,5 +40,9 @@
 ?>
 <#11>
 <?php
+//
+?>
+<#12>
+<?php
 \srag\Plugins\SrUserEnrolment\Repository::getInstance()->installTables();
 ?>

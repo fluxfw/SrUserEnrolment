@@ -36,6 +36,7 @@ actions_totype_specific_users#:#Specific users
 actions_type#:#Type
 actions_type_assignresponsibleusers#:#Assign responsible users
 actions_type_createcourse#:#Create course
+actions_type_deleterequests#:#Delete requests
 actions_type_enrolltocourse#:#Enroll to course
 actions_type_movetostep#:#Move to step
 actions_type_movetoworkflow#:#Move to workflow

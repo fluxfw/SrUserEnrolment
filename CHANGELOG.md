@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.7.1]
+- 'Delete requests' action
+
 ## [3.7.0]
 - Members view
 - Rule 'Total requests'

@@ -6,6 +6,7 @@ if (file_exists(__DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor
 }
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\DeleteRequests\DeleteRequests;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
 use srag\Plugins\SrUserEnrolment\Menu\Menu;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;

@@ -80,7 +80,7 @@ final class Repository
     /**
      * @param Request $request
      */
-    protected function deleteRequest(Request $request)/*: void*/
+    public function deleteRequest(Request $request)/*: void*/
     {
         $request->delete();
     }

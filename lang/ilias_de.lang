@@ -36,6 +36,7 @@ actions_totype_specific_users#:#Bestimmte Benutzer
 actions_type#:#Typ
 actions_type_assignresponsibleusers#:#Verantwortliche Benutzer zuweisen
 actions_type_createcourse#:#Kurs erstellen
+actions_type_deleterequests#:#Anfragen löschen
 actions_type_enrolltocourse#:#In Kurs einschreiben
 actions_type_movetostep#:#In Schritt verschieben
 actions_type_movetoworkflow#:#In Workflow verschieben
