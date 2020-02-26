@@ -4,7 +4,6 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
 use ilConfirmationGUI;
 use ilObjCourse;
-use ilObjectFactory;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\CheckboxInputGUI\AjaxCheckbox;
@@ -184,11 +183,10 @@ class MemberGUI
             die();
         }
 
-        $obj = ilObjectFactory::getInstanceByRefId($this->member->getObjRefId(), false);
-        if ($obj instanceof ilObjCourse) {
+        if ($this->member->getObject() instanceof ilObjCourse) {
 
-            if ($obj->getMembersObject()->isAssigned($this->member->getUsrId())) {
-                $obj->getMembersObject()->delete($this->member->getUsrId());
+            if ($this->member->getObject()->getMembersObject()->isAssigned($this->member->getUsrId())) {
+                $this->member->getObject()->getMembersObject()->delete($this->member->getUsrId());
             }
         }
 
