@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
+use ilCheckboxInputGUI;
 use ilDate;
 use ilDatePresentation;
 use ilNonEditableValueGUI;
@@ -57,6 +58,9 @@ class MemberFormGUI extends PropertyFormGUI
     protected function getValue(/*string*/ $key)
     {
         switch ($key) {
+            case "completed":
+                return $this->member->isLpCompleted();
+
             case "updated_time":
                 return ilDatePresentation::formatDate(new ilDate($this->member->getUpdatedTime(), IL_CAL_UNIX));
 
@@ -96,6 +100,10 @@ class MemberFormGUI extends PropertyFormGUI
             ],
             "updated_user" => [
                 self::PROPERTY_CLASS => ilNonEditableValueGUI::class
+            ],
+            "completed"    => [
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                "setTitle"           => $this->txt("member_completed")
             ]
         ];
 
@@ -129,6 +137,10 @@ class MemberFormGUI extends PropertyFormGUI
     protected function storeValue(/*string*/ $key, $value)/*: void*/
     {
         switch ($key) {
+            case "completed":
+                $this->member->setLpCompleted($value);
+                break;
+
             case "updated_time":
             case "updated_user":
                 break;
