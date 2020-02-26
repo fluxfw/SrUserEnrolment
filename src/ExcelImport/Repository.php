@@ -29,7 +29,7 @@ final class Repository
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const USER_ROLE_ID = 4;
     /**
-     * @var self
+     * @var self|null
      */
     protected static $instance = null;
 

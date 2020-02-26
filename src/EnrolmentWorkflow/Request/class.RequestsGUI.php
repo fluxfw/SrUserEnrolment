@@ -2,14 +2,15 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
-use ilObjCourseGUI;
-use ilRepositoryGUI;
+use ilLink;
 use ilSrUserEnrolmentPlugin;
 use ilSubmitButton;
 use ilUIPluginRouterGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\SelectWorkflowGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -142,6 +143,10 @@ class RequestsGUI
             self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
                 ->getLinkTarget($this, self::CMD_BACK));
 
+            MembersGUI::addTabs($this->obj_ref_id);
+
+            SelectWorkflowGUI::addTabs($this->obj_ref_id);
+
             self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, self::GET_PARAM_REF_ID);
             $step = current(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps(self::srUserEnrolment()
                 ->enrolmentWorkflow()
@@ -160,9 +165,13 @@ class RequestsGUI
             self::dic()->toolbar()->addButtonInstance($request_button);
         }
 
+        self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REQUESTS_TYPE, self::REQUESTS_TYPE_ALL);
+        self::dic()->tabs()->addTab(self::TAB_REQUESTS . self::REQUESTS_TYPE_ALL, self::plugin()->translate("requests", self::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_REQUESTS));
+
         foreach (self::REQUESTS_TYPES as $requests_type => $requests_type_lang_key) {
             self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUESTS_TYPE, $requests_type);
-            self::dic()->tabs()->addTab(self::TAB_REQUESTS . $requests_type, self::plugin()->translate("type_" . $requests_type_lang_key, self::LANG_MODULE), self::dic()->ctrl()
+            self::dic()->tabs()->addSubTab(self::TAB_REQUESTS . $requests_type, self::plugin()->translate("type_" . $requests_type_lang_key, self::LANG_MODULE), self::dic()->ctrl()
                 ->getLinkTarget($this, self::CMD_LIST_REQUESTS));
         }
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUESTS_TYPE, $this->requests_type);
@@ -174,12 +183,7 @@ class RequestsGUI
      */
     protected function back()/*: void*/
     {
-        self::dic()->ctrl()->saveParameterByClass(ilObjCourseGUI::class, self::GET_PARAM_REF_ID);
-
-        self::dic()->ctrl()->redirectByClass([
-            ilRepositoryGUI::class,
-            ilObjCourseGUI::class
-        ]);
+        self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
     }
 
 
@@ -188,7 +192,8 @@ class RequestsGUI
      */
     protected function listRequests()/*: void*/
     {
-        self::dic()->tabs()->activateTab(self::TAB_REQUESTS . $this->requests_type);
+        self::dic()->tabs()->activateTab(self::TAB_REQUESTS . self::REQUESTS_TYPE_ALL);
+        self::dic()->tabs()->activateSubTab(self::TAB_REQUESTS . $this->requests_type);
 
         $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this);
 

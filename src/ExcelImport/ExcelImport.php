@@ -577,10 +577,10 @@ class ExcelImport
         $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
         $users = (array) $data->users;
 
-        $object = ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        $obj = ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
 
-        $users = array_filter($users, function (stdClass $user) use ($object): bool {
-            return (!empty($user->ilias_user_id) && !$object->getMembersObject()->isAssigned($user->ilias_user_id));
+        $users = array_filter($users, function (stdClass $user) use ($obj): bool {
+            return (!empty($user->ilias_user_id) && !$obj->getMembersObject()->isAssigned($user->ilias_user_id));
         });
 
         $data = (object) [

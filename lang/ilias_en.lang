@@ -155,6 +155,31 @@ logs_status_300#:#User created
 logs_status_400#:#User updated
 logs_status_500#:#User failed
 logs_user_id#:#User login
+members_actions#:#Actions
+members_cancel#:#Cancel
+members_edit_member#:#Edit member
+members_enroll_users_as#:#Enroll as %s
+members_enrolled_users#:#Enrolled
+members_info#:#If enabled, the members view will be replaced and also show users of requests
+members_members#:#Members
+members_member_completed#:#Completed
+members_member_learning_progress#:#Learning progress
+members_member_type#:#Type
+members_member_type_admin#:#Administrator
+members_member_type_member#:#Member
+members_member_type_request#:#Request
+members_member_type_tutor#:#Tutor
+members_remove_member#:#Remove member
+members_remove_member_confirm#:#Are you really want to remove the member: %s ?
+members_removed_member#:#Member %s removed
+members_save#:#Save
+members_saved_member#:#Member %s saved
+members_updated_time#:#Updated time
+members_updated_user#:#Updated user
+members_user_email#:#Email
+members_user_department#:#Department
+members_user_firstname#:#First name
+members_user_lastname#:#Last name
 requests_accepted#:#Edited
 requests_accepted_message#:#%s edited
 requests_accept_time#:#Edit time
@@ -239,6 +264,7 @@ rules_rule_type_nootherrequests#:#No other requests
 rules_rule_type_noresponsibleusersassigned#:#No responsible users assigned
 rules_rule_type_orgunitsuperior#:#User has position in superior organisation unit
 rules_rule_type_orgunitusertype#:#Organisation unit user
+rules_rule_type_totalrequests#:#Total requests
 rules_rule_type_udf#:#User definied field
 rules_rule_type_udfsupervisor#:#User definied field of supervisors
 rules_run_rules#:#Run rules

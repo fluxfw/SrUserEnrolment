@@ -17,7 +17,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\' => 21,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
-            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
+            'srag\\ActiveRecordConfig\\' => 24,
         ),
     );
 
@@ -54,7 +54,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
-        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
+        'srag\\ActiveRecordConfig\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -273,6 +273,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\CommentsUI\\SrUserEnrolment\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
         'srag\\CommentsUI\\SrUserEnrolment\\UI\\UIInterface' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UIInterface.php',
         'srag\\CommentsUI\\SrUserEnrolment\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\AjaxCheckbox' => __DIR__ . '/..' . '/srag/custominputguis/src/AjaxCheckbox/AjaxCheckbox.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIsTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIsTrait.php',
@@ -443,6 +444,16 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Deputy' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Deputy.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Factory' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Deputy\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Deputy/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\AbstractMemberFormModifications' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/AbstractMemberFormModifications.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\AbstractMembersTableModifications' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/AbstractMembersTableModifications.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\Factory' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/Factory.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\Member' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/Member.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\MemberFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/MemberFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\MemberGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/class.MemberGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\MembersGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/class.MembersGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\MembersTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/MembersTableGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Member\\UsersMembersAjaxAutoCompleteCtrl' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Member/class.UsersMembersAjaxAutoCompleteCtrl.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\AbstractRequestsTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/AbstractRequestsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\AbstractRequestsTableModifications' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/AbstractRequestsTableModifications.php',
@@ -520,6 +531,9 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\RuleGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/class.RuleGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\RulesGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/class.RulesGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\RulesTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/RulesTableGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\TotalRequests\\TotalRequests' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/TotalRequests/TotalRequests.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\TotalRequests\\TotalRequestsChecker' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/TotalRequests/TotalRequestsChecker.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\TotalRequests\\TotalRequestsFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/TotalRequests/TotalRequestsFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDFSupervisor\\UDFSupervisor' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDFSupervisor/UDFSupervisor.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDFSupervisor\\UDFSupervisorChecker' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDFSupervisor/UDFSupervisorChecker.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\UDFSupervisor\\UDFSupervisorFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/UDFSupervisor/UDFSupervisorFormGUI.php',

@@ -14,5 +14,5 @@ return array(
     'srag\\DIC\\SrUserEnrolment\\' => array($vendorDir . '/srag/dic/src'),
     'srag\\CustomInputGUIs\\' => array($vendorDir . '/srag/custominputguis/src'),
     'srag\\CommentsUI\\SrUserEnrolment\\' => array($vendorDir . '/srag/commentsui/src'),
-    'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => array($vendorDir . '/srag/activerecordconfig/src'),
+    'srag\\ActiveRecordConfig\\' => array($vendorDir . '/srag/activerecordconfig/src'),
 );

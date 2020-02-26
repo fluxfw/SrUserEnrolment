@@ -2,12 +2,13 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow;
 
-use ilObjCourseGUI;
-use ilRepositoryGUI;
+use ilLink;
 use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -104,8 +105,12 @@ class SelectWorkflowGUI
         self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));
 
+        MembersGUI::addTabs($this->obj_ref_id);
+
         self::dic()->tabs()->addTab(self::TAB_SELECT_WORKFLOW, self::plugin()->translate("select_workflow", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_SELECT_WORKFLOW));
+
+        RequestsGUI::addTabs($this->obj_ref_id);
     }
 
 
@@ -114,12 +119,7 @@ class SelectWorkflowGUI
      */
     protected function back()/*: void*/
     {
-        self::dic()->ctrl()->saveParameterByClass(ilObjCourseGUI::class, self::GET_PARAM_REF_ID);
-
-        self::dic()->ctrl()->redirectByClass([
-            ilRepositoryGUI::class,
-            ilObjCourseGUI::class
-        ]);
+        self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
     }
 
 

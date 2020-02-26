@@ -9,6 +9,7 @@ use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelec
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
@@ -34,6 +35,7 @@ class ConfigFormGUI extends PropertyFormGUI
     const KEY_SHOW_ENROLMENT_WORKFLOW = "show_enrolment_workflow";
     const KEY_SHOW_EXCEL_IMPORT = "show_excel_import";
     const KEY_SHOW_EXCEL_IMPORT_CONFIG = "show_excel_import_config";
+    const KEY_SHOW_MEMBERS = "show_members";
     const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
     const KEY_SHOW_RULES_ENROLL = "show_rules_enroll";
     const LANG_MODULE = ilSrUserEnrolmentConfigGUI::LANG_MODULE;
@@ -121,6 +123,13 @@ class ConfigFormGUI extends PropertyFormGUI
                             self::plugin()->translate("deputies", DeputiesGUI::LANG_MODULE)
                         ]),
                         "setInfo"            => self::plugin()->translate("info", DeputiesGUI::LANG_MODULE)
+                    ],
+                    self::KEY_SHOW_MEMBERS    => [
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        "setTitle"           => self::plugin()->translate("enable", self::LANG_MODULE, [
+                            self::plugin()->translate("members", MembersGUI::LANG_MODULE)
+                        ]),
+                        "setInfo"            => self::plugin()->translate("info", MembersGUI::LANG_MODULE)
                     ]
                 ],
                 "setTitle"              => self::plugin()->translate("enable", self::LANG_MODULE, [

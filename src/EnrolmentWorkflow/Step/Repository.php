@@ -22,7 +22,7 @@ final class Repository
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @var self
+     * @var self|null
      */
     protected static $instance = null;
 
@@ -191,9 +191,9 @@ final class Repository
             }
         }
 
-        $steps = array_filter($steps, function (Step $step) use ($request): bool {
+        $steps = array_filter($steps, function (Step $step) use ($request, $check_user_id): bool {
 
-            if ($request->getUserId() === intval(self::dic()->user()->getId())) {
+            if ($request->getUserId() === $check_user_id) {
                 return false;
             }
 
