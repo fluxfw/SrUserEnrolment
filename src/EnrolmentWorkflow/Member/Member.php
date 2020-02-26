@@ -5,7 +5,6 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 use ActiveRecord;
 use arConnector;
 use ilLPStatus;
-use ilLPStatusWrapper;
 use ilObjCourse;
 use ilObject;
 use ilObjectFactory;
@@ -329,7 +328,11 @@ class Member extends ActiveRecord
             return null;
         }
 
-        return in_array($this->usr_id, ilLPStatusWrapper::_lookupCompletedForObject($this->getObjId()));
+        if (!($this->getObject() instanceof ilObjCourse)) {
+            return null;
+        }
+
+        return $this->getObject()->getMembersObject()->hasPassed($this->usr_id);
     }
 
 
