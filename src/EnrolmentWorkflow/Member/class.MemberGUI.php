@@ -140,7 +140,7 @@ class MemberGUI
     protected function setCustomChecked()/*:void*/
     {
         $key = strval(filter_input(INPUT_GET, self::CMD_SET_CUSTOM_CHECKED));
-        $checked = boolval(filter_input(INPUT_POST, AjaxCheckbox::GET_PARAM_CHECKED));
+        $checked = (filter_input(INPUT_POST, AjaxCheckbox::GET_PARAM_CHECKED) === "true");
 
         $this->member->setAdditionalDataValueCustomChecked($key, $checked);
 

@@ -50,32 +50,6 @@ class TotalRequests extends AbstractRule
 
 
     /**
-     * @inheritDoc
-     */
-    public function sleep(/*string*/ $field_name)
-    {
-        $field_value = $this->{$field_name};
-
-        switch ($field_name) {
-            default:
-                return null;
-        }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function wakeUp(/*string*/ $field_name, $field_value)
-    {
-        switch ($field_name) {
-            default:
-                return null;
-        }
-    }
-
-
-    /**
      * @return int
      */
     public function getTotalRequests() : int
