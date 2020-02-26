@@ -48,6 +48,7 @@ class TotalRequests extends AbstractRule
         return $this->getTotalRequests();
     }
 
+
     /**
      * @inheritDoc
      */
@@ -56,9 +57,6 @@ class TotalRequests extends AbstractRule
         $field_value = $this->{$field_name};
 
         switch ($field_name) {
-            case "total_requests":
-                return json_encode($field_value);
-
             default:
                 return null;
         }
@@ -71,9 +69,6 @@ class TotalRequests extends AbstractRule
     public function wakeUp(/*string*/ $field_name, $field_value)
     {
         switch ($field_name) {
-            case "total_requests":
-                return json_decode($field_value);
-
             default:
                 return null;
         }

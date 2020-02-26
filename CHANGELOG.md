@@ -2,6 +2,7 @@
 
 ## [x]
 - Members view
+- Rule 'Total requests'
 
 ## [3.6.1]
 - Request user is not allowed to accept steps or be a request responsible user

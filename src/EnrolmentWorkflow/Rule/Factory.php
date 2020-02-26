@@ -15,6 +15,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoOtherRequests\NoOtherR
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoResponsibleUsersAssigned\NoResponsibleUsersAssigned;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitSuperior\OrgUnitSuperior;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitUserType\OrgUnitUserType;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\TotalRequests\TotalRequests;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF\UDF;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDFSupervisor\UDFSupervisor;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -67,6 +68,7 @@ final class Factory
             NoResponsibleUsersAssigned::class,
             OrgUnitSuperior::class,
             OrgUnitUserType::class,
+            TotalRequests::class,
             UDF::class,
             UDFSupervisor::class
         ];

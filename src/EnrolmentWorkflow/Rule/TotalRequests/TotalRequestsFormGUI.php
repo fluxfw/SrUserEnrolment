@@ -38,12 +38,11 @@ class TotalRequestsFormGUI extends AbstractRuleFormGUI
     {
         parent::initFields();
 
-        $fields = [
+        $this->fields = array_merge($this->fields, [
             "total_requests" => [
-                self::PROPERTY_CLASS => ilNumberInputGUI::class
+                self::PROPERTY_CLASS => ilNumberInputGUI::class,
+                "setTitle"           => $this->txt("rule_type_totalrequests")
             ]
-        ];
-
-        $this->fields = array_merge($this->fields, $fields);
+        ]);
     }
 }
