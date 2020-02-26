@@ -127,7 +127,7 @@ class MemberGUI
      */
     protected function setCompleted()/*:void*/
     {
-        $completed = boolval(filter_input(INPUT_POST, AjaxCheckbox::GET_PARAM_CHECKED));
+        $completed = (filter_input(INPUT_POST, AjaxCheckbox::GET_PARAM_CHECKED) === "true");
 
         $this->member->setLpCompleted($completed);
 

@@ -5,9 +5,11 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 use ActiveRecord;
 use arConnector;
 use ilLPStatus;
+use ilLPStatusWrapper;
 use ilObjCourse;
 use ilObject;
 use ilObjectFactory;
+use ilObjectGUIFactory;
 use ilObjUser;
 use ilParticipant;
 use ilSrUserEnrolmentPlugin;
@@ -314,8 +316,7 @@ class Member extends ActiveRecord
             return null;
         }
 
-        // TODO:
-        return ilLPStatus::_lookupStatus($this->getObjId(), $this->usr_id);
+        return intval(ilLPStatus::_lookupStatus($this->getObjId(), $this->usr_id));
     }
 
 
@@ -328,20 +329,25 @@ class Member extends ActiveRecord
             return null;
         }
 
-        // TODO:
-        return in_array($this->usr_id, ilLPStatus::_getCompleted($this->getObjId()));
+        return in_array($this->usr_id, ilLPStatusWrapper::_lookupCompletedForObject($this->getObjId()));
     }
 
 
     /**
      * @param bool $completed
      */
-    protected function setLpCompleted(bool $completed)/*:void*/
+    public function setLpCompleted(bool $completed)/*:void*/
     {
         if ($this->getType() === self::TYPE_REQUEST) {
             return;
         }
-        // TODO:
+
+        if (!($this->getObject() instanceof ilObjCourse)) {
+            return;
+        }
+
+        $this->getObject()->getMembersObject()->updatePassed($this->usr_id, $completed, true);
+        (new ilObjectGUIFactory())->getInstanceByRefId($this->obj_ref_id)->updateLPFromStatus($this->usr_id, $completed);
     }
 
 
