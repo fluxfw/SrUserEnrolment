@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [3.7.0]
 - Members view
 - Rule 'Total requests'
 
