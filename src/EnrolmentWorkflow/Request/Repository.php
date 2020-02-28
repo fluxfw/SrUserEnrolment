@@ -299,11 +299,9 @@ final class Repository
             self::srUserEnrolment()->enrolmentWorkflow()->actions()->runActions($request);
 
             if ($request->getStepId() !== $request_backup->getStepId()) {
-                if (!empty(self::srUserEnrolment()
-                    ->enrolmentWorkflow()
-                    ->rules()
-                    ->getCheckedRules(AbstractRule::PARENT_CONTEXT_STEP, $request->getStepId(), AbstractRule::TYPE_STEP_ACTION, $request->getUserId(), $request->getObjRefId(), false, $request))
-                ) {
+
+                if ($this->getRequest($obj_ref_id, $request->getStepId(), $user_id) === null) {
+
                     return $this->request($request->getObjRefId(), $request->getStepId(), $request->getUserId(), $required_data);
                 }
 
