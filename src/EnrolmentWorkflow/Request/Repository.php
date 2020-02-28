@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -91,7 +92,7 @@ final class Repository
      */
     public function deleteRequests(int $step_id)/*: void*/
     {
-        foreach ($this->getRequests(null, $step_id) as $request) {
+        foreach ($this->getRequests(null, null, $step_id) as $request) {
             $this->deleteRequest($request);
         }
     }
@@ -152,6 +153,7 @@ final class Repository
 
 
     /**
+     * @param int|null    $check_user_id
      * @param int|null    $obj_ref_id
      * @param int|null    $step_id
      * @param int|null    $user_id
@@ -166,7 +168,8 @@ final class Repository
      *
      * @return Request[]
      */
-    public function getRequests(/*?*/ int $obj_ref_id = null, /*?*/ int $step_id = null,/*?*/ int $user_id = null,/*?*/ array $responsible_user_ids = null, /*?*/ string $object_title = null,/*?*/
+    public function getRequests(/*?*/ int $check_user_id = null,/*?*/ int $obj_ref_id = null, /*?*/ int $step_id = null,/*?*/ int $user_id = null,/*?*/ array $responsible_user_ids = null, /*?*/
+        string $object_title = null,/*?*/
         int $workflow_id = null, /*?*/ bool $accepted = null,/*?*/ string $user_lastname = null,/*?*/ string $user_firstname = null, /*?*/ string $user_email = null, /*?*/
         string $user_org_units = null
     ) : array {
@@ -197,6 +200,14 @@ final class Repository
         }
 
         $requests = Request::where($wheres)->get();
+
+        if (!empty($check_user_id)) {
+            $requests = array_filter($requests, function (Request $request) use ($check_user_id): bool {
+                return ($request->getUserId() === $check_user_id || $request->getCreateUserId() === $check_user_id || $request->getAcceptUserId() === $check_user_id
+                    || in_array($check_user_id, $request->getResponsibleUsers())
+                    || $this->userHasReadRole($check_user_id));
+            });
+        }
 
         if (!empty($object_title)) {
             $requests = array_filter($requests, function (Request $request) use ($object_title): bool {
@@ -250,7 +261,7 @@ final class Repository
             $check_user_id = self::dic()->user()->getId();
         }
 
-        return self::srUserEnrolment()->userHasRole($check_user_id);
+        return (self::srUserEnrolment()->userHasRole($check_user_id) || self::srUserEnrolment()->enrolmentWorkflow()->requests()->userHasReadRole($check_user_id));
     }
 
 
@@ -323,5 +334,25 @@ final class Repository
         }
 
         $request->store();
+    }
+
+
+    /**
+     * @param int $user_id
+     *
+     * @return bool
+     */
+    public function userHasReadRole(int $user_id) : bool
+    {
+        $user_roles = self::dic()->rbacreview()->assignedGlobalRoles($user_id);
+        $config_roles = self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_ROLES_READ_REQUESTS);
+
+        foreach ($user_roles as $user_role) {
+            if (in_array($user_role, $config_roles)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

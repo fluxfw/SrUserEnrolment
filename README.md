@@ -67,10 +67,10 @@ class ilXPlugin extends ...
 | Event | Parameters | Purpose |
 |-------|------------|---------|
 | `ilSrUserEnrolmentPlugin::AFTER_REQUEST` | `request => object<Request>` | After a request is done |
-| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_ASSISTANTS_REQUESTS_TABLE_MODIFICATIONS` | `modifications => &array<AbstractAssistantsRequestsTableModifications>` | Collect assistants requests table modifications (Please note `modifications` is a reference variable, if it should not works) |
-| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBERS_TABLE_MODIFICATIONS` | `modifications => &array<AbstractMembersTableModifications>` | Collect memmbers table modifications (Please note `modifications` is a reference variable, if it should not works) |
-| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBER_FORM_MODIFICATIONS` | `modifications => &array<AbstractMemberFormModifications>` | Collect memmbers table modifications (Please note `modifications` is a reference variable, if it should not works) |
-| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS` | `modifications => &array<AbstractRequestsTableModifications>` | Collect requests table modifications (Please note `modifications` is a reference variable, if it should not works) |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_ASSISTANTS_REQUESTS_TABLE_MODIFICATIONS` | `modifications => ArrayObject<AbstractAssistantsRequestsTableModifications>` | Collect assistants requests table modifications |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBERS_TABLE_MODIFICATIONS` | `modifications => ArrayObject<AbstractMembersTableModifications>` | Collect members table modifications |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBER_FORM_MODIFICATIONS` | `modifications => ArrayObject<AbstractMemberFormModifications>` | Collect member form modifications |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS` | `modifications => ArrayObject<AbstractRequestsTableModifications>` | Collect requests table modifications |
 | `ilSrUserEnrolmentPlugin::EVENT_EXTENDS_SRUSRENR` | - | Extends SrUserEnrolment |
 
 ### Requirements

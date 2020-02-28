@@ -71,6 +71,8 @@ config_configuration_saved#:#Konfiguration gespeichert
 config_enable#:#%s aktivieren
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
+config_roles_read_requests#:#Rollen um Anfragen zu lesen
+config_roles_read_requests_info#:#Benutzer mit den ausgewählten Rollen haben immer Lesezugriff auf Anfragen
 config_save#:#Speichern
 config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
 deputies_actions#:#Aktionen

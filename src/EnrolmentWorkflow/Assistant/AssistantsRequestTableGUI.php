@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
+use ArrayObject;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
@@ -27,9 +28,9 @@ class AssistantsRequestTableGUI extends TableGUI
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = AssistantsGUI::LANG_MODULE;
     /**
-     * @var AbstractAssistantsRequestTableModifications[]
+     * @var ArrayObject<AbstractAssistantsRequestTableModifications>
      */
-    protected $modifications = [];
+    protected $modifications;
 
 
     /**
@@ -40,8 +41,10 @@ class AssistantsRequestTableGUI extends TableGUI
      */
     public function __construct(AssistantsRequestGUI $parent, string $parent_cmd)
     {
+        $this->modifications = new ArrayObject();
+
         self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_COLLECT_ASSISTANTS_REQUESTS_TABLE_MODIFICATIONS, [
-            "modifications" => &$this->modifications
+            "modifications" => $this->modifications
         ]);
 
         parent::__construct($parent, $parent_cmd);
@@ -179,7 +182,7 @@ class AssistantsRequestTableGUI extends TableGUI
             });
 
         foreach ($this->modifications as $modification) {
-            $modification->extendsAndFilterData($data, $filter);
+            $data = $modification->extendsAndFilterData($data, $filter);
         }
 
         $this->setData($data);

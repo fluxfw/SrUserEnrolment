@@ -43,8 +43,10 @@ abstract class AbstractAssistantsRequestTableModifications
     /**
      * @param Assistant[] $assistants
      * @param array       $filter_values
+     *
+     * @return array
      */
-    public abstract function extendsAndFilterData(array &$assistants, array $filter_values)/*:void*/ ;
+    public abstract function extendsAndFilterData(array $assistants, array $filter_values) : array;
 
 
     /**

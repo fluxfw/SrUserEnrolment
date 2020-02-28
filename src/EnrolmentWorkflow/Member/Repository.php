@@ -87,7 +87,7 @@ final class Repository
     {
         $usr_ids = array_map(function (Request $request) : int {
             return $request->getUserId();
-        }, self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($obj_ref_id));
+        }, self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, $obj_ref_id));
 
         $obj = ilObjectFactory::getInstanceByRefId($obj_ref_id, false);
         if ($obj instanceof ilObjCourse) {

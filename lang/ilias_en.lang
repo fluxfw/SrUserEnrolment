@@ -71,6 +71,8 @@ config_configuration_saved#:#Configuration saved
 config_enable#:#Enable %s
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
+config_roles_read_requests#:#Roles for read requests
+config_roles_read_requests_info#:#Users with the selected roles have always read permission to requests
 config_save#:#Save
 config_show_excel_import_config#:#User can adjust these values on import
 deputies_actions#:#Actions

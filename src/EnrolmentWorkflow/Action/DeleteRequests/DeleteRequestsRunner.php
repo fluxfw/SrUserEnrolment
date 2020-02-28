@@ -35,7 +35,7 @@ class DeleteRequestsRunner extends AbstractActionRunner
      */
     public function run(Request $request)/*:void*/
     {
-        foreach (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, $request->getUserId()) as $request_) {
+        foreach (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, $request->getObjRefId(), null, $request->getUserId()) as $request_) {
             self::srUserEnrolment()->enrolmentWorkflow()->requests()->deleteRequest($request_);
         }
     }

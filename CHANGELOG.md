@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Roles for read requests
+
 ## [3.7.1]
 - 'Delete requests' action
 

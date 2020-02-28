@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
+use ArrayObject;
 use ilCheckboxInputGUI;
 use ilDate;
 use ilDatePresentation;
@@ -29,9 +30,9 @@ class MemberFormGUI extends PropertyFormGUI
      */
     protected $member;
     /**
-     * @var AbstractMemberFormModifications[]
+     * @var ArrayObject<AbstractMemberFormModifications>
      */
-    protected $modifications = [];
+    protected $modifications;
 
 
     /**
@@ -44,8 +45,10 @@ class MemberFormGUI extends PropertyFormGUI
     {
         $this->member = $member;
 
+        $this->modifications = new ArrayObject();
+
         self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBER_FORM_MODIFICATIONS, [
-            "modifications" => &$this->modifications
+            "modifications" => $this->modifications
         ]);
 
         parent::__construct($parent);

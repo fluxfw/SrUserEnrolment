@@ -121,11 +121,12 @@ class RequestInfoGUI
      */
     public static function addRequestsToPersonalDesktop() : array
     {
-        $requests = array_reduce(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, null, self::dic()->user()->getId()), function (array $requests, Request $request) : array {
-            $requests[$request->getObjRefId()] = $request;
+        $requests = array_reduce(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, null, null, self::dic()->user()->getId()),
+            function (array $requests, Request $request) : array {
+                $requests[$request->getObjRefId()] = $request;
 
-            return $requests;
-        }, []);
+                return $requests;
+            }, []);
 
         if (!empty($requests)) {
             $tpl = self::plugin()->template("EnrolmentWorkflow/pd_my_requests.html");
@@ -145,7 +146,7 @@ class RequestInfoGUI
 
                 $tpl->setVariable("OBJECT_ICON", self::output()->getHTML(self::dic()->ui()->factory()->image()->standard(ilObject::_getIcon($request->getObjId()), "")));
 
-                $current_request = current(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, $request->getUserId(), null, null, null, false));
+                $current_request = current(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, $request->getObjRefId(), null, $request->getUserId(), null, null, null, false));
                 if ($current_request !== false) {
                     if (!empty(array_filter(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($current_request->getStep()->getWorkflowId()),
                         function (Step $step) use ($current_request): bool {

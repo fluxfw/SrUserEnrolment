@@ -80,6 +80,15 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
+    protected function getFilterCheckUserId()/* : ?int*/
+    {
+        return self::dic()->user()->getId();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     protected function getFilterObjRefId()/* : ?int*/
     {
         return $this->parent_obj->getObjRefId();
@@ -120,7 +129,7 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUsrId()/* : ?int*/
+    protected function getFilterUserId()/* : ?int*/
     {
         return self::dic()->user()->getId();
     }

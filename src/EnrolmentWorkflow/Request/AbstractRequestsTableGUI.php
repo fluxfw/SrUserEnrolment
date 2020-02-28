@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
+use ArrayObject;
 use ilDatePresentation;
 use ilObjUser;
 use ilSrUserEnrolmentPlugin;
@@ -25,9 +26,9 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = RequestsGUI::LANG_MODULE;
     /**
-     * @var AbstractRequestsTableModifications[]
+     * @var ArrayObject<AbstractRequestsTableModifications>
      */
-    protected $modifications = [];
+    protected $modifications;
 
 
     /**
@@ -38,8 +39,10 @@ abstract class AbstractRequestsTableGUI extends TableGUI
      */
     public function __construct(RequestsGUI $parent, string $parent_cmd)
     {
+        $this->modifications = new ArrayObject();
+
         self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS, [
-            "modifications" => &$this->modifications
+            "modifications" => $this->modifications
         ]);
 
         parent::__construct($parent, $parent_cmd);
@@ -69,7 +72,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
                 $column = htmlspecialchars(current(self::srUserEnrolment()
                     ->enrolmentWorkflow()
                     ->requests()
-                    ->getRequests($request->getObjRefId(), null, $request->getUserId()))->getFormattedCreateTime());
+                    ->getRequests(null, $request->getObjRefId(), null, $request->getUserId()))->getFormattedCreateTime());
                 break;
 
             case "create_user":
@@ -185,11 +188,12 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
         $data = self::srUserEnrolment()->enrolmentWorkflow()
             ->requests()
-            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), $this->getFilterUsrId(), $this->getFilterResponsibleUsers(), $this->getFilterObjectTitle(),
+            ->getRequests($this->getFilterCheckUserId(), $this->getFilterObjRefId(), $this->getFilterStepId(), $this->getFilterUserId(), $this->getFilterResponsibleUsers(),
+                $this->getFilterObjectTitle(),
                 $this->getFilterWorkflowId(), $this->getFilterAccepted(), $this->getFilterUserLastname(), $this->getFilterUserFirstname(), $this->getFilterUserEmail(), $this->getFilterUserOrgUnits());
 
         foreach ($this->modifications as $modification) {
-            $modification->extendsAndFilterData($data, $filter);
+            $data = $modification->extendsAndFilterData($data, $filter);
         }
 
         $this->setData($data);
@@ -243,6 +247,12 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @return int|null
      */
+    protected abstract function getFilterCheckUserId()/* : ?int*/ ;
+
+
+    /**
+     * @return int|null
+     */
     protected abstract function getFilterObjRefId()/* : ?int*/ ;
 
 
@@ -267,7 +277,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @return int|null
      */
-    protected abstract function getFilterUsrId()/* : ?int*/ ;
+    protected abstract function getFilterUserId()/* : ?int*/ ;
 
 
     /**

@@ -77,6 +77,7 @@ final class Repository extends AbstractRepository
     {
         return [
             ConfigFormGUI::KEY_ROLES                                      => [Config::TYPE_JSON, []],
+            ConfigFormGUI::KEY_ROLES_READ_REQUESTS                        => [Config::TYPE_JSON, []],
             ConfigFormGUI::KEY_SHOW_ASSISTANTS                            => [Config::TYPE_BOOLEAN, false],
             ConfigFormGUI::KEY_SHOW_DEPUTIES                              => [Config::TYPE_BOOLEAN, false],
             ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW                    => [Config::TYPE_BOOLEAN, false],
