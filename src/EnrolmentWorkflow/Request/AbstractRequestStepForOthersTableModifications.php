@@ -1,18 +1,19 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
+use ilObjUser;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class AbstractAssistantsRequestTableModifications
+ * Class AbstractRequestStepForOthersTableModifications
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant
+ * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractAssistantsRequestTableModifications
+abstract class AbstractRequestStepForOthersTableModifications
 {
 
     use DICTrait;
@@ -20,7 +21,7 @@ abstract class AbstractAssistantsRequestTableModifications
 
 
     /**
-     * AbstractAssistantsRequestTableModifications constructor
+     * AbstractRequestStepForOthersTableModifications constructor
      */
     public function __construct()
     {
@@ -41,19 +42,19 @@ abstract class AbstractAssistantsRequestTableModifications
 
 
     /**
-     * @param Assistant[] $assistants
+     * @param ilObjUser[] $users
      * @param array       $filter_values
      *
      * @return array
      */
-    public abstract function extendsAndFilterData(array $assistants, array $filter_values) : array;
+    public abstract function extendsAndFilterData(array $users, array $filter_values) : array;
 
 
     /**
      * @param string    $column
-     * @param Assistant $assistant
+     * @param ilObjUser $user
      *
      * @return string|null
      */
-    public abstract function formatColumnValue(string $column, Assistant $assistant)/*:?string*/ ;
+    public abstract function formatColumnValue(string $column, ilObjUser $user)/*:?string*/ ;
 }

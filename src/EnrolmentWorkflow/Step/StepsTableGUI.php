@@ -68,17 +68,17 @@ class StepsTableGUI extends TableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "enabled"             => [
+            "enabled"           => [
                 "id"      => "enabled",
                 "default" => true,
                 "sort"    => false
             ],
-            "title"               => [
+            "title"             => [
                 "id"      => "title",
                 "default" => true,
                 "sort"    => false
             ],
-            "action_title"        => [
+            "action_title"      => [
                 "id"      => "action_title",
                 "default" => true,
                 "sort"    => false

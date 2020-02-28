@@ -1,49 +1,49 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ArrayObject;
+use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class AssistantsRequestTableGUI
+ * Class RequestStepForOthersTableGUI
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant
+ * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AssistantsRequestTableGUI extends TableGUI
+class RequestStepForOthersTableGUI extends TableGUI
 {
 
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = AssistantsGUI::LANG_MODULE;
     /**
-     * @var ArrayObject<AbstractAssistantsRequestTableModifications>
+     * @var ArrayObject<AbstractRequestStepForOthersTableModifications>
      */
     protected $modifications;
 
 
     /**
-     * AssistantsRequestTableGUI constructor
+     * RequestStepForOthersTableGUI constructor
      *
-     * @param AssistantsRequestGUI $parent
-     * @param string               $parent_cmd
+     * @param RequestStepForOthersGUI $parent
+     * @param string                  $parent_cmd
      */
-    public function __construct(AssistantsRequestGUI $parent, string $parent_cmd)
+    public function __construct(RequestStepForOthersGUI $parent, string $parent_cmd)
     {
         $this->modifications = new ArrayObject();
 
-        self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_COLLECT_ASSISTANTS_REQUESTS_TABLE_MODIFICATIONS, [
+        self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUEST_STEP_FOR_OTHERS_TABLE_MODIFICATIONS, [
             "modifications" => $this->modifications
         ]);
 
@@ -54,12 +54,12 @@ class AssistantsRequestTableGUI extends TableGUI
     /**
      * @inheritDoc
      *
-     * @param Assistant $assistant
+     * @param ilObjUser $user
      */
-    protected function getColumnValue(/*string*/ $column, /*Assistant*/ $assistant, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(/*string*/ $column, /*ilObjUser*/ $user, /*int*/ $format = self::DEFAULT_FORMAT) : string
     {
         foreach ($this->modifications as $modification) {
-            $column_value = $modification->formatColumnValue($column, $assistant);
+            $column_value = $modification->formatColumnValue($column, $user);
             if ($column_value !== null) {
                 return $column_value;
             }
@@ -67,19 +67,19 @@ class AssistantsRequestTableGUI extends TableGUI
 
         switch ($column) {
             case "user_lastname":
-                $column = htmlspecialchars($assistant->getUser()->getLastname());
+                $column = htmlspecialchars($user->getLastname());
                 break;
 
             case "user_firstname":
-                $column = htmlspecialchars($assistant->getUser()->getFirstname());
+                $column = htmlspecialchars($user->getFirstname());
                 break;
 
             case "user_email":
-                $column = htmlspecialchars($assistant->getUser()->getEmail());
+                $column = htmlspecialchars($user->getEmail());
                 break;
 
             default:
-                $column = htmlspecialchars(Items::getter($assistant, $column));
+                $column = htmlspecialchars(Items::getter($user, $column));
                 break;
         }
 
@@ -155,26 +155,26 @@ class AssistantsRequestTableGUI extends TableGUI
         $user_firstname = $filter["user_firstname"];
         $user_email = $filter["user_email"];
 
-        $data = array_filter(self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId()),
-            function (Assistant $assistant) use ($user_lastname, $user_firstname, $user_email) : bool {
+        $data = array_filter(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getPossibleUsersForRequestStepForOthers(self::dic()->user()->getId()),
+            function (ilObjUser $user) use ($user_lastname, $user_firstname, $user_email) : bool {
                 if (!in_array($this->parent_obj->getStep()->getStepId(),
                     array_keys(self::srUserEnrolment()
                         ->enrolmentWorkflow()
                         ->steps()
-                        ->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $assistant->getUserId(), $assistant->getUserId(), $this->parent_obj->getObjRefId())))
+                        ->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $user->getId(), $user->getId(), $this->parent_obj->getObjRefId())))
                 ) {
                     return false;
                 }
 
-                if (!empty($user_lastname) && stripos($assistant->getUser()->getLastname(), $user_lastname) === false) {
+                if (!empty($user_lastname) && stripos($user->getLastname(), $user_lastname) === false) {
                     return false;
                 }
 
-                if (!empty($user_firstname) && stripos($assistant->getUser()->getFirstname(), $user_firstname) === false) {
+                if (!empty($user_firstname) && stripos($user->getFirstname(), $user_firstname) === false) {
                     return false;
                 }
 
-                if (!empty($user_email) && stripos($assistant->getUser()->getEmail(), $user_email) === false) {
+                if (!empty($user_email) && stripos($user->getEmail(), $user_email) === false) {
                     return false;
                 }
 
@@ -217,7 +217,7 @@ class AssistantsRequestTableGUI extends TableGUI
      */
     protected function initId()/*: void*/
     {
-        $this->setId("srusrenr_assistants_requests");
+        $this->setId("srusrenr_request_for_others");
     }
 
 
@@ -231,20 +231,20 @@ class AssistantsRequestTableGUI extends TableGUI
 
 
     /**
-     * @param Assistant $assistant
+     * @param ilObjUser $user
      */
-    protected function fillRow(/*Assistant*/ $assistant)/*: void*/
+    protected function fillRow(/*ilObjUser*/ $user)/*: void*/
     {
         self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestsGUI::GET_PARAM_REF_ID, $this->parent_obj->getObjRefId());
         self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID, $this->parent_obj->getStep()->getStepId());
-        self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_USER_ID, $assistant->getUserId());
+        self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_USER_ID, $user->getId());
 
         $this->tpl->setCurrentBlock("checkbox");
         $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", RequestStepGUI::GET_PARAM_USER_ID);
-        $this->tpl->setVariableEscaped("ID", $assistant->getUserId());
+        $this->tpl->setVariableEscaped("ID", $user->getId());
         $this->tpl->parseCurrentBlock();
 
-        parent::fillRow($assistant);
+        parent::fillRow($user);
 
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
             self::dic()->ui()->factory()->link()->standard($this->parent_obj->getStep()->getActionTitle(), self::dic()->ctrl()

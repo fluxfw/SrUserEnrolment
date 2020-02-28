@@ -73,4 +73,18 @@ final class Factory
 
         return $table;
     }
+
+
+    /**
+     * @param RequestStepForOthersGUI $parent
+     * @param string                  $cmd
+     *
+     * @return RequestStepForOthersTableGUI
+     */
+    public function newRequestStepForOthersTableInstance(RequestStepForOthersGUI $parent, string $cmd = RequestStepForOthersGUI::CMD_LIST_USERS) : RequestStepForOthersTableGUI
+    {
+        $table = new RequestStepForOthersTableGUI($parent, $cmd);
+
+        return $table;
+    }
 }

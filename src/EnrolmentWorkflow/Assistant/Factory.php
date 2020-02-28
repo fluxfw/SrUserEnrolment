@@ -73,20 +73,6 @@ final class Factory
 
 
     /**
-     * @param AssistantsRequestGUI $parent
-     * @param string               $cmd
-     *
-     * @return AssistantsRequestTableGUI
-     */
-    public function newRequestsTableInstance(AssistantsRequestGUI $parent, string $cmd = AssistantsRequestGUI::CMD_LIST_USERS) : AssistantsRequestTableGUI
-    {
-        $table = new AssistantsRequestTableGUI($parent, $cmd);
-
-        return $table;
-    }
-
-
-    /**
      * @return CheckInactiveAssistantsJob
      */
     public function newCheckInactiveAssistantsJobInstance() : CheckInactiveAssistantsJob

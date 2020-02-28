@@ -1,11 +1,7 @@
 # Changelog
 
-## [x]
-- 'Delete requests' action
-- Roles for read requests
-- Assign responsible users by global role
-- Requests tabs
-- Fixes
+## [3.8.0]
+- Some fixes and changes
 
 ## [3.7.0]
 - Members view

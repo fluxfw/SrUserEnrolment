@@ -32,6 +32,7 @@ class ConfigFormGUI extends PropertyFormGUI
     const KEY_ROLES = "roles";
     const KEY_ROLES_READ_REQUESTS = "roles_read_requests";
     const KEY_SHOW_ASSISTANTS = "show_assistants";
+    const KEY_SHOW_ASSISTANTS_SUPERVISORS = "show_assistants_supervisors";
     const KEY_SHOW_DEPUTIES = "show_deputies";
     const KEY_SHOW_ENROLMENT_WORKFLOW = "show_enrolment_workflow";
     const KEY_SHOW_EXCEL_IMPORT = "show_excel_import";
@@ -117,11 +118,17 @@ class ConfigFormGUI extends PropertyFormGUI
                         self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles()
                     ],
                     self::KEY_SHOW_ASSISTANTS     => [
-                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                        "setTitle"           => self::plugin()->translate("enable", self::LANG_MODULE, [
+                        self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
+                        self::PROPERTY_SUBITEMS => [
+                            self::KEY_SHOW_ASSISTANTS_SUPERVISORS => [
+                                self::PROPERTY_CLASS =>ilCheckboxInputGUI::class,
+                                "setTitle"=>self::plugin()->translate("assistants_supervisors", AssistantsGUI::LANG_MODULE)
+                            ]
+                        ],
+                        "setTitle"              => self::plugin()->translate("enable", self::LANG_MODULE, [
                             self::plugin()->translate("assistants", AssistantsGUI::LANG_MODULE)
                         ]),
-                        "setInfo"            => self::plugin()->translate("info", AssistantsGUI::LANG_MODULE)
+                        "setInfo"               => self::plugin()->translate("info", AssistantsGUI::LANG_MODULE)
                     ],
                     self::KEY_SHOW_DEPUTIES       => [
                         self::PROPERTY_CLASS => ilCheckboxInputGUI::class,

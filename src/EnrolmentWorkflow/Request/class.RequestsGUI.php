@@ -67,7 +67,7 @@ class RequestsGUI
     {
         $requests_types = self::REQUESTS_TYPES;
 
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId())) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->requests()->userHasReadRole(self::dic()->user()->getId())) {
             unset($requests_types[self::REQUESTS_TYPE_ALL]);
         }
 

@@ -177,7 +177,7 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     protected function initFilterFields()/*: void*/
     {
         $this->filter_fields = [
-            "edited"     => [
+            "edited"       => [
                 PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => [
                     ""    => "",

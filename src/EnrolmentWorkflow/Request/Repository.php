@@ -2,6 +2,9 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
+use ilObjUser;
+use ilOrgUnitPosition;
+use ilOrgUnitUserAssignment;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
@@ -59,15 +62,14 @@ final class Repository
      */
     public function canRequestWithAssistant(int $obj_ref_id, int $step_id, int $check_user_id, int $request_user_id) : bool
     {
-        if ($check_user_id === intval(self::dic()->user()->getId())
+        if ($request_user_id === intval(self::dic()->user()->getId())
             && in_array($step_id,
                 array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $check_user_id, $request_user_id, $obj_ref_id)))
         ) {
             return true;
         }
 
-        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($check_user_id)
-            && self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistant($request_user_id, $check_user_id) !== null
+        if (in_array($request_user_id, array_keys(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getPossibleUsersForRequestStepForOthers($check_user_id)))
             && in_array($step_id,
                 array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForRequest(AbstractRule::TYPE_STEP_ACTION, $request_user_id, $request_user_id, $obj_ref_id)))
         ) {
@@ -237,6 +239,50 @@ final class Repository
         }
 
         return $requests;
+    }
+
+
+    /**
+     * @param int $check_user_id
+     *
+     * @return ilObjUser[]
+     */
+    public function getPossibleUsersForRequestStepForOthers(int $check_user_id) : array
+    {
+        $user_ids = [];
+
+        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($check_user_id)) {
+
+            foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf($check_user_id) as $assistant) {
+
+                $user_ids[] = $assistant->getUserId();
+            }
+
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS)) {
+
+                $org_ids = ilOrgUnitUserAssignment::where([
+                    "position_id" => ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
+                    "user_id"     => $check_user_id
+                ])->getArray(null, "orgu_id");
+
+                if (!empty($org_ids)) {
+
+                    $user_ids = array_merge($user_ids, ilOrgUnitUserAssignment::where([
+                        "orgu_id"     => $org_ids,
+                        "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
+                    ], [
+                        "orgu_id"     => "IN",
+                        "position_id" => "="
+                    ]));
+                }
+            }
+        }
+
+        $user_ids = array_unique($user_ids);
+
+        return array_combine($user_ids, array_map(function (int $user_id) : ilObjUser {
+            return new ilObjUser($user_id);
+        }, $user_ids));
     }
 
 
