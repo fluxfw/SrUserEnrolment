@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ilSrUserEnrolmentPlugin;
+use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -66,7 +67,7 @@ final class Factory
      */
     public function newTableInstance(RequestsGUI $parent, string $cmd = RequestsGUI::CMD_LIST_REQUESTS) : AbstractRequestsTableGUI
     {
-        $class = str_replace("Abstract", ucfirst(RequestsGUI::getRequestsTypes()[$parent->getRequestsType()]), AbstractRequestsTableGUI::class);
+        $class = str_replace("Abstract", ucfirst(Items::strToCamelCase(RequestsGUI::getRequestsTypes()[$parent->getRequestsType()])), AbstractRequestsTableGUI::class);
 
         $table = new $class($parent, $cmd);
 
