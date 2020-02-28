@@ -83,8 +83,8 @@ class StepsTableGUI extends TableGUI
                 "default" => true,
                 "sort"    => false
             ],
-            "action_accept_title" => [
-                "id"      => "action_accept_title",
+            "action_edit_title" => [
+                "id"      => "action_edit_title",
                 "default" => true,
                 "sort"    => false
             ]

@@ -22,8 +22,8 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "accepted"             => [
-                "id"      => "accepted",
+            "edited"               => [
+                "id"      => "edited",
                 "default" => true,
                 "sort"    => false
             ],
@@ -61,28 +61,19 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterAccepted()/* : ?bool*/
+    protected function getFilterEdited()/* : ?bool*/
     {
         $filter = $this->getFilterValues();
 
-        $accepted = $filter["accepted"];
+        $edited = $filter["edited"];
 
-        if (!empty($accepted)) {
-            $accepted = ($accepted === "yes");
+        if (!empty($edited)) {
+            $edited = ($edited === "yes");
         } else {
-            $accepted = null;
+            $edited = null;
         }
 
-        return $accepted;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function getFilterCheckUserId()/* : ?int*/
-    {
-        return self::dic()->user()->getId();
+        return $edited;
     }
 
 
@@ -131,7 +122,7 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
      */
     protected function getFilterUserId()/* : ?int*/
     {
-        return self::dic()->user()->getId();
+        return null;
     }
 
 
@@ -186,7 +177,7 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     protected function initFilterFields()/*: void*/
     {
         $this->filter_fields = [
-            "accepted"     => [
+            "edited"     => [
                 PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => [
                     ""    => "",

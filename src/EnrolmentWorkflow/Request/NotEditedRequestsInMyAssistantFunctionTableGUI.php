@@ -2,20 +2,18 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
-use ilSelectInputGUI;
 use ilTextInputGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
-use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Assistant;
 
 /**
- * Class AllRequestsTableGUI
+ * Class NotEditedRequestsInMyAssistantFunctionTableGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AllRequestsTableGUI extends AbstractRequestsTableGUI
+class NotEditedRequestsInMyAssistantFunctionTableGUI extends AbstractRequestsTableGUI
 {
 
     /**
@@ -24,11 +22,6 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "edited"               => [
-                "id"      => "edited",
-                "default" => true,
-                "sort"    => false
-            ],
             "create_time_workflow" => [
                 "id"      => "create_time_workflow",
                 "default" => true,
@@ -74,11 +67,6 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
                 "id"      => "user_org_units",
                 "default" => true,
                 "sort"    => false
-            ],
-            "responsible_users"    => [
-                "id"      => "responsible_users",
-                "default" => true,
-                "sort"    => false
             ]
         ];
 
@@ -95,17 +83,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
      */
     protected function getFilterEdited()/* : ?bool*/
     {
-        $filter = $this->getFilterValues();
-
-        $edited = $filter["edited"];
-
-        if (!empty($edited)) {
-            $edited = ($edited === "yes");
-        } else {
-            $edited = null;
-        }
-
-        return $edited;
+        return false;
     }
 
 
@@ -136,11 +114,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
      */
     protected function getFilterResponsibleUsers()/* : ?array*/
     {
-        $filter = $this->getFilterValues();
-
-        $responsible_users = $filter["responsible_users"];
-
-        return $responsible_users;
+        return null;
     }
 
 
@@ -158,7 +132,16 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
      */
     protected function getFilterUserId()/* : ?int*/
     {
-        return null;
+        $users = [self::dic()->user()->getId()];
+
+        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
+
+            $users = array_merge($users, array_map(function (Assistant $assistant) : int {
+                return $assistant->getUserId();
+            }, self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId())));
+        }
+
+        return $users;
     }
 
 
@@ -202,7 +185,11 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
      */
     protected function getFilterUserOrgUnits()/* : ?string*/
     {
-        return null;
+        $filter = $this->getFilterValues();
+
+        $user_org_units = $filter["user_org_units"];
+
+        return $user_org_units;
     }
 
 
@@ -221,27 +208,18 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     protected function initFilterFields()/*: void*/
     {
         $this->filter_fields = [
-            "edited"            => [
-                PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
-                PropertyFormGUI::PROPERTY_OPTIONS => [
-                    ""    => "",
-                    "no"  => $this->txt("no"),
-                    "yes" => $this->txt("yes")
-                ]
-            ],
-            "object_title"      => [
+            "object_title"   => [
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
                 "setTitle"                      => self::plugin()->translate("object", RequestsGUI::LANG_MODULE)
             ],
-            "user_firstname"    => [
+            "user_firstname" => [
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class
             ],
-            "user_lastname"     => [
+            "user_lastname"  => [
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class
             ],
-            "responsible_users" => [
-                PropertyFormGUI::PROPERTY_CLASS => MultiSelectSearchNewInputGUI::class,
-                "setAjaxAutoCompleteCtrl"       => new UsersAjaxAutoCompleteCtrl()
+            "user_org_units" => [
+                PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class
             ]
         ];
 

@@ -3,7 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData;
 
 use ilSrUserEnrolmentPlugin;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\AcceptRequestGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\EditRequestGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RequiredData\SrUserEnrolment\Fill\AbstractFillCtrl;
@@ -21,7 +21,7 @@ class FillCtrl extends AbstractFillCtrl
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const RETURN_REQUEST_STEP = 1;
-    const RETURN_ACCEPT_STEP = 2;
+    const RETURN_EDIT_STEP = 2;
     /**
      * @var int
      */
@@ -51,8 +51,8 @@ class FillCtrl extends AbstractFillCtrl
                 self::dic()->ctrl()->redirectByClass(RequestStepGUI::class, RequestStepGUI::CMD_REQUEST_STEP);
                 break;
 
-            case self::RETURN_ACCEPT_STEP:
-                self::dic()->ctrl()->redirectByClass(AcceptRequestGUI::class, AcceptRequestGUI::CMD_ACCEPT_REQUEST);
+            case self::RETURN_EDIT_STEP:
+                self::dic()->ctrl()->redirectByClass(EditRequestGUI::class, EditRequestGUI::CMD_EDIT_REQUEST);
                 break;
 
             default:
@@ -71,8 +71,8 @@ class FillCtrl extends AbstractFillCtrl
                 self::dic()->ctrl()->redirectByClass(RequestStepGUI::class, RequestStepGUI::CMD_BACK);
                 break;
 
-            case self::RETURN_ACCEPT_STEP:
-                self::dic()->ctrl()->redirectByClass(AcceptRequestGUI::class, AcceptRequestGUI::CMD_BACK);
+            case self::RETURN_EDIT_STEP:
+                self::dic()->ctrl()->redirectByClass(EditRequestGUI::class, EditRequestGUI::CMD_BACK);
                 break;
 
             default:

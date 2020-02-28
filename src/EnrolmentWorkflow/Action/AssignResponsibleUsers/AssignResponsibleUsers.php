@@ -18,10 +18,12 @@ class AssignResponsibleUsers extends AbstractAction
     const TABLE_NAME_SUFFIX = "aru";
     const USER_TYPE_POSITION = 1;
     const USER_TYPE_SPECIFIC_USERS = 2;
+    const USER_TYPE_GLOBAL_ROLES = 3;
     const USER_TYPES
         = [
             self::USER_TYPE_POSITION       => "position",
-            self::USER_TYPE_SPECIFIC_USERS => "specific_users"
+            self::USER_TYPE_SPECIFIC_USERS => "specific_users",
+            self::USER_TYPE_GLOBAL_ROLES   => "global_roles"
         ];
     /**
      * @var int
@@ -65,6 +67,14 @@ class AssignResponsibleUsers extends AbstractAction
      * @con_is_notnull   true
      */
     protected $specific_users = [];
+    /**
+     * @var int[]
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   true
+     */
+    protected $global_roles = [];
 
 
     /**
@@ -89,6 +99,12 @@ class AssignResponsibleUsers extends AbstractAction
                 }, ARRAY_FILTER_USE_KEY));
                 break;
 
+            case self::USER_TYPE_GLOBAL_ROLES:
+                $descriptions = array_merge($descriptions, array_filter(array_keys(self::srUserEnrolment()->ruleEnrolment()->getAllRoles()), function (int $role_id) : bool {
+                    return in_array($role_id, $this->global_roles);
+                }, ARRAY_FILTER_USE_KEY));
+                break;
+
             default:
                 break;
         }
@@ -110,6 +126,7 @@ class AssignResponsibleUsers extends AbstractAction
             case "assign_positions":
             case "assign_positions_udf":
             case "specific_users":
+            case "global_role_users":
                 return json_encode($field_value);
 
             case "assign_positions_recursive":
@@ -130,6 +147,7 @@ class AssignResponsibleUsers extends AbstractAction
             case "assign_positions":
             case "assign_positions_udf":
             case "specific_users":
+            case "global_role_users":
                 return (json_decode($field_value, true) ?? []);
 
             case "assign_positions_recursive":
@@ -228,5 +246,23 @@ class AssignResponsibleUsers extends AbstractAction
     public function setSpecificUsers(array $specific_users)/* : void*/
     {
         $this->specific_users = $specific_users;
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getGlobalRoles() : array
+    {
+        return $this->global_roles;
+    }
+
+
+    /**
+     * @param int[] $global_roles
+     */
+    public function setGlobalRoles(array $global_roles)/* : void*/
+    {
+        $this->global_roles = $global_roles;
     }
 }

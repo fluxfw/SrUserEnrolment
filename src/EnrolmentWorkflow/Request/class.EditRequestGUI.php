@@ -11,22 +11,22 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class AcceptRequestGUI
+ * Class EditRequestGUI
  *
  * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\AcceptRequestGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestInfoGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FillCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\AcceptRequestGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\EditRequestGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestInfoGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FillCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\EditRequestGUI
  */
-class AcceptRequestGUI
+class EditRequestGUI
 {
 
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const CMD_ACCEPT_REQUEST = "acceptRequest";
+    const CMD_EDIT_REQUEST = "editRequest";
     const CMD_BACK = "back";
     /**
      * @var RequestInfoGUI
@@ -39,7 +39,7 @@ class AcceptRequestGUI
 
 
     /**
-     * AcceptRequestGUI constructor
+     * EditRequestGUI constructor
      *
      * @param RequestInfoGUI $parent
      */
@@ -59,7 +59,7 @@ class AcceptRequestGUI
         if (
             self::dic()->ctrl()->getCmd() !== self::CMD_BACK
             && !in_array($this->step->getStepId(),
-                array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->parent->getRequest(), self::dic()->user()->getId())))
+                array_keys(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->parent->getRequest(), self::dic()->user()->getId())))
         ) {
             die();
         }
@@ -72,14 +72,14 @@ class AcceptRequestGUI
 
         switch (strtolower($next_class)) {
             case strtolower(FillCtrl::class):
-                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId(), FillCtrl::RETURN_ACCEPT_STEP));
+                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId(), FillCtrl::RETURN_EDIT_STEP));
                 break;
 
             default:
                 $cmd = self::dic()->ctrl()->getCmd();
 
                 switch ($cmd) {
-                    case self::CMD_ACCEPT_REQUEST:
+                    case self::CMD_EDIT_REQUEST:
                     case self::CMD_BACK:
                         $this->{$cmd}();
                         break;
@@ -115,7 +115,7 @@ class AcceptRequestGUI
     /**
      *
      */
-    protected function acceptRequest()/*: void*/
+    protected function editRequest()/*: void*/
     {
         $required_data_fields = self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId());
 
@@ -134,13 +134,13 @@ class AcceptRequestGUI
         self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->parent->getRequest()->getObjRefId(), $this->step->getStepId(), $this->parent->getRequest()->getUserId(),
             $required_data);
 
-        $this->parent->getRequest()->setAccepted(true);
-        $this->parent->getRequest()->setAcceptTime(time());
-        $this->parent->getRequest()->setAcceptUserId(self::dic()->user()->getId());
+        $this->parent->getRequest()->setEdited(true);
+        $this->parent->getRequest()->setEditTime(time());
+        $this->parent->getRequest()->setEditUserId(self::dic()->user()->getId());
         self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->parent->getRequest());
 
         ilUtil::sendSuccess(self::plugin()
-            ->translate("accepted_message", RequestsGUI::LANG_MODULE, [$this->parent->getRequest()->getStep()->getTitle()]),
+            ->translate("edited_message", RequestsGUI::LANG_MODULE, [$this->parent->getRequest()->getStep()->getTitle()]),
             true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_BACK);

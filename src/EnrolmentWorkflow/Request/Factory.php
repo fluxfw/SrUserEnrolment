@@ -66,7 +66,7 @@ final class Factory
      */
     public function newTableInstance(RequestsGUI $parent, string $cmd = RequestsGUI::CMD_LIST_REQUESTS) : AbstractRequestsTableGUI
     {
-        $class = str_replace("Abstract", ucfirst(RequestsGUI::REQUESTS_TYPES[$parent->getRequestsType()]), AbstractRequestsTableGUI::class);
+        $class = str_replace("Abstract", ucfirst(RequestsGUI::getRequestsTypes()[$parent->getRequestsType()]), AbstractRequestsTableGUI::class);
 
         $table = new $class($parent, $cmd);
 

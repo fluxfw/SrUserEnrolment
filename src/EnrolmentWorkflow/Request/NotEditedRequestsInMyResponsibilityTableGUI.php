@@ -4,15 +4,16 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\Deputy;
 
 /**
- * Class OpenRequestsTableGUI
+ * Class NotEditedRequestsInMyResponsibilityTableGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class OpenRequestsTableGUI extends AbstractRequestsTableGUI
+class NotEditedRequestsInMyResponsibilityTableGUI extends AbstractRequestsTableGUI
 {
 
     /**
@@ -80,18 +81,9 @@ class OpenRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterAccepted()/* : ?bool*/
+    protected function getFilterEdited()/* : ?bool*/
     {
         return false;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function getFilterCheckUserId()/* : ?int*/
-    {
-        return self::dic()->user()->getId();
     }
 
 
@@ -122,7 +114,16 @@ class OpenRequestsTableGUI extends AbstractRequestsTableGUI
      */
     protected function getFilterResponsibleUsers()/* : ?array*/
     {
-        return null;
+        $responsible_users = [self::dic()->user()->getId()];
+
+        if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId())) {
+
+            $responsible_users = array_merge($responsible_users, array_map(function (Deputy $deputy) : int {
+                return $deputy->getUserId();
+            }, self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputiesOf(self::dic()->user()->getId())));
+        }
+
+        return $responsible_users;
     }
 
 

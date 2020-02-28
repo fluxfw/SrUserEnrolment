@@ -270,7 +270,7 @@ class Member extends ActiveRecord
             return null;
         }
 
-        return end(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, $this->obj_ref_id, null, $this->usr_id)) ?: null;
+        return end(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($this->obj_ref_id, null, [$this->usr_id])) ?: null;
     }
 
 

@@ -93,6 +93,17 @@ class AssignResponsibleUsersFormGUI extends AbstractActionFormGUI
                                 ];
                                 break;
 
+                            case AssignResponsibleUsers::USER_TYPE_GLOBAL_ROLES:
+                                $items = [
+                                    "global_role" => [
+                                        self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
+                                        self::PROPERTY_REQUIRED => true,
+                                        self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles(),
+                                        "setTitle"              => self::plugin()->translate("rule_type_globalrole", RulesGUI::LANG_MODULE)
+                                    ]
+                                ];
+                                break;
+
                             default:
                                 $items = [];
                                 break;

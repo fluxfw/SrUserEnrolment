@@ -41,7 +41,8 @@ actions_type_enrolltocourse#:#In Kurs einschreiben
 actions_type_movetostep#:#In Schritt verschieben
 actions_type_movetoworkflow#:#In Workflow verschieben
 actions_type_sendnotification#:#Benachrichtigung versenden
-actions_userstype#:#Benutzer
+actions_userstype#:#Benutze
+actions_userstype_global_roles#:#Globale Rollen
 actions_userstype_position#:#Benutzer mit Position innerhalb einer Organisation des anfordernden Benutzers
 actions_userstype_specific_users#:#Bestimmte Benutzer
 assistants_actions#:#Aktionen
@@ -71,8 +72,8 @@ config_configuration_saved#:#Konfiguration gespeichert
 config_enable#:#%s aktivieren
 config_roles#:#Rollen
 config_roles_info#:#Nur für die ausgewählten Rollen anzeigen
-config_roles_read_requests#:#Rollen um Anfragen zu lesen
-config_roles_read_requests_info#:#Benutzer mit den ausgewählten Rollen haben immer Lesezugriff auf Anfragen
+config_roles_read_requests#:#Rollen um alle Anfragen zu lesen
+config_roles_read_requests_info#:#Benutzer mit den ausgewählten Rollen haben immer Lesezugriff auf alle Anfragen
 config_save#:#Speichern
 config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
 deputies_actions#:#Aktionen
@@ -84,7 +85,7 @@ deputies_check_inactive_deputies#:#Inaktive Vertreter prüfen
 deputies_check_inactive_deputies_description#:#Entfernt deaktivierte Benutzer als Vertreter und setzt Vertreter inaktiv, wenn das Bis-Datum erreicht ist
 deputies_check_inactive_deputies_status#:#%1$s Vertreter entfernt\n%2$s Vertreter inaktiv gesetzt
 deputies_edit#:#Bearbeiten
-deputies_info#:#Vertreter, welche ein Benutzer selber definiert, können in dessen Namen berechtigte Anfragen annehmen
+deputies_info#:#Vertreter, welche ein Benutzer selber definiert, können in dessen Namen berechtigte Anfragen bearbeiten
 deputies_my_deputies#:#Meine Vertreter
 deputies_nonone#:#Niemandem
 deputies_save#:#Speichern
@@ -184,16 +185,16 @@ members_user_email#:#E-Mail
 members_user_department#:#Abteilung
 members_user_firstname#:#Vorname
 members_user_lastname#:#Nachname
-requests_accepted#:#Bearbeitet
-requests_accepted_message#:#%s bearbeitet
-requests_accept_time#:#Bearbeiten-Zeitpunkt
-requests_accept_user#:#Bearbeiten-Benutzer
 requests_actions#:#Aktionen
 requests_add_responsible_users#:#Verantwortliche Benutzer hinzufügen
 requests_added_responsible_users#:#Verantwortliche Benutzer hinzugefügt
 requests_create_time#:#Anfrage-Zeitpunkt
 requests_create_time_workflow#:#Anfrage-Zeitpunkt 1. Schritt
 requests_create_user#:#Erstell-Benutzer
+requests_edited#:#Bearbeitet
+requests_edited_message#:#%s bearbeitet
+requests_edit_time#:#Bearbeiten-Zeitpunkt
+requests_edit_user#:#Bearbeiten-Benutzer
 requests_my_requests#:#Meine Anfragen
 requests_no#:#Nein
 requests_object#:#Objekt
@@ -203,7 +204,8 @@ requests_requested#:#%s angefordert
 requests_requests#:#Anfragen
 requests_responsible_users#:#Verantwortliche Benutzer
 requests_type_all#:#Alle Anfragen
-requests_type_open#:#Offene Anfragen
+requests_type_not_edited_requests_in_my_assistant_function#:#Nicht bearbeitete Anfragen in meiner Assistent-Funktion
+requests_type_not_edited_requests_in_my_responsibility#:#Nicht bearbeitete Anfragen in meiner Verantwortung
 requests_type_own#:#Eigene Anfragen
 requests_user_email#:#E-Mail
 requests_user_firstname#:#Vorname
@@ -286,7 +288,7 @@ select_workflow_object_setting_changed#:#Kurs-Einstellung '%1$s' auf '%2$s' gese
 select_workflow_select_workflow#:#Workflow auswählen
 select_workflow_save#:#Speichern
 select_workflow_saved#:#Gespeichert
-steps_action_accept_title#:#Titel Aktion bearbeiten
+steps_action_edit_title#:#Titel Aktion bearbeiten
 steps_action_title#:#Titel Aktion
 steps_actions#:#Aktionen
 steps_add#:#Hinzufügen

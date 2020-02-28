@@ -82,13 +82,22 @@ class AssignResponsibleUsersRunner extends AbstractActionRunner
                 $responsible_users = $this->action->getSpecificUsers();
                 break;
 
+            case AssignResponsibleUsers::USER_TYPE_GLOBAL_ROLES:
+                $responsible_users = [];
+
+                foreach ($this->action->getGlobalRoles() as $role_id) {
+
+                    $responsible_users = array_merge($responsible_users, self::dic()->rbacreview()->assignedUsers($role_id));
+                }
+                break;
+
             default:
                 $responsible_users = [];
                 break;
         }
 
         $responsible_users = array_filter($responsible_users, function (int $user_id) use ($request): bool {
-            return ($request->getUserId() !== $user_id && count(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, $request->getObjRefId(), null, $user_id)) < 2);
+            return ($request->getUserId() !== $user_id && count(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, [$user_id])) < 2);
         });
 
         $request->setResponsibleUsers($responsible_users);

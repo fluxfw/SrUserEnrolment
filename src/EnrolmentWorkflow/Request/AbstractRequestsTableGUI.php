@@ -72,15 +72,15 @@ abstract class AbstractRequestsTableGUI extends TableGUI
                 $column = htmlspecialchars(current(self::srUserEnrolment()
                     ->enrolmentWorkflow()
                     ->requests()
-                    ->getRequests(null, $request->getObjRefId(), null, $request->getUserId()))->getFormattedCreateTime());
+                    ->getRequests($request->getObjRefId(), null, [$request->getUserId()]))->getFormattedCreateTime());
                 break;
 
             case "create_user":
                 $column = htmlspecialchars($request->getCreateUser()->getFullname());
                 break;
 
-            case "accepted":
-                if ($request->isAccepted()) {
+            case "edited":
+                if ($request->isEdited()) {
                     $column = ilUtil::getImagePath("icon_ok.svg");
                 } else {
                     $column = ilUtil::getImagePath("icon_not_ok.svg");
@@ -88,12 +88,12 @@ abstract class AbstractRequestsTableGUI extends TableGUI
                 $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
                 break;
 
-            case "accept_time":
-                $column = htmlspecialchars($request->getFormattedAcceptTime());
+            case "edit_time":
+                $column = htmlspecialchars($request->getFormattedEditTime());
                 break;
 
-            case "accept_user":
-                $column = htmlspecialchars($request->getAcceptUser()->getFullname());
+            case "edit_user":
+                $column = htmlspecialchars($request->getEditUser()->getFullname());
                 break;
 
             case "object_title":
@@ -188,9 +188,9 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
         $data = self::srUserEnrolment()->enrolmentWorkflow()
             ->requests()
-            ->getRequests($this->getFilterCheckUserId(), $this->getFilterObjRefId(), $this->getFilterStepId(), $this->getFilterUserId(), $this->getFilterResponsibleUsers(),
+            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), [$this->getFilterUserId()], $this->getFilterResponsibleUsers(),
                 $this->getFilterObjectTitle(),
-                $this->getFilterWorkflowId(), $this->getFilterAccepted(), $this->getFilterUserLastname(), $this->getFilterUserFirstname(), $this->getFilterUserEmail(), $this->getFilterUserOrgUnits());
+                $this->getFilterWorkflowId(), $this->getFilterEdited(), $this->getFilterUserLastname(), $this->getFilterUserFirstname(), $this->getFilterUserEmail(), $this->getFilterUserOrgUnits());
 
         foreach ($this->modifications as $modification) {
             $data = $modification->extendsAndFilterData($data, $filter);
@@ -214,7 +214,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
      */
     protected function initTitle()/*: void*/
     {
-        $this->setTitle($this->txt("type_" . RequestsGUI::REQUESTS_TYPES[$this->parent_obj->getRequestsType()]));
+        $this->setTitle($this->txt("type_" . RequestsGUI::getRequestsTypes()[$this->parent_obj->getRequestsType()]));
     }
 
 
@@ -228,11 +228,11 @@ abstract class AbstractRequestsTableGUI extends TableGUI
         parent::fillRow($request);
 
         $actions = [];
-        foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($request, self::dic()->user()->getId()) as $step) {
-            self::dic()->ctrl()->setParameterByClass(AcceptRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
+        foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($request, self::dic()->user()->getId()) as $step) {
+            self::dic()->ctrl()->setParameterByClass(EditRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
-            $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionAcceptTitle(), self::dic()->ctrl()
-                ->getLinkTargetByClass([RequestInfoGUI::class, AcceptRequestGUI::class], AcceptRequestGUI::CMD_ACCEPT_REQUEST));
+            $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionEditTitle(), self::dic()->ctrl()
+                ->getLinkTargetByClass([RequestInfoGUI::class, EditRequestGUI::class], EditRequestGUI::CMD_EDIT_REQUEST));
         }
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
     }
@@ -241,13 +241,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @return bool|null
      */
-    protected abstract function getFilterAccepted()/* : ?bool*/ ;
-
-
-    /**
-     * @return int|null
-     */
-    protected abstract function getFilterCheckUserId()/* : ?int*/ ;
+    protected abstract function getFilterEdited()/* : ?bool*/ ;
 
 
     /**
