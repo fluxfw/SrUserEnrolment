@@ -36,17 +36,20 @@ actions_totype_specific_users#:#Specific users
 actions_type#:#Type
 actions_type_assignresponsibleusers#:#Assign responsible users
 actions_type_createcourse#:#Create course
+actions_type_deleterequests#:#Delete requests
 actions_type_enrolltocourse#:#Enroll to course
 actions_type_movetostep#:#Move to step
 actions_type_movetoworkflow#:#Move to workflow
 actions_type_sendnotification#:#Send notification
 actions_userstype#:#Users
+actions_userstype_global_roles#:#Global roles
 actions_userstype_position#:#Users with position within a organisation of the requesting user
 actions_userstype_specific_users#:#Specific users
 assistants_actions#:#Actions
 assistants_active#:#Active
 assistants_assistants#:#Assistants
 assistants_assistant_of#:#Assistant of
+assistants_assistants_supervisors#:#Supervisors are allowed to do this also
 assistants_back#:#Back
 assistants_check_inactive_assistants#:#Check inactive assistants
 assistants_check_inactive_assistants_description#:#Removes disabled users as assistant and set assistants inactive if the until date is reached
@@ -70,6 +73,8 @@ config_configuration_saved#:#Configuration saved
 config_enable#:#Enable %s
 config_roles#:#Roles
 config_roles_info#:#Show for selected roles only
+config_roles_read_requests#:#Roles for read all requests
+config_roles_read_requests_info#:#Users with the selected roles have always read permission to all requests
 config_save#:#Save
 config_show_excel_import_config#:#User can adjust these values on import
 deputies_actions#:#Actions
@@ -81,7 +86,7 @@ deputies_check_inactive_deputies#:#Check inactive deputies
 deputies_check_inactive_deputies_description#:#Removes disabled users as deputy and set deputies inactive if the until date is reached
 deputies_check_inactive_deputies_status#:#%1$s deputies removed\n%2$s deputies set inactive
 deputies_edit#:#Edit
-deputies_info#:#Deputies, which an user defines self, can accept permitted requests in its name
+deputies_info#:#Deputies, which an user defines self, can edit permitted requests in its name
 deputies_my_deputies#:#My deputies
 deputies_nonone#:#No one
 deputies_save#:#Save
@@ -180,16 +185,16 @@ members_user_email#:#Email
 members_user_department#:#Department
 members_user_firstname#:#First name
 members_user_lastname#:#Last name
-requests_accepted#:#Edited
-requests_accepted_message#:#%s edited
-requests_accept_time#:#Edit time
-requests_accept_user#:#Edit user
 requests_actions#:#Actions
 requests_add_responsible_users#:#Add responsible users
 requests_added_responsible_users#:#Added responsible users
 requests_create_time#:#Request create time
 requests_create_time_workflow#:#Request create time 1. step
 requests_create_user#:#Create user
+requests_edited#:#Edited
+requests_edited_message#:#%s edited
+requests_edit_time#:#Edit time
+requests_edit_user#:#Edit user
 requests_my_requests#:#My requests
 requests_no#:#No
 requests_object#:#Object
@@ -199,7 +204,8 @@ requests_requested#:#%s requested
 requests_requests#:#Requests
 requests_responsible_users#:#Responsible users
 requests_type_all#:#All requests
-requests_type_open#:#Open requests
+requests_type_not_edited_requests_in_my_assistant_function#:#Not edited requests in my assistant function
+requests_type_not_edited_requests_in_my_responsibility#:#Not edited requests in my responsibility
 requests_type_own#:#Own requests
 requests_user_email#:#Email
 requests_user_firstname#:#First name

@@ -88,9 +88,9 @@ class RequestInfoGUI
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
         switch (strtolower($next_class)) {
-            case strtolower(AcceptRequestGUI::class):
+            case strtolower(EditRequestGUI::class):
                 if (!$this->single) {
-                    self::dic()->ctrl()->forwardCommand(new AcceptRequestGUI($this));
+                    self::dic()->ctrl()->forwardCommand(new EditRequestGUI($this));
                 }
                 break;
 
@@ -121,11 +121,12 @@ class RequestInfoGUI
      */
     public static function addRequestsToPersonalDesktop() : array
     {
-        $requests = array_reduce(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, null, self::dic()->user()->getId()), function (array $requests, Request $request) : array {
-            $requests[$request->getObjRefId()] = $request;
+        $requests = array_reduce(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests(null, null, [self::dic()->user()->getId()]),
+            function (array $requests, Request $request) : array {
+                $requests[$request->getObjRefId()] = $request;
 
-            return $requests;
-        }, []);
+                return $requests;
+            }, []);
 
         if (!empty($requests)) {
             $tpl = self::plugin()->template("EnrolmentWorkflow/pd_my_requests.html");
@@ -145,7 +146,7 @@ class RequestInfoGUI
 
                 $tpl->setVariable("OBJECT_ICON", self::output()->getHTML(self::dic()->ui()->factory()->image()->standard(ilObject::_getIcon($request->getObjId()), "")));
 
-                $current_request = current(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, $request->getUserId(), null, null, null, false));
+                $current_request = current(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($request->getObjRefId(), null, [$request->getUserId()], null, null, null, false));
                 if ($current_request !== false) {
                     if (!empty(array_filter(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($current_request->getStep()->getWorkflowId()),
                         function (Step $step) use ($current_request): bool {
@@ -188,7 +189,7 @@ class RequestInfoGUI
 
         self::dic()->tabs()->addTab(self::TAB_WORKFLOW, $this->request->getWorkflow()->getTitle(), $this->request->getRequestLink(!empty($this->obj_ref_id)));
 
-        if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->request, self::dic()->user()->getId()))) {
+        if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId()))) {
 
             self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
@@ -234,12 +235,12 @@ class RequestInfoGUI
             $info = [];
 
             if ($request !== null) {
-                if ($request->isAccepted()) {
+                if ($request->isEdited()) {
                     $icon = "icon_ok.svg";
 
                     $info = [
-                        $request->getFormattedAcceptTime(),
-                        $request->getAcceptUser()->getFullname()
+                        $request->getFormattedEditTime(),
+                        $request->getEditUser()->getFullname()
                     ];
                 } else {
                     $icon = "icon_not_ok.svg";
@@ -273,11 +274,11 @@ class RequestInfoGUI
         if (!$this->single) {
             $actions = [];
 
-            foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->request, self::dic()->user()->getId()) as $step) {
-                self::dic()->ctrl()->setParameterByClass(AcceptRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
+            foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId()) as $step) {
+                self::dic()->ctrl()->setParameterByClass(EditRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
-                $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionAcceptTitle(), self::dic()->ctrl()
-                    ->getLinkTargetByClass(AcceptRequestGUI::class, AcceptRequestGUI::CMD_ACCEPT_REQUEST));
+                $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionEditTitle(), self::dic()->ctrl()
+                    ->getLinkTargetByClass(EditRequestGUI::class, EditRequestGUI::CMD_EDIT_REQUEST));
             }
 
             self::dic()->ui()->mainTemplate()->setHeaderActionMenu(self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel(self::plugin()
@@ -301,7 +302,7 @@ class RequestInfoGUI
      */
     protected function addResponsibleUsers()/*:void*/
     {
-        if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForAcceptRequest($this->request, self::dic()->user()->getId()))) {
+        if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId()))) {
             $user_ids = filter_input(INPUT_POST, "responsible_" . RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
             if (!is_array($user_ids)) {
                 $user_ids = [];

@@ -76,10 +76,10 @@ class StepFormGUI extends PropertyFormGUI
     protected function initFields()/*: void*/
     {
         $this->fields = [
-            "enabled"              => [
+            "enabled"            => [
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class
             ],
-            "titles"               => [
+            "titles"             => [
                 self::PROPERTY_CLASS    => TabsInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
                 self::PROPERTY_SUBITEMS => MultilangualTabsInputGUI::generate([
@@ -89,7 +89,7 @@ class StepFormGUI extends PropertyFormGUI
                 ], true),
                 "setTitle"              => $this->txt("title")
             ],
-            "action_titles"        => [
+            "action_titles"      => [
                 self::PROPERTY_CLASS    => TabsInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
                 self::PROPERTY_SUBITEMS => MultilangualTabsInputGUI::generate([
@@ -99,7 +99,7 @@ class StepFormGUI extends PropertyFormGUI
                 ], true),
                 "setTitle"              => $this->txt("action_title")
             ],
-            "action_accept_titles" => [
+            "action_edit_titles" => [
                 self::PROPERTY_CLASS    => TabsInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
                 self::PROPERTY_SUBITEMS => MultilangualTabsInputGUI::generate([
@@ -107,7 +107,7 @@ class StepFormGUI extends PropertyFormGUI
                         self::PROPERTY_CLASS => ilTextInputGUI::class
                     ]
                 ], true),
-                "setTitle"              => $this->txt("action_accept_title")
+                "setTitle"              => $this->txt("action_edit_title")
             ]
         ];
     }

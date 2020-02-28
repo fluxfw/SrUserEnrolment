@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
+use ArrayObject;
 use ilLearningProgressBaseGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\CheckboxInputGUI\AjaxCheckbox;
@@ -25,9 +26,9 @@ class MembersTableGUI extends TableGUI
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = MembersGUI::LANG_MODULE;
     /**
-     * @var AbstractMembersTableModifications[]
+     * @var ArrayObject<AbstractMembersTableModifications>
      */
-    protected $modifications = [];
+    protected $modifications;
 
 
     /**
@@ -38,8 +39,10 @@ class MembersTableGUI extends TableGUI
      */
     public function __construct(MembersGUI $parent, string $parent_cmd)
     {
+        $this->modifications = new ArrayObject();
+
         self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBERS_TABLE_MODIFICATIONS, [
-            "modifications" => &$this->modifications
+            "modifications" => $this->modifications
         ]);
 
         parent::__construct($parent, $parent_cmd);
@@ -215,7 +218,7 @@ class MembersTableGUI extends TableGUI
         $data = self::srUserEnrolment()->enrolmentWorkflow()->members()->getMembers($this->parent_obj->getObjRefId());
 
         foreach ($this->modifications as $modification) {
-            $modification->extendsAndFilterData($data, $filter);
+            $data = $modification->extendsAndFilterData($data, $filter);
         }
 
         $this->setData($data);

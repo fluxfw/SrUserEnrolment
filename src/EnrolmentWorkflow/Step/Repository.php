@@ -178,9 +178,9 @@ final class Repository
      *
      * @return Step[]
      */
-    public function getStepsForAcceptRequest(Request $request, int $check_user_id) : array
+    public function getStepsForEditRequest(Request $request, int $check_user_id) : array
     {
-        if ($request->isAccepted()) {
+        if ($request->isEdited()) {
             return [];
         }
 
@@ -207,7 +207,7 @@ final class Repository
 
             $step_request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($request->getObjRefId(), $step->getStepId(), $request->getUserId());
 
-            if ($step_request !== null/* || $step_request->isAccepted()*/) {
+            if ($step_request !== null/* || $step_request->isEdited()*/) {
                 return false;
             }
 

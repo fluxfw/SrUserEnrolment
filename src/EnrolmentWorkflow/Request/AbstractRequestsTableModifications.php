@@ -47,8 +47,10 @@ abstract class AbstractRequestsTableModifications
     /**
      * @param Request[] $requests
      * @param array     $filter_values
+     *
+     * @return array
      */
-    public abstract function extendsAndFilterData(array &$requests, array $filter_values)/*:void*/ ;
+    public abstract function extendsAndFilterData(array $requests, array $filter_values) : array;
 
 
     /**

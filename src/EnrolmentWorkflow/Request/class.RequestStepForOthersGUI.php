@@ -1,27 +1,26 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ilLink;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Step;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class AssistantsRequestGUI
+ * Class RequestStepForOthersGUI
  *
- * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant
+ * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsRequestGUI: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepForOthersGUI: ilUIPluginRouterGUI
  */
-class AssistantsRequestGUI
+class RequestStepForOthersGUI
 {
 
     use DICTrait;
@@ -43,7 +42,7 @@ class AssistantsRequestGUI
 
 
     /**
-     * AssistantsRequestGUI constructor
+     * RequestStepForOthersGUI constructor
      */
     public function __construct()
     {
@@ -122,7 +121,7 @@ class AssistantsRequestGUI
     {
         self::dic()->tabs()->activateTab(self::TAB_USERS);
 
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->factory()->newRequestsTableInstance($this);
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newRequestStepForOthersTableInstance($this);
 
         self::output()->output($table, true);
     }
@@ -133,7 +132,7 @@ class AssistantsRequestGUI
      */
     protected function applyFilter()/*: void*/
     {
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->factory()->newRequestsTableInstance($this, self::CMD_APPLY_FILTER);
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newRequestStepForOthersTableInstance($this, self::CMD_APPLY_FILTER);
 
         $table->writeFilterToSession();
 
@@ -149,7 +148,7 @@ class AssistantsRequestGUI
      */
     protected function resetFilter()/*: void*/
     {
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->assistants()->factory()->newRequestsTableInstance($this, self::CMD_RESET_FILTER);
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newRequestStepForOthersTableInstance($this, self::CMD_RESET_FILTER);
 
         $table->resetFilter();
 

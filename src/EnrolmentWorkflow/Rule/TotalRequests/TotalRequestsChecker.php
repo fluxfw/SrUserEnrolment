@@ -34,7 +34,7 @@ class TotalRequestsChecker extends AbstractRuleChecker
      */
     public function check(int $user_id, int $obj_ref_id) : bool
     {
-        return (count(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($obj_ref_id, null, $user_id)) >= $this->rule->getTotalRequests());
+        return (count(self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($obj_ref_id, null, [$user_id])) >= $this->rule->getTotalRequests());
     }
 
 

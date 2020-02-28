@@ -254,7 +254,7 @@ class Request extends ActiveRecord
     /**
      * @return string
      */
-    public function getFormattedAcceptTime() : string
+    public function getFormattedEditTime() : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($this->accept_time, IL_CAL_UNIX));
     }
@@ -263,7 +263,7 @@ class Request extends ActiveRecord
     /**
      * @return ilObjUser
      */
-    public function getAcceptUser() : ilObjUser
+    public function getEditUser() : ilObjUser
     {
         return new ilObjUser($this->accept_user_id);
     }
@@ -411,18 +411,18 @@ class Request extends ActiveRecord
     /**
      * @return bool
      */
-    public function isAccepted() : bool
+    public function isEdited() : bool
     {
         return $this->accepted;
     }
 
 
     /**
-     * @param bool $accepted
+     * @param bool $edited
      */
-    public function setAccepted(bool $accepted)/* : void*/
+    public function setEdited(bool $edited)/* : void*/
     {
-        $this->accepted = $accepted;
+        $this->accepted = $edited;
     }
 
 
@@ -494,35 +494,35 @@ class Request extends ActiveRecord
     /**
      * @return int|null
      */
-    public function getAcceptTime()/* : ?int*/
+    public function getEditTime()/* : ?int*/
     {
         return $this->accept_time;
     }
 
 
     /**
-     * @param int|null $accept_time
+     * @param int|null $edit_time
      */
-    public function setAcceptTime(/*?*/ int $accept_time = null)/* : void*/
+    public function setEditTime(/*?*/ int $edit_time = null)/* : void*/
     {
-        $this->accept_time = $accept_time;
+        $this->accept_time = $edit_time;
     }
 
 
     /**
      * @return int|null
      */
-    public function getAcceptUserId()/* : int*/
+    public function getEditUserId()/* : int*/
     {
         return $this->accept_user_id;
     }
 
 
     /**
-     * @param int|null $accept_user_id
+     * @param int|null $edit_user_id
      */
-    public function setAcceptUserId(/*?*/ int $accept_user_id = null)/* : void*/
+    public function setEditUserId(/*?*/ int $edit_user_id = null)/* : void*/
     {
-        $this->accept_user_id = $accept_user_id;
+        $this->accept_user_id = $edit_user_id;
     }
 }

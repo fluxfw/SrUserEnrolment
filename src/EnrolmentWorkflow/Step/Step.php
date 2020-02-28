@@ -205,7 +205,7 @@ class Step extends ActiveRecord
     /**
      * @return array
      */
-    public function getActionAcceptTitles() : array
+    public function getActionEditTitles() : array
     {
         return $this->action_accept_title;
     }
@@ -217,28 +217,28 @@ class Step extends ActiveRecord
      *
      * @return string
      */
-    public function getActionAcceptTitle(/*?*/ string $lang_key = null, bool $use_default_if_not_set = true) : string
+    public function getActionEditTitle(/*?*/ string $lang_key = null, bool $use_default_if_not_set = true) : string
     {
         return strval(MultilangualTabsInputGUI::getValueForLang($this->action_accept_title, $lang_key, "action_accept_title", $use_default_if_not_set));
     }
 
 
     /**
-     * @param array $action_accept_titles
+     * @param array $action_edit_titles
      */
-    public function setActionAcceptTitles(array $action_accept_titles)/*:void*/
+    public function setActionEditTitles(array $action_edit_titles)/*:void*/
     {
-        $this->action_accept_title = $action_accept_titles;
+        $this->action_accept_title = $action_edit_titles;
     }
 
 
     /**
-     * @param string $action_accept_title
+     * @param string $action_edit_title
      * @param string $lang_key
      */
-    public function setActionAcceptTitle(string $action_accept_title, string $lang_key)/*: void*/
+    public function setActionEditTitle(string $action_edit_title, string $lang_key)/*: void*/
     {
-        MultilangualTabsInputGUI::setValueForLang($this->action_accept_title, $action_accept_title, $lang_key, "action_accept_title");
+        MultilangualTabsInputGUI::setValueForLang($this->action_accept_title, $action_edit_title, $lang_key, "action_accept_title");
     }
 
 

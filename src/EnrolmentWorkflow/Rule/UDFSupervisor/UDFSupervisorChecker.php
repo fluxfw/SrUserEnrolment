@@ -36,11 +36,17 @@ class UDFSupervisorChecker extends UDFChecker
      */
     protected function getUserIds(int $user_id) : array
     {
+        $org_ids = ilOrgUnitUserAssignment::where([
+            "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE,
+            "user_id"     => $user_id
+        ])->getArray(null, "orgu_id");
+
+        if (empty($org_ids)) {
+            return [];
+        }
+
         return array_unique(ilOrgUnitUserAssignment::where([
-            "orgu_id"     => ilOrgUnitUserAssignment::where([
-                "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE,
-                "user_id"     => $user_id
-            ])->getArray(null, "orgu_id"),
+            "orgu_id"     => $org_ids,
             "position_id" => ilOrgUnitPosition::CORE_POSITION_SUPERIOR
         ], [
             "orgu_id"     => "IN",

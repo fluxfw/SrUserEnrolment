@@ -6,7 +6,6 @@ if (file_exists(__DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor
 }
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
 use srag\Plugins\SrUserEnrolment\Menu\Menu;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
@@ -25,7 +24,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     const PLUGIN_NAME = "SrUserEnrolment";
     const PLUGIN_CLASS_NAME = self::class;
     const EVENT_AFTER_REQUEST = "after_request";
-    const EVENT_COLLECT_ASSISTANTS_REQUESTS_TABLE_MODIFICATIONS = "collect_assistants_requests_table_modifications";
+    const EVENT_COLLECT_REQUEST_STEP_FOR_OTHERS_TABLE_MODIFICATIONS = "collect_request_step_for_others_table_modifications";
     const EVENT_COLLECT_MEMBERS_TABLE_MODIFICATIONS = "collect_members_table_modifications";
     const EVENT_COLLECT_MEMBER_FORM_MODIFICATIONS = "collect_member_form_modifications";
     const EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS = "collect_requests_table_modifications";

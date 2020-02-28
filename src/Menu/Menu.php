@@ -56,7 +56,7 @@ class Menu extends AbstractStaticPluginMainMenuProvider
         $parent = $this->getStaticTopItems()[0];
 
         self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REF_ID, null);
-        self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_ALL);
+        self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_OWN);
 
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "ref_id", 31);
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "ctype", IL_COMP_SERVICE);

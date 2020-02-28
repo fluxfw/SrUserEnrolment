@@ -4,15 +4,16 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Assistant;
 
 /**
- * Class OpenRequestsTableGUI
+ * Class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class OpenRequestsTableGUI extends AbstractRequestsTableGUI
+class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractRequestsTableGUI
 {
 
     /**
@@ -80,7 +81,7 @@ class OpenRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterAccepted()/* : ?bool*/
+    protected function getFilterEdited()/* : ?bool*/
     {
         return false;
     }
@@ -129,9 +130,18 @@ class OpenRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUsrId()/* : ?int*/
+    protected function getFilterUserId()/* : ?int*/
     {
-        return null;
+        $users = [self::dic()->user()->getId()];
+
+        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
+
+            $users = array_merge($users, array_map(function (Assistant $assistant) : int {
+                return $assistant->getUserId();
+            }, self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId())));
+        }
+
+        return $users;
     }
 
 
