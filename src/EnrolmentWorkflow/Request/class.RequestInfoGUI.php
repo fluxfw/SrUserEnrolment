@@ -239,8 +239,8 @@ class RequestInfoGUI
                     $icon = "icon_ok.svg";
 
                     $info = [
-                        $request->getFormattedEditTime(),
-                        $request->getEditUser()->getFullname()
+                        $request->getFormattedEditedTime(),
+                        $request->getEditedUser()->getFullname()
                     ];
                 } else {
                     $icon = "icon_not_ok.svg";

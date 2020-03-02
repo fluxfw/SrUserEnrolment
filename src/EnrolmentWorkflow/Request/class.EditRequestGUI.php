@@ -131,13 +131,13 @@ class EditRequestGUI
             $required_data = null;
         }
 
+        $this->parent->getRequest()->setEdited(true);
+        $this->parent->getRequest()->setEditedTime(time());
+        $this->parent->getRequest()->setEditedUserId(self::dic()->user()->getId());
+        self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->parent->getRequest());
+
         self::srUserEnrolment()->enrolmentWorkflow()->requests()->request($this->parent->getRequest()->getObjRefId(), $this->step->getStepId(), $this->parent->getRequest()->getUserId(),
             $required_data);
-
-        $this->parent->getRequest()->setEdited(true);
-        $this->parent->getRequest()->setEditTime(time());
-        $this->parent->getRequest()->setEditUserId(self::dic()->user()->getId());
-        self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->parent->getRequest());
 
         ilUtil::sendSuccess(self::plugin()
             ->translate("edited_message", RequestsGUI::LANG_MODULE, [$this->parent->getRequest()->getStep()->getTitle()]),

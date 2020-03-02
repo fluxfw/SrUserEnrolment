@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
-use ilSelectInputGUI;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
@@ -24,58 +23,58 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "edited"               => [
-                "id"      => "edited",
+            "edited_status"      => [
+                "id"      => "edited_status",
                 "default" => true,
                 "sort"    => false
             ],
-            "create_time_workflow" => [
-                "id"      => "create_time_workflow",
+            "created_time_group" => [
+                "id"      => "created_time_group",
                 "default" => true,
                 "sort"    => false
             ],
-            "create_user"          => [
-                "id"      => "create_user",
+            "created_user"       => [
+                "id"      => "created_user",
                 "default" => true,
                 "sort"    => false
             ],
-            "object_title"         => [
+            "object_title"       => [
                 "id"      => "object_title",
                 "default" => true,
                 "sort"    => false,
                 "txt"     => self::plugin()->translate("object", RequestsGUI::LANG_MODULE)
             ],
-            "object_start"         => [
+            "object_start"       => [
                 "id"      => "object_start",
                 "default" => true,
                 "sort"    => false
             ],
-            "object_end"           => [
+            "object_end"         => [
                 "id"      => "object_end",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_firstname"       => [
+            "user_firstname"     => [
                 "id"      => "user_firstname",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_lastname"        => [
+            "user_lastname"      => [
                 "id"      => "user_lastname",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_email"           => [
+            "user_email"         => [
                 "id"      => "user_email",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_org_units"       => [
+            "user_org_units"     => [
                 "id"      => "user_org_units",
                 "default" => true,
                 "sort"    => false
             ],
-            "responsible_users"    => [
+            "responsible_users"  => [
                 "id"      => "responsible_users",
                 "default" => true,
                 "sort"    => false
@@ -95,17 +94,20 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
      */
     protected function getFilterEdited()/* : ?bool*/
     {
+        return null;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getFilterEditedStatus()/* : ?array*/
+    {
         $filter = $this->getFilterValues();
 
-        $edited = $filter["edited"];
+        $edited_status = $filter["edited_status"];
 
-        if (!empty($edited)) {
-            $edited = ($edited === "yes");
-        } else {
-            $edited = null;
-        }
-
-        return $edited;
+        return $edited_status;
     }
 
 
@@ -156,7 +158,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUserId()/* : ?int*/
+    protected function getFilterUserId()/* : ?array*/
     {
         return null;
     }
@@ -221,13 +223,11 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     protected function initFilterFields()/*: void*/
     {
         $this->filter_fields = [
-            "edited"            => [
-                PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
-                PropertyFormGUI::PROPERTY_OPTIONS => [
-                    ""    => "",
-                    "no"  => $this->txt("no"),
-                    "yes" => $this->txt("yes")
-                ]
+            "edited_status"     => [
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
+                PropertyFormGUI::PROPERTY_OPTIONS => array_map(function (string $edited_status_lang_key) : string {
+                    return $this->txt("edited_status_" . $edited_status_lang_key);
+                }, RequestGroup::EDITED_STATUS)
             ],
             "object_title"      => [
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,

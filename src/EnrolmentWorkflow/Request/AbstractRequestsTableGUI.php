@@ -64,19 +64,16 @@ abstract class AbstractRequestsTableGUI extends TableGUI
         }
 
         switch ($column) {
-            case "create_time":
-                $column = htmlspecialchars($request->getFormattedCreateTime());
+            case "created_time":
+                $column = htmlspecialchars($request->getFormattedCreatedTime());
                 break;
 
-            case "create_time_workflow":
-                $column = htmlspecialchars(current(self::srUserEnrolment()
-                    ->enrolmentWorkflow()
-                    ->requests()
-                    ->getRequests($request->getObjRefId(), null, [$request->getUserId()]))->getFormattedCreateTime());
+            case "created_time_group":
+                $column = htmlspecialchars($request->getRequestGroup()->getFormattedCreatedTime());
                 break;
 
-            case "create_user":
-                $column = htmlspecialchars($request->getCreateUser()->getFullname());
+            case "created_user":
+                $column = htmlspecialchars($request->getCreatedUser()->getFullname());
                 break;
 
             case "edited":
@@ -88,12 +85,24 @@ abstract class AbstractRequestsTableGUI extends TableGUI
                 $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
                 break;
 
-            case "edit_time":
-                $column = htmlspecialchars($request->getFormattedEditTime());
+            case "edited_status":
+                $column = self::output()->getHTML([
+                    self::dic()
+                        ->ui()
+                        ->factory()
+                        ->image()
+                        ->standard(ilUtil::getImagePath(RequestGroup::EDITED_STATUS_ICON[$request->getRequestGroup()->getEditedStatus()]),
+                            $this->txt("edited_status_" . RequestGroup::EDITED_STATUS[$request->getRequestGroup()->getEditedStatus()])),
+                    htmlspecialchars($this->txt("edited_status_" . RequestGroup::EDITED_STATUS[$request->getRequestGroup()->getEditedStatus()]))
+                ]);
                 break;
 
-            case "edit_user":
-                $column = htmlspecialchars($request->getEditUser()->getFullname());
+            case "edited_time":
+                $column = htmlspecialchars($request->getFormattedEditedTime());
+                break;
+
+            case "edited_user":
+                $column = htmlspecialchars($request->getEditedUser()->getFullname());
                 break;
 
             case "object_title":
@@ -188,9 +197,10 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
         $data = self::srUserEnrolment()->enrolmentWorkflow()
             ->requests()
-            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), (!empty($this->getFilterUserId()) ? [$this->getFilterUserId()] : null), $this->getFilterResponsibleUsers(),
+            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), $this->getFilterUserId(), $this->getFilterResponsibleUsers(),
                 $this->getFilterObjectTitle(),
-                $this->getFilterWorkflowId(), $this->getFilterEdited(), $this->getFilterUserLastname(), $this->getFilterUserFirstname(), $this->getFilterUserEmail(), $this->getFilterUserOrgUnits());
+                $this->getFilterWorkflowId(), $this->getFilterEdited(), $this->getFilterEditedStatus(), $this->getFilterUserLastname(), $this->getFilterUserFirstname(), $this->getFilterUserEmail(),
+                $this->getFilterUserOrgUnits());
 
         foreach ($this->modifications as $modification) {
             $data = $modification->extendsAndFilterData($data, $filter);
@@ -245,6 +255,12 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
 
     /**
+     * @return int[]|null
+     */
+    protected abstract function getFilterEditedStatus()/* : ?array*/ ;
+
+
+    /**
      * @return int|null
      */
     protected abstract function getFilterObjRefId()/* : ?int*/ ;
@@ -269,9 +285,9 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
 
     /**
-     * @return int|null
+     * @return array|null
      */
-    protected abstract function getFilterUserId()/* : ?int*/ ;
+    protected abstract function getFilterUserId()/* : ?array*/ ;
 
 
     /**

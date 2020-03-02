@@ -60,6 +60,17 @@ final class Factory
 
 
     /**
+     * @return RequestGroup
+     */
+    public function newGroupInstance() : RequestGroup
+    {
+        $request_group = new RequestGroup();
+
+        return $request_group;
+    }
+
+
+    /**
      * @param RequestsGUI $parent
      * @param string      $cmd
      *

@@ -11,6 +11,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\EnrollToCourse\EnrollT
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\MoveToStep\MoveToStep;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\MoveToWorkflow\MoveToWorkflow;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\SendNotification\SendNotification;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\SetEditedStatus\SetEditedStatus;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -56,7 +57,8 @@ final class Factory
             EnrollToCourse::class,
             MoveToStep::class,
             MoveToWorkflow::class,
-            SendNotification::class
+            SendNotification::class,
+            SetEditedStatus::class
         ];
 
 

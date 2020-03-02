@@ -41,7 +41,7 @@ class CurrentUserIsAssignedAsResponsibleUserChecker extends AbstractRuleChecker
                         ->enrolmentWorkflow()
                         ->steps()
                         ->getStepById($this->request->getStepId())
-                        ->getSort() === 10) : false)
+                        ->getSort() === 10) : true)
             && in_array($user_id, $this->request->getResponsibleUsers()));
     }
 

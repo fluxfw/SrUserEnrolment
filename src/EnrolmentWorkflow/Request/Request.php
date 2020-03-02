@@ -236,7 +236,7 @@ class Request extends ActiveRecord
     /**
      * @return string
      */
-    public function getFormattedCreateTime() : string
+    public function getFormattedCreatedTime() : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($this->create_time, IL_CAL_UNIX));
     }
@@ -245,7 +245,7 @@ class Request extends ActiveRecord
     /**
      * @return ilObjUser
      */
-    public function getCreateUser() : ilObjUser
+    public function getCreatedUser() : ilObjUser
     {
         return new ilObjUser($this->create_user_id);
     }
@@ -254,7 +254,7 @@ class Request extends ActiveRecord
     /**
      * @return string
      */
-    public function getFormattedEditTime() : string
+    public function getFormattedEditedTime() : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($this->accept_time, IL_CAL_UNIX));
     }
@@ -263,7 +263,7 @@ class Request extends ActiveRecord
     /**
      * @return ilObjUser
      */
-    public function getEditUser() : ilObjUser
+    public function getEditedUser() : ilObjUser
     {
         return new ilObjUser($this->accept_user_id);
     }
@@ -277,6 +277,15 @@ class Request extends ActiveRecord
     public function getRequestLink(bool $obj_ref_id = false) : string
     {
         return ILIAS_HTTP_PATH . "/goto.php?target=uihk_" . ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req_" . $this->request_id . ($obj_ref_id ? "_" . $this->obj_ref_id : "");
+    }
+
+
+    /**
+     * @return RequestGroup
+     */
+    public function getRequestGroup() : RequestGroup
+    {
+        return self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestGroup($this->obj_ref_id, $this->user_id, $this->request_id);
     }
 
 
@@ -458,71 +467,71 @@ class Request extends ActiveRecord
     /**
      * @return int
      */
-    public function getCreateTime() : int
+    public function getCreatedTime() : int
     {
         return $this->create_time;
     }
 
 
     /**
-     * @param int $create_time
+     * @param int $created_time
      */
-    public function setCreateTime(int $create_time)/* : void*/
+    public function setCreatedTime(int $created_time)/* : void*/
     {
-        $this->create_time = $create_time;
+        $this->create_time = $created_time;
     }
 
 
     /**
      * @return int
      */
-    public function getCreateUserId() : int
+    public function getCreatedUserId() : int
     {
         return $this->create_user_id;
     }
 
 
     /**
-     * @param int $create_user_id
+     * @param int $created_user_id
      */
-    public function setCreateUserId(int $create_user_id)/* : void*/
+    public function setCreatedUserId(int $created_user_id)/* : void*/
     {
-        $this->create_user_id = $create_user_id;
+        $this->create_user_id = $created_user_id;
     }
 
 
     /**
      * @return int|null
      */
-    public function getEditTime()/* : ?int*/
+    public function getEditedTime()/* : ?int*/
     {
         return $this->accept_time;
     }
 
 
     /**
-     * @param int|null $edit_time
+     * @param int|null $edited_time
      */
-    public function setEditTime(/*?*/ int $edit_time = null)/* : void*/
+    public function setEditedTime(/*?*/ int $edited_time = null)/* : void*/
     {
-        $this->accept_time = $edit_time;
+        $this->accept_time = $edited_time;
     }
 
 
     /**
      * @return int|null
      */
-    public function getEditUserId()/* : int*/
+    public function getEditedUserId()/* : int*/
     {
         return $this->accept_user_id;
     }
 
 
     /**
-     * @param int|null $edit_user_id
+     * @param int|null $edited_user_id
      */
-    public function setEditUserId(/*?*/ int $edit_user_id = null)/* : void*/
+    public function setEditedUserId(/*?*/ int $edited_user_id = null)/* : void*/
     {
-        $this->accept_user_id = $edit_user_id;
+        $this->accept_user_id = $edited_user_id;
     }
 }
