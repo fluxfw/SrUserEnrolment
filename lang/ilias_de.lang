@@ -41,7 +41,7 @@ actions_type_enrolltocourse#:#In Kurs einschreiben
 actions_type_movetostep#:#In Schritt verschieben
 actions_type_movetoworkflow#:#In Workflow verschieben
 actions_type_sendnotification#:#Benachrichtigung versenden
-actions_userstype#:#Benutze
+actions_userstype#:#Benutzer
 actions_userstype_global_roles#:#Globale Rollen
 actions_userstype_position#:#Benutzer mit Position innerhalb einer Organisation des anfordernden Benutzers
 actions_userstype_specific_users#:#Bestimmte Benutzer
