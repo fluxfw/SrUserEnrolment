@@ -188,7 +188,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
         $data = self::srUserEnrolment()->enrolmentWorkflow()
             ->requests()
-            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), [$this->getFilterUserId()], $this->getFilterResponsibleUsers(),
+            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), (!empty($this->getFilterUserId()) ? [$this->getFilterUserId()] : null), $this->getFilterResponsibleUsers(),
                 $this->getFilterObjectTitle(),
                 $this->getFilterWorkflowId(), $this->getFilterEdited(), $this->getFilterUserLastname(), $this->getFilterUserFirstname(), $this->getFilterUserEmail(), $this->getFilterUserOrgUnits());
 
