@@ -49,7 +49,8 @@ assistants_actions#:#Aktionen
 assistants_active#:#Aktiv
 assistants_assistants#:#Assistenten
 assistants_assistant_of#:#Assistent von
-assistants_assistants_supervisors#:#Vorgesetzte dürfen das auch
+assistants_assistants_supervisors#:#Vorgesetzte-Assistenten
+assistants_assistants_supervisors_info#:#Vorgesetzte können in Namen direkter Mitarbeiter Anfragen starten
 assistants_back#:#Zurück
 assistants_check_inactive_assistants#:#Inaktive Assistenten prüfen
 assistants_check_inactive_assistants_description#:#Entfernt deaktivierte Benutzer als Assistent und setzt Assistenten inaktiv, wenn das Bis-Datum erreicht ist

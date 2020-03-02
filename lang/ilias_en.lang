@@ -49,7 +49,8 @@ assistants_actions#:#Actions
 assistants_active#:#Active
 assistants_assistants#:#Assistants
 assistants_assistant_of#:#Assistant of
-assistants_assistants_supervisors#:#Supervisors are allowed to do this also
+assistants_assistants_supervisors#:#Supervisors-Assistants
+assistants_assistants_supervisors_info#:#Supervisors can start requests in name of direct employees
 assistants_back#:#Back
 assistants_check_inactive_assistants#:#Check inactive assistants
 assistants_check_inactive_assistants_description#:#Removes disabled users as assistant and set assistants inactive if the until date is reached

@@ -132,7 +132,7 @@ class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractReq
      */
     protected function getFilterUserId()/* : ?int*/
     {
-        $users = [self::dic()->user()->getId()];
+        $users = [];
 
         if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
 

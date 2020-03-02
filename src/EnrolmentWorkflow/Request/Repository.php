@@ -190,6 +190,10 @@ final class Repository
 
         if (!empty($user_id)) {
             $wheres["user_id"] = $user_id;
+        } else {
+            if (is_array($user_id)) {
+                return [];
+            }
         }
 
         if (!empty($responsible_user_ids)) {
@@ -257,24 +261,24 @@ final class Repository
 
                 $user_ids[] = $assistant->getUserId();
             }
+        }
 
-            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS)) {
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS)) {
 
-                $org_ids = ilOrgUnitUserAssignment::where([
-                    "position_id" => ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
-                    "user_id"     => $check_user_id
-                ])->getArray(null, "orgu_id");
+            $org_ids = ilOrgUnitUserAssignment::where([
+                "position_id" => ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
+                "user_id"     => $check_user_id
+            ])->getArray(null, "orgu_id");
 
-                if (!empty($org_ids)) {
+            if (!empty($org_ids)) {
 
-                    $user_ids = array_merge($user_ids, ilOrgUnitUserAssignment::where([
-                        "orgu_id"     => $org_ids,
-                        "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
-                    ], [
-                        "orgu_id"     => "IN",
-                        "position_id" => "="
-                    ]));
-                }
+                $user_ids = array_merge($user_ids, ilOrgUnitUserAssignment::where([
+                    "orgu_id"     => $org_ids,
+                    "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
+                ], [
+                    "orgu_id"     => "IN",
+                    "position_id" => "="
+                ]));
             }
         }
 

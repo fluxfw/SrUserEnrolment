@@ -71,6 +71,15 @@ class RequestsGUI
             unset($requests_types[self::REQUESTS_TYPE_ALL]);
         }
 
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())
+            || empty(self::srUserEnrolment()
+                ->enrolmentWorkflow()
+                ->assistants()
+                ->getAssistantsOf(self::dic()->user()->getId()))
+        ) {
+            unset($requests_types[self::REQUESTS_TYPE_NOT_EDITED_IN_MY_ASSISTANT_FUNCTION]);
+        }
+
         return $requests_types;
     }
 
