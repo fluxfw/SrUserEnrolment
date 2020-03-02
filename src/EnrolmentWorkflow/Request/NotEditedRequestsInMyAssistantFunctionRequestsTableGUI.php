@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
 use ilTextInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Assistant;
 
@@ -22,48 +23,53 @@ class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractReq
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "create_time_workflow" => [
-                "id"      => "create_time_workflow",
+            "edited_status"      => [
+                "id"      => "edited_status",
                 "default" => true,
                 "sort"    => false
             ],
-            "create_user"          => [
-                "id"      => "create_user",
+            "created_time_group" => [
+                "id"      => "created_time_group",
                 "default" => true,
                 "sort"    => false
             ],
-            "object_title"         => [
+            "created_user"       => [
+                "id"      => "created_user",
+                "default" => true,
+                "sort"    => false
+            ],
+            "object_title"       => [
                 "id"      => "object_title",
                 "default" => true,
                 "sort"    => false,
                 "txt"     => self::plugin()->translate("object", RequestsGUI::LANG_MODULE)
             ],
-            "object_start"         => [
+            "object_start"       => [
                 "id"      => "object_start",
                 "default" => true,
                 "sort"    => false
             ],
-            "object_end"           => [
+            "object_end"         => [
                 "id"      => "object_end",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_firstname"       => [
+            "user_firstname"     => [
                 "id"      => "user_firstname",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_lastname"        => [
+            "user_lastname"      => [
                 "id"      => "user_lastname",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_email"           => [
+            "user_email"         => [
                 "id"      => "user_email",
                 "default" => true,
                 "sort"    => false
             ],
-            "user_org_units"       => [
+            "user_org_units"     => [
                 "id"      => "user_org_units",
                 "default" => true,
                 "sort"    => false
@@ -84,6 +90,19 @@ class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractReq
     protected function getFilterEdited()/* : ?bool*/
     {
         return false;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getFilterEditedStatus()/* : ?array*/
+    {
+        $filter = $this->getFilterValues();
+
+        $edited_status = $filter["edited_status"];
+
+        return $edited_status;
     }
 
 
@@ -130,9 +149,9 @@ class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractReq
     /**
      * @inheritDoc
      */
-    protected function getFilterUserId()/* : ?int*/
+    protected function getFilterUserId()/* : ?array*/
     {
-        $users = [self::dic()->user()->getId()];
+        $users = [];
 
         if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
 
@@ -208,6 +227,12 @@ class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractReq
     protected function initFilterFields()/*: void*/
     {
         $this->filter_fields = [
+            "edited_status"  => [
+                PropertyFormGUI::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
+                PropertyFormGUI::PROPERTY_OPTIONS => array_map(function (string $edited_status_lang_key) : string {
+                    return $this->txt("edited_status_" . $edited_status_lang_key);
+                }, RequestGroup::EDITED_STATUS)
+            ],
             "object_title"   => [
                 PropertyFormGUI::PROPERTY_CLASS => ilTextInputGUI::class,
                 "setTitle"                      => self::plugin()->translate("object", RequestsGUI::LANG_MODULE)

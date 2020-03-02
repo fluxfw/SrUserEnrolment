@@ -106,6 +106,7 @@ final class Repository
     public function dropTables()/*:void*/
     {
         self::dic()->database()->dropTable(Request::TABLE_NAME, false);
+        self::dic()->database()->dropTable(RequestGroup::TABLE_NAME, false);
     }
 
 
@@ -138,6 +139,36 @@ final class Repository
 
 
     /**
+     * @param int $obj_ref_id
+     * @param int $user_id
+     * @param int $new_current_request_id
+     *
+     * @return RequestGroup
+     */
+    public function getRequestGroup(int $obj_ref_id, int $user_id, int $new_current_request_id) : RequestGroup
+    {
+        /**
+         * @var RequestGroup|null $request_group
+         */
+
+        $request_group = RequestGroup::where(["obj_id" => self::dic()->objDataCache()->lookupObjId($obj_ref_id), "user_id" => $user_id])->first();
+
+        if ($request_group === null) {
+            $request_group = $this->factory()->newGroupInstance();
+
+            $request_group->setUserId($user_id);
+            $request_group->setObjRefId($obj_ref_id);
+            $request_group->setObjId($request_group->getObject()->getId());
+            $request_group->setCurrentRequestId($new_current_request_id);
+
+            $this->storeRequestGroup($request_group);
+        }
+
+        return $request_group;
+    }
+
+
+    /**
      * @param int $request_id
      *
      * @return Request|null
@@ -162,6 +193,7 @@ final class Repository
      * @param string|null $object_title
      * @param int|null    $workflow_id
      * @param bool|null   $edited
+     * @param array|null  $edited_status
      * @param string|null $user_lastname
      * @param string|null $user_firstname
      * @param string|null $user_email
@@ -171,14 +203,21 @@ final class Repository
      */
     public function getRequests( /*?*/ int $obj_ref_id = null, /*?*/ int $step_id = null,/*?*/ array $user_id = null,/*?*/ array $responsible_user_ids = null, /*?*/
         string $object_title = null,/*?*/
-        int $workflow_id = null, /*?*/ bool $edited = null,/*?*/ string $user_lastname = null,/*?*/ string $user_firstname = null, /*?*/ string $user_email = null, /*?*/
+        int $workflow_id = null, /*?*/ bool $edited = null,/*?*/ array $edited_status = null,/*?*/ string $user_lastname = null,/*?*/ string $user_firstname = null, /*?*/ string $user_email = null,
+        /*?*/
         string $user_org_units = null
     ) : array {
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->isEnabled()) {
-            return []; // TODO:
-        }
+        $request_groups = $this->getRequestGroups($obj_ref_id, $user_id);
 
         $wheres = [];
+
+        if (!empty($request_groups)) {
+            $wheres["request_id"] = array_map(function (RequestGroup $request_group) : int {
+                return $request_group->getCurrentRequestId();
+            }, $request_groups);
+        } else {
+            return [];
+        }
 
         if (!empty($obj_ref_id)) {
             $wheres["obj_id"] = self::dic()->objDataCache()->lookupObjId($obj_ref_id);
@@ -190,10 +229,10 @@ final class Repository
 
         if (!empty($user_id)) {
             $wheres["user_id"] = $user_id;
-        }
-
-        if (!empty($responsible_user_ids)) {
-            $wheres["responsible_users"] = $responsible_user_ids;
+        } else {
+            if (is_array($user_id)) {
+                return [];
+            }
         }
 
         if ($edited !== null) {
@@ -201,6 +240,18 @@ final class Repository
         }
 
         $requests = Request::where($wheres)->get();
+
+        if (!empty($responsible_user_ids)) {
+            $requests = array_filter($requests, function (Request $request) use ($responsible_user_ids): bool {
+                foreach ($request->getResponsibleUsers() as $responsible_user_id) {
+                    if (in_array($responsible_user_id, $responsible_user_ids)) {
+                        return true;
+                    }
+                }
+
+                return false;
+            });
+        }
 
         if (!empty($object_title)) {
             $requests = array_filter($requests, function (Request $request) use ($object_title): bool {
@@ -238,7 +289,41 @@ final class Repository
             });
         }
 
+        if (!empty($edited_status)) {
+            $requests = array_filter($requests, function (Request $request) use ($edited_status): bool {
+                return in_array($request->getRequestGroup()->getEditedStatus(), $edited_status);
+            });
+        }
+
         return $requests;
+    }
+
+
+    /**
+     * @param int|null   $obj_ref_id
+     * @param array|null $user_id
+     *
+     * @return RequestGroup[]
+     */
+    protected function getRequestGroups( /*?*/ int $obj_ref_id = null,  /*?*/ array $user_id = null) : array
+    {
+        $wheres = [];
+
+        if (!empty($obj_ref_id)) {
+            $wheres["obj_id"] = self::dic()->objDataCache()->lookupObjId($obj_ref_id);
+        }
+
+        if (!empty($user_id)) {
+            $wheres["user_id"] = $user_id;
+        } else {
+            if (is_array($user_id)) {
+                return [];
+            }
+        }
+
+        $request_groups = RequestGroup::where($wheres)->get();
+
+        return $request_groups;
     }
 
 
@@ -257,24 +342,24 @@ final class Repository
 
                 $user_ids[] = $assistant->getUserId();
             }
+        }
 
-            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS)) {
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS)) {
 
-                $org_ids = ilOrgUnitUserAssignment::where([
-                    "position_id" => ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
-                    "user_id"     => $check_user_id
-                ])->getArray(null, "orgu_id");
+            $org_ids = ilOrgUnitUserAssignment::where([
+                "position_id" => ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
+                "user_id"     => $check_user_id
+            ])->getArray(null, "orgu_id");
 
-                if (!empty($org_ids)) {
+            if (!empty($org_ids)) {
 
-                    $user_ids = array_merge($user_ids, ilOrgUnitUserAssignment::where([
-                        "orgu_id"     => $org_ids,
-                        "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
-                    ], [
-                        "orgu_id"     => "IN",
-                        "position_id" => "="
-                    ]));
-                }
+                $user_ids = array_merge($user_ids, ilOrgUnitUserAssignment::where([
+                    "orgu_id"     => $org_ids,
+                    "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
+                ], [
+                    "orgu_id"     => "IN",
+                    "position_id" => "="
+                ]));
             }
         }
 
@@ -308,6 +393,7 @@ final class Repository
     public function installTables()/*:void*/
     {
         Request::updateDB();
+        RequestGroup::updateDB();
     }
 
 
@@ -364,11 +450,42 @@ final class Repository
     public function storeRequest(Request $request)/*: void*/
     {
         if (empty($request->getRequestId())) {
-            $request->setCreateTime(time());
-            $request->setCreateUserId(self::dic()->user()->getId());
+            $request->setCreatedTime(time());
+            $request->setCreatedUserId(self::dic()->user()->getId());
         }
 
         $request->store();
+
+        $request_group = $request->getRequestGroup();
+
+        if ($request_group->getEditedStatus() === RequestGroup::EDITED_STATUS_NOT_EDITED) {
+            if ($request_group->getCurrentRequest() !== null && $request_group->getCurrentRequest()->isEdited()) {
+                $request_group->setEditedStatus(RequestGroup::EDITED_STATUS_IN_EDITING);
+            }
+        }
+
+        $request_group->setCurrentRequestId($request->getRequestId());
+
+        $this->storeRequestGroup($request_group);
+    }
+
+
+    /**
+     * @param RequestGroup $request_group
+     */
+    public function storeRequestGroup(RequestGroup $request_group)/*: void*/
+    {
+        $time = time();
+
+        if (empty($request_group->getRequestGroupId())) {
+            $request_group->setCreatedTime($time);
+            $request_group->setCreatedUserId(self::dic()->user()->getId());
+        }
+
+        $request_group->setUpdatedTime($time);
+        $request_group->setUpdatedUserId(self::dic()->user()->getId());
+
+        $request_group->store();
     }
 
 

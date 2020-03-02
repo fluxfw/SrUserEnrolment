@@ -41,6 +41,7 @@ actions_type_enrolltocourse#:#Enroll to course
 actions_type_movetostep#:#Move to step
 actions_type_movetoworkflow#:#Move to workflow
 actions_type_sendnotification#:#Send notification
+actions_type_seteditedstatus#:#Set edited status
 actions_userstype#:#Users
 actions_userstype_global_roles#:#Global roles
 actions_userstype_position#:#Users with position within a organisation of the requesting user
@@ -49,7 +50,8 @@ assistants_actions#:#Actions
 assistants_active#:#Active
 assistants_assistants#:#Assistants
 assistants_assistant_of#:#Assistant of
-assistants_assistants_supervisors#:#Supervisors are allowed to do this also
+assistants_assistants_supervisors#:#Supervisors-Assistants
+assistants_assistants_supervisors_info#:#Supervisors can start requests in name of direct employees
 assistants_back#:#Back
 assistants_check_inactive_assistants#:#Check inactive assistants
 assistants_check_inactive_assistants_description#:#Removes disabled users as assistant and set assistants inactive if the until date is reached
@@ -174,6 +176,7 @@ members_member_type_admin#:#Administrator
 members_member_type_member#:#Member
 members_member_type_request#:#Request
 members_member_type_tutor#:#Tutor
+members_remove#:#Remove
 members_remove_member#:#Remove member
 members_remove_member_confirm#:#Are you really want to remove the member: %s ?
 members_removed_member#:#Member %s removed
@@ -188,13 +191,18 @@ members_user_lastname#:#Last name
 requests_actions#:#Actions
 requests_add_responsible_users#:#Add responsible users
 requests_added_responsible_users#:#Added responsible users
-requests_create_time#:#Request create time
-requests_create_time_workflow#:#Request create time 1. step
-requests_create_user#:#Create user
+requests_created_time#:#Request created time
+requests_created_time_group#:#Request created time 1. step
+requests_created_user#:#Created user
 requests_edited#:#Edited
 requests_edited_message#:#%s edited
-requests_edit_time#:#Edit time
-requests_edit_user#:#Edit user
+requests_edited_status#:#Edited status
+requests_edited_status_accepted#:#Accepted
+requests_edited_status_in_editing#:#In editing
+requests_edited_status_not_accepted#:#Not accepted
+requests_edited_status_not_edited#:#Not edited
+requests_edited_time#:#Edited time
+requests_edited_user#:#Edited user
 requests_my_requests#:#My requests
 requests_no#:#No
 requests_object#:#Object
