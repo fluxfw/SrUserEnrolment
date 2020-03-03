@@ -210,52 +210,32 @@ class RequestInfoGUI
      */
     protected function showWorkflow()/*: void*/
     {
-        $steps = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getSteps($this->request->getStep()->getWorkflowId());
-
         $workflow_list = '';
 
-        foreach ($steps as $step) {
-            $request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($this->request->getObjRefId(), $step->getStepId(), $this->request->getUserId());
+        foreach (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($this->request->getObjRefId(), null, [$this->request->getUserId()]) as $request) {
 
-            $icon = "";
-            $text = htmlspecialchars($step->getTitle());
+            $text = htmlspecialchars($request->getStep()->getTitle());
             $info = [];
 
-            if ($request !== null) {
-                if ($request->isEdited()) {
-                    $icon = "icon_ok.svg";
-
-                    $info = [
-                        $request->getFormattedEditedTime(),
-                        $request->getEditedUser()->getFullname()
-                    ];
-                } else {
-                    $icon = "icon_not_ok.svg";
-                }
-
-                if ($request->getRequestId() === $this->request->getRequestId()) {
-                    $text = '<b>' . $text . '</b>';
-                }
-
-                $text = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($text, $request->getRequestLink(!empty($this->obj_ref_id))));
-            } else {
-                if ($this->single) {
-                    continue;
-                }
+            if ($request->isEdited()) {
+                $info = [
+                    $request->getFormattedEditedTime(),
+                    $request->getEditedUser()->getFullname()
+                ];
             }
 
-            if ($icon) {
-                $icon = self::dic()->ui()->factory()->image()->standard(ilUtil::getImagePath($icon), "");
-            } else {
-                $icon = '<img style="width:25px;">';
+            if ($request->getRequestId() === $this->request->getRequestId()) {
+                $text = '<b>' . $text . '</b>';
             }
+
+            $text = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($text, $request->getRequestLink(!empty($this->obj_ref_id))));
 
             $info_tpl = new Template(__DIR__ . "/../../../vendor/srag/custominputguis/src/PropertyFormGUI/Items/templates/input_gui_input_info.html", true, true);
             $info_tpl->setVariable("INFO", nl2br(implode("\n", array_map(function (string $info) : string {
                 return htmlspecialchars($info);
             }, $info))));
 
-            $workflow_list .= '<div>' . self::output()->getHTML([$icon, $text, $info_tpl]) . '</div>';
+            $workflow_list .= '<div>' . self::output()->getHTML([$text, $info_tpl]) . '</div>';
         }
 
         if (!$this->single) {
@@ -275,6 +255,7 @@ class RequestInfoGUI
         self::dic()->ui()->mainTemplate()->setRightContent(self::output()->getHTML(self::srUserEnrolment()->commentsUI()->withCtrlClass(new RequestCommentsCtrl($this))));
 
         $required_data = $this->request->getFormattedRequiredData();
+
         self::output()->output([
             $workflow_list,
             "<br><br>",

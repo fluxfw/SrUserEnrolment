@@ -6,7 +6,6 @@ use ArrayObject;
 use ilDatePresentation;
 use ilObjUser;
 use ilSrUserEnrolmentPlugin;
-use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
@@ -74,15 +73,6 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
             case "created_user":
                 $column = htmlspecialchars($request->getCreatedUser()->getFullname());
-                break;
-
-            case "edited":
-                if ($request->isEdited()) {
-                    $column = ilUtil::getImagePath("icon_ok.svg");
-                } else {
-                    $column = ilUtil::getImagePath("icon_not_ok.svg");
-                }
-                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
                 break;
 
             case "edited_status":
