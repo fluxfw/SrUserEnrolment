@@ -102,7 +102,7 @@ class RequestsGUI
         $this->requests_type = intval(filter_input(INPUT_GET, self::GET_PARAM_REQUESTS_TYPE));
 
         if (!self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId()) || !isset(RequestsGUI::getRequestsTypes()[$this->requests_type])) {
-            die("");
+            die();
         }
 
         self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_REF_ID);

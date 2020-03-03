@@ -188,7 +188,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
             $request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestById($request_id);
 
-            self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_ALL);
+            self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_OWN);
             self::dic()->ctrl()->setParameterByClass(RequestInfoGUI::class, RequestInfoGUI::GET_PARAM_REQUEST_ID, $request_id);
 
             if ($request !== null && $request->getUserId() === intval(self::dic()->user()->getId())) {
