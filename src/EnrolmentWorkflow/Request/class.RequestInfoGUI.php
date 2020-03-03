@@ -123,7 +123,7 @@ class RequestInfoGUI
         $requests = self::srUserEnrolment()
             ->enrolmentWorkflow()
             ->requests()
-            ->getRequests(null, null, [self::dic()->user()->getId()], null, null, null, null, [RequestGroup::EDITED_STATUS_NOT_EDITED, RequestGroup::EDITED_STATUS_IN_EDITING]);
+            ->getRequests(null, null, [self::dic()->user()->getId()], true, null, null, null, null, [RequestGroup::EDITED_STATUS_NOT_EDITED, RequestGroup::EDITED_STATUS_IN_EDITING]);
 
         if (!empty($requests)) {
             $tpl = self::plugin()->template("EnrolmentWorkflow/pd_my_requests.html");
@@ -212,7 +212,7 @@ class RequestInfoGUI
     {
         $workflow_list = '';
 
-        foreach (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($this->request->getObjRefId(), null, [$this->request->getUserId()]) as $request) {
+        foreach (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($this->request->getObjRefId(), null, [$this->request->getUserId()], false) as $request) {
 
             $text = htmlspecialchars($request->getStep()->getTitle());
             $info = [];
@@ -245,7 +245,7 @@ class RequestInfoGUI
                 self::dic()->ctrl()->setParameterByClass(EditRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
                 $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionEditTitle(), self::dic()->ctrl()
-                    ->getLinkTargetByClass(EditRequestGUI::class, EditRequestGUI::CMD_EDIT_REQUEST));
+                    ->getLinkTargetByClass(EditRequestGUI::class, EditRequestGUI::CMD_CONFIRM_EDIT_REQUEST));
             }
 
             self::dic()->ui()->mainTemplate()->setHeaderActionMenu(self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel(self::plugin()

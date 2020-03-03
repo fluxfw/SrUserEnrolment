@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
+use ilConfirmationGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -26,6 +27,7 @@ class EditRequestGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const CMD_CONFIRM_EDIT_REQUEST = "confirmEditRequest";
     const CMD_EDIT_REQUEST = "editRequest";
     const CMD_BACK = "back";
     /**
@@ -79,6 +81,7 @@ class EditRequestGUI
                 $cmd = self::dic()->ctrl()->getCmd();
 
                 switch ($cmd) {
+                    case self::CMD_CONFIRM_EDIT_REQUEST:
                     case self::CMD_EDIT_REQUEST:
                     case self::CMD_BACK:
                         $this->{$cmd}();
@@ -97,7 +100,7 @@ class EditRequestGUI
      */
     protected function setTabs()/*: void*/
     {
-
+        self::dic()->toolbar()->items = [];
     }
 
 
@@ -109,6 +112,24 @@ class EditRequestGUI
         self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
 
         self::dic()->ctrl()->redirectByClass(RequestsGUI::class, RequestsGUI::CMD_LIST_REQUESTS);
+    }
+
+
+    /**
+     *
+     */
+    protected function confirmEditRequest()/*: void*/
+    {
+        $confirmation = new ilConfirmationGUI();
+
+        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+        $confirmation->setHeaderText(self::plugin()->translate("confirm_edit_request", RequestsGUI::LANG_MODULE, [$this->step->getActionEditTitle()]));
+
+        $confirmation->setConfirm($this->step->getActionEditTitle(), self::CMD_EDIT_REQUEST);
+        $confirmation->setCancel(self::plugin()->translate("cancel", RequestsGUI::LANG_MODULE), self::CMD_BACK);
+
+        self::output()->output($confirmation, true);
     }
 
 

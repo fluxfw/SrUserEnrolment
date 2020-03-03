@@ -191,6 +191,8 @@ members_user_lastname#:#Last name
 requests_actions#:#Actions
 requests_add_responsible_users#:#Add responsible users
 requests_added_responsible_users#:#Added responsible users
+requests_cancel#:#Cancel
+requests_confirm_edit_request#:#Are you really want to %s ?
 requests_created_time#:#Request created time
 requests_created_time_group#:#Request created time 1. step
 requests_created_user#:#Created user

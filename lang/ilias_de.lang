@@ -191,6 +191,8 @@ members_user_lastname#:#Nachname
 requests_actions#:#Aktionen
 requests_add_responsible_users#:#Verantwortliche Benutzer hinzufügen
 requests_added_responsible_users#:#Verantwortliche Benutzer hinzugefügt
+requests_cancel#:#Abbrechen
+requests_confirm_edit_request#:#Möchten Sie wirklich %s ?
 requests_created_time#:#Erstellt-Zeitpunkt
 requests_created_time_group#:#Erstellt-Zeitpunkt 1. Schritt
 requests_created_user#:#Erstellt-Benutzer

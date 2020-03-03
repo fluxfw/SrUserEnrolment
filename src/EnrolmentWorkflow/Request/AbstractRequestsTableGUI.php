@@ -187,7 +187,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
         $data = self::srUserEnrolment()->enrolmentWorkflow()
             ->requests()
-            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), $this->getFilterUserId(), $this->getFilterResponsibleUsers(),
+            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), $this->getFilterUserId(), true, $this->getFilterResponsibleUsers(),
                 $this->getFilterObjectTitle(),
                 $this->getFilterWorkflowId(), $this->getFilterEdited(), $this->getFilterEditedStatus(), $this->getFilterUserLastname(), $this->getFilterUserFirstname(), $this->getFilterUserEmail(),
                 $this->getFilterUserOrgUnits());
@@ -232,7 +232,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
             self::dic()->ctrl()->setParameterByClass(EditRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
             $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionEditTitle(), self::dic()->ctrl()
-                ->getLinkTargetByClass([RequestInfoGUI::class, EditRequestGUI::class], EditRequestGUI::CMD_EDIT_REQUEST));
+                ->getLinkTargetByClass([RequestInfoGUI::class, EditRequestGUI::class], EditRequestGUI::CMD_CONFIRM_EDIT_REQUEST));
         }
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
     }
