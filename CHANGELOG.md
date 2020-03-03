@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.10.0]
+- Some fixes and changes
+
 ## [3.9.0]
 - Some fixes and changes
 
