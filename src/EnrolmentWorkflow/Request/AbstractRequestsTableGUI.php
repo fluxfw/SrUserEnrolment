@@ -6,7 +6,6 @@ use ArrayObject;
 use ilDatePresentation;
 use ilObjUser;
 use ilSrUserEnrolmentPlugin;
-use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
@@ -76,22 +75,13 @@ abstract class AbstractRequestsTableGUI extends TableGUI
                 $column = htmlspecialchars($request->getCreatedUser()->getFullname());
                 break;
 
-            case "edited":
-                if ($request->isEdited()) {
-                    $column = ilUtil::getImagePath("icon_ok.svg");
-                } else {
-                    $column = ilUtil::getImagePath("icon_not_ok.svg");
-                }
-                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
-                break;
-
             case "edited_status":
                 $column = self::output()->getHTML([
                     self::dic()
                         ->ui()
                         ->factory()
                         ->image()
-                        ->standard(ilUtil::getImagePath(RequestGroup::EDITED_STATUS_ICON[$request->getRequestGroup()->getEditedStatus()]),
+                        ->standard(self::plugin()->directory() . "/templates/images/edited_status/" . RequestGroup::EDITED_STATUS[$request->getRequestGroup()->getEditedStatus()] . ".svg",
                             $this->txt("edited_status_" . RequestGroup::EDITED_STATUS[$request->getRequestGroup()->getEditedStatus()])),
                     htmlspecialchars($this->txt("edited_status_" . RequestGroup::EDITED_STATUS[$request->getRequestGroup()->getEditedStatus()]))
                 ]);
@@ -197,7 +187,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
         $data = self::srUserEnrolment()->enrolmentWorkflow()
             ->requests()
-            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), $this->getFilterUserId(), $this->getFilterResponsibleUsers(),
+            ->getRequests($this->getFilterObjRefId(), $this->getFilterStepId(), $this->getFilterUserId(), true, $this->getFilterResponsibleUsers(),
                 $this->getFilterObjectTitle(),
                 $this->getFilterWorkflowId(), $this->getFilterEdited(), $this->getFilterEditedStatus(), $this->getFilterUserLastname(), $this->getFilterUserFirstname(), $this->getFilterUserEmail(),
                 $this->getFilterUserOrgUnits());
@@ -242,7 +232,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
             self::dic()->ctrl()->setParameterByClass(EditRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
             $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionEditTitle(), self::dic()->ctrl()
-                ->getLinkTargetByClass([RequestInfoGUI::class, EditRequestGUI::class], EditRequestGUI::CMD_EDIT_REQUEST));
+                ->getLinkTargetByClass([RequestInfoGUI::class, EditRequestGUI::class], EditRequestGUI::CMD_CONFIRM_EDIT_REQUEST));
         }
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
     }

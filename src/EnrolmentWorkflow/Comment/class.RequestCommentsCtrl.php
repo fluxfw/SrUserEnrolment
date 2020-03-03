@@ -47,7 +47,7 @@ class RequestCommentsCtrl extends AbstractCtrl
      */
     public function getAsyncClass() : array
     {
-        self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_OBJ_ID, $this->parent->getRequest()->getRequestId());
+        self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_OBJ_ID, $this->parent->getRequest()->getRequestGroup()->getRequestGroupId());
 
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REPORT_USER_ID, $this->parent->getRequest()->getUserId());
 

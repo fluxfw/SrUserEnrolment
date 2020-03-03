@@ -191,6 +191,8 @@ members_user_lastname#:#Last name
 requests_actions#:#Actions
 requests_add_responsible_users#:#Add responsible users
 requests_added_responsible_users#:#Added responsible users
+requests_cancel#:#Cancel
+requests_confirm_edit_request#:#Are you really want to %s ?
 requests_created_time#:#Request created time
 requests_created_time_group#:#Request created time 1. step
 requests_created_user#:#Created user
@@ -199,8 +201,8 @@ requests_edited_message#:#%s edited
 requests_edited_status#:#Edited status
 requests_edited_status_accepted#:#Accepted
 requests_edited_status_in_editing#:#In editing
-requests_edited_status_not_accepted#:#Not accepted
 requests_edited_status_not_edited#:#Not edited
+requests_edited_status_rejected#:#Rejected
 requests_edited_time#:#Edited time
 requests_edited_user#:#Edited user
 requests_my_requests#:#My requests

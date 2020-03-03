@@ -189,6 +189,7 @@ final class Repository
      * @param int|null    $obj_ref_id
      * @param int|null    $step_id
      * @param array|null  $user_id
+     * @param bool        $only_current
      * @param array|null  $responsible_user_ids
      * @param string|null $object_title
      * @param int|null    $workflow_id
@@ -201,22 +202,25 @@ final class Repository
      *
      * @return Request[]
      */
-    public function getRequests( /*?*/ int $obj_ref_id = null, /*?*/ int $step_id = null,/*?*/ array $user_id = null,/*?*/ array $responsible_user_ids = null, /*?*/
+    public function getRequests(/*?*/ int $obj_ref_id = null, /*?*/ int $step_id = null,/*?*/ array $user_id = null,
+        bool $only_current = true, /*?*/ array $responsible_user_ids = null, /*?*/
         string $object_title = null,/*?*/
         int $workflow_id = null, /*?*/ bool $edited = null,/*?*/ array $edited_status = null,/*?*/ string $user_lastname = null,/*?*/ string $user_firstname = null, /*?*/ string $user_email = null,
         /*?*/
         string $user_org_units = null
     ) : array {
-        $request_groups = $this->getRequestGroups($obj_ref_id, $user_id);
-
         $wheres = [];
 
-        if (!empty($request_groups)) {
-            $wheres["request_id"] = array_map(function (RequestGroup $request_group) : int {
-                return $request_group->getCurrentRequestId();
-            }, $request_groups);
-        } else {
-            return [];
+        if ($only_current) {
+            $request_groups = $this->getRequestGroups($obj_ref_id, $user_id);
+
+            if (!empty($request_groups)) {
+                $wheres["request_id"] = array_map(function (RequestGroup $request_group) : int {
+                    return $request_group->getCurrentRequestId();
+                }, $request_groups);
+            } else {
+                return [];
+            }
         }
 
         if (!empty($obj_ref_id)) {

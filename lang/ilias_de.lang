@@ -191,6 +191,8 @@ members_user_lastname#:#Nachname
 requests_actions#:#Aktionen
 requests_add_responsible_users#:#Verantwortliche Benutzer hinzufügen
 requests_added_responsible_users#:#Verantwortliche Benutzer hinzugefügt
+requests_cancel#:#Abbrechen
+requests_confirm_edit_request#:#Möchten Sie wirklich %s ?
 requests_created_time#:#Erstellt-Zeitpunkt
 requests_created_time_group#:#Erstellt-Zeitpunkt 1. Schritt
 requests_created_user#:#Erstellt-Benutzer
@@ -199,8 +201,8 @@ requests_edited_message#:#%s bearbeitet
 requests_edited_status#:#Bearbeitungs-Status
 requests_edited_status_accepted#:#Akzeptiert
 requests_edited_status_in_editing#:#In Bearbeitung
-requests_edited_status_not_accepted#:#Nicht akzeptiert
 requests_edited_status_not_edited#:#Nicht bearbeitet
+requests_edited_status_rejected#:#Abgelehnt
 requests_edited_time#:#Bearbeitet-Zeitpunkt
 requests_edited_user#:#Bearbeitet-Benutzer
 requests_my_requests#:#Meine Anfragen
