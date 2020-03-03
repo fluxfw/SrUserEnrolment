@@ -30,20 +30,13 @@ class RequestGroup extends ActiveRecord
     const EDITED_STATUS_NOT_EDITED = 1;
     const EDITED_STATUS_IN_EDITING = 2;
     const EDITED_STATUS_ACCEPTED = 3;
-    const EDITED_STATUS_NOT_ACCEPTED = 4;
+    const EDITED_STATUS_REJECTED = 4;
     const EDITED_STATUS
         = [
-            self::EDITED_STATUS_NOT_EDITED   => "not_edited",
-            self::EDITED_STATUS_IN_EDITING   => "in_editing",
-            self::EDITED_STATUS_ACCEPTED     => "accepted",
-            self::EDITED_STATUS_NOT_ACCEPTED => "not_accepted"
-        ];
-    const EDITED_STATUS_ICON
-        = [
-            self::EDITED_STATUS_NOT_EDITED   => "scorm/not_attempted.svg",
-            self::EDITED_STATUS_IN_EDITING   => "scorm/incomplete.svg",
-            self::EDITED_STATUS_ACCEPTED     => "scorm/completed.svg",
-            self::EDITED_STATUS_NOT_ACCEPTED => "scorm/failed.svg"
+            self::EDITED_STATUS_NOT_EDITED => "not_edited",
+            self::EDITED_STATUS_IN_EDITING => "in_editing",
+            self::EDITED_STATUS_ACCEPTED   => "accepted",
+            self::EDITED_STATUS_REJECTED   => "rejected"
         ];
 
 

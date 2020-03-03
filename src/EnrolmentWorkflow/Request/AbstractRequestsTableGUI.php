@@ -91,7 +91,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
                         ->ui()
                         ->factory()
                         ->image()
-                        ->standard(ilUtil::getImagePath(RequestGroup::EDITED_STATUS_ICON[$request->getRequestGroup()->getEditedStatus()]),
+                        ->standard(self::plugin()->directory() . "/templates/images/edited_status/" . RequestGroup::EDITED_STATUS[$request->getRequestGroup()->getEditedStatus()] . ".svg",
                             $this->txt("edited_status_" . RequestGroup::EDITED_STATUS[$request->getRequestGroup()->getEditedStatus()])),
                     htmlspecialchars($this->txt("edited_status_" . RequestGroup::EDITED_STATUS[$request->getRequestGroup()->getEditedStatus()]))
                 ]);

@@ -199,8 +199,8 @@ requests_edited_message#:#%s edited
 requests_edited_status#:#Edited status
 requests_edited_status_accepted#:#Accepted
 requests_edited_status_in_editing#:#In editing
-requests_edited_status_not_accepted#:#Not accepted
 requests_edited_status_not_edited#:#Not edited
+requests_edited_status_rejected#:#Rejected
 requests_edited_time#:#Edited time
 requests_edited_user#:#Edited user
 requests_my_requests#:#My requests
