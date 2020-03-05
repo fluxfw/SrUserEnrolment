@@ -50,6 +50,5 @@ class ObjectChildrenAjaxAutoCompleteCtrl extends ObjectsAjaxAutoCompleteCtrl
         }
 
         return $org_units;
-        // TODO: fillOptions check parent_ref_id
     }
 }

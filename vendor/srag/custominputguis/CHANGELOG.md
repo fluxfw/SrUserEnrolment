@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.33.2]
+- Fix `MultiSelectSearchNewInputGUI` bottom in `MultiLineNewInputGUI`
+
+## [0.33.1]
+- Fix not merged `PieChart` in ILIAS 6
+
 ## [0.33.0]
 - `AjaxCheckbox`
 
