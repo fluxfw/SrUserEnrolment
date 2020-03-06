@@ -54,6 +54,10 @@ final class Repository implements RepositoryInterface
      * @var bool
      */
     protected $output_object_titles = false;
+    /**
+     * @var int
+     */
+    protected $share_method = Comment::SHARE_METHOD_DISABLED;
 
 
     /**
@@ -91,6 +95,10 @@ final class Repository implements RepositoryInterface
      */
     public function canBeShared(Comment $comment) : bool
     {
+        if ($this->share_method === Comment::SHARE_METHOD_DISABLED) {
+            return false;
+        }
+
         if (empty($comment->getId())) {
             return false;
         }
@@ -263,6 +271,15 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
+    public function getShareMethod() : int
+    {
+        return $this->share_method;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getTableNamePrefix() : string
     {
         if (empty($this->table_name_prefix)) {
@@ -331,6 +348,10 @@ final class Repository implements RepositoryInterface
         if (empty($comment->getId())) {
             $comment->setCreatedTimestamp($time);
             $comment->setCreatedUserId(self::dic()->user()->getId());
+
+            if ($this->share_method === Comment::SHARE_METHOD_AUTO) {
+                $comment->setIsShared(true);
+            }
         }
 
         $comment->setUpdatedTimestamp($time);
@@ -392,6 +413,17 @@ final class Repository implements RepositoryInterface
     public function withPlugin(PluginInterface $plugin) : RepositoryInterface
     {
         $this->plugin = $plugin;
+
+        return $this;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withShareMethod(int $share_method = Comment::SHARE_METHOD_DISABLED) : RepositoryInterface
+    {
+        $this->share_method = $share_method;
 
         return $this;
     }

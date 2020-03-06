@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment;
 
 use ilSrUserEnrolmentPlugin;
+use srag\CommentsUI\SrUserEnrolment\Comment\Comment;
 use srag\CommentsUI\SrUserEnrolment\Comment\RepositoryInterface as CommentsRepositoryInterface;
 use srag\CommentsUI\SrUserEnrolment\UI\UIInterface as CommentsUIRepositoryInterface;
 use srag\CommentsUI\SrUserEnrolment\Utils\CommentsUITrait;
@@ -71,7 +72,7 @@ final class Repository
      */
     private function __construct()
     {
-        $this->comments()->withTableNamePrefix(ilSrUserEnrolmentPlugin::PLUGIN_ID)->withPlugin(self::plugin());
+        $this->comments()->withTableNamePrefix(ilSrUserEnrolmentPlugin::PLUGIN_ID)->withPlugin(self::plugin())->withShareMethod(Comment::SHARE_METHOD_AUTO);
 
         $this->notifications4plugin()->withTableNamePrefix(ilSrUserEnrolmentPlugin::PLUGIN_ID)->withPlugin(self::plugin())->withPlaceholderTypes([
             "request" => "object " . Request::class
