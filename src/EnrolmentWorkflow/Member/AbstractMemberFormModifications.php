@@ -51,4 +51,12 @@ abstract class AbstractMemberFormModifications
      * @return bool
      */
     public abstract function storeValue(Member $member, string $key, $value) : bool;
+
+
+    /**
+     * @param MemberFormGUI $form
+     *
+     * @return bool
+     */
+    public abstract function validateAdditionals(MemberFormGUI $form) : bool;
 }

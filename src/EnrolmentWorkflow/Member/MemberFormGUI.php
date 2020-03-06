@@ -166,6 +166,16 @@ class MemberFormGUI extends PropertyFormGUI
      */
     public function storeForm() : bool
     {
+        if (!parent::storeFormCheck()) {
+            return false;
+        }
+
+        foreach ($this->modifications as $modification) {
+            if (!$modification->validateAdditionals($this)) {
+                return false;
+            }
+        }
+
         if (!parent::storeForm()) {
             return false;
         }
