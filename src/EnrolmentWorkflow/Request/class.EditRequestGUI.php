@@ -6,6 +6,7 @@ use ilConfirmationGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Comment\RequestCommentsCtrl;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FillCtrl;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Step;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI;
@@ -128,6 +129,8 @@ class EditRequestGUI
 
         $confirmation->setConfirm($this->step->getActionEditTitle(), self::CMD_EDIT_REQUEST);
         $confirmation->setCancel(self::plugin()->translate("cancel", RequestsGUI::LANG_MODULE), self::CMD_BACK);
+
+        self::dic()->ui()->mainTemplate()->setRightContent(self::output()->getHTML(self::srUserEnrolment()->commentsUI()->withCtrlClass(new RequestCommentsCtrl($this->parent))));
 
         self::output()->output($confirmation, true);
     }

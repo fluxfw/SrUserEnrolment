@@ -89,6 +89,12 @@ interface RepositoryInterface extends Pluginable
 
 
     /**
+     * @return int
+     */
+    public function getShareMethod() : int;
+
+
+    /**
      * @return string
      */
     public function getTableNamePrefix() : string;
@@ -133,6 +139,14 @@ interface RepositoryInterface extends Pluginable
      * @return self
      */
     public function withOutputObjectTitles(bool $output_object_titles = false) : self;
+
+
+    /**
+     * @param int $share_method
+     *
+     * @return self
+     */
+    public function withShareMethod(int $share_method = Comment::SHARE_METHOD_DISABLED) : self;
 
 
     /**

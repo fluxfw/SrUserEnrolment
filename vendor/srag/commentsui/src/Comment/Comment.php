@@ -15,6 +15,11 @@ use stdClass;
 interface Comment extends JsonSerializable
 {
 
+    const SHARE_METHOD_DISABLED = 1;
+    const SHARE_METHOD_ENABLED = 2;
+    const SHARE_METHOD_AUTO = 3;
+
+
     /**
      * @return int
      */
