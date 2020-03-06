@@ -8,6 +8,7 @@ use ilDate;
 use ilDatePresentation;
 use ilNonEditableValueGUI;
 use ilSrUserEnrolmentPlugin;
+use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -172,6 +173,8 @@ class MemberFormGUI extends PropertyFormGUI
 
         foreach ($this->modifications as $modification) {
             if (!$modification->validateAdditionals($this)) {
+                ilUtil::sendFailure(self::dic()->language()->txt("form_input_not_valid"));
+
                 return false;
             }
         }
