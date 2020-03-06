@@ -162,7 +162,7 @@ class RequestStepGUI
                 $actions_html = self::output()->getHTML(array_map(function (Component $action) : string {
                     return '<li>' . self::output()->getHTML($action) . '</li>';
                 }, array_reduce($actions, function (array $actions, array $actions2) : array {
-                    $actions = array_merge($actions, $actions2);
+                    $actions = array_merge($actions, [current($actions2)]);
 
                     return $actions;
                 }, [])));

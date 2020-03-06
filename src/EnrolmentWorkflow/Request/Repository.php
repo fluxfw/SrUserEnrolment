@@ -363,7 +363,7 @@ final class Repository
                 ], [
                     "orgu_id"     => "IN",
                     "position_id" => "="
-                ]));
+                ])->getArray(null, "user_id"));
             }
         }
 

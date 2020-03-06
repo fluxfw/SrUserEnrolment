@@ -3,10 +3,6 @@
 namespace srag\CustomInputGUIs\SrUserEnrolment;
 
 use ILIAS\Data\Color;
-use ILIAS\UI\Component\Chart\PieChart\PieChart as PieChartInterfaceCore;
-use ILIAS\UI\Component\Chart\PieChart\PieChartItem as PieChartItemInterfaceCore;
-use ILIAS\UI\Implementation\Component\Chart\PieChart\PieChart as PieChartCore;
-use ILIAS\UI\Implementation\Component\Chart\PieChart\PieChartItem as PieChartItemCore;
 use ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory as ProgressMeterFactoryCore;
 use srag\CustomInputGUIs\SrUserEnrolment\LearningProgressPieUI\LearningProgressPieUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PieChart\Component\PieChart as PieChartInterface;
@@ -16,6 +12,11 @@ use srag\CustomInputGUIs\SrUserEnrolment\PieChart\Implementation\PieChartItem;
 use srag\CustomInputGUIs\SrUserEnrolment\ProgressMeter\Implementation\Factory as ProgressMeterFactory;
 use srag\CustomInputGUIs\SrUserEnrolment\ViewControlModeUI\ViewControlModeUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
+
+//use ILIAS\UI\Component\Chart\PieChart\PieChart as PieChartInterfaceCore;
+//use ILIAS\UI\Component\Chart\PieChart\PieChartItem as PieChartItemInterfaceCore;
+//use ILIAS\UI\Implementation\Component\Chart\PieChart\PieChart as PieChartCore;
+//use ILIAS\UI\Implementation\Component\Chart\PieChart\PieChartItem as PieChartItemCore;
 
 /**
  * Class CustomInputGUIs
@@ -74,11 +75,11 @@ final class CustomInputGUIs
      */
     public function pieChart(array $pieChartItems)
     {
-        if (self::version()->is60()) {
+        /*if (self::version()->is60()) {
             return new PieChartCore($pieChartItems);
-        } else {
-            return new PieChart($pieChartItems);
-        }
+        } else {*/
+        return new PieChart($pieChartItems);
+        //}
     }
 
 
@@ -94,11 +95,11 @@ final class CustomInputGUIs
      */
     public function pieChartItem(string $name, float $value, Color $color, /*?*/ Color $textColor = null)
     {
-        if (self::version()->is60()) {
+        /*if (self::version()->is60()) {
             return new PieChartItemCore($name, $value, $color, $textColor);
-        } else {
-            return new PieChartItem($name, $value, $color, $textColor);
-        }
+        } else {*/
+        return new PieChartItem($name, $value, $color, $textColor);
+        //}
     }
 
 
