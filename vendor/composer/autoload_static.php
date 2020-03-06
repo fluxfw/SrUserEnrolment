@@ -16,7 +16,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
-            'srag\\CommentsUI\\' => 16,
+            'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -50,7 +50,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\' => 
+        'srag\\CommentsUI\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
@@ -464,8 +464,6 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\AllRequestsTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/AllRequestsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\EditRequestGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.EditRequestGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\Factory' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/Factory.php',
-        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\NotEditedRequestsInMyAssistantFunctionRequestsTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/NotEditedRequestsInMyAssistantFunctionRequestsTableGUI.php',
-        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\NotEditedRequestsInMyResponsibilityRequestsTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/NotEditedRequestsInMyResponsibilityRequestsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\OwnRequestsTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/OwnRequestsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\Repository' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\Request' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/Request.php',
@@ -475,6 +473,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\RequestStepForOthersTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/RequestStepForOthersTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\RequestStepGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.RequestStepGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\RequestsGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.RequestsGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\ToEditRequestsTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/ToEditRequestsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\UsersAssistantsAjaxAutoCompleteCtrl' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.UsersAssistantsAjaxAutoCompleteCtrl.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\UserSelectField' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/UserSelectField.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\UserSelectFieldFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/UserSelectFieldFormGUI.php',

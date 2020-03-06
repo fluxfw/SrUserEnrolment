@@ -214,9 +214,8 @@ requests_requested#:#%s requested
 requests_requests#:#Requests
 requests_responsible_users#:#Responsible users
 requests_type_all#:#All requests
-requests_type_not_edited_requests_in_my_assistant_function#:#Not edited requests in my assistant function
-requests_type_not_edited_requests_in_my_responsibility#:#Not edited requests in my responsibility
 requests_type_own#:#Own requests
+requests_type_to_edit#:#To edit requests
 requests_user_email#:#Email
 requests_user_firstname#:#First name
 requests_user_lastname#:#Last name

@@ -5,16 +5,16 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 use ilTextInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\Assistant;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\Deputy;
 
 /**
- * Class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI
+ * Class ToEditRequestsTableGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractRequestsTableGUI
+class ToEditRequestsTableGUI extends AbstractRequestsTableGUI
 {
 
     /**
@@ -133,7 +133,16 @@ class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractReq
      */
     protected function getFilterResponsibleUsers()/* : ?array*/
     {
-        return null;
+        $responsible_users = [self::dic()->user()->getId()];
+
+        if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId())) {
+
+            $responsible_users = array_merge($responsible_users, array_map(function (Deputy $deputy) : int {
+                return $deputy->getUserId();
+            }, self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getDeputiesOf(self::dic()->user()->getId())));
+        }
+
+        return $responsible_users;
     }
 
 
@@ -151,16 +160,7 @@ class NotEditedRequestsInMyAssistantFunctionRequestsTableGUI extends AbstractReq
      */
     protected function getFilterUserId()/* : ?array*/
     {
-        $users = [];
-
-        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
-
-            $users = array_merge($users, array_map(function (Assistant $assistant) : int {
-                return $assistant->getUserId();
-            }, self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf(self::dic()->user()->getId())));
-        }
-
-        return $users;
+        return null;
     }
 
 
