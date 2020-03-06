@@ -39,6 +39,10 @@ class RequestStepForOthersGUI
      * @var Step
      */
     protected $step;
+    /**
+     * @var int
+     */
+    protected $parent_ref_id;
 
 
     /**
@@ -57,6 +61,7 @@ class RequestStepForOthersGUI
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
         $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
+        $this->parent_ref_id = intval(filter_input(INPUT_GET, RequestStepGUI::GET_PARAM_PARENT_REF_ID));
 
         if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())) {
             die();
@@ -64,6 +69,7 @@ class RequestStepForOthersGUI
 
         self::dic()->ctrl()->saveParameter($this, RequestsGUI::GET_PARAM_REF_ID);
         self::dic()->ctrl()->saveParameter($this, StepGUI::GET_PARAM_STEP_ID);
+        self::dic()->ctrl()->saveParameter($this, RequestStepGUI::GET_PARAM_PARENT_REF_ID);
 
         $this->setTabs();
 
@@ -110,7 +116,11 @@ class RequestStepForOthersGUI
      */
     protected function back()/*: void*/
     {
-        self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->tree()->getParentId($this->obj_ref_id)));
+        if (!empty($this->parent_ref_id)) {
+            self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->parent_ref_id));
+        } else {
+            self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->tree()->getParentId($this->obj_ref_id)));
+        }
     }
 
 
@@ -168,6 +178,7 @@ class RequestStepForOthersGUI
 
         self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, RequestsGUI::GET_PARAM_REF_ID);
         self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID);
+        self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_PARENT_REF_ID);
 
         self::dic()->ctrl()->redirectByClass(RequestStepGUI::class, RequestStepGUI::CMD_REQUEST_STEP);
     }

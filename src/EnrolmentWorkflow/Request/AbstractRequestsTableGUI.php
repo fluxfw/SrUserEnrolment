@@ -97,7 +97,6 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
             case "object_title":
                 $column = htmlspecialchars($request->getObject()->getTitle());
-                $column = self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($column, $request->getRequestLink(!empty($this->parent_obj->getObjRefId()))));
                 break;
 
             case "object_start":
@@ -234,6 +233,18 @@ abstract class AbstractRequestsTableGUI extends TableGUI
             $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionEditTitle(), self::dic()->ctrl()
                 ->getLinkTargetByClass([RequestInfoGUI::class, EditRequestGUI::class], EditRequestGUI::CMD_CONFIRM_EDIT_REQUEST));
         }
+
+        if (!empty($actions)) {
+            $actions[] = self::dic()->ui()->factory()->divider()->horizontal();
+        }
+
+        $actions[] = self::dic()->ui()->factory()->link()->standard($request->getWorkflow()->getTitle(), $request->getRequestLink(!empty($this->parent_obj->getObjRefId())));
+
+        if (count($actions) > 1) {
+            $actions[] = self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass(RequestInfoGUI::class, RequestInfoGUI::CMD_ADD_RESPONSIBLE_USERS));
+        }
+
         $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
     }
 

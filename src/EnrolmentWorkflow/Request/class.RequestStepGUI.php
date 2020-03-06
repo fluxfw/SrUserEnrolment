@@ -35,6 +35,7 @@ class RequestStepGUI
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_REQUEST_STEP = "requestStep";
+    const GET_PARAM_PARENT_REF_ID = "parent_ref_id";
     const GET_PARAM_USER_ID = "user_id";
     const SESSION_USERS = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_users";
     /**
@@ -49,6 +50,10 @@ class RequestStepGUI
      * @var int[]
      */
     protected $user_ids;
+    /**
+     * @var int
+     */
+    protected $parent_ref_id;
 
 
     /**
@@ -67,6 +72,7 @@ class RequestStepGUI
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
         $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
+        $this->parent_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_PARENT_REF_ID));
 
         if (strtolower(self::dic()->http()->request()->getMethod()) === "post") {
             $this->user_ids = filter_input(INPUT_POST, self::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
@@ -80,6 +86,7 @@ class RequestStepGUI
 
         self::dic()->ctrl()->saveParameter($this, RequestsGUI::GET_PARAM_REF_ID);
         self::dic()->ctrl()->saveParameter($this, StepGUI::GET_PARAM_STEP_ID);
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_PARENT_REF_ID);
 
         $this->setTabs();
 
@@ -124,6 +131,9 @@ class RequestStepGUI
 
             self::dic()->ctrl()->setParameterByClass(self::class, RequestsGUI::GET_PARAM_REF_ID, $obj_ref_id);
             self::dic()->ctrl()->setParameterByClass(RequestStepForOthersGUI::class, RequestsGUI::GET_PARAM_REF_ID, $obj_ref_id);
+
+            self::dic()->ctrl()->saveParameterByClass(self::class, self::GET_PARAM_PARENT_REF_ID);
+            self::dic()->ctrl()->saveParameterByClass(RequestStepForOthersGUI::class, self::GET_PARAM_PARENT_REF_ID);
 
             $actions = [];
             foreach (
@@ -201,7 +211,11 @@ class RequestStepGUI
         ilSession::clear(self::SESSION_USERS);
         self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
 
-        self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->tree()->getParentId($this->obj_ref_id)));
+        if (!empty($this->parent_ref_id)) {
+            self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->parent_ref_id));
+        } else {
+            self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->tree()->getParentId($this->obj_ref_id)));
+        }
     }
 
 
