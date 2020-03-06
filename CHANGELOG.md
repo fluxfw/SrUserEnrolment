@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.9.5]
+- Some fixes and changes
+
 ## [3.9.4]
 - Some fixes and changes
 

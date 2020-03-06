@@ -39,15 +39,13 @@ class RequestsGUI
     const GET_PARAM_REQUESTS_TYPE = "requests_type";
     const LANG_MODULE = "requests";
     const REQUESTS_TYPE_OWN = 1;
-    const REQUESTS_TYPE_NOT_EDITED_IN_MY_ASSISTANT_FUNCTION = 2;
-    const REQUESTS_TYPE_NOT_EDITED_IN_MY_RESPONSIBILITY = 3;
-    const REQUESTS_TYPE_ALL = 4;
+    const REQUESTS_TYPE_TO_EDIT = 2;
+    const REQUESTS_TYPE_ALL = 3;
     const REQUESTS_TYPES
         = [
-            self::REQUESTS_TYPE_OWN                                 => "own",
-            self::REQUESTS_TYPE_NOT_EDITED_IN_MY_ASSISTANT_FUNCTION => "not_edited_requests_in_my_assistant_function",
-            self::REQUESTS_TYPE_NOT_EDITED_IN_MY_RESPONSIBILITY     => "not_edited_requests_in_my_responsibility",
-            self::REQUESTS_TYPE_ALL                                 => "all"
+            self::REQUESTS_TYPE_OWN     => "own",
+            self::REQUESTS_TYPE_TO_EDIT => "to_edit",
+            self::REQUESTS_TYPE_ALL     => "all"
         ];
     const TAB_REQUESTS = "requests_";
     /**
@@ -69,15 +67,6 @@ class RequestsGUI
 
         if (!self::srUserEnrolment()->enrolmentWorkflow()->requests()->userHasReadRole(self::dic()->user()->getId())) {
             unset($requests_types[self::REQUESTS_TYPE_ALL]);
-        }
-
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId())
-            || empty(self::srUserEnrolment()
-                ->enrolmentWorkflow()
-                ->assistants()
-                ->getAssistantsOf(self::dic()->user()->getId()))
-        ) {
-            unset($requests_types[self::REQUESTS_TYPE_NOT_EDITED_IN_MY_ASSISTANT_FUNCTION]);
         }
 
         return $requests_types;

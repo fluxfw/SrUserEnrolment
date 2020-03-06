@@ -34,9 +34,11 @@ class RequestInfoGUI
     use SrUserEnrolmentTrait;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_RESPONSIBLE_USERS = "addResponsibleUsers";
+    const CMD_CREATE_RESPONSIBLE_USERS = "createResponsibleUsers";
     const CMD_BACK = "back";
     const CMD_SHOW_WORKFLOW = "showWorkflow";
     const GET_PARAM_REQUEST_ID = "request_id";
+    const TAB_ADD_RESPONSIBLE_USERS = "add_responsible_users";
     const TAB_WORKFLOW = "workflow";
     /**
      * @var int|null
@@ -102,6 +104,7 @@ class RequestInfoGUI
 
                 switch ($cmd) {
                     case self::CMD_ADD_RESPONSIBLE_USERS:
+                    case self::CMD_CREATE_RESPONSIBLE_USERS:
                     case self::CMD_BACK:
                     case self::CMD_SHOW_WORKFLOW:
                         $this->{$cmd}();
@@ -178,16 +181,10 @@ class RequestInfoGUI
 
         if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId()))) {
 
-            self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
-
-            $users = new MultiSelectSearchNewInputGUI("", "responsible_" . RequestStepGUI::GET_PARAM_USER_ID);
-            $users->setAjaxAutoCompleteCtrl(new UsersAjaxAutoCompleteCtrl());
-            self::dic()->toolbar()->addInputItem($users);
-
-            $add_responsible_users_button = ilSubmitButton::getInstance();
-            $add_responsible_users_button->setCaption(self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE), false);
-            $add_responsible_users_button->setCommand(self::CMD_ADD_RESPONSIBLE_USERS);
-            self::dic()->toolbar()->addButtonInstance($add_responsible_users_button);
+            self::dic()
+                ->tabs()
+                ->addTab(self::TAB_ADD_RESPONSIBLE_USERS, self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE),
+                    self::dic()->ctrl()->getLinkTarget($this, self::CMD_ADD_RESPONSIBLE_USERS));
         }
     }
 
@@ -210,6 +207,8 @@ class RequestInfoGUI
      */
     protected function showWorkflow()/*: void*/
     {
+        self::dic()->tabs()->activateTab(self::TAB_WORKFLOW);
+
         $workflow_list = '';
 
         foreach (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($this->request->getObjRefId(), null, [$this->request->getUserId()], false) as $request) {
@@ -270,6 +269,32 @@ class RequestInfoGUI
      */
     protected function addResponsibleUsers()/*:void*/
     {
+        if (!(!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId())))) {
+            die();
+        }
+
+        self::dic()->tabs()->activateTab(self::TAB_ADD_RESPONSIBLE_USERS);
+
+        self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+        $users = new MultiSelectSearchNewInputGUI("", "responsible_" . RequestStepGUI::GET_PARAM_USER_ID);
+        $users->setAjaxAutoCompleteCtrl(new UsersAjaxAutoCompleteCtrl());
+        self::dic()->toolbar()->addInputItem($users);
+
+        $add_responsible_users_button = ilSubmitButton::getInstance();
+        $add_responsible_users_button->setCaption(self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE), false);
+        $add_responsible_users_button->setCommand(self::CMD_CREATE_RESPONSIBLE_USERS);
+        self::dic()->toolbar()->addButtonInstance($add_responsible_users_button);
+
+        self::output()->output("", true);
+    }
+
+
+    /**
+     *
+     */
+    protected function createResponsibleUsers()/*:void*/
+    {
         if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId()))) {
             $user_ids = filter_input(INPUT_POST, "responsible_" . RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
             if (!is_array($user_ids)) {
@@ -287,7 +312,7 @@ class RequestInfoGUI
 
         ilUtil::sendSuccess(self::plugin()->translate("added_responsible_users", RequestsGUI::LANG_MODULE), true);
 
-        self::dic()->ctrl()->redirect($this, self::CMD_SHOW_WORKFLOW);
+        self::dic()->ctrl()->redirect($this, self::CMD_ADD_RESPONSIBLE_USERS);
     }
 
 
