@@ -126,7 +126,7 @@ class AssignResponsibleUsers extends AbstractAction
             case "assign_positions":
             case "assign_positions_udf":
             case "specific_users":
-            case "global_role_users":
+            case "global_roles":
                 return json_encode($field_value);
 
             case "assign_positions_recursive":
@@ -147,7 +147,7 @@ class AssignResponsibleUsers extends AbstractAction
             case "assign_positions":
             case "assign_positions_udf":
             case "specific_users":
-            case "global_role_users":
+            case "global_roles":
                 return (json_decode($field_value, true) ?? []);
 
             case "assign_positions_recursive":
