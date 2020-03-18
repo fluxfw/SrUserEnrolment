@@ -130,7 +130,7 @@ class RuleEnrolmentJob extends ilCronJob
 
             foreach (self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers() as $object_user) {
                 try {
-                    if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($rule->getParentId(), $object_user->user_id)) {
+                    if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())) {
                         self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
                             ->ruleEnrolment()
                             ->logs()

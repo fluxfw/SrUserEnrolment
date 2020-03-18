@@ -3,9 +3,13 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule;
 
 use ilCheckboxInputGUI;
+use ilRadioGroupInputGUI;
+use ilRadioOption;
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -72,6 +76,19 @@ abstract class AbstractRuleFormGUI extends PropertyFormGUI
                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class
             ]
         ];
+
+        if ($this->rule->getParentContext() === AbstractRule::TYPE_COURSE_RULE) {
+            $this->fields["enroll_type"] = [
+                self::PROPERTY_CLASS    => ilRadioGroupInputGUI::class,
+                self::PROPERTY_SUBITEMS => array_map(function (string $type_lang_key) : array {
+                    return [
+                        self::PROPERTY_CLASS => ilRadioOption::class,
+                        "setTitle"           => self::plugin()->translate("member_type_" . $type_lang_key, MembersGUI::LANG_MODULE)
+                    ];
+                }, Member::TYPES_CORE),
+                "setTitle"              => self::plugin()->translate("enroll_users_as", MembersGUI::LANG_MODULE, [""])
+            ];
+        }
     }
 
 

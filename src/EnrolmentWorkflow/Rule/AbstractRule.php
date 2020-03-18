@@ -7,6 +7,7 @@ use arConnector;
 use ilSrUserEnrolmentPlugin;
 use LogicException;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -151,6 +152,15 @@ abstract class AbstractRule extends ActiveRecord
      * @con_is_notnull   true
      */
     protected $type;
+    /**
+     * @var int|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $enroll_type = null;
 
 
     /**
@@ -317,5 +327,27 @@ abstract class AbstractRule extends ActiveRecord
     public function setType(int $type) /*: void*/
     {
         $this->type = $type;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getEnrollType()/* : ?int*/
+    {
+        if (empty($this->enroll_type)) {
+            return ($this->getParentContext() === self::TYPE_COURSE_RULE ? Member::TYPE_MEMBER : null);
+        }
+
+        return intval($this->enroll_type);
+    }
+
+
+    /**
+     * @param int|null $enroll_type
+     */
+    public function setEnrollType(/*?*/ int $enroll_type = null) /*: void*/
+    {
+        $this->enroll_type = $enroll_type;
     }
 }

@@ -6,6 +6,8 @@ use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group\Group;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group\GroupRulesGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -58,6 +60,10 @@ class RulesTableGUI extends TableGUI
                 $column = $rule->getRuleDescription();
                 break;
 
+            case "enroll_type":
+                $column = self::plugin()->translate("member_type_" . Member::TYPES[$rule->getEnrollType()], MembersGUI::LANG_MODULE);
+                break;
+
             default:
                 $column = htmlspecialchars(Items::getter($rule, $column));
                 break;
@@ -73,23 +79,33 @@ class RulesTableGUI extends TableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "enabled"          => [
-                "id"      => "enabled",
-                "default" => true,
-                "sort"    => false
-            ],
-            "rule_type_title"  => [
-                "id"      => "rule_type_title",
-                "default" => true,
-                "sort"    => false,
-                "txt"     => $this->txt("rule_type")
-            ],
-            "rule_description" => [
-                "id"      => "rule_description",
-                "default" => true,
-                "sort"    => false
+                "enabled" => [
+                    "id"      => "enabled",
+                    "default" => true,
+                    "sort"    => false
+                ]
             ]
-        ];
+            + ($this->parent_obj->getParentContext() === AbstractRule::TYPE_COURSE_RULE ? [
+                "enroll_type" => [
+                    "id"      => "enroll_type",
+                    "default" => true,
+                    "sort"    => false,
+                    "txt"     => self::plugin()->translate("enroll_users_as", MembersGUI::LANG_MODULE, [""])
+                ]
+            ] : [])
+            + [
+                "rule_type_title"  => [
+                    "id"      => "rule_type_title",
+                    "default" => true,
+                    "sort"    => false,
+                    "txt"     => $this->txt("rule_type")
+                ],
+                "rule_description" => [
+                    "id"      => "rule_description",
+                    "default" => true,
+                    "sort"    => false
+                ]
+            ];
 
         return $columns;
     }
