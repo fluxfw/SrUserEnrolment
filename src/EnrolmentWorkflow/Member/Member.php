@@ -34,11 +34,14 @@ class Member extends ActiveRecord
     const TYPE_TUTOR = ilParticipant::MEMBERSHIP_TUTOR;
     const TYPE_ADMIN = ilParticipant::MEMBERSHIP_ADMIN;
     const TYPE_REQUEST = 4;
-    const TYPES
+    const TYPES_CORE
         = [
-            self::TYPE_MEMBER  => "member",
-            self::TYPE_TUTOR   => "tutor",
-            self::TYPE_ADMIN   => "admin",
+            self::TYPE_MEMBER => "member",
+            self::TYPE_TUTOR  => "tutor",
+            self::TYPE_ADMIN  => "admin"
+        ];
+    const TYPES
+        = self::TYPES_CORE + [
             self::TYPE_REQUEST => "request"
         ];
 

@@ -11,6 +11,7 @@ use ilOrgUnitPosition;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs\Repository as LogsRepository;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Repository as RulesRepository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -69,17 +70,33 @@ final class Repository
     /**
      * @param int $obj_id
      * @param int $user_id
+     * @param int $type
      *
      * @return bool
      */
-    public function enrollMemberToCourse(int $obj_id, int $user_id) : bool
+    public function enrollMemberToCourse(int $obj_id, int $user_id, int $type = Member::TYPE_MEMBER) : bool
     {
         $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
         if ($obj instanceof ilObjCourse) {
 
             if (!$obj->getMembersObject()->isAssigned($user_id)) {
-                $obj->getMembersObject()->add($user_id, IL_CRS_MEMBER);
+                switch ($type) {
+                    case Member::TYPE_TUTOR:
+                        $role = IL_CRS_TUTOR;
+                        break;
+
+                    case Member::TYPE_ADMIN:
+                        $role = IL_CRS_ADMIN;
+                        break;
+
+                    case Member::TYPE_MEMBER:
+                    default:
+                        $role = IL_CRS_MEMBER;
+                        break;
+                }
+
+                $obj->getMembersObject()->add($user_id, $role);
 
                 return true;
             }

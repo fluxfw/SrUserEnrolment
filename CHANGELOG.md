@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.10.0]
+- 'Enroll by rules' type
+
 ## [3.9.5]
 - Some fixes and changes
 
