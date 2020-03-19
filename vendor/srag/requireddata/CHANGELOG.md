@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.11.0]
+- Min. PHP 7.2
+- Multilingual
+
 ## [0.10.9]
 - Improve
 

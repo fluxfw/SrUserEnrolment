@@ -31,6 +31,15 @@ So you can force to use your libraries classes in the `vendor` folder of your pl
 It support the follow libraries:
 * [srag libraries](https://packagist.org/packages/srag)
 
+### PHP72Backport
+If your plugin needs a PHP 7.0 compatible of version of a library, you can also add additionally the follow composer script:
+```json
+ "pre-autoload-dump": [
+    ...,
+      "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport"
+    ]
+```
+
 ### php7backport
 If your plugin needs a PHP 5.6 compatible of version of a library, you can also add additionally the follow composer script:
 ```json
@@ -38,12 +47,6 @@ If your plugin needs a PHP 5.6 compatible of version of a library, you can also 
 ```
 
 It uses the https://github.com/ondrejbouda/php7backport.git repo, but provides it as a composer script and patches it, amongst other things, it fix interfaces
-
-### PHP72Backport
-If your plugin needs a PHP 7.0 compatible of version of a library, you can also add additionally the follow composer script:
-```json
- "post-update-cmd": "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport"
-```
 
 ### Requirements
 * PHP >=7.0

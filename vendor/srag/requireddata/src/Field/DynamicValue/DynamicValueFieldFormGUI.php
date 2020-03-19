@@ -34,7 +34,7 @@ abstract class DynamicValueFieldFormGUI extends AbstractFieldFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*:void*/
+    protected function initFields()/* : void*/
     {
         parent::initFields();
 

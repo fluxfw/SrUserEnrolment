@@ -73,7 +73,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\CommentsUI\\": "src/"
+                    "srag\\CommentsUI\\SrUserEnrolment\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -99,16 +99,16 @@
         },
         {
             "name": "srag/custominputguis",
-            "version": "v0.33.2",
+            "version": "v0.33.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-                "reference": "e486d8860c2ba3af55419d5921d1b846c2e26d97"
+                "reference": "27d39d0c098ece7852006f6e21dfb6dd5d5e8ca7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/e486d8860c2ba3af55419d5921d1b846c2e26d97",
-                "reference": "e486d8860c2ba3af55419d5921d1b846c2e26d97",
+                "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/27d39d0c098ece7852006f6e21dfb6dd5d5e8ca7",
+                "reference": "27d39d0c098ece7852006f6e21dfb6dd5d5e8ca7",
                 "shasum": ""
             },
             "require": {
@@ -142,7 +142,7 @@
                 "input",
                 "table"
             ],
-            "time": "2020-03-05T12:10:10+00:00"
+            "time": "2020-03-09T11:46:20+00:00"
         },
         {
             "name": "srag/dic",
@@ -191,20 +191,20 @@
         },
         {
             "name": "srag/librariesnamespacechanger",
-            "version": "v0.7.0",
+            "version": "v0.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/LibrariesNamespaceChanger.git",
-                "reference": "80afdd6f1d0690004e87edadcf120fb6d0740ebb"
+                "reference": "166c2800a764439335a1836d4d3353cc491066e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/80afdd6f1d0690004e87edadcf120fb6d0740ebb",
-                "reference": "80afdd6f1d0690004e87edadcf120fb6d0740ebb",
+                "url": "https://api.github.com/repos/studer-raimann/LibrariesNamespaceChanger/zipball/166c2800a764439335a1836d4d3353cc491066e6",
+                "reference": "166c2800a764439335a1836d4d3353cc491066e6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6"
+                "php": ">=7.0"
             },
             "type": "library",
             "autoload": {
@@ -230,24 +230,24 @@
                 "ILIAS",
                 "libraries"
             ],
-            "time": "2019-12-11T08:38:08+00:00"
+            "time": "2020-03-19T12:42:59+00:00"
         },
         {
             "name": "srag/notifications4plugin",
-            "version": "v5.2.1",
+            "version": "v5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/Notifications4Plugin.git",
-                "reference": "4a4c5f8c2a33f0585d9db0d4093e258775dd5198"
+                "reference": "db9950782a513fd72c2b95a79a6865850065b249"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/Notifications4Plugin/zipball/4a4c5f8c2a33f0585d9db0d4093e258775dd5198",
-                "reference": "4a4c5f8c2a33f0585d9db0d4093e258775dd5198",
+                "url": "https://api.github.com/repos/studer-raimann/Notifications4Plugin/zipball/db9950782a513fd72c2b95a79a6865850065b249",
+                "reference": "db9950782a513fd72c2b95a79a6865850065b249",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0",
+                "php": ">=7.2",
                 "srag/custominputguis": ">=0.1.0",
                 "srag/dic": ">=0.1.0",
                 "twig/twig": "1.18.0"
@@ -276,7 +276,7 @@
                 "ILIAS",
                 "notifications"
             ],
-            "time": "2020-03-04T09:07:15+00:00"
+            "time": "2020-03-19T12:52:12+00:00"
         },
         {
             "name": "srag/removeplugindataconfirm",
@@ -327,27 +327,27 @@
         },
         {
             "name": "srag/requireddata",
-            "version": "v0.10.9",
+            "version": "v0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/studer-raimann/RequiredData.git",
-                "reference": "7a0f3588e6d2213cc19f5f4f3d209c49ee0b0dab"
+                "reference": "2e79097cd41a31ebc9473d28d32d7071f909fcc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/7a0f3588e6d2213cc19f5f4f3d209c49ee0b0dab",
-                "reference": "7a0f3588e6d2213cc19f5f4f3d209c49ee0b0dab",
+                "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/2e79097cd41a31ebc9473d28d32d7071f909fcc4",
+                "reference": "2e79097cd41a31ebc9473d28d32d7071f909fcc4",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0",
+                "php": ">=7.2",
                 "srag/custominputguis": ">=0.1.0",
                 "srag/dic": ">=0.1.0"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "srag\\RequiredData\\SrUserEnrolment\\": "src/"
+                    "srag\\RequiredData\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -369,7 +369,7 @@
                 "field",
                 "required"
             ],
-            "time": "2020-02-20T13:37:15+00:00"
+            "time": "2020-03-19T13:06:44+00:00"
         },
         {
             "name": "twig/twig",

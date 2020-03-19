@@ -4,6 +4,7 @@ namespace srag\RequiredData\SrUserEnrolment\Field\MultilineText;
 
 use ilTextAreaInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\TextAreaInputGUI\TextAreaInputGUI;
 use srag\RequiredData\SrUserEnrolment\Field\Text\TextFillField;
 
 /**
@@ -37,7 +38,7 @@ class MultilineTextFillField extends TextFillField
     public function getFormFields() : array
     {
         return [
-            PropertyFormGUI::PROPERTY_CLASS => ilTextAreaInputGUI::class
+            PropertyFormGUI::PROPERTY_CLASS => TextAreaInputGUI::class
         ];
     }
 

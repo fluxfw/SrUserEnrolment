@@ -1,5 +1,8 @@
 # Changelog
 
+## [5.3.0]
+- Min. PHP 7.2
+
 ## [5.2.1]
 - Fix multiple notification tabs
 
