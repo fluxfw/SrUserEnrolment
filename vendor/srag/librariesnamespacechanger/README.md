@@ -32,15 +32,21 @@ It support the follow libraries:
 * [srag libraries](https://packagist.org/packages/srag)
 
 ### php7backport
-If your plugin needs a PHP 5.6 compatible of version of the library, you can also add additionally the follow composer script:
+If your plugin needs a PHP 5.6 compatible of version of a library, you can also add additionally the follow composer script:
 ```json
  "post-update-cmd": "srag\\LibrariesNamespaceChanger\\PHP7Backport::PHP7Backport"
 ```
 
 It uses the https://github.com/ondrejbouda/php7backport.git repo, but provides it as a composer script and patches it, amongst other things, it fix interfaces
 
+### PHP72Backport
+If your plugin needs a PHP 7.0 compatible of version of a library, you can also add additionally the follow composer script:
+```json
+ "post-update-cmd": "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport"
+```
+
 ### Requirements
-* PHP >=5.6
+* PHP >=7.0
 
 ### Adjustment suggestions
 * External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LNAMESPACECHANGER

@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.33.3]
+- `OrgUnitAjaxAutoCompleteCtrl`
+
 ## [0.33.2]
 - Fix `MultiSelectSearchNewInputGUI` bottom in `MultiLineNewInputGUI`
 

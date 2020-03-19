@@ -112,7 +112,7 @@ class FillFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    public function storeForm()/*: void*/
+    public function storeForm()/*: bool*/
     {
         if (!parent::storeForm()) {
             return false;
