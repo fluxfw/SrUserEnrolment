@@ -168,7 +168,7 @@ class RulesTableGUI extends TableGUI
      */
     protected function initId()/*: void*/
     {
-        $this->setId("srusrenr_rules");
+        $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rules");
     }
 
 

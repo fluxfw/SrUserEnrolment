@@ -161,7 +161,7 @@ class ActionsTableGUI extends TableGUI
      */
     protected function initId()/*: void*/
     {
-        $this->setId("srusrenr_actions");
+        $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_actions");
     }
 
 

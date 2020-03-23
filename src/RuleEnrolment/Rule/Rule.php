@@ -27,7 +27,7 @@ class Rule extends ActiveRecord
      *
      * @deprecated
      */
-    const TABLE_NAME = "srusrenr_rule";
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rule";
     /**
      * @var string
      *

@@ -21,7 +21,7 @@ class Log extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
-    const TABLE_NAME = "srusrenr_log";
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_log";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const STATUS_ENROLLED = 100;
     const STATUS_ENROLL_FAILED = 200;
