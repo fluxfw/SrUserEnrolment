@@ -358,6 +358,23 @@ class Member extends ActiveRecord
 
 
     /**
+     * @param int $lp_status
+     */
+    public function setLpStatus(int $lp_status)/*:void*/
+    {
+        if ($this->getType() === self::TYPE_REQUEST) {
+            return;
+        }
+
+        if (!($this->getObject() instanceof ilObjCourse)) {
+            return;
+        }
+
+        // TODO
+    }
+
+
+    /**
      * @return int
      */
     public function getMemberId() : int
