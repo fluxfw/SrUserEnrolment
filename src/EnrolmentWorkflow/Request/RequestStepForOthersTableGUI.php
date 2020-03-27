@@ -217,7 +217,7 @@ class RequestStepForOthersTableGUI extends TableGUI
      */
     protected function initId()/*: void*/
     {
-        $this->setId("srusrenr_request_for_others");
+        $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_request_for_others");
     }
 
 

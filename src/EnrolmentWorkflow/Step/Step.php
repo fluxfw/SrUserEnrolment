@@ -21,7 +21,7 @@ class Step extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
-    const TABLE_NAME = "srusrenr_stp";
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_stp";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const REQUIRED_DATA_PARENT_CONTEXT_STEP = 1;
 

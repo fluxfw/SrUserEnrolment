@@ -204,7 +204,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
      */
     protected function initId()/*: void*/
     {
-        $this->setId("srusrenr_requests_" . $this->parent_obj->getRequestsType());
+        $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_requests_" . $this->parent_obj->getRequestsType());
     }
 
 
