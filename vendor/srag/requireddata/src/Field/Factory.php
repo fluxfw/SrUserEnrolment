@@ -14,6 +14,7 @@ use srag\RequiredData\SrUserEnrolment\Field\MultiSelect\MultiSelectField;
 use srag\RequiredData\SrUserEnrolment\Field\Radio\RadioField;
 use srag\RequiredData\SrUserEnrolment\Field\SearchSelect\SearchSelectField;
 use srag\RequiredData\SrUserEnrolment\Field\Select\SelectField;
+use srag\RequiredData\SrUserEnrolment\Field\Table\TableBuilder;
 use srag\RequiredData\SrUserEnrolment\Field\Text\TextField;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
 
@@ -141,13 +142,12 @@ final class Factory
 
     /**
      * @param FieldsCtrl $parent
-     * @param string     $cmd
      *
-     * @return FieldsTableGUI
+     * @return TableBuilder
      */
-    public function newTableInstance(FieldsCtrl $parent, string $cmd = FieldsCtrl::CMD_LIST_FIELDS) : FieldsTableGUI
+    public function newTableBuilderInstance(FieldsCtrl $parent) : TableBuilder
     {
-        $table = new FieldsTableGUI($parent, $cmd);
+        $table = new TableBuilder($parent);
 
         return $table;
     }
