@@ -90,7 +90,7 @@ class RequestsGUI
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
         $this->requests_type = intval(filter_input(INPUT_GET, self::GET_PARAM_REQUESTS_TYPE));
 
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId()) || !isset(RequestsGUI::getRequestsTypes()[$this->requests_type])) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id) || !isset(RequestsGUI::getRequestsTypes()[$this->requests_type])) {
             die();
         }
 
@@ -138,7 +138,7 @@ class RequestsGUI
      */
     public static function addTabs(int $obj_ref_id)/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId())) {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REQUESTS_TYPE, self::REQUESTS_TYPE_OWN);

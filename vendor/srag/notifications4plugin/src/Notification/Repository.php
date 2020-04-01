@@ -5,6 +5,8 @@ namespace srag\Notifications4Plugin\SrUserEnrolment\Notification;
 use ilDateTime;
 use ilDBConstants;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\MultilangualTabsInputGUI;
+use srag\DataTableUI\SrUserEnrolment\Component\Settings\Settings;
+use srag\DataTableUI\SrUserEnrolment\Component\Settings\Sort\SortField;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Notifications4Plugin\SrUserEnrolment\Notification\Language\NotificationLanguage;
 use srag\Notifications4Plugin\SrUserEnrolment\Parser\twigParser;
@@ -55,7 +57,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function deleteNotification(NotificationInterface $notification)/*: void*/
+    public function deleteNotification(NotificationInterface $notification)/* : void*/
     {
         self::dic()->database()->manipulateF('DELETE FROM ' . self::dic()->database()->quoteIdentifier(Notification::getTableName())
             . ' WHERE id=%s', [ilDBConstants::T_INTEGER], [$notification->getId()]);
@@ -65,7 +67,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function dropTables()/*: void*/
+    public function dropTables()/* : void*/
     {
         self::dic()->database()->dropTable(Notification::getTableName(), false);
 
@@ -78,7 +80,7 @@ final class Repository implements RepositoryInterface
     /**
      * @deprecated
      */
-    protected function dropTablesLanguage()/*: void*/
+    protected function dropTablesLanguage()/* : void*/
     {
         if (self::dic()->database()->sequenceExists(NotificationLanguage::getTableName() . "g")) {
             self::dic()->database()->dropSequence(NotificationLanguage::getTableName() . "g");
@@ -127,7 +129,7 @@ final class Repository implements RepositoryInterface
      *
      * @deprecated
      */
-    protected function getLanguageForNotification(int $notification_id, string $language) /* : ?stdClass*/
+    protected function getLanguageForNotification(int $notification_id, string $language)/* : ?stdClass*/
     {
         /**
          * @var stdClass|null $l
@@ -145,7 +147,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getNotificationById(int $id)/*: ?NotificationInterface*/
+    public function getNotificationById(int $id)/* : ?NotificationInterface*/
     {
         /**
          * @var NotificationInterface|null $notification
@@ -163,7 +165,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getNotificationByName(string $name)/*: ?NotificationInterface*/
+    public function getNotificationByName(string $name)/* : ?NotificationInterface*/
     {
         /**
          * @var NotificationInterface|null $notification
@@ -179,12 +181,12 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getNotifications(string $sort_by = null, string $sort_by_direction = null, int $limit_start = null, int $limit_end = null) : array
+    public function getNotifications(/*?Settings*/ $settings = null) : array
     {
 
         $sql = 'SELECT *';
 
-        $sql .= $this->getNotificationsQuery($sort_by, $sort_by_direction, $limit_start, $limit_end);
+        $sql .= $this->getNotificationsQuery($settings);
 
         /**
          * @var NotificationInterface[] $notifications
@@ -203,7 +205,7 @@ final class Repository implements RepositoryInterface
 
         $sql = 'SELECT COUNT(id) AS count';
 
-        $sql .= $this->getNotificationsQuery(null, null, null, null);
+        $sql .= $this->getNotificationsQuery();
 
         $result = self::dic()->database()->query($sql);
 
@@ -216,25 +218,26 @@ final class Repository implements RepositoryInterface
 
 
     /**
-     * @param string|null $sort_by
-     * @param string|null $sort_by_direction
-     * @param int|null    $limit_start
-     * @param int|null    $limit_end
+     * @param Settings|null $settings
      *
      * @return string
      */
-    private function getNotificationsQuery(string $sort_by = null, string $sort_by_direction = null, int $limit_start = null, int $limit_end = null) : string
+    private function getNotificationsQuery(/*?Settings*/ $settings = null) : string
     {
 
         $sql = ' FROM ' . self::dic()->database()->quoteIdentifier(Notification::getTableName());
 
-        if ($sort_by !== null && $sort_by_direction !== null) {
-            $sql .= ' ORDER BY ' . self::dic()->database()->quoteIdentifier($sort_by) . ' ' . $sort_by_direction;
-        }
+        if ($settings !== null) {
+            if (!empty($settings->getSortFields())) {
+                $sql .= ' ORDER BY ' . implode(", ",
+                        array_map(function (SortField $sort_field) : string {
+                            return self::dic()->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
+                                === SortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
+                        }, $settings->getSortFields()));
+            }
 
-        if ($limit_start !== null && $limit_end !== null) {
-            $sql .= ' LIMIT ' . self::dic()->database()->quote($limit_start, ilDBConstants::T_INTEGER) . ',' . self::dic()->database()
-                    ->quote($limit_end, ilDBConstants::T_INTEGER);
+            $sql .= ' LIMIT ' . self::dic()->database()->quote($settings->getOffset(), ilDBConstants::T_INTEGER) . ',' . self::dic()->database()
+                    ->quote($settings->getRowsCount(), ilDBConstants::T_INTEGER);
         }
 
         return $sql;
@@ -244,7 +247,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installTables()/*:void*/
+    public function installTables()/* : void*/
     {
         try {
             Notification::updateDB();
@@ -271,7 +274,7 @@ final class Repository implements RepositoryInterface
      *
      * @deprecated
      */
-    public function migrateFromOldGlobalPlugin(string $name = null)/*: ?NotificationInterface*/
+    public function migrateFromOldGlobalPlugin(string $name = null)/* : ?NotificationInterface*/
     {
         $global_plugin_notification_table_name = "sr_notification";
         $global_plugin_notification_language_table_name = "sr_notification_lang";
@@ -332,7 +335,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    protected function migrateLanguages()/*:void*/
+    protected function migrateLanguages()/* : void*/
     {
         if (self::dic()->database()->tableExists(NotificationLanguage::getTableName() . "g")) {
             self::dic()->database()->renameTable(NotificationLanguage::getTableName() . "g", NotificationLanguage::getTableName());
@@ -368,7 +371,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function storeNotification(NotificationInterface $notification)/*: void*/
+    public function storeNotification(NotificationInterface $notification)/* : void*/
     {
         $date = new ilDateTime(time(), IL_CAL_UNIX);
 

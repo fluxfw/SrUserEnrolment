@@ -4,6 +4,7 @@ namespace srag\Notifications4Plugin\SrUserEnrolment\Notification;
 
 use ilDateTime;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Notifications4Plugin\SrUserEnrolment\Notification\Table\TableBuilder;
 use srag\Notifications4Plugin\SrUserEnrolment\Utils\Notifications4PluginTrait;
 use stdClass;
 
@@ -87,9 +88,9 @@ final class Factory implements FactoryInterface
     /**
      * @inheritDoc
      */
-    public function newTableInstance(NotificationsCtrl $parent, string $cmd = NotificationsCtrl::CMD_LIST_NOTIFICATIONS) : NotificationsTableGUI
+    public function newTableBuilderInstance(NotificationsCtrl $parent) : TableBuilder
     {
-        $table = new NotificationsTableGUI($parent, $cmd);
+        $table = new TableBuilder($parent);
 
         return $table;
     }

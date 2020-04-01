@@ -178,7 +178,7 @@ class LogsTableGUI extends TableGUI
      */
     protected function initId()/*: void*/
     {
-        $this->setId("srusrenr_logs");
+        $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_logs");
     }
 
 

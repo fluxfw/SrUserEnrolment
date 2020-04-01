@@ -3,6 +3,7 @@
 namespace srag\Notifications4Plugin\SrUserEnrolment;
 
 use LogicException;
+use srag\DataTableUI\SrUserEnrolment\Implementation\Utils\DataTableUITrait;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
 use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
@@ -12,6 +13,7 @@ use srag\Notifications4Plugin\SrUserEnrolment\Parser\Repository as ParserReposit
 use srag\Notifications4Plugin\SrUserEnrolment\Parser\RepositoryInterface as ParserRepositoryInterface;
 use srag\Notifications4Plugin\SrUserEnrolment\Sender\Repository as SenderRepository;
 use srag\Notifications4Plugin\SrUserEnrolment\Sender\RepositoryInterface as SenderRepositoryInterface;
+use srag\Notifications4Plugin\SrUserEnrolment\Utils\Notifications4PluginTrait;
 
 /**
  * Class Repository
@@ -24,6 +26,8 @@ final class Repository implements RepositoryInterface
 {
 
     use DICTrait;
+    use Notifications4PluginTrait;
+    use DataTableUITrait;
     /**
      * @var RepositoryInterface|null
      */
@@ -69,7 +73,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function dropTables()/*: void*/
+    public function dropTables()/* : void*/
     {
         $this->notifications()->dropTables();
         $this->parser()->dropTables();
@@ -119,17 +123,19 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installLanguages()/*:void*/
+    public function installLanguages()/* : void*/
     {
         LibraryLanguageInstaller::getInstance()->withPlugin($this->getPlugin())->withLibraryLanguageDirectory(__DIR__
             . "/../lang")->updateLanguages();
+
+        self::dataTableUI()->installLanguages($this->plugin);
     }
 
 
     /**
      * @inheritDoc
      */
-    public function installTables()/*:void*/
+    public function installTables()/* : void*/
     {
         $this->notifications()->installTables();
         $this->parser()->installTables();

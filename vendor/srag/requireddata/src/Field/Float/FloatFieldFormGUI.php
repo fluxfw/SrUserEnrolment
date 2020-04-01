@@ -50,7 +50,7 @@ class FloatFieldFormGUI extends IntegerFieldFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*:void*/
+    protected function initFields()/* : void*/
     {
         parent::initFields();
 
@@ -74,7 +74,7 @@ class FloatFieldFormGUI extends IntegerFieldFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(/*string*/ $key, $value)/*: void*/
+    protected function storeValue(/*string*/ $key, $value)/* : void*/
     {
         switch ($key) {
             case "count_decimals_checkbox":

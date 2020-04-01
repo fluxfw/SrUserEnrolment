@@ -17,6 +17,9 @@ Tip: Because of multiple autoloaders of plugins, it could be, that different ver
 
 So I recommand to use [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger) in your plugin.
 
+#### PHP 7.0
+You can use this library with PHP 7.0 by using the `PHP72Backport` from [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger)
+
 #### Trait usage
 Your class in this you want to use CommentsUI needs to use the trait `CommentsUITrait`
 ```php
@@ -95,7 +98,7 @@ self::output()->getHTML(self::commentsUI()->withCtrlClass(new XCtrl()));
 
 ### Requirements
 * ILIAS 5.3 or ILIAS 5.4
-* PHP >=7.0
+* PHP >=7.2
 
 ### Adjustment suggestions
 * External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI

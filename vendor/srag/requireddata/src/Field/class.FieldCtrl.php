@@ -59,15 +59,17 @@ class FieldCtrl
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand()/* : void*/
     {
         $this->field = self::requiredData()
             ->fields()
             ->getFieldById($this->parent->getParentContext(), $this->parent->getParentId(), strval(filter_input(INPUT_GET, self::GET_PARAM_FIELD_TYPE)),
                 intval(filter_input(INPUT_GET, self::GET_PARAM_FIELD_ID)));
 
-        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_FIELD_TYPE);
-        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_FIELD_ID);
+        if ($this->field !== null) {
+            self::dic()->ctrl()->setParameter($this, self::GET_PARAM_FIELD_TYPE, $this->field->getType());
+            self::dic()->ctrl()->setParameter($this, self::GET_PARAM_FIELD_ID, $this->field->getFieldId());
+        }
 
         $this->setTabs();
 
@@ -105,7 +107,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs()/* : void*/
     {
         self::dic()->tabs()->clearTargets();
 
@@ -134,7 +136,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back()/* : void*/
     {
         self::dic()->ctrl()->redirect($this->parent, FieldsCtrl::CMD_LIST_FIELDS);
     }
@@ -165,7 +167,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function addField()/*: void*/
+    protected function addField()/* : void*/
     {
         $form = self::requiredData()->fields()->factory()->newCreateFormInstance($this);
 
@@ -176,7 +178,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function createField()/*: void*/
+    protected function createField()/* : void*/
     {
         $form = self::requiredData()->fields()->factory()->newCreateFormInstance($this);
 
@@ -200,7 +202,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function editField()/*: void*/
+    protected function editField()/* : void*/
     {
         $form = self::requiredData()->fields()->factory()->newFormInstance($this, $this->field);
 
@@ -211,7 +213,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function updateField()/*: void*/
+    protected function updateField()/* : void*/
     {
         $form = self::requiredData()->fields()->factory()->newFormInstance($this, $this->field);
 
@@ -230,7 +232,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function removeFieldConfirm()/*: void*/
+    protected function removeFieldConfirm()/* : void*/
     {
         $confirmation = new ilConfirmationGUI();
 
@@ -251,7 +253,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function removeField()/*: void*/
+    protected function removeField()/* : void*/
     {
         self::requiredData()->fields()->deleteField($this->field);
 

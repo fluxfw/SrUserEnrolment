@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.12.3]
+- Fix
+
+## [0.12.2]
+- Fix
+
+## [0.12.1]
+- Fix
+
+## [0.12.0]
+- Use `srag/datatable`
+
+## [0.11.0]
+- Min. PHP 7.2
+- Multilingual
+
 ## [0.10.9]
 - Improve
 

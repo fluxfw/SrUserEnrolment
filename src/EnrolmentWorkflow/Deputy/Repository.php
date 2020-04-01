@@ -74,6 +74,17 @@ final class Repository
 
 
     /**
+     * @param int $user_id
+     */
+    public function deleteUserDeputies(int $user_id)/*: void*/
+    {
+        foreach ($this->getDeputiesOf($user_id, false) + $this->getUserDeputies($user_id, false) as $deputy) {
+            $this->deleteDeputy($deputy);
+        }
+    }
+
+
+    /**
      * @internal
      */
     public function dropTables()/*:void*/

@@ -2,6 +2,7 @@
 <plugin id="srusrenr">
 	<events>
 		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Services/User" />
 		<event type="raise" id="after_request" />
 		<event type="raise" id="collect_assistants_requests_table_modifications" />
 		<event type="raise" id="collect_members_table_modifications" />

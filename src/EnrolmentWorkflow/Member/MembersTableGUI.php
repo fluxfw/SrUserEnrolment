@@ -243,7 +243,7 @@ class MembersTableGUI extends TableGUI
      */
     protected function initId()/*: void*/
     {
-        $this->setId("srusrenr_members");
+        $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_members");
     }
 
 

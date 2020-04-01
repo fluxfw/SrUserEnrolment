@@ -111,6 +111,20 @@ final class Repository
 
 
     /**
+     * @param int $usr_id
+     */
+    public function deleteByUser(int $usr_id)/*:void*/
+    {
+        $this->enrolmentWorkflow()->assistants()->deleteUserAssistants($usr_id);
+        $this->enrolmentWorkflow()->deputies()->deleteUserDeputies($usr_id);
+        $this->comments()->deleteUserComments($usr_id);
+        $this->ruleEnrolment()->logs()->deleteUserLogs($usr_id);
+        $this->enrolmentWorkflow()->members()->deleteUserMembers($usr_id);
+        $this->enrolmentWorkflow()->requests()->deleteUserRequests($usr_id);
+    }
+
+
+    /**
      *
      */
     public function dropTables()/*: void*/

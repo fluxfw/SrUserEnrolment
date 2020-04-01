@@ -28,7 +28,7 @@ class Member extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
-    const TABLE_NAME = "srusrenr_mem";
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_mem";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TYPE_MEMBER = ilParticipant::MEMBERSHIP_MEMBER;
     const TYPE_TUTOR = ilParticipant::MEMBERSHIP_TUTOR;
@@ -318,7 +318,7 @@ class Member extends ActiveRecord
             return null;
         }
 
-        return intval(ilLPStatus::_lookupStatus($this->getObjId(), $this->usr_id));
+        return intval(ilLPStatus::_lookupStatus($this->obj_id, $this->usr_id));
     }
 
 
@@ -354,6 +354,23 @@ class Member extends ActiveRecord
 
         $this->getObject()->getMembersObject()->updatePassed($this->usr_id, $completed, true);
         (new ilObjectGUIFactory())->getInstanceByRefId($this->obj_ref_id)->updateLPFromStatus($this->usr_id, $completed);
+    }
+
+
+    /**
+     * @param int $lp_status
+     */
+    public function setLpStatus(int $lp_status)/*:void*/
+    {
+        if ($this->getType() === self::TYPE_REQUEST) {
+            return;
+        }
+
+        if (!($this->getObject() instanceof ilObjCourse)) {
+            return;
+        }
+
+        ilLPStatus::writeStatus($this->obj_id, $this->usr_id, $lp_status);
     }
 
 

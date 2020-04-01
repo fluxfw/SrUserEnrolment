@@ -61,6 +61,21 @@ final class Repository
 
 
     /**
+     * @param int $usr_id
+     */
+    public function deleteUserMembers(int $usr_id)/*: void*/
+    {
+        foreach (
+            Member::where([
+                "usr_id" => $usr_id
+            ])->get() as $member
+        ) {
+            $this->deleteMember($member);
+        }
+    }
+
+
+    /**
      * @internal
      */
     public function dropTables()/*:void*/

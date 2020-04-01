@@ -27,7 +27,7 @@ class Request extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
-    const TABLE_NAME = "srusrenr_request";
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_request";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 

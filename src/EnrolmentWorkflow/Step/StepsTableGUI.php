@@ -150,7 +150,7 @@ class StepsTableGUI extends TableGUI
      */
     protected function initId()/*: void*/
     {
-        $this->setId("srusrenr_steps");
+        $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_steps");
     }
 
 

@@ -53,7 +53,7 @@ class IntegerFieldFormGUI extends AbstractFieldFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*:void*/
+    protected function initFields()/* : void*/
     {
         parent::initFields();
 
@@ -86,7 +86,7 @@ class IntegerFieldFormGUI extends AbstractFieldFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(/*string*/ $key, $value)/*: void*/
+    protected function storeValue(/*string*/ $key, $value)/* : void*/
     {
         switch ($key) {
             case "min_value_checkbox":

@@ -23,7 +23,6 @@ class Group extends AbstractRule
     public static function supportsParentContext(/*?*/ int $parent_context = null) : bool
     {
         switch ($parent_context) {
-            case self::PARENT_CONTEXT_COURSE:
             case self::PARENT_CONTEXT_RULE_GROUP:
                 return false;
 

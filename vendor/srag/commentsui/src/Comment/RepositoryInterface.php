@@ -47,14 +47,21 @@ interface RepositoryInterface extends Pluginable
 
     /**
      * @param Comment $comment
+     * @param bool    $check_can_be_deleted
      */
-    public function deleteComment(Comment $comment)/*: void*/ ;
+    public function deleteComment(Comment $comment, bool $check_can_be_deleted = true)/* : void*/;
+
+
+    /**
+     * @param int $report_user_id
+     */
+    public function deleteUserComments(int $report_user_id)/* : void*/;
 
 
     /**
      *
      */
-    public function dropTables()/*: void*/ ;
+    public function dropTables()/* : void*/;
 
 
     /**
@@ -68,7 +75,7 @@ interface RepositoryInterface extends Pluginable
      *
      * @return Comment|null
      */
-    public function getCommentById(int $id)/*: ?Comment*/ ;
+    public function getCommentById(int $id)/* : ?Comment*/;
 
 
     /**
@@ -82,10 +89,11 @@ interface RepositoryInterface extends Pluginable
 
     /**
      * @param int|null $report_obj_id
+     * @param int|null $report_user_id
      *
      * @return Comment[]
      */
-    public function getCommentsForCurrentUser(/*?int*/ $report_obj_id = null) : array;
+    public function getCommentsForCurrentUser(/*?int*/ $report_obj_id = null, /*?int*/ $report_user_id = null) : array;
 
 
     /**
@@ -103,26 +111,26 @@ interface RepositoryInterface extends Pluginable
     /**
      *
      */
-    public function installLanguages()/*:void*/ ;
+    public function installLanguages()/* : void*/;
 
 
     /**
      *
      */
-    public function installTables()/*:void*/ ;
+    public function installTables()/* : void*/;
 
 
     /**
      * @param Comment $comment
      */
-    public function shareComment(Comment $comment)/*: void*/ ;
+    public function shareComment(Comment $comment)/* : void*/;
 
 
     /**
      * @param Comment $comment
-     * @param bool    $check_can_be_store
+     * @param bool    $check_can_be_stored
      */
-    public function storeComment(Comment $comment, bool $check_can_be_store = true)/*: void*/ ;
+    public function storeComment(Comment $comment, bool $check_can_be_stored = true)/* : void*/;
 
 
     /**
