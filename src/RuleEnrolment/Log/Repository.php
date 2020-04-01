@@ -126,7 +126,7 @@ final class Repository
      *
      * @return Log[]
      */
-    public function getLogs(/*?*/ int $object_id, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/ int $limit_end = null, /*?*/
+    public function getLogs(/*?*/ int $object_id = null, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/ int $limit_end = null, /*?*/
         string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null, /*?*/ int $user_id = null
     ) : array {
 
@@ -153,7 +153,7 @@ final class Repository
      *
      * @return int
      */
-    public function getLogsCount(/*?*/ int $object_id, /*?*/ string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null,/*?*/
+    public function getLogsCount(/*?*/ int $object_id = null, /*?*/ string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null,/*?*/
         int $user_id = null
     ) : int {
 
@@ -185,7 +185,7 @@ final class Repository
      *
      * @return string
      */
-    private function getLogsQuery(/*?*/ int $object_id, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/ int $limit_end = null, /*?*/
+    private function getLogsQuery(/*?*/ int $object_id = null, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/ int $limit_end = null, /*?*/
         string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null,/*?*/ int $user_id = null
     ) : string {
 
