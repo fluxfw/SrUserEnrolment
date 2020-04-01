@@ -318,7 +318,7 @@ class Member extends ActiveRecord
             return null;
         }
 
-        return intval(ilLPStatus::_lookupStatus($this->getObjId(), $this->usr_id));
+        return intval(ilLPStatus::_lookupStatus($this->obj_id, $this->usr_id));
     }
 
 
@@ -370,7 +370,7 @@ class Member extends ActiveRecord
             return;
         }
 
-        // TODO
+        ilLPStatus::writeStatus($this->obj_id, $this->usr_id, $lp_status);
     }
 
 

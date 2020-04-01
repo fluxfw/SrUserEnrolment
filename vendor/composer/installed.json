@@ -49,24 +49,24 @@
     },
     {
         "name": "srag/commentsui",
-        "version": "v0.9.0",
-        "version_normalized": "0.9.0.0",
+        "version": "v0.10.1",
+        "version_normalized": "0.10.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/CommentsUI.git",
-            "reference": "38805d958da3597c4f746f45fe643d6b53a2b618"
+            "reference": "62fe59d33d88caf3da0dea5859e5c7d7be2c6662"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/38805d958da3597c4f746f45fe643d6b53a2b618",
-            "reference": "38805d958da3597c4f746f45fe643d6b53a2b618",
+            "url": "https://api.github.com/repos/studer-raimann/CommentsUI/zipball/62fe59d33d88caf3da0dea5859e5c7d7be2c6662",
+            "reference": "62fe59d33d88caf3da0dea5859e5c7d7be2c6662",
             "shasum": ""
         },
         "require": {
-            "php": ">=7.0",
+            "php": ">=7.2",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2020-03-06T08:33:29+00:00",
+        "time": "2020-04-01T06:07:27+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -383,17 +383,17 @@
     },
     {
         "name": "srag/requireddata",
-        "version": "v0.12.2",
-        "version_normalized": "0.12.2.0",
+        "version": "v0.12.3",
+        "version_normalized": "0.12.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/RequiredData.git",
-            "reference": "456fa35239ea8fec4090fa15f6089500beee26d8"
+            "reference": "6566854b02116415d53554a474f9c4c6329aa68d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/456fa35239ea8fec4090fa15f6089500beee26d8",
-            "reference": "456fa35239ea8fec4090fa15f6089500beee26d8",
+            "url": "https://api.github.com/repos/studer-raimann/RequiredData/zipball/6566854b02116415d53554a474f9c4c6329aa68d",
+            "reference": "6566854b02116415d53554a474f9c4c6329aa68d",
             "shasum": ""
         },
         "require": {
@@ -402,7 +402,7 @@
             "srag/datatable": ">=0.1.0",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2020-03-30T08:28:55+00:00",
+        "time": "2020-03-31T08:48:28+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

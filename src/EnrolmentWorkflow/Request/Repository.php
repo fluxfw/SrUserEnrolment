@@ -86,6 +86,21 @@ final class Repository
     public function deleteRequest(Request $request)/*: void*/
     {
         $request->delete();
+
+        self::srUserEnrolment()->requiredData()->fills()->deleteFillStorages($request->getRequestId());
+    }
+
+
+    /**
+     * @param RequestGroup $request_group
+     */
+    public function deleteRequestGroup(RequestGroup $request_group)/*: void*/
+    {
+        $request_group->delete();
+
+        foreach ($this->getRequests(null, null, [$request_group->getUserId()], false) as $request) {
+            $this->deleteRequest($request);
+        }
     }
 
 
@@ -94,8 +109,19 @@ final class Repository
      */
     public function deleteRequests(int $step_id)/*: void*/
     {
-        foreach ($this->getRequests(null, $step_id) as $request) {
+        foreach ($this->getRequests(null, $step_id, null, false) as $request) {
             $this->deleteRequest($request);
+        }
+    }
+
+
+    /**
+     * @param int $user_id
+     */
+    public function deleteUserRequests(int $user_id)/*: void*/
+    {
+        foreach ($this->getRequestGroups(null, [$user_id]) as $request_group) {
+            $this->deleteRequestGroup($request_group);
         }
     }
 
@@ -377,14 +403,23 @@ final class Repository
 
     /**
      * @param int|null $check_user_id
+     * @param int|null $obj_ref_id
      *
      * @return bool
      */
-    public function hasAccess(/*?*/ int $check_user_id = null) : bool
+    public function hasAccess(/*?*/ int $check_user_id = null,/*?*/ int $obj_ref_id = null) : bool
     {
         if (empty($check_user_id)) {
             // TODO: Remove if no CtrlMainMenu
             $check_user_id = self::dic()->user()->getId();
+        }
+
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->isEnabled()) {
+            return false;
+        }
+
+        if (!empty($obj_ref_id) && empty(self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->getWorkflowId(self::dic()->objDataCache()->lookupObjId($obj_ref_id)))) {
+            return false;
         }
 
         return self::srUserEnrolment()->userHasRole($check_user_id);

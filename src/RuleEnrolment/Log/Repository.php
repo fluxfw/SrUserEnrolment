@@ -68,6 +68,17 @@ final class Repository
 
 
     /**
+     * @param int $user_id
+     */
+    public function deleteUserLogs(int $user_id)/*: void*/
+    {
+        foreach ($this->getLogs(null, null, null, null, null, null, null, null, null, $user_id) as $log) {
+            $this->deleteLog($log);
+        }
+    }
+
+
+    /**
      * @internal
      */
     public function dropTables()/*: void*/
@@ -102,7 +113,7 @@ final class Repository
 
 
     /**
-     * @param int             $object_id
+     * @param int|null        $object_id
      * @param string|null     $sort_by
      * @param string|null     $sort_by_direction
      * @param int|null        $limit_start
@@ -111,24 +122,17 @@ final class Repository
      * @param ilDateTime|null $date_start
      * @param ilDateTime|null $date_end
      * @param int|null        $status
+     * @param int|null        $user_id
      *
      * @return Log[]
      */
-    public function getLogs(
-        int $object_id,
-        string $sort_by = null,
-        string $sort_by_direction = null,
-        int $limit_start = null,
-        int $limit_end = null,
-        string $message = null,
-        ilDateTime $date_start = null,
-        ilDateTime $date_end = null,
-        int $status = null
+    public function getLogs(/*?*/ int $object_id, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/ int $limit_end = null, /*?*/
+        string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null, /*?*/ int $user_id = null
     ) : array {
 
         $sql = 'SELECT *';
 
-        $sql .= $this->getLogsQuery($object_id, $sort_by, $sort_by_direction, $limit_start, $limit_end, $message, $date_start, $date_end, $status);
+        $sql .= $this->getLogsQuery($object_id, $sort_by, $sort_by_direction, $limit_start, $limit_end, $message, $date_start, $date_end, $status, $user_id);
 
         /**
          * @var Log[] $logs
@@ -140,20 +144,22 @@ final class Repository
 
 
     /**
-     * @param int             $object_id
+     * @param int|null        $object_id
      * @param string|null     $message
      * @param ilDateTime|null $date_start
      * @param ilDateTime|null $date_end
      * @param int|null        $status
+     * @param int|null        $user_id
      *
      * @return int
      */
-    public function getLogsCount(int $object_id, string $message = null, ilDateTime $date_start = null, ilDateTime $date_end = null, int $status = null) : int
-    {
+    public function getLogsCount(/*?*/ int $object_id, /*?*/ string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null,/*?*/
+        int $user_id = null
+    ) : int {
 
         $sql = 'SELECT COUNT(log_id) AS count';
 
-        $sql .= $this->getLogsQuery($object_id, null, null, null, null, $message, $date_start, $date_end, $status);
+        $sql .= $this->getLogsQuery($object_id, null, null, null, null, $message, $date_start, $date_end, $status, $user_id);
 
         $result = self::dic()->database()->query($sql);
 
@@ -166,7 +172,7 @@ final class Repository
 
 
     /**
-     * @param int             $object_id
+     * @param int|null        $object_id
      * @param string|null     $sort_by
      * @param string|null     $sort_by_direction
      * @param int|null        $limit_start
@@ -175,26 +181,21 @@ final class Repository
      * @param ilDateTime|null $date_start
      * @param ilDateTime|null $date_end
      * @param int|null        $status
+     * @param int|null        $user_id
      *
      * @return string
      */
-    private function getLogsQuery(
-        int $object_id,
-        string $sort_by = null,
-        string $sort_by_direction = null,
-        int $limit_start = null,
-        int $limit_end = null,
-        string $message = null,
-        ilDateTime $date_start = null,
-        ilDateTime $date_end = null,
-        int $status = null
+    private function getLogsQuery(/*?*/ int $object_id, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/ int $limit_end = null, /*?*/
+        string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null,/*?*/ int $user_id = null
     ) : string {
 
         $sql = ' FROM ' . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME);
 
-        $wheres = [
-            'object_id=' . self::dic()->database()->quote($object_id, ilDBConstants::T_INTEGER)
-        ];
+        $wheres = [];
+
+        if (!empty($object_id)) {
+            $wheres[] = 'object_id=' . self::dic()->database()->quote($object_id, ilDBConstants::T_INTEGER);
+        }
 
         if (!empty($message)) {
             $wheres[] = self::dic()->database()->like("message", ilDBConstants::T_TEXT, '%' . $message . '%');
@@ -210,6 +211,10 @@ final class Repository
 
         if (!empty($status)) {
             $wheres[] = 'status=' . self::dic()->database()->quote($status, ilDBConstants::T_INTEGER);
+        }
+
+        if (!empty($user_id)) {
+            $wheres[] = 'user_id=' . self::dic()->database()->quote($user_id, ilDBConstants::T_INTEGER);
         }
 
         if (count($wheres) > 0) {

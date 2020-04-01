@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.1]
+- Fix
+
+## [0.10.0]
+- Min. PHP 7.2
+- `deleteUserComments`
+
 ## [0.9.0]
 - Share method
 

@@ -90,6 +90,17 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
                 }
                 break;
 
+            case "Services/User":
+                switch ($a_event) {
+                    case "deleteUser":
+                        self::srUserEnrolment()->deleteByUser($a_parameter["usr_id"]);
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+
             default:
                 break;
         }
