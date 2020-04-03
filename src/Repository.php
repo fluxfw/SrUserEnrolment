@@ -17,6 +17,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect\UserSelectField;
 use srag\Plugins\SrUserEnrolment\ExcelImport\Repository as ExcelImportRepository;
 use srag\Plugins\SrUserEnrolment\Job\Repository as JobsRepository;
+use srag\Plugins\SrUserEnrolment\Menu\Menu;
 use srag\Plugins\SrUserEnrolment\ResetPassword\Repository as ResetUserPasswordRepository;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Repository as RuleEnrolmentRepository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -182,6 +183,15 @@ final class Repository
     public function jobs() : JobsRepository
     {
         return JobsRepository::getInstance();
+    }
+
+
+    /**
+     * @return Menu
+     */
+    public function menu() : Menu
+    {
+        return new Menu(self::dic()->dic(), self::plugin()->getPluginObject());
     }
 
 

@@ -62,7 +62,7 @@ final class Repository
      */
     public function deleteLog(Log $log)/*: void*/
     {
-        self::dic()->database()->manipulate('DELETE FROM ' . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME)
+        self::dic()->database()->manipulateF('DELETE FROM ' . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME)
             . " WHERE log_id=%s", [ilDBConstants::T_INTEGER], [$log->getLogId()]);
     }
 

@@ -6,7 +6,6 @@ if (file_exists(__DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor
 }
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
-use srag\Plugins\SrUserEnrolment\Menu\Menu;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
 
@@ -129,7 +128,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
      */
     public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
     {
-        return new Menu(self::dic()->dic(), $this);
+        return self::srUserEnrolment()->menu();
     }
 
 
