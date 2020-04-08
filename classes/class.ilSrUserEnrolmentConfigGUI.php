@@ -72,7 +72,6 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
 
                 switch ($cmd) {
                     case self::CMD_CONFIGURE:
-                    case self::CMD_UPDATE_CONFIGURE:
                         $this->{$cmd}();
                         break;
 
