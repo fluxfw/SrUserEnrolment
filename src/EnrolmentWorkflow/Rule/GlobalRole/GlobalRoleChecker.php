@@ -35,7 +35,7 @@ class GlobalRoleChecker extends AbstractRuleChecker
      */
     public function check(int $user_id, int $obj_ref_id) : bool
     {
-        return self::dic()->rbacreview()->isAssigned($user_id, $this->rule->getGlobalRole());
+        return self::dic()->rbac()->review()->isAssigned($user_id, $this->rule->getGlobalRole());
     }
 
 

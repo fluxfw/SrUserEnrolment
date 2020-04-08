@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\Config;
 
 use ilCheckboxInputGUI;
-use ilSrUserEnrolmentConfigGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
@@ -40,15 +39,15 @@ class ConfigFormGUI extends PropertyFormGUI
     const KEY_SHOW_MEMBERS = "show_members";
     const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
     const KEY_SHOW_RULES_ENROLL = "show_rules_enroll";
-    const LANG_MODULE = ilSrUserEnrolmentConfigGUI::LANG_MODULE;
+    const LANG_MODULE = ConfigCtrl::LANG_MODULE;
 
 
     /**
      * ConfigFormGUI constructor
      *
-     * @param ilSrUserEnrolmentConfigGUI $parent
+     * @param ConfigCtrl $parent
      */
-    public function __construct(ilSrUserEnrolmentConfigGUI $parent)
+    public function __construct(ConfigCtrl $parent)
     {
         parent::__construct($parent);
     }
@@ -71,7 +70,7 @@ class ConfigFormGUI extends PropertyFormGUI
      */
     protected function initCommands()/*: void*/
     {
-        $this->addCommandButton(ilSrUserEnrolmentConfigGUI::CMD_UPDATE_CONFIGURE, $this->txt("save"));
+        $this->addCommandButton(ConfigCtrl::CMD_UPDATE_CONFIGURE, $this->txt("save"));
     }
 
 

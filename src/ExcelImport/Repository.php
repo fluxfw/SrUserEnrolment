@@ -108,7 +108,7 @@ final class Repository
 
         $user->saveAsNew();
 
-        self::dic()->rbacadmin()->assignUser(self::USER_ROLE_ID, $user->getId()); // User default role
+        self::dic()->rbac()->admin()->assignUser(self::USER_ROLE_ID, $user->getId()); // User default role
 
         $this->assignOrgUnit($user, $fields);
 
