@@ -10,6 +10,7 @@ use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -109,11 +110,28 @@ class ExcelImportGUI
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
-            self::dic()->tabs()->addSubTab(self::TAB_EXCEL_IMPORT, self::plugin()
-                ->translate("title", self::LANG_MODULE), self::dic()->ctrl()->getLinkTargetByClass([
+            self::dic()->tabs()->addSubTab(self::TAB_EXCEL_IMPORT, static::getTitle(), self::dic()->ctrl()->getLinkTargetByClass([
                 ilUIPluginRouterGUI::class,
                 self::class
             ], self::CMD_INPUT_EXCEL_IMPORT_DATA));
+        }
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     */
+    public static function redirect(int $obj_ref_id)/*: void*/
+    {
+        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+
+                self::dic()->ctrl()->redirectByClass([
+                    ilUIPluginRouterGUI::class,
+                    self::class
+                ], self::CMD_INPUT_EXCEL_IMPORT_DATA);
+            }
         }
     }
 
@@ -126,11 +144,19 @@ class ExcelImportGUI
         self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));
 
-        self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, self::plugin()->translate("title", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
+        self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, static::getTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
         self::dic()->tabs()->activateTab(self::TAB_EXCEL_IMPORT);
 
         LogsGUI::addTabs();
+    }
+
+
+    /**
+     * @return string
+     */
+    public static function getTitle() : string
+    {
+        return self::plugin()->translate("title", self::LANG_MODULE);
     }
 
 

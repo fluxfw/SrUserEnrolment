@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.11.0]
+- "Enrol by excel file"
+    - Config for enable in course or local user administration
+    - Config for replace "Import user" in local user administration
+
 ## [3.10.1]
 - Some fixes and changes
 

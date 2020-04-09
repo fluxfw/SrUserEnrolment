@@ -60,7 +60,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                 self::PROPERTY_REQUIRED => true,
                 "setTitle"              => self::plugin()->translate(self::KEY_COUNT_SKIP_TOP_ROWS),
                 "setInfo"               => self::plugin()->translate(self::KEY_COUNT_SKIP_TOP_ROWS . "_info"),
-                "setSuffix"             => self::plugin()->translate("rows", static::LANG_MODULE)
+                "setSuffix"             => self::plugin()->translate("rows", self::LANG_MODULE)
             ],
 
             self::KEY_FIELDS => [
@@ -535,7 +535,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
      */
     protected function initTitle()/*: void*/
     {
-        $this->setTitle($this->txt("title"));
+        $this->setTitle($this->parent->getTitle());
     }
 
 

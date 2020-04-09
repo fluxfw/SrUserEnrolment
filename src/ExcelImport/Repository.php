@@ -244,11 +244,21 @@ final class Repository
         }
 
         switch ($type) {
+            case "crs":
+                if (!self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_COURSE)) {
+                    return false;
+                }
+
+                return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id);
+
             case "cat":
             case "orgu":
+                if (!self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL)) {
+                    return false;
+                }
+
                 return self::dic()->access()->checkAccessOfUser($user_id, "cat_administrate_users", "", $obj_ref_id);
 
-            case "crs":
             case "cmps":
             default:
                 return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id);

@@ -79,6 +79,12 @@ config_roles_read_requests#:#Rollen um alle Anfragen zu lesen
 config_roles_read_requests_info#:#Benutzer mit den ausgewählten Rollen haben immer Lesezugriff auf alle Anfragen
 config_save#:#Speichern
 config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
+config_show_excel_import_course#:#In Kurs anzeigen
+config_show_excel_import_local#:#In lokalen Benutzerverwaltung anzeigen
+config_show_excel_import_local_info#:#In Organisationseinheit oder Kategorie
+config_show_excel_import_local_type#:#Typ
+config_show_excel_import_local_type_replace#:#"%s" ersetzen
+config_show_excel_import_local_type_separate#:#Separat
 deputies_actions#:#Aktionen
 deputies_active#:#Aktiv
 deputies_deputies#:#Vertreter

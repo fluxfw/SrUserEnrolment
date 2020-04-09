@@ -8,6 +8,7 @@ use ilObjCategoryGUI;
 use ilObjOrgUnitGUI;
 use ilRepositoryGUI;
 use ilUIPluginRouterGUI;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImport;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
@@ -34,20 +35,45 @@ class ExcelImportLocalGUI extends ExcelImportGUI
     public static function addTabs(int $obj_ref_id)/*:void*/
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_SEPARATE) {
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
-            self::dic()->tabs()->addSubTab(self::TAB_LOCAL_USER_ADMINISTRATION, self::dic()->language()
-                ->txt("administrate_users"), self::dic()->ctrl()->getLinkTargetByClass([
-                ilUIPluginRouterGUI::class,
-                self::class
-            ], self::CMD_BACK));
-            self::dic()->tabs()->activateSubTab(self::TAB_LOCAL_USER_ADMINISTRATION);
+                self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::getTitle(), self::dic()->ctrl()->getLinkTargetByClass([
+                    ilUIPluginRouterGUI::class,
+                    self::class
+                ], self::CMD_INPUT_EXCEL_IMPORT_DATA)));
+            }
+        }
+    }
 
-            self::dic()->tabs()->addSubTab(self::TAB_EXCEL_IMPORT, self::plugin()
-                ->translate("title", self::LANG_MODULE), self::dic()->ctrl()->getLinkTargetByClass([
-                ilUIPluginRouterGUI::class,
-                self::class
-            ], self::CMD_INPUT_EXCEL_IMPORT_DATA));
+
+    /**
+     * @inheritDoc
+     */
+    public static function redirect(int $obj_ref_id)/*:void*/
+    {
+        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+
+                self::dic()->ctrl()->redirectByClass([
+                    ilUIPluginRouterGUI::class,
+                    self::class
+                ], self::CMD_INPUT_EXCEL_IMPORT_DATA);
+            }
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public static function getTitle() : string
+    {
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+            return self::dic()->language()->txt("import_users");
+        } else {
+            return parent::getTitle();
         }
     }
 

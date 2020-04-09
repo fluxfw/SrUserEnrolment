@@ -154,12 +154,12 @@ final class Repository
 
 
     /**
-     * @param int $obj_ref_id
      * @param int $user_id
+     * @param int $obj_ref_id
      *
      * @return bool
      */
-    public function hasAccess(int $obj_ref_id, int $user_id) : bool
+    public function hasAccess(int $user_id, int $obj_ref_id) : bool
     {
         if (!$this->isEnabled()) {
             return false;
