@@ -1,6 +1,7 @@
 <?php
 
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\AssistantsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\DeputiesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI;
@@ -65,7 +66,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
                 self::$redirected = true;
 
-                if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess($this->getRefId(), self::dic()->user()->getId())) {
+                if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $this->getRefId())) {
 
                     $this->fixRedirect();
 
@@ -101,6 +102,37 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 "mode" => self::PREPEND,
                 "html" => AssistantsGUI::getAssistantsForPersonalDesktop(self::dic()->user()->getId()) . DeputiesGUI::getDeputiesForPersonalDesktop(self::dic()->user()->getId())
             ];
+        }
+
+        if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjUserFolderGUI::class) && self::dic()->ctrl()->getCmd() === "importUserForm") {
+
+            if (!self::$redirected) {
+
+                self::$redirected = true;
+
+                if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $this->getRefId())) {
+                    if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+
+                        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->getRefId()))) {
+                            case "crs":
+                                $this->fixRedirect();
+
+                                ExcelImportGUI::redirect($this->getRefId());
+                                break;
+
+                            case "cat":
+                            case "orgu":
+                                $this->fixRedirect();
+
+                                ExcelImportLocalGUI::redirect($this->getRefId());
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
         }
 
         return parent::getHTML($a_comp, $a_part, $a_par);

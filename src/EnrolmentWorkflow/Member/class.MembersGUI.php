@@ -61,7 +61,7 @@ class MembersGUI
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
 
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess($this->obj_ref_id, self::dic()->user()->getId())) {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id)) {
             die();
         }
 
@@ -113,7 +113,7 @@ class MembersGUI
      */
     public static function addTabs(int $obj_ref_id)/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess($obj_ref_id, self::dic()->user()->getId())) {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
             self::dic()
                 ->tabs()
@@ -128,7 +128,7 @@ class MembersGUI
      */
     public static function redirect(int $obj_ref_id)/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess($obj_ref_id, self::dic()->user()->getId())) {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
             self::dic()->ctrl()->redirectByClass([

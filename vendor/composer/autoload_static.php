@@ -12,12 +12,12 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\RequiredData\\SrUserEnrolment\\' => 34,
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
-            'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
+            'srag\\Notifications4Plugin\\' => 26,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
+            'srag\\DataTableUI\\' => 17,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
-            'srag\\CommentsUI\\' => 16,
+            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
@@ -35,7 +35,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 
+        'srag\\Notifications4Plugin\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/notifications4plugin/src',
         ),
@@ -43,7 +43,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DataTableUI\\SrUserEnrolment\\' => 
+        'srag\\DataTableUI\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/datatable/src',
         ),
@@ -51,11 +51,11 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\' => 
+        'srag\\CommentsUI\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
@@ -283,6 +283,8 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIsTrait' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIsTrait.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\DateDurationInputGUI\\DateDurationInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/DateDurationInputGUI/DateDurationInputGUI.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\FormBuilder\\AbstractFormBuilder' => __DIR__ . '/..' . '/srag/custominputguis/src/FormBuilder/AbstractFormBuilder.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\FormBuilder\\FormBuilder' => __DIR__ . '/..' . '/srag/custominputguis/src/FormBuilder/FormBuilder.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\GlyphGUI\\GlyphGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/GlyphGUI/GlyphGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\HiddenInputGUI\\HiddenInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/HiddenInputGUI/HiddenInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\InputGUIWrapperUIInputComponent\\InputGUIWrapperConstraint' => __DIR__ . '/..' . '/srag/custominputguis/src/InputGUIWrapperUIInputComponent/InputGUIWrapperConstraint.php',
@@ -387,6 +389,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\DataTableUI\\SrUserEnrolment\\Component\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Component/Factory.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Component\\Format\\Browser\\BrowserFormat' => __DIR__ . '/..' . '/srag/datatable/src/Component/Format/Browser/BrowserFormat.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Component\\Format\\Browser\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Component/Format/Browser/Factory.php',
+        'srag\\DataTableUI\\SrUserEnrolment\\Component\\Format\\Browser\\Filter\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Component/Format/Browser/Filter/Factory.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Component\\Format\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Component/Format/Factory.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Component\\Format\\Format' => __DIR__ . '/..' . '/srag/datatable/src/Component/Format/Format.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Component\\Settings\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Component/Settings/Factory.php',
@@ -424,6 +427,8 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Format\\AbstractFormat' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Format/AbstractFormat.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Format\\Browser\\DefaultBrowserFormat' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Format/Browser/DefaultBrowserFormat.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Format\\Browser\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Format/Browser/Factory.php',
+        'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Format\\Browser\\Filter\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Format/Browser/Filter/Factory.php',
+        'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Format\\Browser\\Filter\\FormBuilder' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Format/Browser/Filter/FormBuilder.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Format\\CsvFormat' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Format/CsvFormat.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Format\\ExcelFormat' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Format/ExcelFormat.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Format\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Format/Factory.php',
@@ -476,6 +481,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Sender\\vcalendarSender' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Sender/vcalendarSender.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Utils\\Notifications4PluginTrait' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Utils/Notifications4PluginTrait.php',
         'srag\\Plugins\\SrUserEnrolment\\Comment\\RequestCommentsCtrl' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Comment/class.RequestCommentsCtrl.php',
+        'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigCtrl' => __DIR__ . '/../..' . '/src/Config/class.ConfigCtrl.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\ConfigFormGUI' => __DIR__ . '/../..' . '/src/Config/ConfigFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Factory' => __DIR__ . '/../..' . '/src/Config/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Config\\Repository' => __DIR__ . '/../..' . '/src/Config/Repository.php',

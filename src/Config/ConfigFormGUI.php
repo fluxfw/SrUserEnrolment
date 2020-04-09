@@ -3,7 +3,8 @@
 namespace srag\Plugins\SrUserEnrolment\Config;
 
 use ilCheckboxInputGUI;
-use ilSrUserEnrolmentConfigGUI;
+use ilRadioGroupInputGUI;
+use ilRadioOption;
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
@@ -37,18 +38,23 @@ class ConfigFormGUI extends PropertyFormGUI
     const KEY_SHOW_ENROLMENT_WORKFLOW = "show_enrolment_workflow";
     const KEY_SHOW_EXCEL_IMPORT = "show_excel_import";
     const KEY_SHOW_EXCEL_IMPORT_CONFIG = "show_excel_import_config";
+    const KEY_SHOW_EXCEL_IMPORT_COURSE = "show_excel_import_course";
+    const KEY_SHOW_EXCEL_IMPORT_LOCAL = "show_excel_import_local";
+    const KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE = "show_excel_import_local_type";
     const KEY_SHOW_MEMBERS = "show_members";
     const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
     const KEY_SHOW_RULES_ENROLL = "show_rules_enroll";
-    const LANG_MODULE = ilSrUserEnrolmentConfigGUI::LANG_MODULE;
+    const LANG_MODULE = ConfigCtrl::LANG_MODULE;
+    const SHOW_EXCEL_IMPORT_LOCAL_TYPE_SEPARATE = 1;
+    const SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE = 2;
 
 
     /**
      * ConfigFormGUI constructor
      *
-     * @param ilSrUserEnrolmentConfigGUI $parent
+     * @param ConfigCtrl $parent
      */
-    public function __construct(ilSrUserEnrolmentConfigGUI $parent)
+    public function __construct(ConfigCtrl $parent)
     {
         parent::__construct($parent);
     }
@@ -71,7 +77,7 @@ class ConfigFormGUI extends PropertyFormGUI
      */
     protected function initCommands()/*: void*/
     {
-        $this->addCommandButton(ilSrUserEnrolmentConfigGUI::CMD_UPDATE_CONFIGURE, $this->txt("save"));
+        $this->addCommandButton(ConfigCtrl::CMD_UPDATE_CONFIGURE, $this->txt("save"));
     }
 
 
@@ -95,6 +101,30 @@ class ConfigFormGUI extends PropertyFormGUI
             self::KEY_SHOW_EXCEL_IMPORT       => [
                 self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
+                        self::KEY_SHOW_EXCEL_IMPORT_COURSE => [
+                            self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        ],
+                        self::KEY_SHOW_EXCEL_IMPORT_LOCAL  => [
+                            self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
+                            self::PROPERTY_SUBITEMS => [
+                                self::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE => [
+                                    self::PROPERTY_CLASS    => ilRadioGroupInputGUI::class,
+                                    self::PROPERTY_REQUIRED => true,
+                                    self::PROPERTY_SUBITEMS => [
+                                        self::SHOW_EXCEL_IMPORT_LOCAL_TYPE_SEPARATE => [
+                                            self::PROPERTY_CLASS => ilRadioOption::class,
+                                            "setTitle"           => $this->txt(self::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE . "_separate")
+                                        ],
+                                        self::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE  => [
+                                            self::PROPERTY_CLASS => ilRadioOption::class,
+                                            "setTitle"           => self::plugin()->translate(self::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE . "_replace", self::LANG_MODULE, [
+                                                self::dic()->language()->txt("import_users")
+                                            ])
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
                         self::KEY_SHOW_EXCEL_IMPORT_CONFIG => [
                             self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                         ]

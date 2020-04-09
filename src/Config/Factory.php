@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUserEnrolment\Config;
 
-use ilSrUserEnrolmentConfigGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\ActiveRecordConfig\SrUserEnrolment\Config\AbstractFactory;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -48,11 +47,11 @@ final class Factory extends AbstractFactory
 
 
     /**
-     * @param ilSrUserEnrolmentConfigGUI $parent
+     * @param ConfigCtrl $parent
      *
      * @return ConfigFormGUI
      */
-    public function newFormInstance(ilSrUserEnrolmentConfigGUI $parent) : ConfigFormGUI
+    public function newFormInstance(ConfigCtrl $parent) : ConfigFormGUI
     {
         $form = new ConfigFormGUI($parent);
 

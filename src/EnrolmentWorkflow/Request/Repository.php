@@ -535,7 +535,7 @@ final class Repository
      */
     public function userHasReadRole(int $user_id) : bool
     {
-        $user_roles = self::dic()->rbacreview()->assignedGlobalRoles($user_id);
+        $user_roles = self::dic()->rbac()->review()->assignedGlobalRoles($user_id);
         $config_roles = self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_ROLES_READ_REQUESTS);
 
         foreach ($user_roles as $user_role) {
