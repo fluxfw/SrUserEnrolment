@@ -124,7 +124,7 @@ class ExcelImportGUI
     public static function redirect(int $obj_ref_id)/*: void*/
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
                 self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
                 self::dic()->ctrl()->redirectByClass([

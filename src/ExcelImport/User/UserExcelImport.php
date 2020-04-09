@@ -1,19 +1,19 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\ExcelImport\Local;
+namespace srag\Plugins\SrUserEnrolment\ExcelImport\User;
 
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImport;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 use stdClass;
 
 /**
- * Class ExcelImportLocal
+ * Class UserExcelImport
  *
- * @package srag\Plugins\SrUserEnrolment\ExcelImport\Local
+ * @package srag\Plugins\SrUserEnrolment\ExcelImport\User
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ExcelImportLocal extends ExcelImport
+class UserExcelImport extends ExcelImport
 {
 
     /**
@@ -52,7 +52,7 @@ class ExcelImportLocal extends ExcelImport
      */
     public function getUsersToEnroll() : array
     {
-        self::dic()->ctrl()->redirectByClass(ExcelImportLocalGUI::class, ExcelImportLocalGUI::CMD_BACK);
+        self::dic()->ctrl()->redirectByClass(UserExcelImportGUI::class, UserExcelImportGUI::CMD_BACK);
 
         return [];
     }

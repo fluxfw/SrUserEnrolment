@@ -1,23 +1,23 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\ExcelImport\Local;
+namespace srag\Plugins\SrUserEnrolment\ExcelImport\User;
 
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 
 /**
- * Class ExcelImportLocalFormGUI
+ * Class UserExcelImportFormGUI
  *
- * @package srag\Plugins\SrUserEnrolment\ExcelImport\Local
+ * @package srag\Plugins\SrUserEnrolment\ExcelImport\User
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ExcelImportLocalFormGUI extends ExcelImportFormGUI
+class UserExcelImportFormGUI extends ExcelImportFormGUI
 {
 
     /**
      * @inheritDoc
      */
-    public function __construct(ExcelImportLocalGUI $parent)
+    public function __construct(UserExcelImportGUI $parent)
     {
         switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($parent->getObjRefId()))) {
             case "usrf":
@@ -33,11 +33,11 @@ class ExcelImportLocalFormGUI extends ExcelImportFormGUI
 
         switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($parent->getObjRefId()))) {
             case "cat":
-                $this->excel_import_local_user_administration_object_type = ExcelImportLocal::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
+                $this->excel_import_local_user_administration_object_type = UserExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
                 break;
 
             case "orgu":
-                $this->excel_import_local_user_administration_object_type = ExcelImportLocal::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT;
+                $this->excel_import_local_user_administration_object_type = UserExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT;
                 break;
 
             case "usrf":
@@ -45,7 +45,7 @@ class ExcelImportLocalFormGUI extends ExcelImportFormGUI
                 break;
         }
 
-        $this->excel_import_local_user_administration_type = ExcelImportLocal::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID;
+        $this->excel_import_local_user_administration_type = UserExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID;
 
         parent::__construct($parent);
     }

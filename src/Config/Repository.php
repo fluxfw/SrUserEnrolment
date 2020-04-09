@@ -76,23 +76,23 @@ final class Repository extends AbstractRepository
     protected function getFields() : array
     {
         return [
-            ConfigFormGUI::KEY_ROLES                                      => [Config::TYPE_JSON, []],
-            ConfigFormGUI::KEY_ROLES_READ_REQUESTS                        => [Config::TYPE_JSON, []],
-            ConfigFormGUI::KEY_SHOW_ASSISTANTS                            => [Config::TYPE_BOOLEAN, false],
-            ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS                => [Config::TYPE_BOOLEAN, false],
-            ConfigFormGUI::KEY_SHOW_DEPUTIES                              => [Config::TYPE_BOOLEAN, false],
-            ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW                    => [Config::TYPE_BOOLEAN, false],
-            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT                          => [Config::TYPE_BOOLEAN, false],
-            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG                   => [Config::TYPE_BOOLEAN, true],
-            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_COURSE                   => [Config::TYPE_BOOLEAN, true],
-            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL                    => [Config::TYPE_BOOLEAN, true],
-            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE               => [Config::TYPE_INTEGER, ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_SEPARATE],
-            ConfigFormGUI::KEY_SHOW_MEMBERS                               => [Config::TYPE_BOOLEAN, false],
-            ConfigFormGUI::KEY_SHOW_RESET_PASSWORD                        => [Config::TYPE_BOOLEAN, false],
-            ConfigFormGUI::KEY_SHOW_RULES_ENROLL                          => [Config::TYPE_BOOLEAN, false],
-            ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS                   => [Config::TYPE_INTEGER, 0],
-            ExcelImportFormGUI::KEY_CREATE_NEW_USERS                      => [Config::TYPE_BOOLEAN, false],
-            ExcelImportFormGUI::KEY_FIELDS                                => [
+            ConfigFormGUI::KEY_ROLES                       => [Config::TYPE_JSON, []],
+            ConfigFormGUI::KEY_ROLES_READ_REQUESTS         => [Config::TYPE_JSON, []],
+            ConfigFormGUI::KEY_SHOW_ASSISTANTS             => [Config::TYPE_BOOLEAN, false],
+            ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS => [Config::TYPE_BOOLEAN, false],
+            ConfigFormGUI::KEY_SHOW_DEPUTIES               => [Config::TYPE_BOOLEAN, false],
+            ConfigFormGUI::KEY_SHOW_ENROLMENT_WORKFLOW     => [Config::TYPE_BOOLEAN, false],
+            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT           => [Config::TYPE_BOOLEAN, false],
+            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG    => [Config::TYPE_BOOLEAN, true],
+            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_COURSE    => [Config::TYPE_BOOLEAN, true],
+            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER      => [Config::TYPE_BOOLEAN, true],
+            ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW => [Config::TYPE_INTEGER, ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_SEPARATE],
+            ConfigFormGUI::KEY_SHOW_MEMBERS                => [Config::TYPE_BOOLEAN, false],
+            ConfigFormGUI::KEY_SHOW_RESET_PASSWORD         => [Config::TYPE_BOOLEAN, false],
+            ConfigFormGUI::KEY_SHOW_RULES_ENROLL           => [Config::TYPE_BOOLEAN, false],
+            ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS    => [Config::TYPE_INTEGER, 0],
+            ExcelImportFormGUI::KEY_CREATE_NEW_USERS       => [Config::TYPE_BOOLEAN, false],
+            ExcelImportFormGUI::KEY_FIELDS                 => [
                 Config::TYPE_JSON,
                 [
                     [

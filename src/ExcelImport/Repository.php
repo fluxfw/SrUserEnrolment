@@ -253,7 +253,7 @@ final class Repository
 
             case "cat":
             case "orgu":
-                if (!self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL)) {
+                if (!self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER)) {
                     return false;
                 }
 

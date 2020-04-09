@@ -710,4 +710,13 @@ class ExcelImportFormGUI extends PropertyFormGUI
     {
         return $this->{self::KEY_FIELDS};
     }
+
+
+    /**
+     * @return ExcelImportGUI
+     */
+    public function getParent() : ExcelImportGUI
+    {
+        return $this->parent;
+    }
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.11.1]
+- Also for user management
+
 ## [3.11.0]
 - "Enrol by excel file"
     - Config for enable in course or local user administration
