@@ -4,9 +4,9 @@ namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\ExcelImport\Local\ExcelImportLocal;
-use srag\Plugins\SrUserEnrolment\ExcelImport\Local\ExcelImportLocalFormGUI;
-use srag\Plugins\SrUserEnrolment\ExcelImport\Local\ExcelImportLocalGUI;
+use srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImport;
+use srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportFormGUI;
+use srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -77,13 +77,13 @@ final class Factory
 
 
     /**
-     * @param ExcelImportLocalGUI $parent
+     * @param UserExcelImportGUI $parent
      *
-     * @return ExcelImportLocalFormGUI
+     * @return UserExcelImportFormGUI
      */
-    public function newLocalFormInstance(ExcelImportLocalGUI $parent) : ExcelImportLocalFormGUI
+    public function newUserFormInstance(UserExcelImportGUI $parent) : UserExcelImportFormGUI
     {
-        $form = new ExcelImportLocalFormGUI($parent);
+        $form = new UserExcelImportFormGUI($parent);
 
         return $form;
     }
@@ -92,11 +92,11 @@ final class Factory
     /**
      * @param int $obj_ref_id
      *
-     * @return ExcelImportLocal
+     * @return UserExcelImport
      */
-    public function newLocalImportInstance(int $obj_ref_id) : ExcelImportLocal
+    public function newUserImportInstance(int $obj_ref_id) : UserExcelImport
     {
-        $excel_import = new ExcelImportLocal($obj_ref_id);
+        $excel_import = new UserExcelImport($obj_ref_id);
 
         return $excel_import;
     }

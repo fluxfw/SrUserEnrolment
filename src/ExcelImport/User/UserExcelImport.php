@@ -1,19 +1,19 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\ExcelImport\Local;
+namespace srag\Plugins\SrUserEnrolment\ExcelImport\User;
 
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImport;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 use stdClass;
 
 /**
- * Class ExcelImportLocal
+ * Class UserExcelImport
  *
- * @package srag\Plugins\SrUserEnrolment\ExcelImport\Local
+ * @package srag\Plugins\SrUserEnrolment\ExcelImport\User
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ExcelImportLocal extends ExcelImport
+class UserExcelImport extends ExcelImport
 {
 
     /**
@@ -34,7 +34,16 @@ class ExcelImportLocal extends ExcelImport
      */
     protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
     {
-        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = $this->obj_ref_id;
+        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($form->getParent()->getObjRefId()))) {
+            case "usrf":
+                break;
+
+            case "cat":
+            case "orgu":
+            default:
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = $this->obj_ref_id;
+                break;
+        }
     }
 
 
@@ -43,7 +52,7 @@ class ExcelImportLocal extends ExcelImport
      */
     public function getUsersToEnroll() : array
     {
-        self::dic()->ctrl()->redirectByClass(ExcelImportLocalGUI::class, ExcelImportLocalGUI::CMD_BACK);
+        self::dic()->ctrl()->redirectByClass(UserExcelImportGUI::class, UserExcelImportGUI::CMD_BACK);
 
         return [];
     }

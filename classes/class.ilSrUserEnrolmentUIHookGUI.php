@@ -10,7 +10,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\SelectWorkflowGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
-use srag\Plugins\SrUserEnrolment\ExcelImport\Local\ExcelImportLocalGUI;
+use srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportGUI;
 use srag\Plugins\SrUserEnrolment\ResetPassword\ResetPasswordGUI;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -111,7 +111,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 self::$redirected = true;
 
                 if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $this->getRefId())) {
-                    if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+                    if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
 
                         switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->getRefId()))) {
                             case "crs":
@@ -122,9 +122,10 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
                             case "cat":
                             case "orgu":
+                            case "usrf":
                                 $this->fixRedirect();
 
-                                ExcelImportLocalGUI::redirect($this->getRefId());
+                                UserExcelImportGUI::redirect($this->getRefId());
                                 break;
 
                             default:
@@ -184,9 +185,10 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLocalUserGUI::class)
                 || (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCategoryGUI::class)
                     && self::dic()->ctrl()->getCmd() === "listUsers")
+                || (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjUserFolderGUI::class) && self::dic()->ctrl()->getCmd() === "view")
             ) {
 
-                ExcelImportLocalGUI::addTabs($this->getRefId());
+                UserExcelImportGUI::addTabs($this->getRefId());
             }
 
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class)) {

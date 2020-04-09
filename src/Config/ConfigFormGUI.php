@@ -39,14 +39,14 @@ class ConfigFormGUI extends PropertyFormGUI
     const KEY_SHOW_EXCEL_IMPORT = "show_excel_import";
     const KEY_SHOW_EXCEL_IMPORT_CONFIG = "show_excel_import_config";
     const KEY_SHOW_EXCEL_IMPORT_COURSE = "show_excel_import_course";
-    const KEY_SHOW_EXCEL_IMPORT_LOCAL = "show_excel_import_local";
-    const KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE = "show_excel_import_local_type";
+    const KEY_SHOW_EXCEL_IMPORT_USER = "show_excel_import_local";
+    const KEY_SHOW_EXCEL_IMPORT_USER_VIEW = "show_excel_import_local_type";
     const KEY_SHOW_MEMBERS = "show_members";
     const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
     const KEY_SHOW_RULES_ENROLL = "show_rules_enroll";
     const LANG_MODULE = ConfigCtrl::LANG_MODULE;
-    const SHOW_EXCEL_IMPORT_LOCAL_TYPE_SEPARATE = 1;
-    const SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE = 2;
+    const SHOW_EXCEL_IMPORT_USER_TYPE_SEPARATE = 1;
+    const SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE = 2;
 
 
     /**
@@ -104,26 +104,31 @@ class ConfigFormGUI extends PropertyFormGUI
                         self::KEY_SHOW_EXCEL_IMPORT_COURSE => [
                             self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                         ],
-                        self::KEY_SHOW_EXCEL_IMPORT_LOCAL  => [
+                        self::KEY_SHOW_EXCEL_IMPORT_USER => [
                             self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
                             self::PROPERTY_SUBITEMS => [
-                                self::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE => [
+                                self::KEY_SHOW_EXCEL_IMPORT_USER_VIEW => [
                                     self::PROPERTY_CLASS    => ilRadioGroupInputGUI::class,
                                     self::PROPERTY_REQUIRED => true,
                                     self::PROPERTY_SUBITEMS => [
-                                        self::SHOW_EXCEL_IMPORT_LOCAL_TYPE_SEPARATE => [
+                                        self::SHOW_EXCEL_IMPORT_USER_TYPE_SEPARATE => [
                                             self::PROPERTY_CLASS => ilRadioOption::class,
-                                            "setTitle"           => $this->txt(self::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE . "_separate")
+                                            "setTitle"           => $this->txt(self::KEY_SHOW_EXCEL_IMPORT_USER_VIEW . "_separate")
                                         ],
-                                        self::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE  => [
+                                        self::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE => [
                                             self::PROPERTY_CLASS => ilRadioOption::class,
-                                            "setTitle"           => self::plugin()->translate(self::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE . "_replace", self::LANG_MODULE, [
+                                            "setTitle"           => self::plugin()->translate(self::KEY_SHOW_EXCEL_IMPORT_USER_VIEW . "_replace", self::LANG_MODULE, [
                                                 self::dic()->language()->txt("import_users")
                                             ])
                                         ]
                                     ]
                                 ]
-                            ]
+                            ],
+                            "setInfo"               => self::plugin()->translate(self::KEY_SHOW_EXCEL_IMPORT_USER . "_info", self::LANG_MODULE, [
+                                self::dic()->language()->txt("obj_cat"),
+                                self::dic()->language()->txt("obj_orgu"),
+                                self::dic()->language()->txt("obj_usrf")
+                            ])
                         ],
                         self::KEY_SHOW_EXCEL_IMPORT_CONFIG => [
                             self::PROPERTY_CLASS => ilCheckboxInputGUI::class

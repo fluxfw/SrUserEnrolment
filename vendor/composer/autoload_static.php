@@ -12,11 +12,11 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\RequiredData\\SrUserEnrolment\\' => 34,
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
-            'srag\\Notifications4Plugin\\' => 26,
+            'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DataTableUI\\' => 17,
+            'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
@@ -35,7 +35,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'srag\\Notifications4Plugin\\' => 
+        'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/notifications4plugin/src',
         ),
@@ -43,7 +43,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DataTableUI\\' => 
+        'srag\\DataTableUI\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/datatable/src',
         ),
@@ -51,7 +51,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -653,11 +653,11 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImportFormGUI' => __DIR__ . '/../..' . '/src/ExcelImport/ExcelImportFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\ExcelImportGUI' => __DIR__ . '/../..' . '/src/ExcelImport/class.ExcelImportGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\Factory' => __DIR__ . '/../..' . '/src/ExcelImport/Factory.php',
-        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\Local\\ExcelImportLocal' => __DIR__ . '/../..' . '/src/ExcelImport/Local/ExcelImportLocal.php',
-        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\Local\\ExcelImportLocalFormGUI' => __DIR__ . '/../..' . '/src/ExcelImport/Local/ExcelImportLocalFormGUI.php',
-        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\Local\\ExcelImportLocalGUI' => __DIR__ . '/../..' . '/src/ExcelImport/Local/class.ExcelImportLocalGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\Repository' => __DIR__ . '/../..' . '/src/ExcelImport/Repository.php',
         'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\TypeSelectInputGUI' => __DIR__ . '/../..' . '/src/ExcelImport/TypeSelectInputGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\User\\UserExcelImport' => __DIR__ . '/../..' . '/src/ExcelImport/User/UserExcelImport.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\User\\UserExcelImportFormGUI' => __DIR__ . '/../..' . '/src/ExcelImport/User/UserExcelImportFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\ExcelImport\\User\\UserExcelImportGUI' => __DIR__ . '/../..' . '/src/ExcelImport/User/class.UserExcelImportGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Exception\\SrUserEnrolmentException' => __DIR__ . '/../..' . '/src/Exception/SrUserEnrolmentException.php',
         'srag\\Plugins\\SrUserEnrolment\\Job\\Factory' => __DIR__ . '/../..' . '/src/Job/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Job\\Repository' => __DIR__ . '/../..' . '/src/Job/Repository.php',

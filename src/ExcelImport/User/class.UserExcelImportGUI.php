@@ -1,11 +1,12 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\ExcelImport\Local;
+namespace srag\Plugins\SrUserEnrolment\ExcelImport\User;
 
 use ilAdministrationGUI;
 use ilLocalUserGUI;
 use ilObjCategoryGUI;
 use ilObjOrgUnitGUI;
+use ilObjUserFolderGUI;
 use ilRepositoryGUI;
 use ilUIPluginRouterGUI;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
@@ -14,20 +15,17 @@ use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
 
 /**
- * Class ExcelImportLocalGUI
+ * Class UserExcelImportGUI
  *
- * @package           srag\Plugins\SrUserEnrolment\ExcelImport\Local
+ * @package           srag\Plugins\SrUserEnrolment\ExcelImport\User
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\Local\ExcelImportLocalGUI: ilUIPluginRouterGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\Local\ExcelImportLocalGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportGUI: ilUIPluginRouterGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportGUI
  */
-class ExcelImportLocalGUI extends ExcelImportGUI
+class UserExcelImportGUI extends ExcelImportGUI
 {
-
-    const TAB_LOCAL_USER_ADMINISTRATION = "local_user_administration";
-
 
     /**
      * @inheritDoc
@@ -35,7 +33,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
     public static function addTabs(int $obj_ref_id)/*:void*/
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_SEPARATE) {
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_SEPARATE) {
                 self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
                 self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::getTitle(), self::dic()->ctrl()->getLinkTargetByClass([
@@ -53,7 +51,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
     public static function redirect(int $obj_ref_id)/*:void*/
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
                 self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
                 self::dic()->ctrl()->redirectByClass([
@@ -70,10 +68,28 @@ class ExcelImportLocalGUI extends ExcelImportGUI
      */
     public static function getTitle() : string
     {
-        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
             return self::dic()->language()->txt("import_users");
         } else {
             return parent::getTitle();
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getBackTitle() : string
+    {
+        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))) {
+            case "usrf":
+                return self::dic()->language()->txt("obj_usrf");
+                break;
+
+            case "cat":
+            case "orgu":
+            default:
+                return parent::getBackTitle();
         }
     }
 
@@ -103,6 +119,15 @@ class ExcelImportLocalGUI extends ExcelImportGUI
                 ], "index");
                 break;
 
+            case "usrf":
+                self::dic()->ctrl()->saveParameterByClass(ilObjUserFolderGUI::class, self::GET_PARAM_REF_ID);
+
+                self::dic()->ctrl()->redirectByClass([
+                    ilAdministrationGUI::class,
+                    ilObjUserFolderGUI::class
+                ], "view");
+                break;
+
             default:
                 break;
         }
@@ -114,7 +139,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
      */
     protected function newFormInstance() : ExcelImportFormGUI
     {
-        $form = self::srUserEnrolment()->excelImport()->factory()->newLocalFormInstance($this);
+        $form = self::srUserEnrolment()->excelImport()->factory()->newUserFormInstance($this);
 
         return $form;
     }
@@ -125,7 +150,7 @@ class ExcelImportLocalGUI extends ExcelImportGUI
      */
     protected function newImportInstance() : ExcelImport
     {
-        $excel_import = self::srUserEnrolment()->excelImport()->factory()->newLocalImportInstance($this->obj_ref_id);
+        $excel_import = self::srUserEnrolment()->excelImport()->factory()->newUserImportInstance($this->obj_ref_id);
 
         return $excel_import;
     }

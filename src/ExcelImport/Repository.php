@@ -253,13 +253,14 @@ final class Repository
 
             case "cat":
             case "orgu":
-                if (!self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL)) {
+                if (!self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER)) {
                     return false;
                 }
 
                 return self::dic()->access()->checkAccessOfUser($user_id, "cat_administrate_users", "", $obj_ref_id);
 
             case "cmps":
+            case "usrf":
             default:
                 return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id);
         }

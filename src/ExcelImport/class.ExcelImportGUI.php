@@ -124,7 +124,7 @@ class ExcelImportGUI
     public static function redirect(int $obj_ref_id)/*: void*/
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_LOCAL_TYPE) === ConfigFormGUI::SHOW_EXCEL_IMPORT_LOCAL_TYPE_REPLACE) {
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
                 self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
 
                 self::dic()->ctrl()->redirectByClass([
@@ -141,7 +141,7 @@ class ExcelImportGUI
      */
     protected function setTabs()/*: void*/
     {
-        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
+        self::dic()->tabs()->setBackTarget($this->getBackTitle(), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));
 
         self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, static::getTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
@@ -157,6 +157,15 @@ class ExcelImportGUI
     public static function getTitle() : string
     {
         return self::plugin()->translate("title", self::LANG_MODULE);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getBackTitle() : string
+    {
+        return self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id));
     }
 
 
