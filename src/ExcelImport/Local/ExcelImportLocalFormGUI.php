@@ -19,7 +19,17 @@ class ExcelImportLocalFormGUI extends ExcelImportFormGUI
      */
     public function __construct(ExcelImportLocalGUI $parent)
     {
-        $this->excel_import_local_user_administration = true;
+        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($parent->getObjRefId()))) {
+            case "usrf":
+                $this->excel_import_local_user_administration = false;
+                break;
+
+            case "cat":
+            case "orgu":
+            default:
+                $this->excel_import_local_user_administration = true;
+                break;
+        }
 
         switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($parent->getObjRefId()))) {
             case "cat":
@@ -30,6 +40,7 @@ class ExcelImportLocalFormGUI extends ExcelImportFormGUI
                 $this->excel_import_local_user_administration_object_type = ExcelImportLocal::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT;
                 break;
 
+            case "usrf":
             default:
                 break;
         }
@@ -68,17 +79,37 @@ class ExcelImportLocalFormGUI extends ExcelImportFormGUI
             switch ($key) {
                 case "excel_import_local_user_administration":
                     $field[self::PROPERTY_DISABLED] = true;
-                    unset($field["setInfo"]);
+
+                    switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->parent->getObjRefId()))) {
+                        case "usrf":
+                            $field["setInfo"] = $this->parent->getBackTitle();
+                            break;
+
+                        case "cat":
+                        case "orgu":
+                        default:
+                            unset($field["setInfo"]);
+                            break;
+                    }
 
                     foreach ($field[self::PROPERTY_SUBITEMS] as $subkey => &$subfield) {
                         $subfield[self::PROPERTY_DISABLED] = true;
 
-                        switch ($subkey) {
-                            case "excel_import_local_user_administration_type":
-                                $subfield["setInfo"] = self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->parent->getObjRefId()));
+                        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->parent->getObjRefId()))) {
+                            case "usrf":
                                 break;
 
+                            case "cat":
+                            case "orgu":
                             default:
+                                switch ($subkey) {
+                                    case "excel_import_local_user_administration_type":
+                                        $subfield["setInfo"] = $this->parent->getBackTitle();
+                                        break;
+
+                                    default:
+                                        break;
+                                }
                                 break;
                         }
                     }

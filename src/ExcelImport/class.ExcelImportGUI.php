@@ -141,7 +141,7 @@ class ExcelImportGUI
      */
     protected function setTabs()/*: void*/
     {
-        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
+        self::dic()->tabs()->setBackTarget($this->getBackTitle(), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));
 
         self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, static::getTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
@@ -157,6 +157,15 @@ class ExcelImportGUI
     public static function getTitle() : string
     {
         return self::plugin()->translate("title", self::LANG_MODULE);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getBackTitle() : string
+    {
+        return self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id));
     }
 
 

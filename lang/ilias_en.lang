@@ -80,9 +80,9 @@ config_roles_read_requests_info#:#Users with the selected roles have always read
 config_save#:#Save
 config_show_excel_import_config#:#User can adjust these values on import
 config_show_excel_import_course#:#Show in course
-config_show_excel_import_local#:#Show local user administration
-config_show_excel_import_local_info#:#In org unit or category
-config_show_excel_import_local_type#:#Type
+config_show_excel_import_local#:#Show in user administration
+config_show_excel_import_local_info#:#In %1$s, %2$s or %3$s
+config_show_excel_import_local_type#:#View
 config_show_excel_import_local_type_replace#:#Replace "%s"
 config_show_excel_import_local_type_separate#:#Separate
 deputies_actions#:#Actions

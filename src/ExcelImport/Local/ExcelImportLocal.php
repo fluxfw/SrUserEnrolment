@@ -34,7 +34,16 @@ class ExcelImportLocal extends ExcelImport
      */
     protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
     {
-        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = $this->obj_ref_id;
+        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($form->getParent()->getObjRefId()))) {
+            case "usrf":
+                break;
+
+            case "cat":
+            case "orgu":
+            default:
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = $this->obj_ref_id;
+                break;
+        }
     }
 
 

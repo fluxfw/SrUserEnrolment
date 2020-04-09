@@ -122,6 +122,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
                             case "cat":
                             case "orgu":
+                            case "usrf":
                                 $this->fixRedirect();
 
                                 ExcelImportLocalGUI::redirect($this->getRefId());
@@ -184,6 +185,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilLocalUserGUI::class)
                 || (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCategoryGUI::class)
                     && self::dic()->ctrl()->getCmd() === "listUsers")
+                || (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjUserFolderGUI::class) && self::dic()->ctrl()->getCmd() === "view")
             ) {
 
                 ExcelImportLocalGUI::addTabs($this->getRefId());

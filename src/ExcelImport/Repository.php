@@ -260,6 +260,7 @@ final class Repository
                 return self::dic()->access()->checkAccessOfUser($user_id, "cat_administrate_users", "", $obj_ref_id);
 
             case "cmps":
+            case "usrf":
             default:
                 return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id);
         }

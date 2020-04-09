@@ -6,6 +6,7 @@ use ilAdministrationGUI;
 use ilLocalUserGUI;
 use ilObjCategoryGUI;
 use ilObjOrgUnitGUI;
+use ilObjUserFolderGUI;
 use ilRepositoryGUI;
 use ilUIPluginRouterGUI;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
@@ -25,9 +26,6 @@ use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
  */
 class ExcelImportLocalGUI extends ExcelImportGUI
 {
-
-    const TAB_LOCAL_USER_ADMINISTRATION = "local_user_administration";
-
 
     /**
      * @inheritDoc
@@ -81,6 +79,24 @@ class ExcelImportLocalGUI extends ExcelImportGUI
     /**
      * @inheritDoc
      */
+    public function getBackTitle() : string
+    {
+        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))) {
+            case "usrf":
+                return self::dic()->language()->txt("obj_usrf");
+                break;
+
+            case "cat":
+            case "orgu":
+            default:
+                return parent::getBackTitle();
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     protected function back()/*: void*/
     {
         switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))) {
@@ -101,6 +117,15 @@ class ExcelImportLocalGUI extends ExcelImportGUI
                     ilObjOrgUnitGUI::class,
                     ilLocalUserGUI::class
                 ], "index");
+                break;
+
+            case "usrf":
+                self::dic()->ctrl()->saveParameterByClass(ilObjUserFolderGUI::class, self::GET_PARAM_REF_ID);
+
+                self::dic()->ctrl()->redirectByClass([
+                    ilAdministrationGUI::class,
+                    ilObjUserFolderGUI::class
+                ], "view");
                 break;
 
             default:
