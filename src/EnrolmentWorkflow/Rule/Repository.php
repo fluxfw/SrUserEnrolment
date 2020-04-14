@@ -87,10 +87,6 @@ final class Repository
             $rule->setParentContext(AbstractRule::PARENT_CONTEXT_RULE_GROUP);
             $rule->setParentId($group->getRuleId());
             $this->storeRule($rule);
-
-            if ($rule->isEnabled()) {
-                $group->setEnabled(true);
-            }
         }
 
         $this->storeRule($group);

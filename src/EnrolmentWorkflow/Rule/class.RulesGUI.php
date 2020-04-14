@@ -300,7 +300,7 @@ class RulesGUI
 
         $group = self::srUserEnrolment()->enrolmentWorkflow()->rules()->createGroupOfRules($rules);
 
-        ilUtil::sendSuccess(self::plugin()->translate("saved_rule", RulesGUI::LANG_MODULE, [$group->getRuleTitle()]), true);
+        ilUtil::sendSuccess(self::plugin()->translate("saved_rule", self::LANG_MODULE, [$group->getRuleTitle()]), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
     }
