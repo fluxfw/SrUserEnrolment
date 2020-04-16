@@ -26,8 +26,8 @@ final class Repository
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const USER_ROLE_ID = 4;
     /**
      * @var self|null
      */
@@ -88,13 +88,14 @@ final class Repository
 
 
     /**
-     * @param stdClass $fields
+     * @param stdClass   $fields
+     * @param array|null $global_roles
      *
      * @return int
      *
      * @throws SrUserEnrolmentException
      */
-    public function createNewAccount(stdClass $fields) : int
+    public function createNewAccount(stdClass $fields,/*?*/ array $global_roles = null) : int
     {
         $user = new ilObjUser();
 
@@ -108,7 +109,13 @@ final class Repository
 
         $user->saveAsNew();
 
-        self::dic()->rbac()->admin()->assignUser(self::USER_ROLE_ID, $user->getId()); // User default role
+        if (!empty($global_roles)) {
+            foreach ($global_roles as $global_role) {
+                self::dic()->rbac()->admin()->assignUser($global_role, $user->getId());
+            }
+        } else {
+            self::dic()->rbac()->admin()->assignUser(ExcelImportFormGUI::USER_ROLE_ID, $user->getId()); // User default role
+        }
 
         $this->assignOrgUnit($user, $fields);
 

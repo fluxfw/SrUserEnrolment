@@ -29,6 +29,7 @@ class ConfigFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const KEY_ROLES = "roles";
     const KEY_ROLES_READ_REQUESTS = "roles_read_requests";
@@ -86,6 +87,16 @@ class ConfigFormGUI extends PropertyFormGUI
      */
     protected function initFields()/*: void*/
     {
+        $excel_import_fields = ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI());
+        $excel_import_fields[ExcelImportFormGUI::KEY_CREATE_NEW_USERS][self::PROPERTY_SUBITEMS][ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES]["setInfo"] = self::plugin()->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES . "_info");
+        $excel_import_fields[ExcelImportFormGUI::KEY_CREATE_NEW_USERS][self::PROPERTY_SUBITEMS][ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE] = [
+            self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
+            self::PROPERTY_REQUIRED => true,
+            self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles(),
+            "setTitle"              => self::plugin()->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE),
+            "setInfo"               => self::plugin()->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE . "_info")
+        ];
+
         $this->fields = [
             self::KEY_ROLES                   => [
                 self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
@@ -104,7 +115,7 @@ class ConfigFormGUI extends PropertyFormGUI
                         self::KEY_SHOW_EXCEL_IMPORT_COURSE => [
                             self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                         ],
-                        self::KEY_SHOW_EXCEL_IMPORT_USER => [
+                        self::KEY_SHOW_EXCEL_IMPORT_USER   => [
                             self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
                             self::PROPERTY_SUBITEMS => [
                                 self::KEY_SHOW_EXCEL_IMPORT_USER_VIEW => [
@@ -115,7 +126,7 @@ class ConfigFormGUI extends PropertyFormGUI
                                             self::PROPERTY_CLASS => ilRadioOption::class,
                                             "setTitle"           => $this->txt(self::KEY_SHOW_EXCEL_IMPORT_USER_VIEW . "_separate")
                                         ],
-                                        self::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE => [
+                                        self::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE  => [
                                             self::PROPERTY_CLASS => ilRadioOption::class,
                                             "setTitle"           => self::plugin()->translate(self::KEY_SHOW_EXCEL_IMPORT_USER_VIEW . "_replace", self::LANG_MODULE, [
                                                 self::dic()->language()->txt("import_users")
@@ -133,7 +144,7 @@ class ConfigFormGUI extends PropertyFormGUI
                         self::KEY_SHOW_EXCEL_IMPORT_CONFIG => [
                             self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                         ]
-                    ] + ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI()),
+                    ] + $excel_import_fields,
                 "setTitle"              => self::plugin()->translate("enable", self::LANG_MODULE, [
                     self::plugin()->translate("title", ExcelImportGUI::LANG_MODULE)
                 ])

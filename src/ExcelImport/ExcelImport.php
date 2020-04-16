@@ -220,6 +220,7 @@ class ExcelImport
             $user = (object) [
                 "ilias_user_id"                => null,
                 "is_new"                       => false,
+                "global_roles"                 => null,
                 ExcelImportFormGUI::KEY_FIELDS => [
                     self::FIELDS_TYPE_ILIAS  => [],
                     self::FIELDS_TYPE_CUSTOM => []
@@ -335,8 +336,14 @@ class ExcelImport
         });
 
         if ($form->isCreateNewUsers()) {
-            $new_users = array_filter($users, function (stdClass &$user) : bool {
-                return $user->is_new;
+            $new_users = array_filter($users, function (stdClass &$user) use ($form): bool {
+                if ($user->is_new) {
+                    $user->global_roles = $form->getExcelImportCreateNewUsersGlobalRoles();
+
+                    return true;
+                } else {
+                    return false;
+                }
             });
         } else {
             $new_users = [];
@@ -527,7 +534,7 @@ class ExcelImport
         foreach ($users as &$user) {
             try {
                 if ($user->is_new) {
-                    $user->ilias_user_id = self::srUserEnrolment()->excelImport()->createNewAccount($user->{ExcelImportFormGUI::KEY_FIELDS});
+                    $user->ilias_user_id = self::srUserEnrolment()->excelImport()->createNewAccount($user->{ExcelImportFormGUI::KEY_FIELDS},$user->global_roles);
 
                     self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
                         ->logs()
