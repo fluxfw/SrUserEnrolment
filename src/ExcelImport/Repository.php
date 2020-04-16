@@ -88,20 +88,22 @@ final class Repository
 
 
     /**
-     * @param stdClass   $fields
-     * @param array|null $global_roles
+     * @param stdClass $fields
      *
      * @return int
      *
      * @throws SrUserEnrolmentException
      */
-    public function createNewAccount(stdClass $fields,/*?*/ array $global_roles = null) : int
+    public function createNewAccount(stdClass $fields) : int
     {
         $user = new ilObjUser();
 
         $user->setActive(true);
 
         $user->setTimeLimitUnlimited(true);
+
+        $global_roles = $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles;
+        unset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles);
 
         $this->setUserFields($user, $fields);
 
@@ -392,6 +394,8 @@ final class Repository
     public function updateUserAccount(int $user_id, stdClass $fields) : bool
     {
         $user = new ilObjUser($user_id);
+
+        unset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles);
 
         $updated = ($this->setUserFields($user, $fields) > 0);
 
