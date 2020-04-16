@@ -88,13 +88,13 @@ class ConfigFormGUI extends PropertyFormGUI
     protected function initFields()/*: void*/
     {
         $excel_import_fields = ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI());
-        $excel_import_fields[ExcelImportFormGUI::KEY_CREATE_NEW_USERS][self::PROPERTY_SUBITEMS][ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES]["setInfo"] = self::plugin()->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES . "_info");
+        $excel_import_fields[ExcelImportFormGUI::KEY_CREATE_NEW_USERS][self::PROPERTY_SUBITEMS][ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES]["setInfo"] = self::plugin()
+            ->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES . "_info");
         $excel_import_fields[ExcelImportFormGUI::KEY_CREATE_NEW_USERS][self::PROPERTY_SUBITEMS][ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE] = [
-            self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
-            self::PROPERTY_REQUIRED => true,
-            self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles(),
-            "setTitle"              => self::plugin()->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE),
-            "setInfo"               => self::plugin()->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE . "_info")
+            self::PROPERTY_CLASS   => MultiSelectSearchNewInputGUI::class,
+            self::PROPERTY_OPTIONS => self::srUserEnrolment()->ruleEnrolment()->getAllRoles(),
+            "setTitle"             => self::plugin()->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE),
+            "setInfo"              => self::plugin()->translate(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE . "_info")
         ];
 
         $this->fields = [
