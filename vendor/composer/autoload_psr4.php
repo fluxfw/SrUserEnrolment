@@ -13,7 +13,7 @@ return array(
     'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
     'srag\\DataTableUI\\SrUserEnrolment\\' => array($vendorDir . '/srag/datatable/src'),
     'srag\\DIC\\SrUserEnrolment\\' => array($vendorDir . '/srag/dic/src'),
-    'srag\\CustomInputGUIs\\SrUserEnrolment\\' => array($vendorDir . '/srag/custominputguis/src'),
+    'srag\\CustomInputGUIs\\' => array($vendorDir . '/srag/custominputguis/src'),
     'srag\\CommentsUI\\SrUserEnrolment\\' => array($vendorDir . '/srag/commentsui/src'),
     'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => array($vendorDir . '/srag/activerecordconfig/src'),
 );

@@ -106,6 +106,10 @@ excel_import_cancel#:#Abbrechen
 excel_import_count_skip_top_rows#:#Anzahl Zeilen oben überspringen
 excel_import_count_skip_top_rows_info#:#Bitte Spalten-Überschriff-Zeile nicht mit einbeziehen
 excel_import_create_new_users#:#Nicht existierende Benutzer anlegen
+excel_import_create_new_users_global_roles#:#Globale Rollen zuweisen
+excel_import_create_new_users_global_roles_info#:#Vorwahl
+excel_import_create_new_users_global_roles_exclude#:#Globale Rollen nicht anzeigen
+excel_import_create_new_users_global_roles_exclude_info#:#Dem Benutzer sollen diese Rollen nicht zur Auswahl angezeigt werden, z. Bsp. Admin-Rollen
 excel_import_create_or_update_users#:#Benutzer anlegen oder aktualisieren
 excel_import_create_or_update_users_confirmation#:#Benutzer anlegen oder aktualisieren?
 excel_import_create_user#:#Benutzer anlegen

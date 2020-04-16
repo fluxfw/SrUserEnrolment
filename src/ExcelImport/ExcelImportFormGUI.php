@@ -12,6 +12,7 @@ use ilSrUserEnrolmentPlugin;
 use ilTextInputGUI;
 use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiLineNewInputGUI\MultiLineNewInputGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\MultiSelectSearchNewInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
@@ -28,10 +29,13 @@ class ExcelImportFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = ExcelImportGUI::LANG_MODULE;
     const KEY_COUNT_SKIP_TOP_ROWS = self::LANG_MODULE . "_count_skip_top_rows";
     const KEY_CREATE_NEW_USERS = self::LANG_MODULE . "_create_new_users";
+    const KEY_CREATE_NEW_USERS_GLOBAL_ROLES = self::LANG_MODULE . "_create_new_users_global_roles";
+    const KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE = self::LANG_MODULE . "_create_new_users_global_roles_exclude";
     const KEY_FIELDS = self::LANG_MODULE . "_fields";
     const KEY_GENDER_F = self::LANG_MODULE . "_gender_f";
     const KEY_GENDER_M = self::LANG_MODULE . "_gender_m";
@@ -45,6 +49,8 @@ class ExcelImportFormGUI extends PropertyFormGUI
     const KEY_ORG_UNIT_ASSIGN_TYPE = self::LANG_MODULE . "_org_unit_assign_type";
     const KEY_SET_PASSWORD = self::LANG_MODULE . "_set_password";
     const KEY_SET_PASSWORD_FORMAT_DATE = self::KEY_SET_PASSWORD . "_format_date";
+    const USER_ROLE_ID = 4;
+    const GUEST_ROLE_ID = 5;
 
 
     /**
@@ -122,9 +128,19 @@ class ExcelImportFormGUI extends PropertyFormGUI
             ],
 
             self::KEY_CREATE_NEW_USERS => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                "setTitle"           => self::plugin()->translate(self::KEY_CREATE_NEW_USERS),
-                "setInfo"            => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+                self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
+                self::PROPERTY_SUBITEMS => [
+                    self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES => [
+                        self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
+                        self::PROPERTY_REQUIRED => true,
+                        self::PROPERTY_OPTIONS  => array_filter(self::srUserEnrolment()->ruleEnrolment()->getAllRoles(), function (int $role) : bool {
+                            return (!in_array($role, self::srUserEnrolment()->config()->getValue(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE)));
+                        }, ARRAY_FILTER_USE_KEY),
+                        "setTitle"              => self::plugin()->translate(self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES)
+                    ]
+                ],
+                "setTitle"              => self::plugin()->translate(self::KEY_CREATE_NEW_USERS),
+                "setInfo"               => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
                     self::plugin()->translate(self::KEY_CREATE_NEW_USERS),
                     implode(", ", array_map(function (string $field) : string {
                         return ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, $field);
@@ -408,6 +424,10 @@ class ExcelImportFormGUI extends PropertyFormGUI
     /**
      * @var array
      */
+    protected $excel_import_create_new_users_global_roles = [];
+    /**
+     * @var array
+     */
     protected $excel_import_fields = [];
     /**
      * @var string
@@ -682,6 +702,15 @@ class ExcelImportFormGUI extends PropertyFormGUI
     public function isCreateNewUsers() : bool
     {
         return $this->{self::KEY_CREATE_NEW_USERS};
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getExcelImportCreateNewUsersGlobalRoles() : array
+    {
+        return $this->{self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES};
     }
 
 

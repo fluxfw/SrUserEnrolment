@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.11.2]
+- Assign global roles
+
 ## [3.11.1]
 - Also for user management
 

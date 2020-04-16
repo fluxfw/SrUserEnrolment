@@ -106,6 +106,10 @@ excel_import_cancel#:#Cancel
 excel_import_count_skip_top_rows#:#Count skip top rows
 excel_import_count_skip_top_rows_info#:#Please not include column heading row
 excel_import_create_new_users#:#Create not exists users
+excel_import_create_new_users_global_roles#:#Assign global roles
+excel_import_create_new_users_global_roles_info#:#Preselection
+excel_import_create_new_users_global_roles_exclude#:#Not show global roles
+excel_import_create_new_users_global_roles_exclude_info#:#These roles are not showed for select from user, for instance admin roles
 excel_import_create_or_update_users#:#Create or update users
 excel_import_create_or_update_users_confirmation#:#Create or update users?
 excel_import_create_user#:#Create user

@@ -26,8 +26,8 @@ final class Repository
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const USER_ROLE_ID = 4;
     /**
      * @var self|null
      */
@@ -102,13 +102,22 @@ final class Repository
 
         $user->setTimeLimitUnlimited(true);
 
+        $global_roles = $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles;
+        unset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles);
+
         $this->setUserFields($user, $fields);
 
         $user->create();
 
         $user->saveAsNew();
 
-        self::dic()->rbac()->admin()->assignUser(self::USER_ROLE_ID, $user->getId()); // User default role
+        if (!empty($global_roles)) {
+            foreach ($global_roles as $global_role) {
+                self::dic()->rbac()->admin()->assignUser($global_role, $user->getId());
+            }
+        } else {
+            self::dic()->rbac()->admin()->assignUser(ExcelImportFormGUI::USER_ROLE_ID, $user->getId()); // User default role
+        }
 
         $this->assignOrgUnit($user, $fields);
 
@@ -385,6 +394,8 @@ final class Repository
     public function updateUserAccount(int $user_id, stdClass $fields) : bool
     {
         $user = new ilObjUser($user_id);
+
+        unset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles);
 
         $updated = ($this->setUserFields($user, $fields) > 0);
 

@@ -34,6 +34,7 @@ class ExcelImport
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const SESSION_KEY = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_excel_import";
     const FIELDS_TYPE_ILIAS = 1;
@@ -335,8 +336,16 @@ class ExcelImport
         });
 
         if ($form->isCreateNewUsers()) {
-            $new_users = array_filter($users, function (stdClass &$user) : bool {
-                return $user->is_new;
+            $new_users = array_filter($users, function (stdClass &$user) use ($form): bool {
+                if ($user->is_new) {
+                    $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->global_roles = $form->getExcelImportCreateNewUsersGlobalRoles();
+
+                    return true;
+                } else {
+                    unset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->global_roles);
+
+                    return false;
+                }
             });
         } else {
             $new_users = [];
@@ -354,7 +363,7 @@ class ExcelImport
             $items = [];
             foreach ($user->{ExcelImportFormGUI::KEY_FIELDS} as $type => $fields) {
                 foreach ($fields as $key => $value) {
-                    $items[self::fieldName($type, $key)] = strval($value);
+                    $items[self::fieldName($type, $key)] = is_array($value) ? implode(", ", $value) : strval($value);
                 }
             }
 
