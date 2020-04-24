@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
+use ilDBConstants;
 use ilObjUser;
 use ilOrgUnitPosition;
 use ilOrgUnitUserAssignment;
@@ -194,7 +195,7 @@ final class Repository
      */
     public function getUserDefinedFieldID(string $field_name)/*: ?int*/
     {
-        $result = self::dic()->database()->queryF('SELECT field_id FROM udf_definition WHERE field_name=%s', ["text"], [$field_name]);
+        $result = self::dic()->database()->queryF('SELECT field_id FROM udf_definition WHERE field_name=%s', [ilDBConstants::T_TEXT], [$field_name]);
 
         if (($row = $result->fetchAssoc()) !== false) {
             return intval($row["field_id"]);
