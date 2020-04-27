@@ -138,6 +138,7 @@ class ConfigFormGUI extends PropertyFormGUI
                             "setInfo"               => self::plugin()->translate(self::KEY_SHOW_EXCEL_IMPORT_USER . "_info", self::LANG_MODULE, [
                                 self::dic()->language()->txt("obj_cat"),
                                 self::dic()->language()->txt("obj_orgu"),
+                                self::dic()->language()->txt("obj_role"),
                                 self::dic()->language()->txt("obj_usrf")
                             ])
                         ],

@@ -21,6 +21,7 @@ class Log extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_log";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const STATUS_ENROLLED = 100;
@@ -114,6 +115,15 @@ class Log extends ActiveRecord
      * @con_is_notnull   false
      */
     protected $user_id = null;
+    /**
+     * @var int|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $execute_user_id = null;
     /**
      * @var ilDateTime
      *
@@ -236,6 +246,28 @@ class Log extends ActiveRecord
     public function withUserId(/*?*/ int $user_id = null) : self
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getExecuteUserId()/*: ?int*/
+    {
+        return $this->execute_user_id;
+    }
+
+
+    /**
+     * @param int|null $execute_user_id
+     *
+     * @return self
+     */
+    public function withExecuteUserId(/*?*/ int $execute_user_id = null) : self
+    {
+        $this->execute_user_id = $execute_user_id;
 
         return $this;
     }

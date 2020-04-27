@@ -30,6 +30,7 @@ class ExcelImportGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_CREATE_OR_UPDATE_USERS = "createOrUpdateUsers";
@@ -39,6 +40,7 @@ class ExcelImportGUI
     const CMD_INPUT_EXCEL_IMPORT_DATA = "inputExcelImportData";
     const CMD_KEY_AUTO_COMPLETE = "keyAutoComplete";
     const CMD_PARSE_EXCEL = "parseExcel";
+    const GET_PARAM_OBJ_SINGLE_ID = "obj_single_id";
     const GET_PARAM_REF_ID = "ref_id";
     const LANG_MODULE = "excel_import";
     const TAB_EXCEL_IMPORT = "excel_import";
@@ -46,6 +48,10 @@ class ExcelImportGUI
      * @var int
      */
     protected $obj_ref_id;
+    /**
+     * @var int|null
+     */
+    protected $obj_single_id = null;
 
 
     /**
@@ -63,12 +69,14 @@ class ExcelImportGUI
     public function executeCommand()/*: void*/
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
+        $this->obj_single_id = (intval(filter_input(INPUT_GET, self::GET_PARAM_OBJ_SINGLE_ID)) ?? null);
 
-        if (!self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id)) {
+        if (!self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id, $this->obj_single_id)) {
             die();
         }
 
         self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_REF_ID);
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_OBJ_SINGLE_ID);
 
         $this->setTabs();
 
@@ -76,7 +84,7 @@ class ExcelImportGUI
 
         switch (strtolower($next_class)) {
             case strtolower(LogsGUI::class):
-                self::dic()->ctrl()->forwardCommand(new LogsGUI($this->obj_ref_id));
+                self::dic()->ctrl()->forwardCommand(new LogsGUI(self::getObjId($this->obj_ref_id, $this->obj_single_id)));
                 break;
 
             default:
@@ -103,12 +111,14 @@ class ExcelImportGUI
 
 
     /**
-     * @param int $obj_ref_id
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
      */
-    public static function addTabs(int $obj_ref_id)/*:void*/
+    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
     {
-        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
 
             self::dic()->tabs()->addSubTab(self::TAB_EXCEL_IMPORT, static::getTitle(), self::dic()->ctrl()->getLinkTargetByClass([
                 ilUIPluginRouterGUI::class,
@@ -119,13 +129,15 @@ class ExcelImportGUI
 
 
     /**
-     * @param int $obj_ref_id
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
      */
-    public static function redirect(int $obj_ref_id)/*: void*/
+    public static function redirect(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*: void*/
     {
-        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
             if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
                 self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
 
                 self::dic()->ctrl()->redirectByClass([
                     ilUIPluginRouterGUI::class,
@@ -165,7 +177,7 @@ class ExcelImportGUI
      */
     public function getBackTitle() : string
     {
-        return self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id));
+        return self::dic()->objDataCache()->lookupTitle(static::getObjId($this->obj_ref_id, $this->obj_single_id));
     }
 
 
@@ -215,7 +227,7 @@ class ExcelImportGUI
      */
     protected function newImportInstance() : ExcelImport
     {
-        $excel_import = self::srUserEnrolment()->excelImport()->factory()->newImportInstance($this->obj_ref_id);
+        $excel_import = self::srUserEnrolment()->excelImport()->factory()->newImportInstance($this);
 
         return $excel_import;
     }
@@ -359,5 +371,42 @@ class ExcelImportGUI
     public function getObjRefId() : int
     {
         return $this->obj_ref_id;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getObjSingleId()/* : ?int*/
+    {
+        return $this->obj_single_id;
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     *
+     * @return int
+     */
+    public static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
+    {
+        if (!empty($obj_single_id)) {
+            return $obj_single_id;
+        } else {
+            return self::dic()->objDataCache()->lookupObjId($obj_ref_id);
+        }
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     *
+     * @return string
+     */
+    public static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
+    {
+        return self::dic()->objDataCache()->lookupType(static::getObjId($obj_ref_id, $obj_single_id));
     }
 }

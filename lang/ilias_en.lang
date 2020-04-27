@@ -81,7 +81,7 @@ config_save#:#Save
 config_show_excel_import_config#:#User can adjust these values on import
 config_show_excel_import_course#:#Show in course
 config_show_excel_import_local#:#Show in user administration
-config_show_excel_import_local_info#:#In %1$s, %2$s or %3$s
+config_show_excel_import_local_info#:#In %1$s, %2$s, %3$s or %4$s
 config_show_excel_import_local_type#:#View
 config_show_excel_import_local_type_replace#:#Replace "%s"
 config_show_excel_import_local_type_separate#:#Separate
@@ -161,6 +161,7 @@ excel_import_title#:#Enrol by excel file
 excel_import_update_user#:#Update user
 excel_import_yes#:#Yes
 logs_date#:#Date / Time
+logs_execute_user_id#:#User executed login
 logs_logs#:#Logs
 logs_message#:#Message
 logs_objects#:#Objects

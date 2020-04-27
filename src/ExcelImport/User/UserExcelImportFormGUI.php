@@ -19,7 +19,8 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
      */
     public function __construct(UserExcelImportGUI $parent)
     {
-        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($parent->getObjRefId()))) {
+        switch ($parent::getObjType($parent->getObjRefId(), $parent->getObjSingleId())) {
+            case "role":
             case "usrf":
                 $this->excel_import_local_user_administration = false;
                 break;
@@ -31,7 +32,7 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
                 break;
         }
 
-        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($parent->getObjRefId()))) {
+        switch ($parent::getObjType($parent->getObjRefId(), $parent->getObjSingleId())) {
             case "cat":
                 $this->excel_import_local_user_administration_object_type = UserExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
                 break;
@@ -40,6 +41,7 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
                 $this->excel_import_local_user_administration_object_type = UserExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT;
                 break;
 
+            case "role":
             case "usrf":
             default:
                 break;
@@ -57,10 +59,29 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
     protected function getValue(/*string*/ $key)
     {
         switch ($key) {
-            case "excel_import_local_user_administration":
-            case "excel_import_local_user_administration_object_type":
-            case "excel_import_local_user_administration_type":
+            case self::KEY_LOCAL_USER_ADMINISTRATION:
+            case self::KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE:
+            case self::KEY_LOCAL_USER_ADMINISTRATION_TYPE:
                 return $this->{$key};
+
+            case self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES:
+                $value = parent::getValue($key);
+
+                switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+                    case "role":
+                        $value[] = $this->parent->getObjSingleId();
+
+                        $value = array_unique($value);
+                        break;
+
+                    case "cat":
+                    case "orgu":
+                    case "usrf":
+                    default:
+                        break;
+                }
+
+                return $value;
 
             default:
                 return parent::getValue($key);
@@ -77,10 +98,11 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
 
         foreach ($this->fields as $key => &$field) {
             switch ($key) {
-                case "excel_import_local_user_administration":
+                case self::KEY_LOCAL_USER_ADMINISTRATION:
                     $field[self::PROPERTY_DISABLED] = true;
 
-                    switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->parent->getObjRefId()))) {
+                    switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+                        case "role":
                         case "usrf":
                             $field["setInfo"] = $this->parent->getBackTitle();
                             break;
@@ -95,7 +117,8 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
                     foreach ($field[self::PROPERTY_SUBITEMS] as $subkey => &$subfield) {
                         $subfield[self::PROPERTY_DISABLED] = true;
 
-                        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->parent->getObjRefId()))) {
+                        switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+                            case "role":
                             case "usrf":
                                 break;
 
@@ -103,13 +126,36 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
                             case "orgu":
                             default:
                                 switch ($subkey) {
-                                    case "excel_import_local_user_administration_type":
+                                    case self::KEY_LOCAL_USER_ADMINISTRATION_TYPE:
                                         $subfield["setInfo"] = $this->parent->getBackTitle();
                                         break;
 
                                     default:
                                         break;
                                 }
+                                break;
+                        }
+                    }
+                    break;
+
+                case self::KEY_CREATE_NEW_USERS:
+                    foreach ($field[self::PROPERTY_SUBITEMS] as $subkey => &$subfield) {
+                        switch ($subkey) {
+                            case self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES:
+                                switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+                                    case "role":
+                                        $subfield["setInfo"] = $this->parent->getBackTitle();
+                                        break;
+
+                                    case "cat":
+                                    case "orgu":
+                                    case "usrf":
+                                    default:
+                                        break;
+                                }
+                                break;
+
+                            default:
                                 break;
                         }
                     }
@@ -128,9 +174,27 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
     protected function storeValue(/*string*/ $key, $value)/*: void*/
     {
         switch ($key) {
-            case "excel_import_local_user_administration":
-            case "excel_import_local_user_administration_object_type":
-            case "excel_import_local_user_administration_type":
+            case self::KEY_LOCAL_USER_ADMINISTRATION:
+            case self::KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE:
+            case self::KEY_LOCAL_USER_ADMINISTRATION_TYPE:
+                break;
+
+            case self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES:
+                switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+                    case "role":
+                        $value[] = $this->parent->getObjSingleId();
+
+                        $value = array_unique($value);
+                        break;
+
+                    case "cat":
+                    case "orgu":
+                    case "usrf":
+                    default:
+                        break;
+                }
+
+                parent::storeValue($key, $value);
                 break;
 
             default:

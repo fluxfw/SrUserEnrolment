@@ -20,6 +20,7 @@ class LogsGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_APPLY_FILTER = "applyFilter";
     const CMD_LIST_LOGS = "listLogs";
@@ -29,17 +30,17 @@ class LogsGUI
     /**
      * @var int
      */
-    protected $obj_ref_id;
+    protected $obj_id;
 
 
     /**
      * LogsGUI constructor
      *
-     * @param int $obj_ref_id
+     * @param int $obj_id
      */
-    public function __construct(int $obj_ref_id)
+    public function __construct(int $obj_id)
     {
-        $this->obj_ref_id = $obj_ref_id;
+        $this->obj_id = $obj_id;
     }
 
 
@@ -138,8 +139,8 @@ class LogsGUI
     /**
      * @return int
      */
-    public function getObjRefId() : int
+    public function getObjId() : int
     {
-        return $this->obj_ref_id;
+        return $this->obj_id;
     }
 }

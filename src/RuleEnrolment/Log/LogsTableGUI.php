@@ -24,6 +24,7 @@ class LogsTableGUI extends TableGUI
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = LogsGUI::LANG_MODULE;
 
@@ -55,6 +56,7 @@ class LogsTableGUI extends TableGUI
                 break;
 
             case "user_id":
+            case "execute_user_id":
                 $value = htmlspecialchars(ilObjUser::_lookupLogin($value));
                 break;
 
@@ -72,10 +74,11 @@ class LogsTableGUI extends TableGUI
     public function getSelectableColumns2() : array
     {
         $columns = [
-            "date"    => "date",
-            "status"  => "status",
-            "message" => "message",
-            "user_id" => "user_id"
+            "date"            => "date",
+            "status"          => "status",
+            "message"         => "message",
+            "user_id"         => "user_id",
+            "execute_user_id" => "execute_user_id"
         ];
 
         $columns = array_map(function (string $key) : array {
@@ -137,11 +140,11 @@ class LogsTableGUI extends TableGUI
         }
 
         $this->setData(self::srUserEnrolment()->ruleEnrolment()->logs()
-            ->getLogs(self::dic()->objDataCache()->lookupObjId($this->parent_obj->getObjRefId()), $this->getOrderField(), $this->getOrderDirection(), intval($this->getOffset()),
+            ->getLogs($this->parent_obj->getObjId(), $this->getOrderField(), $this->getOrderDirection(), intval($this->getOffset()),
                 intval($this->getLimit()), $message, $date_start,
                 $date_end, $status));
 
-        $this->setMaxCount(self::srUserEnrolment()->ruleEnrolment()->logs()->getLogsCount(self::dic()->objDataCache()->lookupObjId($this->parent_obj->getObjRefId()), $message, $date_start, $date_end,
+        $this->setMaxCount(self::srUserEnrolment()->ruleEnrolment()->logs()->getLogsCount($this->parent_obj->getObjId(), $message, $date_start, $date_end,
             $status));
     }
 

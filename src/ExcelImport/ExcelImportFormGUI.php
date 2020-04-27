@@ -555,7 +555,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
      */
     protected function initTitle()/*: void*/
     {
-        $this->setTitle($this->parent->getTitle());
+        $this->setTitle($this->parent::getTitle());
     }
 
 

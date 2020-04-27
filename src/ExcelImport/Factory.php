@@ -21,6 +21,7 @@ final class Factory
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var self|null
@@ -64,13 +65,13 @@ final class Factory
 
 
     /**
-     * @param int $obj_ref_id
+     * @param ExcelImportGUI $parent
      *
      * @return ExcelImport
      */
-    public function newImportInstance(int $obj_ref_id) : ExcelImport
+    public function newImportInstance(ExcelImportGUI $parent) : ExcelImport
     {
-        $excel_import = new ExcelImport($obj_ref_id);
+        $excel_import = new ExcelImport($parent);
 
         return $excel_import;
     }
@@ -90,13 +91,13 @@ final class Factory
 
 
     /**
-     * @param int $obj_ref_id
+     * @param ExcelImportGUI $parent
      *
      * @return UserExcelImport
      */
-    public function newUserImportInstance(int $obj_ref_id) : UserExcelImport
+    public function newUserImportInstance(ExcelImportGUI $parent) : UserExcelImport
     {
-        $excel_import = new UserExcelImport($obj_ref_id);
+        $excel_import = new UserExcelImport($parent);
 
         return $excel_import;
     }

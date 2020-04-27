@@ -20,14 +20,13 @@ class CheckInactiveAssistantsJob extends ilCronJob
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const CRON_JOB_ID = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_check_inactive_assistants";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
     /**
      * CheckInactiveAssistantsJob constructor
-     *
-     * @param int|null $parent_id
      */
     public function __construct()
     {
