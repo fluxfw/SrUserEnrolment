@@ -25,6 +25,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const PAR_SUB_TABS = "sub_tabs";
     const PAR_TABS = "tabs";
@@ -35,6 +36,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     const PART_CENTER_COLUMN = "center_column";
     const PART_RIGHT_COLUMN = "right_column";
     const GET_PARAM_REF_ID = "ref_id";
+    const GET_PARAM_OBJ_ID = "obj_id";
     const GET_PARAM_TARGET = "target";
     /**
      * @var bool
@@ -113,7 +115,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $this->getRefId())) {
                     if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
 
-                        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($this->getRefId()))) {
+                        switch (ExcelImportGUI::getObjType($this->getRefId())) {
                             case "crs":
                                 $this->fixRedirect();
 
@@ -128,6 +130,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                                 UserExcelImportGUI::redirect($this->getRefId());
                                 break;
 
+                            case "role":
                             default:
                                 break;
                         }
@@ -191,6 +194,11 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
                 UserExcelImportGUI::addTabs($this->getRefId());
             }
 
+            if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjRoleGUI::class) && self::dic()->ctrl()->getCmd() === "userassignment") {
+
+                UserExcelImportGUI::addTabs($this->getRefId(), $this->getObjId());
+            }
+
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjCourseGUI::class)) {
 
                 SelectWorkflowGUI::addTabs($this->getRefId());
@@ -251,6 +259,23 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
         if ($obj_ref_id > 0) {
             return $obj_ref_id;
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
+     * @return int|null
+     */
+    protected function getObjId()/*: ?int*/
+    {
+        $obj_id = filter_input(INPUT_GET, self::GET_PARAM_OBJ_ID);
+
+        $obj_id = intval($obj_id);
+
+        if ($obj_id > 0) {
+            return $obj_id;
         } else {
             return null;
         }

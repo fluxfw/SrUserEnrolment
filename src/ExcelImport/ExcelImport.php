@@ -145,17 +145,19 @@ class ExcelImport
 
 
     /**
-     * @var int
+     * @var ExcelImportGUI
      */
-    protected $obj_ref_id;
+    protected $parent;
 
 
     /**
      * ExcelImport constructor
+     *
+     * @param ExcelImportGUI $parent
      */
-    public function __construct(int $obj_ref_id)
+    public function __construct(ExcelImportGUI $parent)
     {
-        $this->obj_ref_id = $obj_ref_id;
+        $this->parent = $parent;
     }
 
 
@@ -338,11 +340,11 @@ class ExcelImport
         if ($form->isCreateNewUsers()) {
             $new_users = array_filter($users, function (stdClass &$user) use ($form): bool {
                 if ($user->is_new) {
-                    $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->global_roles = $form->getExcelImportCreateNewUsersGlobalRoles();
+                    $this->handleRoles($form, $user);
 
                     return true;
                 } else {
-                    unset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->global_roles);
+                    unset($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles);
 
                     return false;
                 }
@@ -398,6 +400,16 @@ class ExcelImport
             self::FIELDS_TYPE_ILIAS  => [],
             self::FIELDS_TYPE_CUSTOM => []
         ]);
+    }
+
+
+    /**
+     * @param ExcelImportFormGUI $form
+     * @param stdClass           $user
+     */
+    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user)/*:void*/
+    {
+        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles = array_unique($form->getExcelImportCreateNewUsersGlobalRoles());
     }
 
 
@@ -541,7 +553,7 @@ class ExcelImport
                     self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
                         ->logs()
                         ->factory()
-                        ->newObjectRuleUserInstance(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id), $user->ilias_user_id)
+                        ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
                         ->withStatus(Log::STATUS_USER_CREATED)
                         ->withMessage("User data: " . json_encode($user)));
                 } else {
@@ -549,7 +561,7 @@ class ExcelImport
                         self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
                             ->logs()
                             ->factory()
-                            ->newObjectRuleUserInstance(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id), $user->ilias_user_id)
+                            ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
                             ->withStatus(Log::STATUS_USER_UPDATED)
                             ->withMessage("User data: " . json_encode($user)));
                     }
@@ -558,7 +570,7 @@ class ExcelImport
                 self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
                     ->logs()
                     ->factory()
-                    ->newExceptionInstance($ex, self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))->withStatus(Log::STATUS_USER_FAILED));
+                    ->newExceptionInstance($ex, $this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()))->withStatus(Log::STATUS_USER_FAILED));
             }
         }
 
@@ -586,7 +598,7 @@ class ExcelImport
         $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
         $users = (array) $data->users;
 
-        $obj = ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        $obj = ilObjectFactory::getInstanceByRefId($this->parent->getObjRefId(), false);
 
         $users = array_filter($users, function (stdClass $user) use ($obj): bool {
             return (!empty($user->ilias_user_id) && !$obj->getMembersObject()->isAssigned($user->ilias_user_id));
@@ -616,17 +628,21 @@ class ExcelImport
 
         foreach ($users as &$user) {
             try {
-                if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id), $user->ilias_user_id)) {
-                    self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()->logs()->factory()->newObjectRuleUserInstance(self::dic()
-                        ->objDataCache()
-                        ->lookupObjId($this->obj_ref_id), $user->ilias_user_id)->withStatus(Log::STATUS_ENROLLED)->withMessage("User data: " . json_encode($user)));
+                if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
+                    self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
+                        ->ruleEnrolment()
+                        ->logs()
+                        ->factory()
+                        ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
+                        ->withStatus(Log::STATUS_ENROLLED)
+                        ->withMessage("User data: " . json_encode($user)));
                 }
             } catch (Throwable $ex) {
                 self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
                     ->ruleEnrolment()
                     ->logs()
                     ->factory()
-                    ->newExceptionInstance($ex, self::dic()->objDataCache()->lookupObjId($this->obj_ref_id))->withStatus(Log::STATUS_ENROLL_FAILED));
+                    ->newExceptionInstance($ex, $this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()))->withStatus(Log::STATUS_ENROLL_FAILED));
             }
         }
 

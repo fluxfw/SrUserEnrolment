@@ -89,6 +89,30 @@ final class Repository
 
 
     /**
+     * @param ilObjUser $user
+     * @param stdClass  $fields
+     *
+     * @return bool
+     */
+    protected function assignRoles(ilObjUser $user, stdClass $fields) : bool
+    {
+        $changed = false;
+
+        if (!empty($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles)) {
+            foreach ($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles as $role) {
+                self::dic()->rbac()->admin()->assignUser($role, $user->getId());
+                $changed = true;
+            }
+        } else {
+            self::dic()->rbac()->admin()->assignUser(ExcelImportFormGUI::USER_ROLE_ID, $user->getId()); // User default role
+            $changed = true;
+        }
+
+        return $changed;
+    }
+
+
+    /**
      * @param stdClass $fields
      *
      * @return int
@@ -103,22 +127,13 @@ final class Repository
 
         $user->setTimeLimitUnlimited(true);
 
-        $global_roles = $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles;
-        unset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles);
-
         $this->setUserFields($user, $fields);
 
         $user->create();
 
         $user->saveAsNew();
 
-        if (!empty($global_roles)) {
-            foreach ($global_roles as $global_role) {
-                self::dic()->rbac()->admin()->assignUser($global_role, $user->getId());
-            }
-        } else {
-            self::dic()->rbac()->admin()->assignUser(ExcelImportFormGUI::USER_ROLE_ID, $user->getId()); // User default role
-        }
+        $this->assignRoles($user, $fields);
 
         $this->assignOrgUnit($user, $fields);
 
@@ -234,14 +249,15 @@ final class Repository
 
 
     /**
-     * @param int $user_id
-     * @param int $obj_ref_id
+     * @param int      $user_id
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
      *
      * @return bool
      */
-    public function hasAccess(int $user_id, int $obj_ref_id) : bool
+    public function hasAccess(int $user_id, int $obj_ref_id, /*?*/ int $obj_single_id = null) : bool
     {
-        $type = self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($obj_ref_id));
+        $type = ExcelImportGUI::getObjType($obj_ref_id, $obj_single_id);
 
         if ($type !== "cmps") {
             if (!$this->isEnabled()) {
@@ -268,6 +284,9 @@ final class Repository
                 }
 
                 return self::dic()->access()->checkAccessOfUser($user_id, "cat_administrate_users", "", $obj_ref_id);
+
+            case "role":
+                return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id, null, $obj_single_id);
 
             case "cmps":
             case "usrf":
@@ -342,6 +361,7 @@ final class Repository
                     || (intval($type) === ExcelImport::FIELDS_TYPE_ILIAS
                         && $key === "org_unit")
                     || (intval($type) === ExcelImport::FIELDS_TYPE_ILIAS && $key === "org_unit_position")
+                    || (intval($type) === ExcelImport::FIELDS_TYPE_ILIAS && $key === "roles")
                 ) {
                     // Set later
                     continue;
@@ -396,13 +416,17 @@ final class Repository
     {
         $user = new ilObjUser($user_id);
 
-        unset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->global_roles);
+        unset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles);
 
         $updated = ($this->setUserFields($user, $fields) > 0);
 
         if ($updated) {
             $user->update();
         }
+
+        /*if ($this->assignRoles($user, $fields)) {
+            $updated = true;
+        }*/
 
         if ($this->assignOrgUnit($user, $fields)) {
             $updated = true;

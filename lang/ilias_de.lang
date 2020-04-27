@@ -81,7 +81,7 @@ config_save#:#Speichern
 config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
 config_show_excel_import_course#:#In Kurs anzeigen
 config_show_excel_import_local#:#In Benutzerverwaltung anzeigen
-config_show_excel_import_local_info#:#In %1$s, %2$s oder %3$s
+config_show_excel_import_local_info#:#In %1$s, %2$s, %3$s oder %4$s
 config_show_excel_import_local_type#:#Ansicht
 config_show_excel_import_local_type_replace#:#"%s" ersetzen
 config_show_excel_import_local_type_separate#:#Separat
@@ -161,6 +161,7 @@ excel_import_title#:#Einschreiben per Excel-Datei
 excel_import_update_user#:#Benutzer aktualisieren
 excel_import_yes#:#Ja
 logs_date#:#Datum / Zeit
+logs_execute_user_id#:#Benutzer ausgeführt Login
 logs_logs#:#Logs
 logs_message#:#Nachricht
 logs_objects#:#Objekte

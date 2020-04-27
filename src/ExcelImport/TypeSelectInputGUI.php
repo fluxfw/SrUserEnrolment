@@ -17,6 +17,7 @@ class TypeSelectInputGUI extends ilSelectInputGUI
 {
 
     use DICTrait;
+
     /**
      * @var bool
      */

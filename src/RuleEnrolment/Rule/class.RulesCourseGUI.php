@@ -79,7 +79,7 @@ class RulesCourseGUI
                 break;
 
             case strtolower(LogsGUI::class):
-                self::dic()->ctrl()->forwardCommand(new LogsGUI($this->obj_ref_id));
+                self::dic()->ctrl()->forwardCommand(new LogsGUI(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)));
                 break;
 
             default:

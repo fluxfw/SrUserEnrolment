@@ -23,7 +23,17 @@ class UserExcelImport extends ExcelImport
     {
         $update_fields = parent::getUpdateFields($fields);
 
-        $update_fields[self::FIELDS_TYPE_ILIAS]["time_limit_owner"] = true;
+        switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+            case "role":
+            case "usrf":
+                break;
+
+            case "cat":
+            case "orgu":
+            default:
+                $update_fields[self::FIELDS_TYPE_ILIAS]["time_limit_owner"] = true;
+                break;
+        }
 
         return $update_fields;
     }
@@ -32,16 +42,39 @@ class UserExcelImport extends ExcelImport
     /**
      * @inheritDoc
      */
+    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
+    {
+        parent::handleRoles($form, $user);
+
+        switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+            case "role":
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles[] = $this->parent->getObjSingleId();
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles = array_unique($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles);
+                break;
+
+            case "cat":
+            case "orgu":
+            case "usrf":
+            default:
+                break;
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
     {
-        switch (self::dic()->objDataCache()->lookupType(self::dic()->objDataCache()->lookupObjId($form->getParent()->getObjRefId()))) {
+        switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+            case "role":
             case "usrf":
                 break;
 
             case "cat":
             case "orgu":
             default:
-                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = $this->obj_ref_id;
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = $this->parent->getObjRefId();
                 break;
         }
     }
