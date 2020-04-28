@@ -20,15 +20,15 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
     public function __construct(UserExcelImportGUI $parent)
     {
         switch ($parent::getObjType($parent->getObjRefId(), $parent->getObjSingleId())) {
-            case "role":
-            case "usrf":
-                $this->excel_import_local_user_administration = false;
-                break;
-
             case "cat":
             case "orgu":
-            default:
                 $this->excel_import_local_user_administration = true;
+                $this->excel_import_local_user_administration_type = UserExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID;
+                break;
+
+            case "role":
+            case "usrf":
+            default:
                 break;
         }
 
@@ -46,8 +46,6 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
             default:
                 break;
         }
-
-        $this->excel_import_local_user_administration_type = UserExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_REF_ID;
 
         parent::__construct($parent);
     }
@@ -99,32 +97,24 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
         foreach ($this->fields as $key => &$field) {
             switch ($key) {
                 case self::KEY_LOCAL_USER_ADMINISTRATION:
-                    $field[self::PROPERTY_DISABLED] = true;
-
                     switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
-                        case "role":
-                        case "usrf":
-                            $field["setInfo"] = $this->parent->getBackTitle();
-                            break;
-
                         case "cat":
                         case "orgu":
-                        default:
+                            $field[self::PROPERTY_DISABLED] = true;
                             unset($field["setInfo"]);
+                            break;
+
+                        case "role":
+                        case "usrf":
+                        default:
                             break;
                     }
 
                     foreach ($field[self::PROPERTY_SUBITEMS] as $subkey => &$subfield) {
-                        $subfield[self::PROPERTY_DISABLED] = true;
-
                         switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
-                            case "role":
-                            case "usrf":
-                                break;
-
                             case "cat":
                             case "orgu":
-                            default:
+                                $subfield[self::PROPERTY_DISABLED] = true;
                                 switch ($subkey) {
                                     case self::KEY_LOCAL_USER_ADMINISTRATION_TYPE:
                                         $subfield["setInfo"] = $this->parent->getBackTitle();
@@ -133,6 +123,11 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
                                     default:
                                         break;
                                 }
+                                break;
+
+                            case "role":
+                            case "usrf":
+                            default:
                                 break;
                         }
                     }
