@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.12.1]
+- Fix
+
 ## [3.12.0]
 - Excel import
   - Create users direct in a global or local roles

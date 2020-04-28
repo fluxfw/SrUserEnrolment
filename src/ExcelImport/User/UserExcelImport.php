@@ -24,14 +24,14 @@ class UserExcelImport extends ExcelImport
         $update_fields = parent::getUpdateFields($fields);
 
         switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
-            case "role":
-            case "usrf":
-                break;
-
             case "cat":
             case "orgu":
-            default:
                 $update_fields[self::FIELDS_TYPE_ILIAS]["time_limit_owner"] = true;
+                break;
+
+            case "role":
+            case "usrf":
+            default:
                 break;
         }
 
@@ -67,14 +67,15 @@ class UserExcelImport extends ExcelImport
     protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
     {
         switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
-            case "role":
-            case "usrf":
-                break;
-
             case "cat":
             case "orgu":
-            default:
                 $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner = $this->parent->getObjRefId();
+                break;
+
+            case "role":
+            case "usrf":
+            default:
+                parent::handleLocalUserAdministration($form, $user);
                 break;
         }
     }
