@@ -234,7 +234,7 @@ final class Repository
         }
 
         if (!empty($rule_id)) {
-            $wheres[] = 'rule_id=' . self::dic()->database()->quote($rule_id, ilDBConstants::T_INTEGER);
+            $wheres[] = 'rule_id=' . self::dic()->database()->quote($rule_id, ilDBConstants::T_TEXT);
         }
 
         if (count($wheres) > 0) {
