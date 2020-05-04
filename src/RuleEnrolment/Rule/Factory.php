@@ -18,6 +18,7 @@ final class Factory
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var self|null
@@ -48,13 +49,13 @@ final class Factory
 
 
     /**
-     * @param int|null $parent_id
+     * @param array|null $parents
      *
      * @return RuleEnrolmentJob
      */
-    public function newJobInstance(/*?*/ int $parent_id = null) : RuleEnrolmentJob
+    public function newJobInstance(/*?*/ array $parents = null) : RuleEnrolmentJob
     {
-        $job = new RuleEnrolmentJob($parent_id);
+        $job = new RuleEnrolmentJob($parents);
 
         return $job;
     }

@@ -21,6 +21,7 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_CONFIGURE = "configure";
 
@@ -47,7 +48,7 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
             case strtolower(ConfigCtrl::class):
                 self::dic()->ctrl()->forwardCommand(new ConfigCtrl());
                 break;
-                
+
             case strtolower(ExcelImportGUI::class):
                 self::dic()->ctrl()->forwardCommand(new ExcelImportGUI());
                 break;

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Log;
+namespace srag\Plugins\SrUserEnrolment\Log;
 
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -9,11 +9,9 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class LogsGUI
  *
- * @package           srag\Plugins\SrUserEnrolment\RuleEnrolment\Log
+ * @package srag\Plugins\SrUserEnrolment\Log
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class LogsGUI
 {
@@ -98,7 +96,7 @@ class LogsGUI
     {
         self::dic()->tabs()->activateTab(self::TAB_LOGS);
 
-        $table = self::srUserEnrolment()->ruleEnrolment()->logs()->factory()->newTableInstance($this);
+        $table = self::srUserEnrolment()->logs()->factory()->newTableInstance($this);
 
         self::output()->output($table, true);
     }
@@ -109,7 +107,7 @@ class LogsGUI
      */
     protected function applyFilter()/*: void*/
     {
-        $table = self::srUserEnrolment()->ruleEnrolment()->logs()->factory()->newTableInstance($this, self::CMD_APPLY_FILTER);
+        $table = self::srUserEnrolment()->logs()->factory()->newTableInstance($this, self::CMD_APPLY_FILTER);
 
         $table->writeFilterToSession();
 
@@ -125,7 +123,7 @@ class LogsGUI
      */
     protected function resetFilter()/*: void*/
     {
-        $table = self::srUserEnrolment()->ruleEnrolment()->logs()->factory()->newTableInstance($this, self::CMD_RESET_FILTER);
+        $table = self::srUserEnrolment()->logs()->factory()->newTableInstance($this, self::CMD_RESET_FILTER);
 
         $table->resetFilter();
 

@@ -21,6 +21,7 @@ class OrgUnitUserTypeChecker extends AbstractRuleChecker
 {
 
     use OperatorChecker;
+
     /**
      * @var OrgUnitUserType
      */

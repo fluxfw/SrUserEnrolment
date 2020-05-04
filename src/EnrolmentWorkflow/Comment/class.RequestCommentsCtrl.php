@@ -22,6 +22,7 @@ class RequestCommentsCtrl extends AbstractCtrl
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var RequestInfoGUI

@@ -17,6 +17,7 @@ class UsersAssistantsAjaxAutoCompleteCtrl extends UsersAjaxAutoCompleteCtrl
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var RequestsGUI

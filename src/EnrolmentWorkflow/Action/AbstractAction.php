@@ -22,6 +22,7 @@ abstract class AbstractAction extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     /**
      * @var string
      *

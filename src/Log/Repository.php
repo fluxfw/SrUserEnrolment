@@ -1,19 +1,18 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs;
+namespace srag\Plugins\SrUserEnrolment\Log;
 
 use ilDateTime;
 use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use Throwable;
 
 /**
  * Class Repository
  *
- * @package srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs
+ * @package srag\Plugins\SrUserEnrolment\Log
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -125,16 +124,20 @@ final class Repository
      * @param int|null        $status
      * @param int|null        $user_id
      * @param int|null        $execute_user_id
+     * @param string|null     $rule_id
      *
      * @return Log[]
      */
-    public function getLogs(/*?*/ int $object_id = null, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/ int $limit_end = null, /*?*/
-        string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null, /*?*/ int $user_id = null,/*?*/ int $execute_user_id = null
+    public function getLogs(/*?*/ int $object_id = null, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/
+        int $limit_end = null, /*?*/
+        string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null, /*?*/ int $user_id = null,/*?*/ int $execute_user_id = null,/*?*/
+        string $rule_id = null
     ) : array {
 
         $sql = 'SELECT *';
 
-        $sql .= $this->getLogsQuery($object_id, $sort_by, $sort_by_direction, $limit_start, $limit_end, $message, $date_start, $date_end, $status, $user_id, $execute_user_id);
+        $sql .= $this->getLogsQuery($object_id, $sort_by, $sort_by_direction, $limit_start, $limit_end, $message, $date_start, $date_end, $status, $user_id, $execute_user_id,
+            $rule_id);
 
         /**
          * @var Log[] $logs
@@ -153,16 +156,18 @@ final class Repository
      * @param int|null        $status
      * @param int|null        $user_id
      * @param int|null        $execute_user_id
+     * @param string|null     $rule_id
      *
      * @return int
      */
-    public function getLogsCount(/*?*/ int $object_id = null, /*?*/ string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null,/*?*/
-        int $user_id = null,/*?*/ int $execute_user_id = null
+    public function getLogsCount( /*?*/ int $object_id = null, /*?*/ string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null,
+        /*?*/ int $status = null,/*?*/
+        int $user_id = null,/*?*/ int $execute_user_id = null,/*?*/ string $rule_id = null
     ) : int {
 
         $sql = 'SELECT COUNT(log_id) AS count';
 
-        $sql .= $this->getLogsQuery($object_id, null, null, null, null, $message, $date_start, $date_end, $status, $user_id, $execute_user_id);
+        $sql .= $this->getLogsQuery($$object_id, null, null, null, null, $message, $date_start, $date_end, $status, $user_id, $execute_user_id, $rule_id);
 
         $result = self::dic()->database()->query($sql);
 
@@ -186,11 +191,14 @@ final class Repository
      * @param int|null        $status
      * @param int|null        $user_id
      * @param int|null        $execute_user_id
+     * @param string|null     $rule_id
      *
      * @return string
      */
-    private function getLogsQuery(/*?*/ int $object_id = null, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null, /*?*/ int $limit_end = null, /*?*/
-        string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null,/*?*/ int $user_id = null,/*?*/ int $execute_user_id = null
+    private function getLogsQuery(/*?*/ int $object_id = null, /*?*/ string $sort_by = null, /*?*/ string $sort_by_direction = null, /*?*/ int $limit_start = null,
+        /*?*/ int $limit_end = null, /*?*/
+        string $message = null, /*?*/ ilDateTime $date_start = null, /*?*/ ilDateTime $date_end = null, /*?*/ int $status = null,/*?*/ int $user_id = null,/*?*/ int $execute_user_id = null,/*?*/
+        string $rule_id = null
     ) : string {
 
         $sql = ' FROM ' . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME);
@@ -223,6 +231,10 @@ final class Repository
 
         if (!empty($execute_user_id)) {
             $wheres[] = 'execute_user_id=' . self::dic()->database()->quote($execute_user_id, ilDBConstants::T_INTEGER);
+        }
+
+        if (!empty($rule_id)) {
+            $wheres[] = 'rule_id=' . self::dic()->database()->quote($rule_id, ilDBConstants::T_INTEGER);
         }
 
         if (count($wheres) > 0) {
@@ -273,7 +285,7 @@ final class Repository
         self::dic()->database()->createAutoIncrement(Log::TABLE_NAME, "log_id"); // Using MySQL native autoincrement for performance
 
         self::dic()->database()->modifyTableColumn(Log::TABLE_NAME, "rule_id", [
-            "type"    => "text",
+            "type"    => ilDBConstants::T_TEXT,
             "length"  => 4000, // Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoPostgresFieldDefinition.php
             "notnull" => false
         ]);

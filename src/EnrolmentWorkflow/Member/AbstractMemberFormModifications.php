@@ -18,7 +18,6 @@ abstract class AbstractMemberFormModifications
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-
     /**
      * AbstractMemberFormModifications constructor
      */

@@ -17,6 +17,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect\UserSelectField;
 use srag\Plugins\SrUserEnrolment\ExcelImport\Repository as ExcelImportRepository;
 use srag\Plugins\SrUserEnrolment\Job\Repository as JobsRepository;
+use srag\Plugins\SrUserEnrolment\Log\Repository as LogsRepository;
 use srag\Plugins\SrUserEnrolment\Menu\Menu;
 use srag\Plugins\SrUserEnrolment\ResetPassword\Repository as ResetUserPasswordRepository;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Repository as RuleEnrolmentRepository;
@@ -46,6 +47,7 @@ final class Repository
     use RequiredDataTrait {
         requiredData as protected _requiredData;
     }
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var self|null
@@ -119,7 +121,7 @@ final class Repository
         $this->enrolmentWorkflow()->assistants()->deleteUserAssistants($usr_id);
         $this->enrolmentWorkflow()->deputies()->deleteUserDeputies($usr_id);
         $this->comments()->deleteUserComments($usr_id);
-        $this->ruleEnrolment()->logs()->deleteUserLogs($usr_id);
+        $this->logs()->deleteUserLogs($usr_id);
         $this->enrolmentWorkflow()->members()->deleteUserMembers($usr_id);
         $this->enrolmentWorkflow()->requests()->deleteUserRequests($usr_id);
     }
@@ -135,6 +137,7 @@ final class Repository
         $this->enrolmentWorkflow()->dropTables();
         $this->excelImport()->dropTables();
         $this->jobs()->dropTables();
+        $this->logs()->dropTables();
         $this->notifications4plugin()->dropTables();
         $this->requiredData()->dropTables();
         $this->resetUserPassword()->dropTables();
@@ -170,6 +173,7 @@ final class Repository
         $this->enrolmentWorkflow()->installTables();
         $this->excelImport()->installTables();
         $this->jobs()->installTables();
+        $this->logs()->installTables();
         $this->notifications4plugin()->installTables();
         $this->requiredData()->installTables();
         $this->resetUserPassword()->installTables();
@@ -183,6 +187,15 @@ final class Repository
     public function jobs() : JobsRepository
     {
         return JobsRepository::getInstance();
+    }
+
+
+    /**
+     * @return LogsRepository
+     */
+    public function logs() : LogsRepository
+    {
+        return LogsRepository::getInstance();
     }
 
 

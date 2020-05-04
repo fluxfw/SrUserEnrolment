@@ -19,7 +19,6 @@ abstract class AbstractRequestStepForOthersTableModifications
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-
     /**
      * AbstractRequestStepForOthersTableModifications constructor
      */

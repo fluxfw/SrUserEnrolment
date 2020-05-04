@@ -302,6 +302,7 @@ rules_type_check_action#:#Berechtigungen Aktion prüfen
 rules_type_course_rule#:#Einschreiben per Regel
 rules_type_group#:#Gruppe
 rules_type_if#:#Wenn
+rules_type_role_rule#:#Zuweisen per Regel
 rules_value#:#Wert
 rules_ungroup#:#Gruppe auflösen
 select_workflow_object_setting_changed#:#Kurs-Einstellung '%1$s' auf '%2$s' gesetzt

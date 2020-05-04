@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Log;
+namespace srag\Plugins\SrUserEnrolment\Log;
 
 use ilDateTime;
 use ilObjUser;
@@ -16,7 +16,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class LogsTableGUI
  *
- * @package srag\Plugins\SrUserEnrolment\RuleEnrolment\Log
+ * @package srag\Plugins\SrUserEnrolment\Log
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -139,12 +139,12 @@ class LogsTableGUI extends TableGUI
             $status = null;
         }
 
-        $this->setData(self::srUserEnrolment()->ruleEnrolment()->logs()
+        $this->setData(self::srUserEnrolment()->logs()
             ->getLogs($this->parent_obj->getObjId(), $this->getOrderField(), $this->getOrderDirection(), intval($this->getOffset()),
                 intval($this->getLimit()), $message, $date_start,
                 $date_end, $status));
 
-        $this->setMaxCount(self::srUserEnrolment()->ruleEnrolment()->logs()->getLogsCount($this->parent_obj->getObjId(), $message, $date_start, $date_end,
+        $this->setMaxCount(self::srUserEnrolment()->logs()->getLogsCount($this->parent_obj->getObjId(), $message, $date_start, $date_end,
             $status));
     }
 

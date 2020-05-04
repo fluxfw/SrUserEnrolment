@@ -23,6 +23,7 @@ class ActionsGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_DISABLE_ACTIONS = "disableActions";
     const CMD_ENABLE_ACTIONS = "enableActions";

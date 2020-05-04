@@ -29,6 +29,7 @@ class AssistantsGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_EDIT_ASSISTANTS = "editAssistants";

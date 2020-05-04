@@ -22,6 +22,7 @@ class Rule extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     /**
      * @var string
      *

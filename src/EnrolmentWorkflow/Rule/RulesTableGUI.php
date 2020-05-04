@@ -23,6 +23,7 @@ class RulesTableGUI extends TableGUI
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = RulesGUI::LANG_MODULE;
 

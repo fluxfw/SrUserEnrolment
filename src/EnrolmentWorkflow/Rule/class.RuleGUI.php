@@ -23,6 +23,7 @@ class RuleGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_RULE = "addRule";
     const CMD_BACK = "back";

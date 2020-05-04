@@ -20,6 +20,7 @@ class WorkflowFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = WorkflowsGUI::LANG_MODULE;
     /**

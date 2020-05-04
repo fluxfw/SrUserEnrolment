@@ -20,6 +20,7 @@ class Workflow extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_wkfl";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 

@@ -1,13 +1,10 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs;
+namespace srag\Plugins\SrUserEnrolment\Log;
 
 use ilDateTime;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\Log;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsTableGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use stdClass;
 use Throwable;
@@ -15,7 +12,7 @@ use Throwable;
 /**
  * Class Factory
  *
- * @package srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs
+ * @package srag\Plugins\SrUserEnrolment\Log
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

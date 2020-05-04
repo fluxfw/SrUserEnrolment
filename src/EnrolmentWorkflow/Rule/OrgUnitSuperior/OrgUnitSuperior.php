@@ -16,6 +16,7 @@ class OrgUnitSuperior extends AbstractRule
 {
 
     use Position;
+
     const TABLE_NAME_SUFFIX = "orgsup";
 
 

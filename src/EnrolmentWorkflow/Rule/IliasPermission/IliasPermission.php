@@ -30,6 +30,7 @@ class IliasPermission extends AbstractRule
     {
         switch ($parent_context) {
             case self::PARENT_CONTEXT_COURSE:
+            case self::PARENT_CONTEXT_ROLE:
                 return false;
 
             default:

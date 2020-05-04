@@ -25,6 +25,7 @@ class RequestStepForOthersGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_APPLY_FILTER = "applyFilter";
     const CMD_BACK = "back";

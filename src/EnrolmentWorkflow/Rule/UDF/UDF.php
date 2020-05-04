@@ -20,6 +20,7 @@ class UDF extends AbstractRule
     use Field;
     use Operator;
     use Value;
+
     const TABLE_NAME_SUFFIX = "udf";
 
 

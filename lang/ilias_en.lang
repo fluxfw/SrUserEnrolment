@@ -302,6 +302,7 @@ rules_type_check_action#:#Permissions check action
 rules_type_course_rule#:#Enrol by rule
 rules_type_group#:#Group
 rules_type_if#:#If
+rules_type_role_rule#:#Assign by rule
 rules_value#:#Value
 rules_ungroup#:#Ungroup
 select_workflow_object_setting_changed#:#Set course setting '%1$s' to '%2$s'

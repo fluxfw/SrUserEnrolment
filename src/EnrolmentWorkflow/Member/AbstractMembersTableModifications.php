@@ -18,7 +18,6 @@ abstract class AbstractMembersTableModifications
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-
     /**
      * AbstractMembersTableModifications constructor
      */

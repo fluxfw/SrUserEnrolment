@@ -19,6 +19,7 @@ class AssignResponsibleUsersRunner extends AbstractActionRunner
 {
 
     use OperatorChecker;
+
     /**
      * @var AssignResponsibleUsers
      */

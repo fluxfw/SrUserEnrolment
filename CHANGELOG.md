@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.13.0]
+- Assign role by rule
+
 ## [3.12.1]
 - Fix
 

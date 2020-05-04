@@ -19,6 +19,7 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
     use PluginUninstallTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_ID = "srusrenr";
     const PLUGIN_NAME = "SrUserEnrolment";
     const PLUGIN_CLASS_NAME = self::class;

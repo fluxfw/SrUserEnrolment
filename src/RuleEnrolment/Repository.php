@@ -12,7 +12,6 @@ use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Logs\Repository as LogsRepository;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Repository as RulesRepository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -28,6 +27,7 @@ final class Repository
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var self|null
@@ -62,7 +62,6 @@ final class Repository
      */
     public function dropTables()/*: void*/
     {
-        $this->logs()->dropTables();
         $this->rules()->dropTables();
     }
 
@@ -173,12 +172,13 @@ final class Repository
 
 
     /**
-     * @param int $user_id
-     * @param int $obj_ref_id
+     * @param int      $user_id
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
      *
      * @return bool
      */
-    public function hasAccess(int $user_id, int $obj_ref_id) : bool
+    public function hasAccess(int $user_id, int $obj_ref_id, /*?*/ int $obj_single_id = null) : bool
     {
         if (!$this->isEnabled()) {
             return false;
@@ -188,7 +188,7 @@ final class Repository
             return false;
         }
 
-        return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id);
+        return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id, null, $obj_single_id);
     }
 
 
@@ -197,7 +197,6 @@ final class Repository
      */
     public function installTables()/*: void*/
     {
-        $this->logs()->installTables();
         $this->rules()->installTables();
     }
 
@@ -208,15 +207,6 @@ final class Repository
     public function isEnabled() : bool
     {
         return (self::plugin()->getPluginObject()->isActive() && self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_RULES_ENROLL));
-    }
-
-
-    /**
-     * @return LogsRepository
-     */
-    public function logs() : LogsRepository
-    {
-        return LogsRepository::getInstance();
     }
 
 
