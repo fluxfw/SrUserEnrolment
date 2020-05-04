@@ -91,6 +91,8 @@ final class Repository extends AbstractRepository
             ConfigFormGUI::KEY_SHOW_MEMBERS                               => [Config::TYPE_BOOLEAN, false],
             ConfigFormGUI::KEY_SHOW_RESET_PASSWORD                        => [Config::TYPE_BOOLEAN, false],
             ConfigFormGUI::KEY_SHOW_RULES_ENROLL                          => [Config::TYPE_BOOLEAN, false],
+            ConfigFormGUI::KEY_SHOW_RULES_ENROLL_COURSE                   => [Config::TYPE_BOOLEAN, true],
+            ConfigFormGUI::KEY_SHOW_RULES_ENROLL_USER                     => [Config::TYPE_BOOLEAN, false],
             ExcelImportFormGUI::KEY_COUNT_SKIP_TOP_ROWS                   => [Config::TYPE_INTEGER, 0],
             ExcelImportFormGUI::KEY_CREATE_NEW_USERS                      => [Config::TYPE_BOOLEAN, false],
             ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES         => [Config::TYPE_JSON, [ExcelImportFormGUI::USER_ROLE_ID], false],

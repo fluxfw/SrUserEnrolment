@@ -248,7 +248,7 @@ class RulesCourseGUI
      *
      * @return string
      */
-    protected static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
+    public static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
     {
         return self::dic()->objDataCache()->lookupType(static::getObjId($obj_ref_id, $obj_single_id));
     }

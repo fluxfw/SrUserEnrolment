@@ -13,6 +13,7 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Repository as RulesRepository;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -188,7 +189,22 @@ final class Repository
             return false;
         }
 
-        return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id, null, $obj_single_id);
+        switch (RulesCourseGUI::getObjType($obj_ref_id, $obj_single_id)) {
+            case "crs":
+                if (!self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_RULES_ENROLL_COURSE)) {
+                    return false;
+                }
+
+                return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id);
+
+            case "role":
+            default:
+                if (!self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_RULES_ENROLL_USER)) {
+                    return false;
+                }
+
+                return self::dic()->access()->checkAccessOfUser($user_id, "write", "", $obj_ref_id, null, $obj_single_id);
+        }
     }
 
 
