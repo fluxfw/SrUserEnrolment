@@ -22,6 +22,7 @@ class StepFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = StepsGUI::LANG_MODULE;
     /**

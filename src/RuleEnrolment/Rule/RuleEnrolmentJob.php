@@ -8,8 +8,8 @@ use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\Log;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI;
+use srag\Plugins\SrUserEnrolment\Log\Log;
+use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use Throwable;
 
@@ -25,22 +25,37 @@ class RuleEnrolmentJob extends ilCronJob
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const CRON_JOB_ID = ilSrUserEnrolmentPlugin::PLUGIN_ID;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @var int|null
+     * @var array
      */
-    protected $parent_id = null;
+    protected $parents = [];
 
 
     /**
      * RuleEnrolmentJob constructor
      *
-     * @param int|null $parent_id
+     * @param array|null $parents
      */
-    public function __construct(/*?*/ int $parent_id = null)
+    public function __construct(/*?*/ array $parents = null)
     {
-        $this->parent_id = $parent_id;
+        if (!empty($parents)) {
+            $this->parents = $parents;
+        } else {
+            $this->parents = array_reduce(AbstractRule::ENROLL_BY_USER, function (array $parents, int $context) : array {
+                $parents = array_merge($parents, array_map(function (int $type) use ($context) : array {
+                    return [
+                        $context,
+                        $type,
+                        null
+                    ];
+                }, array_keys(AbstractRule::TYPES[$context])));
+
+                return $parents;
+            }, []);
+        }
     }
 
 
@@ -120,33 +135,45 @@ class RuleEnrolmentJob extends ilCronJob
             return $result;
         }
 
-        $rules = self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRules(AbstractRule::PARENT_CONTEXT_COURSE, AbstractRule::TYPE_COURSE_RULE, $this->parent_id);
+        /**
+         * @var AbstractRule[] $rules
+         */
+        $rules = array_reduce($this->parents, function (array $rules, array $parent) : array {
+            $rules = array_merge($rules, self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRules($parent[0], $parent[1], $parent[2]));
+
+            return $rules;
+        }, []);
 
         $objects = [];
 
         foreach ($rules as $rule) {
 
-            $objects[$rule->getParentId()] = true;
+            $objects[$rule->getParentContext() . "_" . $rule->getParentId()] = true;
 
             foreach (self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers() as $object_user) {
                 try {
-                    if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())) {
-                        self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
-                            ->ruleEnrolment()
+                    if ($rule->getParentContext() === AbstractRule::PARENT_CONTEXT_ROLE ? (!self::dic()->rbac()->review()->isAssigned($object_user->user_id, $rule->getParentId())
+                        && self::dic()
+                            ->rbac()
+                            ->admin()
+                            ->assignUser($rule->getParentId(), $object_user->user_id))
+                        : self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())
+                    ) {
+                        self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                             ->logs()
                             ->factory()
                             ->newObjectRuleUserInstance($rule->getParentId(), $object_user->user_id, $rule->getId())
                             ->withStatus(Log::STATUS_ENROLLED));
                     }
                 } catch (Throwable $ex) {
-                    self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()->logs()->factory()
+                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()->factory()
                         ->newExceptionInstance($ex, $rule->getParentId(), $object_user->user_id, $rule->getId())->withStatus(Log::STATUS_ENROLL_FAILED));
                 }
             }
         }
 
         $logs = array_reduce(Log::$status_enroll, function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->ruleEnrolment()->logs()->getKeptLogs($status));
+            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
         }, [

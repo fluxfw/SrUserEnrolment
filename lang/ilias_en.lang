@@ -80,11 +80,15 @@ config_roles_read_requests_info#:#Users with the selected roles have always read
 config_save#:#Save
 config_show_excel_import_config#:#User can adjust these values on import
 config_show_excel_import_course#:#Show in course
-config_show_excel_import_local#:#Show in user administration
+config_show_excel_import_local#:#Show in assign
 config_show_excel_import_local_info#:#In %1$s, %2$s, %3$s or %4$s
 config_show_excel_import_local_type#:#View
 config_show_excel_import_local_type_replace#:#Replace "%s"
 config_show_excel_import_local_type_separate#:#Separate
+config_show_rules_enroll_course#:#Show in course
+config_show_rules_enroll_user#:#Show in assign
+config_show_rules_enroll_user_info#:#In %1$s
+config_show_rules_enroll_user#:#
 deputies_actions#:#Actions
 deputies_active#:#Active
 deputies_deputies#:#Deputies
@@ -302,6 +306,7 @@ rules_type_check_action#:#Permissions check action
 rules_type_course_rule#:#Enrol by rule
 rules_type_group#:#Group
 rules_type_if#:#If
+rules_type_role_rule#:#Assign by rule
 rules_value#:#Value
 rules_ungroup#:#Ungroup
 select_workflow_object_setting_changed#:#Set course setting '%1$s' to '%2$s'

@@ -45,6 +45,8 @@ class ConfigFormGUI extends PropertyFormGUI
     const KEY_SHOW_MEMBERS = "show_members";
     const KEY_SHOW_RESET_PASSWORD = "show_reset_password";
     const KEY_SHOW_RULES_ENROLL = "show_rules_enroll";
+    const KEY_SHOW_RULES_ENROLL_COURSE = "show_rules_enroll_course";
+    const KEY_SHOW_RULES_ENROLL_USER = "show_rules_enroll_user";
     const LANG_MODULE = ConfigCtrl::LANG_MODULE;
     const SHOW_EXCEL_IMPORT_USER_TYPE_SEPARATE = 1;
     const SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE = 2;
@@ -104,8 +106,19 @@ class ConfigFormGUI extends PropertyFormGUI
                 self::PROPERTY_OPTIONS  => self::srUserEnrolment()->ruleEnrolment()->getAllRoles()
             ],
             self::KEY_SHOW_RULES_ENROLL       => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                "setTitle"           => self::plugin()->translate("enable", self::LANG_MODULE, [
+                self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
+                self::PROPERTY_SUBITEMS => [
+                    self::KEY_SHOW_RULES_ENROLL_COURSE => [
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                    ],
+                    self::KEY_SHOW_RULES_ENROLL_USER   => [
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        "setInfo"            => self::plugin()->translate(self::KEY_SHOW_RULES_ENROLL_USER . "_info", self::LANG_MODULE, [
+                            self::dic()->language()->txt("obj_role")
+                        ])
+                    ]
+                ],
+                "setTitle"              => self::plugin()->translate("enable", self::LANG_MODULE, [
                     self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE)
                 ])
             ],

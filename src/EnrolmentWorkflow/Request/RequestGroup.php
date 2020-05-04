@@ -25,6 +25,7 @@ class RequestGroup extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req_grp";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const EDITED_STATUS_NOT_EDITED = 1;

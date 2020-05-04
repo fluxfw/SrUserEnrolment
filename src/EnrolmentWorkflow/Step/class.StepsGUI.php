@@ -23,6 +23,7 @@ class StepsGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_DISABLE_STEPS = "disableSteps";
     const CMD_ENABLE_STEPS = "enableSteps";

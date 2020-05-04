@@ -17,6 +17,7 @@ class UserSelectField extends StaticMultiSearchSelectField
 {
 
     use SrUserEnrolmentTrait;
+
     const TABLE_NAME_SUFFIX = "usr";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 }

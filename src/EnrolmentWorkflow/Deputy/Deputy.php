@@ -22,6 +22,7 @@ class Deputy extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_dep";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 

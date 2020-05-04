@@ -25,6 +25,7 @@ class SelectWorkflowGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_SELECT_WORKFLOW = "selectWorkflow";

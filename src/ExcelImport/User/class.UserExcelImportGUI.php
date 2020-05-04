@@ -27,7 +27,7 @@ use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportGUI: ilUIPluginRouterGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportGUI
  */
 class UserExcelImportGUI extends ExcelImportGUI
 {
@@ -111,7 +111,7 @@ class UserExcelImportGUI extends ExcelImportGUI
      */
     protected function back()/*: void*/
     {
-        switch (self::getObjType($this->obj_ref_id, $this->obj_single_id)) {
+        switch (static::getObjType($this->obj_ref_id, $this->obj_single_id)) {
             case "cat":
                 self::dic()->ctrl()->setParameterByClass(ilRepositoryGUI::class, ilSrUserEnrolmentUIHookGUI::GET_PARAM_REF_ID, $this->obj_ref_id);
 

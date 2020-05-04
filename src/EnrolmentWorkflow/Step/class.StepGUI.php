@@ -28,6 +28,7 @@ class StepGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_STEP = "addStep";
     const CMD_BACK = "back";

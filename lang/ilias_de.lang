@@ -80,11 +80,14 @@ config_roles_read_requests_info#:#Benutzer mit den ausgewählten Rollen haben im
 config_save#:#Speichern
 config_show_excel_import_config#:#Benutzer kann diese Werte bei Importieren anpassen
 config_show_excel_import_course#:#In Kurs anzeigen
-config_show_excel_import_local#:#In Benutzerverwaltung anzeigen
+config_show_excel_import_local#:#In Zuweisung anzeigen
 config_show_excel_import_local_info#:#In %1$s, %2$s, %3$s oder %4$s
 config_show_excel_import_local_type#:#Ansicht
 config_show_excel_import_local_type_replace#:#"%s" ersetzen
 config_show_excel_import_local_type_separate#:#Separat
+config_show_rules_enroll_course#:#In Kurs anzeigen
+config_show_rules_enroll_user#:#In Zuweisung anzeigen
+config_show_rules_enroll_user_info#:#In %1$s
 deputies_actions#:#Aktionen
 deputies_active#:#Aktiv
 deputies_deputies#:#Vertreter
@@ -302,6 +305,7 @@ rules_type_check_action#:#Berechtigungen Aktion prüfen
 rules_type_course_rule#:#Einschreiben per Regel
 rules_type_group#:#Gruppe
 rules_type_if#:#Wenn
+rules_type_role_rule#:#Zuweisen per Regel
 rules_value#:#Wert
 rules_ungroup#:#Gruppe auflösen
 select_workflow_object_setting_changed#:#Kurs-Einstellung '%1$s' auf '%2$s' gesetzt

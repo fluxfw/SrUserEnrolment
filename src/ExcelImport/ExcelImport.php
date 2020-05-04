@@ -16,8 +16,8 @@ use PHPExcel_Shared_Date;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\Log;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI;
+use srag\Plugins\SrUserEnrolment\Log\Log;
+use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use stdClass;
 use Throwable;
@@ -550,16 +550,14 @@ class ExcelImport
                 if ($user->is_new) {
                     $user->ilias_user_id = self::srUserEnrolment()->excelImport()->createNewAccount($user->{ExcelImportFormGUI::KEY_FIELDS});
 
-                    self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
-                        ->logs()
+                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
                         ->factory()
                         ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
                         ->withStatus(Log::STATUS_USER_CREATED)
                         ->withMessage("User data: " . json_encode($user)));
                 } else {
                     if (self::srUserEnrolment()->excelImport()->updateUserAccount($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS})) {
-                        self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
-                            ->logs()
+                        self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
                             ->factory()
                             ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
                             ->withStatus(Log::STATUS_USER_UPDATED)
@@ -567,8 +565,7 @@ class ExcelImport
                     }
                 }
             } catch (Throwable $ex) {
-                self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()->ruleEnrolment()
-                    ->logs()
+                self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
                     ->factory()
                     ->newExceptionInstance($ex, $this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()))->withStatus(Log::STATUS_USER_FAILED));
             }
@@ -581,7 +578,7 @@ class ExcelImport
         ilSession::set(self::SESSION_KEY, json_encode($data));
 
         $logs = array_reduce(Log::$status_create_or_update_users, function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->ruleEnrolment()->logs()->getKeptLogs($status));
+            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
         }, []);
@@ -629,8 +626,7 @@ class ExcelImport
         foreach ($users as &$user) {
             try {
                 if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
-                    self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
-                        ->ruleEnrolment()
+                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                         ->logs()
                         ->factory()
                         ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
@@ -638,8 +634,7 @@ class ExcelImport
                         ->withMessage("User data: " . json_encode($user)));
                 }
             } catch (Throwable $ex) {
-                self::srUserEnrolment()->ruleEnrolment()->logs()->storeLog(self::srUserEnrolment()
-                    ->ruleEnrolment()
+                self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                     ->logs()
                     ->factory()
                     ->newExceptionInstance($ex, $this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()))->withStatus(Log::STATUS_ENROLL_FAILED));
@@ -647,7 +642,7 @@ class ExcelImport
         }
 
         $logs = array_reduce(Log::$status_enroll, function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->ruleEnrolment()->logs()->getKeptLogs($status));
+            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
         }, []);

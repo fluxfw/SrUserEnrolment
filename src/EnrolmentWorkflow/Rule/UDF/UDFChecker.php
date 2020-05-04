@@ -18,6 +18,7 @@ class UDFChecker extends AbstractRuleChecker
 {
 
     use OperatorChecker;
+
     /**
      * @var UDF
      */

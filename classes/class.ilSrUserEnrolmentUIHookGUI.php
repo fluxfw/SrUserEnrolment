@@ -13,6 +13,7 @@ use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\User\UserExcelImportGUI;
 use srag\Plugins\SrUserEnrolment\ResetPassword\ResetPasswordGUI;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\User\RulesUserGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -195,6 +196,8 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
             }
 
             if (self::dic()->ctrl()->getCmdClass() === strtolower(ilObjRoleGUI::class) && self::dic()->ctrl()->getCmd() === "userassignment") {
+
+                RulesUserGUI::addTabs($this->getRefId(), $this->getObjId());
 
                 UserExcelImportGUI::addTabs($this->getRefId(), $this->getObjId());
             }

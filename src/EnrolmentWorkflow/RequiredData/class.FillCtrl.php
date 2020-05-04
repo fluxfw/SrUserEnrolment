@@ -19,6 +19,7 @@ class FillCtrl extends AbstractFillCtrl
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const RETURN_REQUEST_STEP = 1;
     const RETURN_EDIT_STEP = 2;

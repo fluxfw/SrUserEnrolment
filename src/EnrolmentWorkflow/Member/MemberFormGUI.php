@@ -24,6 +24,7 @@ class MemberFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = MembersGUI::LANG_MODULE;
     /**

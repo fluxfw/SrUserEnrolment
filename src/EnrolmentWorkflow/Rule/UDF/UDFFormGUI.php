@@ -21,6 +21,7 @@ class UDFFormGUI extends AbstractRuleFormGUI
     use FieldFormGUI;
     use OperatorFormGUI;
     use ValueFormGUI;
+
     /**
      * @var UDF
      */

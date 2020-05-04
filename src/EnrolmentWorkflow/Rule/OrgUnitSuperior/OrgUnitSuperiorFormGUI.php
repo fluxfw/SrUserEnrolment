@@ -17,6 +17,7 @@ class OrgUnitSuperiorFormGUI extends AbstractRuleFormGUI
 {
 
     use PositionFormGUI;
+
     /**
      * @var OrgUnitSuperior
      */

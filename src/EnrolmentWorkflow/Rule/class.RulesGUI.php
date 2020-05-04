@@ -20,6 +20,7 @@ class RulesGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_CREATE_GROUP_OF_RULES = "createGroupOfRules";
     const CMD_DISABLE_RULES = "disableRules";

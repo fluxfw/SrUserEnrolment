@@ -29,6 +29,7 @@ class AssignResponsibleUsersFormGUI extends AbstractActionFormGUI
     use FieldFormGUI;
     use OperatorFormGUI;
     use ValueFormGUI;
+
     /**
      * @var AssignResponsibleUsers
      */

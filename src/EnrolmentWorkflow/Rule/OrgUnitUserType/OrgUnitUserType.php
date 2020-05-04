@@ -24,6 +24,7 @@ class OrgUnitUserType extends AbstractRule
     use Title;
     use RefId;
     use Position;
+
     const TABLE_NAME_SUFFIX = "orgusrtyp";
     const ORG_UNIT_USER_TYPE_TITLE = 1;
     const ORG_UNIT_USER_TYPE_TREE = 2;
@@ -41,6 +42,7 @@ class OrgUnitUserType extends AbstractRule
     {
         switch ($parent_context) {
             case self::PARENT_CONTEXT_COURSE:
+            case self::PARENT_CONTEXT_ROLE:
             case null:
                 return true;
 

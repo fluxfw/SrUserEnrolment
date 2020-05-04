@@ -11,7 +11,7 @@ use ilUIPluginRouterGUI;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
-use srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI;
+use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -23,7 +23,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI: ilUIPluginRouterGUI
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI: ilSrUserEnrolmentConfigGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\RuleEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI
  */
 class ExcelImportGUI
 {
@@ -84,7 +84,7 @@ class ExcelImportGUI
 
         switch (strtolower($next_class)) {
             case strtolower(LogsGUI::class):
-                self::dic()->ctrl()->forwardCommand(new LogsGUI(self::getObjId($this->obj_ref_id, $this->obj_single_id)));
+                self::dic()->ctrl()->forwardCommand(new LogsGUI(static::getObjId($this->obj_ref_id, $this->obj_single_id)));
                 break;
 
             default:
@@ -120,10 +120,10 @@ class ExcelImportGUI
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
 
-            self::dic()->tabs()->addSubTab(self::TAB_EXCEL_IMPORT, static::getTitle(), self::dic()->ctrl()->getLinkTargetByClass([
+            self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(static::getTitle(), str_replace("\\", "\\\\", self::dic()->ctrl()->getLinkTargetByClass([
                 ilUIPluginRouterGUI::class,
                 self::class
-            ], self::CMD_INPUT_EXCEL_IMPORT_DATA));
+            ], self::CMD_INPUT_EXCEL_IMPORT_DATA))));
         }
     }
 

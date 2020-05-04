@@ -25,6 +25,7 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
     use TitleFormGUI;
     use RefIdFormGUI;
     use PositionFormGUI;
+
     /**
      * @var OrgUnitUserType
      */

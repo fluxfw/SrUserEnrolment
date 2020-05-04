@@ -22,6 +22,7 @@ abstract class AbstractRule extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     /**
      * @var string
      *
@@ -33,11 +34,13 @@ abstract class AbstractRule extends ActiveRecord
     const PARENT_CONTEXT_STEP = 2;
     const PARENT_CONTEXT_ACTION = 3;
     const PARENT_CONTEXT_RULE_GROUP = 4;
+    const PARENT_CONTEXT_ROLE = 5;
     const TYPE_COURSE_RULE = 1;
     const TYPE_STEP_ACTION = 2;
     const TYPE_STEP_CHECK_ACTION = 3;
     const TYPE_ACTION_IF = 4;
     const TYPE_RULE_GROUP = 5;
+    const TYPE_ROLE_RULE = 6;
     const TYPES
         = [
             self::PARENT_CONTEXT_STEP       => [
@@ -52,7 +55,15 @@ abstract class AbstractRule extends ActiveRecord
             ],
             self::PARENT_CONTEXT_RULE_GROUP => [
                 self::TYPE_RULE_GROUP => "group"
-            ]
+            ],
+            self::PARENT_CONTEXT_ROLE       => [
+                self::TYPE_ROLE_RULE => "role_rule"
+            ],
+        ];
+    const ENROLL_BY_USER
+        = [
+            AbstractRule::PARENT_CONTEXT_COURSE,
+            AbstractRule::PARENT_CONTEXT_ROLE
         ];
 
 

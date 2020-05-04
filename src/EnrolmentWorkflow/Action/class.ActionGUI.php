@@ -27,6 +27,7 @@ class ActionGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_ACTION = "addAction";
     const CMD_BACK = "back";

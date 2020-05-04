@@ -28,6 +28,7 @@ class Member extends ActiveRecord
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_mem";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TYPE_MEMBER = ilParticipant::MEMBERSHIP_MEMBER;

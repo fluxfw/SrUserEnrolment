@@ -27,6 +27,7 @@ class EditRequestGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_CONFIRM_EDIT_REQUEST = "confirmEditRequest";
     const CMD_EDIT_REQUEST = "editRequest";

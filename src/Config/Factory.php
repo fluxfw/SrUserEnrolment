@@ -17,6 +17,7 @@ final class Factory extends AbstractFactory
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var self|null

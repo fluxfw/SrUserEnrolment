@@ -19,6 +19,7 @@ abstract class AbstractActionRunner
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var AbstractAction

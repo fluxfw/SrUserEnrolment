@@ -32,6 +32,7 @@ class RequestInfoGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_RESPONSIBLE_USERS = "addResponsibleUsers";
     const CMD_CREATE_RESPONSIBLE_USERS = "createResponsibleUsers";

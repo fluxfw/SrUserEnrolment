@@ -23,6 +23,7 @@ class WorkflowsGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_DISABLE_WORKFLOWS = "disableWorkflows";
     const CMD_ENABLE_WORKFLOWS = "enableWorkflows";

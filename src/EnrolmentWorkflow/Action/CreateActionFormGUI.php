@@ -19,6 +19,7 @@ class CreateActionFormGUI extends PropertyFormGUI
 {
 
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = ActionsGUI::LANG_MODULE;
     /**

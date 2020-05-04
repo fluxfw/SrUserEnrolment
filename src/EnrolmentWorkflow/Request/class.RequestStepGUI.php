@@ -32,6 +32,7 @@ class RequestStepGUI
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_REQUEST_STEP = "requestStep";

@@ -20,6 +20,7 @@ final class Repository
 
     use DICTrait;
     use SrUserEnrolmentTrait;
+
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var self|null
@@ -104,6 +105,10 @@ final class Repository
 
         if ($rule instanceof Group) {
             $this->deleteRules(AbstractRule::PARENT_CONTEXT_RULE_GROUP, $rule->getRuleId());
+        }
+
+        foreach (self::srUserEnrolment()->logs()->getLogs(null, null, null, null, null, null, null, null, null, null, null, $rule->getId()) as $log) {
+            self::srUserEnrolment()->logs()->deleteLog($log);
         }
     }
 
