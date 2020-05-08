@@ -1,4 +1,4 @@
-## SrUserEnrolment Description
+# SrUserEnrolment ILIAS Plugin Description
 
 This plugin has the follow main features (Each needs to activated separated in the plugin config)
 
@@ -21,7 +21,7 @@ This plugin has the follow main features (Each needs to activated separated in t
 Menu (Only ILIAS 5.3)
 For ILIAS 5.3, you need to use [CtrlMainMenu](https://github.com/studer-raimann/CtrlMainMenu)
 
-### Custom event plugins
+## Custom event plugins
 If you need to do some custom requests changes, SrUserEnrolment will trigger some events, you can listen and react to this in a other custom plugin (plugin type is no matter)
 
 First create or extend a `plugin.xml` in your custom plugin (You need to adapt `PLUGIN_ID` with your own plugin id) to tell ILIAS, your plugins wants to listen to SrUserEnrolment events (You need also to increase your plugin version for take effect)
