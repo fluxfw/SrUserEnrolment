@@ -55,7 +55,7 @@ class CreateCourseRunner extends AbstractActionRunner
 
         $crs->createReference();
 
-        $crs->putInTree(self::dic()->tree()->getParentId($request->getObjRefId()));
+        $crs->putInTree(self::dic()->repositoryTree()->getParentId($request->getObjRefId()));
 
         $crs->setCourseStart(new ilDate($fields[$this->action->getFieldCourseStart()], IL_CAL_UNIX));
 

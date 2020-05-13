@@ -286,7 +286,6 @@ return array(
     'srag\\DIC\\SrUserEnrolment\\DICTrait' => $vendorDir . '/srag/dic/src/DICTrait.php',
     'srag\\DIC\\SrUserEnrolment\\DIC\\AbstractDIC' => $vendorDir . '/srag/dic/src/DIC/AbstractDIC.php',
     'srag\\DIC\\SrUserEnrolment\\DIC\\DICInterface' => $vendorDir . '/srag/dic/src/DIC/DICInterface.php',
-    'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS53DIC' => $vendorDir . '/srag/dic/src/DIC/Implementation/ILIAS53DIC.php',
     'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS54DIC' => $vendorDir . '/srag/dic/src/DIC/Implementation/ILIAS54DIC.php',
     'srag\\DIC\\SrUserEnrolment\\DIC\\Implementation\\ILIAS60DIC' => $vendorDir . '/srag/dic/src/DIC/Implementation/ILIAS60DIC.php',
     'srag\\DIC\\SrUserEnrolment\\Database\\AbstractILIASDatabaseDetector' => $vendorDir . '/srag/dic/src/Database/AbstractILIASDatabaseDetector.php',

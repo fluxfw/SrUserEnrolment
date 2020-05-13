@@ -61,7 +61,7 @@ class OrgUnitUserTypeChecker extends AbstractRuleChecker
 
                     case OperatorConstants::OPERATOR_EQUALS_SUBSEQUENT:
                         if ($obj_ref_id !== $this->rule->getRefId()) {
-                            if (!in_array($obj_ref_id, self::dic()->tree()->getSubTree(self::dic()->tree()->getNodeData($this->rule->getRefId()), false))) {
+                            if (!in_array($obj_ref_id, self::dic()->repositoryTree()->getSubTree(self::dic()->repositoryTree()->getNodeData($this->rule->getRefId()), false))) {
                                 return false;
                             }
                         }

@@ -96,24 +96,24 @@
     },
     {
         "name": "srag/custominputguis",
-        "version": "v0.34.4",
-        "version_normalized": "0.34.4.0",
+        "version": "v0.34.10",
+        "version_normalized": "0.34.10.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/CustomInputGUIs.git",
-            "reference": "31b52172d13eb2a6f470f779aa22784975dcf348"
+            "reference": "9867f3bfa3288505637630dbe5fb5813f8e8d682"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/31b52172d13eb2a6f470f779aa22784975dcf348",
-            "reference": "31b52172d13eb2a6f470f779aa22784975dcf348",
+            "url": "https://api.github.com/repos/studer-raimann/CustomInputGUIs/zipball/9867f3bfa3288505637630dbe5fb5813f8e8d682",
+            "reference": "9867f3bfa3288505637630dbe5fb5813f8e8d682",
             "shasum": ""
         },
         "require": {
             "php": ">=7.0",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2020-04-15T09:40:19+00:00",
+        "time": "2020-05-13T05:54:22+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -145,17 +145,17 @@
     },
     {
         "name": "srag/datatable",
-        "version": "v0.28.1",
-        "version_normalized": "0.28.1.0",
+        "version": "v0.28.3",
+        "version_normalized": "0.28.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/DataTableUI.git",
-            "reference": "35c777c3f1cdde1915b03067edc3bc3bdb8a564d"
+            "reference": "b00a544ae33a2f6376f6aa9da331e6be022711b3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DataTableUI/zipball/35c777c3f1cdde1915b03067edc3bc3bdb8a564d",
-            "reference": "35c777c3f1cdde1915b03067edc3bc3bdb8a564d",
+            "url": "https://api.github.com/repos/studer-raimann/DataTableUI/zipball/b00a544ae33a2f6376f6aa9da331e6be022711b3",
+            "reference": "b00a544ae33a2f6376f6aa9da331e6be022711b3",
             "shasum": ""
         },
         "require": {
@@ -163,7 +163,7 @@
             "srag/custominputguis": ">=0.1.0",
             "srag/dic": ">=0.1.0"
         },
-        "time": "2020-04-08T05:52:05+00:00",
+        "time": "2020-05-13T05:56:17+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -193,23 +193,23 @@
     },
     {
         "name": "srag/dic",
-        "version": "v0.20.4",
-        "version_normalized": "0.20.4.0",
+        "version": "v0.21.0",
+        "version_normalized": "0.21.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/DIC.git",
-            "reference": "b5f107eddf513280f7c9ca7e05e7a42eb8d9fc95"
+            "reference": "d56b98201b1b826802e7272fb5ee685b4a507394"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/b5f107eddf513280f7c9ca7e05e7a42eb8d9fc95",
-            "reference": "b5f107eddf513280f7c9ca7e05e7a42eb8d9fc95",
+            "url": "https://api.github.com/repos/studer-raimann/DIC/zipball/d56b98201b1b826802e7272fb5ee685b4a507394",
+            "reference": "d56b98201b1b826802e7272fb5ee685b4a507394",
             "shasum": ""
         },
         "require": {
             "php": ">=7.0"
         },
-        "time": "2020-03-26T12:38:05+00:00",
+        "time": "2020-05-13T05:51:15+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -285,17 +285,17 @@
     },
     {
         "name": "srag/notifications4plugin",
-        "version": "v5.4.3",
-        "version_normalized": "5.4.3.0",
+        "version": "v5.4.4",
+        "version_normalized": "5.4.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/studer-raimann/Notifications4Plugin.git",
-            "reference": "adb33da8b8301f14da0da1a497ccb93867c38617"
+            "reference": "95dc83ee2521153da462f2855a338c32a2b2194e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/studer-raimann/Notifications4Plugin/zipball/adb33da8b8301f14da0da1a497ccb93867c38617",
-            "reference": "adb33da8b8301f14da0da1a497ccb93867c38617",
+            "url": "https://api.github.com/repos/studer-raimann/Notifications4Plugin/zipball/95dc83ee2521153da462f2855a338c32a2b2194e",
+            "reference": "95dc83ee2521153da462f2855a338c32a2b2194e",
             "shasum": ""
         },
         "require": {
@@ -305,7 +305,7 @@
             "srag/dic": ">=0.1.0",
             "twig/twig": "1.18.0"
         },
-        "time": "2020-04-07T07:13:30+00:00",
+        "time": "2020-05-06T13:13:12+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

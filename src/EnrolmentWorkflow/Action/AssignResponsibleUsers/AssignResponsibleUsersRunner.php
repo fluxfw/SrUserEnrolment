@@ -52,7 +52,7 @@ class AssignResponsibleUsersRunner extends AbstractActionRunner
                     if ($this->action->isAssignPositionsRecursive()) {
                         $org_unit_ref_id = array_slice(array_map(function (array $child) : int {
                             return $child["child"];
-                        }, self::dic()->tree()->getPathFull($org_unit_ref_id)), 3);
+                        }, self::dic()->repositoryTree()->getPathFull($org_unit_ref_id)), 3);
                     }
 
                     $responsible_users = array_unique(array_merge($responsible_users, ilOrgUnitUserAssignment::where([
