@@ -9,13 +9,13 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\' => 18,
+            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
-            'srag\\DIC\\' => 9,
+            'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
@@ -23,7 +23,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\' => 
+        'srag\\RequiredData\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
@@ -47,7 +47,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/datatable/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
@@ -558,8 +558,8 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\RequestsGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.RequestsGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\ToEditRequestsTableGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/ToEditRequestsTableGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Request\\UsersAssistantsAjaxAutoCompleteCtrl' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Request/class.UsersAssistantsAjaxAutoCompleteCtrl.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\Form\\UserSelectFieldFormBuilder' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/Form/UserSelectFieldFormBuilder.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\UserSelectField' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/UserSelectField.php',
-        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\UserSelectFieldFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/UserSelectFieldFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\Field\\UserSelect\\UserSelectFillField' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/Field/UserSelect/UserSelectFillField.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\RequiredData\\FillCtrl' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/RequiredData/class.FillCtrl.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\AbstractRule' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/AbstractRule.php',
