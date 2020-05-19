@@ -9,7 +9,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\' => 18,
+            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
@@ -23,7 +23,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\' => 
+        'srag\\RequiredData\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
