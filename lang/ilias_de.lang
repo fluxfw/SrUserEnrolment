@@ -307,6 +307,10 @@ rules_type_group#:#Gruppe
 rules_type_if#:#Wenn
 rules_type_role_rule#:#Zuweisen per Regel
 rules_value#:#Wert
+rules_value_type#:#Wert-Typ
+rules_value_type_date#:#Datum
+rules_value_type_date_info#:#Anhand aktueller Zeit und Datum (%s formatiert) im UDF-Feld
+rules_value_type_text#:#Text
 rules_ungroup#:#Gruppe auflösen
 select_workflow_object_setting_changed#:#Kurs-Einstellung '%1$s' auf '%2$s' gesetzt
 select_workflow_select_workflow#:#Workflow auswählen

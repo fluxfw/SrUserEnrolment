@@ -227,7 +227,7 @@ final class Repository
      */
     public function getUserIdByEmail(string $email)/*:?int*/
     {
-        $login = current(self::version()->is54() ? ilObjUser::getUserLoginsByEmail($email) : ilObjUser::_getUserIdsByEmail($email));
+        $login = current(ilObjUser::getUserLoginsByEmail($email));
 
         if (!empty($login)) {
             return ilObjUser::_lookupId($login);

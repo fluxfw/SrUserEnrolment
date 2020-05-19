@@ -2,6 +2,7 @@
 
 namespace srag\Notifications4Plugin\SrUserEnrolment\Parser;
 
+use ILIAS\UI\Component\Input\Field\Input;
 use srag\Notifications4Plugin\SrUserEnrolment\Exception\Notifications4PluginException;
 
 /**
@@ -48,7 +49,7 @@ interface Parser
 
 
     /**
-     * @return array
+     * @return Input[]
      */
     public function getOptionsFields() : array;
 

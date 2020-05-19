@@ -1,5 +1,10 @@
 # Changelog
 
+## [x]
+- UDF rule value type date
+- ILIAS 6 support
+- Remove ILIAS 5.3 support
+
 ## [3.13.0]
 - Assign role by rule
 

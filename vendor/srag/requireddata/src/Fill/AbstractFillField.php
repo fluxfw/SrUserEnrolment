@@ -2,6 +2,7 @@
 
 namespace srag\RequiredData\SrUserEnrolment\Fill;
 
+use ILIAS\UI\Component\Input\Field\Input;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\RequiredData\SrUserEnrolment\Field\AbstractField;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
@@ -18,6 +19,7 @@ abstract class AbstractFillField
 
     use DICTrait;
     use RequiredDataTrait;
+
     /**
      * @var AbstractField
      */
@@ -36,9 +38,9 @@ abstract class AbstractFillField
 
 
     /**
-     * @return array
+     * @return Input
      */
-    public abstract function getFormFields() : array;
+    public abstract function getInput() : Input;
 
 
     /**
