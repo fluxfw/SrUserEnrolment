@@ -11,8 +11,8 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\Step;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\Workflow;
 use srag\RequiredData\SrUserEnrolment\Field\AbstractField;
-use srag\RequiredData\SrUserEnrolment\Field\Date\DateField;
-use srag\RequiredData\SrUserEnrolment\Field\Text\TextField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Date\DateField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Text\TextField;
 
 /**
  * Class CreateCourseFormGUI

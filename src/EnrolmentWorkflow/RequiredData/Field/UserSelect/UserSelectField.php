@@ -4,7 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\User
 
 use ilSrUserEnrolmentPlugin;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
-use srag\RequiredData\SrUserEnrolment\Field\StaticMultiSearchSelect\StaticMultiSearchSelectField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\StaticMultiSearchSelect\StaticMultiSearchSelectField;
 
 /**
  * Class UserSelectField
