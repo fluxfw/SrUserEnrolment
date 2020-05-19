@@ -1,22 +1,23 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect;
+namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect\Form;
 
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\AbstractAjaxAutoCompleteCtrl;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect\UserSelectField;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
+use srag\RequiredData\SrUserEnrolment\Field\Field\StaticMultiSearchSelect\Form\StaticMultiSearchSelectFieldFormBuilder;
 use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
-use srag\RequiredData\SrUserEnrolment\Field\StaticMultiSearchSelect\StaticMultiSearchSelectFieldFormGUI;
 
 /**
- * Class UserSelectFieldFormGUI
+ * Class UserSelectFieldFormBuilder
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect
+ * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect\Form
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class UserSelectFieldFormGUI extends StaticMultiSearchSelectFieldFormGUI
+class UserSelectFieldFormBuilder extends StaticMultiSearchSelectFieldFormBuilder
 {
 
     use SrUserEnrolmentTrait;
