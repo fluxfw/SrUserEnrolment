@@ -11,7 +11,7 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\' => array($baseDir . '/src'),
     'srag\\Notifications4Plugin\\SrUserEnrolment\\' => array($vendorDir . '/srag/notifications4plugin/src'),
     'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
-    'srag\\DataTableUI\\SrUserEnrolment\\' => array($vendorDir . '/srag/datatable/src'),
+    'srag\\DataTableUI\\' => array($vendorDir . '/srag/datatable/src'),
     'srag\\DIC\\SrUserEnrolment\\' => array($vendorDir . '/srag/dic/src'),
     'srag\\CustomInputGUIs\\' => array($vendorDir . '/srag/custominputguis/src'),
     'srag\\CommentsUI\\SrUserEnrolment\\' => array($vendorDir . '/srag/commentsui/src'),
