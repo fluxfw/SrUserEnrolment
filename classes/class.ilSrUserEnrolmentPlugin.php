@@ -5,7 +5,9 @@ if (file_exists(__DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor
     require_once __DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor/autoload.php";
 }
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use srag\CustomInputGUIs\SrUserEnrolment\Loader\CustomInputGUIsLoaderDetector;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
 
@@ -139,5 +141,14 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     protected function deleteData()/*: void*/
     {
         self::srUserEnrolment()->dropTables();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function exchangeUIRendererAfterInitialization(Container $dic) : Closure
+    {
+        return CustomInputGUIsLoaderDetector::exchangeUIRendererAfterInitialization();
     }
 }
