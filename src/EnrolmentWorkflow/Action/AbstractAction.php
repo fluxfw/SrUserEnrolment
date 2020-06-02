@@ -70,7 +70,9 @@ abstract class AbstractAction extends ActiveRecord
      */
     public static function getType() : string
     {
-        return strtolower(end(explode("\\", static::class)));
+        $parts = explode("\\", static::class);
+
+        return strtolower(end($parts));
     }
 
 

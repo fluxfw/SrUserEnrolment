@@ -105,7 +105,9 @@ abstract class AbstractRule extends ActiveRecord
      */
     public static function getRuleType() : string
     {
-        return strtolower(end(explode("\\", static::class)));
+        $parts = explode("\\", static::class);
+
+        return strtolower(end($parts));
     }
 
 
