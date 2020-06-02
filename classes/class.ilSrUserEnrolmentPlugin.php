@@ -112,6 +112,15 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     /**
      * @inheritDoc
      */
+    protected function shouldUseOneUpdateStepOnly() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function updateLanguages(/*?array*/ $a_lang_keys = null)/*:void*/
     {
         parent::updateLanguages($a_lang_keys);
