@@ -238,7 +238,7 @@ class RulesCourseGUI
      *
      * @return int
      */
-    protected static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
+    public static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
     {
         if (!empty($obj_single_id)) {
             return $obj_single_id;
@@ -266,5 +266,14 @@ class RulesCourseGUI
     public function getObjRefId() : int
     {
         return $this->obj_ref_id;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getObjSingleId() : ?int
+    {
+        return $this->obj_single_id;
     }
 }

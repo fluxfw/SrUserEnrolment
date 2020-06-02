@@ -55,7 +55,7 @@ class RulesCourseSettingsGUI
      */
     public function executeCommand()/*: void*/
     {
-        $this->settings = self::srUserEnrolment()->ruleEnrolment()->rules()->settings()->getSettings($this->parent->getObjRefId());
+        $this->settings = self::srUserEnrolment()->ruleEnrolment()->rules()->settings()->getSettings($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()));
 
         $this->setTabs();
 

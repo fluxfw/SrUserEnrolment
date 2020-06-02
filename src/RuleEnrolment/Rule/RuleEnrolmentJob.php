@@ -11,6 +11,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
+use stdClass;
 use Throwable;
 
 /**
@@ -150,7 +151,28 @@ class RuleEnrolmentJob extends ilCronJob
 
             $objects[$rule->getParentContext() . "_" . $rule->getParentId()] = true;
 
-            foreach (self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers() as $object_user) {
+            $settings = self::srUserEnrolment()->ruleEnrolment()->rules()->settings()->getSettings($rule->getParentId());
+
+            $checked_object_users = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers();
+
+            $object_members = self::dic()->rbac()->review()->assignedUsers($rule->getParentId());
+
+            foreach ($object_members as $object_member) {
+                if (empty(array_filter($checked_object_users, function (stdClass $object_user) use ($object_member) : bool {
+                    return ($object_user->user_id === intval($object_member));
+                }))
+                ) {
+                    if ($settings->isUnenroll()) {
+                        self::dic()->rbac()->admin()->deassignUser($rule->getParentId(), $object_member);
+                    }
+                } else {
+                    if ($settings->isUpdateEnrollType()) {
+                        self::dic()->rbac()->admin()->deassignUser($rule->getParentId(), $object_member);
+                    }
+                }
+            }
+
+            foreach ($checked_object_users as $object_user) {
                 try {
                     if ($rule->getParentContext() === AbstractRule::PARENT_CONTEXT_ROLE ? (!self::dic()->rbac()->review()->isAssigned($object_user->user_id, $rule->getParentId())
                         && self::dic()

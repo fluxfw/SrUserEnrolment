@@ -67,17 +67,15 @@ final class Repository
 
 
     /**
-     * @param int $obj_ref_id
+     * @param int $obj_id
      *
      * @return Settings
      */
-    public function getSettings(int $obj_ref_id) : Settings
+    public function getSettings(int $obj_id) : Settings
     {
         /**
          * @var Settings|null $settings
          */
-
-        $obj_id = self::dic()->objDataCache()->lookupObjId($obj_ref_id);
 
         $settings = Settings::where(["obj_id" => $obj_id])->first();
 
