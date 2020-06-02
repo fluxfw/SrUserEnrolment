@@ -2,6 +2,7 @@
 
 ## [x]
 - UDF rule value type date
+- "Enroll by rule" settings for unenroll and update enroll as
 - ILIAS 6 support
 - Remove ILIAS 5.3 support
 

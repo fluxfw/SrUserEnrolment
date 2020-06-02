@@ -12,6 +12,7 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings\RulesCourseSettingsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -91,6 +92,10 @@ class RulesCourseGUI
                 self::dic()->ctrl()->forwardCommand(new LogsGUI(static::getObjId($this->obj_ref_id, $this->obj_single_id)));
                 break;
 
+            case strtolower(RulesCourseSettingsGUI::class):
+                self::dic()->ctrl()->forwardCommand(new RulesCourseSettingsGUI($this));
+                break;
+
             default:
                 $cmd = self::dic()->ctrl()->getCmd();
 
@@ -137,6 +142,7 @@ class RulesCourseGUI
 
         RulesGUI::addTabs($this->getRuleContext());
         LogsGUI::addTabs();
+        RulesCourseSettingsGUI::addTabs();
 
         if (self::dic()->ctrl()->getCmd() === RulesGUI::CMD_LIST_RULES) {
             self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::plugin()->translate("run_rules", RulesGUI::LANG_MODULE),
@@ -251,5 +257,14 @@ class RulesCourseGUI
     public static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
     {
         return self::dic()->objDataCache()->lookupType(static::getObjId($obj_ref_id, $obj_single_id));
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getObjRefId() : int
+    {
+        return $this->obj_ref_id;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow;
+namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings;
 
 use ActiveRecord;
 use arConnector;
@@ -9,19 +9,19 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
- * Class SelectedWorkflow
+ * Class Settings
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow
+ * @package srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class SelectedWorkflow extends ActiveRecord
+class Settings extends ActiveRecord
 {
 
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_sel_wkfl";
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rul_set";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
@@ -56,18 +56,27 @@ class SelectedWorkflow extends ActiveRecord
      */
     protected $obj_id;
     /**
-     * @var int
+     * @var bool
      *
      * @con_has_field    true
      * @con_fieldtype    integer
-     * @con_length       8
+     * @con_length       1
      * @con_is_notnull   true
      */
-    protected $workflow_id;
+    protected $unenroll = false;
+    /**
+     * @var bool
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     * @con_is_notnull   true
+     */
+    protected $update_enroll_type = false;
 
 
     /**
-     * SelectedWorkflow constructor
+     * Settings constructor
      *
      * @param int              $primary_key_value
      * @param arConnector|null $connector
@@ -86,6 +95,10 @@ class SelectedWorkflow extends ActiveRecord
         $field_value = $this->{$field_name};
 
         switch ($field_name) {
+            case "unenroll":
+            case "update_enroll_type":
+                return ($field_value ? 1 : 0);
+
             default:
                 return parent::sleep($field_name);
         }
@@ -98,6 +111,10 @@ class SelectedWorkflow extends ActiveRecord
     public function wakeUp(/*string*/ $field_name, $field_value)
     {
         switch ($field_name) {
+            case "unenroll":
+            case "update_enroll_type":
+                return boolval($field_value);
+
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
@@ -116,26 +133,44 @@ class SelectedWorkflow extends ActiveRecord
     /**
      * @param int $obj_id
      */
-    public function setObjId(int $obj_id)/*: void*/
+    public function setObjId(int $obj_id)/* : void*/
     {
         $this->obj_id = $obj_id;
     }
 
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getWorkflowId() : int
+    public function isUnenroll() : bool
     {
-        return $this->workflow_id;
+        return $this->unenroll;
     }
 
 
     /**
-     * @param int $workflow_id
+     * @param bool $unenroll
      */
-    public function setWorkflowId(int $workflow_id)/*: void*/
+    public function setUnenroll(bool $unenroll)/* : void*/
     {
-        $this->workflow_id = $workflow_id;
+        $this->unenroll = $unenroll;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isUpdateEnrollType() : bool
+    {
+        return $this->update_enroll_type;
+    }
+
+
+    /**
+     * @param bool $update_enroll_type
+     */
+    public function setUpdateEnrollType(bool $update_enroll_type)/* : void*/
+    {
+        $this->update_enroll_type = $update_enroll_type;
     }
 }

@@ -16,7 +16,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
@@ -51,7 +51,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -679,6 +679,11 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\Rule' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/Rule.php',
         'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\RuleEnrolmentJob' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/RuleEnrolmentJob.php',
         'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\RulesCourseGUI' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/class.RulesCourseGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\Settings\\Factory' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/Settings/Factory.php',
+        'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\Settings\\Form\\FormBuilder' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/Settings/Form/FormBuilder.php',
+        'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\Settings\\Repository' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/Settings/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\Settings\\RulesCourseSettingsGUI' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/Settings/class.RulesCourseSettingsGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\Settings\\Settings' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/Settings/Settings.php',
         'srag\\Plugins\\SrUserEnrolment\\RuleEnrolment\\Rule\\User\\RulesUserGUI' => __DIR__ . '/../..' . '/src/RuleEnrolment/Rule/User/class.RulesUserGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\Utils\\SrUserEnrolmentTrait' => __DIR__ . '/../..' . '/src/Utils/SrUserEnrolmentTrait.php',
         'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\BasePluginUninstallTrait' => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src/BasePluginUninstallTrait.php',

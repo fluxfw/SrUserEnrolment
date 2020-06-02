@@ -299,6 +299,13 @@ rules_rule_type_udfsupervisor#:#Benutzerdefiniertes Feld von Vorgesetzten
 rules_run_rules#:#Regeln ausführen
 rules_save#:#Speichern
 rules_saved_rule#:#Regel %s gespeichert
+rules_settings_save#:#Speichern
+rules_settings_saved#:#Gespeichert
+rules_settings_settings#:#Einstellungen
+rules_settings_unenroll#:#Ausschreiben
+rules_settings_unenroll_info#:#Wenn Regel nicht mehr zutrifft
+rules_settings_update_enroll_type#:#"Einschreiben als" aktualisieren
+rules_settings_update_enroll_type_info#:#Wenn Regel erneut zutrifft
 rules_title#:#Titel
 rules_type_action#:#Berechtigungen Aktion
 rules_type_check_action#:#Berechtigungen Aktion prüfen

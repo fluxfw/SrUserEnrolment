@@ -299,6 +299,13 @@ rules_rule_type_udfsupervisor#:#User definied field of supervisors
 rules_run_rules#:#Run rules
 rules_save#:#Save
 rules_saved_rule#:#Rule %s saved
+rules_settings_save#:#Save
+rules_settings_saved#:#Saved
+rules_settings_settings#:#Settings
+rules_settings_unenroll#:#Unenroll
+rules_settings_unenroll_info#:#If rule not match anymore
+rules_settings_update_enroll_type#:#Update "Enroll as"
+rules_settings_update_enroll_type_info#:#If rule match again
 rules_title#:#Title
 rules_type_action#:#Permissions action
 rules_type_check_action#:#Permissions check action

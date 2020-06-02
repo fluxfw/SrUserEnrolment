@@ -120,14 +120,14 @@ class Assistant extends ActiveRecord
                 if ($field_value !== null) {
                     return $field_value->get(IL_CAL_UNIX);
                 } else {
-                    return null;
+                    return parent::sleep($field_name);
                 }
 
             case "active":
                 return ($field_value ? 1 : 0);
 
             default:
-                return null;
+                return parent::sleep($field_name);
         }
     }
 
@@ -142,14 +142,14 @@ class Assistant extends ActiveRecord
                 if ($field_value !== null) {
                     return new ilDate($field_value, IL_CAL_UNIX);
                 } else {
-                    return null;
+                    return parent::wakeUp($field_name, $field_value);
                 }
 
             case "active":
                 return boolval($field_value);
 
             default:
-                return null;
+                return parent::wakeUp($field_name, $field_value);
         }
     }
 
