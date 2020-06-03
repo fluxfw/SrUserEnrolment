@@ -272,7 +272,7 @@ class RulesCourseGUI
     /**
      * @return int|null
      */
-    public function getObjSingleId() : ?int
+    public function getObjSingleId()/* : ?int*/
     {
         return $this->obj_single_id;
     }
