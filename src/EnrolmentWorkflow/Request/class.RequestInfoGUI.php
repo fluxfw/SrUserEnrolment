@@ -308,6 +308,11 @@ class RequestInfoGUI
             }
 
             foreach ($user_ids as $user_id) {
+                if ($user_id === MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER) {
+                    // TODO: Use from MultiSelectSearchNewInputGUI
+                    continue;
+                }
+
                 if ($this->request->getUserId() !== intval($user_id)) {
                     $this->request->addResponsibleUser($user_id);
                 }

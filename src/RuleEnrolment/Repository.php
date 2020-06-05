@@ -6,6 +6,7 @@ use ilDBConstants;
 use ilDBStatement;
 use ilObjCourse;
 use ilObjectFactory;
+use ilObjRole;
 use ilObjUser;
 use ilOrgUnitPosition;
 use ilSrUserEnrolmentPlugin;
@@ -68,38 +69,50 @@ final class Repository
 
 
     /**
-     * @param int $obj_id
-     * @param int $user_id
-     * @param int $type
+     * @param int      $obj_id
+     * @param int      $user_id
+     * @param int|null $type
      *
      * @return bool
      */
-    public function enrollMemberToCourse(int $obj_id, int $user_id, int $type = Member::TYPE_MEMBER) : bool
+    public function enrollMember(int $obj_id, int $user_id, /*?*/ int $type = null) : bool
     {
         $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
-        if ($obj instanceof ilObjCourse) {
+        switch (true) {
+            case ($obj instanceof ilObjCourse):
+                if (!$obj->getMembersObject()->isAssigned($user_id)) {
+                    switch ($type) {
+                        case Member::TYPE_ADMIN:
+                            $role = IL_CRS_ADMIN;
+                            break;
 
-            if (!$obj->getMembersObject()->isAssigned($user_id)) {
-                switch ($type) {
-                    case Member::TYPE_TUTOR:
-                        $role = IL_CRS_TUTOR;
-                        break;
+                        case Member::TYPE_TUTOR:
+                            $role = IL_CRS_TUTOR;
+                            break;
 
-                    case Member::TYPE_ADMIN:
-                        $role = IL_CRS_ADMIN;
-                        break;
+                        case Member::TYPE_MEMBER:
+                        default:
+                            $role = IL_CRS_MEMBER;
+                            break;
+                    }
 
-                    case Member::TYPE_MEMBER:
-                    default:
-                        $role = IL_CRS_MEMBER;
-                        break;
+                    $obj->getMembersObject()->add($user_id, $role);
+
+                    return true;
                 }
+                break;
 
-                $obj->getMembersObject()->add($user_id, $role);
+            case ($obj instanceof ilObjRole):
+                if (!self::dic()->rbac()->review()->isAssigned($user_id, $obj->getId())) {
+                    if (self::dic()->rbac()->admin()->assignUser($obj->getId(), $user_id)) {
+                        return true;
+                    }
+                }
+                break;
 
-                return true;
-            }
+            default:
+                break;
         }
 
         return false;
@@ -124,6 +137,59 @@ final class Repository
         }
 
         return $roles;
+    }
+
+
+    public function getMembers(int $obj_id) : array
+    {
+        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+
+        switch (true) {
+            case ($obj instanceof ilObjCourse):
+                return $obj->getMembersObject()->getParticipants();
+
+            case ($obj instanceof ilObjRole):
+                return self::dic()->rbac()->review()->assignedUsers($obj->getId());
+
+            default:
+                break;
+        }
+
+        return [];
+    }
+
+
+    /**
+     * @param int $obj_id
+     * @param int $user_id
+     *
+     * @return int|null
+     */
+    public function getEnrolledType(int $obj_id, int $user_id)/* : ?int*/
+    {
+        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+
+        switch (true) {
+            case ($obj instanceof ilObjCourse):
+                if ($obj->getMembersObject()->isAdmin($user_id)) {
+                    return Member::TYPE_ADMIN;
+                }
+
+                if ($obj->getMembersObject()->isTutor($user_id)) {
+                    return Member::TYPE_TUTOR;
+                }
+
+                if ($obj->getMembersObject()->isMember($user_id)) {
+                    return Member::TYPE_MEMBER;
+                }
+                break;
+
+            case ($obj instanceof ilObjRole):
+            default:
+                break;
+        }
+
+        return null;
     }
 
 
@@ -227,6 +293,31 @@ final class Repository
 
 
     /**
+     * @param int $obj_id
+     * @param int $user_id
+     *
+     * @return int|null
+     */
+    public function isMember(int $obj_id, int $user_id) : bool
+    {
+        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+
+        switch (true) {
+            case ($obj instanceof ilObjCourse):
+                return $obj->getMembersObject()->isAssigned($user_id);
+
+            case ($obj instanceof ilObjRole):
+                return self::dic()->rbac()->review()->isAssigned($user_id, $obj->getId());
+
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+
+    /**
      * @return RulesRepository
      */
     public function rules() : RulesRepository
@@ -249,5 +340,40 @@ final class Repository
         }
 
         return $users;
+    }
+
+
+    /**
+     * @param int $obj_id
+     * @param int $user_id
+     *
+     * @return bool
+     */
+    public function unenrollMember(int $obj_id, int $user_id) : bool
+    {
+        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+
+        switch (true) {
+            case ($obj instanceof ilObjCourse) :
+                if ($obj->getMembersObject()->isAssigned($user_id)) {
+                    $obj->getMembersObject()->delete($user_id);
+
+                    return true;
+                }
+                break;
+
+            case ($obj instanceof ilObjRole):
+                if (self::dic()->rbac()->review()->isAssigned($user_id, $obj->getId())) {
+                    if (self::dic()->rbac()->admin()->deassignUser($obj->getId(), $user_id)) {
+                        return true;
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return false;
     }
 }

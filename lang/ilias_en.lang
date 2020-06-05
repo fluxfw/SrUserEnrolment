@@ -170,11 +170,14 @@ logs_message#:#Message
 logs_objects#:#Objects
 logs_rules#:#Rules
 logs_status#:#Status
-logs_status_100#:#Enrolled
-logs_status_200#:#Enroll failed
-logs_status_300#:#User created
-logs_status_400#:#User updated
-logs_status_500#:#User failed
+logs_status_enrolled#:#Enrolled
+logs_status_enroll_failed#:#Enroll failed
+logs_status_enroll_updated#:#Enroll updated
+logs_status_unenrolled#:#Unenrolled
+logs_status_unenroll_failed#:#Unenroll failed
+logs_status_user_created#:#User created
+logs_status_user_failed#:#User failed
+logs_status_user_updated#:#User updated
 logs_user_id#:#User login
 members_actions#:#Actions
 members_cancel#:#Cancel

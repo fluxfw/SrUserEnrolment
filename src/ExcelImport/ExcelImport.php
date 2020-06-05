@@ -571,8 +571,8 @@ class ExcelImport
 
         ilSession::set(self::SESSION_KEY, json_encode($data));
 
-        $logs = array_reduce(Log::$status_create_or_update_users, function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
+        $logs = array_reduce(array_keys(Log::$status_create_or_update_users), function (array $logs, int $status) : array {
+            $logs[] = self::plugin()->translate("status_" . Log::$status_create_or_update_users[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
         }, []);
@@ -619,7 +619,7 @@ class ExcelImport
 
         foreach ($users as &$user) {
             try {
-                if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
+                if (self::srUserEnrolment()->ruleEnrolment()->enrollMember($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
                     self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                         ->logs()
                         ->factory()
@@ -635,8 +635,8 @@ class ExcelImport
             }
         }
 
-        $logs = array_reduce(Log::$status_enroll, function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
+        $logs = array_reduce(array_keys(Log::$status_enroll), function (array $logs, int $status) : array {
+            $logs[] = self::plugin()->translate("status_" . Log::$status_enroll[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
         }, []);

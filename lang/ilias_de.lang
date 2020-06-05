@@ -170,11 +170,14 @@ logs_message#:#Nachricht
 logs_objects#:#Objekte
 logs_rules#:#Regeln
 logs_status#:#Status
-logs_status_100#:#Eingeschrieben
-logs_status_200#:#Einschreiben fehlgeschlagen
-logs_status_300#:#Benutzer angelegt
-logs_status_400#:#Benutzer aktualisiert
-logs_status_500#:#Benutzer fehlgeschlagen
+logs_status_enrolled#:#Eingeschrieben
+logs_status_enroll_failed#:#Einschreiben fehlgeschlagen
+logs_status_enroll_updated#:#Einschreiben aktualisiert
+logs_status_unenrolled#:#Ausgeschrieben
+logs_status_unenroll_failed#:#Ausschreiben fehlgeschlagen
+logs_status_user_created#:#Benutzer angelegt
+logs_status_user_failed#:#Benutzer fehlgeschlagen
+logs_status_user_updated#:#Benutzer aktualisiert
 logs_user_id#:#Benutzer Login
 members_actions#:#Aktionen
 members_cancel#:#Abbrechen

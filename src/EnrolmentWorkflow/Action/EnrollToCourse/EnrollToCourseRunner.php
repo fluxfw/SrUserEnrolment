@@ -35,6 +35,6 @@ class EnrollToCourseRunner extends AbstractActionRunner
      */
     public function run(Request $request)/*:void*/
     {
-        self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($request->getObjId(), $request->getUserId());
+        self::srUserEnrolment()->ruleEnrolment()->enrollMember($request->getObjId(), $request->getUserId());
     }
 }

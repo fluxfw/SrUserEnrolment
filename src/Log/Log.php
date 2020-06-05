@@ -29,6 +29,9 @@ class Log extends ActiveRecord
     const STATUS_USER_CREATED = 300;
     const STATUS_USER_UPDATED = 400;
     const STATUS_USER_FAILED = 500;
+    const STATUS_UNENROLLED = 600;
+    const STATUS_UNENROLL_FAILED = 700;
+    const STATUS_ENROLL_UPDATED = 800;
 
 
     /**
@@ -54,30 +57,36 @@ class Log extends ActiveRecord
     /**
      * @var array
      */
-    public static $status_create_or_update_users
+    public static $status_enroll
         = [
-            self::STATUS_USER_CREATED => self::STATUS_USER_CREATED,
-            self::STATUS_USER_UPDATED => self::STATUS_USER_UPDATED,
-            self::STATUS_USER_FAILED  => self::STATUS_USER_FAILED
+            self::STATUS_ENROLLED        => "enrolled",
+            self::STATUS_ENROLL_UPDATED  => "enroll_updated",
+            self::STATUS_ENROLL_FAILED   => "enroll_failed",
+            self::STATUS_UNENROLLED      => "unenrolled",
+            self::STATUS_UNENROLL_FAILED => "unenroll_failed",
         ];
     /**
      * @var array
      */
-    public static $status_enroll
+    public static $status_create_or_update_users
         = [
-            self::STATUS_ENROLLED      => self::STATUS_ENROLLED,
-            self::STATUS_ENROLL_FAILED => self::STATUS_ENROLL_FAILED
+            self::STATUS_USER_CREATED => "user_created",
+            self::STATUS_USER_UPDATED => "user_updated",
+            self::STATUS_USER_FAILED  => "user_failed"
         ];
     /**
      * @var array
      */
     public static $status_all
         = [
-            self::STATUS_ENROLLED      => self::STATUS_ENROLLED,
-            self::STATUS_ENROLL_FAILED => self::STATUS_ENROLL_FAILED,
-            self::STATUS_USER_CREATED  => self::STATUS_USER_CREATED,
-            self::STATUS_USER_UPDATED  => self::STATUS_USER_UPDATED,
-            self::STATUS_USER_FAILED   => self::STATUS_USER_FAILED
+            self::STATUS_ENROLLED        => "enrolled",
+            self::STATUS_ENROLL_UPDATED  => "enroll_updated",
+            self::STATUS_ENROLL_FAILED   => "enroll_failed",
+            self::STATUS_UNENROLLED      => "unenrolled",
+            self::STATUS_UNENROLL_FAILED => "unenroll_failed",
+            self::STATUS_USER_CREATED    => "user_created",
+            self::STATUS_USER_UPDATED    => "user_updated",
+            self::STATUS_USER_FAILED     => "user_failed"
         ];
     /**
      * @var int

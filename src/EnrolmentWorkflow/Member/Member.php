@@ -249,16 +249,9 @@ class Member extends ActiveRecord
             return self::TYPE_REQUEST;
         }
 
-        if ($this->getObject()->getMembersObject()->isAdmin($this->usr_id)) {
-            return self::TYPE_ADMIN;
-        }
-
-        if ($this->getObject()->getMembersObject()->isTutor($this->usr_id)) {
-            return self::TYPE_TUTOR;
-        }
-
-        if ($this->getObject()->getMembersObject()->isMember($this->usr_id)) {
-            return self::TYPE_MEMBER;
+        $entrolled_type = self::srUserEnrolment()->ruleEnrolment()->getEnrolledType($this->obj_id, $this->usr_id);
+        if ($entrolled_type !== null) {
+            return $entrolled_type;
         }
 
         return self::TYPE_REQUEST;
