@@ -155,32 +155,6 @@ class RuleEnrolmentJob extends ilCronJob
 
             $checked_object_users = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers();
 
-            if ($settings->isUnenroll()) {
-                $object_members = self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($rule->getParentId());
-
-                foreach ($object_members as $object_member) {
-                    try {
-                        if (empty(array_filter($checked_object_users, function (stdClass $object_user) use ($object_member) : bool {
-                            return ($object_user->user_id === intval($object_member));
-                        }))
-                        ) {
-                            if ($rule->getEnrollType() === self::srUserEnrolment()->ruleEnrolment()->getEnrolledType($rule->getParentId(), $object_member)) {
-                                if (self::srUserEnrolment()->ruleEnrolment()->unenroll($rule->getParentId(), $object_member)) {
-                                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
-                                        ->logs()
-                                        ->factory()
-                                        ->newObjectRuleUserInstance($rule->getParentId(), $object_member, $rule->getId())
-                                        ->withStatus(Log::STATUS_UNENROLLED));
-                                }
-                            }
-                        }
-                    } catch (Throwable $ex) {
-                        self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()->factory()
-                            ->newExceptionInstance($ex, $rule->getParentId(), $object_member, $rule->getId())->withStatus(Log::STATUS_UNENROLL_FAILED));
-                    }
-                }
-            }
-
             foreach ($checked_object_users as $object_user) {
                 try {
                     if (!self::srUserEnrolment()->ruleEnrolment()->isEnrolled($rule->getParentId(), $object_user->user_id)) {
@@ -211,6 +185,32 @@ class RuleEnrolmentJob extends ilCronJob
                 } catch (Throwable $ex) {
                     self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()->factory()
                         ->newExceptionInstance($ex, $rule->getParentId(), $object_user->user_id, $rule->getId())->withStatus(Log::STATUS_ENROLL_FAILED));
+                }
+            }
+
+            if ($settings->isUnenroll()) {
+                $object_members = self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($rule->getParentId());
+
+                foreach ($object_members as $object_member) {
+                    try {
+                        if (empty(array_filter($checked_object_users, function (stdClass $object_user) use ($object_member) : bool {
+                            return ($object_user->user_id === intval($object_member));
+                        }))
+                        ) {
+                            if ($rule->getEnrollType() === self::srUserEnrolment()->ruleEnrolment()->getEnrolledType($rule->getParentId(), $object_member)) {
+                                if (self::srUserEnrolment()->ruleEnrolment()->unenroll($rule->getParentId(), $object_member)) {
+                                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
+                                        ->logs()
+                                        ->factory()
+                                        ->newObjectRuleUserInstance($rule->getParentId(), $object_member, $rule->getId())
+                                        ->withStatus(Log::STATUS_UNENROLLED));
+                                }
+                            }
+                        }
+                    } catch (Throwable $ex) {
+                        self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()->factory()
+                            ->newExceptionInstance($ex, $rule->getParentId(), $object_member, $rule->getId())->withStatus(Log::STATUS_UNENROLL_FAILED));
+                    }
                 }
             }
         }
