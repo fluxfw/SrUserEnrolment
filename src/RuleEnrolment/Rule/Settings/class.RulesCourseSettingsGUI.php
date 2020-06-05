@@ -131,4 +131,13 @@ class RulesCourseSettingsGUI
 
         self::dic()->ctrl()->redirect($this, self::CMD_EDIT_SETTINGS);
     }
+
+
+    /**
+     * @return RulesCourseGUI
+     */
+    public function getParent() : RulesCourseGUI
+    {
+        return $this->parent;
+    }
 }
