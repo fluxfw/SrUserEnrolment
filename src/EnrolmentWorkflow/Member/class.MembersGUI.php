@@ -14,6 +14,7 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow\SelectWorkflowGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -162,8 +163,6 @@ class MembersGUI
             ->tabs()
             ->addSubTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
                 ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
-
-        ExcelImportGUI::addTabs($this->obj_ref_id);
     }
 
 
@@ -204,6 +203,10 @@ class MembersGUI
                 $enroll_users_button->setCommand(self::CMD_ENROLL_USERS . ucfirst($type_lang_key));
                 self::dic()->toolbar()->addButtonInstance($enroll_users_button);
             }
+
+            RulesCourseGUI::addTabs($this->obj_ref_id);
+
+            ExcelImportGUI::addTabs($this->obj_ref_id);
         }
 
         $table = self::srUserEnrolment()->enrolmentWorkflow()->members()->factory()->newTableInstance($this);
@@ -226,9 +229,11 @@ class MembersGUI
             }
 
             foreach ($user_ids as $user_id) {
-                if (!$obj->getMembersObject()->isAssigned($user_id)) {
-                    $obj->getMembersObject()->add($user_id, $type);
+                if ($user_id === MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER) {
+                    // TODO: Use from MultiSelectSearchNewInputGUI
+                    continue;
                 }
+                self::srUserEnrolment()->ruleEnrolment()->enroll($obj->getId(), $user_id, $type);
             }
         }
 
@@ -243,7 +248,7 @@ class MembersGUI
      */
     protected function enrollUsersAdmin()/*:void*/
     {
-        $this->enrollUsers(IL_CRS_ADMIN);
+        $this->enrollUsers(Member::TYPE_ADMIN);
     }
 
 
@@ -252,7 +257,7 @@ class MembersGUI
      */
     protected function enrollUsersTutor()/*:void*/
     {
-        $this->enrollUsers(IL_CRS_TUTOR);
+        $this->enrollUsers(Member::TYPE_TUTOR);
     }
 
 
@@ -261,7 +266,7 @@ class MembersGUI
      */
     protected function enrollUsersMember()/*:void*/
     {
-        $this->enrollUsers(IL_CRS_MEMBER);
+        $this->enrollUsers(Member::TYPE_MEMBER);
     }
 
 

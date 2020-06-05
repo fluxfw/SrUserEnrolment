@@ -8,6 +8,7 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitUserType\OrgUnitUserType;
 use srag\Plugins\SrUserEnrolment\Log\Log;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings\Repository as SettingsRepository;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -59,6 +60,7 @@ final class Repository
     {
         self::dic()->database()->dropTable(Rule::TABLE_NAME, false);
         self::dic()->database()->dropTable(Rule::TABLE_NAME_ENROLLED, false);
+        $this->settings()->dropTables();
     }
 
 
@@ -122,8 +124,17 @@ final class Repository
                     [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
                     [$rule->getId(), $rule_old->getRuleId()]);
             }
+            $this->dropTables();
         }
+        $this->settings()->installTables();
+    }
 
-        $this->dropTables();
+
+    /**
+     * @return SettingsRepository
+     */
+    public function settings() : SettingsRepository
+    {
+        return SettingsRepository::getInstance();
     }
 }

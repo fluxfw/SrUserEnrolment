@@ -2,12 +2,12 @@
 
 namespace srag\Plugins\SrUserEnrolment\ResetPassword;
 
-use ilObjCourse;
 use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -82,7 +82,7 @@ final class Repository
             return false;
         }
 
-        return (new ilObjCourse($obj_ref_id))->getMembersObject()->isMember($member_id);
+        return (self::srUserEnrolment()->ruleEnrolment()->getEnrolledType(self::dic()->objDataCache()->lookupObjId($obj_ref_id), $member_id) === Member::TYPE_MEMBER);
     }
 
 

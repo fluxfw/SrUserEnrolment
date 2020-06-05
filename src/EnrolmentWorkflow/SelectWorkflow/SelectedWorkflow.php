@@ -87,7 +87,7 @@ class SelectedWorkflow extends ActiveRecord
 
         switch ($field_name) {
             default:
-                return null;
+                return parent::sleep($field_name);
         }
     }
 
@@ -99,7 +99,7 @@ class SelectedWorkflow extends ActiveRecord
     {
         switch ($field_name) {
             default:
-                return null;
+                return parent::wakeUp($field_name, $field_value);
         }
     }
 

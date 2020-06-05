@@ -100,11 +100,11 @@ final class Repository
 
         if (!empty($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles)) {
             foreach ($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles as $role) {
-                self::dic()->rbac()->admin()->assignUser($role, $user->getId());
+                self::srUserEnrolment()->ruleEnrolment()->enroll($role, $user->getId());
                 $changed = true;
             }
         } else {
-            self::dic()->rbac()->admin()->assignUser(ExcelImportFormGUI::USER_ROLE_ID, $user->getId()); // User default role
+            self::srUserEnrolment()->ruleEnrolment()->enroll(ExcelImportFormGUI::USER_ROLE_ID, $user->getId()); // User default role
             $changed = true;
         }
 
@@ -227,7 +227,7 @@ final class Repository
      */
     public function getUserIdByEmail(string $email)/*:?int*/
     {
-        $login = current(self::version()->is54() ? ilObjUser::getUserLoginsByEmail($email) : ilObjUser::_getUserIdsByEmail($email));
+        $login = current(ilObjUser::getUserLoginsByEmail($email));
 
         if (!empty($login)) {
             return ilObjUser::_lookupId($login);

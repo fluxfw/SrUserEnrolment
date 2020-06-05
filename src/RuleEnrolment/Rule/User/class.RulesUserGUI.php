@@ -71,7 +71,7 @@ class RulesUserGUI extends RulesCourseGUI
     /**
      * @inheritDoc
      */
-    protected function getRuleContext() : int
+    public function getRuleContext() : int
     {
         return AbstractRule::PARENT_CONTEXT_ROLE;
     }
@@ -80,7 +80,7 @@ class RulesUserGUI extends RulesCourseGUI
     /**
      * @inheritDoc
      */
-    protected function getRuleType() : int
+    public function getRuleType() : int
     {
         return AbstractRule::TYPE_ROLE_RULE;
     }

@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF;
 
+use DateTime;
 use ilObjUser;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OperatorChecker;
@@ -39,6 +40,8 @@ class UDFChecker extends AbstractRuleChecker
      */
     public function check(int $user_id, int $obj_ref_id) : bool
     {
+        $time = time();
+
         foreach ($this->getUserIds($user_id) as $user_id) {
             $user = new ilObjUser($user_id);
 
@@ -49,7 +52,27 @@ class UDFChecker extends AbstractRuleChecker
                 return false;
             }
 
-            if ($this->checkOperator($udf_value, $this->rule->getValue(), $this->rule->getOperator(),
+            switch ($this->rule->getValueType()) {
+                case UDF::VALUE_TYPE_TEXT:
+                    $value = $this->rule->getValue();
+                    break;
+
+                case UDF::VALUE_TYPE_DATE:
+                    if (empty($udf_value = DateTime::createFromFormat(UDF::VALUE_TYPE_DATE_FORMAT, $udf_value))
+                    ) {
+                        return false;
+                    }
+
+                    $udf_value = $udf_value->getTimestamp();
+
+                    $value = $time;
+                    break;
+
+                default:
+                    return false;
+            }
+
+            if ($this->checkOperator($udf_value, $value, $this->rule->getOperator(),
                 $this->rule->isOperatorNegated(), $this->rule->isOperatorCaseSensitive())
             ) {
                 return true;

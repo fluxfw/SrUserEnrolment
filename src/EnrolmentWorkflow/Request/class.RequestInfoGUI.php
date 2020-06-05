@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
+use ilDashboardGUI;
 use ilObject;
 use ilPersonalDesktopGUI;
 use ilSrUserEnrolmentPlugin;
@@ -196,7 +197,11 @@ class RequestInfoGUI
     protected function back()/*: void*/
     {
         if ($this->single) {
-            self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class);
+            if (self::version()->is6()) {
+                self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class);
+            } else {
+                self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class);
+            }
         } else {
             self::dic()->ctrl()->redirectByClass(RequestsGUI::class, RequestsGUI::CMD_LIST_REQUESTS);
         }
@@ -303,6 +308,11 @@ class RequestInfoGUI
             }
 
             foreach ($user_ids as $user_id) {
+                if ($user_id === MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER) {
+                    // TODO: Use from MultiSelectSearchNewInputGUI
+                    continue;
+                }
+
                 if ($this->request->getUserId() !== intval($user_id)) {
                     $this->request->addResponsibleUser($user_id);
                 }

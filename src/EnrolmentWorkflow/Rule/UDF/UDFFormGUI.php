@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF;
 
+use ilRadioGroupInputGUI;
+use ilRadioOption;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Field\FieldFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OperatorFormGUI;
@@ -48,7 +50,33 @@ class UDFFormGUI extends AbstractRuleFormGUI
             $this->fields,
             $this->getFieldFormFields(),
             $this->getOperatorFormFields1(),
-            $this->getValueFormFields(),
+            [
+                "value_type" => [
+                    self::PROPERTY_CLASS    => ilRadioGroupInputGUI::class,
+                    self::PROPERTY_REQUIRED => true,
+                    self::PROPERTY_SUBITEMS => array_combine(array_keys(UDF::VALUE_TYPES), array_map(function (string $value_type_lang_key, string $value_type) : array {
+                        $field = [
+                            self::PROPERTY_CLASS => ilRadioOption::class,
+                            "setTitle"           => $this->txt("value_type_" . $value_type_lang_key)
+                        ];
+
+                        switch ($value_type) {
+                            case UDF::VALUE_TYPE_TEXT:
+                                $field[self::PROPERTY_SUBITEMS] = $this->getValueFormFields();
+                                break;
+
+                            case UDF::VALUE_TYPE_DATE:
+                                $field["setInfo"] = self::plugin()->translate("value_type_" . $value_type_lang_key . "_info", self::LANG_MODULE, [UDF::VALUE_TYPE_DATE_FORMAT]);
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        return $field;
+                    }, UDF::VALUE_TYPES, array_keys(UDF::VALUE_TYPES)))
+                ]
+            ],
             $this->getOperatorFormFields2()
         );
     }

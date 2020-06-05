@@ -12,6 +12,7 @@ use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
+use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings\RulesCourseSettingsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -80,7 +81,7 @@ class RulesCourseGUI
                 self::dic()->ctrl()->forwardCommand(new RulesGUI($this->getRuleContext(), static::getObjId($this->obj_ref_id, $this->obj_single_id)));
 
                 // TODO: Use DICTrait
-                if (self::version()->is60()) {
+                if (self::version()->is6()) {
                     self::dic()->ui()->mainTemplate()->printToStdout();
                 } else {
                     self::dic()->ui()->mainTemplate()->show();
@@ -89,6 +90,10 @@ class RulesCourseGUI
 
             case strtolower(LogsGUI::class):
                 self::dic()->ctrl()->forwardCommand(new LogsGUI(static::getObjId($this->obj_ref_id, $this->obj_single_id)));
+                break;
+
+            case strtolower(RulesCourseSettingsGUI::class):
+                self::dic()->ctrl()->forwardCommand(new RulesCourseSettingsGUI($this));
                 break;
 
             default:
@@ -137,6 +142,7 @@ class RulesCourseGUI
 
         RulesGUI::addTabs($this->getRuleContext());
         LogsGUI::addTabs();
+        RulesCourseSettingsGUI::addTabs();
 
         if (self::dic()->ctrl()->getCmd() === RulesGUI::CMD_LIST_RULES) {
             self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::plugin()->translate("run_rules", RulesGUI::LANG_MODULE),
@@ -211,7 +217,7 @@ class RulesCourseGUI
     /**
      * @return int
      */
-    protected function getRuleContext() : int
+    public function getRuleContext() : int
     {
         return AbstractRule::PARENT_CONTEXT_COURSE;
     }
@@ -220,7 +226,7 @@ class RulesCourseGUI
     /**
      * @return int
      */
-    protected function getRuleType() : int
+    public function getRuleType() : int
     {
         return AbstractRule::TYPE_COURSE_RULE;
     }
@@ -232,7 +238,7 @@ class RulesCourseGUI
      *
      * @return int
      */
-    protected static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
+    public static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
     {
         if (!empty($obj_single_id)) {
             return $obj_single_id;
@@ -251,5 +257,23 @@ class RulesCourseGUI
     public static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
     {
         return self::dic()->objDataCache()->lookupType(static::getObjId($obj_ref_id, $obj_single_id));
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getObjRefId() : int
+    {
+        return $this->obj_ref_id;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getObjSingleId()/* : ?int*/
+    {
+        return $this->obj_single_id;
     }
 }

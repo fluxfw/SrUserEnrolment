@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'srag\\RequiredData\\SrUserEnrolment\\' => array($vendorDir . '/srag/requireddata/src'),
-    'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => array($vendorDir . '/srag/removeplugindataconfirm/src'),
+    'srag\\RemovePluginDataConfirm\\' => array($vendorDir . '/srag/removeplugindataconfirm/src'),
     'srag\\Plugins\\SrUserEnrolment\\' => array($baseDir . '/src'),
     'srag\\Notifications4Plugin\\SrUserEnrolment\\' => array($vendorDir . '/srag/notifications4plugin/src'),
     'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),

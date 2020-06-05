@@ -104,7 +104,8 @@ class SelectWorkflowFormGUI extends PropertyFormGUI
     {
         switch ($key) {
             case "workflow_id":
-                self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->setWorkflowId(self::dic()->objDataCache()->lookupObjId($this->parent->getObjRefId()), $value);
+                self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->setWorkflowId(self::dic()->objDataCache()->lookupObjId($this->parent->getObjRefId()),
+                    ($value !== "" ? $value : null));
                 break;
 
             default:

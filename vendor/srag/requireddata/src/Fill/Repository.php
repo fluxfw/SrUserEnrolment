@@ -2,8 +2,9 @@
 
 namespace srag\RequiredData\SrUserEnrolment\Fill;
 
+use ILIAS\UI\Component\Input\Field\Input;
 use ilSession;
-use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\InputGUIWrapperUIInputComponent\InputGUIWrapperUIInputComponent;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\MultilangualTabsInputGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI\TabsInputGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -22,6 +23,7 @@ final class Repository
     const SESSION_TEMP_FILL_VALUES_STORAGE = "required_data_temp_fill_values";
     use DICTrait;
     use RequiredDataTrait;
+
     /**
      * @var self|null
      */
@@ -256,48 +258,33 @@ final class Repository
      * @param int   $parent_id
      * @param array $fill_values
      *
-     * @return array
+     * @return Input[]
      */
     public function getFormFields(int $parent_context, int $parent_id, array $fill_values = []) : array
     {
         $fields = [];
 
         foreach (self::requiredData()->fields()->getFields($parent_context, $parent_id) as $field) {
-            $input_field = [
-                "setTitle"                         => $field->getLabel(),
-                "setInfo"                          => $field->getDescription(),
-                PropertyFormGUI::PROPERTY_REQUIRED => $field->isRequired()
-            ];
+            $input = self::requiredData()->fills()->factory()->newFillFieldInstance($field)->getInput();
 
             if (isset($fill_values[$field->getId()])) {
-                $input_field[PropertyFormGUI::PROPERTY_VALUE] = ($field->isMultiLang() ? array_map(function ($value) use ($field): array {
+                $input = $input->withValue($field->isMultiLang() ? array_map(function ($value) use ($field): array {
                     return [
-                        "field_" . $field->getId() . "_" => $value
+                        $field->getId() . "_" => $value
                     ];
                 }, $fill_values[$field->getId()]) : $fill_values[$field->getId()]);
             }
 
-            $input_field = array_merge($input_field, self::requiredData()->fills()->factory()->newFillFieldInstance($field)->getFormFields()
-            );
-
             if ($field->isMultiLang()) {
-                $input_field = [
-                    PropertyFormGUI::PROPERTY_CLASS    => TabsInputGUI::class,
-                    PropertyFormGUI::PROPERTY_REQUIRED => $input_field[PropertyFormGUI::PROPERTY_REQUIRED],
-                    PropertyFormGUI::PROPERTY_SUBITEMS => $input_field,
-                    PropertyFormGUI::PROPERTY_VALUE    => $input_field[PropertyFormGUI::PROPERTY_VALUE],
-                    "setTitle"                         => $input_field["setTitle"],
-                    "setInfo"                          => $input_field["setInfo"]
-                ];
-                $input_field[PropertyFormGUI::PROPERTY_SUBITEMS]["setTitle"] = "";
-                $input_field[PropertyFormGUI::PROPERTY_SUBITEMS]["setInfo"] = "";
-                unset($input_field[PropertyFormGUI::PROPERTY_SUBITEMS][PropertyFormGUI::PROPERTY_VALUE]);
-                $input_field[PropertyFormGUI::PROPERTY_SUBITEMS] = MultilangualTabsInputGUI::generate([
-                    "field_" . $field->getId() . "_" => $input_field[PropertyFormGUI::PROPERTY_SUBITEMS]
+                $tabs = (new InputGUIWrapperUIInputComponent(new TabsInputGUI($input->getLabel())))->withByline($input->getByline())->withRequired($input->isRequired())->withValue($input->getValue());
+                $input = $input->withLabel("")->withByline("")->withValue(null);
+                MultilangualTabsInputGUI::generateLegacy($tabs->getInput(), [
+                    $field->getId() . "_" => $input
                 ]);
+                $input = $tabs;
             }
 
-            $fields["field_" . $field->getId()] = $input_field;
+            $fields[$field->getId()] = $input;
         }
 
         return $fields;

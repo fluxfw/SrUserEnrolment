@@ -3,19 +3,22 @@
 namespace srag\RequiredData\SrUserEnrolment\Field;
 
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\RequiredData\SrUserEnrolment\Field\Checkbox\CheckboxField;
-use srag\RequiredData\SrUserEnrolment\Field\Date\DateField;
-use srag\RequiredData\SrUserEnrolment\Field\Email\EmailField;
-use srag\RequiredData\SrUserEnrolment\Field\Float\FloatField;
-use srag\RequiredData\SrUserEnrolment\Field\Integer\IntegerField;
-use srag\RequiredData\SrUserEnrolment\Field\MultilineText\MultilineTextField;
-use srag\RequiredData\SrUserEnrolment\Field\MultiSearchSelect\MultiSearchSelectField;
-use srag\RequiredData\SrUserEnrolment\Field\MultiSelect\MultiSelectField;
-use srag\RequiredData\SrUserEnrolment\Field\Radio\RadioField;
-use srag\RequiredData\SrUserEnrolment\Field\SearchSelect\SearchSelectField;
-use srag\RequiredData\SrUserEnrolment\Field\Select\SelectField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Checkbox\CheckboxField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Date\DateField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Email\EmailField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Float\FloatField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Group\GroupField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Integer\IntegerField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\MultilineText\MultilineTextField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\MultiSearchSelect\MultiSearchSelectField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\MultiSelect\MultiSelectField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Radio\RadioField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\SearchSelect\SearchSelectField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Select\SelectField;
+use srag\RequiredData\SrUserEnrolment\Field\Field\Text\TextField;
+use srag\RequiredData\SrUserEnrolment\Field\Form\AbstractFieldFormBuilder;
+use srag\RequiredData\SrUserEnrolment\Field\Form\CreateFieldFormBuilder;
 use srag\RequiredData\SrUserEnrolment\Field\Table\TableBuilder;
-use srag\RequiredData\SrUserEnrolment\Field\Text\TextField;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
 
 /**
@@ -30,6 +33,7 @@ final class Factory
 
     use DICTrait;
     use RequiredDataTrait;
+
     /**
      * @var self|null
      */
@@ -58,6 +62,7 @@ final class Factory
             DateField::class,
             EmailField::class,
             FloatField::class,
+            GroupField::class,
             IntegerField::class,
             MultilineTextField::class,
             MultiSearchSelectField::class,
@@ -104,6 +109,12 @@ final class Factory
 
         if ($check_can_be_added_only_once) {
             $classes = array_filter($classes, function (string $class) use ($parent_context, $parent_id): bool {
+                if ($class === GroupField::class) {
+                    if (!self::requiredData()->isEnableGroups() || $parent_context === GroupField::PARENT_CONTEXT_FIELD_GROUP) {
+                        return false;
+                    }
+                }
+
                 if ($class::canBeAddedOnlyOnce()) {
                     return empty(self::requiredData()->fields()->getFields($parent_context, $parent_id, [
                         $class::getType()
@@ -156,11 +167,11 @@ final class Factory
     /**
      * @param FieldCtrl $parent
      *
-     * @return CreateFieldFormGUI
+     * @return CreateFieldFormBuilder
      */
-    public function newCreateFormInstance(FieldCtrl $parent) : CreateFieldFormGUI
+    public function newCreateFormBuilderInstance(FieldCtrl $parent) : CreateFieldFormBuilder
     {
-        $form = new CreateFieldFormGUI($parent);
+        $form = new CreateFieldFormBuilder($parent);
 
         return $form;
     }
@@ -170,11 +181,13 @@ final class Factory
      * @param FieldCtrl     $parent
      * @param AbstractField $field
      *
-     * @return AbstractFieldFormGUI
+     * @return AbstractFieldFormBuilder
      */
-    public function newFormInstance(FieldCtrl $parent, AbstractField $field) : AbstractFieldFormGUI
+    public function newFormBuilderInstance(FieldCtrl $parent, AbstractField $field) : AbstractFieldFormBuilder
     {
-        $class = get_class($field) . "FormGUI";
+        $class = get_class($field) . "FormBuilder";
+
+        $class = substr_replace($class, "\\Form\\", strrpos($class, "\\"), 1);
 
         $form = new $class($parent, $field);
 

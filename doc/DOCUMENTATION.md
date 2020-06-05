@@ -1,1 +1,1 @@
-## SrUserEnrolment-Documentation
+# SrUserEnrolment ILIAS Plugin Documentation

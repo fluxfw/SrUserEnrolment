@@ -88,7 +88,6 @@ config_show_excel_import_local_type_separate#:#Separate
 config_show_rules_enroll_course#:#Show in course
 config_show_rules_enroll_user#:#Show in assign
 config_show_rules_enroll_user_info#:#In %1$s
-config_show_rules_enroll_user#:#
 deputies_actions#:#Actions
 deputies_active#:#Active
 deputies_deputies#:#Deputies
@@ -171,11 +170,14 @@ logs_message#:#Message
 logs_objects#:#Objects
 logs_rules#:#Rules
 logs_status#:#Status
-logs_status_100#:#Enrolled
-logs_status_200#:#Enroll failed
-logs_status_300#:#User created
-logs_status_400#:#User updated
-logs_status_500#:#User failed
+logs_status_enrolled#:#Enrolled
+logs_status_enroll_failed#:#Enroll failed
+logs_status_enroll_updated#:#Enroll updated
+logs_status_unenrolled#:#Unenrolled
+logs_status_unenroll_failed#:#Unenroll failed
+logs_status_user_created#:#User created
+logs_status_user_failed#:#User failed
+logs_status_user_updated#:#User updated
 logs_user_id#:#User login
 members_actions#:#Actions
 members_cancel#:#Cancel
@@ -300,6 +302,13 @@ rules_rule_type_udfsupervisor#:#User definied field of supervisors
 rules_run_rules#:#Run rules
 rules_save#:#Save
 rules_saved_rule#:#Rule %s saved
+rules_settings_save#:#Save
+rules_settings_saved#:#Saved
+rules_settings_settings#:#Settings
+rules_settings_unenroll#:#Unenroll
+rules_settings_unenroll_info#:#If rule not match anymore
+rules_settings_update_enroll_type#:#Update "Enroll as"
+rules_settings_update_enroll_type_info#:#If rule match again
 rules_title#:#Title
 rules_type_action#:#Permissions action
 rules_type_check_action#:#Permissions check action
@@ -308,12 +317,16 @@ rules_type_group#:#Group
 rules_type_if#:#If
 rules_type_role_rule#:#Assign by rule
 rules_value#:#Value
+rules_value_type#:#Value type
+rules_value_type_date#:#Date
+rules_value_type_date_info#:#Based current time and date (%s formatted) in UDF field
+rules_value_type_text#:#Text
 rules_ungroup#:#Ungroup
 select_workflow_object_setting_changed#:#Set course setting '%1$s' to '%2$s'
 select_workflow_select_workflow#:#Select workflow
 select_workflow_save#:#Save
 select_workflow_saved#:#Saved
-steps_action_accept_title#:#Title edit action
+steps_action_edit_title#:#Title edit action
 steps_action_title#:#Title action
 steps_actions#:#Actions
 steps_add#:#Add

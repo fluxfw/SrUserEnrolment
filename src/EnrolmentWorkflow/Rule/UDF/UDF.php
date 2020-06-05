@@ -22,6 +22,14 @@ class UDF extends AbstractRule
     use Value;
 
     const TABLE_NAME_SUFFIX = "udf";
+    const VALUE_TYPE_TEXT = 1;
+    const VALUE_TYPE_DATE = 2;
+    const VALUE_TYPE_DATE_FORMAT = "Y-m-d";
+    const VALUE_TYPES
+        = [
+            self::VALUE_TYPE_TEXT => "text",
+            self::VALUE_TYPE_DATE => "date"
+        ];
 
 
     /**
@@ -34,6 +42,17 @@ class UDF extends AbstractRule
                 return true;
         }
     }
+
+
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $value_type = self::VALUE_TYPE_TEXT;
 
 
     /**
@@ -84,5 +103,27 @@ class UDF extends AbstractRule
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getValueType() : int
+    {
+        if (empty($this->value_type)) {
+            return self::VALUE_TYPE_TEXT;
+        }
+
+        return $this->value_type;
+    }
+
+
+    /**
+     * @param int $value_type
+     */
+    public function setValueType(int $value_type)/* : void*/
+    {
+        $this->value_type = $value_type;
     }
 }

@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
 use ilAdministrationGUI;
+use ilDashboardGUI;
 use ilDatePresentation;
 use ilObjUserGUI;
 use ilPersonalDesktopGUI;
@@ -197,7 +198,11 @@ class AssistantsGUI
     protected function back()/*:void*/
     {
         if ($this->user_id === intval(self::dic()->user()->getId())) {
-            self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
+            if (self::version()->is6()) {
+                self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class, "jumpToProfile");
+            } else {
+                self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
+            }
         } else {
             self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "ref_id", 7);
             self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "admin_mode", "settings");

@@ -1,4 +1,4 @@
-## SrUserEnrolment-Description
+# SrUserEnrolment ILIAS Plugin Description
 
 This plugin has the follow main features (Each needs to activated separated in the plugin config)
 
@@ -20,3 +20,57 @@ This plugin has the follow main features (Each needs to activated separated in t
 
 Menu (Only ILIAS 5.3)
 For ILIAS 5.3, you need to use [CtrlMainMenu](https://github.com/studer-raimann/CtrlMainMenu)
+
+## Custom event plugins
+If you need to do some custom requests changes, SrUserEnrolment will trigger some events, you can listen and react to this in a other custom plugin (plugin type is no matter)
+
+First create or extend a `plugin.xml` in your custom plugin (You need to adapt `PLUGIN_ID` with your own plugin id) to tell ILIAS, your plugins wants to listen to SrUserEnrolment events (You need also to increase your plugin version for take effect)
+
+```xml
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<plugin id="PLUGIN_ID">
+	<events>
+		<event type="listen" id="Plugins/SrUserEnrolment" />
+	</events>
+</plugin>
+```
+
+In your plugin class implement or extend the `handleEvent` method
+
+```php
+...
+require_once __DIR__ . "/../../SrUserEnrolment/vendor/autoload.php";
+...
+class ilXPlugin extends ...
+...
+	/**
+	 * @inheritDoc
+	 */
+	public function handleEvent(/*string*/ $a_component, /*string*/ $a_event, /*array*/ $a_parameter)/*: void*/ {
+		switch ($a_component) {
+			case IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME:
+				switch ($a_event) {
+					case ilSrUserEnrolmentPlugin::EVENT_...:
+						...
+						break;
+
+					default:
+						break;
+				}
+				break;
+
+			default:
+				break;
+		}
+	}
+...
+```
+
+| Event | Parameters | Purpose |
+|-------|------------|---------|
+| `ilSrUserEnrolmentPlugin::AFTER_REQUEST` | `request => object<Request>` | After a request is done |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUEST_STEP_FOR_OTHERS_TABLE_MODIFICATIONS` | `modifications => ArrayObject<AbstractRequestStepForOthersTableModifications>` | Collect request step for others table modifications |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBERS_TABLE_MODIFICATIONS` | `modifications => ArrayObject<AbstractMembersTableModifications>` | Collect members table modifications |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBER_FORM_MODIFICATIONS` | `modifications => ArrayObject<AbstractMemberFormModifications>` | Collect member form modifications |
+| `ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS` | `modifications => ArrayObject<AbstractRequestsTableModifications>` | Collect requests table modifications |
+| `ilSrUserEnrolmentPlugin::EVENT_EXTENDS_SRUSRENR` | - | Extends SrUserEnrolment |

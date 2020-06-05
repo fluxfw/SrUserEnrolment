@@ -11,6 +11,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\Log\Log;
 use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
+use stdClass;
 use Throwable;
 
 /**
@@ -150,30 +151,72 @@ class RuleEnrolmentJob extends ilCronJob
 
             $objects[$rule->getParentContext() . "_" . $rule->getParentId()] = true;
 
-            foreach (self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers() as $object_user) {
+            $settings = self::srUserEnrolment()->ruleEnrolment()->rules()->settings()->getSettings($rule->getParentId());
+
+            $checked_object_users = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers();
+
+            foreach ($checked_object_users as $object_user) {
                 try {
-                    if ($rule->getParentContext() === AbstractRule::PARENT_CONTEXT_ROLE ? (!self::dic()->rbac()->review()->isAssigned($object_user->user_id, $rule->getParentId())
-                        && self::dic()
-                            ->rbac()
-                            ->admin()
-                            ->assignUser($rule->getParentId(), $object_user->user_id))
-                        : self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())
-                    ) {
-                        self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
-                            ->logs()
-                            ->factory()
-                            ->newObjectRuleUserInstance($rule->getParentId(), $object_user->user_id, $rule->getId())
-                            ->withStatus(Log::STATUS_ENROLLED));
+                    if (!self::srUserEnrolment()->ruleEnrolment()->isEnrolled($rule->getParentId(), $object_user->user_id)) {
+                        if (self::srUserEnrolment()->ruleEnrolment()->enroll($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())) {
+                            self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
+                                ->logs()
+                                ->factory()
+                                ->newObjectRuleUserInstance($rule->getParentId(), $object_user->user_id, $rule->getId())
+                                ->withStatus(Log::STATUS_ENROLLED));
+                        }
+                    } else {
+                        if ($settings->isUpdateEnrollType()) {
+                            if ($rule->getEnrollType() !== self::srUserEnrolment()->ruleEnrolment()->getEnrolledType($rule->getParentId(), $object_user->user_id)) {
+                                if (self::srUserEnrolment()->ruleEnrolment()->unenroll($rule->getParentId(), $object_user->user_id)
+                                    && self::srUserEnrolment()
+                                        ->ruleEnrolment()
+                                        ->enroll($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())
+                                ) {
+                                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
+                                        ->logs()
+                                        ->factory()
+                                        ->newObjectRuleUserInstance($rule->getParentId(), $object_user->user_id, $rule->getId())
+                                        ->withStatus(Log::STATUS_ENROLL_UPDATED));
+                                }
+                            }
+                        }
                     }
                 } catch (Throwable $ex) {
                     self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()->factory()
                         ->newExceptionInstance($ex, $rule->getParentId(), $object_user->user_id, $rule->getId())->withStatus(Log::STATUS_ENROLL_FAILED));
                 }
             }
+
+            if ($settings->isUnenroll()) {
+                $object_members = self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($rule->getParentId());
+
+                foreach ($object_members as $object_member) {
+                    try {
+                        if (empty(array_filter($checked_object_users, function (stdClass $object_user) use ($object_member) : bool {
+                            return ($object_user->user_id === intval($object_member));
+                        }))
+                        ) {
+                            if ($rule->getEnrollType() === self::srUserEnrolment()->ruleEnrolment()->getEnrolledType($rule->getParentId(), $object_member)) {
+                                if (self::srUserEnrolment()->ruleEnrolment()->unenroll($rule->getParentId(), $object_member)) {
+                                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
+                                        ->logs()
+                                        ->factory()
+                                        ->newObjectRuleUserInstance($rule->getParentId(), $object_member, $rule->getId())
+                                        ->withStatus(Log::STATUS_UNENROLLED));
+                                }
+                            }
+                        }
+                    } catch (Throwable $ex) {
+                        self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()->factory()
+                            ->newExceptionInstance($ex, $rule->getParentId(), $object_member, $rule->getId())->withStatus(Log::STATUS_UNENROLL_FAILED));
+                    }
+                }
+            }
         }
 
-        $logs = array_reduce(Log::$status_enroll, function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
+        $logs = array_reduce(array_keys(Log::$status_enroll), function (array $logs, int $status) : array {
+            $logs[] = self::plugin()->translate("status_" . Log::$status_enroll[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
         }, [

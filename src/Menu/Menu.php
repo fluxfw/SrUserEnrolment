@@ -72,13 +72,13 @@ class Menu extends AbstractStaticPluginMainMenuProvider
             $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_workflows"))
                 ->withParent($parent->getProviderIdentification())
                 ->withTitle(self::plugin()->translate("workflows", WorkflowsGUI::LANG_MODULE))
-                ->withAction(self::dic()->ctrl()
+                ->withAction(str_replace("\\", "%5C", self::dic()->ctrl()
                     ->getLinkTargetByClass([
                         ilAdministrationGUI::class,
                         ilObjComponentSettingsGUI::class,
                         ilSrUserEnrolmentConfigGUI::class,
                         WorkflowsGUI::class
-                    ], WorkflowsGUI::CMD_LIST_WORKFLOWS))
+                    ], WorkflowsGUI::CMD_LIST_WORKFLOWS)))
                 ->withAvailableCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->isEnabled();
                 })
@@ -88,11 +88,11 @@ class Menu extends AbstractStaticPluginMainMenuProvider
             $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_requests"))
                 ->withParent($parent->getProviderIdentification())
                 ->withTitle(self::plugin()->translate("requests", RequestsGUI::LANG_MODULE))
-                ->withAction(self::dic()->ctrl()
+                ->withAction(str_replace("\\", "%5C", self::dic()->ctrl()
                     ->getLinkTargetByClass([
                         ilUIPluginRouterGUI::class,
                         RequestsGUI::class
-                    ], RequestsGUI::CMD_LIST_REQUESTS))
+                    ], RequestsGUI::CMD_LIST_REQUESTS)))
                 ->withAvailableCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->isEnabled();
                 })
@@ -102,11 +102,11 @@ class Menu extends AbstractStaticPluginMainMenuProvider
             $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_assistants"))
                 ->withParent($parent->getProviderIdentification())
                 ->withTitle(self::plugin()->translate("my_assistants", AssistantsGUI::LANG_MODULE))
-                ->withAction(self::dic()->ctrl()
+                ->withAction(str_replace("\\", "%5C", self::dic()->ctrl()
                     ->getLinkTargetByClass([
                         ilUIPluginRouterGUI::class,
                         AssistantsGUI::class
-                    ], AssistantsGUI::CMD_EDIT_ASSISTANTS))
+                    ], AssistantsGUI::CMD_EDIT_ASSISTANTS)))
                 ->withAvailableCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->assistants()->isEnabled();
                 })
@@ -116,11 +116,11 @@ class Menu extends AbstractStaticPluginMainMenuProvider
             $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_deputies"))
                 ->withParent($parent->getProviderIdentification())
                 ->withTitle(self::plugin()->translate("my_deputies", DeputiesGUI::LANG_MODULE))
-                ->withAction(self::dic()->ctrl()
+                ->withAction(str_replace("\\", "%5C", self::dic()->ctrl()
                     ->getLinkTargetByClass([
                         ilUIPluginRouterGUI::class,
                         DeputiesGUI::class
-                    ], DeputiesGUI::CMD_EDIT_DEPUTIES))
+                    ], DeputiesGUI::CMD_EDIT_DEPUTIES)))
                 ->withAvailableCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->deputies()->isEnabled();
                 })

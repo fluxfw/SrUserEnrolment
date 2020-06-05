@@ -18,7 +18,6 @@ abstract class AbstractParser implements Parser
     use DICTrait;
     use Notifications4PluginTrait;
 
-
     /**
      * AbstractParser constructor
      */
@@ -52,5 +51,16 @@ abstract class AbstractParser implements Parser
     public function getDocLink() : string
     {
         return static::DOC_LINK;
+    }
+
+
+    /**
+     * @param string $html
+     *
+     * @return string
+     */
+    protected function fixLineBreaks(string $html) : string
+    {
+        return str_ireplace(["&lt;br&gt;", "&lt;br/&gt;", "&lt;br /&gt;"], ["<br>", "<br/>", "<br />"], $html);
     }
 }

@@ -33,6 +33,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     const COURSE_MEMBER_LIST_TEMPLATE_ID = "Services/Table/tpl.table2.html";
     const TEMPLATE_GET = "template_get";
     const ACTIONS_MENU_TEMPLATE = "Services/UIComponent/AdvancedSelectionList/tpl.adv_selection_list.html";
+    const COMPONENT_DASHBOARD = "Services/Dashboard";
     const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
     const PART_CENTER_COLUMN = "center_column";
     const PART_RIGHT_COLUMN = "right_column";
@@ -94,7 +95,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
             return RequestStepGUI::addObjectActions($a_par);
         }
 
-        if ($a_comp === self::COMPONENT_PERSONAL_DESKTOP && $a_part === self::PART_CENTER_COLUMN) {
+        if (($a_comp === self::COMPONENT_DASHBOARD || $a_comp === self::COMPONENT_PERSONAL_DESKTOP) && $a_part === self::PART_CENTER_COLUMN) {
 
             return RequestInfoGUI::addRequestsToPersonalDesktop();
         }

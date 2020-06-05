@@ -120,7 +120,7 @@ class RequestStepForOthersGUI
         if (!empty($this->parent_ref_id)) {
             self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->parent_ref_id));
         } else {
-            self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->tree()->getParentId($this->obj_ref_id)));
+            self::dic()->ctrl()->redirectToURL(ilLink::_getLink(self::dic()->repositoryTree()->getParentId($this->obj_ref_id)));
         }
     }
 

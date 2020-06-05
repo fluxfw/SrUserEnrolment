@@ -11,8 +11,6 @@ use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilUserDefinedFields;
-use PHPExcel;
-use PHPExcel_Shared_Date;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -175,7 +173,7 @@ class ExcelImport
         $rows = $excel->getSheetAsArray();
 
         /**
-         * @var Spreadsheet|PHPExcel $spreadsheet
+         * @var Spreadsheet $spreadsheet
          */
         $spreadsheet = Closure::bind(function ()/* : Spreadsheet*/ {
             return $this->workbook;
@@ -418,11 +416,7 @@ class ExcelImport
      */
     protected function handleSetPasswordFormatDateTime(stdClass &$user)/*: void*/
     {
-        if (self::version()->is54()) {
-            $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
-        } else {
-            $date = PHPExcel_Shared_Date::ExcelToPHPObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
-        }
+        $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
 
         // Modules/DataCollection/classes/Fields/Datetime/class.ilDclDatetimeRecordRepresentation.php::formatDate
         switch (self::dic()->user()->getDateFormat()) { // Assume date format for current user which has uploaded the excel file
@@ -577,8 +571,8 @@ class ExcelImport
 
         ilSession::set(self::SESSION_KEY, json_encode($data));
 
-        $logs = array_reduce(Log::$status_create_or_update_users, function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
+        $logs = array_reduce(array_keys(Log::$status_create_or_update_users), function (array $logs, int $status) : array {
+            $logs[] = self::plugin()->translate("status_" . Log::$status_create_or_update_users[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
         }, []);
@@ -598,7 +592,7 @@ class ExcelImport
         $obj = ilObjectFactory::getInstanceByRefId($this->parent->getObjRefId(), false);
 
         $users = array_filter($users, function (stdClass $user) use ($obj): bool {
-            return (!empty($user->ilias_user_id) && !$obj->getMembersObject()->isAssigned($user->ilias_user_id));
+            return (!empty($user->ilias_user_id) && !self::srUserEnrolment()->ruleEnrolment()->isEnrolled($obj->getId(), $user->ilias_user_id));
         });
 
         $data = (object) [
@@ -625,7 +619,7 @@ class ExcelImport
 
         foreach ($users as &$user) {
             try {
-                if (self::srUserEnrolment()->ruleEnrolment()->enrollMemberToCourse($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
+                if (self::srUserEnrolment()->ruleEnrolment()->enroll($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
                     self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                         ->logs()
                         ->factory()
@@ -641,8 +635,8 @@ class ExcelImport
             }
         }
 
-        $logs = array_reduce(Log::$status_enroll, function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . $status, LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
+        $logs = array_reduce(array_keys(Log::$status_enroll), function (array $logs, int $status) : array {
+            $logs[] = self::plugin()->translate("status_" . Log::$status_enroll[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
 
             return $logs;
         }, []);
