@@ -124,8 +124,8 @@ final class Repository
                     [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
                     [$rule->getId(), $rule_old->getRuleId()]);
             }
+            $this->dropTables();
         }
-        $this->dropTables();
         $this->settings()->installTables();
     }
 
