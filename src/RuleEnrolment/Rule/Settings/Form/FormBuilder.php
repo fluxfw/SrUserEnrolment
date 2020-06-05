@@ -81,7 +81,7 @@ class FormBuilder extends AbstractFormBuilder
                 ->translate("unenroll_info", RulesCourseSettingsGUI::LANG_MODULE))
         ];
 
-        if ($this->parent->getParentContext() === AbstractRule::TYPE_COURSE_RULE) {
+        if ($this->parent->getParent()->getParentContext() === AbstractRule::TYPE_COURSE_RULE) {
             $fields += [
                 "update_enroll_type" => self::dic()->ui()->factory()->input()->field()->checkbox(self::plugin()
                     ->translate("update_enroll_type", RulesCourseSettingsGUI::LANG_MODULE))->withByline(self::plugin()
