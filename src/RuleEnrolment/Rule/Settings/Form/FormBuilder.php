@@ -5,6 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings\Form;
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\FormBuilder\AbstractFormBuilder;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings\RulesCourseSettingsGUI;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings\Settings;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -76,12 +77,17 @@ class FormBuilder extends AbstractFormBuilder
     protected function getFields() : array
     {
         $fields = [
-            "unenroll"           => self::dic()->ui()->factory()->input()->field()->checkbox(self::plugin()->translate("unenroll", RulesCourseSettingsGUI::LANG_MODULE))->withByline(self::plugin()
-                ->translate("unenroll_info", RulesCourseSettingsGUI::LANG_MODULE)),
-            "update_enroll_type" => self::dic()->ui()->factory()->input()->field()->checkbox(self::plugin()
-                ->translate("update_enroll_type", RulesCourseSettingsGUI::LANG_MODULE))->withByline(self::plugin()
-                ->translate("update_enroll_type_info", RulesCourseSettingsGUI::LANG_MODULE))
+            "unenroll" => self::dic()->ui()->factory()->input()->field()->checkbox(self::plugin()->translate("unenroll", RulesCourseSettingsGUI::LANG_MODULE))->withByline(self::plugin()
+                ->translate("unenroll_info", RulesCourseSettingsGUI::LANG_MODULE))
         ];
+
+        if ($this->parent->getParentContext() === AbstractRule::TYPE_COURSE_RULE) {
+            $fields += [
+                "update_enroll_type" => self::dic()->ui()->factory()->input()->field()->checkbox(self::plugin()
+                    ->translate("update_enroll_type", RulesCourseSettingsGUI::LANG_MODULE))->withByline(self::plugin()
+                    ->translate("update_enroll_type_info", RulesCourseSettingsGUI::LANG_MODULE))
+            ];
+        }
 
         return $fields;
     }
