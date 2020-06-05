@@ -217,7 +217,7 @@ class RulesCourseGUI
     /**
      * @return int
      */
-    protected function getRuleContext() : int
+    public function getRuleContext() : int
     {
         return AbstractRule::PARENT_CONTEXT_COURSE;
     }
@@ -226,7 +226,7 @@ class RulesCourseGUI
     /**
      * @return int
      */
-    protected function getRuleType() : int
+    public function getRuleType() : int
     {
         return AbstractRule::TYPE_COURSE_RULE;
     }
