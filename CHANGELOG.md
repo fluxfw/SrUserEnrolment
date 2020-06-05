@@ -1,8 +1,8 @@
 # Changelog
 
-## [x]
+## [3.14.0]
 - UDF rule value type date
-- "Enroll by rule" settings for unenroll and update enroll as
+- "Enroll by rule" settings for unenroll and update "Enroll as"
 - ILIAS 6 support
 - Remove ILIAS 5.3 support
 
