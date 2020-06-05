@@ -163,10 +163,6 @@ class MembersGUI
             ->tabs()
             ->addSubTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
                 ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
-
-        RulesCourseGUI::addTabs($this->obj_ref_id);
-
-        ExcelImportGUI::addTabs($this->obj_ref_id);
     }
 
 
@@ -207,6 +203,10 @@ class MembersGUI
                 $enroll_users_button->setCommand(self::CMD_ENROLL_USERS . ucfirst($type_lang_key));
                 self::dic()->toolbar()->addButtonInstance($enroll_users_button);
             }
+
+            RulesCourseGUI::addTabs($this->obj_ref_id);
+
+            ExcelImportGUI::addTabs($this->obj_ref_id);
         }
 
         $table = self::srUserEnrolment()->enrolmentWorkflow()->members()->factory()->newTableInstance($this);
