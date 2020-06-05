@@ -107,7 +107,7 @@ final class Repository
 
         $obj = ilObjectFactory::getInstanceByRefId($obj_ref_id, false);
         if ($obj instanceof ilObjCourse) {
-            $usr_ids = array_merge($usr_ids, self::srUserEnrolment()->ruleEnrolment()->getMembers($obj->getId()));
+            $usr_ids = array_merge($usr_ids, self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($obj->getId()));
         }
 
         return array_reduce(array_unique($usr_ids), function (array $members, int $usr_id) use ($obj_ref_id): array {

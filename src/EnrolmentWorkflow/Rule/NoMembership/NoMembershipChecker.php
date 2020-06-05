@@ -40,7 +40,7 @@ class NoMembershipChecker extends AbstractRuleChecker
 
         if ($obj instanceof ilObjCourse) {
 
-            if ($obj->getMembersObject()->isAssigned($user_id)) {
+            if (self::srUserEnrolment()->ruleEnrolment()->isEnrolled($obj->getId(), $user_id)) {
 
                 return true;
             }

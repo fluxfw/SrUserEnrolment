@@ -140,7 +140,7 @@ final class Repository
     }
 
 
-    public function getMembers(int $obj_id) : array
+    public function getEnrolleds(int $obj_id) : array
     {
         $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
@@ -298,7 +298,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function isMember(int $obj_id, int $user_id) : bool
+    public function isEnrolled(int $obj_id, int $user_id) : bool
     {
         $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
 

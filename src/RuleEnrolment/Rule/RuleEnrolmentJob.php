@@ -156,7 +156,7 @@ class RuleEnrolmentJob extends ilCronJob
             $checked_object_users = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCheckerInstance($rule)->getCheckedObjectsUsers();
 
             if ($settings->isUnenroll()) {
-                $object_members = self::srUserEnrolment()->ruleEnrolment()->getMembers($rule->getParentId());
+                $object_members = self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($rule->getParentId());
 
                 foreach ($object_members as $object_member) {
                     try {
@@ -183,7 +183,7 @@ class RuleEnrolmentJob extends ilCronJob
 
             foreach ($checked_object_users as $object_user) {
                 try {
-                    if (!self::srUserEnrolment()->ruleEnrolment()->isMember($rule->getParentId(), $object_user->user_id)) {
+                    if (!self::srUserEnrolment()->ruleEnrolment()->isEnrolled($rule->getParentId(), $object_user->user_id)) {
                         if (self::srUserEnrolment()->ruleEnrolment()->enrollMember($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())) {
                             self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                                 ->logs()
