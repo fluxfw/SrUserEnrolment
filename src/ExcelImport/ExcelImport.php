@@ -619,7 +619,7 @@ class ExcelImport
 
         foreach ($users as &$user) {
             try {
-                if (self::srUserEnrolment()->ruleEnrolment()->enrollMember($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
+                if (self::srUserEnrolment()->ruleEnrolment()->enroll($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
                     self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                         ->logs()
                         ->factory()

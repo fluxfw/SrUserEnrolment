@@ -233,11 +233,7 @@ class MembersGUI
                     // TODO: Use from MultiSelectSearchNewInputGUI
                     continue;
                 }
-
-                // TODO: Use self::srUserEnrolment()->ruleEnrolment()->enrollMember($obj->getId(), $user_id, $type);
-                if (!$obj->getMembersObject()->isAssigned($user_id)) {
-                    $obj->getMembersObject()->add($user_id, $type);
-                }
+                self::srUserEnrolment()->ruleEnrolment()->enroll($obj->getId(), $user_id, $type);
             }
         }
 
@@ -252,7 +248,7 @@ class MembersGUI
      */
     protected function enrollUsersAdmin()/*:void*/
     {
-        $this->enrollUsers(IL_CRS_ADMIN);
+        $this->enrollUsers(Member::TYPE_ADMIN);
     }
 
 
@@ -261,7 +257,7 @@ class MembersGUI
      */
     protected function enrollUsersTutor()/*:void*/
     {
-        $this->enrollUsers(IL_CRS_TUTOR);
+        $this->enrollUsers(Member::TYPE_TUTOR);
     }
 
 
@@ -270,7 +266,7 @@ class MembersGUI
      */
     protected function enrollUsersMember()/*:void*/
     {
-        $this->enrollUsers(IL_CRS_MEMBER);
+        $this->enrollUsers(Member::TYPE_MEMBER);
     }
 
 

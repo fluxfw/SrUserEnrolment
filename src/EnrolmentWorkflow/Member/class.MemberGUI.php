@@ -185,7 +185,7 @@ class MemberGUI
         }
 
         if ($this->member->getObject() instanceof ilObjCourse) {
-            self::srUserEnrolment()->ruleEnrolment()->unenrollMember($this->member->getObjId(), $this->member->getUsrId());
+            self::srUserEnrolment()->ruleEnrolment()->unenroll($this->member->getObjId(), $this->member->getUsrId());
         }
 
         ilUtil::sendSuccess(self::plugin()->translate("removed_member", MembersGUI::LANG_MODULE, [$this->member->getUser()->getFullname()]), true);

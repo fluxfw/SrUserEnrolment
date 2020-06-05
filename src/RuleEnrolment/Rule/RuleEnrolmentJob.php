@@ -165,7 +165,7 @@ class RuleEnrolmentJob extends ilCronJob
                         }))
                         ) {
                             if ($rule->getEnrollType() === self::srUserEnrolment()->ruleEnrolment()->getEnrolledType($rule->getParentId(), $object_member)) {
-                                if (self::srUserEnrolment()->ruleEnrolment()->unenrollMember($rule->getParentId(), $object_member)) {
+                                if (self::srUserEnrolment()->ruleEnrolment()->unenroll($rule->getParentId(), $object_member)) {
                                     self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                                         ->logs()
                                         ->factory()
@@ -184,7 +184,7 @@ class RuleEnrolmentJob extends ilCronJob
             foreach ($checked_object_users as $object_user) {
                 try {
                     if (!self::srUserEnrolment()->ruleEnrolment()->isEnrolled($rule->getParentId(), $object_user->user_id)) {
-                        if (self::srUserEnrolment()->ruleEnrolment()->enrollMember($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())) {
+                        if (self::srUserEnrolment()->ruleEnrolment()->enroll($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())) {
                             self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                                 ->logs()
                                 ->factory()
@@ -194,10 +194,10 @@ class RuleEnrolmentJob extends ilCronJob
                     } else {
                         if ($settings->isUpdateEnrollType()) {
                             if ($rule->getEnrollType() !== self::srUserEnrolment()->ruleEnrolment()->getEnrolledType($rule->getParentId(), $object_user->user_id)) {
-                                if (self::srUserEnrolment()->ruleEnrolment()->unenrollMember($rule->getParentId(), $object_user->user_id)
+                                if (self::srUserEnrolment()->ruleEnrolment()->unenroll($rule->getParentId(), $object_user->user_id)
                                     && self::srUserEnrolment()
                                         ->ruleEnrolment()
-                                        ->enrollMember($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())
+                                        ->enroll($rule->getParentId(), $object_user->user_id, $rule->getEnrollType())
                                 ) {
                                     self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
                                         ->logs()

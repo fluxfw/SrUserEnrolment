@@ -87,7 +87,6 @@ class AssignResponsibleUsersRunner extends AbstractActionRunner
                 $responsible_users = [];
 
                 foreach ($this->action->getGlobalRoles() as $role_id) {
-
                     $responsible_users = array_merge($responsible_users, self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($role_id));
                 }
                 break;

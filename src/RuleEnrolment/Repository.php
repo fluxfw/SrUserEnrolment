@@ -75,7 +75,7 @@ final class Repository
      *
      * @return bool
      */
-    public function enrollMember(int $obj_id, int $user_id, /*?*/ int $type = null) : bool
+    public function enroll(int $obj_id, int $user_id, /*?*/ int $type = null) : bool
     {
         $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
@@ -140,6 +140,11 @@ final class Repository
     }
 
 
+    /**
+     * @param int $obj_id
+     *
+     * @return int[]
+     */
     public function getEnrolleds(int $obj_id) : array
     {
         $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
@@ -349,7 +354,7 @@ final class Repository
      *
      * @return bool
      */
-    public function unenrollMember(int $obj_id, int $user_id) : bool
+    public function unenroll(int $obj_id, int $user_id) : bool
     {
         $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
 
