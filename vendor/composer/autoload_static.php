@@ -6,24 +6,28 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
 {
+    public static $files = array (
+        '5da5eea08615d1c74d07aeba6d487d20' => __DIR__ . '/..' . '/srag/dic/src/PHPVersionChecker.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\' => 18,
+            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
-            'srag\\Notifications4Plugin\\' => 26,
+            'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DataTableUI\\' => 17,
+            'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\' => 21,
-            'srag\\CommentsUI\\' => 16,
-            'srag\\ActiveRecordConfig\\' => 24,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
+            'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
+            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\' => 
+        'srag\\RequiredData\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
@@ -35,7 +39,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'srag\\Notifications4Plugin\\' => 
+        'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/notifications4plugin/src',
         ),
@@ -43,7 +47,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DataTableUI\\' => 
+        'srag\\DataTableUI\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/datatable/src',
         ),
@@ -51,15 +55,15 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\' => 
+        'srag\\CommentsUI\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
-        'srag\\ActiveRecordConfig\\' => 
+        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -437,6 +441,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Table' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Table.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Utils\\AbstractTableBuilder' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Utils/AbstractTableBuilder.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Utils\\DataTableUITrait' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Utils/DataTableUITrait.php',
+        'srag\\LibrariesNamespaceChanger\\GeneratePluginPhp' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/GeneratePluginPhp.php',
         'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
         'srag\\LibrariesNamespaceChanger\\PHP72Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP72Backport.php',
         'srag\\LibrariesNamespaceChanger\\PHP7Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
