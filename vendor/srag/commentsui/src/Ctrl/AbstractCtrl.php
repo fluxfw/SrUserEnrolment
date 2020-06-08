@@ -18,7 +18,6 @@ abstract class AbstractCtrl implements CtrlInterface
     use DICTrait;
     use CommentsUITrait;
 
-
     /**
      * AbstractCtrl constructor
      */

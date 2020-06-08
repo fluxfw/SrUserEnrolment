@@ -43,7 +43,7 @@ class ActionsTableGUI extends TableGUI
      *
      * @param AbstractAction $action
      */
-    protected function getColumnValue(/*string*/ $column, /*AbstractAction*/ $action, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*AbstractAction*/ $action, int $format = self::DEFAULT_FORMAT) : string
     {
         switch ($column) {
             case "enabled":

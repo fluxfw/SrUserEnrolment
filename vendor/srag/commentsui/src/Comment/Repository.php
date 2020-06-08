@@ -23,6 +23,7 @@ final class Repository implements RepositoryInterface
 {
 
     use DICTrait;
+
     /**
      * @var RepositoryInterface|null
      */

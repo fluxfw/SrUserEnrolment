@@ -54,7 +54,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
      *
      * @param Request $request
      */
-    protected function getColumnValue(/*string*/ $column, /*Request*/ $request, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*Request*/ $request, int $format = self::DEFAULT_FORMAT) : string
     {
         foreach ($this->modifications as $modification) {
             $column_value = $modification->formatColumnValue($column, $request);

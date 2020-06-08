@@ -9,25 +9,25 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
-            'srag\\RemovePluginDataConfirm\\' => 29,
+            'srag\\RequiredData\\' => 18,
+            'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
-            'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
+            'srag\\Notifications4Plugin\\' => 26,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
+            'srag\\DataTableUI\\' => 17,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
-            'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
-            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
+            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CommentsUI\\' => 16,
+            'srag\\ActiveRecordConfig\\' => 24,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\SrUserEnrolment\\' => 
+        'srag\\RequiredData\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
-        'srag\\RemovePluginDataConfirm\\' => 
+        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -35,7 +35,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 
+        'srag\\Notifications4Plugin\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/notifications4plugin/src',
         ),
@@ -43,7 +43,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\DataTableUI\\SrUserEnrolment\\' => 
+        'srag\\DataTableUI\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/datatable/src',
         ),
@@ -51,15 +51,15 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\SrUserEnrolment\\' => 
+        'srag\\CommentsUI\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
-        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
+        'srag\\ActiveRecordConfig\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),
@@ -322,17 +322,6 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\Renderer' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/Renderer.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\Section' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/Section.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PieChart\\Implementation\\SectionValue' => __DIR__ . '/..' . '/srag/custominputguis/src/PieChart/Implementation/SectionValue.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Component\\Factory' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/Factory.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Component\\FixedSize' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/FixedSize.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Component\\Mini' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/Mini.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Component\\ProgressMeter' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/ProgressMeter.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Component\\Standard' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Component/Standard.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Implementation\\Factory' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Factory.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Implementation\\FixedSize' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/FixedSize.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Implementation\\Mini' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Mini.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Implementation\\ProgressMeter' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/ProgressMeter.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Implementation\\Renderer' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Renderer.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\ProgressMeter\\Implementation\\Standard' => __DIR__ . '/..' . '/srag/custominputguis/src/ProgressMeter/Implementation/Standard.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PropertyFormGUI\\ConfigPropertyFormGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/ConfigPropertyFormGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PropertyFormGUI\\Exception\\PropertyFormGUIException' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/Exception/PropertyFormGUIException.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\PropertyFormGUI\\Items\\Items' => __DIR__ . '/..' . '/srag/custominputguis/src/PropertyFormGUI/Items/Items.php',

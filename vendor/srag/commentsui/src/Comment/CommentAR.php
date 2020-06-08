@@ -20,6 +20,7 @@ class CommentAR extends ActiveRecord implements Comment
 
     use DICTrait;
     use CommentsUITrait;
+
     const TABLE_NAME_SUFFIX = "com";
 
 

@@ -57,7 +57,7 @@ class RequestStepForOthersTableGUI extends TableGUI
      *
      * @param ilObjUser $user
      */
-    protected function getColumnValue(/*string*/ $column, /*ilObjUser*/ $user, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*ilObjUser*/ $user, int $format = self::DEFAULT_FORMAT) : string
     {
         foreach ($this->modifications as $modification) {
             $column_value = $modification->formatColumnValue($column, $user);

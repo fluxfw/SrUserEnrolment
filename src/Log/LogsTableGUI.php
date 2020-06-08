@@ -46,7 +46,7 @@ class LogsTableGUI extends TableGUI
      *
      * @param Log $row
      */
-    protected function getColumnValue(/*string*/ $column, /*Log*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*Log*/ $row, int $format = self::DEFAULT_FORMAT) : string
     {
         $value = Items::getter($row, $column);
 

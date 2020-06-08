@@ -1,8 +1,10 @@
+# CommentsUI Library for ILIAS Plugins
+
 Comments ui
 
-### Usage
+## Usage
 
-#### Composer
+### Composer
 First add the following to your `composer.json` file:
 ```json
 "require": {
@@ -17,10 +19,10 @@ Tip: Because of multiple autoloaders of plugins, it could be, that different ver
 
 So I recommand to use [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger) in your plugin.
 
-#### PHP 7.0
+### PHP 7.0
 You can use this library with PHP 7.0 by using the `PHP72Backport` from [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger)
 
-#### Trait usage
+## Trait usage
 Your class in this you want to use CommentsUI needs to use the trait `CommentsUITrait`
 ```php
 ...
@@ -32,7 +34,7 @@ use CommentsUITrait;
 ...
 ```
 
-#### Comment ActiveRecord
+## Comment ActiveRecord
 First you need to init the `Comment` active record class with your own table name prefix. Please add this very early in your plugin code
 self::comments()->withTableNamePrefix(self::COMMENT_TABLE_NAME_PREFIX)->withPlugin(self::plugin());
 ```
@@ -53,7 +55,7 @@ self::comments()->dropTables();
 ...
 ```
 
-#### Async ctrl class
+## Async ctrl class
 ```php
 ...
 use srag\CommentsUI\SrUserEnrolment\x\Ctrl\AbstractCtrl;
@@ -73,7 +75,7 @@ class XCtrl extends AbstractCtrl {
 }
 ```
 
-#### Languages
+## Languages
 Expand you plugin class for installing languages of the library to your plugin
 ```php
 ...
@@ -88,7 +90,7 @@ Expand you plugin class for installing languages of the library to your plugin
 ...
 ```
 
-#### UI usage
+## UI usage
 ```php
 ...
 use srag\Plugins\x\Comment\Ctrl\XCtrl;
@@ -96,11 +98,11 @@ use srag\Plugins\x\Comment\Ctrl\XCtrl;
 self::output()->getHTML(self::commentsUI()->withCtrlClass(new XCtrl()));
 ```
 
-### Requirements
+## Requirements
 * ILIAS 5.3 or ILIAS 5.4
 * PHP >=7.2
 
-### Adjustment suggestions
+## Adjustment suggestions
 * External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI
 * Adjustment suggestions by pull requests via github
 * Customer of studer + raimann ag: 

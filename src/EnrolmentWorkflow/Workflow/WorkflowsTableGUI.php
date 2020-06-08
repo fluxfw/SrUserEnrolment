@@ -41,7 +41,7 @@ class WorkflowsTableGUI extends TableGUI
      *
      * @param Workflow $workflow
      */
-    protected function getColumnValue(/*string*/ $column, /*Workflow*/ $workflow, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*Workflow*/ $workflow, int $format = self::DEFAULT_FORMAT) : string
     {
         switch ($column) {
             case "enabled":

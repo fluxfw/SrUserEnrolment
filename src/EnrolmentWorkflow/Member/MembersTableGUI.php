@@ -55,7 +55,7 @@ class MembersTableGUI extends TableGUI
      *
      * @param Member $member
      */
-    protected function getColumnValue(/*string*/ $column, /*Member*/ $member, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*Member*/ $member, int $format = self::DEFAULT_FORMAT) : string
     {
         foreach ($this->modifications as $modification) {
             $column_value = $modification->formatColumnValue($column, $member);

@@ -20,6 +20,7 @@ class UI implements UIInterface
 
     use DICTrait;
     use CommentsUITrait;
+
     /**
      * @var bool
      */

@@ -17,6 +17,7 @@ final class Factory implements FactoryInterface
 {
 
     use DICTrait;
+
     /**
      * @var FactoryInterface|null
      */

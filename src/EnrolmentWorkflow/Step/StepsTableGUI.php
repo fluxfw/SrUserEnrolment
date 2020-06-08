@@ -42,7 +42,7 @@ class StepsTableGUI extends TableGUI
      *
      * @param Step $step
      */
-    protected function getColumnValue(/*string*/ $column, /*Step*/ $step, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*Step*/ $step, int $format = self::DEFAULT_FORMAT) : string
     {
         switch ($column) {
             case "enabled":

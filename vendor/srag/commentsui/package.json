@@ -14,7 +14,7 @@
     "url": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI"
   },
   "dependencies": {
-    "jquery-comments": "^1.0.1"
+    "jquery-comments": "1.0.1"
   },
   "private": true
 }
