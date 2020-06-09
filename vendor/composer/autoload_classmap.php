@@ -367,7 +367,7 @@ return array(
     'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Table' => $vendorDir . '/srag/datatable/src/Implementation/Table.php',
     'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Utils\\AbstractTableBuilder' => $vendorDir . '/srag/datatable/src/Implementation/Utils/AbstractTableBuilder.php',
     'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Utils\\DataTableUITrait' => $vendorDir . '/srag/datatable/src/Implementation/Utils/DataTableUITrait.php',
-    'srag\\LibrariesNamespaceChanger\\GeneratePluginPhp' => $vendorDir . '/srag/librariesnamespacechanger/src/GeneratePluginPhp.php',
+    'srag\\LibrariesNamespaceChanger\\GeneratePluginPhpAndXml' => $vendorDir . '/srag/librariesnamespacechanger/src/GeneratePluginPhpAndXml.php',
     'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => $vendorDir . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
     'srag\\LibrariesNamespaceChanger\\PHP72Backport' => $vendorDir . '/srag/librariesnamespacechanger/src/PHP72Backport.php',
     'srag\\LibrariesNamespaceChanger\\PHP7Backport' => $vendorDir . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
