@@ -8,36 +8,36 @@
     "ilias_max_version": "6.999",
     "events": [
       {
-        "type": "listen",
-        "id": "Modules/Course"
+        "id": "Modules/Course",
+        "type": "listen"
       },
       {
-        "type": "listen",
-        "id": "Services/User"
+        "id": "Services/User",
+        "type": "listen"
       },
       {
-        "type": "raise",
-        "id": "after_request"
+        "id": "after_request",
+        "type": "raise"
       },
       {
-        "type": "raise",
-        "id": "collect_assistants_requests_table_modifications"
+        "id": "collect_assistants_requests_table_modifications",
+        "type": "raise"
       },
       {
-        "type": "raise",
-        "id": "collect_members_table_modifications"
+        "id": "collect_members_table_modifications",
+        "type": "raise"
       },
       {
-        "type": "raise",
-        "id": "collect_member_form_modifications"
+        "id": "collect_member_form_modifications",
+        "type": "raise"
       },
       {
-        "type": "raise",
-        "id": "collect_request_step_for_others_table_modifications"
+        "id": "collect_request_step_for_others_table_modifications",
+        "type": "raise"
       },
       {
-        "type": "raise",
-        "id": "extends_srusrenr"
+        "id": "extends_srusrenr",
+        "type": "raise"
       }
     ]
   },
