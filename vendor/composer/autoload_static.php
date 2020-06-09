@@ -446,6 +446,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\LibrariesNamespaceChanger\\PHP72Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP72Backport.php',
         'srag\\LibrariesNamespaceChanger\\PHP7Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
         'srag\\LibrariesNamespaceChanger\\RemovePHP72Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/RemovePHP72Backport.php',
+        'srag\\LibrariesNamespaceChanger\\UpdatePluginReadme' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/UpdatePluginReadme.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Exception\\Notifications4PluginException' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Exception/Notifications4PluginException.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Notification\\Factory' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Notification/Factory.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Notification\\FactoryInterface' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Notification/FactoryInterface.php',
