@@ -20,7 +20,7 @@ Update, activate and config the plugin in the ILIAS Plugin Administration
 Please also install and enable [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron).
 
 ## Requirements
-* ILIAS 5.4 or ILIAS 6
+* ILIAS 5.4.0 - 6.999
 * PHP >=7.0
 
 ## Adjustment suggestions
