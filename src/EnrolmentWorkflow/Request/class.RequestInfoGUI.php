@@ -34,12 +34,12 @@ class RequestInfoGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_RESPONSIBLE_USERS = "addResponsibleUsers";
-    const CMD_CREATE_RESPONSIBLE_USERS = "createResponsibleUsers";
     const CMD_BACK = "back";
+    const CMD_CREATE_RESPONSIBLE_USERS = "createResponsibleUsers";
     const CMD_SHOW_WORKFLOW = "showWorkflow";
     const GET_PARAM_REQUEST_ID = "request_id";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_ADD_RESPONSIBLE_USERS = "add_responsible_users";
     const TAB_WORKFLOW = "workflow";
     /**
@@ -64,6 +64,45 @@ class RequestInfoGUI
     public function __construct(bool $single = true)
     {
         $this->single = $single;
+    }
+
+
+    /**
+     * @return array
+     */
+    public static function addRequestsToPersonalDesktop() : array
+    {
+        $requests = self::srUserEnrolment()
+            ->enrolmentWorkflow()
+            ->requests()
+            ->getRequests(null, null, [self::dic()->user()->getId()], true, null, null, null, null, [RequestGroup::EDITED_STATUS_NOT_EDITED, RequestGroup::EDITED_STATUS_IN_EDITING]);
+
+        if (!empty($requests)) {
+            $tpl = self::plugin()->template("EnrolmentWorkflow/pd_my_requests.html");
+
+            $tpl->setVariableEscaped("MY_REQUESTS_TITLE", self::plugin()->translate("my_requests", RequestsGUI::LANG_MODULE));
+
+            foreach ($requests as $request
+            ) {
+                /**
+                 * @var Request $request
+                 */
+
+                $tpl->setVariable("LINK", $request->getRequestLink());
+
+                $tpl->setVariableEscaped("OBJECT_TITLE", self::dic()->objDataCache()->lookupTitle($request->getObjId()));
+
+                $tpl->setVariable("OBJECT_ICON", self::output()->getHTML(self::dic()->ui()->factory()->image()->standard(ilObject::_getIcon($request->getObjId()), "")));
+
+                $tpl->setVariableEscaped("CURRENT_STEP", self::plugin()->translate("step", StepsGUI::LANG_MODULE) . ": " . $request->getStep()->getTitle());
+
+                $tpl->parseCurrentBlock();
+            }
+
+            return ["mode" => ilSrUserEnrolmentUIHookGUI::APPEND, "html" => self::output()->getHTML($tpl)];
+        }
+
+        return ["mode" => ilSrUserEnrolmentUIHookGUI::KEEP, "html" => ""];
     }
 
 
@@ -121,41 +160,94 @@ class RequestInfoGUI
 
 
     /**
-     * @return array
+     * @return Request
      */
-    public static function addRequestsToPersonalDesktop() : array
+    public function getRequest() : Request
     {
-        $requests = self::srUserEnrolment()
-            ->enrolmentWorkflow()
-            ->requests()
-            ->getRequests(null, null, [self::dic()->user()->getId()], true, null, null, null, null, [RequestGroup::EDITED_STATUS_NOT_EDITED, RequestGroup::EDITED_STATUS_IN_EDITING]);
+        return $this->request;
+    }
 
-        if (!empty($requests)) {
-            $tpl = self::plugin()->template("EnrolmentWorkflow/pd_my_requests.html");
 
-            $tpl->setVariableEscaped("MY_REQUESTS_TITLE", self::plugin()->translate("my_requests", RequestsGUI::LANG_MODULE));
+    /**
+     * @return bool
+     */
+    public function isSingle() : bool
+    {
+        return $this->single;
+    }
 
-            foreach ($requests as $request
-            ) {
-                /**
-                 * @var Request $request
-                 */
 
-                $tpl->setVariable("LINK", $request->getRequestLink());
-
-                $tpl->setVariableEscaped("OBJECT_TITLE", self::dic()->objDataCache()->lookupTitle($request->getObjId()));
-
-                $tpl->setVariable("OBJECT_ICON", self::output()->getHTML(self::dic()->ui()->factory()->image()->standard(ilObject::_getIcon($request->getObjId()), "")));
-
-                $tpl->setVariableEscaped("CURRENT_STEP", self::plugin()->translate("step", StepsGUI::LANG_MODULE) . ": " . $request->getStep()->getTitle());
-
-                $tpl->parseCurrentBlock();
-            }
-
-            return ["mode" => ilSrUserEnrolmentUIHookGUI::APPEND, "html" => self::output()->getHTML($tpl)];
+    /**
+     *
+     */
+    protected function addResponsibleUsers()/*:void*/
+    {
+        if (!(!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId())))) {
+            die();
         }
 
-        return ["mode" => ilSrUserEnrolmentUIHookGUI::KEEP, "html" => ""];
+        self::dic()->tabs()->activateTab(self::TAB_ADD_RESPONSIBLE_USERS);
+
+        self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+        $users = new MultiSelectSearchNewInputGUI("", "responsible_" . RequestStepGUI::GET_PARAM_USER_ID);
+        $users->setAjaxAutoCompleteCtrl(new UsersAjaxAutoCompleteCtrl());
+        self::dic()->toolbar()->addInputItem($users);
+
+        $add_responsible_users_button = ilSubmitButton::getInstance();
+        $add_responsible_users_button->setCaption(self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE), false);
+        $add_responsible_users_button->setCommand(self::CMD_CREATE_RESPONSIBLE_USERS);
+        self::dic()->toolbar()->addButtonInstance($add_responsible_users_button);
+
+        self::output()->output("", true);
+    }
+
+
+    /**
+     *
+     */
+    protected function back()/*: void*/
+    {
+        if ($this->single) {
+            if (self::version()->is6()) {
+                self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class);
+            } else {
+                self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class);
+            }
+        } else {
+            self::dic()->ctrl()->redirectByClass(RequestsGUI::class, RequestsGUI::CMD_LIST_REQUESTS);
+        }
+    }
+
+
+    /**
+     *
+     */
+    protected function createResponsibleUsers()/*:void*/
+    {
+        if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId()))) {
+            $user_ids = filter_input(INPUT_POST, "responsible_" . RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+            if (!is_array($user_ids)) {
+                $user_ids = [];
+            }
+
+            foreach ($user_ids as $user_id) {
+                if ($user_id === MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER) {
+                    // TODO: Use from MultiSelectSearchNewInputGUI
+                    continue;
+                }
+
+                if ($this->request->getUserId() !== intval($user_id)) {
+                    $this->request->addResponsibleUser($user_id);
+                }
+            }
+
+            self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->request);
+        }
+
+        ilUtil::sendSuccess(self::plugin()->translate("added_responsible_users", RequestsGUI::LANG_MODULE), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_ADD_RESPONSIBLE_USERS);
     }
 
 
@@ -187,23 +279,6 @@ class RequestInfoGUI
                 ->tabs()
                 ->addTab(self::TAB_ADD_RESPONSIBLE_USERS, self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE),
                     self::dic()->ctrl()->getLinkTarget($this, self::CMD_ADD_RESPONSIBLE_USERS));
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function back()/*: void*/
-    {
-        if ($this->single) {
-            if (self::version()->is6()) {
-                self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class);
-            } else {
-                self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class);
-            }
-        } else {
-            self::dic()->ctrl()->redirectByClass(RequestsGUI::class, RequestsGUI::CMD_LIST_REQUESTS);
         }
     }
 
@@ -267,80 +342,5 @@ class RequestInfoGUI
             self::dic()->ui()->factory()->listing()->descriptive(array_combine(array_map("htmlspecialchars", array_keys($required_data)),
                 array_map("htmlspecialchars", $required_data)))
         ], true);
-    }
-
-
-    /**
-     *
-     */
-    protected function addResponsibleUsers()/*:void*/
-    {
-        if (!(!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId())))) {
-            die();
-        }
-
-        self::dic()->tabs()->activateTab(self::TAB_ADD_RESPONSIBLE_USERS);
-
-        self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
-
-        $users = new MultiSelectSearchNewInputGUI("", "responsible_" . RequestStepGUI::GET_PARAM_USER_ID);
-        $users->setAjaxAutoCompleteCtrl(new UsersAjaxAutoCompleteCtrl());
-        self::dic()->toolbar()->addInputItem($users);
-
-        $add_responsible_users_button = ilSubmitButton::getInstance();
-        $add_responsible_users_button->setCaption(self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE), false);
-        $add_responsible_users_button->setCommand(self::CMD_CREATE_RESPONSIBLE_USERS);
-        self::dic()->toolbar()->addButtonInstance($add_responsible_users_button);
-
-        self::output()->output("", true);
-    }
-
-
-    /**
-     *
-     */
-    protected function createResponsibleUsers()/*:void*/
-    {
-        if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId()))) {
-            $user_ids = filter_input(INPUT_POST, "responsible_" . RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-            if (!is_array($user_ids)) {
-                $user_ids = [];
-            }
-
-            foreach ($user_ids as $user_id) {
-                if ($user_id === MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER) {
-                    // TODO: Use from MultiSelectSearchNewInputGUI
-                    continue;
-                }
-
-                if ($this->request->getUserId() !== intval($user_id)) {
-                    $this->request->addResponsibleUser($user_id);
-                }
-            }
-
-            self::srUserEnrolment()->enrolmentWorkflow()->requests()->storeRequest($this->request);
-        }
-
-        ilUtil::sendSuccess(self::plugin()->translate("added_responsible_users", RequestsGUI::LANG_MODULE), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_ADD_RESPONSIBLE_USERS);
-    }
-
-
-    /**
-     * @return Request
-     */
-    public function getRequest() : Request
-    {
-        return $this->request;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isSingle() : bool
-    {
-        return $this->single;
     }
 }

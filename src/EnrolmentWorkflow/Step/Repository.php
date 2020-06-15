@@ -29,6 +29,15 @@ final class Repository
 
 
     /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -38,15 +47,6 @@ final class Repository
         }
 
         return self::$instance;
-    }
-
-
-    /**
-     * Repository constructor
-     */
-    private function __construct()
-    {
-
     }
 
 
@@ -135,45 +135,6 @@ final class Repository
 
 
     /**
-     * @param int          $type
-     * @param int          $check_user_id
-     * @param int          $request_user_id
-     * @param int          $obj_ref_id
-     * @param Request|null $request
-     *
-     * @return Step[]
-     */
-    public function getStepsForRequest(int $type, int $check_user_id, int $request_user_id, int $obj_ref_id,/*?*/ Request $request = null) : array
-    {
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->isEnabled()) {
-            return [];
-        }
-
-        if ($request !== null) {
-            $workflow_id = $request->getStep()->getWorkflowId();
-        } else {
-            $workflow_id = self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->getWorkflowId(self::dic()->objDataCache()->lookupObjId($obj_ref_id));
-        }
-
-        if (empty($workflow_id)) {
-            return [];
-        }
-
-        $steps = array_filter($this->getSteps($workflow_id), function (Step $step) use ($type, $check_user_id, $request_user_id, $obj_ref_id, $request): bool {
-            if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($obj_ref_id, $step->getStepId(), $request_user_id) !== null) {
-                return false;
-            }
-
-            return (!empty(self::srUserEnrolment()->enrolmentWorkflow()
-                ->rules()
-                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_STEP, $step->getStepId(), $type, $check_user_id, $obj_ref_id, false, $request)));
-        });
-
-        return $steps;
-    }
-
-
-    /**
      * @param Request $request
      * @param int     $check_user_id
      *
@@ -220,11 +181,63 @@ final class Repository
 
 
     /**
+     * @param int          $type
+     * @param int          $check_user_id
+     * @param int          $request_user_id
+     * @param int          $obj_ref_id
+     * @param Request|null $request
+     *
+     * @return Step[]
+     */
+    public function getStepsForRequest(int $type, int $check_user_id, int $request_user_id, int $obj_ref_id,/*?*/ Request $request = null) : array
+    {
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->isEnabled()) {
+            return [];
+        }
+
+        if ($request !== null) {
+            $workflow_id = $request->getStep()->getWorkflowId();
+        } else {
+            $workflow_id = self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->getWorkflowId(self::dic()->objDataCache()->lookupObjId($obj_ref_id));
+        }
+
+        if (empty($workflow_id)) {
+            return [];
+        }
+
+        $steps = array_filter($this->getSteps($workflow_id), function (Step $step) use ($type, $check_user_id, $request_user_id, $obj_ref_id, $request): bool {
+            if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($obj_ref_id, $step->getStepId(), $request_user_id) !== null) {
+                return false;
+            }
+
+            return (!empty(self::srUserEnrolment()->enrolmentWorkflow()
+                ->rules()
+                ->getCheckedRules(AbstractRule::PARENT_CONTEXT_STEP, $step->getStepId(), $type, $check_user_id, $obj_ref_id, false, $request)));
+        });
+
+        return $steps;
+    }
+
+
+    /**
      * @internal
      */
     public function installTables()/*:void*/
     {
         Step::updateDB();
+    }
+
+
+    /**
+     * @param Step $step
+     */
+    public function moveStepDown(Step $step)/*: void*/
+    {
+        $step->setSort($step->getSort() + 15);
+
+        $this->storeStep($step);
+
+        $this->reSortSteps($step->getWorkflowId());
     }
 
 
@@ -244,13 +257,13 @@ final class Repository
     /**
      * @param Step $step
      */
-    public function moveStepDown(Step $step)/*: void*/
+    public function storeStep(Step $step)/*: void*/
     {
-        $step->setSort($step->getSort() + 15);
+        if (empty($step->getStepId())) {
+            $step->setSort(((count($this->getSteps($step->getWorkflowId(), false)) + 1) * 10));
+        }
 
-        $this->storeStep($step);
-
-        $this->reSortSteps($step->getWorkflowId());
+        $step->store();
     }
 
 
@@ -269,18 +282,5 @@ final class Repository
 
             $i++;
         }
-    }
-
-
-    /**
-     * @param Step $step
-     */
-    public function storeStep(Step $step)/*: void*/
-    {
-        if (empty($step->getStepId())) {
-            $step->setSort(((count($this->getSteps($step->getWorkflowId(), false)) + 1) * 10));
-        }
-
-        $step->store();
     }
 }

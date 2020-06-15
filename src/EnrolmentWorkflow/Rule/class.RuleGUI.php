@@ -24,7 +24,6 @@ class RuleGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_RULE = "addRule";
     const CMD_BACK = "back";
     const CMD_CREATE_RULE = "createRule";
@@ -35,6 +34,7 @@ class RuleGUI
     const CMD_UPDATE_RULE = "updateRule";
     const GET_PARAM_RULE_ID = "rule_id_";
     const GET_PARAM_RULE_TYPE = "rule_type_";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_EDIT_RULE = "edit_rule";
     /**
      * @var RulesGUI
@@ -103,39 +103,11 @@ class RuleGUI
 
 
     /**
-     *
+     * @return RulesGUI
      */
-    protected function setTabs()/*: void*/
+    public function getParent() : RulesGUI
     {
-        self::dic()->tabs()->clearTargets();
-
-        self::dic()->tabs()->setBackTarget(self::plugin()->translate("type_" . AbstractRule::TYPES[$this->parent->getParentContext()][$this->parent->getType()], RulesGUI::LANG_MODULE),
-            self::dic()->ctrl()
-                ->getLinkTarget($this, self::CMD_BACK));
-
-        if ($this->rule !== null) {
-            if (self::dic()->ctrl()->getCmd() === self::CMD_REMOVE_RULE_CONFIRM) {
-                self::dic()->tabs()->addTab(self::TAB_EDIT_RULE, self::plugin()->translate("remove_rule", RulesGUI::LANG_MODULE), self::dic()->ctrl()
-                    ->getLinkTarget($this, self::CMD_REMOVE_RULE_CONFIRM));
-            } else {
-                self::dic()->tabs()->addTab(self::TAB_EDIT_RULE, self::plugin()->translate("edit_rule", RulesGUI::LANG_MODULE), self::dic()->ctrl()
-                    ->getLinkTarget($this, self::CMD_EDIT_RULE));
-
-                self::dic()->locator()->addItem($this->rule->getRuleTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_EDIT_RULE));
-            }
-        } else {
-            self::dic()->tabs()->addTab(self::TAB_EDIT_RULE, self::plugin()->translate("add_rule", RulesGUI::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTarget($this, self::CMD_ADD_RULE));
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function back()/*: void*/
-    {
-        self::dic()->ctrl()->redirect($this->parent, RulesGUI::CMD_LIST_RULES);
+        return $this->parent;
     }
 
 
@@ -147,6 +119,15 @@ class RuleGUI
         $form = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCreateFormInstance($this);
 
         self::output()->output($form);
+    }
+
+
+    /**
+     *
+     */
+    protected function back()/*: void*/
+    {
+        self::dic()->ctrl()->redirect($this->parent, RulesGUI::CMD_LIST_RULES);
     }
 
 
@@ -190,21 +171,13 @@ class RuleGUI
     /**
      *
      */
-    protected function updateRule()/*: void*/
+    protected function removeRule()/*: void*/
     {
-        self::dic()->tabs()->activateTab(self::TAB_EDIT_RULE);
+        self::srUserEnrolment()->enrolmentWorkflow()->rules()->deleteRule($this->rule);
 
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newFormInstance($this, $this->rule);
+        ilUtil::sendSuccess(self::plugin()->translate("removed_rule", RulesGUI::LANG_MODULE, [$this->rule->getRuleTitle()]), true);
 
-        if (!$form->storeForm()) {
-            self::output()->output($form);
-
-            return;
-        }
-
-        ilUtil::sendSuccess(self::plugin()->translate("saved_rule", RulesGUI::LANG_MODULE, [$this->rule->getRuleTitle()]), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_RULE);
+        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
     }
 
 
@@ -232,13 +205,28 @@ class RuleGUI
     /**
      *
      */
-    protected function removeRule()/*: void*/
+    protected function setTabs()/*: void*/
     {
-        self::srUserEnrolment()->enrolmentWorkflow()->rules()->deleteRule($this->rule);
+        self::dic()->tabs()->clearTargets();
 
-        ilUtil::sendSuccess(self::plugin()->translate("removed_rule", RulesGUI::LANG_MODULE, [$this->rule->getRuleTitle()]), true);
+        self::dic()->tabs()->setBackTarget(self::plugin()->translate("type_" . AbstractRule::TYPES[$this->parent->getParentContext()][$this->parent->getType()], RulesGUI::LANG_MODULE),
+            self::dic()->ctrl()
+                ->getLinkTarget($this, self::CMD_BACK));
 
-        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+        if ($this->rule !== null) {
+            if (self::dic()->ctrl()->getCmd() === self::CMD_REMOVE_RULE_CONFIRM) {
+                self::dic()->tabs()->addTab(self::TAB_EDIT_RULE, self::plugin()->translate("remove_rule", RulesGUI::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTarget($this, self::CMD_REMOVE_RULE_CONFIRM));
+            } else {
+                self::dic()->tabs()->addTab(self::TAB_EDIT_RULE, self::plugin()->translate("edit_rule", RulesGUI::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTarget($this, self::CMD_EDIT_RULE));
+
+                self::dic()->locator()->addItem($this->rule->getRuleTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_EDIT_RULE));
+            }
+        } else {
+            self::dic()->tabs()->addTab(self::TAB_EDIT_RULE, self::plugin()->translate("add_rule", RulesGUI::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTarget($this, self::CMD_ADD_RULE));
+        }
     }
 
 
@@ -256,10 +244,22 @@ class RuleGUI
 
 
     /**
-     * @return RulesGUI
+     *
      */
-    public function getParent() : RulesGUI
+    protected function updateRule()/*: void*/
     {
-        return $this->parent;
+        self::dic()->tabs()->activateTab(self::TAB_EDIT_RULE);
+
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newFormInstance($this, $this->rule);
+
+        if (!$form->storeForm()) {
+            self::output()->output($form);
+
+            return;
+        }
+
+        ilUtil::sendSuccess(self::plugin()->translate("saved_rule", RulesGUI::LANG_MODULE, [$this->rule->getRuleTitle()]), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_RULE);
     }
 }

@@ -27,6 +27,15 @@ final class Factory
 
 
     /**
+     * Factory constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -40,22 +49,13 @@ final class Factory
 
 
     /**
-     * Factory constructor
+     * @return CheckInactiveDeputiesJob
      */
-    private function __construct()
+    public function newCheckInactiveDeputiesJobInstance() : CheckInactiveDeputiesJob
     {
+        $job = new CheckInactiveDeputiesJob();
 
-    }
-
-
-    /**
-     * @return Deputy
-     */
-    public function newInstance() : Deputy
-    {
-        $deputy = new Deputy();
-
-        return $deputy;
+        return $job;
     }
 
 
@@ -74,12 +74,12 @@ final class Factory
 
 
     /**
-     * @return CheckInactiveDeputiesJob
+     * @return Deputy
      */
-    public function newCheckInactiveDeputiesJobInstance() : CheckInactiveDeputiesJob
+    public function newInstance() : Deputy
     {
-        $job = new CheckInactiveDeputiesJob();
+        $deputy = new Deputy();
 
-        return $job;
+        return $deputy;
     }
 }

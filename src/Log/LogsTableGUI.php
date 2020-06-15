@@ -25,8 +25,8 @@ class LogsTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = LogsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
     /**
@@ -38,6 +38,31 @@ class LogsTableGUI extends TableGUI
     public function __construct(LogsGUI $parent, string $parent_cmd)
     {
         parent::__construct($parent, $parent_cmd);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getSelectableColumns2() : array
+    {
+        $columns = [
+            "date"            => "date",
+            "status"          => "status",
+            "message"         => "message",
+            "user_id"         => "user_id",
+            "execute_user_id" => "execute_user_id"
+        ];
+
+        $columns = array_map(function (string $key) : array {
+            return [
+                "id"      => $key,
+                "default" => true,
+                "sort"    => true
+            ];
+        }, $columns);
+
+        return $columns;
     }
 
 
@@ -65,31 +90,6 @@ class LogsTableGUI extends TableGUI
         }
 
         return strval($value);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getSelectableColumns2() : array
-    {
-        $columns = [
-            "date"            => "date",
-            "status"          => "status",
-            "message"         => "message",
-            "user_id"         => "user_id",
-            "execute_user_id" => "execute_user_id"
-        ];
-
-        $columns = array_map(function (string $key) : array {
-            return [
-                "id"      => $key,
-                "default" => true,
-                "sort"    => true
-            ];
-        }, $columns);
-
-        return $columns;
     }
 
 

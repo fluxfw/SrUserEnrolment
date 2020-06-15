@@ -23,24 +23,23 @@ abstract class AbstractRule extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
+    const ENROLL_BY_USER
+        = [
+            AbstractRule::PARENT_CONTEXT_COURSE,
+            AbstractRule::PARENT_CONTEXT_ROLE
+        ];
+    const PARENT_CONTEXT_ACTION = 3;
+    const PARENT_CONTEXT_COURSE = 1;
+    const PARENT_CONTEXT_ROLE = 5;
+    const PARENT_CONTEXT_RULE_GROUP = 4;
+    const PARENT_CONTEXT_STEP = 2;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var string
      *
      * @abstract
      */
     const TABLE_NAME_SUFFIX = "";
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const PARENT_CONTEXT_COURSE = 1;
-    const PARENT_CONTEXT_STEP = 2;
-    const PARENT_CONTEXT_ACTION = 3;
-    const PARENT_CONTEXT_RULE_GROUP = 4;
-    const PARENT_CONTEXT_ROLE = 5;
-    const TYPE_COURSE_RULE = 1;
-    const TYPE_STEP_ACTION = 2;
-    const TYPE_STEP_CHECK_ACTION = 3;
-    const TYPE_ACTION_IF = 4;
-    const TYPE_RULE_GROUP = 5;
-    const TYPE_ROLE_RULE = 6;
     const TYPES
         = [
             self::PARENT_CONTEXT_STEP       => [
@@ -60,76 +59,12 @@ abstract class AbstractRule extends ActiveRecord
                 self::TYPE_ROLE_RULE => "role_rule"
             ],
         ];
-    const ENROLL_BY_USER
-        = [
-            AbstractRule::PARENT_CONTEXT_COURSE,
-            AbstractRule::PARENT_CONTEXT_ROLE
-        ];
-
-
-    /**
-     * @inheritDoc
-     */
-    public static function getTableName() : string
-    {
-        if (empty(static::TABLE_NAME_SUFFIX)) {
-            throw new LogicException("table name suffix is empty!");
-        }
-
-        return ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rul_" . static::TABLE_NAME_SUFFIX;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return static::getTableName();
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return static::getTableName();
-    }
-
-
-    /**
-     * @return string
-     */
-    public static function getRuleType() : string
-    {
-        $parts = explode("\\", static::class);
-
-        return strtolower(end($parts));
-    }
-
-
-    /**
-     * @param int|null $parent_context
-     *
-     * @return bool
-     */
-    public static abstract function supportsParentContext(/*?*/ int $parent_context = null) : bool;
-
-
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     * @con_is_primary   true
-     * @con_sequence     true
-     */
-    protected $rule_id;
+    const TYPE_ACTION_IF = 4;
+    const TYPE_COURSE_RULE = 1;
+    const TYPE_ROLE_RULE = 6;
+    const TYPE_RULE_GROUP = 5;
+    const TYPE_STEP_ACTION = 2;
+    const TYPE_STEP_CHECK_ACTION = 3;
     /**
      * @var bool
      *
@@ -139,6 +74,15 @@ abstract class AbstractRule extends ActiveRecord
      * @con_is_notnull   true
      */
     protected $enabled = true;
+    /**
+     * @var int|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $enroll_type = null;
     /**
      * @var int
      *
@@ -163,17 +107,19 @@ abstract class AbstractRule extends ActiveRecord
      * @con_fieldtype    integer
      * @con_length       8
      * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
      */
-    protected $type;
+    protected $rule_id;
     /**
-     * @var int|null
+     * @var int
      *
      * @con_has_field    true
      * @con_fieldtype    integer
      * @con_length       8
-     * @con_is_notnull   false
+     * @con_is_notnull   true
      */
-    protected $enroll_type = null;
+    protected $type;
 
 
     /**
@@ -191,25 +137,75 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @return string
      */
-    public function getRuleTypeTitle() : string
+    public static function getRuleType() : string
     {
-        return self::plugin()->translate("rule_type_" . static::getRuleType(), RulesGUI::LANG_MODULE);
+        $parts = explode("\\", static::class);
+
+        return strtolower(end($parts));
     }
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function getRuleTitle() : string
+    public static function getTableName() : string
     {
-        return $this->getRuleTypeTitle();
+        if (empty(static::TABLE_NAME_SUFFIX)) {
+            throw new LogicException("table name suffix is empty!");
+        }
+
+        return ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rul_" . static::TABLE_NAME_SUFFIX;
     }
 
 
     /**
-     * @return string
+     * @inheritDoc
+     *
+     * @deprecated
      */
-    public abstract function getRuleDescription() : string;
+    public static function returnDbTableName() : string
+    {
+        return static::getTableName();
+    }
+
+
+    /**
+     * @param int|null $parent_context
+     *
+     * @return bool
+     */
+    public static abstract function supportsParentContext(/*?*/ int $parent_context = null) : bool;
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getConnectorContainerName() : string
+    {
+        return static::getTableName();
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getEnrollType()/* : ?int*/
+    {
+        if (empty($this->enroll_type)) {
+            return ($this->getParentContext() === self::TYPE_COURSE_RULE ? Member::TYPE_MEMBER : null);
+        }
+
+        return intval($this->enroll_type);
+    }
+
+
+    /**
+     * @param int|null $enroll_type
+     */
+    public function setEnrollType(/*?*/ int $enroll_type = null) /*: void*/
+    {
+        $this->enroll_type = $enroll_type;
+    }
 
 
     /**
@@ -218,74 +214,6 @@ abstract class AbstractRule extends ActiveRecord
     public function getId() : string
     {
         return self::getRuleType() . "_" . $this->rule_id;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function sleep(/*string*/ $field_name)
-    {
-        $field_value = $this->{$field_name};
-
-        switch ($field_name) {
-            case "enabled":
-                return ($field_value ? 1 : 0);
-
-            default:
-                return parent::sleep($field_name);
-        }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function wakeUp(/*string*/ $field_name, $field_value)
-    {
-        switch ($field_name) {
-            case "enabled":
-                return boolval($field_value);
-
-            default:
-                return parent::wakeUp($field_name, $field_value);
-        }
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getRuleId() : int
-    {
-        return $this->rule_id;
-    }
-
-
-    /**
-     * @param int $rule_id
-     */
-    public function setRuleId(int $rule_id)/*: void*/
-    {
-        $this->rule_id = $rule_id;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isEnabled() : bool
-    {
-        return $this->enabled;
-    }
-
-
-    /**
-     * @param bool $enabled
-     */
-    public function setEnabled(bool $enabled)/*: void*/
-    {
-        $this->enabled = $enabled;
     }
 
 
@@ -326,6 +254,48 @@ abstract class AbstractRule extends ActiveRecord
 
 
     /**
+     * @return string
+     */
+    public abstract function getRuleDescription() : string;
+
+
+    /**
+     * @return int
+     */
+    public function getRuleId() : int
+    {
+        return $this->rule_id;
+    }
+
+
+    /**
+     * @param int $rule_id
+     */
+    public function setRuleId(int $rule_id)/*: void*/
+    {
+        $this->rule_id = $rule_id;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getRuleTitle() : string
+    {
+        return $this->getRuleTypeTitle();
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getRuleTypeTitle() : string
+    {
+        return self::plugin()->translate("rule_type_" . static::getRuleType(), RulesGUI::LANG_MODULE);
+    }
+
+
+    /**
      * @return int
      */
     public function getType() : int
@@ -344,23 +314,51 @@ abstract class AbstractRule extends ActiveRecord
 
 
     /**
-     * @return int|null
+     * @return bool
      */
-    public function getEnrollType()/* : ?int*/
+    public function isEnabled() : bool
     {
-        if (empty($this->enroll_type)) {
-            return ($this->getParentContext() === self::TYPE_COURSE_RULE ? Member::TYPE_MEMBER : null);
-        }
-
-        return intval($this->enroll_type);
+        return $this->enabled;
     }
 
 
     /**
-     * @param int|null $enroll_type
+     * @param bool $enabled
      */
-    public function setEnrollType(/*?*/ int $enroll_type = null) /*: void*/
+    public function setEnabled(bool $enabled)/*: void*/
     {
-        $this->enroll_type = $enroll_type;
+        $this->enabled = $enabled;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function sleep(/*string*/ $field_name)
+    {
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            case "enabled":
+                return ($field_value ? 1 : 0);
+
+            default:
+                return parent::sleep($field_name);
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function wakeUp(/*string*/ $field_name, $field_value)
+    {
+        switch ($field_name) {
+            case "enabled":
+                return boolval($field_value);
+
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
     }
 }

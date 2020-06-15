@@ -34,16 +34,20 @@ class RequestStepGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_REQUEST_STEP = "requestStep";
     const GET_PARAM_PARENT_REF_ID = "parent_ref_id";
     const GET_PARAM_USER_ID = "user_id";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const SESSION_USERS = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_users";
     /**
      * @var int
      */
     protected $obj_ref_id;
+    /**
+     * @var int
+     */
+    protected $parent_ref_id;
     /**
      * @var Step
      */
@@ -52,10 +56,6 @@ class RequestStepGUI
      * @var int[]
      */
     protected $user_ids;
-    /**
-     * @var int
-     */
-    protected $parent_ref_id;
 
 
     /**
@@ -64,61 +64,6 @@ class RequestStepGUI
     public function __construct()
     {
 
-    }
-
-
-    /**
-     *
-     */
-    public function executeCommand()/*: void*/
-    {
-        $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
-        $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
-        $this->parent_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_PARENT_REF_ID));
-
-        if (strtolower(self::dic()->http()->request()->getMethod()) === "post") {
-            $this->user_ids = filter_input(INPUT_POST, self::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-            if (is_array($this->user_ids)) {
-                $this->user_ids = array_values(array_filter($this->user_ids, function ($value) : bool {
-                    // TODO: Use from MultiSelectSearchNewInputGUI
-                    return ($value !== MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER);
-                }));
-            }
-        } else {
-            $this->user_ids = [intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID))];
-
-            if (empty($this->user_ids[0])) {
-                $this->user_ids = ilSession::get(self::SESSION_USERS);
-            }
-        }
-
-        self::dic()->ctrl()->saveParameter($this, RequestsGUI::GET_PARAM_REF_ID);
-        self::dic()->ctrl()->saveParameter($this, StepGUI::GET_PARAM_STEP_ID);
-        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_PARENT_REF_ID);
-
-        $this->setTabs();
-
-        $next_class = self::dic()->ctrl()->getNextClass($this);
-
-        switch (strtolower($next_class)) {
-            case strtolower(FillCtrl::class):
-                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId(), FillCtrl::RETURN_REQUEST_STEP));
-                break;
-
-            default:
-                $cmd = self::dic()->ctrl()->getCmd();
-
-                switch ($cmd) {
-                    case self::CMD_BACK:
-                    case self::CMD_REQUEST_STEP:
-                        $this->{$cmd}();
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-        }
     }
 
 
@@ -205,9 +150,55 @@ class RequestStepGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    public function executeCommand()/*: void*/
     {
+        $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
+        $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
+        $this->parent_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_PARENT_REF_ID));
 
+        if (strtolower(self::dic()->http()->request()->getMethod()) === "post") {
+            $this->user_ids = filter_input(INPUT_POST, self::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+            if (is_array($this->user_ids)) {
+                $this->user_ids = array_values(array_filter($this->user_ids, function ($value) : bool {
+                    // TODO: Use from MultiSelectSearchNewInputGUI
+                    return ($value !== MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER);
+                }));
+            }
+        } else {
+            $this->user_ids = [intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID))];
+
+            if (empty($this->user_ids[0])) {
+                $this->user_ids = ilSession::get(self::SESSION_USERS);
+            }
+        }
+
+        self::dic()->ctrl()->saveParameter($this, RequestsGUI::GET_PARAM_REF_ID);
+        self::dic()->ctrl()->saveParameter($this, StepGUI::GET_PARAM_STEP_ID);
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_PARENT_REF_ID);
+
+        $this->setTabs();
+
+        $next_class = self::dic()->ctrl()->getNextClass($this);
+
+        switch (strtolower($next_class)) {
+            case strtolower(FillCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new FillCtrl(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId(), FillCtrl::RETURN_REQUEST_STEP));
+                break;
+
+            default:
+                $cmd = self::dic()->ctrl()->getCmd();
+
+                switch ($cmd) {
+                    case self::CMD_BACK:
+                    case self::CMD_REQUEST_STEP:
+                        $this->{$cmd}();
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+        }
     }
 
 
@@ -265,5 +256,14 @@ class RequestStepGUI
         ilUtil::sendSuccess(self::plugin()->translate("requested", RequestsGUI::LANG_MODULE, [$this->step->getActionTitle()]), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+    }
+
+
+    /**
+     *
+     */
+    protected function setTabs()/*: void*/
+    {
+
     }
 }

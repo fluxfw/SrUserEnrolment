@@ -30,8 +30,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const LANG_MODULE = ExcelImportGUI::LANG_MODULE;
+    const GUEST_ROLE_ID = 5;
     const KEY_COUNT_SKIP_TOP_ROWS = self::LANG_MODULE . "_count_skip_top_rows";
     const KEY_CREATE_NEW_USERS = self::LANG_MODULE . "_create_new_users";
     const KEY_CREATE_NEW_USERS_GLOBAL_ROLES = self::LANG_MODULE . "_create_new_users_global_roles";
@@ -49,8 +48,89 @@ class ExcelImportFormGUI extends PropertyFormGUI
     const KEY_ORG_UNIT_ASSIGN_TYPE = self::LANG_MODULE . "_org_unit_assign_type";
     const KEY_SET_PASSWORD = self::LANG_MODULE . "_set_password";
     const KEY_SET_PASSWORD_FORMAT_DATE = self::KEY_SET_PASSWORD . "_format_date";
+    const LANG_MODULE = ExcelImportGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const USER_ROLE_ID = 4;
-    const GUEST_ROLE_ID = 5;
+    /**
+     * @var string
+     */
+    protected $excel_file = "";
+    /**
+     * @var int
+     */
+    protected $excel_import_count_skip_top_rows = 0;
+    /**
+     * @var bool
+     */
+    protected $excel_import_create_new_users = false;
+    /**
+     * @var array
+     */
+    protected $excel_import_create_new_users_global_roles = [];
+    /**
+     * @var array
+     */
+    protected $excel_import_fields = [];
+    /**
+     * @var string
+     */
+    protected $excel_import_gender_f = "";
+    /**
+     * @var string
+     */
+    protected $excel_import_gender_m = "";
+    /**
+     * @var string
+     */
+    protected $excel_import_gender_n = "";
+    /**
+     * @var bool
+     */
+    protected $excel_import_local_user_administration = false;
+    /**
+     * @var int
+     */
+    protected $excel_import_local_user_administration_object_type = ExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
+    /**
+     * @var int
+     */
+    protected $excel_import_local_user_administration_type = ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_TITLE;
+    /**
+     * @var int
+     */
+    protected $excel_import_map_exists_users_field = ExcelImport::MAP_EXISTS_USERS_LOGIN;
+    /**
+     * @var bool
+     */
+    protected $excel_import_org_unit_assign = false;
+    /**
+     * @var int
+     */
+    protected $excel_import_org_unit_assign_position = ExcelImport::ORG_UNIT_POSITION_FIELD;
+    /**
+     * @var int
+     */
+    protected $excel_import_org_unit_assign_type = ExcelImport::ORG_UNIT_TYPE_TITLE;
+    /**
+     * @var int
+     */
+    protected $excel_import_set_password = ExcelImport::SET_PASSWORD_RANDOM;
+    /**
+     * @var bool
+     */
+    protected $excel_import_set_password_format_date
+        = false;
+
+
+    /**
+     * ExcelImportFormGUI constructor
+     *
+     * @param ExcelImportGUI $parent
+     */
+    public function __construct(ExcelImportGUI $parent)
+    {
+        parent::__construct($parent);
+    }
 
 
     /**
@@ -410,181 +490,11 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @var string
+     * @return int
      */
-    protected $excel_file = "";
-    /**
-     * @var int
-     */
-    protected $excel_import_count_skip_top_rows = 0;
-    /**
-     * @var bool
-     */
-    protected $excel_import_create_new_users = false;
-    /**
-     * @var array
-     */
-    protected $excel_import_create_new_users_global_roles = [];
-    /**
-     * @var array
-     */
-    protected $excel_import_fields = [];
-    /**
-     * @var string
-     */
-    protected $excel_import_gender_f = "";
-    /**
-     * @var string
-     */
-    protected $excel_import_gender_m = "";
-    /**
-     * @var string
-     */
-    protected $excel_import_gender_n = "";
-    /**
-     * @var bool
-     */
-    protected $excel_import_local_user_administration = false;
-    /**
-     * @var int
-     */
-    protected $excel_import_local_user_administration_object_type = ExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY;
-    /**
-     * @var int
-     */
-    protected $excel_import_local_user_administration_type = ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_TITLE;
-    /**
-     * @var int
-     */
-    protected $excel_import_map_exists_users_field = ExcelImport::MAP_EXISTS_USERS_LOGIN;
-    /**
-     * @var bool
-     */
-    protected $excel_import_org_unit_assign = false;
-    /**
-     * @var int
-     */
-    protected $excel_import_org_unit_assign_position = ExcelImport::ORG_UNIT_POSITION_FIELD;
-    /**
-     * @var int
-     */
-    protected $excel_import_org_unit_assign_type = ExcelImport::ORG_UNIT_TYPE_TITLE;
-    /**
-     * @var int
-     */
-    protected $excel_import_set_password = ExcelImport::SET_PASSWORD_RANDOM;
-    /**
-     * @var bool
-     */
-    protected $excel_import_set_password_format_date
-        = false;
-
-
-    /**
-     * ExcelImportFormGUI constructor
-     *
-     * @param ExcelImportGUI $parent
-     */
-    public function __construct(ExcelImportGUI $parent)
+    public function getCountSkipTopRows() : int
     {
-        parent::__construct($parent);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function getValue(/*string*/ $key)
-    {
-        switch ($key) {
-            case "excel_file":
-                return $this->{$key};
-
-            default:
-                return self::srUserEnrolment()->config()->getValue($key);
-        }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function initCommands()/*: void*/
-    {
-        $this->addCommandButton(ExcelImportGUI::CMD_PARSE_EXCEL, $this->txt("import"));
-        $this->addCommandButton(ExcelImportGUI::CMD_BACK, $this->txt("cancel"));
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function initFields()/*: void*/
-    {
-        $this->fields = [
-            "excel_file" => [
-                self::PROPERTY_CLASS    => ilFileInputGUI::class,
-                self::PROPERTY_REQUIRED => true,
-                "setSuffixes"           => [["xlsx", "xltx"]]
-            ]
-        ];
-
-        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
-            $this->fields += self::getExcelImportFields($this->parent);
-        } else {
-            foreach (get_object_vars($this) as $key => $value) {
-                if (strpos($key, "excel_import_") === 0) {
-                    $this->{$key} = $this->getValue($key);
-                }
-            }
-        }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function initId()/*: void*/
-    {
-
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function initTitle()/*: void*/
-    {
-        $this->setTitle($this->parent::getTitle());
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function storeForm() : bool
-    {
-        return ($this->storeFormCheck() && self::validateExcelImport($this) && parent::storeForm());
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function storeValue(/*string*/ $key, $value)/*: void*/
-    {
-        switch ($key) {
-            case "excel_file":
-                $this->excel_file = strval($this->getInput("excel_file")["tmp_name"]);
-                break;
-
-            case self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
-                return;
-
-            default:
-                $this->{$key} = $value;
-                break;
-        }
+        return $this->{self::KEY_COUNT_SKIP_TOP_ROWS};
     }
 
 
@@ -598,11 +508,11 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @return int
+     * @return array
      */
-    public function getCountSkipTopRows() : int
+    public function getExcelImportCreateNewUsersGlobalRoles() : array
     {
-        return $this->{self::KEY_COUNT_SKIP_TOP_ROWS};
+        return $this->{self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES};
     }
 
 
@@ -679,6 +589,15 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
+     * @return ExcelImportGUI
+     */
+    public function getParent() : ExcelImportGUI
+    {
+        return $this->parent;
+    }
+
+
+    /**
      * @return int
      */
     public function getSetPassword() : int
@@ -688,11 +607,11 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @return bool
+     * @return array
      */
-    public function isSetPasswordFormatDateTime() : bool
+    public function getUserFields() : array
     {
-        return $this->{self::KEY_SET_PASSWORD_FORMAT_DATE};
+        return $this->{self::KEY_FIELDS};
     }
 
 
@@ -702,15 +621,6 @@ class ExcelImportFormGUI extends PropertyFormGUI
     public function isCreateNewUsers() : bool
     {
         return $this->{self::KEY_CREATE_NEW_USERS};
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getExcelImportCreateNewUsersGlobalRoles() : array
-    {
-        return $this->{self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES};
     }
 
 
@@ -733,19 +643,107 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
-     * @return array
+     * @return bool
      */
-    public function getUserFields() : array
+    public function isSetPasswordFormatDateTime() : bool
     {
-        return $this->{self::KEY_FIELDS};
+        return $this->{self::KEY_SET_PASSWORD_FORMAT_DATE};
     }
 
 
     /**
-     * @return ExcelImportGUI
+     * @inheritDoc
      */
-    public function getParent() : ExcelImportGUI
+    public function storeForm() : bool
     {
-        return $this->parent;
+        return ($this->storeFormCheck() && self::validateExcelImport($this) && parent::storeForm());
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getValue(/*string*/ $key)
+    {
+        switch ($key) {
+            case "excel_file":
+                return $this->{$key};
+
+            default:
+                return self::srUserEnrolment()->config()->getValue($key);
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function initCommands()/*: void*/
+    {
+        $this->addCommandButton(ExcelImportGUI::CMD_PARSE_EXCEL, $this->txt("import"));
+        $this->addCommandButton(ExcelImportGUI::CMD_BACK, $this->txt("cancel"));
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function initFields()/*: void*/
+    {
+        $this->fields = [
+            "excel_file" => [
+                self::PROPERTY_CLASS    => ilFileInputGUI::class,
+                self::PROPERTY_REQUIRED => true,
+                "setSuffixes"           => [["xlsx", "xltx"]]
+            ]
+        ];
+
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_CONFIG)) {
+            $this->fields += self::getExcelImportFields($this->parent);
+        } else {
+            foreach (get_object_vars($this) as $key => $value) {
+                if (strpos($key, "excel_import_") === 0) {
+                    $this->{$key} = $this->getValue($key);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function initId()/*: void*/
+    {
+
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function initTitle()/*: void*/
+    {
+        $this->setTitle($this->parent::getTitle());
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function storeValue(/*string*/ $key, $value)/*: void*/
+    {
+        switch ($key) {
+            case "excel_file":
+                $this->excel_file = strval($this->getInput("excel_file")["tmp_name"]);
+                break;
+
+            case self::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":
+                return;
+
+            default:
+                $this->{$key} = $value;
+                break;
+        }
     }
 }

@@ -26,24 +26,24 @@ class RequestStepForOthersGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_APPLY_FILTER = "applyFilter";
     const CMD_BACK = "back";
     const CMD_LIST_USERS = "listUsers";
     const CMD_RESET_FILTER = "resetFilter";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_USERS = "users";
     /**
      * @var int
      */
     protected $obj_ref_id;
     /**
-     * @var Step
-     */
-    protected $step;
-    /**
      * @var int
      */
     protected $parent_ref_id;
+    /**
+     * @var Step
+     */
+    protected $step;
 
 
     /**
@@ -98,17 +98,36 @@ class RequestStepForOthersGUI
 
 
     /**
+     * @return int
+     */
+    public function getObjRefId() : int
+    {
+        return $this->obj_ref_id;
+    }
+
+
+    /**
+     * @return Step
+     */
+    public function getStep() : Step
+    {
+        return $this->step;
+    }
+
+
+    /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function applyFilter()/*: void*/
     {
-        self::dic()->tabs()->clearTargets();
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newRequestStepForOthersTableInstance($this, self::CMD_APPLY_FILTER);
 
-        self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", AssistantsGUI::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK));
+        $table->writeFilterToSession();
 
-        self::dic()->tabs()->addTab(self::TAB_USERS, self::plugin()->translate("users", AssistantsGUI::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_LIST_USERS));
+        $table->resetOffset();
+
+        //self::dic()->ctrl()->redirect($this, self::CMD_LIST_USERS);
+        $this->listUsers(); // Fix reset offset
     }
 
 
@@ -141,16 +160,15 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    protected function applyFilter()/*: void*/
+    protected function requestStep()/*: void*/
     {
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newRequestStepForOthersTableInstance($this, self::CMD_APPLY_FILTER);
+        ilSession::set(RequestStepGUI::SESSION_USERS, filter_input(INPUT_POST, RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY));
 
-        $table->writeFilterToSession();
+        self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, RequestsGUI::GET_PARAM_REF_ID);
+        self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID);
+        self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_PARENT_REF_ID);
 
-        $table->resetOffset();
-
-        //self::dic()->ctrl()->redirect($this, self::CMD_LIST_USERS);
-        $this->listUsers(); // Fix reset offset
+        self::dic()->ctrl()->redirectByClass(RequestStepGUI::class, RequestStepGUI::CMD_REQUEST_STEP);
     }
 
 
@@ -173,32 +191,14 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    protected function requestStep()/*: void*/
+    protected function setTabs()/*: void*/
     {
-        ilSession::set(RequestStepGUI::SESSION_USERS, filter_input(INPUT_POST, RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY));
+        self::dic()->tabs()->clearTargets();
 
-        self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, RequestsGUI::GET_PARAM_REF_ID);
-        self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID);
-        self::dic()->ctrl()->saveParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_PARENT_REF_ID);
+        self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", AssistantsGUI::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
 
-        self::dic()->ctrl()->redirectByClass(RequestStepGUI::class, RequestStepGUI::CMD_REQUEST_STEP);
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getObjRefId() : int
-    {
-        return $this->obj_ref_id;
-    }
-
-
-    /**
-     * @return Step
-     */
-    public function getStep() : Step
-    {
-        return $this->step;
+        self::dic()->tabs()->addTab(self::TAB_USERS, self::plugin()->translate("users", AssistantsGUI::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_LIST_USERS));
     }
 }

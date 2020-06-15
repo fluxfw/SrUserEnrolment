@@ -23,16 +23,66 @@ class Deputy extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_dep";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_dep";
+    /**
+     * @var bool
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     * @con_is_notnull   true
+     */
+    protected $active = true;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $deputy_user_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
+     */
+    protected $id;
+    /**
+     * @var ilDate|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $until = null;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $user_id;
 
 
     /**
-     * @inheritDoc
+     * Deputy constructor
+     *
+     * @param int              $primary_key_value
+     * @param arConnector|null $connector
      */
-    public function getConnectorContainerName() : string
+    public function __construct(/*int*/ $primary_key_value = 0, arConnector $connector = null)
     {
-        return self::TABLE_NAME;
+        parent::__construct($primary_key_value, $connector);
     }
 
 
@@ -48,63 +98,119 @@ class Deputy extends ActiveRecord
 
 
     /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     * @con_is_primary   true
-     * @con_sequence     true
+     * @inheritDoc
      */
-    protected $id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $user_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $deputy_user_id;
-    /**
-     * @var ilDate|null
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   false
-     */
-    protected $until = null;
-    /**
-     * @var bool
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       1
-     * @con_is_notnull   true
-     */
-    protected $active = true;
-
-
-    /**
-     * Deputy constructor
-     *
-     * @param int              $primary_key_value
-     * @param arConnector|null $connector
-     */
-    public function __construct(/*int*/ $primary_key_value = 0, arConnector $connector = null)
+    public function getConnectorContainerName() : string
     {
-        parent::__construct($primary_key_value, $connector);
+        return self::TABLE_NAME;
+    }
+
+
+    /**
+     * @return ilObjUser
+     */
+    public function getDeputyUser() : ilObjUser
+    {
+        return new ilObjUser($this->deputy_user_id);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getDeputyUserId() : int
+    {
+        return $this->deputy_user_id;
+    }
+
+
+    /**
+     * @param int $deputy_user_id
+     */
+    public function setDeputyUserId(int $deputy_user_id)/* : void*/
+    {
+        $this->deputy_user_id = $deputy_user_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getId() : int
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)/* : void*/
+    {
+        $this->id = $id;
+    }
+
+
+    /**
+     * @return ilDate|null
+     */
+    public function getUntil()/* : ?ilDate*/
+    {
+        return $this->until;
+    }
+
+
+    /**
+     * @param ilDate|null $until
+     */
+    public function setUntil(/*?*/ ilDate $until = null)/* : void*/
+    {
+        $this->until = $until;
+    }
+
+
+    /**
+     * @return ilObjUser
+     */
+    public function getUser() : ilObjUser
+    {
+        return new ilObjUser($this->user_id);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getUserId() : int
+    {
+        return $this->user_id;
+    }
+
+
+    /**
+     * @param int $user_id
+     */
+    public function setUserId(int $user_id)/* : void*/
+    {
+        $this->user_id = $user_id;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isActive() : bool
+    {
+        return $this->active;
+    }
+
+
+    /**
+     * @param bool $active
+     */
+    public function setActive(bool $active)/* : void*/
+    {
+        $this->active = $active;
     }
 
 
@@ -151,113 +257,5 @@ class Deputy extends ActiveRecord
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return ilObjUser
-     */
-    public function getUser() : ilObjUser
-    {
-        return new ilObjUser($this->user_id);
-    }
-
-
-    /**
-     * @return ilObjUser
-     */
-    public function getDeputyUser() : ilObjUser
-    {
-        return new ilObjUser($this->deputy_user_id);
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getId() : int
-    {
-        return $this->id;
-    }
-
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)/* : void*/
-    {
-        $this->id = $id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getUserId() : int
-    {
-        return $this->user_id;
-    }
-
-
-    /**
-     * @param int $user_id
-     */
-    public function setUserId(int $user_id)/* : void*/
-    {
-        $this->user_id = $user_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getDeputyUserId() : int
-    {
-        return $this->deputy_user_id;
-    }
-
-
-    /**
-     * @param int $deputy_user_id
-     */
-    public function setDeputyUserId(int $deputy_user_id)/* : void*/
-    {
-        $this->deputy_user_id = $deputy_user_id;
-    }
-
-
-    /**
-     * @return ilDate|null
-     */
-    public function getUntil()/* : ?ilDate*/
-    {
-        return $this->until;
-    }
-
-
-    /**
-     * @param ilDate|null $until
-     */
-    public function setUntil(/*?*/ ilDate $until = null)/* : void*/
-    {
-        $this->until = $until;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isActive() : bool
-    {
-        return $this->active;
-    }
-
-
-    /**
-     * @param bool $active
-     */
-    public function setActive(bool $active)/* : void*/
-    {
-        $this->active = $active;
     }
 }

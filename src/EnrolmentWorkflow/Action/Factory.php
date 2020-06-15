@@ -32,21 +32,6 @@ final class Factory
      * @var self|null
      */
     protected static $instance = null;
-
-
-    /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
     /**
      * @var array
      */
@@ -73,6 +58,19 @@ final class Factory
 
 
     /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+
+    /**
      * @param string $class
      */
     public function addClass(string $class)/*:void*/
@@ -95,40 +93,6 @@ final class Factory
         ksort($types);
 
         return $types;
-    }
-
-
-    /**
-     * @param string $type
-     *
-     * @return AbstractAction|null
-     */
-    public function newInstance(string $type) /*: ?AbstractAction*/
-    {
-        $action = null;
-
-        foreach ($this->getTypes() as $type_class => $class) {
-            if ($type_class === $type) {
-                $action = new $class();
-                break;
-            }
-        }
-
-        return $action;
-    }
-
-
-    /**
-     * @param ActionsGUI $parent
-     * @param string     $cmd
-     *
-     * @return ActionsTableGUI
-     */
-    public function newTableInstance(ActionsGUI $parent, string $cmd = ActionsGUI::CMD_LIST_ACTIONS) : ActionsTableGUI
-    {
-        $table = new ActionsTableGUI($parent, $cmd);
-
-        return $table;
     }
 
 
@@ -162,6 +126,26 @@ final class Factory
 
 
     /**
+     * @param string $type
+     *
+     * @return AbstractAction|null
+     */
+    public function newInstance(string $type) /*: ?AbstractAction*/
+    {
+        $action = null;
+
+        foreach ($this->getTypes() as $type_class => $class) {
+            if ($type_class === $type) {
+                $action = new $class();
+                break;
+            }
+        }
+
+        return $action;
+    }
+
+
+    /**
      * @param AbstractAction $action
      *
      * @return AbstractActionRunner
@@ -173,5 +157,19 @@ final class Factory
         $runner = new $class($action);
 
         return $runner;
+    }
+
+
+    /**
+     * @param ActionsGUI $parent
+     * @param string     $cmd
+     *
+     * @return ActionsTableGUI
+     */
+    public function newTableInstance(ActionsGUI $parent, string $cmd = ActionsGUI::CMD_LIST_ACTIONS) : ActionsTableGUI
+    {
+        $table = new ActionsTableGUI($parent, $cmd);
+
+        return $table;
     }
 }

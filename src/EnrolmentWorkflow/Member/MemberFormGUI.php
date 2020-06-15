@@ -25,8 +25,8 @@ class MemberFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = MembersGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var Member
      */
@@ -54,6 +54,33 @@ class MemberFormGUI extends PropertyFormGUI
         ]);
 
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeFormCheck()) {
+            return false;
+        }
+
+        foreach ($this->modifications as $modification) {
+            if (!$modification->validateAdditionals($this)) {
+                ilUtil::sendFailure(self::dic()->language()->txt("form_input_not_valid"));
+
+                return false;
+            }
+        }
+
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        self::srUserEnrolment()->enrolmentWorkflow()->members()->storeMember($this->member);
+
+        return true;
     }
 
 
@@ -160,32 +187,5 @@ class MemberFormGUI extends PropertyFormGUI
                 Items::setter($this->member, $key, $value);
                 break;
         }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function storeForm() : bool
-    {
-        if (!parent::storeFormCheck()) {
-            return false;
-        }
-
-        foreach ($this->modifications as $modification) {
-            if (!$modification->validateAdditionals($this)) {
-                ilUtil::sendFailure(self::dic()->language()->txt("form_input_not_valid"));
-
-                return false;
-            }
-        }
-
-        if (!parent::storeForm()) {
-            return false;
-        }
-
-        self::srUserEnrolment()->enrolmentWorkflow()->members()->storeMember($this->member);
-
-        return true;
     }
 }

@@ -27,21 +27,6 @@ final class Repository
      * @var self|null
      */
     protected static $instance = null;
-
-
-    /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
     /**
      * @var Log[][]
      */
@@ -54,6 +39,19 @@ final class Repository
     private function __construct()
     {
 
+    }
+
+
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
 
@@ -109,6 +107,23 @@ final class Repository
         } else {
             return [];
         }
+    }
+
+
+    /**
+     * @param int $log_id
+     *
+     * @return Log|null
+     */
+    public function getLogById(int $log_id)/*: ?Log*/
+    {
+        /**
+         * @var Log|null $log
+         */
+        $log = self::dic()->database()->fetchObjectCallback(self::dic()->database()->queryF('SELECT * FROM ' . self::dic()->database()
+                ->quoteIdentifier(Log::TABLE_NAME) . ' WHERE log_id=%s', [ilDBConstants::T_INTEGER], [$log_id]), [$this->factory(), "fromDB"]);
+
+        return $log;
     }
 
 
@@ -176,6 +191,68 @@ final class Repository
         }
 
         return 0;
+    }
+
+
+    /**
+     * @internal
+     */
+    public function installTables()/*: void*/
+    {
+        try {
+            Log::updateDB();
+        } catch (Throwable $ex) {
+            // Fix Call to a member function getName() on null (Because not use ILIAS sequence)
+        }
+
+        self::dic()->database()->createAutoIncrement(Log::TABLE_NAME, "log_id"); // Using MySQL native autoincrement for performance
+
+        self::dic()->database()->modifyTableColumn(Log::TABLE_NAME, "rule_id", [
+            "type"    => ilDBConstants::T_TEXT,
+            "length"  => 4000, // Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoPostgresFieldDefinition.php
+            "notnull" => false
+        ]);
+
+        self::dic()->database()->manipulateF("UPDATE " . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME) . " SET rule_id=null WHERE rule_id=%s", [ilDBConstants::T_TEXT], [0]);
+    }
+
+
+    /**
+     * @param Log $log
+     */
+    public function keepLog(Log $log)/*:void*/
+    {
+        if (!isset($this->kept_logs[$log->getStatus()])) {
+            $this->kept_logs[$log->getStatus()] = [];
+        }
+
+        $this->kept_logs[$log->getStatus()][] = $log;
+    }
+
+
+    /**
+     * @param Log $log
+     */
+    public function storeLog(Log $log)/*: void*/
+    {
+        $date = new ilDateTime(time(), IL_CAL_UNIX);
+
+        if (empty($log->getLogId())) {
+            $log->withDate($date);
+            $log->withExecuteUserId(self::dic()->user()->getId());
+        }
+
+        $log->withLogId(self::dic()->database()->store(Log::TABLE_NAME, [
+            "object_id"       => [ilDBConstants::T_INTEGER, $log->getObjectId()],
+            "rule_id"         => [ilDBConstants::T_TEXT, $log->getRuleId()],
+            "user_id"         => [ilDBConstants::T_INTEGER, $log->getUserId()],
+            "execute_user_id" => [ilDBConstants::T_INTEGER, $log->getExecuteUserId()],
+            "date"            => [ilDBConstants::T_TEXT, $log->getDate()->get(IL_CAL_DATETIME)],
+            "status"          => [ilDBConstants::T_INTEGER, $log->getStatus()],
+            "message"         => [ilDBConstants::T_TEXT, $log->getMessage()]
+        ], "log_id", $log->getLogId()));
+
+        $this->keepLog($log);
     }
 
 
@@ -251,84 +328,5 @@ final class Repository
         }
 
         return $sql;
-    }
-
-
-    /**
-     * @param int $log_id
-     *
-     * @return Log|null
-     */
-    public function getLogById(int $log_id)/*: ?Log*/
-    {
-        /**
-         * @var Log|null $log
-         */
-        $log = self::dic()->database()->fetchObjectCallback(self::dic()->database()->queryF('SELECT * FROM ' . self::dic()->database()
-                ->quoteIdentifier(Log::TABLE_NAME) . ' WHERE log_id=%s', [ilDBConstants::T_INTEGER], [$log_id]), [$this->factory(), "fromDB"]);
-
-        return $log;
-    }
-
-
-    /**
-     * @internal
-     */
-    public function installTables()/*: void*/
-    {
-        try {
-            Log::updateDB();
-        } catch (Throwable $ex) {
-            // Fix Call to a member function getName() on null (Because not use ILIAS sequence)
-        }
-
-        self::dic()->database()->createAutoIncrement(Log::TABLE_NAME, "log_id"); // Using MySQL native autoincrement for performance
-
-        self::dic()->database()->modifyTableColumn(Log::TABLE_NAME, "rule_id", [
-            "type"    => ilDBConstants::T_TEXT,
-            "length"  => 4000, // Services/Database/classes/PDO/FieldDefinition/class.ilDBPdoPostgresFieldDefinition.php
-            "notnull" => false
-        ]);
-
-        self::dic()->database()->manipulateF("UPDATE " . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME) . " SET rule_id=null WHERE rule_id=%s", [ilDBConstants::T_TEXT], [0]);
-    }
-
-
-    /**
-     * @param Log $log
-     */
-    public function keepLog(Log $log)/*:void*/
-    {
-        if (!isset($this->kept_logs[$log->getStatus()])) {
-            $this->kept_logs[$log->getStatus()] = [];
-        }
-
-        $this->kept_logs[$log->getStatus()][] = $log;
-    }
-
-
-    /**
-     * @param Log $log
-     */
-    public function storeLog(Log $log)/*: void*/
-    {
-        $date = new ilDateTime(time(), IL_CAL_UNIX);
-
-        if (empty($log->getLogId())) {
-            $log->withDate($date);
-            $log->withExecuteUserId(self::dic()->user()->getId());
-        }
-
-        $log->withLogId(self::dic()->database()->store(Log::TABLE_NAME, [
-            "object_id"       => [ilDBConstants::T_INTEGER, $log->getObjectId()],
-            "rule_id"         => [ilDBConstants::T_TEXT, $log->getRuleId()],
-            "user_id"         => [ilDBConstants::T_INTEGER, $log->getUserId()],
-            "execute_user_id" => [ilDBConstants::T_INTEGER, $log->getExecuteUserId()],
-            "date"            => [ilDBConstants::T_TEXT, $log->getDate()->get(IL_CAL_DATETIME)],
-            "status"          => [ilDBConstants::T_INTEGER, $log->getStatus()],
-            "message"         => [ilDBConstants::T_TEXT, $log->getMessage()]
-        ], "log_id", $log->getLogId()));
-
-        $this->keepLog($log);
     }
 }

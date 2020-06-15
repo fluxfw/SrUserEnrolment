@@ -25,14 +25,23 @@ class OrgUnitUserType extends AbstractRule
     use RefId;
     use Position;
 
-    const TABLE_NAME_SUFFIX = "orgusrtyp";
-    const ORG_UNIT_USER_TYPE_TITLE = 1;
-    const ORG_UNIT_USER_TYPE_TREE = 2;
     const ORG_UNIT_USER_TYPES
         = [
             self::ORG_UNIT_USER_TYPE_TITLE => "title",
             self::ORG_UNIT_USER_TYPE_TREE  => "tree"
         ];
+    const ORG_UNIT_USER_TYPE_TITLE = 1;
+    const ORG_UNIT_USER_TYPE_TREE = 2;
+    const TABLE_NAME_SUFFIX = "orgusrtyp";
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       2
+     * @con_is_notnull   true
+     */
+    protected $org_unit_use_type = self::ORG_UNIT_USER_TYPE_TITLE;
 
 
     /**
@@ -53,14 +62,12 @@ class OrgUnitUserType extends AbstractRule
 
 
     /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       2
-     * @con_is_notnull   true
+     * @return int
      */
-    protected $org_unit_use_type = self::ORG_UNIT_USER_TYPE_TITLE;
+    public function getOrgUnitUserType() : int
+    {
+        return $this->org_unit_use_type;
+    }
 
 
     /**
@@ -90,6 +97,15 @@ class OrgUnitUserType extends AbstractRule
         return nl2br(implode("\n", array_map(function (string $description) : string {
             return htmlspecialchars($description);
         }, $descriptions)), false);
+    }
+
+
+    /**
+     * @param int $org_unit_user_type
+     */
+    public function setOrgUnitUserType(int $org_unit_user_type)/* : void*/
+    {
+        $this->org_unit_use_type = $org_unit_user_type;
     }
 
 
@@ -126,23 +142,5 @@ class OrgUnitUserType extends AbstractRule
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getOrgUnitUserType() : int
-    {
-        return $this->org_unit_use_type;
-    }
-
-
-    /**
-     * @param int $org_unit_user_type
-     */
-    public function setOrgUnitUserType(int $org_unit_user_type)/* : void*/
-    {
-        $this->org_unit_use_type = $org_unit_user_type;
     }
 }

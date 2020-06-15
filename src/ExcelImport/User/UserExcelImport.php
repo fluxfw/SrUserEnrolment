@@ -19,6 +19,17 @@ class UserExcelImport extends ExcelImport
     /**
      * @inheritDoc
      */
+    public function getUsersToEnroll() : array
+    {
+        self::dic()->ctrl()->redirectByClass(UserExcelImportGUI::class, UserExcelImportGUI::CMD_BACK);
+
+        return [];
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     protected function getUpdateFields(array $fields) : array
     {
         $update_fields = parent::getUpdateFields($fields);
@@ -36,28 +47,6 @@ class UserExcelImport extends ExcelImport
         }
 
         return $update_fields;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
-    {
-        parent::handleRoles($form, $user);
-
-        switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
-            case "role":
-                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles[] = $this->parent->getObjSingleId();
-                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles = array_unique($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles);
-                break;
-
-            case "cat":
-            case "orgu":
-            case "usrf":
-            default:
-                break;
-        }
     }
 
 
@@ -84,10 +73,21 @@ class UserExcelImport extends ExcelImport
     /**
      * @inheritDoc
      */
-    public function getUsersToEnroll() : array
+    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
     {
-        self::dic()->ctrl()->redirectByClass(UserExcelImportGUI::class, UserExcelImportGUI::CMD_BACK);
+        parent::handleRoles($form, $user);
 
-        return [];
+        switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
+            case "role":
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles[] = $this->parent->getObjSingleId();
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles = array_unique($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles);
+                break;
+
+            case "cat":
+            case "orgu":
+            case "usrf":
+            default:
+                break;
+        }
     }
 }

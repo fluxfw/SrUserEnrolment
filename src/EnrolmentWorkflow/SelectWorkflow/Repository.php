@@ -30,19 +30,6 @@ final class Repository
 
 
     /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
-    /**
      * Repository constructor
      */
     private function __construct()
@@ -52,11 +39,15 @@ final class Repository
 
 
     /**
-     * @param SelectedWorkflow $selected_workflow
+     * @return self
      */
-    protected function deleteSelectedWorkflow(SelectedWorkflow $selected_workflow)/*: void*/
+    public static function getInstance() : self
     {
-        $selected_workflow->delete();
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
 
@@ -86,34 +77,6 @@ final class Repository
     public function factory() : Factory
     {
         return Factory::getInstance();
-    }
-
-
-    /**
-     * @param int $obj_id
-     *
-     * @return SelectedWorkflow|null
-     */
-    protected function getSelectedWorkflow(int $obj_id)/* : ?SelectedWorkflow*/
-    {
-        /**
-         * @var SelectedWorkflow|null $selected_workflow
-         */
-
-        $selected_workflow = SelectedWorkflow::where(["obj_id" => $obj_id])->first();
-
-        return $selected_workflow;
-    }
-
-
-    /**
-     * @param int $workflow_id
-     *
-     * @return SelectedWorkflow[]
-     */
-    protected function getSelectedWorkflows(int $workflow_id) : array
-    {
-        return SelectedWorkflow::where(["workflow_id" => $workflow_id])->get();
     }
 
 
@@ -211,6 +174,43 @@ final class Repository
         }
 
         return null;
+    }
+
+
+    /**
+     * @param SelectedWorkflow $selected_workflow
+     */
+    protected function deleteSelectedWorkflow(SelectedWorkflow $selected_workflow)/*: void*/
+    {
+        $selected_workflow->delete();
+    }
+
+
+    /**
+     * @param int $obj_id
+     *
+     * @return SelectedWorkflow|null
+     */
+    protected function getSelectedWorkflow(int $obj_id)/* : ?SelectedWorkflow*/
+    {
+        /**
+         * @var SelectedWorkflow|null $selected_workflow
+         */
+
+        $selected_workflow = SelectedWorkflow::where(["obj_id" => $obj_id])->first();
+
+        return $selected_workflow;
+    }
+
+
+    /**
+     * @param int $workflow_id
+     *
+     * @return SelectedWorkflow[]
+     */
+    protected function getSelectedWorkflows(int $workflow_id) : array
+    {
+        return SelectedWorkflow::where(["workflow_id" => $workflow_id])->get();
     }
 
 

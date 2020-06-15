@@ -25,6 +25,20 @@ class TypeSelectInputGUI extends ilSelectInputGUI
 
 
     /**
+     * TypeSelectInputGUI constructor
+     *
+     * @param string $a_title
+     * @param string $a_postvar
+     */
+    public function __construct(string $a_title = "", string $a_postvar = "")
+    {
+        parent::__construct($a_title, $a_postvar);
+
+        self::init();
+    }
+
+
+    /**
      *
      */
     public static function init()/*: void*/
@@ -39,19 +53,5 @@ class TypeSelectInputGUI extends ilSelectInputGUI
 
             self::dic()->ui()->mainTemplate()->addJavaScript($dir . "/../../js/type_select_input_gui.min.js");
         }
-    }
-
-
-    /**
-     * TypeSelectInputGUI constructor
-     *
-     * @param string $a_title
-     * @param string $a_postvar
-     */
-    public function __construct(string $a_title = "", string $a_postvar = "")
-    {
-        parent::__construct($a_title, $a_postvar);
-
-        self::init();
     }
 }

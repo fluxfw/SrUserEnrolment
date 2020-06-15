@@ -158,15 +158,6 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUserId()/* : ?array*/
-    {
-        return null;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     protected function getFilterUserEmail()/* : ?string*/
     {
         return null;
@@ -183,6 +174,15 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
         $user_firstname = $filter["user_firstname"];
 
         return $user_firstname;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getFilterUserId()/* : ?array*/
+    {
+        return null;
     }
 
 

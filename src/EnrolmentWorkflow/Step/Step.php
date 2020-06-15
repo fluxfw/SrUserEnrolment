@@ -22,51 +22,25 @@ class Step extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_stp";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const REQUIRED_DATA_PARENT_CONTEXT_STEP = 1;
-
-
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_stp";
     /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @var int
+     * @var array
      *
      * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
+     * @con_fieldtype    text
      * @con_is_notnull   true
-     * @con_is_primary   true
-     * @con_sequence     true
      */
-    protected $step_id;
+    protected $action_accept_title = [];
     /**
-     * @var int
+     * @var array
      *
      * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
+     * @con_fieldtype    text
      * @con_is_notnull   true
      */
-    protected $workflow_id;
+    protected $action_title = [];
     /**
      * @var bool
      *
@@ -86,6 +60,17 @@ class Step extends ActiveRecord
      */
     protected $sort = 0;
     /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
+     */
+    protected $step_id;
+    /**
      * @var array
      *
      * @con_has_field    true
@@ -94,21 +79,14 @@ class Step extends ActiveRecord
      */
     protected $title = [];
     /**
-     * @var array
+     * @var int
      *
      * @con_has_field    true
-     * @con_fieldtype    text
+     * @con_fieldtype    integer
+     * @con_length       8
      * @con_is_notnull   true
      */
-    protected $action_title = [];
-    /**
-     * @var array
-     *
-     * @con_has_field    true
-     * @con_fieldtype    text
-     * @con_is_notnull   true
-     */
-    protected $action_accept_title = [];
+    protected $workflow_id;
 
 
     /**
@@ -124,11 +102,13 @@ class Step extends ActiveRecord
 
 
     /**
-     * @return array
+     * @inheritDoc
+     *
+     * @deprecated
      */
-    public function getTitles() : array
+    public static function returnDbTableName() : string
     {
-        return $this->title;
+        return self::TABLE_NAME;
     }
 
 
@@ -138,68 +118,9 @@ class Step extends ActiveRecord
      *
      * @return string
      */
-    public function getTitle(/*?*/ string $lang_key = null, bool $use_default_if_not_set = true) : string
+    public function getActionEditTitle(/*?*/ string $lang_key = null, bool $use_default_if_not_set = true) : string
     {
-        return strval(MultilangualTabsInputGUI::getValueForLang($this->title, $lang_key, "title", $use_default_if_not_set));
-    }
-
-
-    /**
-     * @param array $titles
-     */
-    public function setTitles(array $titles)/*:void*/
-    {
-        $this->title = $titles;
-    }
-
-
-    /**
-     * @param string $title
-     * @param string $lang_key
-     */
-    public function setTitle(string $title, string $lang_key)/*: void*/
-    {
-        MultilangualTabsInputGUI::setValueForLang($this->title, $title, $lang_key, "title");
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getActionTitles() : array
-    {
-        return $this->action_title;
-    }
-
-
-    /**
-     * @param string|null $lang_key
-     * @param bool        $use_default_if_not_set
-     *
-     * @return string
-     */
-    public function getActionTitle(/*?*/ string $lang_key = null, bool $use_default_if_not_set = true) : string
-    {
-        return strval(MultilangualTabsInputGUI::getValueForLang($this->action_title, $lang_key, "action_title", $use_default_if_not_set));
-    }
-
-
-    /**
-     * @param array $action_titles
-     */
-    public function setActionTitles(array $action_titles)/*:void*/
-    {
-        $this->action_title = $action_titles;
-    }
-
-
-    /**
-     * @param string $action_title
-     * @param string $lang_key
-     */
-    public function setActionTitle(string $action_title, string $lang_key)/*: void*/
-    {
-        MultilangualTabsInputGUI::setValueForLang($this->action_title, $action_title, $lang_key, "action_title");
+        return strval(MultilangualTabsInputGUI::getValueForLang($this->action_accept_title, $lang_key, "action_accept_title", $use_default_if_not_set));
     }
 
 
@@ -218,9 +139,150 @@ class Step extends ActiveRecord
      *
      * @return string
      */
-    public function getActionEditTitle(/*?*/ string $lang_key = null, bool $use_default_if_not_set = true) : string
+    public function getActionTitle(/*?*/ string $lang_key = null, bool $use_default_if_not_set = true) : string
     {
-        return strval(MultilangualTabsInputGUI::getValueForLang($this->action_accept_title, $lang_key, "action_accept_title", $use_default_if_not_set));
+        return strval(MultilangualTabsInputGUI::getValueForLang($this->action_title, $lang_key, "action_title", $use_default_if_not_set));
+    }
+
+
+    /**
+     * @param string $action_title
+     * @param string $lang_key
+     */
+    public function setActionTitle(string $action_title, string $lang_key)/*: void*/
+    {
+        MultilangualTabsInputGUI::setValueForLang($this->action_title, $action_title, $lang_key, "action_title");
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getActionTitles() : array
+    {
+        return $this->action_title;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getConnectorContainerName() : string
+    {
+        return self::TABLE_NAME;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSort() : int
+    {
+        return $this->sort;
+    }
+
+
+    /**
+     * @param int $sort
+     */
+    public function setSort(int $sort)/*: void*/
+    {
+        $this->sort = $sort;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getStepId() : int
+    {
+        return $this->step_id;
+    }
+
+
+    /**
+     * @param int $step_id
+     */
+    public function setStepId(int $step_id)/*: void*/
+    {
+        $this->step_id = $step_id;
+    }
+
+
+    /**
+     * @param string|null $lang_key
+     * @param bool        $use_default_if_not_set
+     *
+     * @return string
+     */
+    public function getTitle(/*?*/ string $lang_key = null, bool $use_default_if_not_set = true) : string
+    {
+        return strval(MultilangualTabsInputGUI::getValueForLang($this->title, $lang_key, "title", $use_default_if_not_set));
+    }
+
+
+    /**
+     * @param string $title
+     * @param string $lang_key
+     */
+    public function setTitle(string $title, string $lang_key)/*: void*/
+    {
+        MultilangualTabsInputGUI::setValueForLang($this->title, $title, $lang_key, "title");
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getTitles() : array
+    {
+        return $this->title;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getWorkflowId() : int
+    {
+        return $this->workflow_id;
+    }
+
+
+    /**
+     * @param int $workflow_id
+     */
+    public function setWorkflowId(int $workflow_id)/*: void*/
+    {
+        $this->workflow_id = $workflow_id;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isEnabled() : bool
+    {
+        return $this->enabled;
+    }
+
+
+    /**
+     * @param bool $enabled
+     */
+    public function setEnabled(bool $enabled)/*: void*/
+    {
+        $this->enabled = $enabled;
+    }
+
+
+    /**
+     * @param string $action_edit_title
+     * @param string $lang_key
+     */
+    public function setActionEditTitle(string $action_edit_title, string $lang_key)/*: void*/
+    {
+        MultilangualTabsInputGUI::setValueForLang($this->action_accept_title, $action_edit_title, $lang_key, "action_accept_title");
     }
 
 
@@ -234,12 +296,20 @@ class Step extends ActiveRecord
 
 
     /**
-     * @param string $action_edit_title
-     * @param string $lang_key
+     * @param array $action_titles
      */
-    public function setActionEditTitle(string $action_edit_title, string $lang_key)/*: void*/
+    public function setActionTitles(array $action_titles)/*:void*/
     {
-        MultilangualTabsInputGUI::setValueForLang($this->action_accept_title, $action_edit_title, $lang_key, "action_accept_title");
+        $this->action_title = $action_titles;
+    }
+
+
+    /**
+     * @param array $titles
+     */
+    public function setTitles(array $titles)/*:void*/
+    {
+        $this->title = $titles;
     }
 
 
@@ -282,77 +352,5 @@ class Step extends ActiveRecord
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getStepId() : int
-    {
-        return $this->step_id;
-    }
-
-
-    /**
-     * @param int $step_id
-     */
-    public function setStepId(int $step_id)/*: void*/
-    {
-        $this->step_id = $step_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getWorkflowId() : int
-    {
-        return $this->workflow_id;
-    }
-
-
-    /**
-     * @param int $workflow_id
-     */
-    public function setWorkflowId(int $workflow_id)/*: void*/
-    {
-        $this->workflow_id = $workflow_id;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isEnabled() : bool
-    {
-        return $this->enabled;
-    }
-
-
-    /**
-     * @param bool $enabled
-     */
-    public function setEnabled(bool $enabled)/*: void*/
-    {
-        $this->enabled = $enabled;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getSort() : int
-    {
-        return $this->sort;
-    }
-
-
-    /**
-     * @param int $sort
-     */
-    public function setSort(int $sort)/*: void*/
-    {
-        $this->sort = $sort;
     }
 }

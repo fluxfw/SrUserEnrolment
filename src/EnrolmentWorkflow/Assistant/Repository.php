@@ -31,19 +31,6 @@ final class Repository
 
 
     /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
-    /**
      * Repository constructor
      */
     private function __construct()
@@ -53,15 +40,15 @@ final class Repository
 
 
     /**
-     * @param ActiveRecordList $where
-     *
-     * @return ActiveRecordList
+     * @return self
      */
-    protected function activeCheck(ActiveRecordList $where) : ActiveRecordList
+    public static function getInstance() : self
     {
-        return $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
-            "active" => true
-        ]);
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
 
@@ -249,22 +236,11 @@ final class Repository
 
 
     /**
-     * @param int         $user_id
-     * @param Assistant[] $assistants
-     *
-     * @return Assistant[]
+     * @param Assistant $assistant
      */
-    protected function storeUserAssistants(int $user_id, array $assistants) : array
+    public function storeAssistant(Assistant $assistant)/*:void*/
     {
-        foreach ($this->getUserAssistants($user_id, false) as $assistant) {
-            $this->deleteAssistant($assistant);
-        }
-
-        foreach ($assistants as $assistant) {
-            $this->storeAssistant($assistant);
-        }
-
-        return $assistants;
+        $assistant->store();
     }
 
 
@@ -294,10 +270,34 @@ final class Repository
 
 
     /**
-     * @param Assistant $assistant
+     * @param ActiveRecordList $where
+     *
+     * @return ActiveRecordList
      */
-    public function storeAssistant(Assistant $assistant)/*:void*/
+    protected function activeCheck(ActiveRecordList $where) : ActiveRecordList
     {
-        $assistant->store();
+        return $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
+            "active" => true
+        ]);
+    }
+
+
+    /**
+     * @param int         $user_id
+     * @param Assistant[] $assistants
+     *
+     * @return Assistant[]
+     */
+    protected function storeUserAssistants(int $user_id, array $assistants) : array
+    {
+        foreach ($this->getUserAssistants($user_id, false) as $assistant) {
+            $this->deleteAssistant($assistant);
+        }
+
+        foreach ($assistants as $assistant) {
+            $this->storeAssistant($assistant);
+        }
+
+        return $assistants;
     }
 }

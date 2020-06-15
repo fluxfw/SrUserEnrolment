@@ -24,7 +24,6 @@ class WorkflowGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_WORKFLOW = "addWorkflow";
     const CMD_BACK = "back";
     const CMD_CREATE_WORKFLOW = "createWorkflow";
@@ -33,6 +32,7 @@ class WorkflowGUI
     const CMD_REMOVE_WORKFLOW_CONFIRM = "removeWorkflowConfirm";
     const CMD_UPDATE_WORKFLOW = "updateWorkflow";
     const GET_PARAM_WORKFLOW_ID = "workflow_id";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_EDIT_WORKFLOW = "edit_workflow";
     /**
      * @var Workflow
@@ -90,6 +90,102 @@ class WorkflowGUI
 
 
     /**
+     * @return Workflow
+     */
+    public function getWorkflow() : Workflow
+    {
+        return $this->workflow;
+    }
+
+
+    /**
+     *
+     */
+    protected function addWorkflow()/*: void*/
+    {
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newFormInstance($this, $this->workflow);
+
+        self::output()->output($form);
+    }
+
+
+    /**
+     *
+     */
+    protected function back()/*: void*/
+    {
+        self::dic()->ctrl()->redirectByClass(WorkflowsGUI::class, WorkflowsGUI::CMD_LIST_WORKFLOWS);
+    }
+
+
+    /**
+     *
+     */
+    protected function createWorkflow()/*: void*/
+    {
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newFormInstance($this, $this->workflow);
+
+        if (!$form->storeForm()) {
+            self::output()->output($form);
+
+            return;
+        }
+
+        self::dic()->ctrl()->setParameter($this, self::GET_PARAM_WORKFLOW_ID, $this->workflow->getWorkflowId());
+
+        ilUtil::sendSuccess(self::plugin()->translate("added_workflow", WorkflowsGUI::LANG_MODULE, [$this->workflow->getTitle()]), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_WORKFLOW);
+    }
+
+
+    /**
+     *
+     */
+    protected function editWorkflow()/*: void*/
+    {
+        self::dic()->tabs()->activateTab(self::TAB_EDIT_WORKFLOW);
+
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newFormInstance($this, $this->workflow);
+
+        self::output()->output($form);
+    }
+
+
+    /**
+     *
+     */
+    protected function removeWorkflow()/*: void*/
+    {
+        self::srUserEnrolment()->enrolmentWorkflow()->workflows()->deleteWorkflow($this->workflow);
+
+        ilUtil::sendSuccess(self::plugin()->translate("removed_workflow", WorkflowsGUI::LANG_MODULE, [$this->workflow->getTitle()]), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+    }
+
+
+    /**
+     *
+     */
+    protected function removeWorkflowConfirm()/*: void*/
+    {
+        $confirmation = new ilConfirmationGUI();
+
+        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+        $confirmation->setHeaderText(self::plugin()->translate("remove_workflow_confirm", WorkflowsGUI::LANG_MODULE, [$this->workflow->getTitle()]));
+
+        $confirmation->addItem(self::GET_PARAM_WORKFLOW_ID, $this->workflow->getWorkflowId(), $this->workflow->getTitle());
+
+        $confirmation->setConfirm(self::plugin()->translate("remove", WorkflowsGUI::LANG_MODULE), self::CMD_REMOVE_WORKFLOW);
+        $confirmation->setCancel(self::plugin()->translate("cancel", WorkflowsGUI::LANG_MODULE), self::CMD_BACK);
+
+        self::output()->output($confirmation);
+    }
+
+
+    /**
      *
      */
     protected function setTabs()/*: void*/
@@ -123,93 +219,6 @@ class WorkflowGUI
     /**
      *
      */
-    protected function back()/*: void*/
-    {
-        self::dic()->ctrl()->redirectByClass(WorkflowsGUI::class, WorkflowsGUI::CMD_LIST_WORKFLOWS);
-    }
-
-
-    /**
-     *
-     */
-    protected function addWorkflow()/*: void*/
-    {
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newFormInstance($this, $this->workflow);
-
-        self::output()->output($form);
-    }
-
-
-    /**
-     *
-     */
-    protected function createWorkflow()/*: void*/
-    {
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newFormInstance($this, $this->workflow);
-
-        if (!$form->storeForm()) {
-            self::output()->output($form);
-
-            return;
-        }
-
-        self::dic()->ctrl()->setParameter($this, self::GET_PARAM_WORKFLOW_ID, $this->workflow->getWorkflowId());
-
-        ilUtil::sendSuccess(self::plugin()->translate("added_workflow", WorkflowsGUI::LANG_MODULE, [$this->workflow->getTitle()]), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_WORKFLOW);
-    }
-
-
-    /**
-     *
-     */
-    protected function removeWorkflowConfirm()/*: void*/
-    {
-        $confirmation = new ilConfirmationGUI();
-
-        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
-
-        $confirmation->setHeaderText(self::plugin()->translate("remove_workflow_confirm", WorkflowsGUI::LANG_MODULE, [$this->workflow->getTitle()]));
-
-        $confirmation->addItem(self::GET_PARAM_WORKFLOW_ID, $this->workflow->getWorkflowId(), $this->workflow->getTitle());
-
-        $confirmation->setConfirm(self::plugin()->translate("remove", WorkflowsGUI::LANG_MODULE), self::CMD_REMOVE_WORKFLOW);
-        $confirmation->setCancel(self::plugin()->translate("cancel", WorkflowsGUI::LANG_MODULE), self::CMD_BACK);
-
-        self::output()->output($confirmation);
-    }
-
-
-    /**
-     *
-     */
-    protected function removeWorkflow()/*: void*/
-    {
-        self::srUserEnrolment()->enrolmentWorkflow()->workflows()->deleteWorkflow($this->workflow);
-
-        ilUtil::sendSuccess(self::plugin()->translate("removed_workflow", WorkflowsGUI::LANG_MODULE, [$this->workflow->getTitle()]), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
-    }
-
-
-    /**
-     *
-     */
-    protected function editWorkflow()/*: void*/
-    {
-        self::dic()->tabs()->activateTab(self::TAB_EDIT_WORKFLOW);
-
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newFormInstance($this, $this->workflow);
-
-        self::output()->output($form);
-    }
-
-
-    /**
-     *
-     */
     protected function updateWorkflow()/*: void*/
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_WORKFLOW);
@@ -225,14 +234,5 @@ class WorkflowGUI
         ilUtil::sendSuccess(self::plugin()->translate("saved_workflow", WorkflowsGUI::LANG_MODULE, [$this->workflow->getTitle()]), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_EDIT_WORKFLOW);
-    }
-
-
-    /**
-     * @return Workflow
-     */
-    public function getWorkflow() : Workflow
-    {
-        return $this->workflow;
     }
 }

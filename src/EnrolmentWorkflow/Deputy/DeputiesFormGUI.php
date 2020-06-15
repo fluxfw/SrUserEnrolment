@@ -23,8 +23,8 @@ class DeputiesFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = DeputiesGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var array
      */
@@ -42,6 +42,15 @@ class DeputiesFormGUI extends PropertyFormGUI
         $this->deputies = $deputies;
 
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getDeputies() : array
+    {
+        return $this->deputies;
     }
 
 
@@ -123,14 +132,5 @@ class DeputiesFormGUI extends PropertyFormGUI
                 $this->{$key} = $value;
                 break;
         }
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getDeputies() : array
-    {
-        return $this->deputies;
     }
 }

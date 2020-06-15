@@ -22,8 +22,8 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_CONFIGURE = "configure";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
     /**
@@ -87,6 +87,15 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
     /**
      *
      */
+    protected function configure()/*: void*/
+    {
+        self::dic()->ctrl()->redirectByClass(ConfigCtrl::class, ConfigCtrl::CMD_CONFIGURE);
+    }
+
+
+    /**
+     *
+     */
     protected function setTabs()/*: void*/
     {
         ConfigCtrl::addTabs();
@@ -94,14 +103,5 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
         WorkflowsGUI::addTabs();
 
         self::dic()->locator()->addItem(ilSrUserEnrolmentPlugin::PLUGIN_NAME, self::dic()->ctrl()->getLinkTarget($this, self::CMD_CONFIGURE));
-    }
-
-
-    /**
-     *
-     */
-    protected function configure()/*: void*/
-    {
-        self::dic()->ctrl()->redirectByClass(ConfigCtrl::class, ConfigCtrl::CMD_CONFIGURE);
     }
 }

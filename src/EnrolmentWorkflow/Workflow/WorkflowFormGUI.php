@@ -21,8 +21,8 @@ class WorkflowFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = WorkflowsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var Workflow
      */
@@ -40,6 +40,21 @@ class WorkflowFormGUI extends PropertyFormGUI
         $this->workflow = $workflow;
 
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        self::srUserEnrolment()->enrolmentWorkflow()->workflows()->storeWorkflow($this->workflow);
+
+        return true;
     }
 
 
@@ -115,20 +130,5 @@ class WorkflowFormGUI extends PropertyFormGUI
                 Items::setter($this->workflow, $key, $value);
                 break;
         }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function storeForm() : bool
-    {
-        if (!parent::storeForm()) {
-            return false;
-        }
-
-        self::srUserEnrolment()->enrolmentWorkflow()->workflows()->storeWorkflow($this->workflow);
-
-        return true;
     }
 }

@@ -28,7 +28,6 @@ class ActionGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_ACTION = "addAction";
     const CMD_BACK = "back";
     const CMD_CREATE_ACTION = "createAction";
@@ -40,15 +39,16 @@ class ActionGUI
     const CMD_UPDATE_ACTION = "updateAction";
     const GET_PARAM_ACTION_ID = "action_id";
     const GET_PARAM_ACTION_TYPE = "action_type";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_EDIT_ACTION = "edit_action";
-    /**
-     * @var ActionsGUI
-     */
-    protected $parent;
     /**
      * @var AbstractAction|null
      */
     protected $action = null;
+    /**
+     * @var ActionsGUI
+     */
+    protected $parent;
 
 
     /**
@@ -111,62 +111,11 @@ class ActionGUI
 
 
     /**
-     *
+     * @return ActionsGUI
      */
-    protected function setTabs()/*: void*/
+    public function getParent() : ActionsGUI
     {
-        self::dic()->tabs()->clearTargets();
-
-        self::dic()->tabs()->setBackTarget(self::plugin()->translate("actions", ActionsGUI::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK));
-
-        if ($this->action !== null) {
-            if (self::dic()->ctrl()->getCmd() === self::CMD_REMOVE_ACTION_CONFIRM) {
-                self::dic()->tabs()->addTab(self::TAB_EDIT_ACTION, self::plugin()->translate("remove_action", ActionsGUI::LANG_MODULE), self::dic()->ctrl()
-                    ->getLinkTarget($this, self::CMD_REMOVE_ACTION_CONFIRM));
-            } else {
-                self::dic()->tabs()->addTab(self::TAB_EDIT_ACTION, self::plugin()->translate("edit_action", ActionsGUI::LANG_MODULE), self::dic()->ctrl()
-                    ->getLinkTarget($this, self::CMD_EDIT_ACTION));
-
-                RulesGUI::addTabs(AbstractRule::PARENT_CONTEXT_ACTION);
-
-                self::dic()->locator()->addItem($this->action->getActionTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_EDIT_ACTION));
-            }
-        } else {
-            self::dic()->tabs()->addTab(self::TAB_EDIT_ACTION, self::plugin()->translate("add_action", ActionsGUI::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTarget($this, self::CMD_ADD_ACTION));
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function back()/*: void*/
-    {
-        self::dic()->ctrl()->redirectByClass(ActionsGUI::class, ActionsGUI::CMD_LIST_ACTIONS);
-    }
-
-
-    /**
-     *
-     */
-    protected function moveActionDown()
-    {
-        self::srUserEnrolment()->enrolmentWorkflow()->actions()->moveActionDown($this->action);
-
-        exit;
-    }
-
-
-    /**
-     *
-     */
-    protected function moveActionUp()
-    {
-        self::srUserEnrolment()->enrolmentWorkflow()->actions()->moveActionUp($this->action);
-
-        exit;
+        return $this->parent;
     }
 
 
@@ -178,6 +127,15 @@ class ActionGUI
         $form = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newCreateFormInstance($this);
 
         self::output()->output($form);
+    }
+
+
+    /**
+     *
+     */
+    protected function back()/*: void*/
+    {
+        self::dic()->ctrl()->redirectByClass(ActionsGUI::class, ActionsGUI::CMD_LIST_ACTIONS);
     }
 
 
@@ -221,21 +179,35 @@ class ActionGUI
     /**
      *
      */
-    protected function updateAction()/*: void*/
+    protected function moveActionDown()
     {
-        self::dic()->tabs()->activateTab(self::TAB_EDIT_ACTION);
+        self::srUserEnrolment()->enrolmentWorkflow()->actions()->moveActionDown($this->action);
 
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newFormInstance($this, $this->action);
+        exit;
+    }
 
-        if (!$form->storeForm()) {
-            self::output()->output($form);
 
-            return;
-        }
+    /**
+     *
+     */
+    protected function moveActionUp()
+    {
+        self::srUserEnrolment()->enrolmentWorkflow()->actions()->moveActionUp($this->action);
 
-        ilUtil::sendSuccess(self::plugin()->translate("saved_action", ActionsGUI::LANG_MODULE, [$this->action->getActionTitle()]), true);
+        exit;
+    }
 
-        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_ACTION);
+
+    /**
+     *
+     */
+    protected function removeAction()/*: void*/
+    {
+        self::srUserEnrolment()->enrolmentWorkflow()->actions()->deleteAction($this->action);
+
+        ilUtil::sendSuccess(self::plugin()->translate("removed_action", ActionsGUI::LANG_MODULE, [$this->action->getActionTitle()]), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
     }
 
 
@@ -263,21 +235,49 @@ class ActionGUI
     /**
      *
      */
-    protected function removeAction()/*: void*/
+    protected function setTabs()/*: void*/
     {
-        self::srUserEnrolment()->enrolmentWorkflow()->actions()->deleteAction($this->action);
+        self::dic()->tabs()->clearTargets();
 
-        ilUtil::sendSuccess(self::plugin()->translate("removed_action", ActionsGUI::LANG_MODULE, [$this->action->getActionTitle()]), true);
+        self::dic()->tabs()->setBackTarget(self::plugin()->translate("actions", ActionsGUI::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
 
-        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+        if ($this->action !== null) {
+            if (self::dic()->ctrl()->getCmd() === self::CMD_REMOVE_ACTION_CONFIRM) {
+                self::dic()->tabs()->addTab(self::TAB_EDIT_ACTION, self::plugin()->translate("remove_action", ActionsGUI::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTarget($this, self::CMD_REMOVE_ACTION_CONFIRM));
+            } else {
+                self::dic()->tabs()->addTab(self::TAB_EDIT_ACTION, self::plugin()->translate("edit_action", ActionsGUI::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTarget($this, self::CMD_EDIT_ACTION));
+
+                RulesGUI::addTabs(AbstractRule::PARENT_CONTEXT_ACTION);
+
+                self::dic()->locator()->addItem($this->action->getActionTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_EDIT_ACTION));
+            }
+        } else {
+            self::dic()->tabs()->addTab(self::TAB_EDIT_ACTION, self::plugin()->translate("add_action", ActionsGUI::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTarget($this, self::CMD_ADD_ACTION));
+        }
     }
 
 
     /**
-     * @return ActionsGUI
+     *
      */
-    public function getParent() : ActionsGUI
+    protected function updateAction()/*: void*/
     {
-        return $this->parent;
+        self::dic()->tabs()->activateTab(self::TAB_EDIT_ACTION);
+
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newFormInstance($this, $this->action);
+
+        if (!$form->storeForm()) {
+            self::output()->output($form);
+
+            return;
+        }
+
+        ilUtil::sendSuccess(self::plugin()->translate("saved_action", ActionsGUI::LANG_MODULE, [$this->action->getActionTitle()]), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_ACTION);
     }
 }

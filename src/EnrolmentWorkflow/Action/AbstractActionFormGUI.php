@@ -20,8 +20,8 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = ActionsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var AbstractAction
      */
@@ -39,6 +39,21 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
         $this->action = $action;
 
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        self::srUserEnrolment()->enrolmentWorkflow()->actions()->storeAction($this->action);
+
+        return true;
     }
 
 
@@ -107,20 +122,5 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
                 Items::setter($this->action, $key, $value);
                 break;
         }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function storeForm() : bool
-    {
-        if (!parent::storeForm()) {
-            return false;
-        }
-
-        self::srUserEnrolment()->enrolmentWorkflow()->actions()->storeAction($this->action);
-
-        return true;
     }
 }

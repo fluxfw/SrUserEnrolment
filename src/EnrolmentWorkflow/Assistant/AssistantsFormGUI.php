@@ -23,8 +23,8 @@ class AssistantsFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = AssistantsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var array
      */
@@ -42,6 +42,15 @@ class AssistantsFormGUI extends PropertyFormGUI
         $this->assistants = $assistants;
 
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getAssistants() : array
+    {
+        return $this->assistants;
     }
 
 
@@ -123,14 +132,5 @@ class AssistantsFormGUI extends PropertyFormGUI
                 $this->{$key} = $value;
                 break;
         }
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getAssistants() : array
-    {
-        return $this->assistants;
     }
 }

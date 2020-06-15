@@ -27,6 +27,15 @@ final class Factory
 
 
     /**
+     * Factory constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -40,11 +49,16 @@ final class Factory
 
 
     /**
-     * Factory constructor
+     * @param MemberGUI $parent
+     * @param Member    $member
+     *
+     * @return MemberFormGUI
      */
-    private function __construct()
+    public function newFormInstance(MemberGUI $parent, Member $member) : MemberFormGUI
     {
+        $form = new MemberFormGUI($parent, $member);
 
+        return $form;
     }
 
 
@@ -70,19 +84,5 @@ final class Factory
         $table = new MembersTableGUI($parent, $cmd);
 
         return $table;
-    }
-
-
-    /**
-     * @param MemberGUI $parent
-     * @param Member    $member
-     *
-     * @return MemberFormGUI
-     */
-    public function newFormInstance(MemberGUI $parent, Member $member) : MemberFormGUI
-    {
-        $form = new MemberFormGUI($parent, $member);
-
-        return $form;
     }
 }

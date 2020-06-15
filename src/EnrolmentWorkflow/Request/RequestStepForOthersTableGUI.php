@@ -26,8 +26,8 @@ class RequestStepForOthersTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = AssistantsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var ArrayObject<AbstractRequestStepForOthersTableModifications>
      */
@@ -49,6 +49,60 @@ class RequestStepForOthersTableGUI extends TableGUI
         ]);
 
         parent::__construct($parent, $parent_cmd);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getSelectableColumns2() : array
+    {
+        $columns = [
+            "user_lastname"  => [
+                "id"      => "user_lastname",
+                "default" => true,
+                "sort"    => false
+            ],
+            "user_firstname" => [
+                "id"      => "user_firstname",
+                "default" => true,
+                "sort"    => false
+            ],
+            "user_email"     => [
+                "id"      => "user_email",
+                "default" => true,
+                "sort"    => false
+            ]
+        ];
+
+        foreach ($this->modifications as $modification) {
+            $columns = array_merge($columns, $modification->getAdditionalColumns());
+        }
+
+        return $columns;
+    }
+
+
+    /**
+     * @param ilObjUser $user
+     */
+    protected function fillRow(/*ilObjUser*/ $user)/*: void*/
+    {
+        self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestsGUI::GET_PARAM_REF_ID, $this->parent_obj->getObjRefId());
+        self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID, $this->parent_obj->getStep()->getStepId());
+        self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_USER_ID, $user->getId());
+
+        $this->tpl->setCurrentBlock("checkbox");
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", RequestStepGUI::GET_PARAM_USER_ID);
+        $this->tpl->setVariableEscaped("ID", $user->getId());
+        $this->tpl->parseCurrentBlock();
+
+        parent::fillRow($user);
+
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
+            self::dic()->ui()->factory()->link()->standard($this->parent_obj->getStep()->getActionTitle(), self::dic()->ctrl()
+                ->getLinkTargetByClass(RequestStepGUI::class, RequestStepGUI::CMD_REQUEST_STEP))
+        ])->withLabel($this->txt("actions"))));
     }
 
 
@@ -85,37 +139,6 @@ class RequestStepForOthersTableGUI extends TableGUI
         }
 
         return strval($column);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getSelectableColumns2() : array
-    {
-        $columns = [
-            "user_lastname"  => [
-                "id"      => "user_lastname",
-                "default" => true,
-                "sort"    => false
-            ],
-            "user_firstname" => [
-                "id"      => "user_firstname",
-                "default" => true,
-                "sort"    => false
-            ],
-            "user_email"     => [
-                "id"      => "user_email",
-                "default" => true,
-                "sort"    => false
-            ]
-        ];
-
-        foreach ($this->modifications as $modification) {
-            $columns = array_merge($columns, $modification->getAdditionalColumns());
-        }
-
-        return $columns;
     }
 
 
@@ -228,28 +251,5 @@ class RequestStepForOthersTableGUI extends TableGUI
     protected function initTitle()/*: void*/
     {
         $this->setTitle($this->txt("users"));
-    }
-
-
-    /**
-     * @param ilObjUser $user
-     */
-    protected function fillRow(/*ilObjUser*/ $user)/*: void*/
-    {
-        self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestsGUI::GET_PARAM_REF_ID, $this->parent_obj->getObjRefId());
-        self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID, $this->parent_obj->getStep()->getStepId());
-        self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestStepGUI::GET_PARAM_USER_ID, $user->getId());
-
-        $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", RequestStepGUI::GET_PARAM_USER_ID);
-        $this->tpl->setVariableEscaped("ID", $user->getId());
-        $this->tpl->parseCurrentBlock();
-
-        parent::fillRow($user);
-
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->link()->standard($this->parent_obj->getStep()->getActionTitle(), self::dic()->ctrl()
-                ->getLinkTargetByClass(RequestStepGUI::class, RequestStepGUI::CMD_REQUEST_STEP))
-        ])->withLabel($this->txt("actions"))));
     }
 }

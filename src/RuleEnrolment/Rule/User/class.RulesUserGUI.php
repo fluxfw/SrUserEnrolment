@@ -38,6 +38,24 @@ class RulesUserGUI extends RulesCourseGUI
     /**
      * @inheritDoc
      */
+    public function getRuleContext() : int
+    {
+        return AbstractRule::PARENT_CONTEXT_ROLE;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getRuleType() : int
+    {
+        return AbstractRule::TYPE_ROLE_RULE;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     protected function back()/*: void*/
     {
         switch (static::getObjType($this->obj_ref_id, $this->obj_single_id)) {
@@ -65,23 +83,5 @@ class RulesUserGUI extends RulesCourseGUI
             default:
                 break;
         }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getRuleContext() : int
-    {
-        return AbstractRule::PARENT_CONTEXT_ROLE;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getRuleType() : int
-    {
-        return AbstractRule::TYPE_ROLE_RULE;
     }
 }

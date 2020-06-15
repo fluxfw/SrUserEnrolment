@@ -21,7 +21,6 @@ class RulesGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_CREATE_GROUP_OF_RULES = "createGroupOfRules";
     const CMD_DISABLE_RULES = "disableRules";
     const CMD_ENABLE_RULES = "enableRules";
@@ -30,6 +29,7 @@ class RulesGUI
     const CMD_REMOVE_RULES_CONFIRM = "removeRulesConfirm";
     const GET_PARAM_TYPE = "type_";
     const LANG_MODULE = "rules";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_LIST_RULES = "list_rules_";
     /**
      * @var int
@@ -55,6 +55,24 @@ class RulesGUI
     {
         $this->parent_context = $parent_context;
         $this->parent_id = $parent_id;
+    }
+
+
+    /**
+     * @param int $parent_context
+     */
+    public static function addTabs(int $parent_context)/*: void*/
+    {
+        foreach (AbstractRule::TYPES[$parent_context] as $type => $type_lang_key) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_TYPE . $parent_context, $type);
+            self::dic()->tabs()->addTab(self::TAB_LIST_RULES . $parent_context . "_" . $type,
+                self::plugin()->translate("type_" . $type_lang_key, self::LANG_MODULE),
+                self::dic()->ctrl()
+                    ->getLinkTargetByClass(static::class, self::CMD_LIST_RULES));
+        }
+        self::dic()
+            ->ctrl()
+            ->setParameterByClass(self::class, self::GET_PARAM_TYPE . $parent_context, filter_input(INPUT_GET, self::GET_PARAM_TYPE . $parent_context));
     }
 
 
@@ -98,29 +116,20 @@ class RulesGUI
 
 
     /**
-     * @param int $parent_context
+     * @return int
      */
-    public static function addTabs(int $parent_context)/*: void*/
+    public function getParentContext() : int
     {
-        foreach (AbstractRule::TYPES[$parent_context] as $type => $type_lang_key) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_TYPE . $parent_context, $type);
-            self::dic()->tabs()->addTab(self::TAB_LIST_RULES . $parent_context . "_" . $type,
-                self::plugin()->translate("type_" . $type_lang_key, self::LANG_MODULE),
-                self::dic()->ctrl()
-                    ->getLinkTargetByClass(static::class, self::CMD_LIST_RULES));
-        }
-        self::dic()
-            ->ctrl()
-            ->setParameterByClass(self::class, self::GET_PARAM_TYPE . $parent_context, filter_input(INPUT_GET, self::GET_PARAM_TYPE . $parent_context));
+        return $this->parent_context;
     }
 
 
     /**
-     *
+     * @return string
      */
-    protected function setTabs()/*: void*/
+    public function getParentId() : string
     {
-
+        return $this->parent_id;
     }
 
 
@@ -134,15 +143,71 @@ class RulesGUI
 
 
     /**
+     * @return int
+     */
+    public function getType() : int
+    {
+        return $this->type;
+    }
+
+
+    /**
      *
      */
-    protected function listRules()/*: void*/
+    protected function createGroupOfRules()/*:void*/
     {
-        self::dic()->tabs()->activateTab(self::TAB_LIST_RULES . $this->parent_context . "_" . $this->type);
+        $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newTableInstance($this);
+        if (!is_array($rule_ids)) {
+            $rule_ids = [];
+        }
 
-        self::output()->output($table);
+        /**
+         * @var AbstractRule[] $rules
+         */
+        $rules = array_map(function (string $rule_id) : AbstractRule {
+            list($rule_type, $rule_id) = explode("_", $rule_id);
+
+            return self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRuleById($this->parent_context, $this->parent_id, $rule_type, $rule_id);
+        }, $rule_ids);
+
+        $group = self::srUserEnrolment()->enrolmentWorkflow()->rules()->createGroupOfRules($rules);
+
+        ilUtil::sendSuccess(self::plugin()->translate("saved_rule", self::LANG_MODULE, [$group->getRuleTitle()]), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
+    }
+
+
+    /**
+     *
+     */
+    protected function disableRules()/*: void*/
+    {
+        $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+
+        if (!is_array($rule_ids)) {
+            $rule_ids = [];
+        }
+
+        /**
+         * @var AbstractRule[] $rules
+         */
+        $rules = array_map(function (string $rule_id) : AbstractRule {
+            list($rule_type, $rule_id) = explode("_", $rule_id);
+
+            return self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRuleById($this->parent_context, $this->parent_id, $rule_type, $rule_id);
+        }, $rule_ids);
+
+        foreach ($rules as $rule) {
+            $rule->setEnabled(false);
+
+            $rule->store();
+        }
+
+        ilUtil::sendSuccess(self::plugin()->translate("disabled_rules", self::LANG_MODULE), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
     }
 
 
@@ -181,7 +246,20 @@ class RulesGUI
     /**
      *
      */
-    protected function disableRules()/*: void*/
+    protected function listRules()/*: void*/
+    {
+        self::dic()->tabs()->activateTab(self::TAB_LIST_RULES . $this->parent_context . "_" . $this->type);
+
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newTableInstance($this);
+
+        self::output()->output($table);
+    }
+
+
+    /**
+     *
+     */
+    protected function removeRules()/*: void*/
     {
         $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -199,12 +277,10 @@ class RulesGUI
         }, $rule_ids);
 
         foreach ($rules as $rule) {
-            $rule->setEnabled(false);
-
-            $rule->store();
+            self::srUserEnrolment()->enrolmentWorkflow()->rules()->deleteRule($rule);
         }
 
-        ilUtil::sendSuccess(self::plugin()->translate("disabled_rules", self::LANG_MODULE), true);
+        ilUtil::sendSuccess(self::plugin()->translate("removed_rules", self::LANG_MODULE), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
     }
@@ -252,84 +328,8 @@ class RulesGUI
     /**
      *
      */
-    protected function removeRules()/*: void*/
+    protected function setTabs()/*: void*/
     {
-        $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
-        if (!is_array($rule_ids)) {
-            $rule_ids = [];
-        }
-
-        /**
-         * @var AbstractRule[] $rules
-         */
-        $rules = array_map(function (string $rule_id) : AbstractRule {
-            list($rule_type, $rule_id) = explode("_", $rule_id);
-
-            return self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRuleById($this->parent_context, $this->parent_id, $rule_type, $rule_id);
-        }, $rule_ids);
-
-        foreach ($rules as $rule) {
-            self::srUserEnrolment()->enrolmentWorkflow()->rules()->deleteRule($rule);
-        }
-
-        ilUtil::sendSuccess(self::plugin()->translate("removed_rules", self::LANG_MODULE), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
-    }
-
-
-    /**
-     *
-     */
-    protected function createGroupOfRules()/*:void*/
-    {
-        $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-
-        if (!is_array($rule_ids)) {
-            $rule_ids = [];
-        }
-
-        /**
-         * @var AbstractRule[] $rules
-         */
-        $rules = array_map(function (string $rule_id) : AbstractRule {
-            list($rule_type, $rule_id) = explode("_", $rule_id);
-
-            return self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRuleById($this->parent_context, $this->parent_id, $rule_type, $rule_id);
-        }, $rule_ids);
-
-        $group = self::srUserEnrolment()->enrolmentWorkflow()->rules()->createGroupOfRules($rules);
-
-        ilUtil::sendSuccess(self::plugin()->translate("saved_rule", self::LANG_MODULE, [$group->getRuleTitle()]), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_LIST_RULES);
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getParentContext() : int
-    {
-        return $this->parent_context;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getParentId() : string
-    {
-        return $this->parent_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getType() : int
-    {
-        return $this->type;
     }
 }

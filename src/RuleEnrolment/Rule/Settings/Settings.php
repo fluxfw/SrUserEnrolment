@@ -21,30 +21,8 @@ class Settings extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rul_set";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rul_set";
     /**
      * @var int
      *
@@ -89,35 +67,21 @@ class Settings extends ActiveRecord
 
     /**
      * @inheritDoc
+     *
+     * @deprecated
      */
-    public function sleep(/*string*/ $field_name)
+    public static function returnDbTableName() : string
     {
-        $field_value = $this->{$field_name};
-
-        switch ($field_name) {
-            case "unenroll":
-            case "update_enroll_type":
-                return ($field_value ? 1 : 0);
-
-            default:
-                return parent::sleep($field_name);
-        }
+        return self::TABLE_NAME;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function wakeUp(/*string*/ $field_name, $field_value)
+    public function getConnectorContainerName() : string
     {
-        switch ($field_name) {
-            case "unenroll":
-            case "update_enroll_type":
-                return boolval($field_value);
-
-            default:
-                return parent::wakeUp($field_name, $field_value);
-        }
+        return self::TABLE_NAME;
     }
 
 
@@ -172,5 +136,39 @@ class Settings extends ActiveRecord
     public function setUpdateEnrollType(bool $update_enroll_type)/* : void*/
     {
         $this->update_enroll_type = $update_enroll_type;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function sleep(/*string*/ $field_name)
+    {
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            case "unenroll":
+            case "update_enroll_type":
+                return ($field_value ? 1 : 0);
+
+            default:
+                return parent::sleep($field_name);
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function wakeUp(/*string*/ $field_name, $field_value)
+    {
+        switch ($field_name) {
+            case "unenroll":
+            case "update_enroll_type":
+                return boolval($field_value);
+
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
     }
 }

@@ -31,11 +31,10 @@ class ExcelImportGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_CREATE_OR_UPDATE_USERS = "createOrUpdateUsers";
-    //const CMD_CREATE_OR_UPDATE_USERS_CONFIRMATION = "createOrUpdateUsersConfirmation";
     const CMD_ENROLL = "enroll";
+    //const CMD_CREATE_OR_UPDATE_USERS_CONFIRMATION = "createOrUpdateUsersConfirmation";
     const CMD_ENROLL_CONFIRMATION = "enrollConfirmation";
     const CMD_INPUT_EXCEL_IMPORT_DATA = "inputExcelImportData";
     const CMD_KEY_AUTO_COMPLETE = "keyAutoComplete";
@@ -43,6 +42,7 @@ class ExcelImportGUI
     const GET_PARAM_OBJ_SINGLE_ID = "obj_single_id";
     const GET_PARAM_REF_ID = "ref_id";
     const LANG_MODULE = "excel_import";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_EXCEL_IMPORT = "excel_import";
     /**
      * @var int
@@ -60,6 +60,81 @@ class ExcelImportGUI
     public function __construct()
     {
 
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     */
+    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
+    {
+        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
+
+            self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(static::getTitle(), str_replace("\\", "\\\\", self::dic()->ctrl()->getLinkTargetByClass([
+                ilUIPluginRouterGUI::class,
+                self::class
+            ], self::CMD_INPUT_EXCEL_IMPORT_DATA))));
+        }
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     *
+     * @return int
+     */
+    public static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
+    {
+        if (!empty($obj_single_id)) {
+            return $obj_single_id;
+        } else {
+            return self::dic()->objDataCache()->lookupObjId($obj_ref_id);
+        }
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     *
+     * @return string
+     */
+    public static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
+    {
+        return self::dic()->objDataCache()->lookupType(static::getObjId($obj_ref_id, $obj_single_id));
+    }
+
+
+    /**
+     * @return string
+     */
+    public static function getTitle() : string
+    {
+        return self::plugin()->translate("title", self::LANG_MODULE);
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     */
+    public static function redirect(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*: void*/
+    {
+        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
+            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
+
+                self::dic()->ctrl()->redirectByClass([
+                    ilUIPluginRouterGUI::class,
+                    self::class
+                ], self::CMD_INPUT_EXCEL_IMPORT_DATA);
+            }
+        }
     }
 
 
@@ -111,73 +186,29 @@ class ExcelImportGUI
 
 
     /**
-     * @param int      $obj_ref_id
-     * @param int|null $obj_single_id
-     */
-    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
-    {
-        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
-
-            self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(static::getTitle(), str_replace("\\", "\\\\", self::dic()->ctrl()->getLinkTargetByClass([
-                ilUIPluginRouterGUI::class,
-                self::class
-            ], self::CMD_INPUT_EXCEL_IMPORT_DATA))));
-        }
-    }
-
-
-    /**
-     * @param int      $obj_ref_id
-     * @param int|null $obj_single_id
-     */
-    public static function redirect(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*: void*/
-    {
-        if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
-            if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
-                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
-                self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
-
-                self::dic()->ctrl()->redirectByClass([
-                    ilUIPluginRouterGUI::class,
-                    self::class
-                ], self::CMD_INPUT_EXCEL_IMPORT_DATA);
-            }
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function setTabs()/*: void*/
-    {
-        self::dic()->tabs()->setBackTarget($this->getBackTitle(), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK));
-
-        self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, static::getTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
-        self::dic()->tabs()->activateTab(self::TAB_EXCEL_IMPORT);
-
-        LogsGUI::addTabs();
-    }
-
-
-    /**
-     * @return string
-     */
-    public static function getTitle() : string
-    {
-        return self::plugin()->translate("title", self::LANG_MODULE);
-    }
-
-
-    /**
      * @return string
      */
     public function getBackTitle() : string
     {
         return self::dic()->objDataCache()->lookupTitle(static::getObjId($this->obj_ref_id, $this->obj_single_id));
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getObjRefId() : int
+    {
+        return $this->obj_ref_id;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getObjSingleId()/* : ?int*/
+    {
+        return $this->obj_single_id;
     }
 
 
@@ -201,13 +232,86 @@ class ExcelImportGUI
 
 
     /**
-     * @return ExcelImportFormGUI
+     *
      */
-    protected function newFormInstance() : ExcelImportFormGUI
+    protected function createOrUpdateUsers()/*: void*/
     {
-        $form = self::srUserEnrolment()->excelImport()->factory()->newFormInstance($this);
+        $excel_import = $this->newImportInstance();
 
-        return $form;
+        $result = $excel_import->createOrUpdateUsers();
+        ilUtil::sendSuccess($result, true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_ENROLL_CONFIRMATION);
+    }
+
+
+    /**
+     * @param array $users
+     */
+    protected function createOrUpdateUsersConfirmation(array $users)/*: void*/
+    {
+        $confirmation = new ilConfirmationGUI();
+
+        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+        $confirmation->setHeaderText(self::plugin()->translate("create_or_update_users_confirmation", self::LANG_MODULE));
+
+        $confirmation->setConfirm(self::plugin()->translate("create_or_update_users", self::LANG_MODULE), self::CMD_CREATE_OR_UPDATE_USERS);
+        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE), self::CMD_BACK);
+
+        foreach ($users as $user_info) {
+            $confirmation->addItem("", "", self::output()->getHTML($user_info));
+        }
+
+        self::output()->output($confirmation, true);
+    }
+
+
+    /**
+     *
+     */
+    protected function enroll()/*: void*/
+    {
+        $excel_import = $this->newImportInstance();
+
+        $result = $excel_import->enroll();
+
+        ilUtil::sendSuccess($result, true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+    }
+
+
+    /**
+     *
+     */
+    protected function enrollConfirmation()/*: void*/
+    {
+        $excel_import = $this->newImportInstance();
+
+        $users = $excel_import->getUsersToEnroll();
+        if (empty($users)) {
+            ilUtil::sendInfo(self::plugin()->translate("nothing_to_enroll", self::LANG_MODULE), true);
+
+            self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+
+            return;
+        }
+
+        $confirmation = new ilConfirmationGUI();
+
+        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+        $confirmation->setHeaderText(self::plugin()->translate("enroll_confirmation", self::LANG_MODULE));
+
+        $confirmation->setConfirm(self::plugin()->translate("enroll", self::LANG_MODULE), self::CMD_ENROLL);
+        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE), self::CMD_BACK);
+
+        foreach ($users as $user_info) {
+            $confirmation->addItem("", "", self::output()->getHTML($user_info));
+        }
+
+        self::output()->output($confirmation, true);
     }
 
 
@@ -219,6 +323,31 @@ class ExcelImportGUI
         $form = $this->newFormInstance();
 
         self::output()->output($form, true);
+    }
+
+
+    /**
+     *
+     */
+    protected function keyAutoComplete()/*: void*/
+    {
+        $type = intval(filter_input(INPUT_GET, "type"));
+        $term = strval(filter_input(INPUT_GET, "term"));
+
+        $items = ExcelImport::getFieldsForType($type, $term);
+
+        self::output()->outputJSON($items);
+    }
+
+
+    /**
+     * @return ExcelImportFormGUI
+     */
+    protected function newFormInstance() : ExcelImportFormGUI
+    {
+        $form = self::srUserEnrolment()->excelImport()->factory()->newFormInstance($this);
+
+        return $form;
     }
 
 
@@ -268,145 +397,16 @@ class ExcelImportGUI
 
 
     /**
-     * @param array $users
-     */
-    protected function createOrUpdateUsersConfirmation(array $users)/*: void*/
-    {
-        $confirmation = new ilConfirmationGUI();
-
-        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
-
-        $confirmation->setHeaderText(self::plugin()->translate("create_or_update_users_confirmation", self::LANG_MODULE));
-
-        $confirmation->setConfirm(self::plugin()->translate("create_or_update_users", self::LANG_MODULE), self::CMD_CREATE_OR_UPDATE_USERS);
-        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE), self::CMD_BACK);
-
-        foreach ($users as $user_info) {
-            $confirmation->addItem("", "", self::output()->getHTML($user_info));
-        }
-
-        self::output()->output($confirmation, true);
-    }
-
-
-    /**
      *
      */
-    protected function createOrUpdateUsers()/*: void*/
+    protected function setTabs()/*: void*/
     {
-        $excel_import = $this->newImportInstance();
+        self::dic()->tabs()->setBackTarget($this->getBackTitle(), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
 
-        $result = $excel_import->createOrUpdateUsers();
-        ilUtil::sendSuccess($result, true);
+        self::dic()->tabs()->addTab(self::TAB_EXCEL_IMPORT, static::getTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_INPUT_EXCEL_IMPORT_DATA));
+        self::dic()->tabs()->activateTab(self::TAB_EXCEL_IMPORT);
 
-        self::dic()->ctrl()->redirect($this, self::CMD_ENROLL_CONFIRMATION);
-    }
-
-
-    /**
-     *
-     */
-    protected function enrollConfirmation()/*: void*/
-    {
-        $excel_import = $this->newImportInstance();
-
-        $users = $excel_import->getUsersToEnroll();
-        if (empty($users)) {
-            ilUtil::sendInfo(self::plugin()->translate("nothing_to_enroll", self::LANG_MODULE), true);
-
-            self::dic()->ctrl()->redirect($this, self::CMD_BACK);
-
-            return;
-        }
-
-        $confirmation = new ilConfirmationGUI();
-
-        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
-
-        $confirmation->setHeaderText(self::plugin()->translate("enroll_confirmation", self::LANG_MODULE));
-
-        $confirmation->setConfirm(self::plugin()->translate("enroll", self::LANG_MODULE), self::CMD_ENROLL);
-        $confirmation->setCancel(self::plugin()->translate("cancel", self::LANG_MODULE), self::CMD_BACK);
-
-        foreach ($users as $user_info) {
-            $confirmation->addItem("", "", self::output()->getHTML($user_info));
-        }
-
-        self::output()->output($confirmation, true);
-    }
-
-
-    /**
-     *
-     */
-    protected function enroll()/*: void*/
-    {
-        $excel_import = $this->newImportInstance();
-
-        $result = $excel_import->enroll();
-
-        ilUtil::sendSuccess($result, true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
-    }
-
-
-    /**
-     *
-     */
-    protected function keyAutoComplete()/*: void*/
-    {
-        $type = intval(filter_input(INPUT_GET, "type"));
-        $term = strval(filter_input(INPUT_GET, "term"));
-
-        $items = ExcelImport::getFieldsForType($type, $term);
-
-        self::output()->outputJSON($items);
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getObjRefId() : int
-    {
-        return $this->obj_ref_id;
-    }
-
-
-    /**
-     * @return int|null
-     */
-    public function getObjSingleId()/* : ?int*/
-    {
-        return $this->obj_single_id;
-    }
-
-
-    /**
-     * @param int      $obj_ref_id
-     * @param int|null $obj_single_id
-     *
-     * @return int
-     */
-    public static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
-    {
-        if (!empty($obj_single_id)) {
-            return $obj_single_id;
-        } else {
-            return self::dic()->objDataCache()->lookupObjId($obj_ref_id);
-        }
-    }
-
-
-    /**
-     * @param int      $obj_ref_id
-     * @param int|null $obj_single_id
-     *
-     * @return string
-     */
-    public static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
-    {
-        return self::dic()->objDataCache()->lookupType(static::getObjId($obj_ref_id, $obj_single_id));
+        LogsGUI::addTabs();
     }
 }

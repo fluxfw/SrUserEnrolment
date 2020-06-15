@@ -32,11 +32,11 @@ class RulesCourseGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_RUN_RULES = "runRules";
     const GET_PARAM_OBJ_SINGLE_ID = "obj_single_id";
     const GET_PARAM_REF_ID = "ref_id";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_RULES = "rules";
     /**
      * @var int
@@ -54,6 +54,62 @@ class RulesCourseGUI
     public function __construct()
     {
 
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     */
+    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
+    {
+        if (self::srUserEnrolment()->ruleEnrolment()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
+            self::dic()->ctrl()->setParameterByClass(static::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+            self::dic()->ctrl()->setParameterByClass(static::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
+
+            self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(static::getTitle(), str_replace("\\", "\\\\", self::dic()
+                ->ctrl()->getLinkTargetByClass([
+                    ilUIPluginRouterGUI::class,
+                    static::class
+                ], RulesGUI::CMD_LIST_RULES))));
+        }
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     *
+     * @return int
+     */
+    public static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
+    {
+        if (!empty($obj_single_id)) {
+            return $obj_single_id;
+        } else {
+            return self::dic()->objDataCache()->lookupObjId($obj_ref_id);
+        }
+    }
+
+
+    /**
+     * @param int      $obj_ref_id
+     * @param int|null $obj_single_id
+     *
+     * @return string
+     */
+    public static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
+    {
+        return self::dic()->objDataCache()->lookupType(static::getObjId($obj_ref_id, $obj_single_id));
+    }
+
+
+    /**
+     * @return string
+     */
+    public static function getTitle() : string
+    {
+        return self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE);
     }
 
 
@@ -115,57 +171,47 @@ class RulesCourseGUI
 
 
     /**
-     * @param int      $obj_ref_id
-     * @param int|null $obj_single_id
-     */
-    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
-    {
-        if (self::srUserEnrolment()->ruleEnrolment()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
-            self::dic()->ctrl()->setParameterByClass(static::class, self::GET_PARAM_REF_ID, $obj_ref_id);
-            self::dic()->ctrl()->setParameterByClass(static::class, self::GET_PARAM_OBJ_SINGLE_ID, $obj_single_id);
-
-            self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(static::getTitle(), str_replace("\\", "\\\\", self::dic()
-                ->ctrl()->getLinkTargetByClass([
-                    ilUIPluginRouterGUI::class,
-                    static::class
-                ], RulesGUI::CMD_LIST_RULES))));
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function setTabs()/*: void*/
-    {
-        self::dic()->tabs()->setBackTarget($this->getBackTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_BACK));
-
-        RulesGUI::addTabs($this->getRuleContext());
-        LogsGUI::addTabs();
-        RulesCourseSettingsGUI::addTabs();
-
-        if (self::dic()->ctrl()->getCmd() === RulesGUI::CMD_LIST_RULES) {
-            self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::plugin()->translate("run_rules", RulesGUI::LANG_MODULE),
-                str_replace("\\", "\\\\", self::dic()->ctrl()->getLinkTarget($this, self::CMD_RUN_RULES))));
-        }
-    }
-
-
-    /**
-     * @return string
-     */
-    public static function getTitle() : string
-    {
-        return self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE);
-    }
-
-
-    /**
      * @return string
      */
     public function getBackTitle() : string
     {
         return self::dic()->objDataCache()->lookupTitle(static::getObjId($this->obj_ref_id, $this->obj_single_id));
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getObjRefId() : int
+    {
+        return $this->obj_ref_id;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getObjSingleId()/* : ?int*/
+    {
+        return $this->obj_single_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getRuleContext() : int
+    {
+        return AbstractRule::PARENT_CONTEXT_COURSE;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getRuleType() : int
+    {
+        return AbstractRule::TYPE_COURSE_RULE;
     }
 
 
@@ -215,65 +261,19 @@ class RulesCourseGUI
 
 
     /**
-     * @return int
-     */
-    public function getRuleContext() : int
-    {
-        return AbstractRule::PARENT_CONTEXT_COURSE;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getRuleType() : int
-    {
-        return AbstractRule::TYPE_COURSE_RULE;
-    }
-
-
-    /**
-     * @param int      $obj_ref_id
-     * @param int|null $obj_single_id
      *
-     * @return int
      */
-    public static function getObjId(int $obj_ref_id,/*?*/ int $obj_single_id = null) : int
+    protected function setTabs()/*: void*/
     {
-        if (!empty($obj_single_id)) {
-            return $obj_single_id;
-        } else {
-            return self::dic()->objDataCache()->lookupObjId($obj_ref_id);
+        self::dic()->tabs()->setBackTarget($this->getBackTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_BACK));
+
+        RulesGUI::addTabs($this->getRuleContext());
+        LogsGUI::addTabs();
+        RulesCourseSettingsGUI::addTabs();
+
+        if (self::dic()->ctrl()->getCmd() === RulesGUI::CMD_LIST_RULES) {
+            self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::plugin()->translate("run_rules", RulesGUI::LANG_MODULE),
+                str_replace("\\", "\\\\", self::dic()->ctrl()->getLinkTarget($this, self::CMD_RUN_RULES))));
         }
-    }
-
-
-    /**
-     * @param int      $obj_ref_id
-     * @param int|null $obj_single_id
-     *
-     * @return string
-     */
-    public static function getObjType(int $obj_ref_id,/*?*/ int $obj_single_id = null) : string
-    {
-        return self::dic()->objDataCache()->lookupType(static::getObjId($obj_ref_id, $obj_single_id));
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getObjRefId() : int
-    {
-        return $this->obj_ref_id;
-    }
-
-
-    /**
-     * @return int|null
-     */
-    public function getObjSingleId()/* : ?int*/
-    {
-        return $this->obj_single_id;
     }
 }

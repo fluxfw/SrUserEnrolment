@@ -23,13 +23,13 @@ abstract class AbstractRuleChecker
 
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @var AbstractRule
-     */
-    protected $rule;
-    /**
      * @var Request|null $request
      */
     protected $request = null;
+    /**
+     * @var AbstractRule
+     */
+    protected $rule;
 
 
     /**
@@ -41,6 +41,15 @@ abstract class AbstractRuleChecker
     {
         $this->rule = $rule;
     }
+
+
+    /**
+     * @param int $user_id
+     * @param int $obj_ref_id
+     *
+     * @return bool
+     */
+    public abstract function check(int $user_id, int $obj_ref_id) : bool;
 
 
     /**
@@ -65,15 +74,6 @@ abstract class AbstractRuleChecker
 
         return $this;
     }
-
-
-    /**
-     * @param int $user_id
-     * @param int $obj_ref_id
-     *
-     * @return bool
-     */
-    public abstract function check(int $user_id, int $obj_ref_id) : bool;
 
 
     /**

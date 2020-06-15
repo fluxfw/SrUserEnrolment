@@ -23,59 +23,13 @@ abstract class AbstractAction extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var string
      *
      * @abstract
      */
     const TABLE_NAME_SUFFIX = "";
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-
-
-    /**
-     * @inheritDoc
-     */
-    public static function getTableName() : string
-    {
-        if (empty(static::TABLE_NAME_SUFFIX)) {
-            throw new LogicException("table name suffix is empty!");
-        }
-
-        return ilSrUserEnrolmentPlugin::PLUGIN_ID . "_act_" . static::TABLE_NAME_SUFFIX;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return static::getTableName();
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return static::getTableName();
-    }
-
-
-    /**
-     * @return string
-     */
-    public static function getType() : string
-    {
-        $parts = explode("\\", static::class);
-
-        return strtolower(end($parts));
-    }
-
-
     /**
      * @var int
      *
@@ -88,15 +42,6 @@ abstract class AbstractAction extends ActiveRecord
      */
     protected $action_id;
     /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $step_id;
-    /**
      * @var bool
      *
      * @con_has_field    true
@@ -105,6 +50,15 @@ abstract class AbstractAction extends ActiveRecord
      * @con_is_notnull   true
      */
     protected $enabled = true;
+    /**
+     * @var bool
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     * @con_is_notnull   true
+     */
+    protected $run_next_actions = true;
     /**
      * @var int
      *
@@ -115,14 +69,14 @@ abstract class AbstractAction extends ActiveRecord
      */
     protected $sort = 0;
     /**
-     * @var bool
+     * @var int
      *
      * @con_has_field    true
      * @con_fieldtype    integer
-     * @con_length       1
+     * @con_length       8
      * @con_is_notnull   true
      */
-    protected $run_next_actions = true;
+    protected $step_id;
 
 
     /**
@@ -140,11 +94,61 @@ abstract class AbstractAction extends ActiveRecord
 
 
     /**
+     * @inheritDoc
+     */
+    public static function getTableName() : string
+    {
+        if (empty(static::TABLE_NAME_SUFFIX)) {
+            throw new LogicException("table name suffix is empty!");
+        }
+
+        return ilSrUserEnrolmentPlugin::PLUGIN_ID . "_act_" . static::TABLE_NAME_SUFFIX;
+    }
+
+
+    /**
      * @return string
      */
-    public function getTypeTitle() : string
+    public static function getType() : string
     {
-        return self::plugin()->translate("type_" . static::getType(), ActionsGUI::LANG_MODULE);
+        $parts = explode("\\", static::class);
+
+        return strtolower(end($parts));
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @deprecated
+     */
+    public static function returnDbTableName() : string
+    {
+        return static::getTableName();
+    }
+
+
+    /**
+     * @return string
+     */
+    public abstract function getActionDescription() : string;
+
+
+    /**
+     * @return int
+     */
+    public function getActionId() : int
+    {
+        return $this->action_id;
+    }
+
+
+    /**
+     * @param int $action_id
+     */
+    public function setActionId(int $action_id)/*: void*/
+    {
+        $this->action_id = $action_id;
     }
 
 
@@ -158,17 +162,20 @@ abstract class AbstractAction extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public abstract function getActionDescription() : string;
+    public function getConnectorContainerName() : string
+    {
+        return static::getTableName();
+    }
 
 
     /**
-     * @return bool
+     * @return string
      */
-    public function getInitRunNextActions() : bool
+    public function getId() : string
     {
-        return true;
+        return self::getType() . "_" . $this->action_id;
     }
 
 
@@ -190,11 +197,92 @@ abstract class AbstractAction extends ActiveRecord
 
 
     /**
+     * @return bool
+     */
+    public function getInitRunNextActions() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSort() : int
+    {
+        return $this->sort;
+    }
+
+
+    /**
+     * @param int $sort
+     */
+    public function setSort(int $sort)/*: void*/
+    {
+        $this->sort = $sort;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getStepId() : int
+    {
+        return $this->step_id;
+    }
+
+
+    /**
+     * @param int $step_id
+     */
+    public function setStepId(int $step_id)/*: void*/
+    {
+        $this->step_id = $step_id;
+    }
+
+
+    /**
      * @return string
      */
-    public function getId() : string
+    public function getTypeTitle() : string
     {
-        return self::getType() . "_" . $this->action_id;
+        return self::plugin()->translate("type_" . static::getType(), ActionsGUI::LANG_MODULE);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isEnabled() : bool
+    {
+        return $this->enabled;
+    }
+
+
+    /**
+     * @param bool $enabled
+     */
+    public function setEnabled(bool $enabled)/*: void*/
+    {
+        $this->enabled = $enabled;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isRunNextActions() : bool
+    {
+        return $this->run_next_actions;
+    }
+
+
+    /**
+     * @param bool $run_next_actions
+     */
+    public function setRunNextActions(bool $run_next_actions)/*: void*/
+    {
+        $this->run_next_actions = $run_next_actions;
     }
 
 
@@ -229,95 +317,5 @@ abstract class AbstractAction extends ActiveRecord
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getActionId() : int
-    {
-        return $this->action_id;
-    }
-
-
-    /**
-     * @param int $action_id
-     */
-    public function setActionId(int $action_id)/*: void*/
-    {
-        $this->action_id = $action_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getStepId() : int
-    {
-        return $this->step_id;
-    }
-
-
-    /**
-     * @param int $step_id
-     */
-    public function setStepId(int $step_id)/*: void*/
-    {
-        $this->step_id = $step_id;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isEnabled() : bool
-    {
-        return $this->enabled;
-    }
-
-
-    /**
-     * @param bool $enabled
-     */
-    public function setEnabled(bool $enabled)/*: void*/
-    {
-        $this->enabled = $enabled;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getSort() : int
-    {
-        return $this->sort;
-    }
-
-
-    /**
-     * @param int $sort
-     */
-    public function setSort(int $sort)/*: void*/
-    {
-        $this->sort = $sort;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isRunNextActions() : bool
-    {
-        return $this->run_next_actions;
-    }
-
-
-    /**
-     * @param bool $run_next_actions
-     */
-    public function setRunNextActions(bool $run_next_actions)/*: void*/
-    {
-        $this->run_next_actions = $run_next_actions;
     }
 }

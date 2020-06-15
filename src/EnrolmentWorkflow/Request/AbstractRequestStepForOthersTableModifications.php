@@ -29,18 +29,6 @@ abstract class AbstractRequestStepForOthersTableModifications
 
 
     /**
-     * @return array
-     */
-    public abstract function getAdditionalColumns() : array;
-
-
-    /**
-     * @return array
-     */
-    public abstract function getAdditionalFilterFields() : array;
-
-
-    /**
      * @param ilObjUser[] $users
      * @param array       $filter_values
      *
@@ -56,4 +44,16 @@ abstract class AbstractRequestStepForOthersTableModifications
      * @return string|null
      */
     public abstract function formatColumnValue(string $column, ilObjUser $user)/*:?string*/ ;
+
+
+    /**
+     * @return array
+     */
+    public abstract function getAdditionalColumns() : array;
+
+
+    /**
+     * @return array
+     */
+    public abstract function getAdditionalFilterFields() : array;
 }

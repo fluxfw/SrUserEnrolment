@@ -36,22 +36,6 @@ class Menu extends AbstractStaticPluginMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
-    {
-        return [
-            $this->mainmenu->topParentItem($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_top"))->withTitle(ilSrUserEnrolmentPlugin::PLUGIN_NAME)
-                ->withAvailableCallable(function () : bool {
-                    return self::plugin()->getPluginObject()->isActive();
-                })->withVisibilityCallable(function () : bool {
-                    return true;
-                })
-        ];
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticSubItems() : array
     {
         $parent = $this->getStaticTopItems()[0];
@@ -126,6 +110,22 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 })
                 ->withVisibilityCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId());
+                })
+        ];
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getStaticTopItems() : array
+    {
+        return [
+            $this->mainmenu->topParentItem($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_top"))->withTitle(ilSrUserEnrolmentPlugin::PLUGIN_NAME)
+                ->withAvailableCallable(function () : bool {
+                    return self::plugin()->getPluginObject()->isActive();
+                })->withVisibilityCallable(function () : bool {
+                    return true;
                 })
         ];
     }

@@ -32,6 +32,15 @@ final class Repository
 
 
     /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -41,15 +50,6 @@ final class Repository
         }
 
         return self::$instance;
-    }
-
-
-    /**
-     * Repository constructor
-     */
-    private function __construct()
-    {
-
     }
 
 
@@ -70,19 +70,6 @@ final class Repository
     public function factory() : Factory
     {
         return Factory::getInstance();
-    }
-
-
-    /**
-     * @return Rule[]
-     *
-     * @deprecated
-     */
-    protected function getRules() : array
-    {
-        $where = Rule::where([]);
-
-        return $where->get();
     }
 
 
@@ -136,5 +123,18 @@ final class Repository
     public function settings() : SettingsRepository
     {
         return SettingsRepository::getInstance();
+    }
+
+
+    /**
+     * @return Rule[]
+     *
+     * @deprecated
+     */
+    protected function getRules() : array
+    {
+        $where = Rule::where([]);
+
+        return $where->get();
     }
 }

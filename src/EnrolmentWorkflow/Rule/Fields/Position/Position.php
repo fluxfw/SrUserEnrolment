@@ -24,19 +24,6 @@ trait Position
 
 
     /**
-     * @return string
-     */
-    protected function getPositionTitle() : string
-    {
-        if ($this->getPosition() === PositionConstants::POSITION_ALL) {
-            return "";
-        }
-
-        return self::srUserEnrolment()->ruleEnrolment()->getPositions()[$this->position];
-    }
-
-
-    /**
      * @return int
      */
     public function getPosition() : int
@@ -51,5 +38,18 @@ trait Position
     public function setPosition(int $position)/* : void*/
     {
         $this->position = $position;
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function getPositionTitle() : string
+    {
+        if ($this->getPosition() === PositionConstants::POSITION_ALL) {
+            return "";
+        }
+
+        return self::srUserEnrolment()->ruleEnrolment()->getPositions()[$this->position];
     }
 }

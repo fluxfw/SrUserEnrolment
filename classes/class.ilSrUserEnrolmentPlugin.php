@@ -22,19 +22,28 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     use PluginUninstallTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_ID = "srusrenr";
-    const PLUGIN_NAME = "SrUserEnrolment";
-    const PLUGIN_CLASS_NAME = self::class;
     const EVENT_AFTER_REQUEST = "after_request";
-    const EVENT_COLLECT_REQUEST_STEP_FOR_OTHERS_TABLE_MODIFICATIONS = "collect_request_step_for_others_table_modifications";
     const EVENT_COLLECT_MEMBERS_TABLE_MODIFICATIONS = "collect_members_table_modifications";
     const EVENT_COLLECT_MEMBER_FORM_MODIFICATIONS = "collect_member_form_modifications";
     const EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS = "collect_requests_table_modifications";
+    const EVENT_COLLECT_REQUEST_STEP_FOR_OTHERS_TABLE_MODIFICATIONS = "collect_request_step_for_others_table_modifications";
     const EVENT_EXTENDS_SRUSRENR = "extends_" . self::PLUGIN_ID;
+    const PLUGIN_CLASS_NAME = self::class;
+    const PLUGIN_ID = "srusrenr";
+    const PLUGIN_NAME = "SrUserEnrolment";
     /**
      * @var self|null
      */
     protected static $instance = null;
+
+
+    /**
+     * ilSrUserEnrolmentPlugin constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
 
     /**
@@ -51,11 +60,11 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 
 
     /**
-     * ilSrUserEnrolmentPlugin constructor
+     * @inheritDoc
      */
-    public function __construct()
+    public function exchangeUIRendererAfterInitialization(Container $dic) : Closure
     {
-        parent::__construct();
+        return CustomInputGUIsLoaderDetector::exchangeUIRendererAfterInitialization();
     }
 
 
@@ -112,9 +121,9 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     /**
      * @inheritDoc
      */
-    protected function shouldUseOneUpdateStepOnly() : bool
+    public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
     {
-        return true;
+        return self::srUserEnrolment()->menu();
     }
 
 
@@ -138,15 +147,6 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     /**
      * @inheritDoc
      */
-    public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
-    {
-        return self::srUserEnrolment()->menu();
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     protected function deleteData()/*: void*/
     {
         self::srUserEnrolment()->dropTables();
@@ -156,8 +156,8 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     /**
      * @inheritDoc
      */
-    public function exchangeUIRendererAfterInitialization(Container $dic) : Closure
+    protected function shouldUseOneUpdateStepOnly() : bool
     {
-        return CustomInputGUIsLoaderDetector::exchangeUIRendererAfterInitialization();
+        return true;
     }
 }

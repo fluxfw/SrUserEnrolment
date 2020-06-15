@@ -32,6 +32,15 @@ final class Repository
 
 
     /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -41,15 +50,6 @@ final class Repository
         }
 
         return self::$instance;
-    }
-
-
-    /**
-     * Repository constructor
-     */
-    private function __construct()
-    {
-
     }
 
 
@@ -147,6 +147,50 @@ final class Repository
 
 
     /**
+     * @param int $check_user_id
+     *
+     * @return ilObjUser[]
+     */
+    public function getPossibleUsersForRequestStepForOthers(int $check_user_id) : array
+    {
+        $user_ids = [];
+
+        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($check_user_id)) {
+
+            foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf($check_user_id) as $assistant) {
+
+                $user_ids[] = $assistant->getUserId();
+            }
+        }
+
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS)) {
+
+            $org_ids = ilOrgUnitUserAssignment::where([
+                "position_id" => ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
+                "user_id"     => $check_user_id
+            ])->getArray(null, "orgu_id");
+
+            if (!empty($org_ids)) {
+
+                $user_ids = array_merge($user_ids, ilOrgUnitUserAssignment::where([
+                    "orgu_id"     => $org_ids,
+                    "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
+                ], [
+                    "orgu_id"     => "IN",
+                    "position_id" => "="
+                ])->getArray(null, "user_id"));
+            }
+        }
+
+        $user_ids = array_unique($user_ids);
+
+        return array_combine($user_ids, array_map(function (int $user_id) : ilObjUser {
+            return new ilObjUser($user_id);
+        }, $user_ids));
+    }
+
+
+    /**
      * @param int $obj_ref_id
      * @param int $step_id
      * @param int $user_id
@@ -160,6 +204,23 @@ final class Repository
          */
 
         $request = Request::where(["obj_id" => self::dic()->objDataCache()->lookupObjId($obj_ref_id), "step_id" => $step_id, "user_id" => $user_id])->first();
+
+        return $request;
+    }
+
+
+    /**
+     * @param int $request_id
+     *
+     * @return Request|null
+     */
+    public function getRequestById(int $request_id)/*: ?Request*/
+    {
+        /**
+         * @var Request|null $request
+         */
+
+        $request = Request::where(["request_id" => $request_id])->first();
 
         return $request;
     }
@@ -192,23 +253,6 @@ final class Repository
         }
 
         return $request_group;
-    }
-
-
-    /**
-     * @param int $request_id
-     *
-     * @return Request|null
-     */
-    public function getRequestById(int $request_id)/*: ?Request*/
-    {
-        /**
-         * @var Request|null $request
-         */
-
-        $request = Request::where(["request_id" => $request_id])->first();
-
-        return $request;
     }
 
 
@@ -327,78 +371,6 @@ final class Repository
         }
 
         return $requests;
-    }
-
-
-    /**
-     * @param int|null   $obj_ref_id
-     * @param array|null $user_id
-     *
-     * @return RequestGroup[]
-     */
-    protected function getRequestGroups( /*?*/ int $obj_ref_id = null,  /*?*/ array $user_id = null) : array
-    {
-        $wheres = [];
-
-        if (!empty($obj_ref_id)) {
-            $wheres["obj_id"] = self::dic()->objDataCache()->lookupObjId($obj_ref_id);
-        }
-
-        if (!empty($user_id)) {
-            $wheres["user_id"] = $user_id;
-        } else {
-            if (is_array($user_id)) {
-                return [];
-            }
-        }
-
-        $request_groups = RequestGroup::where($wheres)->get();
-
-        return $request_groups;
-    }
-
-
-    /**
-     * @param int $check_user_id
-     *
-     * @return ilObjUser[]
-     */
-    public function getPossibleUsersForRequestStepForOthers(int $check_user_id) : array
-    {
-        $user_ids = [];
-
-        if (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess($check_user_id)) {
-
-            foreach (self::srUserEnrolment()->enrolmentWorkflow()->assistants()->getAssistantsOf($check_user_id) as $assistant) {
-
-                $user_ids[] = $assistant->getUserId();
-            }
-        }
-
-        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_ASSISTANTS_SUPERVISORS)) {
-
-            $org_ids = ilOrgUnitUserAssignment::where([
-                "position_id" => ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
-                "user_id"     => $check_user_id
-            ])->getArray(null, "orgu_id");
-
-            if (!empty($org_ids)) {
-
-                $user_ids = array_merge($user_ids, ilOrgUnitUserAssignment::where([
-                    "orgu_id"     => $org_ids,
-                    "position_id" => ilOrgUnitPosition::CORE_POSITION_EMPLOYEE
-                ], [
-                    "orgu_id"     => "IN",
-                    "position_id" => "="
-                ])->getArray(null, "user_id"));
-            }
-        }
-
-        $user_ids = array_unique($user_ids);
-
-        return array_combine($user_ids, array_map(function (int $user_id) : ilObjUser {
-            return new ilObjUser($user_id);
-        }, $user_ids));
     }
 
 
@@ -546,5 +518,33 @@ final class Repository
         }
 
         return false;
+    }
+
+
+    /**
+     * @param int|null   $obj_ref_id
+     * @param array|null $user_id
+     *
+     * @return RequestGroup[]
+     */
+    protected function getRequestGroups( /*?*/ int $obj_ref_id = null,  /*?*/ array $user_id = null) : array
+    {
+        $wheres = [];
+
+        if (!empty($obj_ref_id)) {
+            $wheres["obj_id"] = self::dic()->objDataCache()->lookupObjId($obj_ref_id);
+        }
+
+        if (!empty($user_id)) {
+            $wheres["user_id"] = $user_id;
+        } else {
+            if (is_array($user_id)) {
+                return [];
+            }
+        }
+
+        $request_groups = RequestGroup::where($wheres)->get();
+
+        return $request_groups;
     }
 }
