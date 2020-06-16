@@ -22,37 +22,40 @@ class CommentAR extends ActiveRecord implements Comment
     use CommentsUITrait;
 
     const TABLE_NAME_SUFFIX = "com";
-
-
     /**
-     * @return string
-     */
-    public static function getTableName() : string
-    {
-        return self::comments()->getTableNamePrefix() . "_" . self::TABLE_NAME_SUFFIX;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return static::getTableName();
-    }
-
-
-    /**
-     * @inheritDoc
+     * @var string
      *
-     * @deprecated
+     * @con_has_field   true
+     * @con_fieldtype   text
+     * @con_is_notnull  true
      */
-    public static function returnDbTableName() : string
-    {
-        return static::getTableName();
-    }
-
-
+    protected $comment = "";
+    /**
+     * @var int
+     *
+     * @con_has_field   true
+     * @con_fieldtype   timestamp
+     * @con_is_notnull  true
+     */
+    protected $created_timestamp;
+    /**
+     * @var int
+     *
+     * @con_has_field   true
+     * @con_fieldtype   integer
+     * @con_length      8
+     * @con_is_notnull  true
+     */
+    protected $created_user_id;
+    /**
+     * @var bool
+     *
+     * @con_has_field   true
+     * @con_fieldtype   integer
+     * @con_length      1
+     * @con_is_notnull  true
+     */
+    protected $deleted = false;
     /**
      * @var int
      *
@@ -64,13 +67,14 @@ class CommentAR extends ActiveRecord implements Comment
      */
     protected $id = 0;
     /**
-     * @var string
+     * @var bool
      *
      * @con_has_field   true
-     * @con_fieldtype   text
+     * @con_fieldtype   integer
+     * @con_length      1
      * @con_is_notnull  true
      */
-    protected $comment = "";
+    protected $is_shared = false;
     /**
      * @var int
      *
@@ -96,23 +100,6 @@ class CommentAR extends ActiveRecord implements Comment
      * @con_fieldtype   timestamp
      * @con_is_notnull  true
      */
-    protected $created_timestamp;
-    /**
-     * @var int
-     *
-     * @con_has_field   true
-     * @con_fieldtype   integer
-     * @con_length      8
-     * @con_is_notnull  true
-     */
-    protected $created_user_id;
-    /**
-     * @var int
-     *
-     * @con_has_field   true
-     * @con_fieldtype   timestamp
-     * @con_is_notnull  true
-     */
     protected $updated_timestamp;
     /**
      * @var int
@@ -123,24 +110,6 @@ class CommentAR extends ActiveRecord implements Comment
      * @con_is_notnull  true
      */
     protected $updated_user_id;
-    /**
-     * @var bool
-     *
-     * @con_has_field   true
-     * @con_fieldtype   integer
-     * @con_length      1
-     * @con_is_notnull  true
-     */
-    protected $is_shared = false;
-    /**
-     * @var bool
-     *
-     * @con_has_field   true
-     * @con_fieldtype   integer
-     * @con_length      1
-     * @con_is_notnull  true
-     */
-    protected $deleted = false;
 
 
     /**
@@ -156,20 +125,22 @@ class CommentAR extends ActiveRecord implements Comment
 
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    public function getId() : int
+    public static function getTableName() : string
     {
-        return $this->id;
+        return self::comments()->getTableNamePrefix() . "_" . self::TABLE_NAME_SUFFIX;
     }
 
 
     /**
      * @inheritDoc
+     *
+     * @deprecated
      */
-    public function setId(int $id)/* : void*/
+    public static function returnDbTableName() : string
     {
-        $this->id = $id;
+        return static::getTableName();
     }
 
 
@@ -194,36 +165,9 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function getReportObjId() : int
+    public function getConnectorContainerName() : string
     {
-        return $this->report_obj_id;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function setReportObjId(int $report_obj_id)/* : void*/
-    {
-        $this->report_obj_id = $report_obj_id;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getReportUserId() : int
-    {
-        return $this->report_user_id;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function setReportUserId(int $report_user_id)/* : void*/
-    {
-        $this->report_user_id = $report_user_id;
+        return static::getTableName();
     }
 
 
@@ -266,6 +210,60 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
+    public function getId() : int
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setId(int $id)/* : void*/
+    {
+        $this->id = $id;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getReportObjId() : int
+    {
+        return $this->report_obj_id;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setReportObjId(int $report_obj_id)/* : void*/
+    {
+        $this->report_obj_id = $report_obj_id;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getReportUserId() : int
+    {
+        return $this->report_user_id;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setReportUserId(int $report_user_id)/* : void*/
+    {
+        $this->report_user_id = $report_user_id;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getUpdatedTimestamp() : int
     {
         return $this->updated_timestamp;
@@ -302,24 +300,6 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
-    public function isShared() : bool
-    {
-        return $this->is_shared;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function setIsShared(bool $is_shared)/* : void*/
-    {
-        $this->is_shared = $is_shared;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function isDeleted() : bool
     {
         return $this->deleted;
@@ -338,8 +318,26 @@ class CommentAR extends ActiveRecord implements Comment
     /**
      * @inheritDoc
      */
+    public function isShared() : bool
+    {
+        return $this->is_shared;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function jsonSerialize() : stdClass
     {
         return self::comments()->toJson($this);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setIsShared(bool $is_shared)/* : void*/
+    {
+        $this->is_shared = $is_shared;
     }
 }

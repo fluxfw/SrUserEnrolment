@@ -15,130 +15,59 @@ use stdClass;
 interface Comment extends JsonSerializable
 {
 
+    const SHARE_METHOD_AUTO = 3;
     const SHARE_METHOD_DISABLED = 1;
     const SHARE_METHOD_ENABLED = 2;
-    const SHARE_METHOD_AUTO = 3;
-
-
-    /**
-     * @return int
-     */
-    public function getId() : int;
-
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id)/* : void*/;
-
 
     /**
      * @return string
      */
     public function getComment() : string;
 
-
-    /**
-     * @param string $comment
-     */
-    public function setComment(string $comment)/* : void*/;
-
-
-    /**
-     * @return int
-     */
-    public function getReportObjId() : int;
-
-
-    /**
-     * @param int $report_obj_id
-     */
-    public function setReportObjId(int $report_obj_id)/* : void*/;
-
-
-    /**
-     * @return int
-     */
-    public function getReportUserId() : int;
-
-
-    /**
-     * @param int $report_user_id
-     */
-    public function setReportUserId(int $report_user_id)/* : void*/;
-
-
     /**
      * @return int
      */
     public function getCreatedTimestamp() : int;
-
-
-    /**
-     * @param int $created_timestamp
-     */
-    public function setCreatedTimestamp(int $created_timestamp)/* : void*/;
-
 
     /**
      * @return int
      */
     public function getCreatedUserId() : int;
 
+    /**
+     * @return int
+     */
+    public function getId() : int;
 
     /**
-     * @param int $created_user_id
+     * @return int
      */
-    public function setCreatedUserId(int $created_user_id)/* : void*/;
+    public function getReportObjId() : int;
 
+    /**
+     * @return int
+     */
+    public function getReportUserId() : int;
 
     /**
      * @return int
      */
     public function getUpdatedTimestamp() : int;
 
-
-    /**
-     * @param int $updated_timestamp
-     */
-    public function setUpdatedTimestamp(int $updated_timestamp)/* : void*/;
-
-
     /**
      * @return int
      */
     public function getUpdatedUserId() : int;
-
-
-    /**
-     * @param int $updated_user_id
-     */
-    public function setUpdatedUserId(int $updated_user_id)/* : void*/;
-
-
-    /**
-     * @return bool
-     */
-    public function isShared() : bool;
-
-
-    /**
-     * @param bool $is_shared
-     */
-    public function setIsShared(bool $is_shared)/* : void*/;
-
 
     /**
      * @return bool
      */
     public function isDeleted() : bool;
 
-
     /**
-     * @param bool $deleted
+     * @return bool
      */
-    public function setDeleted(bool $deleted)/* : void*/;
-
+    public function isShared() : bool;
 
     /**
      * @inheritDoc
@@ -146,4 +75,54 @@ interface Comment extends JsonSerializable
      * @return stdClass
      */
     public function jsonSerialize() : stdClass;
+
+    /**
+     * @param string $comment
+     */
+    public function setComment(string $comment)/* : void*/;
+
+    /**
+     * @param int $created_timestamp
+     */
+    public function setCreatedTimestamp(int $created_timestamp)/* : void*/;
+
+    /**
+     * @param int $created_user_id
+     */
+    public function setCreatedUserId(int $created_user_id)/* : void*/;
+
+    /**
+     * @param bool $deleted
+     */
+    public function setDeleted(bool $deleted)/* : void*/;
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)/* : void*/;
+
+    /**
+     * @param bool $is_shared
+     */
+    public function setIsShared(bool $is_shared)/* : void*/;
+
+    /**
+     * @param int $report_obj_id
+     */
+    public function setReportObjId(int $report_obj_id)/* : void*/;
+
+    /**
+     * @param int $report_user_id
+     */
+    public function setReportUserId(int $report_user_id)/* : void*/;
+
+    /**
+     * @param int $updated_timestamp
+     */
+    public function setUpdatedTimestamp(int $updated_timestamp)/* : void*/;
+
+    /**
+     * @param int $updated_user_id
+     */
+    public function setUpdatedUserId(int $updated_user_id)/* : void*/;
 }

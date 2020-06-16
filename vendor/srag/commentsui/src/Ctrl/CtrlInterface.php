@@ -27,24 +27,15 @@ interface CtrlInterface
      */
     public function executeCommand()/* : void*/;
 
-
-    /**
-     * @return bool
-     */
-    public function getIsReadOnly() : bool;
-
-
     /**
      * @return string
      */
     public function getAsyncBaseUrl() : string;
 
-
     /**
      * @return array
      */
     public function getAsyncClass() : array;
-
 
     /**
      * @param int $report_obj_id
@@ -53,4 +44,9 @@ interface CtrlInterface
      * @return array
      */
     public function getCommentsArray(int $report_obj_id, int $report_user_id) : array;
+
+    /**
+     * @return bool
+     */
+    public function getIsReadOnly() : bool;
 }
