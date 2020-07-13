@@ -187,7 +187,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                 self::PROPERTY_CLASS    => ilRadioGroupInputGUI::class,
                 self::PROPERTY_REQUIRED => true,
                 self::PROPERTY_SUBITEMS => [
-                    ExcelImport::MAP_EXISTS_USERS_LOGIN => [
+                    ExcelImport::MAP_EXISTS_USERS_LOGIN                => [
                         self::PROPERTY_CLASS => ilRadioOption::class,
                         "setTitle"           => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login"),
                         "setInfo"            => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
@@ -195,12 +195,20 @@ class ExcelImportFormGUI extends PropertyFormGUI
                             ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "login")
                         ])
                     ],
-                    ExcelImport::MAP_EXISTS_USERS_EMAIL => [
+                    ExcelImport::MAP_EXISTS_USERS_EMAIL                => [
                         self::PROPERTY_CLASS => ilRadioOption::class,
                         "setTitle"           => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email"),
                         "setInfo"            => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
                             self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email"),
                             ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "email")
+                        ])
+                    ],
+                    ExcelImport::MAP_EXISTS_USERS_MATRICULATION_NUMBER => [
+                        self::PROPERTY_CLASS => ilRadioOption::class,
+                        "setTitle"           => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_matriculation_number"),
+                        "setInfo"            => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
+                            self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_matriculation_number"),
+                            ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "matriculation")
                         ])
                     ]
                 ],
@@ -404,6 +412,14 @@ class ExcelImportFormGUI extends PropertyFormGUI
                 $needed_fields[] = [
                     "type"        => ExcelImport::FIELDS_TYPE_ILIAS,
                     "key"         => "email",
+                    "for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
+                ];
+                break;
+
+            case ExcelImport::MAP_EXISTS_USERS_MATRICULATION_NUMBER:
+                $needed_fields[] = [
+                    "type"        => ExcelImport::FIELDS_TYPE_ILIAS,
+                    "key"         => "matriculation",
                     "for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
                 ];
                 break;

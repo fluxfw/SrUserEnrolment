@@ -41,6 +41,7 @@ class ExcelImport
     const LOCAL_USER_ADMINISTRATION_TYPE_TITLE = 1;
     const MAP_EXISTS_USERS_EMAIL = 2;
     const MAP_EXISTS_USERS_LOGIN = 1;
+    const MAP_EXISTS_USERS_MATRICULATION_NUMBER = 3;
     const ORG_UNIT_POSITION_FIELD = 0;
     const ORG_UNIT_TYPE_REF_ID = 2;
     const ORG_UNIT_TYPE_TITLE = 1;
@@ -431,6 +432,14 @@ class ExcelImport
                 case self::MAP_EXISTS_USERS_EMAIL:
                     if (!empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->email)) {
                         $user->ilias_user_id = self::srUserEnrolment()->excelImport()->getUserIdByEmail(strval($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->email));
+                    }
+                    break;
+
+                case self::MAP_EXISTS_USERS_MATRICULATION_NUMBER:
+                    if (!empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->matriculation)) {
+                        $user->ilias_user_id = self::srUserEnrolment()
+                            ->excelImport()
+                            ->getUserIdByMatriculationNumber(intval($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->matriculation));
                     }
                     break;
 

@@ -194,6 +194,30 @@ final class Repository
 
 
     /**
+     * @param int $matriculation_number
+     *
+     * @return int|null
+     */
+    public function getUserIdByMatriculationNumber(int $matriculation_number)/*:?int*/
+    {
+        $result = self::dic()->database()->queryF("SELECT usr_id FROM usr_data WHERE "
+            . self::dic()
+                ->database()
+                ->in("matriculation", array_unique(array_map(function (int $len) use ($matriculation_number) : string {
+                    return str_pad($matriculation_number, $len, 0, STR_PAD_LEFT);
+                }, range(1, 8))), false,
+                    ilDBConstants::T_TEXT) . " AND usr_id>%s",
+            [ilDBConstants::T_INTEGER], [6]);
+
+        if (($row = $result->fetchAssoc()) !== false) {
+            return $row["usr_id"];
+        }
+
+        return null;
+    }
+
+
+    /**
      * @param int      $user_id
      * @param int      $obj_ref_id
      * @param int|null $obj_single_id
