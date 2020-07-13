@@ -25,8 +25,8 @@ class LogsTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = LogsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
     /**
@@ -38,33 +38,6 @@ class LogsTableGUI extends TableGUI
     public function __construct(LogsGUI $parent, string $parent_cmd)
     {
         parent::__construct($parent, $parent_cmd);
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @param Log $row
-     */
-    protected function getColumnValue(/*string*/ $column, /*Log*/ $row, /*int*/ $format = self::DEFAULT_FORMAT) : string
-    {
-        $value = Items::getter($row, $column);
-
-        switch ($column) {
-            case "status":
-                $value = htmlspecialchars($this->txt("status_" . Log::$status_all[$value]));
-                break;
-
-            case "user_id":
-            case "execute_user_id":
-                $value = htmlspecialchars(ilObjUser::_lookupLogin($value));
-                break;
-
-            default:
-                break;
-        }
-
-        return strval($value);
     }
 
 
@@ -90,6 +63,33 @@ class LogsTableGUI extends TableGUI
         }, $columns);
 
         return $columns;
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @param Log $row
+     */
+    protected function getColumnValue(string $column, /*Log*/ $row, int $format = self::DEFAULT_FORMAT) : string
+    {
+        $value = Items::getter($row, $column);
+
+        switch ($column) {
+            case "status":
+                $value = htmlspecialchars($this->txt("status_" . Log::$status_all[$value]));
+                break;
+
+            case "user_id":
+            case "execute_user_id":
+                $value = htmlspecialchars(ilObjUser::_lookupLogin($value));
+                break;
+
+            default:
+                break;
+        }
+
+        return strval($value);
     }
 
 

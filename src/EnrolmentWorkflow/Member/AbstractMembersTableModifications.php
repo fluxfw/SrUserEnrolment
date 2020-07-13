@@ -28,18 +28,6 @@ abstract class AbstractMembersTableModifications
 
 
     /**
-     * @return array
-     */
-    public abstract function getAdditionalColumns() : array;
-
-
-    /**
-     * @return array
-     */
-    public abstract function getAdditionalFilterFields() : array;
-
-
-    /**
      * @param Member[] $members
      * @param array    $filter_values
      *
@@ -55,4 +43,16 @@ abstract class AbstractMembersTableModifications
      * @return string|null
      */
     public abstract function formatColumnValue(string $column, Member $member)/*:?string*/ ;
+
+
+    /**
+     * @return array
+     */
+    public abstract function getAdditionalColumns() : array;
+
+
+    /**
+     * @return array
+     */
+    public abstract function getAdditionalFilterFields() : array;
 }

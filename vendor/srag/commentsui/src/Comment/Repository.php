@@ -23,10 +23,36 @@ final class Repository implements RepositoryInterface
 {
 
     use DICTrait;
+
     /**
      * @var RepositoryInterface|null
      */
     protected static $instance = null;
+    /**
+     * @var bool
+     */
+    protected $output_object_titles = false;
+    /**
+     * @var PluginInterface
+     */
+    protected $plugin;
+    /**
+     * @var int
+     */
+    protected $share_method = Comment::SHARE_METHOD_DISABLED;
+    /**
+     * @var string
+     */
+    protected $table_name_prefix = "";
+
+
+    /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
 
 
     /**
@@ -39,33 +65,6 @@ final class Repository implements RepositoryInterface
         }
 
         return self::$instance;
-    }
-
-
-    /**
-     * @var string
-     */
-    protected $table_name_prefix = "";
-    /**
-     * @var PluginInterface
-     */
-    protected $plugin;
-    /**
-     * @var bool
-     */
-    protected $output_object_titles = false;
-    /**
-     * @var int
-     */
-    protected $share_method = Comment::SHARE_METHOD_DISABLED;
-
-
-    /**
-     * Repository constructor
-     */
-    private function __construct()
-    {
-
     }
 
 
@@ -205,29 +204,6 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getCommentsForReport(int $report_obj_id, int $report_user_id) : array
-    {
-        /**
-         * @var Comment[] $comments
-         */
-        $comments = array_values(self::dic()->database()->fetchAllCallback(self::dic()->database()->queryF('SELECT * FROM ' . self::dic()->database()
-                ->quoteIdentifier(CommentAR::getTableName())
-            . ' WHERE deleted=%s AND report_obj_id=%s AND report_user_id=%s ORDER BY updated_timestamp DESC', [
-            ilDBConstants::T_INTEGER,
-            ilDBConstants::T_INTEGER,
-            ilDBConstants::T_INTEGER
-        ], [false, $report_obj_id, $report_user_id]), [
-            $this->factory(),
-            "fromDB"
-        ]));
-
-        return $comments;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function getCommentsForCurrentUser(/*?int*/ $report_obj_id = null, /*?int*/ $report_user_id = null) : array
     {
         if (empty($report_user_id)) {
@@ -262,6 +238,29 @@ final class Repository implements RepositoryInterface
         $comments = array_values(self::dic()->database()->fetchAllCallback(self::dic()->database()->queryF('SELECT * FROM ' . self::dic()->database()
                 ->quoteIdentifier(CommentAR::getTableName()) . ' WHERE ' . implode(' AND ', $where)
             . ' ORDER BY updated_timestamp DESC', $types, $values), [
+            $this->factory(),
+            "fromDB"
+        ]));
+
+        return $comments;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getCommentsForReport(int $report_obj_id, int $report_user_id) : array
+    {
+        /**
+         * @var Comment[] $comments
+         */
+        $comments = array_values(self::dic()->database()->fetchAllCallback(self::dic()->database()->queryF('SELECT * FROM ' . self::dic()->database()
+                ->quoteIdentifier(CommentAR::getTableName())
+            . ' WHERE deleted=%s AND report_obj_id=%s AND report_user_id=%s ORDER BY updated_timestamp DESC', [
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_INTEGER,
+            ilDBConstants::T_INTEGER
+        ], [false, $report_obj_id, $report_user_id]), [
             $this->factory(),
             "fromDB"
         ]));

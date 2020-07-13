@@ -63,6 +63,33 @@ class RuleEnrolmentJob extends ilCronJob
     /**
      * @inheritDoc
      */
+    public function getDefaultScheduleType() : int
+    {
+        return self::SCHEDULE_TYPE_IN_HOURS;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getDefaultScheduleValue()/*:?int*/
+    {
+        return 12;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getDescription() : string
+    {
+        return self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getId() : string
     {
         return self::CRON_JOB_ID;
@@ -81,15 +108,6 @@ class RuleEnrolmentJob extends ilCronJob
     /**
      * @inheritDoc
      */
-    public function getDescription() : string
-    {
-        return self::plugin()->translate("type_course_rule", RulesGUI::LANG_MODULE);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function hasAutoActivation() : bool
     {
         return true;
@@ -102,24 +120,6 @@ class RuleEnrolmentJob extends ilCronJob
     public function hasFlexibleSchedule() : bool
     {
         return true;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultScheduleType() : int
-    {
-        return self::SCHEDULE_TYPE_IN_HOURS;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultScheduleValue()/*:?int*/
-    {
-        return 12;
     }
 
 

@@ -30,13 +30,13 @@ class ResetPasswordGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_RESET_PASSWORD = "resetPassword";
     const CMD_RESET_PASSWORD_CONFIRM = "resetPasswordConfirm";
     const GET_PARAM_REF_ID = "ref_id";
     const GET_PARAM_USER_ID = "user_id";
     const LANG_MODULE = "reset_password";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_RESET_PASSWORD = "reset_password";
     /**
      * @var int
@@ -54,45 +54,6 @@ class ResetPasswordGUI
     public function __construct()
     {
 
-    }
-
-
-    /**
-     *
-     */
-    public function executeCommand()/*: void*/
-    {
-        $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
-        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
-
-        if (!self::srUserEnrolment()->resetUserPassword()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id, $this->user_id)
-        ) {
-            die();
-        }
-
-        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_REF_ID);
-        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
-
-        $this->setTabs();
-
-        $next_class = self::dic()->ctrl()->getNextClass($this);
-
-        switch (strtolower($next_class)) {
-            default:
-                $cmd = self::dic()->ctrl()->getCmd();
-
-                switch ($cmd) {
-                    case self::CMD_BACK:
-                    case self::CMD_RESET_PASSWORD:
-                    case self::CMD_RESET_PASSWORD_CONFIRM:
-                        $this->{$cmd}();
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
-        }
     }
 
 
@@ -165,13 +126,39 @@ class ResetPasswordGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    public function executeCommand()/*: void*/
     {
-        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK));
+        $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
+        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
 
-        self::dic()->tabs()->addTab(self::TAB_RESET_PASSWORD, self::plugin()->translate("title", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_RESET_PASSWORD_CONFIRM));
+        if (!self::srUserEnrolment()->resetUserPassword()->hasAccess(self::dic()->user()->getId(), $this->obj_ref_id, $this->user_id)
+        ) {
+            die();
+        }
+
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_REF_ID);
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
+
+        $this->setTabs();
+
+        $next_class = self::dic()->ctrl()->getNextClass($this);
+
+        switch (strtolower($next_class)) {
+            default:
+                $cmd = self::dic()->ctrl()->getCmd();
+
+                switch ($cmd) {
+                    case self::CMD_BACK:
+                    case self::CMD_RESET_PASSWORD:
+                    case self::CMD_RESET_PASSWORD_CONFIRM:
+                        $this->{$cmd}();
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
+        }
     }
 
 
@@ -187,6 +174,26 @@ class ResetPasswordGUI
             ilObjCourseGUI::class,
             ilCourseMembershipGUI::class
         ]);
+    }
+
+
+    /**
+     *
+     */
+    protected function resetPassword()/*: void*/
+    {
+        $user = new ilObjUser($this->user_id);
+
+        $new_password = self::srUserEnrolment()->resetUserPassword()->resetPassword($user->getId());
+
+        ilUtil::sendSuccess(nl2br(self::plugin()->translate("reset", self::LANG_MODULE, [
+            $user->getFullname(),
+            $user->getEmail(),
+            $user->getLogin(),
+            $new_password
+        ]), false), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
     }
 
 
@@ -217,19 +224,12 @@ class ResetPasswordGUI
     /**
      *
      */
-    protected function resetPassword()/*: void*/
+    protected function setTabs()/*: void*/
     {
-        $user = new ilObjUser($this->user_id);
+        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
 
-        $new_password = self::srUserEnrolment()->resetUserPassword()->resetPassword($user->getId());
-
-        ilUtil::sendSuccess(nl2br(self::plugin()->translate("reset", self::LANG_MODULE, [
-            $user->getFullname(),
-            $user->getEmail(),
-            $user->getLogin(),
-            $new_password
-        ]), false), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+        self::dic()->tabs()->addTab(self::TAB_RESET_PASSWORD, self::plugin()->translate("title", self::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_RESET_PASSWORD_CONFIRM));
     }
 }

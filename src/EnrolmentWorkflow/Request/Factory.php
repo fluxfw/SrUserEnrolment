@@ -28,19 +28,6 @@ final class Factory
 
 
     /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
-    /**
      * Factory constructor
      */
     private function __construct()
@@ -50,13 +37,15 @@ final class Factory
 
 
     /**
-     * @return Request
+     * @return self
      */
-    public function newInstance() : Request
+    public static function getInstance() : self
     {
-        $request = new Request();
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
 
-        return $request;
+        return self::$instance;
     }
 
 
@@ -72,18 +61,13 @@ final class Factory
 
 
     /**
-     * @param RequestsGUI $parent
-     * @param string      $cmd
-     *
-     * @return AbstractRequestsTableGUI
+     * @return Request
      */
-    public function newTableInstance(RequestsGUI $parent, string $cmd = RequestsGUI::CMD_LIST_REQUESTS) : AbstractRequestsTableGUI
+    public function newInstance() : Request
     {
-        $class = str_replace("Abstract", ucfirst(Items::strToCamelCase(RequestsGUI::getRequestsTypes()[$parent->getRequestsType()])), AbstractRequestsTableGUI::class);
+        $request = new Request();
 
-        $table = new $class($parent, $cmd);
-
-        return $table;
+        return $request;
     }
 
 
@@ -96,6 +80,22 @@ final class Factory
     public function newRequestStepForOthersTableInstance(RequestStepForOthersGUI $parent, string $cmd = RequestStepForOthersGUI::CMD_LIST_USERS) : RequestStepForOthersTableGUI
     {
         $table = new RequestStepForOthersTableGUI($parent, $cmd);
+
+        return $table;
+    }
+
+
+    /**
+     * @param RequestsGUI $parent
+     * @param string      $cmd
+     *
+     * @return AbstractRequestsTableGUI
+     */
+    public function newTableInstance(RequestsGUI $parent, string $cmd = RequestsGUI::CMD_LIST_REQUESTS) : AbstractRequestsTableGUI
+    {
+        $class = str_replace("Abstract", ucfirst(Items::strToCamelCase(RequestsGUI::getRequestsTypes()[$parent->getRequestsType()])), AbstractRequestsTableGUI::class);
+
+        $table = new $class($parent, $cmd);
 
         return $table;
     }

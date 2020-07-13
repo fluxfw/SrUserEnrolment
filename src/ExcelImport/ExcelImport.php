@@ -33,21 +33,50 @@ class ExcelImport
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const SESSION_KEY = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_excel_import";
-    const FIELDS_TYPE_ILIAS = 1;
     const FIELDS_TYPE_CUSTOM = 2;
+    const FIELDS_TYPE_ILIAS = 1;
     const LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY = 1;
     const LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT = 2;
-    const LOCAL_USER_ADMINISTRATION_TYPE_TITLE = 1;
     const LOCAL_USER_ADMINISTRATION_TYPE_REF_ID = 2;
-    const MAP_EXISTS_USERS_LOGIN = 1;
+    const LOCAL_USER_ADMINISTRATION_TYPE_TITLE = 1;
     const MAP_EXISTS_USERS_EMAIL = 2;
+    const MAP_EXISTS_USERS_LOGIN = 1;
+    const MAP_EXISTS_USERS_MATRICULATION_NUMBER = 3;
     const ORG_UNIT_POSITION_FIELD = 0;
-    const ORG_UNIT_TYPE_TITLE = 1;
     const ORG_UNIT_TYPE_REF_ID = 2;
-    const SET_PASSWORD_RANDOM = 1;
+    const ORG_UNIT_TYPE_TITLE = 1;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const SESSION_KEY = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_excel_import";
     const SET_PASSWORD_FIELD = 2;
+    const SET_PASSWORD_RANDOM = 1;
+    /**
+     * @var ExcelImportGUI
+     */
+    protected $parent;
+
+
+    /**
+     * ExcelImport constructor
+     *
+     * @param ExcelImportGUI $parent
+     */
+    public function __construct(ExcelImportGUI $parent)
+    {
+        $this->parent = $parent;
+    }
+
+
+    /**
+     * https://stackoverflow.com/questions/1993721/how-to-convert-pascalcase-to-pascal-case
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    public static function camelCaseToStr($string)
+    {
+        return strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $string));
+    }
 
 
     /**
@@ -130,32 +159,125 @@ class ExcelImport
 
 
     /**
-     * https://stackoverflow.com/questions/1993721/how-to-convert-pascalcase-to-pascal-case
      *
-     * @param string $string
-     *
-     * @return string
      */
-    public static function camelCaseToStr($string)
+    public function clean()/*: void*/
     {
-        return strtolower(preg_replace(['/([a-z\d])([A-Z])/', '/([^_])([A-Z][a-z])/'], '$1_$2', $string));
+        ilSession::clear(ExcelImport::SESSION_KEY);
     }
 
 
     /**
-     * @var ExcelImportGUI
+     * @return string
      */
-    protected $parent;
+    public function createOrUpdateUsers() : string
+    {
+        $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
+        $users = (array) $data->users;
+
+        foreach ($users as &$user) {
+            try {
+                if ($user->is_new) {
+                    $user->ilias_user_id = self::srUserEnrolment()->excelImport()->createNewAccount($user->{ExcelImportFormGUI::KEY_FIELDS});
+
+                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
+                        ->factory()
+                        ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
+                        ->withStatus(Log::STATUS_USER_CREATED)
+                        ->withMessage("User data: " . json_encode($user)));
+                } else {
+                    if (self::srUserEnrolment()->excelImport()->updateUserAccount($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS})) {
+                        self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
+                            ->factory()
+                            ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
+                            ->withStatus(Log::STATUS_USER_UPDATED)
+                            ->withMessage("User data: " . json_encode($user)));
+                    }
+                }
+            } catch (Throwable $ex) {
+                self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
+                    ->factory()
+                    ->newExceptionInstance($ex, $this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()))->withStatus(Log::STATUS_USER_FAILED));
+            }
+        }
+
+        $data = (object) [
+            "users" => $users
+        ];
+
+        ilSession::set(self::SESSION_KEY, json_encode($data));
+
+        $logs = array_reduce(array_keys(Log::$status_create_or_update_users), function (array $logs, int $status) : array {
+            $logs[] = self::plugin()->translate("status_" . Log::$status_create_or_update_users[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
+
+            return $logs;
+        }, []);
+
+        return nl2br(implode("\n", $logs), false);
+    }
 
 
     /**
-     * ExcelImport constructor
-     *
-     * @param ExcelImportGUI $parent
+     * @return string
      */
-    public function __construct(ExcelImportGUI $parent)
+    public function enroll() : string
     {
-        $this->parent = $parent;
+        $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
+        $users = (array) $data->users;
+
+        foreach ($users as &$user) {
+            try {
+                if (self::srUserEnrolment()->ruleEnrolment()->enroll($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
+                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
+                        ->logs()
+                        ->factory()
+                        ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
+                        ->withStatus(Log::STATUS_ENROLLED)
+                        ->withMessage("User data: " . json_encode($user)));
+                }
+            } catch (Throwable $ex) {
+                self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
+                    ->logs()
+                    ->factory()
+                    ->newExceptionInstance($ex, $this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()))->withStatus(Log::STATUS_ENROLL_FAILED));
+            }
+        }
+
+        $logs = array_reduce(array_keys(Log::$status_enroll), function (array $logs, int $status) : array {
+            $logs[] = self::plugin()->translate("status_" . Log::$status_enroll[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
+
+            return $logs;
+        }, []);
+
+        return nl2br(implode("\n", $logs), false);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getUsersToEnroll() : array
+    {
+        $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
+        $users = (array) $data->users;
+
+        $obj = ilObjectFactory::getInstanceByRefId($this->parent->getObjRefId(), false);
+
+        $users = array_filter($users, function (stdClass $user) use ($obj): bool {
+            return (!empty($user->ilias_user_id) && !self::srUserEnrolment()->ruleEnrolment()->isEnrolled($obj->getId(), $user->ilias_user_id));
+        });
+
+        $data = (object) [
+            "users" => $users
+        ];
+
+        ilSession::set(self::SESSION_KEY, json_encode($data));
+
+        $users = array_map(function (stdClass $user) : string {
+            return ilObjUser::_lookupLogin($user->ilias_user_id);
+        }, $users);
+
+        return $users;
     }
 
 
@@ -313,6 +435,14 @@ class ExcelImport
                     }
                     break;
 
+                case self::MAP_EXISTS_USERS_MATRICULATION_NUMBER:
+                    if (!empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->matriculation)) {
+                        $user->ilias_user_id = self::srUserEnrolment()
+                            ->excelImport()
+                            ->getUserIdByMatriculationNumber(intval($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->matriculation));
+                    }
+                    break;
+
                 default:
                     break;
             }
@@ -398,43 +528,6 @@ class ExcelImport
             self::FIELDS_TYPE_ILIAS  => [],
             self::FIELDS_TYPE_CUSTOM => []
         ]);
-    }
-
-
-    /**
-     * @param ExcelImportFormGUI $form
-     * @param stdClass           $user
-     */
-    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user)/*:void*/
-    {
-        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles = array_unique($form->getExcelImportCreateNewUsersGlobalRoles());
-    }
-
-
-    /**
-     * @param stdClass $user
-     */
-    protected function handleSetPasswordFormatDateTime(stdClass &$user)/*: void*/
-    {
-        $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
-
-        // Modules/DataCollection/classes/Fields/Datetime/class.ilDclDatetimeRecordRepresentation.php::formatDate
-        switch (self::dic()->user()->getDateFormat()) { // Assume date format for current user which has uploaded the excel file
-            case ilCalendarSettings::DATE_FORMAT_DMY:
-                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("d.m.Y");
-                break;
-
-            case ilCalendarSettings::DATE_FORMAT_YMD:
-                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("Y-m-d");
-                break;
-
-            case ilCalendarSettings::DATE_FORMAT_MDY:
-                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("m/d/Y");
-                break;
-
-            default:
-                break;
-        }
     }
 
 
@@ -532,124 +625,38 @@ class ExcelImport
 
 
     /**
-     * @return string
+     * @param ExcelImportFormGUI $form
+     * @param stdClass           $user
      */
-    public function createOrUpdateUsers() : string
+    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user)/*:void*/
     {
-        $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
-        $users = (array) $data->users;
+        $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles = array_unique($form->getExcelImportCreateNewUsersGlobalRoles());
+    }
 
-        foreach ($users as &$user) {
-            try {
-                if ($user->is_new) {
-                    $user->ilias_user_id = self::srUserEnrolment()->excelImport()->createNewAccount($user->{ExcelImportFormGUI::KEY_FIELDS});
 
-                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
-                        ->factory()
-                        ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
-                        ->withStatus(Log::STATUS_USER_CREATED)
-                        ->withMessage("User data: " . json_encode($user)));
-                } else {
-                    if (self::srUserEnrolment()->excelImport()->updateUserAccount($user->ilias_user_id, $user->{ExcelImportFormGUI::KEY_FIELDS})) {
-                        self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
-                            ->factory()
-                            ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
-                            ->withStatus(Log::STATUS_USER_UPDATED)
-                            ->withMessage("User data: " . json_encode($user)));
-                    }
-                }
-            } catch (Throwable $ex) {
-                self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()
-                    ->factory()
-                    ->newExceptionInstance($ex, $this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()))->withStatus(Log::STATUS_USER_FAILED));
-            }
+    /**
+     * @param stdClass $user
+     */
+    protected function handleSetPasswordFormatDateTime(stdClass &$user)/*: void*/
+    {
+        $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
+
+        // Modules/DataCollection/classes/Fields/Datetime/class.ilDclDatetimeRecordRepresentation.php::formatDate
+        switch (self::dic()->user()->getDateFormat()) { // Assume date format for current user which has uploaded the excel file
+            case ilCalendarSettings::DATE_FORMAT_DMY:
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("d.m.Y");
+                break;
+
+            case ilCalendarSettings::DATE_FORMAT_YMD:
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("Y-m-d");
+                break;
+
+            case ilCalendarSettings::DATE_FORMAT_MDY:
+                $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd = $date->format("m/d/Y");
+                break;
+
+            default:
+                break;
         }
-
-        $data = (object) [
-            "users" => $users
-        ];
-
-        ilSession::set(self::SESSION_KEY, json_encode($data));
-
-        $logs = array_reduce(array_keys(Log::$status_create_or_update_users), function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . Log::$status_create_or_update_users[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
-
-            return $logs;
-        }, []);
-
-        return nl2br(implode("\n", $logs), false);
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getUsersToEnroll() : array
-    {
-        $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
-        $users = (array) $data->users;
-
-        $obj = ilObjectFactory::getInstanceByRefId($this->parent->getObjRefId(), false);
-
-        $users = array_filter($users, function (stdClass $user) use ($obj): bool {
-            return (!empty($user->ilias_user_id) && !self::srUserEnrolment()->ruleEnrolment()->isEnrolled($obj->getId(), $user->ilias_user_id));
-        });
-
-        $data = (object) [
-            "users" => $users
-        ];
-
-        ilSession::set(self::SESSION_KEY, json_encode($data));
-
-        $users = array_map(function (stdClass $user) : string {
-            return ilObjUser::_lookupLogin($user->ilias_user_id);
-        }, $users);
-
-        return $users;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function enroll() : string
-    {
-        $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
-        $users = (array) $data->users;
-
-        foreach ($users as &$user) {
-            try {
-                if (self::srUserEnrolment()->ruleEnrolment()->enroll($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)) {
-                    self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
-                        ->logs()
-                        ->factory()
-                        ->newObjectRuleUserInstance($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()), $user->ilias_user_id)
-                        ->withStatus(Log::STATUS_ENROLLED)
-                        ->withMessage("User data: " . json_encode($user)));
-                }
-            } catch (Throwable $ex) {
-                self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()
-                    ->logs()
-                    ->factory()
-                    ->newExceptionInstance($ex, $this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()))->withStatus(Log::STATUS_ENROLL_FAILED));
-            }
-        }
-
-        $logs = array_reduce(array_keys(Log::$status_enroll), function (array $logs, int $status) : array {
-            $logs[] = self::plugin()->translate("status_" . Log::$status_enroll[$status], LogsGUI::LANG_MODULE) . ": " . count(self::srUserEnrolment()->logs()->getKeptLogs($status));
-
-            return $logs;
-        }, []);
-
-        return nl2br(implode("\n", $logs), false);
-    }
-
-
-    /**
-     *
-     */
-    public function clean()/*: void*/
-    {
-        ilSession::clear(ExcelImport::SESSION_KEY);
     }
 }

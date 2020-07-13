@@ -30,6 +30,15 @@ final class Repository extends AbstractRepository
 
 
     /**
+     * Repository constructor
+     */
+    protected function __construct()
+    {
+        parent::__construct();
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -39,15 +48,6 @@ final class Repository extends AbstractRepository
         }
 
         return self::$instance;
-    }
-
-
-    /**
-     * Repository constructor
-     */
-    protected function __construct()
-    {
-        parent::__construct();
     }
 
 
@@ -65,9 +65,21 @@ final class Repository extends AbstractRepository
     /**
      * @inheritDoc
      */
-    protected function getTableName() : string
+    public function getValue(string $name)
     {
-        return ilSrUserEnrolmentPlugin::PLUGIN_ID . "_config";
+        $value = parent::getValue($name);
+
+        switch ($name) {
+            case ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES:
+                $value = array_filter($value, function (int $role) : bool {
+                    return (!in_array($role, $this->getValue(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE)));
+                });
+
+                return $value;
+
+            default:
+                return $value;
+        }
     }
 
 
@@ -170,20 +182,8 @@ final class Repository extends AbstractRepository
     /**
      * @inheritDoc
      */
-    public function getValue(string $name)
+    protected function getTableName() : string
     {
-        $value = parent::getValue($name);
-
-        switch ($name) {
-            case ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES:
-                $value = array_filter($value, function (int $role) : bool {
-                    return (!in_array($role, $this->getValue(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE)));
-                });
-
-                return $value;
-
-            default:
-                return $value;
-        }
+        return ilSrUserEnrolmentPlugin::PLUGIN_ID . "_config";
     }
 }

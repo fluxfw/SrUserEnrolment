@@ -27,6 +27,15 @@ final class Factory
 
 
     /**
+     * Factory constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -40,11 +49,16 @@ final class Factory
 
 
     /**
-     * Factory constructor
+     * @param WorkflowGUI $parent
+     * @param Workflow    $workflow
+     *
+     * @return WorkflowFormGUI
      */
-    private function __construct()
+    public function newFormInstance(WorkflowGUI $parent, Workflow $workflow) : WorkflowFormGUI
     {
+        $form = new WorkflowFormGUI($parent, $workflow);
 
+        return $form;
     }
 
 
@@ -70,19 +84,5 @@ final class Factory
         $table = new WorkflowsTableGUI($parent, $cmd);
 
         return $table;
-    }
-
-
-    /**
-     * @param WorkflowGUI $parent
-     * @param Workflow    $workflow
-     *
-     * @return WorkflowFormGUI
-     */
-    public function newFormInstance(WorkflowGUI $parent, Workflow $workflow) : WorkflowFormGUI
-    {
-        $form = new WorkflowFormGUI($parent, $workflow);
-
-        return $form;
     }
 }

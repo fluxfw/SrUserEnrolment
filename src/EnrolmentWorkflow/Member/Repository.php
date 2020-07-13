@@ -31,6 +31,15 @@ final class Repository
 
 
     /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -40,15 +49,6 @@ final class Repository
         }
 
         return self::$instance;
-    }
-
-
-    /**
-     * Repository constructor
-     */
-    private function __construct()
-    {
-
     }
 
 
@@ -96,30 +96,6 @@ final class Repository
 
     /**
      * @param int $obj_ref_id
-     *
-     * @return Member[]
-     */
-    public function getMembers(int $obj_ref_id) : array
-    {
-        $usr_ids = array_map(function (Request $request) : int {
-            return $request->getUserId();
-        }, self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($obj_ref_id));
-
-        $obj = ilObjectFactory::getInstanceByRefId($obj_ref_id, false);
-        if ($obj instanceof ilObjCourse) {
-            $usr_ids = array_merge($usr_ids, self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($obj->getId()));
-        }
-
-        return array_reduce(array_unique($usr_ids), function (array $members, int $usr_id) use ($obj_ref_id): array {
-            $members[$usr_id] = $this->getMember($obj_ref_id, $usr_id);
-
-            return $members;
-        }, []);
-    }
-
-
-    /**
-     * @param int $obj_ref_id
      * @param int $usr_id
      *
      * @return Member
@@ -150,6 +126,30 @@ final class Repository
         }
 
         return $member;
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     *
+     * @return Member[]
+     */
+    public function getMembers(int $obj_ref_id) : array
+    {
+        $usr_ids = array_map(function (Request $request) : int {
+            return $request->getUserId();
+        }, self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($obj_ref_id));
+
+        $obj = ilObjectFactory::getInstanceByRefId($obj_ref_id, false);
+        if ($obj instanceof ilObjCourse) {
+            $usr_ids = array_merge($usr_ids, self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($obj->getId()));
+        }
+
+        return array_reduce(array_unique($usr_ids), function (array $members, int $usr_id) use ($obj_ref_id): array {
+            $members[$usr_id] = $this->getMember($obj_ref_id, $usr_id);
+
+            return $members;
+        }, []);
     }
 
 

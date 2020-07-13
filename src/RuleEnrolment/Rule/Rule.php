@@ -28,19 +28,6 @@ class Rule extends ActiveRecord
      *
      * @deprecated
      */
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rule";
-    /**
-     * @var string
-     *
-     * @deprecated
-     */
-    const TABLE_NAME_ENROLLED = "srusrenr_enrolled";
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    /**
-     * @var string
-     *
-     * @deprecated
-     */
     const ORG_UNIT_TYPE_TITLE = 1;
     /**
      * @var string
@@ -48,54 +35,19 @@ class Rule extends ActiveRecord
      * @deprecated
      */
     const ORG_UNIT_TYPE_TREE = 2;
-
-
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @inheritDoc
+     * @var string
      *
      * @deprecated
      */
-    public function getConnectorContainerName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rule";
     /**
-     * @inheritDoc
+     * @var string
      *
      * @deprecated
      */
-    public static function returnDbTableName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     * @con_is_primary   true
-     * @con_sequence     true
-     *
-     * @deprecated
-     */
-    protected $rule_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     *
-     * @deprecated
-     */
-    protected $object_id;
+    const TABLE_NAME_ENROLLED = "srusrenr_enrolled";
     /**
      * @var bool
      *
@@ -112,22 +64,12 @@ class Rule extends ActiveRecord
      *
      * @con_has_field    true
      * @con_fieldtype    integer
-     * @con_length       1
+     * @con_length       8
      * @con_is_notnull   true
      *
      * @deprecated
      */
-    protected $org_unit_type = 1;
-    /**
-     * @var string
-     *
-     * @con_has_field    true
-     * @con_fieldtype    text
-     * @con_is_notnull   true
-     *
-     * @deprecated
-     */
-    protected $title = "";
+    protected $object_id;
     /**
      * @var int
      *
@@ -149,7 +91,7 @@ class Rule extends ActiveRecord
      *
      * @deprecated
      */
-    protected $operator_negated = false;
+    protected $operator_case_sensitive = false;
     /**
      * @var bool
      *
@@ -160,7 +102,29 @@ class Rule extends ActiveRecord
      *
      * @deprecated
      */
-    protected $operator_case_sensitive = false;
+    protected $operator_negated = false;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     * @con_is_notnull   true
+     *
+     * @deprecated
+     */
+    protected $org_unit_type = 1;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     *
+     * @deprecated
+     */
+    protected $position = 0;
     /**
      * @var int
      *
@@ -179,10 +143,22 @@ class Rule extends ActiveRecord
      * @con_fieldtype    integer
      * @con_length       8
      * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
      *
      * @deprecated
      */
-    protected $position = 0;
+    protected $rule_id;
+    /**
+     * @var string
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   true
+     *
+     * @deprecated
+     */
+    protected $title = "";
 
 
     /**
@@ -196,6 +172,138 @@ class Rule extends ActiveRecord
     public function __construct(/*int*/ $primary_key_value = 0, arConnector $connector = null)
     {
         parent::__construct($primary_key_value, $connector);
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @deprecated
+     */
+    public static function returnDbTableName() : string
+    {
+        return self::TABLE_NAME;
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @deprecated
+     */
+    public function getConnectorContainerName() : string
+    {
+        return self::TABLE_NAME;
+    }
+
+
+    /**
+     * @return int
+     *
+     * @deprecated
+     */
+    public function getObjectId() : int
+    {
+        return $this->object_id;
+    }
+
+
+    /**
+     * @return int
+     *
+     * @deprecated
+     */
+    public function getOperator() : int
+    {
+        return $this->operator;
+    }
+
+
+    /**
+     * @return int
+     *
+     * @deprecated
+     */
+    public function getOrgUnitType() : int
+    {
+        return $this->org_unit_type;
+    }
+
+
+    /**
+     * @return int
+     *
+     * @deprecated
+     */
+    public function getPosition() : int
+    {
+        return $this->position;
+    }
+
+
+    /**
+     * @return int
+     *
+     * @deprecated
+     */
+    public function getRefId() : int
+    {
+        return $this->ref_id;
+    }
+
+
+    /**
+     * @return int
+     *
+     * @deprecated
+     */
+    public function getRuleId() : int
+    {
+        return $this->rule_id;
+    }
+
+
+    /**
+     * @return string
+     *
+     * @deprecated
+     */
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
+
+
+    /**
+     * @return bool
+     *
+     * @deprecated
+     */
+    public function isEnabled() : bool
+    {
+        return $this->enabled;
+    }
+
+
+    /**
+     * @return bool
+     *
+     * @deprecated
+     */
+    public function isOperatorCaseSensitive() : bool
+    {
+        return $this->operator_case_sensitive;
+    }
+
+
+    /**
+     * @return bool
+     *
+     * @deprecated
+     */
+    public function isOperatorNegated() : bool
+    {
+        return $this->operator_negated;
     }
 
 
@@ -239,115 +347,5 @@ class Rule extends ActiveRecord
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return int
-     *
-     * @deprecated
-     */
-    public function getRuleId() : int
-    {
-        return $this->rule_id;
-    }
-
-
-    /**
-     * @return int
-     *
-     * @deprecated
-     */
-    public function getObjectId() : int
-    {
-        return $this->object_id;
-    }
-
-
-    /**
-     * @return bool
-     *
-     * @deprecated
-     */
-    public function isEnabled() : bool
-    {
-        return $this->enabled;
-    }
-
-
-    /**
-     * @return int
-     *
-     * @deprecated
-     */
-    public function getOrgUnitType() : int
-    {
-        return $this->org_unit_type;
-    }
-
-
-    /**
-     * @return string
-     *
-     * @deprecated
-     */
-    public function getTitle() : string
-    {
-        return $this->title;
-    }
-
-
-    /**
-     * @return int
-     *
-     * @deprecated
-     */
-    public function getOperator() : int
-    {
-        return $this->operator;
-    }
-
-
-    /**
-     * @return bool
-     *
-     * @deprecated
-     */
-    public function isOperatorNegated() : bool
-    {
-        return $this->operator_negated;
-    }
-
-
-    /**
-     * @return bool
-     *
-     * @deprecated
-     */
-    public function isOperatorCaseSensitive() : bool
-    {
-        return $this->operator_case_sensitive;
-    }
-
-
-    /**
-     * @return int
-     *
-     * @deprecated
-     */
-    public function getRefId() : int
-    {
-        return $this->ref_id;
-    }
-
-
-    /**
-     * @return int
-     *
-     * @deprecated
-     */
-    public function getPosition() : int
-    {
-        return $this->position;
     }
 }

@@ -123,15 +123,6 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUserId()/* : ?array*/
-    {
-        return [self::dic()->user()->getId()];
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     protected function getFilterUserEmail()/* : ?string*/
     {
         return null;
@@ -144,6 +135,15 @@ class OwnRequestsTableGUI extends AbstractRequestsTableGUI
     protected function getFilterUserFirstname()/* : ?string*/
     {
         return null;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getFilterUserId()/* : ?array*/
+    {
+        return [self::dic()->user()->getId()];
     }
 
 

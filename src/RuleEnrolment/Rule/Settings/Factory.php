@@ -28,19 +28,6 @@ final class Factory
 
 
     /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
-    /**
      * Factory constructor
      */
     private function __construct()
@@ -50,13 +37,15 @@ final class Factory
 
 
     /**
-     * @return Settings
+     * @return self
      */
-    public function newInstance() : Settings
+    public static function getInstance() : self
     {
-        $settings = new Settings();
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
 
-        return $settings;
+        return self::$instance;
     }
 
 
@@ -71,5 +60,16 @@ final class Factory
         $form = new FormBuilder($parent, $settings);
 
         return $form;
+    }
+
+
+    /**
+     * @return Settings
+     */
+    public function newInstance() : Settings
+    {
+        $settings = new Settings();
+
+        return $settings;
     }
 }

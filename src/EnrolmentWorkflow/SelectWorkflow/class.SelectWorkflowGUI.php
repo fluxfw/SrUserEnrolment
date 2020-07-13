@@ -26,12 +26,12 @@ class SelectWorkflowGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_SELECT_WORKFLOW = "selectWorkflow";
     const CMD_UPDATE_SELECTED_WORKFLOW = "updateSelectedWorkflow";
     const GET_PARAM_REF_ID = "ref_id";
     const LANG_MODULE = "select_workflow";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_SELECT_WORKFLOW = "select_workflow";
     /**
      * @var int
@@ -45,6 +45,20 @@ class SelectWorkflowGUI
     public function __construct()
     {
 
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     */
+    public static function addTabs(int $obj_ref_id)/*: void*/
+    {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+
+            self::dic()->tabs()->addTab(self::TAB_SELECT_WORKFLOW, self::plugin()->translate("select_workflow", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_SELECT_WORKFLOW));
+        }
     }
 
 
@@ -85,33 +99,11 @@ class SelectWorkflowGUI
 
 
     /**
-     * @param int $obj_ref_id
+     * @return int
      */
-    public static function addTabs(int $obj_ref_id)/*: void*/
+    public function getObjRefId() : int
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
-
-            self::dic()->tabs()->addTab(self::TAB_SELECT_WORKFLOW, self::plugin()->translate("select_workflow", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_SELECT_WORKFLOW));
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function setTabs()/*: void*/
-    {
-        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK));
-
-        MembersGUI::addTabs($this->obj_ref_id);
-
-        self::dic()->tabs()->addTab(self::TAB_SELECT_WORKFLOW, self::plugin()->translate("select_workflow", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_SELECT_WORKFLOW));
-
-        RequestsGUI::addTabs($this->obj_ref_id);
+        return $this->obj_ref_id;
     }
 
 
@@ -140,6 +132,23 @@ class SelectWorkflowGUI
     /**
      *
      */
+    protected function setTabs()/*: void*/
+    {
+        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
+
+        MembersGUI::addTabs($this->obj_ref_id);
+
+        self::dic()->tabs()->addTab(self::TAB_SELECT_WORKFLOW, self::plugin()->translate("select_workflow", self::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_SELECT_WORKFLOW));
+
+        RequestsGUI::addTabs($this->obj_ref_id);
+    }
+
+
+    /**
+     *
+     */
     protected function updateSelectedWorkflow()/*: void*/
     {
         self::dic()->tabs()->activateTab(self::TAB_SELECT_WORKFLOW);
@@ -155,14 +164,5 @@ class SelectWorkflowGUI
         ilUtil::sendSuccess(self::plugin()->translate("saved", self::LANG_MODULE), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_SELECT_WORKFLOW);
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getObjRefId() : int
-    {
-        return $this->obj_ref_id;
     }
 }

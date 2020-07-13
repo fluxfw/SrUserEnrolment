@@ -16,24 +16,15 @@ class AssignResponsibleUsers extends AbstractAction
 {
 
     const TABLE_NAME_SUFFIX = "aru";
-    const USER_TYPE_POSITION = 1;
-    const USER_TYPE_SPECIFIC_USERS = 2;
-    const USER_TYPE_GLOBAL_ROLES = 3;
     const USER_TYPES
         = [
             self::USER_TYPE_POSITION       => "position",
             self::USER_TYPE_SPECIFIC_USERS => "specific_users",
             self::USER_TYPE_GLOBAL_ROLES   => "global_roles"
         ];
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $users_type = self::USER_TYPE_POSITION;
+    const USER_TYPE_GLOBAL_ROLES = 3;
+    const USER_TYPE_POSITION = 1;
+    const USER_TYPE_SPECIFIC_USERS = 2;
     /**
      * @var int[]
      *
@@ -66,7 +57,7 @@ class AssignResponsibleUsers extends AbstractAction
      * @con_fieldtype    text
      * @con_is_notnull   true
      */
-    protected $specific_users = [];
+    protected $global_roles = [];
     /**
      * @var int[]
      *
@@ -74,7 +65,16 @@ class AssignResponsibleUsers extends AbstractAction
      * @con_fieldtype    text
      * @con_is_notnull   true
      */
-    protected $global_roles = [];
+    protected $specific_users = [];
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $users_type = self::USER_TYPE_POSITION;
 
 
     /**
@@ -112,6 +112,114 @@ class AssignResponsibleUsers extends AbstractAction
         return nl2br(implode("\n", array_map(function (string $description) : string {
             return htmlspecialchars($description);
         }, $descriptions)), false);
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getAssignPositions() : array
+    {
+        return $this->assign_positions;
+    }
+
+
+    /**
+     * @param int[] $assign_positions
+     */
+    public function setAssignPositions(array $assign_positions)/* : void*/
+    {
+        $this->assign_positions = $assign_positions;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getAssignPositionsUdf() : array
+    {
+        return $this->assign_positions_udf;
+    }
+
+
+    /**
+     * @param array $assign_positions_udf
+     */
+    public function setAssignPositionsUdf(array $assign_positions_udf)/* : void*/
+    {
+        $this->assign_positions_udf = $assign_positions_udf;
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getGlobalRoles() : array
+    {
+        return $this->global_roles;
+    }
+
+
+    /**
+     * @param int[] $global_roles
+     */
+    public function setGlobalRoles(array $global_roles)/* : void*/
+    {
+        $this->global_roles = $global_roles;
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getSpecificUsers() : array
+    {
+        return $this->specific_users;
+    }
+
+
+    /**
+     * @param int[] $specific_users
+     */
+    public function setSpecificUsers(array $specific_users)/* : void*/
+    {
+        $this->specific_users = $specific_users;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getUsersType() : int
+    {
+        return $this->users_type;
+    }
+
+
+    /**
+     * @param int $users_type
+     */
+    public function setUsersType(int $users_type)/* : void*/
+    {
+        $this->users_type = $users_type;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isAssignPositionsRecursive() : bool
+    {
+        return $this->assign_positions_recursive;
+    }
+
+
+    /**
+     * @param bool $assign_positions_recursive
+     */
+    public function setAssignPositionsRecursive(bool $assign_positions_recursive)/* : void*/
+    {
+        $this->assign_positions_recursive = $assign_positions_recursive;
     }
 
 
@@ -156,113 +264,5 @@ class AssignResponsibleUsers extends AbstractAction
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getUsersType() : int
-    {
-        return $this->users_type;
-    }
-
-
-    /**
-     * @param int $users_type
-     */
-    public function setUsersType(int $users_type)/* : void*/
-    {
-        $this->users_type = $users_type;
-    }
-
-
-    /**
-     * @return int[]
-     */
-    public function getAssignPositions() : array
-    {
-        return $this->assign_positions;
-    }
-
-
-    /**
-     * @param int[] $assign_positions
-     */
-    public function setAssignPositions(array $assign_positions)/* : void*/
-    {
-        $this->assign_positions = $assign_positions;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isAssignPositionsRecursive() : bool
-    {
-        return $this->assign_positions_recursive;
-    }
-
-
-    /**
-     * @param bool $assign_positions_recursive
-     */
-    public function setAssignPositionsRecursive(bool $assign_positions_recursive)/* : void*/
-    {
-        $this->assign_positions_recursive = $assign_positions_recursive;
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getAssignPositionsUdf() : array
-    {
-        return $this->assign_positions_udf;
-    }
-
-
-    /**
-     * @param array $assign_positions_udf
-     */
-    public function setAssignPositionsUdf(array $assign_positions_udf)/* : void*/
-    {
-        $this->assign_positions_udf = $assign_positions_udf;
-    }
-
-
-    /**
-     * @return int[]
-     */
-    public function getSpecificUsers() : array
-    {
-        return $this->specific_users;
-    }
-
-
-    /**
-     * @param int[] $specific_users
-     */
-    public function setSpecificUsers(array $specific_users)/* : void*/
-    {
-        $this->specific_users = $specific_users;
-    }
-
-
-    /**
-     * @return int[]
-     */
-    public function getGlobalRoles() : array
-    {
-        return $this->global_roles;
-    }
-
-
-    /**
-     * @param int[] $global_roles
-     */
-    public function setGlobalRoles(array $global_roles)/* : void*/
-    {
-        $this->global_roles = $global_roles;
     }
 }

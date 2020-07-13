@@ -22,8 +22,8 @@ class ActionsTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = ActionsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
     /**
@@ -35,40 +35,6 @@ class ActionsTableGUI extends TableGUI
     public function __construct(ActionsGUI $parent, string $parent_cmd)
     {
         parent::__construct($parent, $parent_cmd);
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @param AbstractAction $action
-     */
-    protected function getColumnValue(/*string*/ $column, /*AbstractAction*/ $action, /*int*/ $format = self::DEFAULT_FORMAT) : string
-    {
-        switch ($column) {
-            case "enabled":
-                if ($action->isEnabled()) {
-                    $column = ilUtil::getImagePath("icon_ok.svg");
-                } else {
-                    $column = ilUtil::getImagePath("icon_not_ok.svg");
-                }
-                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
-                break;
-
-            case "action_description":
-                $column = $action->getActionDescription();
-                break;
-
-            case "if_description":
-                $column = $action->getIfDescription();
-                break;
-
-            default:
-                $column = htmlspecialchars(Items::getter($action, $column));
-                break;
-        }
-
-        return strval($column);
     }
 
 
@@ -103,6 +69,104 @@ class ActionsTableGUI extends TableGUI
         ];
 
         return $columns;
+    }
+
+
+    /**
+     * @param AbstractAction $action
+     */
+    protected function fillRow(/*AbstractAction*/ $action)/*: void*/
+    {
+        self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_TYPE, $action->getType());
+        self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_ID, $action->getActionId());
+
+        $this->tpl->setCurrentBlock("checkbox");
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", ActionGUI::GET_PARAM_ACTION_ID);
+        $this->tpl->setVariableEscaped("ID", $action->getId());
+        $this->tpl->parseCurrentBlock();
+        $this->tpl->setCurrentBlock("column");
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML([
+            self::dic()->ui()->factory()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) : string {
+                Waiter::init(Waiter::TYPE_WAITER);
+
+                return '
+            $("#' . $id . '").click(function () {
+                il.waiter.show();
+                var row = $(this).parent().parent();
+                $.ajax({
+                    url: ' . json_encode(self::dic()
+                        ->ctrl()
+                        ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_MOVE_ACTION_UP, "", true)) . ',
+                    type: "GET"
+                 }).always(function () {
+                    il.waiter.hide();
+               }).success(function() {
+                    row.insertBefore(row.prev());
+                });
+            });';
+            }),
+            self::dic()->ui()->factory()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) : string {
+                return '
+            $("#' . $id . '").click(function () {
+                il.waiter.show();
+                var row = $(this).parent().parent();
+                $.ajax({
+                    url: ' . json_encode(self::dic()
+                        ->ctrl()
+                        ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_MOVE_ACTION_DOWN, "", true)) . ',
+                    type: "GET"
+                }).always(function () {
+                    il.waiter.hide();
+                }).success(function() {
+                    row.insertAfter(row.next());
+                });
+        });';
+            })
+        ]));
+        $this->tpl->parseCurrentBlock();
+
+        parent::fillRow($action);
+
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_action"), self::dic()->ctrl()
+                ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_EDIT_ACTION)),
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_action"), self::dic()->ctrl()
+                ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_REMOVE_ACTION_CONFIRM))
+        ])->withLabel($this->txt("actions"))));
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @param AbstractAction $action
+     */
+    protected function getColumnValue(string $column, /*AbstractAction*/ $action, int $format = self::DEFAULT_FORMAT) : string
+    {
+        switch ($column) {
+            case "enabled":
+                if ($action->isEnabled()) {
+                    $column = ilUtil::getImagePath("icon_ok.svg");
+                } else {
+                    $column = ilUtil::getImagePath("icon_not_ok.svg");
+                }
+                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
+                break;
+
+            case "action_description":
+                $column = $action->getActionDescription();
+                break;
+
+            case "if_description":
+                $column = $action->getIfDescription();
+                break;
+
+            default:
+                $column = htmlspecialchars(Items::getter($action, $column));
+                break;
+        }
+
+        return strval($column);
     }
 
 
@@ -172,69 +236,5 @@ class ActionsTableGUI extends TableGUI
     protected function initTitle()/*: void*/
     {
         $this->setTitle($this->txt("actions"));
-    }
-
-
-    /**
-     * @param AbstractAction $action
-     */
-    protected function fillRow(/*AbstractAction*/ $action)/*: void*/
-    {
-        self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_TYPE, $action->getType());
-        self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_ID, $action->getActionId());
-
-        $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", ActionGUI::GET_PARAM_ACTION_ID);
-        $this->tpl->setVariableEscaped("ID", $action->getId());
-        $this->tpl->parseCurrentBlock();
-        $this->tpl->setCurrentBlock("column");
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML([
-            self::dic()->ui()->factory()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) : string {
-                Waiter::init(Waiter::TYPE_WAITER);
-
-                return '
-            $("#' . $id . '").click(function () {
-                il.waiter.show();
-                var row = $(this).parent().parent();
-                $.ajax({
-                    url: ' . json_encode(self::dic()
-                        ->ctrl()
-                        ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_MOVE_ACTION_UP, "", true)) . ',
-                    type: "GET"
-                 }).always(function () {
-                    il.waiter.hide();
-               }).success(function() {
-                    row.insertBefore(row.prev());
-                });
-            });';
-            }),
-            self::dic()->ui()->factory()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) : string {
-                return '
-            $("#' . $id . '").click(function () {
-                il.waiter.show();
-                var row = $(this).parent().parent();
-                $.ajax({
-                    url: ' . json_encode(self::dic()
-                        ->ctrl()
-                        ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_MOVE_ACTION_DOWN, "", true)) . ',
-                    type: "GET"
-                }).always(function () {
-                    il.waiter.hide();
-                }).success(function() {
-                    row.insertAfter(row.next());
-                });
-        });';
-            })
-        ]));
-        $this->tpl->parseCurrentBlock();
-
-        parent::fillRow($action);
-
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->link()->standard($this->txt("edit_action"), self::dic()->ctrl()
-                ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_EDIT_ACTION)),
-            self::dic()->ui()->factory()->link()->standard($this->txt("remove_action"), self::dic()->ctrl()
-                ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_REMOVE_ACTION_CONFIRM))
-        ])->withLabel($this->txt("actions"))));
     }
 }

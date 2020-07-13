@@ -24,13 +24,13 @@ class StepsGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_DISABLE_STEPS = "disableSteps";
     const CMD_ENABLE_STEPS = "enableSteps";
     const CMD_LIST_STEPS = "listSteps";
     const CMD_REMOVE_STEPS = "removeSteps";
     const CMD_REMOVE_STEPS_CONFIRM = "removeStepsConfirm";
     const LANG_MODULE = "steps";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_LIST_STEPS = "list_steps";
     /**
      * @var WorkflowGUI
@@ -46,6 +46,16 @@ class StepsGUI
     public function __construct(WorkflowGUI $parent)
     {
         $this->parent = $parent;
+    }
+
+
+    /**
+     *
+     */
+    public static function addTabs()/*: void*/
+    {
+        self::dic()->tabs()->addTab(self::TAB_LIST_STEPS, self::plugin()->translate("steps", self::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTargetByClass(self::class, self::CMD_LIST_STEPS));
     }
 
 
@@ -84,34 +94,41 @@ class StepsGUI
 
 
     /**
-     *
+     * @return WorkflowGUI
      */
-    public static function addTabs()/*: void*/
+    public function getParent() : WorkflowGUI
     {
-        self::dic()->tabs()->addTab(self::TAB_LIST_STEPS, self::plugin()->translate("steps", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTargetByClass(self::class, self::CMD_LIST_STEPS));
+        return $this->parent;
     }
 
 
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function disableSteps()/*: void*/
     {
+        $step_ids = filter_input(INPUT_POST, StepGUI::GET_PARAM_STEP_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
-    }
+        if (!is_array($step_ids)) {
+            $step_ids = [];
+        }
 
+        /**
+         * @var Step[] $steps
+         */
+        $steps = array_map(function (int $step_id) : Step {
+            return self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById($step_id);
+        }, $step_ids);
 
-    /**
-     *
-     */
-    protected function listSteps()/*: void*/
-    {
-        self::dic()->tabs()->activateTab(self::TAB_LIST_STEPS);
+        foreach ($steps as $step) {
+            $step->setEnabled(false);
 
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newTableInstance($this);
+            $step->store();
+        }
 
-        self::output()->output($table);
+        ilUtil::sendSuccess(self::plugin()->translate("disabled_steps", self::LANG_MODULE), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_LIST_STEPS);
     }
 
 
@@ -148,7 +165,20 @@ class StepsGUI
     /**
      *
      */
-    protected function disableSteps()/*: void*/
+    protected function listSteps()/*: void*/
+    {
+        self::dic()->tabs()->activateTab(self::TAB_LIST_STEPS);
+
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newTableInstance($this);
+
+        self::output()->output($table);
+    }
+
+
+    /**
+     *
+     */
+    protected function removeSteps()/*: void*/
     {
         $step_ids = filter_input(INPUT_POST, StepGUI::GET_PARAM_STEP_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -164,12 +194,10 @@ class StepsGUI
         }, $step_ids);
 
         foreach ($steps as $step) {
-            $step->setEnabled(false);
-
-            $step->store();
+            self::srUserEnrolment()->enrolmentWorkflow()->steps()->deleteStep($step);
         }
 
-        ilUtil::sendSuccess(self::plugin()->translate("disabled_steps", self::LANG_MODULE), true);
+        ilUtil::sendSuccess(self::plugin()->translate("removed_steps", self::LANG_MODULE), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_LIST_STEPS);
     }
@@ -215,36 +243,8 @@ class StepsGUI
     /**
      *
      */
-    protected function removeSteps()/*: void*/
+    protected function setTabs()/*: void*/
     {
-        $step_ids = filter_input(INPUT_POST, StepGUI::GET_PARAM_STEP_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
-        if (!is_array($step_ids)) {
-            $step_ids = [];
-        }
-
-        /**
-         * @var Step[] $steps
-         */
-        $steps = array_map(function (int $step_id) : Step {
-            return self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById($step_id);
-        }, $step_ids);
-
-        foreach ($steps as $step) {
-            self::srUserEnrolment()->enrolmentWorkflow()->steps()->deleteStep($step);
-        }
-
-        ilUtil::sendSuccess(self::plugin()->translate("removed_steps", self::LANG_MODULE), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_LIST_STEPS);
-    }
-
-
-    /**
-     * @return WorkflowGUI
-     */
-    public function getParent() : WorkflowGUI
-    {
-        return $this->parent;
     }
 }

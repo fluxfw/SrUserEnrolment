@@ -23,7 +23,7 @@ class MoveToWorkflow extends AbstractAction
      * @con_length       8
      * @con_is_notnull   true
      */
-    protected $move_to_workflow_id = 0;
+    protected $move_to_step_id = 0;
     /**
      * @var int
      *
@@ -32,7 +32,7 @@ class MoveToWorkflow extends AbstractAction
      * @con_length       8
      * @con_is_notnull   true
      */
-    protected $move_to_step_id = 0;
+    protected $move_to_workflow_id = 0;
 
 
     /**
@@ -70,24 +70,6 @@ class MoveToWorkflow extends AbstractAction
     /**
      * @return int
      */
-    public function getMoveToWorkflowId() : int
-    {
-        return $this->move_to_workflow_id;
-    }
-
-
-    /**
-     * @param int $move_to_workflow_id
-     */
-    public function setMoveToWorkflowId(int $move_to_workflow_id)/* : void*/
-    {
-        $this->move_to_workflow_id = $move_to_workflow_id;
-    }
-
-
-    /**
-     * @return int
-     */
     public function getMoveToStepId() : int
     {
         return $this->move_to_step_id;
@@ -100,5 +82,23 @@ class MoveToWorkflow extends AbstractAction
     public function setMoveToStepId(int $move_to_step_id)/* : void*/
     {
         $this->move_to_step_id = $move_to_step_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getMoveToWorkflowId() : int
+    {
+        return $this->move_to_workflow_id;
+    }
+
+
+    /**
+     * @param int $move_to_workflow_id
+     */
+    public function setMoveToWorkflowId(int $move_to_workflow_id)/* : void*/
+    {
+        $this->move_to_workflow_id = $move_to_workflow_id;
     }
 }

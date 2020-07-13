@@ -31,19 +31,6 @@ final class Repository
 
 
     /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
-    /**
      * Repository constructor
      */
     private function __construct()
@@ -53,15 +40,15 @@ final class Repository
 
 
     /**
-     * @param ActiveRecordList $where
-     *
-     * @return ActiveRecordList
+     * @return self
      */
-    protected function activeCheck(ActiveRecordList $where) : ActiveRecordList
+    public static function getInstance() : self
     {
-        return $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
-            "active" => true
-        ]);
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
 
@@ -104,6 +91,35 @@ final class Repository
 
 
     /**
+     * @return Deputy[]
+     */
+    public function getDeputies() : array
+    {
+        return Deputy::get();
+    }
+
+
+    /**
+     * @param int  $deputy_user_id
+     * @param bool $active_check
+     *
+     * @return Deputy[]
+     */
+    public function getDeputiesOf(int $deputy_user_id, bool $active_check = true) : array
+    {
+        $where = Deputy::where([
+            "deputy_user_id" => $deputy_user_id
+        ]);
+
+        if ($active_check) {
+            $where = $this->activeCheck($where);
+        }
+
+        return $where->get();
+    }
+
+
+    /**
      * @param int  $user_id
      * @param int  $deputy_user_id
      * @param bool $active_check
@@ -138,35 +154,6 @@ final class Repository
         }
 
         return $deputy;
-    }
-
-
-    /**
-     * @return Deputy[]
-     */
-    public function getDeputies() : array
-    {
-        return Deputy::get();
-    }
-
-
-    /**
-     * @param int  $deputy_user_id
-     * @param bool $active_check
-     *
-     * @return Deputy[]
-     */
-    public function getDeputiesOf(int $deputy_user_id, bool $active_check = true) : array
-    {
-        $where = Deputy::where([
-            "deputy_user_id" => $deputy_user_id
-        ]);
-
-        if ($active_check) {
-            $where = $this->activeCheck($where);
-        }
-
-        return $where->get();
     }
 
 
@@ -249,22 +236,11 @@ final class Repository
 
 
     /**
-     * @param int      $user_id
-     * @param Deputy[] $deputies
-     *
-     * @return Deputy[]
+     * @param Deputy $deputy
      */
-    protected function storeUserDeputies(int $user_id, array $deputies) : array
+    public function storeDeputy(Deputy $deputy)/*:void*/
     {
-        foreach ($this->getUserDeputies($user_id, false) as $deputy) {
-            $this->deleteDeputy($deputy);
-        }
-
-        foreach ($deputies as $deputy) {
-            $this->storeDeputy($deputy);
-        }
-
-        return $deputies;
+        $deputy->store();
     }
 
 
@@ -294,10 +270,34 @@ final class Repository
 
 
     /**
-     * @param Deputy $deputy
+     * @param ActiveRecordList $where
+     *
+     * @return ActiveRecordList
      */
-    public function storeDeputy(Deputy $deputy)/*:void*/
+    protected function activeCheck(ActiveRecordList $where) : ActiveRecordList
     {
-        $deputy->store();
+        return $where->where("(until IS NULL OR until>=" . self::dic()->database()->quote(time(), ilDBConstants::T_INTEGER) . ")")->where([
+            "active" => true
+        ]);
+    }
+
+
+    /**
+     * @param int      $user_id
+     * @param Deputy[] $deputies
+     *
+     * @return Deputy[]
+     */
+    protected function storeUserDeputies(int $user_id, array $deputies) : array
+    {
+        foreach ($this->getUserDeputies($user_id, false) as $deputy) {
+            $this->deleteDeputy($deputy);
+        }
+
+        foreach ($deputies as $deputy) {
+            $this->storeDeputy($deputy);
+        }
+
+        return $deputies;
     }
 }

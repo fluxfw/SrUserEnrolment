@@ -28,22 +28,6 @@ abstract class AbstractRequestsTableModifications
 
 
     /**
-     * @param int $requests_type
-     *
-     * @return array
-     */
-    public abstract function getAdditionalColumns(int $requests_type) : array;
-
-
-    /**
-     * @param int $requests_type
-     *
-     * @return array
-     */
-    public abstract function getAdditionalFilterFields(int $requests_type) : array;
-
-
-    /**
      * @param Request[] $requests
      * @param array     $filter_values
      *
@@ -59,4 +43,20 @@ abstract class AbstractRequestsTableModifications
      * @return string|null
      */
     public abstract function formatColumnValue(string $column, Request $request)/*:?string*/ ;
+
+
+    /**
+     * @param int $requests_type
+     *
+     * @return array
+     */
+    public abstract function getAdditionalColumns(int $requests_type) : array;
+
+
+    /**
+     * @param int $requests_type
+     *
+     * @return array
+     */
+    public abstract function getAdditionalFilterFields(int $requests_type) : array;
 }

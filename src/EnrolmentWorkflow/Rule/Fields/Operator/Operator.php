@@ -31,7 +31,7 @@ trait Operator
      * @con_length       1
      * @con_is_notnull   true
      */
-    protected $operator_negated = false;
+    protected $operator_case_sensitive = false;
     /**
      * @var bool
      *
@@ -40,7 +40,61 @@ trait Operator
      * @con_length       1
      * @con_is_notnull   true
      */
-    protected $operator_case_sensitive = false;
+    protected $operator_negated = false;
+
+
+    /**
+     * @return int
+     */
+    public function getOperator() : int
+    {
+        return $this->operator;
+    }
+
+
+    /**
+     * @param int $operator
+     */
+    public function setOperator(int $operator)/* : void*/
+    {
+        $this->operator = $operator;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isOperatorCaseSensitive() : bool
+    {
+        return $this->operator_case_sensitive;
+    }
+
+
+    /**
+     * @param bool $operator_case_sensitive
+     */
+    public function setOperatorCaseSensitive(bool $operator_case_sensitive)/* : void*/
+    {
+        $this->operator_case_sensitive = $operator_case_sensitive;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isOperatorNegated() : bool
+    {
+        return $this->operator_negated;
+    }
+
+
+    /**
+     * @param bool $operator_negated
+     */
+    public function setOperatorNegated(bool $operator_negated)/* : void*/
+    {
+        $this->operator_negated = $operator_negated;
+    }
 
 
     /**
@@ -87,59 +141,5 @@ trait Operator
             default:
                 return null;
         }
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getOperator() : int
-    {
-        return $this->operator;
-    }
-
-
-    /**
-     * @param int $operator
-     */
-    public function setOperator(int $operator)/* : void*/
-    {
-        $this->operator = $operator;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isOperatorNegated() : bool
-    {
-        return $this->operator_negated;
-    }
-
-
-    /**
-     * @param bool $operator_negated
-     */
-    public function setOperatorNegated(bool $operator_negated)/* : void*/
-    {
-        $this->operator_negated = $operator_negated;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isOperatorCaseSensitive() : bool
-    {
-        return $this->operator_case_sensitive;
-    }
-
-
-    /**
-     * @param bool $operator_case_sensitive
-     */
-    public function setOperatorCaseSensitive(bool $operator_case_sensitive)/* : void*/
-    {
-        $this->operator_case_sensitive = $operator_case_sensitive;
     }
 }

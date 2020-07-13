@@ -24,8 +24,8 @@ class MembersTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = MembersGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var ArrayObject<AbstractMembersTableModifications>
      */
@@ -52,10 +52,97 @@ class MembersTableGUI extends TableGUI
 
     /**
      * @inheritDoc
+     */
+    public function getSelectableColumns2() : array
+    {
+        $columns = [
+            "member_type"              => [
+                "id"      => "member_type",
+                "default" => true,
+                "sort"    => false
+            ],
+            "user_firstname"           => [
+                "id"      => "user_firstname",
+                "default" => true,
+                "sort"    => false
+            ],
+            "user_lastname"            => [
+                "id"      => "user_lastname",
+                "default" => true,
+                "sort"    => false
+            ],
+            "user_email"               => [
+                "id"      => "user_email",
+                "default" => true,
+                "sort"    => false
+            ],
+            "user_department"          => [
+                "id"      => "user_department",
+                "default" => true,
+                "sort"    => false
+            ],
+            "member_learning_progress" => [
+                "id"      => "member_learning_progress",
+                "default" => true,
+                "sort"    => false
+            ],
+            "member_completed"         => [
+                "id"      => "member_completed",
+                "default" => true,
+                "sort"    => false
+            ],
+            "request_step_title"       => [
+                "id"      => "request_step_title",
+                "default" => true,
+                "sort"    => false,
+                "txt"     => self::plugin()->translate("step", StepsGUI::LANG_MODULE)
+            ]
+        ];
+
+        foreach ($this->modifications as $modification) {
+            $columns = array_merge($columns, $modification->getAdditionalColumns());
+        }
+
+        return $columns;
+    }
+
+
+    /**
+     * @param Member $member
+     */
+    protected function fillRow(/*Member*/ $member)/*: void*/
+    {
+        self::dic()->ctrl()->setParameterByClass(MemberGUI::class, MemberGUI::GET_PARAM_USER_ID, $member->getUsrId());
+
+        parent::fillRow($member);
+
+        $actions = [];
+
+        $reset_password_action = ResetPasswordGUI::getAction($member->getObjRefId(), $member->getUsrId());
+        if ($reset_password_action !== null) {
+            $actions[] = $reset_password_action;
+        }
+
+        if ($member->getType() !== Member::TYPE_REQUEST) {
+            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("edit_member"), self::dic()->ctrl()
+                ->getLinkTargetByClass(MemberGUI::class, MemberGUI::CMD_EDIT_MEMBER));
+
+            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("remove_member"), self::dic()->ctrl()
+                ->getLinkTargetByClass(MemberGUI::class, MemberGUI::CMD_REMOVE_MEMBER_CONFIRM));
+
+            $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
+        }
+
+        self::dic()->ctrl()->setParameterByClass(MemberGUI::class, MemberGUI::GET_PARAM_USER_ID, null);
+    }
+
+
+    /**
+     * @inheritDoc
      *
      * @param Member $member
      */
-    protected function getColumnValue(/*string*/ $column, /*Member*/ $member, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*Member*/ $member, int $format = self::DEFAULT_FORMAT) : string
     {
         foreach ($this->modifications as $modification) {
             $column_value = $modification->formatColumnValue($column, $member);
@@ -132,63 +219,6 @@ class MembersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    public function getSelectableColumns2() : array
-    {
-        $columns = [
-            "member_type"              => [
-                "id"      => "member_type",
-                "default" => true,
-                "sort"    => false
-            ],
-            "user_firstname"           => [
-                "id"      => "user_firstname",
-                "default" => true,
-                "sort"    => false
-            ],
-            "user_lastname"            => [
-                "id"      => "user_lastname",
-                "default" => true,
-                "sort"    => false
-            ],
-            "user_email"               => [
-                "id"      => "user_email",
-                "default" => true,
-                "sort"    => false
-            ],
-            "user_department"          => [
-                "id"      => "user_department",
-                "default" => true,
-                "sort"    => false
-            ],
-            "member_learning_progress" => [
-                "id"      => "member_learning_progress",
-                "default" => true,
-                "sort"    => false
-            ],
-            "member_completed"         => [
-                "id"      => "member_completed",
-                "default" => true,
-                "sort"    => false
-            ],
-            "request_step_title"       => [
-                "id"      => "request_step_title",
-                "default" => true,
-                "sort"    => false,
-                "txt"     => self::plugin()->translate("step", StepsGUI::LANG_MODULE)
-            ]
-        ];
-
-        foreach ($this->modifications as $modification) {
-            $columns = array_merge($columns, $modification->getAdditionalColumns());
-        }
-
-        return $columns;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     protected function initColumns()/*: void*/
     {
         parent::initColumns();
@@ -254,35 +284,5 @@ class MembersTableGUI extends TableGUI
     protected function initTitle()/*: void*/
     {
         $this->setTitle($this->txt("members"));
-    }
-
-
-    /**
-     * @param Member $member
-     */
-    protected function fillRow(/*Member*/ $member)/*: void*/
-    {
-        self::dic()->ctrl()->setParameterByClass(MemberGUI::class, MemberGUI::GET_PARAM_USER_ID, $member->getUsrId());
-
-        parent::fillRow($member);
-
-        $actions = [];
-
-        $reset_password_action = ResetPasswordGUI::getAction($member->getObjRefId(), $member->getUsrId());
-        if ($reset_password_action !== null) {
-            $actions[] = $reset_password_action;
-        }
-
-        if ($member->getType() !== Member::TYPE_REQUEST) {
-            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("edit_member"), self::dic()->ctrl()
-                ->getLinkTargetByClass(MemberGUI::class, MemberGUI::CMD_EDIT_MEMBER));
-
-            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("remove_member"), self::dic()->ctrl()
-                ->getLinkTargetByClass(MemberGUI::class, MemberGUI::CMD_REMOVE_MEMBER_CONFIRM));
-
-            $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
-        }
-
-        self::dic()->ctrl()->setParameterByClass(MemberGUI::class, MemberGUI::GET_PARAM_USER_ID, null);
     }
 }

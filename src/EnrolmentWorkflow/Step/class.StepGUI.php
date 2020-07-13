@@ -29,7 +29,6 @@ class StepGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_ADD_STEP = "addStep";
     const CMD_BACK = "back";
     const CMD_CREATE_STEP = "createStep";
@@ -40,6 +39,7 @@ class StepGUI
     const CMD_REMOVE_STEP_CONFIRM = "removeStepConfirm";
     const CMD_UPDATE_STEP = "updateStep";
     const GET_PARAM_STEP_ID = "step_id";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_EDIT_STEP = "edit_step";
     /**
      * @var StepsGUI
@@ -113,6 +113,133 @@ class StepGUI
 
 
     /**
+     * @return StepsGUI
+     */
+    public function getParent() : StepsGUI
+    {
+        return $this->parent;
+    }
+
+
+    /**
+     * @return Step
+     */
+    public function getStep() : Step
+    {
+        return $this->step;
+    }
+
+
+    /**
+     *
+     */
+    protected function addStep()/*: void*/
+    {
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newFormInstance($this, $this->step);
+
+        self::output()->output($form);
+    }
+
+
+    /**
+     *
+     */
+    protected function back()/*: void*/
+    {
+        self::dic()->ctrl()->redirectByClass(StepsGUI::class, StepsGUI::CMD_LIST_STEPS);
+    }
+
+
+    /**
+     *
+     */
+    protected function createStep()/*: void*/
+    {
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newFormInstance($this, $this->step);
+
+        if (!$form->storeForm()) {
+            self::output()->output($form);
+
+            return;
+        }
+
+        self::dic()->ctrl()->setParameter($this, self::GET_PARAM_STEP_ID, $this->step->getStepId());
+
+        ilUtil::sendSuccess(self::plugin()->translate("added_step", StepsGUI::LANG_MODULE, [$this->step->getTitle()]), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_STEP);
+    }
+
+
+    /**
+     *
+     */
+    protected function editStep()/*: void*/
+    {
+        self::dic()->tabs()->activateTab(self::TAB_EDIT_STEP);
+
+        $form = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newFormInstance($this, $this->step);
+
+        self::output()->output($form);
+    }
+
+
+    /**
+     *
+     */
+    protected function moveStepDown()
+    {
+        self::srUserEnrolment()->enrolmentWorkflow()->steps()->moveStepDown($this->step);
+
+        exit;
+    }
+
+
+    /**
+     *
+     */
+    protected function moveStepUp()
+    {
+        self::srUserEnrolment()->enrolmentWorkflow()->steps()->moveStepUp($this->step);
+
+        exit;
+    }
+
+
+    /**
+     *
+     */
+    protected function removeStep()/*: void*/
+    {
+        self::srUserEnrolment()->enrolmentWorkflow()->steps()->deleteStep($this->step);
+
+        ilUtil::sendSuccess(self::plugin()->translate("removed_step", StepsGUI::LANG_MODULE, [$this->step->getTitle()]), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+    }
+
+
+    /**
+     *
+     */
+    protected function removeStepConfirm()/*: void*/
+    {
+        $confirmation = new ilConfirmationGUI();
+
+        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
+
+        $confirmation->setHeaderText(self::plugin()->translate("remove_step_confirm", StepsGUI::LANG_MODULE, [$this->step->getTitle()]));
+
+        $confirmation->addItem(self::GET_PARAM_STEP_ID, $this->step->getStepId(), $this->step->getTitle());
+
+        $confirmation->setConfirm(self::plugin()->translate("remove", StepsGUI::LANG_MODULE), self::CMD_REMOVE_STEP);
+        $confirmation->setCancel(self::plugin()->translate("cancel", StepsGUI::LANG_MODULE), self::CMD_BACK);
+
+        self::output()->output($confirmation);
+    }
+
+
+    /**
      *
      */
     protected function setTabs()/*: void*/
@@ -151,115 +278,6 @@ class StepGUI
     /**
      *
      */
-    protected function back()/*: void*/
-    {
-        self::dic()->ctrl()->redirectByClass(StepsGUI::class, StepsGUI::CMD_LIST_STEPS);
-    }
-
-
-    /**
-     *
-     */
-    protected function moveStepDown()
-    {
-        self::srUserEnrolment()->enrolmentWorkflow()->steps()->moveStepDown($this->step);
-
-        exit;
-    }
-
-
-    /**
-     *
-     */
-    protected function moveStepUp()
-    {
-        self::srUserEnrolment()->enrolmentWorkflow()->steps()->moveStepUp($this->step);
-
-        exit;
-    }
-
-
-    /**
-     *
-     */
-    protected function addStep()/*: void*/
-    {
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newFormInstance($this, $this->step);
-
-        self::output()->output($form);
-    }
-
-
-    /**
-     *
-     */
-    protected function createStep()/*: void*/
-    {
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newFormInstance($this, $this->step);
-
-        if (!$form->storeForm()) {
-            self::output()->output($form);
-
-            return;
-        }
-
-        self::dic()->ctrl()->setParameter($this, self::GET_PARAM_STEP_ID, $this->step->getStepId());
-
-        ilUtil::sendSuccess(self::plugin()->translate("added_step", StepsGUI::LANG_MODULE, [$this->step->getTitle()]), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_EDIT_STEP);
-    }
-
-
-    /**
-     *
-     */
-    protected function removeStepConfirm()/*: void*/
-    {
-        $confirmation = new ilConfirmationGUI();
-
-        $confirmation->setFormAction(self::dic()->ctrl()->getFormAction($this));
-
-        $confirmation->setHeaderText(self::plugin()->translate("remove_step_confirm", StepsGUI::LANG_MODULE, [$this->step->getTitle()]));
-
-        $confirmation->addItem(self::GET_PARAM_STEP_ID, $this->step->getStepId(), $this->step->getTitle());
-
-        $confirmation->setConfirm(self::plugin()->translate("remove", StepsGUI::LANG_MODULE), self::CMD_REMOVE_STEP);
-        $confirmation->setCancel(self::plugin()->translate("cancel", StepsGUI::LANG_MODULE), self::CMD_BACK);
-
-        self::output()->output($confirmation);
-    }
-
-
-    /**
-     *
-     */
-    protected function removeStep()/*: void*/
-    {
-        self::srUserEnrolment()->enrolmentWorkflow()->steps()->deleteStep($this->step);
-
-        ilUtil::sendSuccess(self::plugin()->translate("removed_step", StepsGUI::LANG_MODULE, [$this->step->getTitle()]), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_BACK);
-    }
-
-
-    /**
-     *
-     */
-    protected function editStep()/*: void*/
-    {
-        self::dic()->tabs()->activateTab(self::TAB_EDIT_STEP);
-
-        $form = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newFormInstance($this, $this->step);
-
-        self::output()->output($form);
-    }
-
-
-    /**
-     *
-     */
     protected function updateStep()/*: void*/
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_STEP);
@@ -275,23 +293,5 @@ class StepGUI
         ilUtil::sendSuccess(self::plugin()->translate("saved_step", StepsGUI::LANG_MODULE, [$this->step->getTitle()]), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_EDIT_STEP);
-    }
-
-
-    /**
-     * @return Step
-     */
-    public function getStep() : Step
-    {
-        return $this->step;
-    }
-
-
-    /**
-     * @return StepsGUI
-     */
-    public function getParent() : StepsGUI
-    {
-        return $this->parent;
     }
 }

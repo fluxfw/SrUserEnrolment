@@ -21,41 +21,8 @@ class Workflow extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_wkfl";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     * @con_is_primary   true
-     * @con_sequence     true
-     */
-    protected $workflow_id;
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_wkfl";
     /**
      * @var bool
      *
@@ -73,6 +40,17 @@ class Workflow extends ActiveRecord
      * @con_is_notnull   true
      */
     protected $title = "";
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
+     */
+    protected $workflow_id;
 
 
     /**
@@ -89,33 +67,39 @@ class Workflow extends ActiveRecord
 
     /**
      * @inheritDoc
+     *
+     * @deprecated
      */
-    public function sleep(/*string*/ $field_name)
+    public static function returnDbTableName() : string
     {
-        $field_value = $this->{$field_name};
-
-        switch ($field_name) {
-            case "enabled":
-                return ($field_value ? 1 : 0);
-
-            default:
-                return parent::sleep($field_name);
-        }
+        return self::TABLE_NAME;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function wakeUp(/*string*/ $field_name, $field_value)
+    public function getConnectorContainerName() : string
     {
-        switch ($field_name) {
-            case "enabled":
-                return boolval($field_value);
+        return self::TABLE_NAME;
+    }
 
-            default:
-                return parent::wakeUp($field_name, $field_value);
-        }
+
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
+
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title)/*: void*/
+    {
+        $this->title = $title;
     }
 
 
@@ -156,19 +140,33 @@ class Workflow extends ActiveRecord
 
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function getTitle() : string
+    public function sleep(/*string*/ $field_name)
     {
-        return $this->title;
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            case "enabled":
+                return ($field_value ? 1 : 0);
+
+            default:
+                return parent::sleep($field_name);
+        }
     }
 
 
     /**
-     * @param string $title
+     * @inheritDoc
      */
-    public function setTitle(string $title)/*: void*/
+    public function wakeUp(/*string*/ $field_name, $field_value)
     {
-        $this->title = $title;
+        switch ($field_name) {
+            case "enabled":
+                return boolval($field_value);
+
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
     }
 }

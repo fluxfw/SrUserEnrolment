@@ -24,8 +24,8 @@ class RulesTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = RulesGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
     /**
@@ -37,40 +37,6 @@ class RulesTableGUI extends TableGUI
     public function __construct(RulesGUI $parent, string $parent_cmd)
     {
         parent::__construct($parent, $parent_cmd);
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @param AbstractRule $rule
-     */
-    protected function getColumnValue(/*string*/ $column, /*AbstractRule*/ $rule, /*int*/ $format = self::DEFAULT_FORMAT) : string
-    {
-        switch ($column) {
-            case "enabled":
-                if ($rule->isEnabled()) {
-                    $column = ilUtil::getImagePath("icon_ok.svg");
-                } else {
-                    $column = ilUtil::getImagePath("icon_not_ok.svg");
-                }
-                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
-                break;
-
-            case "rule_description":
-                $column = $rule->getRuleDescription();
-                break;
-
-            case "enroll_type":
-                $column = self::plugin()->translate("member_type_" . Member::TYPES[$rule->getEnrollType()], MembersGUI::LANG_MODULE);
-                break;
-
-            default:
-                $column = htmlspecialchars(Items::getter($rule, $column));
-                break;
-        }
-
-        return strval($column);
     }
 
 
@@ -109,6 +75,71 @@ class RulesTableGUI extends TableGUI
             ];
 
         return $columns;
+    }
+
+
+    /**
+     * @param AbstractRule $rule
+     */
+    protected function fillRow(/*AbstractRule*/ $rule)/*: void*/
+    {
+        self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_TYPE . $this->parent_obj->getParentContext(), $rule->getRuleType());
+        self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext(), $rule->getRuleId());
+
+        $this->tpl->setCurrentBlock("checkbox");
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext());
+        $this->tpl->setVariableEscaped("ID", $rule->getId());
+        $this->tpl->parseCurrentBlock();
+
+        parent::fillRow($rule);
+
+        $actions = [
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_rule"), self::dic()->ctrl()
+                ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_EDIT_RULE)),
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_rule"), self::dic()->ctrl()
+                ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_REMOVE_RULE_CONFIRM))
+        ];
+
+        if (!($this->parent_obj instanceof GroupRulesGUI) && $rule instanceof Group) {
+            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("ungroup"), self::dic()->ctrl()
+                ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_UNGROUP));
+        }
+
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @param AbstractRule $rule
+     */
+    protected function getColumnValue(string $column, /*AbstractRule*/ $rule, int $format = self::DEFAULT_FORMAT) : string
+    {
+        switch ($column) {
+            case "enabled":
+                if ($rule->isEnabled()) {
+                    $column = ilUtil::getImagePath("icon_ok.svg");
+                } else {
+                    $column = ilUtil::getImagePath("icon_not_ok.svg");
+                }
+                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
+                break;
+
+            case "rule_description":
+                $column = $rule->getRuleDescription();
+                break;
+
+            case "enroll_type":
+                $column = self::plugin()->translate("member_type_" . Member::TYPES[$rule->getEnrollType()], MembersGUI::LANG_MODULE);
+                break;
+
+            default:
+                $column = htmlspecialchars(Items::getter($rule, $column));
+                break;
+        }
+
+        return strval($column);
     }
 
 
@@ -179,36 +210,5 @@ class RulesTableGUI extends TableGUI
     protected function initTitle()/*: void*/
     {
         $this->setTitle($this->txt("type_" . AbstractRule::TYPES[$this->parent_obj->getParentContext()][$this->parent_obj->getType()]));
-    }
-
-
-    /**
-     * @param AbstractRule $rule
-     */
-    protected function fillRow(/*AbstractRule*/ $rule)/*: void*/
-    {
-        self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_TYPE . $this->parent_obj->getParentContext(), $rule->getRuleType());
-        self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext(), $rule->getRuleId());
-
-        $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext());
-        $this->tpl->setVariableEscaped("ID", $rule->getId());
-        $this->tpl->parseCurrentBlock();
-
-        parent::fillRow($rule);
-
-        $actions = [
-            self::dic()->ui()->factory()->link()->standard($this->txt("edit_rule"), self::dic()->ctrl()
-                ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_EDIT_RULE)),
-            self::dic()->ui()->factory()->link()->standard($this->txt("remove_rule"), self::dic()->ctrl()
-                ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_REMOVE_RULE_CONFIRM))
-        ];
-
-        if (!($this->parent_obj instanceof GroupRulesGUI) && $rule instanceof Group) {
-            $actions[] = self::dic()->ui()->factory()->link()->standard($this->txt("ungroup"), self::dic()->ctrl()
-                ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_UNGROUP));
-        }
-
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
     }
 }

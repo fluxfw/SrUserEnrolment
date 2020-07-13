@@ -31,21 +31,21 @@ class DeputiesGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_EDIT_DEPUTIES = "editDeputies";
     const CMD_UPDATE_DEPUTIES = "updateDeputies";
     const GET_PARAM_USER_ID = "user_id";
     const LANG_MODULE = "deputies";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_EDIT_DEPUTIES = "edit_deputies";
-    /**
-     * @var int
-     */
-    protected $user_id;
     /**
      * @var array
      */
     protected $deputies;
+    /**
+     * @var int
+     */
+    protected $user_id;
 
 
     /**
@@ -58,43 +58,16 @@ class DeputiesGUI
 
 
     /**
-     *
+     * @param int $user_id
      */
-    public function executeCommand()/*: void*/
+    public static function addTabs(int $user_id)/*: void*/
     {
-        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
-
-        if (!self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($this->user_id)) {
-            die();
-        }
-
-        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
-
-        $this->deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputiesArray($this->user_id);
-
-        $this->setTabs();
-
-        $next_class = self::dic()->ctrl()->getNextClass($this);
-
-        switch (strtolower($next_class)) {
-            case strtolower(UsersAjaxAutoCompleteCtrl::class):
-                self::dic()->ctrl()->forwardCommand(new UsersAjaxAutoCompleteCtrl());
-                break;
-
-            default:
-                $cmd = self::dic()->ctrl()->getCmd();
-
-                switch ($cmd) {
-                    case self::CMD_BACK:
-                    case self::CMD_EDIT_DEPUTIES:
-                    case self::CMD_UPDATE_DEPUTIES:
-                        $this->{$cmd}();
-                        break;
-
-                    default:
-                        break;
-                }
-                break;
+        if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($user_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
+            self::dic()
+                ->tabs()
+                ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_DEPUTIES));
         }
     }
 
@@ -161,34 +134,53 @@ class DeputiesGUI
 
 
     /**
-     * @param int $user_id
+     *
      */
-    public static function addTabs(int $user_id)/*: void*/
+    public function executeCommand()/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($user_id)) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
-            self::dic()
-                ->tabs()
-                ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
-                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_EDIT_DEPUTIES));
+        $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
+
+        if (!self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($this->user_id)) {
+            die();
+        }
+
+        self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_USER_ID);
+
+        $this->deputies = self::srUserEnrolment()->enrolmentWorkflow()->deputies()->getUserDeputiesArray($this->user_id);
+
+        $this->setTabs();
+
+        $next_class = self::dic()->ctrl()->getNextClass($this);
+
+        switch (strtolower($next_class)) {
+            case strtolower(UsersAjaxAutoCompleteCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new UsersAjaxAutoCompleteCtrl());
+                break;
+
+            default:
+                $cmd = self::dic()->ctrl()->getCmd();
+
+                switch ($cmd) {
+                    case self::CMD_BACK:
+                    case self::CMD_EDIT_DEPUTIES:
+                    case self::CMD_UPDATE_DEPUTIES:
+                        $this->{$cmd}();
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
         }
     }
 
 
     /**
-     *
+     * @return int
      */
-    protected function setTabs()/*: void*/
+    public function getUserId() : int
     {
-        self::dic()->tabs()->clearTargets();
-
-        self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK));
-
-        self::dic()
-            ->tabs()
-            ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($this->user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTarget($this, self::CMD_EDIT_DEPUTIES));
+        return $this->user_id;
     }
 
 
@@ -228,6 +220,23 @@ class DeputiesGUI
     /**
      *
      */
+    protected function setTabs()/*: void*/
+    {
+        self::dic()->tabs()->clearTargets();
+
+        self::dic()->tabs()->setBackTarget(self::plugin()->translate("back", self::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
+
+        self::dic()
+            ->tabs()
+            ->addTab(self::TAB_EDIT_DEPUTIES, self::plugin()->translate(($this->user_id === intval(self::dic()->user()->getId()) ? "my_" : "") . "deputies", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTarget($this, self::CMD_EDIT_DEPUTIES));
+    }
+
+
+    /**
+     *
+     */
     protected function updateDeputies()/*: void*/
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_DEPUTIES);
@@ -245,14 +254,5 @@ class DeputiesGUI
         ilUtil::sendSuccess(self::plugin()->translate("saved", self::LANG_MODULE), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_EDIT_DEPUTIES);
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getUserId() : int
-    {
-        return $this->user_id;
     }
 }

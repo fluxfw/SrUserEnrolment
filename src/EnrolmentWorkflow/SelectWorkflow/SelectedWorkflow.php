@@ -21,30 +21,8 @@ class SelectedWorkflow extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_sel_wkfl";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_sel_wkfl";
     /**
      * @var int
      *
@@ -80,27 +58,21 @@ class SelectedWorkflow extends ActiveRecord
 
     /**
      * @inheritDoc
+     *
+     * @deprecated
      */
-    public function sleep(/*string*/ $field_name)
+    public static function returnDbTableName() : string
     {
-        $field_value = $this->{$field_name};
-
-        switch ($field_name) {
-            default:
-                return parent::sleep($field_name);
-        }
+        return self::TABLE_NAME;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function wakeUp(/*string*/ $field_name, $field_value)
+    public function getConnectorContainerName() : string
     {
-        switch ($field_name) {
-            default:
-                return parent::wakeUp($field_name, $field_value);
-        }
+        return self::TABLE_NAME;
     }
 
 
@@ -137,5 +109,31 @@ class SelectedWorkflow extends ActiveRecord
     public function setWorkflowId(int $workflow_id)/*: void*/
     {
         $this->workflow_id = $workflow_id;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function sleep(/*string*/ $field_name)
+    {
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            default:
+                return parent::sleep($field_name);
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function wakeUp(/*string*/ $field_name, $field_value)
+    {
+        switch ($field_name) {
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
     }
 }

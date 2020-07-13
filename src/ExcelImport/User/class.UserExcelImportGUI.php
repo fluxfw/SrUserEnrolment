@@ -58,6 +58,20 @@ class UserExcelImportGUI extends ExcelImportGUI
     /**
      * @inheritDoc
      */
+    public static function getTitle() : string
+    {
+        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE
+        ) {
+            return self::dic()->language()->txt("import_users");
+        } else {
+            return parent::getTitle();
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public static function redirect(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
@@ -70,20 +84,6 @@ class UserExcelImportGUI extends ExcelImportGUI
                     self::class
                 ], self::CMD_INPUT_EXCEL_IMPORT_DATA);
             }
-        }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public static function getTitle() : string
-    {
-        if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE
-        ) {
-            return self::dic()->language()->txt("import_users");
-        } else {
-            return parent::getTitle();
         }
     }
 

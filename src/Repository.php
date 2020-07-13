@@ -56,21 +56,6 @@ final class Repository
 
 
     /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-
-            self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_EXTENDS_SRUSRENR);
-        }
-
-        return self::$instance;
-    }
-
-
-    /**
      * Repository constructor
      */
     private function __construct()
@@ -83,6 +68,21 @@ final class Repository
 
         $this->requiredData()->withTableNamePrefix(ilSrUserEnrolmentPlugin::PLUGIN_ID)->withPlugin(self::plugin());
         $this->requiredData()->fields()->factory()->addClass(UserSelectField::class);
+    }
+
+
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+
+            self::dic()->appEventHandler()->raise(IL_COMP_PLUGIN . "/" . ilSrUserEnrolmentPlugin::PLUGIN_NAME, ilSrUserEnrolmentPlugin::EVENT_EXTENDS_SRUSRENR);
+        }
+
+        return self::$instance;
     }
 
 

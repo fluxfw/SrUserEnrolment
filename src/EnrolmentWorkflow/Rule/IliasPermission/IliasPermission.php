@@ -15,12 +15,21 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 class IliasPermission extends AbstractRule
 {
 
-    const TABLE_NAME_SUFFIX = "il";
-    const ILIAS_PERMISSION_JOIN = 1;
     const ILIAS_PERMISSIONS
         = [
             self::ILIAS_PERMISSION_JOIN => "join"
         ];
+    const ILIAS_PERMISSION_JOIN = 1;
+    const TABLE_NAME_SUFFIX = "il";
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $ilias_permission = self::ILIAS_PERMISSION_JOIN;
 
 
     /**
@@ -40,26 +49,6 @@ class IliasPermission extends AbstractRule
 
 
     /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $ilias_permission = self::ILIAS_PERMISSION_JOIN;
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getRuleDescription() : string
-    {
-        return htmlspecialchars(self::plugin()->translate("iliaspermission_" . self::ILIAS_PERMISSIONS[$this->ilias_permission], RulesGUI::LANG_MODULE));
-    }
-
-
-    /**
      * @return int
      */
     public function getIliasPermission() : int
@@ -74,5 +63,14 @@ class IliasPermission extends AbstractRule
     public function setIliasPermission(int $ilias_permission)/* : void*/
     {
         $this->ilias_permission = $ilias_permission;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getRuleDescription() : string
+    {
+        return htmlspecialchars(self::plugin()->translate("iliaspermission_" . self::ILIAS_PERMISSIONS[$this->ilias_permission], RulesGUI::LANG_MODULE));
     }
 }

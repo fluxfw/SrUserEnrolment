@@ -16,23 +16,29 @@ class CreateCourse extends AbstractAction
 
     const TABLE_NAME_SUFFIX = "crcrs";
     /**
-     * @var int
+     * @var string
      *
      * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
+     * @con_fieldtype    text
      * @con_is_notnull   true
      */
-    protected $required_data_from_step_id = 0;
+    protected $field_course_end = "";
     /**
-     * @var int
+     * @var string
      *
      * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
+     * @con_fieldtype    text
      * @con_is_notnull   true
      */
-    protected $selected_workflow_id = 0;
+    protected $field_course_start = "";
+    /**
+     * @var string
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   true
+     */
+    protected $field_course_title = "";
     /**
      * @var bool
      *
@@ -52,29 +58,23 @@ class CreateCourse extends AbstractAction
      */
     protected $move_request_step_id = 0;
     /**
-     * @var string
+     * @var int
      *
      * @con_has_field    true
-     * @con_fieldtype    text
+     * @con_fieldtype    integer
+     * @con_length       8
      * @con_is_notnull   true
      */
-    protected $field_course_title = "";
+    protected $required_data_from_step_id = 0;
     /**
-     * @var string
+     * @var int
      *
      * @con_has_field    true
-     * @con_fieldtype    text
+     * @con_fieldtype    integer
+     * @con_length       8
      * @con_is_notnull   true
      */
-    protected $field_course_start = "";
-    /**
-     * @var string
-     *
-     * @con_has_field    true
-     * @con_fieldtype    text
-     * @con_is_notnull   true
-     */
-    protected $field_course_end = "";
+    protected $selected_workflow_id = 0;
 
 
     /**
@@ -87,34 +87,74 @@ class CreateCourse extends AbstractAction
 
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    public function sleep(/*string*/ $field_name)
+    public function getFieldCourseEnd() : string
     {
-        $field_value = $this->{$field_name};
-
-        switch ($field_name) {
-            case "move_request":
-                return ($field_value ? 1 : 0);
-
-            default:
-                return parent::sleep($field_name);
-        }
+        return $this->field_course_end;
     }
 
 
     /**
-     * @inheritDoc
+     * @param string $field_course_end
      */
-    public function wakeUp(/*string*/ $field_name, $field_value)
+    public function setFieldCourseEnd(string $field_course_end)/* : void*/
     {
-        switch ($field_name) {
-            case "move_request":
-                return boolval($field_value);
+        $this->field_course_end = $field_course_end;
+    }
 
-            default:
-                return parent::wakeUp($field_name, $field_value);
-        }
+
+    /**
+     * @return string
+     */
+    public function getFieldCourseStart() : string
+    {
+        return $this->field_course_start;
+    }
+
+
+    /**
+     * @param string $field_course_start
+     */
+    public function setFieldCourseStart(string $field_course_start)/* : void*/
+    {
+        $this->field_course_start = $field_course_start;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFieldCourseTitle() : string
+    {
+        return $this->field_course_title;
+    }
+
+
+    /**
+     * @param string $field_course_title
+     */
+    public function setFieldCourseTitle(string $field_course_title)/* : void*/
+    {
+        $this->field_course_title = $field_course_title;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getMoveRequestStepId() : int
+    {
+        return $this->move_request_step_id;
+    }
+
+
+    /**
+     * @param int $move_request_step_id
+     */
+    public function setMoveRequestStepId(int $move_request_step_id)/* : void*/
+    {
+        $this->move_request_step_id = $move_request_step_id;
     }
 
 
@@ -173,73 +213,33 @@ class CreateCourse extends AbstractAction
 
 
     /**
-     * @return int
+     * @inheritDoc
      */
-    public function getMoveRequestStepId() : int
+    public function sleep(/*string*/ $field_name)
     {
-        return $this->move_request_step_id;
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            case "move_request":
+                return ($field_value ? 1 : 0);
+
+            default:
+                return parent::sleep($field_name);
+        }
     }
 
 
     /**
-     * @param int $move_request_step_id
+     * @inheritDoc
      */
-    public function setMoveRequestStepId(int $move_request_step_id)/* : void*/
+    public function wakeUp(/*string*/ $field_name, $field_value)
     {
-        $this->move_request_step_id = $move_request_step_id;
-    }
+        switch ($field_name) {
+            case "move_request":
+                return boolval($field_value);
 
-
-    /**
-     * @return string
-     */
-    public function getFieldCourseTitle() : string
-    {
-        return $this->field_course_title;
-    }
-
-
-    /**
-     * @param string $field_course_title
-     */
-    public function setFieldCourseTitle(string $field_course_title)/* : void*/
-    {
-        $this->field_course_title = $field_course_title;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getFieldCourseStart() : string
-    {
-        return $this->field_course_start;
-    }
-
-
-    /**
-     * @param string $field_course_start
-     */
-    public function setFieldCourseStart(string $field_course_start)/* : void*/
-    {
-        $this->field_course_start = $field_course_start;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getFieldCourseEnd() : string
-    {
-        return $this->field_course_end;
-    }
-
-
-    /**
-     * @param string $field_course_end
-     */
-    public function setFieldCourseEnd(string $field_course_end)/* : void*/
-    {
-        $this->field_course_end = $field_course_end;
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
     }
 }

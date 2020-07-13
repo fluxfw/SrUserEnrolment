@@ -19,11 +19,11 @@ class LogsGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_APPLY_FILTER = "applyFilter";
     const CMD_LIST_LOGS = "listLogs";
     const CMD_RESET_FILTER = "resetFilter";
     const LANG_MODULE = "logs";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_LOGS = "logs";
     /**
      * @var int
@@ -39,6 +39,16 @@ class LogsGUI
     public function __construct(int $obj_id)
     {
         $this->obj_id = $obj_id;
+    }
+
+
+    /**
+     *
+     */
+    public static function addTabs()/*:void*/
+    {
+        self::dic()->tabs()->addTab(self::TAB_LOGS, self::plugin()->translate("logs", LogsGUI::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTargetByClass(self::class, self::CMD_LIST_LOGS));
     }
 
 
@@ -71,34 +81,11 @@ class LogsGUI
 
 
     /**
-     *
+     * @return int
      */
-    public static function addTabs()/*:void*/
+    public function getObjId() : int
     {
-        self::dic()->tabs()->addTab(self::TAB_LOGS, self::plugin()->translate("logs", LogsGUI::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTargetByClass(self::class, self::CMD_LIST_LOGS));
-    }
-
-
-    /**
-     *
-     */
-    protected function setTabs()/*:void*/
-    {
-
-    }
-
-
-    /**
-     *
-     */
-    protected function listLogs()/*: void*/
-    {
-        self::dic()->tabs()->activateTab(self::TAB_LOGS);
-
-        $table = self::srUserEnrolment()->logs()->factory()->newTableInstance($this);
-
-        self::output()->output($table, true);
+        return $this->obj_id;
     }
 
 
@@ -121,6 +108,19 @@ class LogsGUI
     /**
      *
      */
+    protected function listLogs()/*: void*/
+    {
+        self::dic()->tabs()->activateTab(self::TAB_LOGS);
+
+        $table = self::srUserEnrolment()->logs()->factory()->newTableInstance($this);
+
+        self::output()->output($table, true);
+    }
+
+
+    /**
+     *
+     */
     protected function resetFilter()/*: void*/
     {
         $table = self::srUserEnrolment()->logs()->factory()->newTableInstance($this, self::CMD_RESET_FILTER);
@@ -135,10 +135,10 @@ class LogsGUI
 
 
     /**
-     * @return int
+     *
      */
-    public function getObjId() : int
+    protected function setTabs()/*:void*/
     {
-        return $this->obj_id;
+
     }
 }

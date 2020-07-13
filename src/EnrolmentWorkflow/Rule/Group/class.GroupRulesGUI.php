@@ -20,17 +20,6 @@ class GroupRulesGUI extends RulesGUI
     /**
      * @inheritDoc
      */
-    protected function setTabs()/*:void*/
-    {
-        parent::setTabs();
-
-        self::addTabs(AbstractRule::PARENT_CONTEXT_RULE_GROUP);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function getRuleGUIClass() : string
     {
         return GroupRuleGUI::class;
@@ -43,5 +32,16 @@ class GroupRulesGUI extends RulesGUI
     protected function createGroupOfRules()/*:void*/
     {
         die();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function setTabs()/*:void*/
+    {
+        parent::setTabs();
+
+        self::addTabs(AbstractRule::PARENT_CONTEXT_RULE_GROUP);
     }
 }

@@ -20,8 +20,8 @@ class WorkflowsTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = WorkflowsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
     /**
@@ -33,32 +33,6 @@ class WorkflowsTableGUI extends TableGUI
     public function __construct(WorkflowsGUI $parent, string $parent_cmd)
     {
         parent::__construct($parent, $parent_cmd);
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @param Workflow $workflow
-     */
-    protected function getColumnValue(/*string*/ $column, /*Workflow*/ $workflow, /*int*/ $format = self::DEFAULT_FORMAT) : string
-    {
-        switch ($column) {
-            case "enabled":
-                if ($workflow->isEnabled()) {
-                    $column = ilUtil::getImagePath("icon_ok.svg");
-                } else {
-                    $column = ilUtil::getImagePath("icon_not_ok.svg");
-                }
-                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
-                break;
-
-            default:
-                $column = htmlspecialchars(Items::getter($workflow, $column));
-                break;
-        }
-
-        return strval($column);
     }
 
 
@@ -82,6 +56,55 @@ class WorkflowsTableGUI extends TableGUI
         ];
 
         return $columns;
+    }
+
+
+    /**
+     * @param Workflow $workflow
+     */
+    protected function fillRow(/*Workflow*/ $workflow)/*: void*/
+    {
+        self::dic()->ctrl()->setParameterByClass(WorkflowGUI::class, WorkflowGUI::GET_PARAM_WORKFLOW_ID, $workflow->getWorkflowId());
+
+        $this->tpl->setCurrentBlock("checkbox");
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", WorkflowGUI::GET_PARAM_WORKFLOW_ID);
+        $this->tpl->setVariableEscaped("ID", $workflow->getWorkflowId());
+        $this->tpl->parseCurrentBlock();
+
+        parent::fillRow($workflow);
+
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_workflow"), self::dic()->ctrl()
+                ->getLinkTargetByClass(WorkflowGUI::class, WorkflowGUI::CMD_EDIT_WORKFLOW)),
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_workflow"), self::dic()->ctrl()
+                ->getLinkTargetByClass(WorkflowGUI::class, WorkflowGUI::CMD_REMOVE_WORKFLOW_CONFIRM))
+        ])->withLabel($this->txt("actions"))));
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @param Workflow $workflow
+     */
+    protected function getColumnValue(string $column, /*Workflow*/ $workflow, int $format = self::DEFAULT_FORMAT) : string
+    {
+        switch ($column) {
+            case "enabled":
+                if ($workflow->isEnabled()) {
+                    $column = ilUtil::getImagePath("icon_ok.svg");
+                } else {
+                    $column = ilUtil::getImagePath("icon_not_ok.svg");
+                }
+                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
+                break;
+
+            default:
+                $column = htmlspecialchars(Items::getter($workflow, $column));
+                break;
+        }
+
+        return strval($column);
     }
 
 
@@ -149,28 +172,5 @@ class WorkflowsTableGUI extends TableGUI
     protected function initTitle()/*: void*/
     {
         $this->setTitle($this->txt("workflows"));
-    }
-
-
-    /**
-     * @param Workflow $workflow
-     */
-    protected function fillRow(/*Workflow*/ $workflow)/*: void*/
-    {
-        self::dic()->ctrl()->setParameterByClass(WorkflowGUI::class, WorkflowGUI::GET_PARAM_WORKFLOW_ID, $workflow->getWorkflowId());
-
-        $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", WorkflowGUI::GET_PARAM_WORKFLOW_ID);
-        $this->tpl->setVariableEscaped("ID", $workflow->getWorkflowId());
-        $this->tpl->parseCurrentBlock();
-
-        parent::fillRow($workflow);
-
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->link()->standard($this->txt("edit_workflow"), self::dic()->ctrl()
-                ->getLinkTargetByClass(WorkflowGUI::class, WorkflowGUI::CMD_EDIT_WORKFLOW)),
-            self::dic()->ui()->factory()->link()->standard($this->txt("remove_workflow"), self::dic()->ctrl()
-                ->getLinkTargetByClass(WorkflowGUI::class, WorkflowGUI::CMD_REMOVE_WORKFLOW_CONFIRM))
-        ])->withLabel($this->txt("actions"))));
     }
 }

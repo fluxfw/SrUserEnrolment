@@ -33,12 +33,12 @@ class MembersGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_BACK = "back";
     const CMD_ENROLL_USERS = "enrollUsers";
     const CMD_LIST_MEMBERS = "listMembers";
     const GET_PARAM_REF_ID = "ref_id";
     const LANG_MODULE = "members";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_MEMBERS = "members";
     /**
      * @var int
@@ -52,6 +52,37 @@ class MembersGUI
     public function __construct()
     {
 
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     */
+    public static function addTabs(int $obj_ref_id)/*: void*/
+    {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+            self::dic()
+                ->tabs()
+                ->addTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
+                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
+        }
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     */
+    public static function redirect(int $obj_ref_id)/*: void*/
+    {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+
+            self::dic()->ctrl()->redirectByClass([
+                ilUIPluginRouterGUI::class,
+                self::class
+            ], MembersGUI::CMD_LIST_MEMBERS);
+        }
     }
 
 
@@ -110,59 +141,11 @@ class MembersGUI
 
 
     /**
-     * @param int $obj_ref_id
+     * @return int
      */
-    public static function addTabs(int $obj_ref_id)/*: void*/
+    public function getObjRefId() : int
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
-            self::dic()
-                ->tabs()
-                ->addTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
-                    ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
-        }
-    }
-
-
-    /**
-     * @param int $obj_ref_id
-     */
-    public static function redirect(int $obj_ref_id)/*: void*/
-    {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
-
-            self::dic()->ctrl()->redirectByClass([
-                ilUIPluginRouterGUI::class,
-                self::class
-            ], MembersGUI::CMD_LIST_MEMBERS);
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function setTabs()/*: void*/
-    {
-        self::dic()->tabs()->clearTargets();
-
-        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
-            ->getLinkTarget($this, self::CMD_BACK));
-
-        self::dic()
-            ->tabs()
-            ->addTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
-
-        SelectWorkflowGUI::addTabs($this->obj_ref_id);
-
-        RequestsGUI::addTabs($this->obj_ref_id);
-
-        self::dic()
-            ->tabs()
-            ->addSubTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
+        return $this->obj_ref_id;
     }
 
 
@@ -172,6 +155,61 @@ class MembersGUI
     protected function back()/*:void*/
     {
         self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
+    }
+
+
+    /**
+     * @param int $type
+     */
+    protected function enrollUsers(int $type)/*:void*/
+    {
+        $obj = ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+
+        if ($obj instanceof ilObjCourse) {
+            $user_ids = filter_input(INPUT_POST, MemberGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+            if (!is_array($user_ids)) {
+                $user_ids = [];
+            }
+
+            foreach ($user_ids as $user_id) {
+                if ($user_id === MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER) {
+                    // TODO: Use from MultiSelectSearchNewInputGUI
+                    continue;
+                }
+                self::srUserEnrolment()->ruleEnrolment()->enroll($obj->getId(), $user_id, $type);
+            }
+        }
+
+        ilUtil::sendSuccess(self::plugin()->translate("enrolled_users", self::LANG_MODULE), true);
+
+        self::dic()->ctrl()->redirect($this, self::CMD_LIST_MEMBERS);
+    }
+
+
+    /**
+     *
+     */
+    protected function enrollUsersAdmin()/*:void*/
+    {
+        $this->enrollUsers(Member::TYPE_ADMIN);
+    }
+
+
+    /**
+     *
+     */
+    protected function enrollUsersMember()/*:void*/
+    {
+        $this->enrollUsers(Member::TYPE_MEMBER);
+    }
+
+
+    /**
+     *
+     */
+    protected function enrollUsersTutor()/*:void*/
+    {
+        $this->enrollUsers(Member::TYPE_TUTOR);
     }
 
 
@@ -216,65 +254,27 @@ class MembersGUI
 
 
     /**
-     * @param int $type
-     */
-    protected function enrollUsers(int $type)/*:void*/
-    {
-        $obj = ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
-
-        if ($obj instanceof ilObjCourse) {
-            $user_ids = filter_input(INPUT_POST, MemberGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-            if (!is_array($user_ids)) {
-                $user_ids = [];
-            }
-
-            foreach ($user_ids as $user_id) {
-                if ($user_id === MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER) {
-                    // TODO: Use from MultiSelectSearchNewInputGUI
-                    continue;
-                }
-                self::srUserEnrolment()->ruleEnrolment()->enroll($obj->getId(), $user_id, $type);
-            }
-        }
-
-        ilUtil::sendSuccess(self::plugin()->translate("enrolled_users", self::LANG_MODULE), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_LIST_MEMBERS);
-    }
-
-
-    /**
      *
      */
-    protected function enrollUsersAdmin()/*:void*/
+    protected function setTabs()/*: void*/
     {
-        $this->enrollUsers(Member::TYPE_ADMIN);
-    }
+        self::dic()->tabs()->clearTargets();
 
+        self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
+            ->getLinkTarget($this, self::CMD_BACK));
 
-    /**
-     *
-     */
-    protected function enrollUsersTutor()/*:void*/
-    {
-        $this->enrollUsers(Member::TYPE_TUTOR);
-    }
+        self::dic()
+            ->tabs()
+            ->addTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
 
+        SelectWorkflowGUI::addTabs($this->obj_ref_id);
 
-    /**
-     *
-     */
-    protected function enrollUsersMember()/*:void*/
-    {
-        $this->enrollUsers(Member::TYPE_MEMBER);
-    }
+        RequestsGUI::addTabs($this->obj_ref_id);
 
-
-    /**
-     * @return int
-     */
-    public function getObjRefId() : int
-    {
-        return $this->obj_ref_id;
+        self::dic()
+            ->tabs()
+            ->addSubTab(self::TAB_MEMBERS, self::plugin()->translate("members", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_MEMBERS));
     }
 }

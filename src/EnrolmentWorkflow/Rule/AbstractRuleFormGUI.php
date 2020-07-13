@@ -24,8 +24,8 @@ abstract class AbstractRuleFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = RulesGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var AbstractRule
      */
@@ -43,6 +43,21 @@ abstract class AbstractRuleFormGUI extends PropertyFormGUI
         $this->rule = $rule;
 
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        self::srUserEnrolment()->enrolmentWorkflow()->rules()->storeRule($this->rule);
+
+        return true;
     }
 
 
@@ -121,20 +136,5 @@ abstract class AbstractRuleFormGUI extends PropertyFormGUI
                 Items::setter($this->rule, $key, $value);
                 break;
         }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function storeForm() : bool
-    {
-        if (!parent::storeForm()) {
-            return false;
-        }
-
-        self::srUserEnrolment()->enrolmentWorkflow()->rules()->storeRule($this->rule);
-
-        return true;
     }
 }

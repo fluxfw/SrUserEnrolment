@@ -23,8 +23,8 @@ class StepFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = StepsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var Step
      */
@@ -42,6 +42,25 @@ class StepFormGUI extends PropertyFormGUI
         $this->step = $step;
 
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        if (empty($this->step->getStepId())) {
+            $this->step->setWorkflowId($this->parent->getParent()->getParent()->getWorkflow()->getWorkflowId());
+        }
+
+        self::srUserEnrolment()->enrolmentWorkflow()->steps()->storeStep($this->step);
+
+        return true;
     }
 
 
@@ -142,24 +161,5 @@ class StepFormGUI extends PropertyFormGUI
                 Items::setter($this->step, $key, $value);
                 break;
         }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function storeForm() : bool
-    {
-        if (!parent::storeForm()) {
-            return false;
-        }
-
-        if (empty($this->step->getStepId())) {
-            $this->step->setWorkflowId($this->parent->getParent()->getParent()->getWorkflow()->getWorkflowId());
-        }
-
-        self::srUserEnrolment()->enrolmentWorkflow()->steps()->storeStep($this->step);
-
-        return true;
     }
 }

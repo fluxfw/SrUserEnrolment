@@ -26,12 +26,6 @@ class RequestGroup extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req_grp";
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const EDITED_STATUS_NOT_EDITED = 1;
-    const EDITED_STATUS_IN_EDITING = 2;
-    const EDITED_STATUS_ACCEPTED = 3;
-    const EDITED_STATUS_REJECTED = 4;
     const EDITED_STATUS
         = [
             self::EDITED_STATUS_NOT_EDITED => "not_edited",
@@ -39,84 +33,12 @@ class RequestGroup extends ActiveRecord
             self::EDITED_STATUS_ACCEPTED   => "accepted",
             self::EDITED_STATUS_REJECTED   => "rejected"
         ];
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     * @con_is_primary   true
-     * @con_sequence     true
-     */
-    protected $request_group_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $obj_ref_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $obj_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $user_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $current_request_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       2
-     * @con_is_notnull   true
-     */
-    protected $edited_status = self::EDITED_STATUS_NOT_EDITED;
+    const EDITED_STATUS_ACCEPTED = 3;
+    const EDITED_STATUS_IN_EDITING = 2;
+    const EDITED_STATUS_NOT_EDITED = 1;
+    const EDITED_STATUS_REJECTED = 4;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req_grp";
     /**
      * @var int
      *
@@ -143,6 +65,53 @@ class RequestGroup extends ActiveRecord
      * @con_length       8
      * @con_is_notnull   true
      */
+    protected $current_request_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       2
+     * @con_is_notnull   true
+     */
+    protected $edited_status = self::EDITED_STATUS_NOT_EDITED;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $obj_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $obj_ref_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
+     */
+    protected $request_group_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
     protected $updated_time;
     /**
      * @var int
@@ -153,6 +122,15 @@ class RequestGroup extends ActiveRecord
      * @con_is_notnull   true
      */
     protected $updated_user_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $user_id;
 
 
     /**
@@ -168,38 +146,40 @@ class RequestGroup extends ActiveRecord
 
 
     /**
-     * @return ilObject
+     * @inheritDoc
+     *
+     * @deprecated
      */
-    public function getObject() : ilObject
+    public static function returnDbTableName() : string
     {
-        return ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        return self::TABLE_NAME;
     }
 
 
     /**
-     * @return ilObjUser
+     * @inheritDoc
      */
-    public function getUser() : ilObjUser
+    public function getConnectorContainerName() : string
     {
-        return new ilObjUser($this->user_id);
+        return self::TABLE_NAME;
     }
 
 
     /**
-     * @return Request|null
+     * @return int
      */
-    public function getCurrentRequest()/*:?Request*/
+    public function getCreatedTime() : int
     {
-        return self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestById($this->current_request_id);
+        return $this->created_time;
     }
 
 
     /**
-     * @return string
+     * @param int $created_time
      */
-    public function getFormattedCreatedTime() : string
+    public function setCreatedTime(int $created_time)/* : void*/
     {
-        return ilDatePresentation::formatDate(new ilDateTime($this->created_time, IL_CAL_UNIX));
+        $this->created_time = $created_time;
     }
 
 
@@ -213,92 +193,29 @@ class RequestGroup extends ActiveRecord
 
 
     /**
-     * @return string
-     */
-    public function getFormattedUpdatedTime() : string
-    {
-        return ilDatePresentation::formatDate(new ilDateTime($this->updated_time, IL_CAL_UNIX));
-    }
-
-
-    /**
-     * @return ilObjUser
-     */
-    public function getUpdatedUser() : ilObjUser
-    {
-        return new ilObjUser($this->updated_user_id);
-    }
-
-
-    /**
      * @return int
      */
-    public function getRequestGroupId() : int
+    public function getCreatedUserId() : int
     {
-        return $this->request_group_id;
+        return $this->created_user_id;
     }
 
 
     /**
-     * @param int $request_group_id
+     * @param int $created_user_id
      */
-    public function setRequestGroupId(int $request_group_id)/* : void*/
+    public function setCreatedUserId(int $created_user_id)/* : void*/
     {
-        $this->request_group_id = $request_group_id;
+        $this->created_user_id = $created_user_id;
     }
 
 
     /**
-     * @return int
+     * @return Request|null
      */
-    public function getObjRefId() : int
+    public function getCurrentRequest()/*:?Request*/
     {
-        return $this->obj_ref_id;
-    }
-
-
-    /**
-     * @param int $obj_ref_id
-     */
-    public function setObjRefId(int $obj_ref_id)/* : void*/
-    {
-        $this->obj_ref_id = $obj_ref_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getObjId() : int
-    {
-        return $this->obj_id;
-    }
-
-
-    /**
-     * @param int $obj_id
-     */
-    public function setObjId(int $obj_id)/* : void*/
-    {
-        $this->obj_id = $obj_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getUserId() : int
-    {
-        return $this->user_id;
-    }
-
-
-    /**
-     * @param int $user_id
-     */
-    public function setUserId(int $user_id)/* : void*/
-    {
-        $this->user_id = $user_id;
+        return self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestById($this->current_request_id);
     }
 
 
@@ -339,38 +256,83 @@ class RequestGroup extends ActiveRecord
 
 
     /**
+     * @return string
+     */
+    public function getFormattedCreatedTime() : string
+    {
+        return ilDatePresentation::formatDate(new ilDateTime($this->created_time, IL_CAL_UNIX));
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFormattedUpdatedTime() : string
+    {
+        return ilDatePresentation::formatDate(new ilDateTime($this->updated_time, IL_CAL_UNIX));
+    }
+
+
+    /**
      * @return int
      */
-    public function getCreatedTime() : int
+    public function getObjId() : int
     {
-        return $this->created_time;
+        return $this->obj_id;
     }
 
 
     /**
-     * @param int $created_time
+     * @param int $obj_id
      */
-    public function setCreatedTime(int $created_time)/* : void*/
+    public function setObjId(int $obj_id)/* : void*/
     {
-        $this->created_time = $created_time;
+        $this->obj_id = $obj_id;
     }
 
 
     /**
      * @return int
      */
-    public function getCreatedUserId() : int
+    public function getObjRefId() : int
     {
-        return $this->created_user_id;
+        return $this->obj_ref_id;
     }
 
 
     /**
-     * @param int $created_user_id
+     * @param int $obj_ref_id
      */
-    public function setCreatedUserId(int $created_user_id)/* : void*/
+    public function setObjRefId(int $obj_ref_id)/* : void*/
     {
-        $this->created_user_id = $created_user_id;
+        $this->obj_ref_id = $obj_ref_id;
+    }
+
+
+    /**
+     * @return ilObject
+     */
+    public function getObject() : ilObject
+    {
+        return ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getRequestGroupId() : int
+    {
+        return $this->request_group_id;
+    }
+
+
+    /**
+     * @param int $request_group_id
+     */
+    public function setRequestGroupId(int $request_group_id)/* : void*/
+    {
+        $this->request_group_id = $request_group_id;
     }
 
 
@@ -393,6 +355,15 @@ class RequestGroup extends ActiveRecord
 
 
     /**
+     * @return ilObjUser
+     */
+    public function getUpdatedUser() : ilObjUser
+    {
+        return new ilObjUser($this->updated_user_id);
+    }
+
+
+    /**
      * @return int
      */
     public function getUpdatedUserId() : int
@@ -407,5 +378,32 @@ class RequestGroup extends ActiveRecord
     public function setUpdatedUserId(int $updated_user_id)/* : void*/
     {
         $this->updated_user_id = $updated_user_id;
+    }
+
+
+    /**
+     * @return ilObjUser
+     */
+    public function getUser() : ilObjUser
+    {
+        return new ilObjUser($this->user_id);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getUserId() : int
+    {
+        return $this->user_id;
+    }
+
+
+    /**
+     * @param int $user_id
+     */
+    public function setUserId(int $user_id)/* : void*/
+    {
+        $this->user_id = $user_id;
     }
 }

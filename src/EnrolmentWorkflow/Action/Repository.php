@@ -29,6 +29,15 @@ final class Repository
 
 
     /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -38,15 +47,6 @@ final class Repository
         }
 
         return self::$instance;
-    }
-
-
-    /**
-     * Repository constructor
-     */
-    private function __construct()
-    {
-
     }
 
 
@@ -184,19 +184,6 @@ final class Repository
     /**
      * @param AbstractAction $action
      */
-    public function moveActionUp(AbstractAction $action)/*: void*/
-    {
-        $action->setSort($action->getSort() - 15);
-
-        $this->storeAction($action);
-
-        $this->reSortActions($action->getStepId());
-    }
-
-
-    /**
-     * @param AbstractAction $action
-     */
     public function moveActionDown(AbstractAction $action)/*: void*/
     {
         $action->setSort($action->getSort() + 15);
@@ -208,20 +195,15 @@ final class Repository
 
 
     /**
-     * @param int $step_id
+     * @param AbstractAction $action
      */
-    protected function reSortActions(int $step_id)/*: void*/
+    public function moveActionUp(AbstractAction $action)/*: void*/
     {
-        $actions = $this->getActions($step_id, false);
+        $action->setSort($action->getSort() - 15);
 
-        $i = 1;
-        foreach ($actions as $action) {
-            $action->setSort($i * 10);
+        $this->storeAction($action);
 
-            $this->storeAction($action);
-
-            $i++;
-        }
+        $this->reSortActions($action->getStepId());
     }
 
 
@@ -257,5 +239,23 @@ final class Repository
         }
 
         $action->store();
+    }
+
+
+    /**
+     * @param int $step_id
+     */
+    protected function reSortActions(int $step_id)/*: void*/
+    {
+        $actions = $this->getActions($step_id, false);
+
+        $i = 1;
+        foreach ($actions as $action) {
+            $action->setSort($i * 10);
+
+            $this->storeAction($action);
+
+            $i++;
+        }
     }
 }

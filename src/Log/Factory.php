@@ -30,6 +30,15 @@ final class Factory
 
 
     /**
+     * Factory constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -43,15 +52,6 @@ final class Factory
 
 
     /**
-     * Factory constructor
-     */
-    private function __construct()
-    {
-
-    }
-
-
-    /**
      * @param stdClass $data
      *
      * @return Log
@@ -60,6 +60,22 @@ final class Factory
     {
         $log = $this->newInstance()->withLogId($data->log_id)->withObjectId($data->object_id)->withRuleId($data->rule_id)->withUserId($data->user_id)->withExecuteUserId($data->execute_user_id)
             ->withDate(new ilDateTime($data->date, IL_CAL_DATETIME))->withStatus($data->status)->withMessage($data->message);
+
+        return $log;
+    }
+
+
+    /**
+     * @param Throwable   $ex
+     * @param int         $object_id
+     * @param int|null    $user_id
+     * @param string|null $rule_id
+     *
+     * @return Log
+     */
+    public function newExceptionInstance(Throwable $ex, int $object_id, /*?*/ int $user_id = null,/*?*/ string $rule_id = null) : Log
+    {
+        $log = $this->newObjectRuleUserInstance($object_id, $user_id, $rule_id)->withMessage($ex->getMessage());
 
         return $log;
     }
@@ -86,22 +102,6 @@ final class Factory
     public function newObjectRuleUserInstance(int $object_id, /*?*/ int $user_id = null, /*?*/ string $rule_id = null) : Log
     {
         $log = $this->newInstance()->withObjectId($object_id)->withUserId($user_id)->withRuleId($rule_id);
-
-        return $log;
-    }
-
-
-    /**
-     * @param Throwable   $ex
-     * @param int         $object_id
-     * @param int|null    $user_id
-     * @param string|null $rule_id
-     *
-     * @return Log
-     */
-    public function newExceptionInstance(Throwable $ex, int $object_id, /*?*/ int $user_id = null,/*?*/ string $rule_id = null) : Log
-    {
-        $log = $this->newObjectRuleUserInstance($object_id, $user_id, $rule_id)->withMessage($ex->getMessage());
 
         return $log;
     }

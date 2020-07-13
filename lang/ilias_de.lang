@@ -144,6 +144,7 @@ excel_import_local_user_administration_type_title#:#Titel
 excel_import_map_exists_users_field#:#Existierende Benutzer erkennen
 excel_import_map_exists_users_field_email#:#E-Mail
 excel_import_map_exists_users_field_login#:#Benutzername
+excel_import_map_exists_users_field_matriculation_number#:#Matrikelnummer
 excel_import_no#:#Nein
 excel_import_nothing_to_enroll#:#Nichts zum Einschreiben
 excel_import_nothing_to_do#:#Nichts zu tun

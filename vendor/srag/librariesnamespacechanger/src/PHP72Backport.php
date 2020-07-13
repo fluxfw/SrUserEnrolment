@@ -2,6 +2,8 @@
 
 namespace srag\LibrariesNamespaceChanger;
 
+use Closure;
+use Composer\Config;
 use Composer\Script\Event;
 
 /**
@@ -16,10 +18,10 @@ use Composer\Script\Event;
 final class PHP72Backport
 {
 
-    const REGEXP_EXPRESSION = "[A-Za-z0-9_\":\s\[\]]+";
+    const REGEXP_EXPRESSION = "[A-Za-z0-9_\":\s\[\]\(\)]+";
     const REGEXP_FUNCTION = "function\s*(" . self::REGEXP_NAME . ")?\s*\((" . self::REGEXP_PARAM . ")?(," . self::REGEXP_PARAM . ")*\)(\s*(\/\*)?\s*:\s*\??" . self::REGEXP_NAME . "\s*(\*\/)?)?";
-    const REGEXP_NAME = "[A-Za-z_][A-Za-z0-9_]*";
-    const REGEXP_PARAM = "\s*(\/\*)?\s*\??\s*(" . self::REGEXP_NAME . ")?\s*(\*\/)?\s*\\$" . self::REGEXP_NAME . "(\s*=\s*" . self::REGEXP_EXPRESSION . ")?\s*";
+    const REGEXP_NAME = "\\\\?[A-Za-z_][A-Za-z0-9_\\\\]*";
+    const REGEXP_PARAM = "\s*(\/\*)?\s*\??\s*(\*\/)?\s*(" . self::REGEXP_NAME . ")?\s*(\*\/)?\s*&?\s*?\\$" . self::REGEXP_NAME . "(\s*=\s*" . self::REGEXP_EXPRESSION . ")?\s*";
     /**
      * @var self|null
      */
@@ -32,6 +34,10 @@ final class PHP72Backport
             "md",
             "php"
         ];
+    /**
+     * @var string
+     */
+    private static $plugin_root = "";
 
 
     /**
@@ -56,6 +62,10 @@ final class PHP72Backport
      */
     public static function PHP72Backport(Event $event)/*: void*/
     {
+        self::$plugin_root = rtrim(Closure::bind(function () : string {
+            return $this->baseDir;
+        }, $event->getComposer()->getConfig(), Config::class)(), "/");
+
         self::getInstance($event)->doPHP72Backport();
     }
 
@@ -84,7 +94,7 @@ final class PHP72Backport
     {
         $files = [];
 
-        $this->getFiles(__DIR__ . "/../../../..", $files);
+        $this->getFiles(self::$plugin_root, $files);
 
         foreach ($files as $file) {
             $code = file_get_contents($file);
@@ -147,6 +157,10 @@ final class PHP72Backport
                 $path = $folder . "/" . $file;
 
                 if (is_dir($path)) {
+                    if (in_array($file, ["templates"])) {
+                        continue;
+                    }
+
                     $this->getFiles($path, $files);
                 } else {
                     $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));

@@ -19,6 +19,24 @@ trait OperatorFormGUI
     /**
      * @return array
      */
+    protected static function getOperatorFormFields2() : array
+    {
+        return [
+            "operator_negated"        => [
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                "setTitle"           => self::plugin()->translate("operator_negated", RulesGUI::LANG_MODULE)
+            ],
+            "operator_case_sensitive" => [
+                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                "setTitle"           => self::plugin()->translate("operator_case_sensitive", RulesGUI::LANG_MODULE)
+            ]
+        ];
+    }
+
+
+    /**
+     * @return array
+     */
     protected function getOperatorFormFields1() : array
     {
         return [
@@ -47,24 +65,6 @@ trait OperatorFormGUI
                     return $this->txt("operator_" . $operator_lang_key);
                 }, OperatorConstants::OPERATORS_SUBSEQUENT),
                 "setTitle"              => $this->txt("operator")
-            ]
-        ];
-    }
-
-
-    /**
-     * @return array
-     */
-    protected static function getOperatorFormFields2() : array
-    {
-        return [
-            "operator_negated"        => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                "setTitle"           => self::plugin()->translate("operator_negated", RulesGUI::LANG_MODULE)
-            ],
-            "operator_case_sensitive" => [
-                self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
-                "setTitle"           => self::plugin()->translate("operator_case_sensitive", RulesGUI::LANG_MODULE)
             ]
         ];
     }

@@ -22,58 +22,16 @@ class Log extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_log";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const STATUS_ENROLLED = 100;
     const STATUS_ENROLL_FAILED = 200;
-    const STATUS_USER_CREATED = 300;
-    const STATUS_USER_UPDATED = 400;
-    const STATUS_USER_FAILED = 500;
+    const STATUS_ENROLL_UPDATED = 800;
     const STATUS_UNENROLLED = 600;
     const STATUS_UNENROLL_FAILED = 700;
-    const STATUS_ENROLL_UPDATED = 800;
-
-
-    /**
-     * @return string
-     */
-    public final function getConnectorContainerName() : string
-    {
-        return static::TABLE_NAME;
-    }
-
-
-    /**
-     * @return string
-     *
-     * @deprecated
-     */
-    public final static function returnDbTableName() : string
-    {
-        return static::TABLE_NAME;
-    }
-
-
-    /**
-     * @var array
-     */
-    public static $status_enroll
-        = [
-            self::STATUS_ENROLLED        => "enrolled",
-            self::STATUS_ENROLL_UPDATED  => "enroll_updated",
-            self::STATUS_ENROLL_FAILED   => "enroll_failed",
-            self::STATUS_UNENROLLED      => "unenrolled",
-            self::STATUS_UNENROLL_FAILED => "unenroll_failed",
-        ];
-    /**
-     * @var array
-     */
-    public static $status_create_or_update_users
-        = [
-            self::STATUS_USER_CREATED => "user_created",
-            self::STATUS_USER_UPDATED => "user_updated",
-            self::STATUS_USER_FAILED  => "user_failed"
-        ];
+    const STATUS_USER_CREATED = 300;
+    const STATUS_USER_FAILED = 500;
+    const STATUS_USER_UPDATED = 400;
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_log";
     /**
      * @var array
      */
@@ -89,6 +47,43 @@ class Log extends ActiveRecord
             self::STATUS_USER_FAILED     => "user_failed"
         ];
     /**
+     * @var array
+     */
+    public static $status_create_or_update_users
+        = [
+            self::STATUS_USER_CREATED => "user_created",
+            self::STATUS_USER_UPDATED => "user_updated",
+            self::STATUS_USER_FAILED  => "user_failed"
+        ];
+    /**
+     * @var array
+     */
+    public static $status_enroll
+        = [
+            self::STATUS_ENROLLED        => "enrolled",
+            self::STATUS_ENROLL_UPDATED  => "enroll_updated",
+            self::STATUS_ENROLL_FAILED   => "enroll_failed",
+            self::STATUS_UNENROLLED      => "unenrolled",
+            self::STATUS_UNENROLL_FAILED => "unenroll_failed",
+        ];
+    /**
+     * @var ilDateTime
+     *
+     * @con_has_field    true
+     * @con_fieldtype    timestamp
+     * @con_is_notnull   true
+     */
+    protected $date = null;
+    /**
+     * @var int|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $execute_user_id = null;
+    /**
      * @var int
      *
      * @con_has_field    true
@@ -98,6 +93,14 @@ class Log extends ActiveRecord
      * @con_is_primary   true
      */
     protected $log_id = 0;
+    /**
+     * @var string
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   true
+     */
+    protected $message = "";
     /**
      * @var int
      *
@@ -116,32 +119,6 @@ class Log extends ActiveRecord
      */
     protected $rule_id = null;
     /**
-     * @var int|null
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   false
-     */
-    protected $user_id = null;
-    /**
-     * @var int|null
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   false
-     */
-    protected $execute_user_id = null;
-    /**
-     * @var ilDateTime
-     *
-     * @con_has_field    true
-     * @con_fieldtype    timestamp
-     * @con_is_notnull   true
-     */
-    protected $date = null;
-    /**
      * @var int
      *
      * @con_has_field    true
@@ -151,13 +128,14 @@ class Log extends ActiveRecord
      */
     protected $status = 0;
     /**
-     * @var string
+     * @var int|null
      *
      * @con_has_field    true
-     * @con_fieldtype    text
-     * @con_is_notnull   true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
      */
-    protected $message = "";
+    protected $user_id = null;
 
 
     /**
@@ -173,90 +151,31 @@ class Log extends ActiveRecord
 
 
     /**
-     * @return int
-     */
-    public function getLogId() : int
-    {
-        return $this->log_id;
-    }
-
-
-    /**
-     * @param int $log_id
+     * @return string
      *
-     * @return self
+     * @deprecated
      */
-    public function withLogId(int $log_id) : self
+    public final static function returnDbTableName() : string
     {
-        $this->log_id = $log_id;
-
-        return $this;
+        return static::TABLE_NAME;
     }
 
 
     /**
-     * @return int
+     * @return string
      */
-    public function getObjectId() : int
+    public final function getConnectorContainerName() : string
     {
-        return $this->object_id;
+        return static::TABLE_NAME;
     }
 
 
     /**
-     * @param int $object_id
-     *
-     * @return self
+     * @return ilDateTime
      */
-    public function withObjectId(int $object_id) : self
+    public function getDate() : ilDateTime
     {
-        $this->object_id = $object_id;
-
-        return $this;
-    }
-
-
-    /**
-     * @return string|null
-     */
-    public function getRuleId()/* : ?string*/
-    {
-        return $this->rule_id;
-    }
-
-
-    /**
-     * @param string|null $rule_id
-     *
-     * @return self
-     */
-    public function withRuleId(/*?*/ string $rule_id = null) : self
-    {
-        $this->rule_id = $rule_id;
-
-        return $this;
-    }
-
-
-    /**
-     * @return int|null
-     */
-    public function getUserId()/*: ?int*/
-    {
-        return $this->user_id;
-    }
-
-
-    /**
-     * @param int|null $user_id
-     *
-     * @return self
-     */
-    public function withUserId(/*?*/ int $user_id = null) : self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
+        return $this->date;
     }
 
 
@@ -270,24 +189,56 @@ class Log extends ActiveRecord
 
 
     /**
-     * @param int|null $execute_user_id
-     *
-     * @return self
+     * @return int
      */
-    public function withExecuteUserId(/*?*/ int $execute_user_id = null) : self
+    public function getLogId() : int
     {
-        $this->execute_user_id = $execute_user_id;
-
-        return $this;
+        return $this->log_id;
     }
 
 
     /**
-     * @return ilDateTime
+     * @return string
      */
-    public function getDate() : ilDateTime
+    public function getMessage() : string
     {
-        return $this->date;
+        return $this->message;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getObjectId() : int
+    {
+        return $this->object_id;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getRuleId()/* : ?string*/
+    {
+        return $this->rule_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getStatus() : int
+    {
+        return $this->status;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getUserId()/*: ?int*/
+    {
+        return $this->user_id;
     }
 
 
@@ -305,11 +256,67 @@ class Log extends ActiveRecord
 
 
     /**
-     * @return int
+     * @param int|null $execute_user_id
+     *
+     * @return self
      */
-    public function getStatus() : int
+    public function withExecuteUserId(/*?*/ int $execute_user_id = null) : self
     {
-        return $this->status;
+        $this->execute_user_id = $execute_user_id;
+
+        return $this;
+    }
+
+
+    /**
+     * @param int $log_id
+     *
+     * @return self
+     */
+    public function withLogId(int $log_id) : self
+    {
+        $this->log_id = $log_id;
+
+        return $this;
+    }
+
+
+    /**
+     * @param string $message
+     *
+     * @return self
+     */
+    public function withMessage(string $message) : self
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+
+    /**
+     * @param int $object_id
+     *
+     * @return self
+     */
+    public function withObjectId(int $object_id) : self
+    {
+        $this->object_id = $object_id;
+
+        return $this;
+    }
+
+
+    /**
+     * @param string|null $rule_id
+     *
+     * @return self
+     */
+    public function withRuleId(/*?*/ string $rule_id = null) : self
+    {
+        $this->rule_id = $rule_id;
+
+        return $this;
     }
 
 
@@ -327,22 +334,13 @@ class Log extends ActiveRecord
 
 
     /**
-     * @return string
-     */
-    public function getMessage() : string
-    {
-        return $this->message;
-    }
-
-
-    /**
-     * @param string $message
+     * @param int|null $user_id
      *
      * @return self
      */
-    public function withMessage(string $message) : self
+    public function withUserId(/*?*/ int $user_id = null) : self
     {
-        $this->message = $message;
+        $this->user_id = $user_id;
 
         return $this;
     }

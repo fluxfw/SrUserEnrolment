@@ -144,6 +144,7 @@ excel_import_local_user_administration_type_title#:#Title
 excel_import_map_exists_users_field#:#Map exists users
 excel_import_map_exists_users_field_email#:#Email
 excel_import_map_exists_users_field_login#:#Login
+excel_import_map_exists_users_field_matriculation_number#:#Matriculation number
 excel_import_no#:#No
 excel_import_nothing_to_enroll#:#Nothing to enroll
 excel_import_nothing_to_do#:#Nothing to do

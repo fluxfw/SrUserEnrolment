@@ -27,6 +27,15 @@ final class Factory
 
 
     /**
+     * Factory constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -40,11 +49,16 @@ final class Factory
 
 
     /**
-     * Factory constructor
+     * @param StepGUI $parent
+     * @param Step    $step
+     *
+     * @return StepFormGUI
      */
-    private function __construct()
+    public function newFormInstance(StepGUI $parent, Step $step) : StepFormGUI
     {
+        $form = new StepFormGUI($parent, $step);
 
+        return $form;
     }
 
 
@@ -70,19 +84,5 @@ final class Factory
         $table = new StepsTableGUI($parent, $cmd);
 
         return $table;
-    }
-
-
-    /**
-     * @param StepGUI $parent
-     * @param Step    $step
-     *
-     * @return StepFormGUI
-     */
-    public function newFormInstance(StepGUI $parent, Step $step) : StepFormGUI
-    {
-        $form = new StepFormGUI($parent, $step);
-
-        return $form;
     }
 }

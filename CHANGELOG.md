@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.15.0]
+- Excel import: Map exists users by matriculation number
+
 ## [3.14.0]
 - UDF rule value type date
 - "Enroll by rule" settings for unenroll and update "Enroll as"

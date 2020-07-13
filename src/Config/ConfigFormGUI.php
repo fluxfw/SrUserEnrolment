@@ -30,7 +30,6 @@ class ConfigFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const KEY_ROLES = "roles";
     const KEY_ROLES_READ_REQUESTS = "roles_read_requests";
     const KEY_SHOW_ASSISTANTS = "show_assistants";
@@ -48,8 +47,9 @@ class ConfigFormGUI extends PropertyFormGUI
     const KEY_SHOW_RULES_ENROLL_COURSE = "show_rules_enroll_course";
     const KEY_SHOW_RULES_ENROLL_USER = "show_rules_enroll_user";
     const LANG_MODULE = ConfigCtrl::LANG_MODULE;
-    const SHOW_EXCEL_IMPORT_USER_TYPE_SEPARATE = 1;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE = 2;
+    const SHOW_EXCEL_IMPORT_USER_TYPE_SEPARATE = 1;
 
 
     /**
@@ -60,6 +60,16 @@ class ConfigFormGUI extends PropertyFormGUI
     public function __construct(ConfigCtrl $parent)
     {
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        return ($this->storeFormCheck() && ($this->getInput(self::KEY_SHOW_EXCEL_IMPORT) ? ExcelImportFormGUI::validateExcelImport($this) : true)
+            && parent::storeForm());
     }
 
 
@@ -229,16 +239,6 @@ class ConfigFormGUI extends PropertyFormGUI
     protected function initTitle()/*: void*/
     {
         $this->setTitle($this->txt("configuration"));
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function storeForm() : bool
-    {
-        return ($this->storeFormCheck() && ($this->getInput(self::KEY_SHOW_EXCEL_IMPORT) ? ExcelImportFormGUI::validateExcelImport($this) : true)
-            && parent::storeForm());
     }
 
 

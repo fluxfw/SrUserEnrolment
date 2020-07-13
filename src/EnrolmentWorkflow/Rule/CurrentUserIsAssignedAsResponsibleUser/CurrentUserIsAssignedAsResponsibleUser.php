@@ -52,6 +52,24 @@ class CurrentUserIsAssignedAsResponsibleUser extends AbstractRule
 
 
     /**
+     * @return bool
+     */
+    public function isOnlyNextStep() : bool
+    {
+        return $this->only_next_step;
+    }
+
+
+    /**
+     * @param bool $only_next_step
+     */
+    public function setOnlyNextStep(bool $only_next_step)/* : void*/
+    {
+        $this->only_next_step = $only_next_step;
+    }
+
+
+    /**
      * @inheritDoc
      */
     public function sleep(/*string*/ $field_name)
@@ -80,23 +98,5 @@ class CurrentUserIsAssignedAsResponsibleUser extends AbstractRule
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isOnlyNextStep() : bool
-    {
-        return $this->only_next_step;
-    }
-
-
-    /**
-     * @param bool $only_next_step
-     */
-    public function setOnlyNextStep(bool $only_next_step)/* : void*/
-    {
-        $this->only_next_step = $only_next_step;
     }
 }

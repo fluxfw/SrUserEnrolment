@@ -29,91 +29,22 @@ class Member extends ActiveRecord
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_mem";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const TYPE_MEMBER = ilParticipant::MEMBERSHIP_MEMBER;
-    const TYPE_TUTOR = ilParticipant::MEMBERSHIP_TUTOR;
-    const TYPE_ADMIN = ilParticipant::MEMBERSHIP_ADMIN;
-    const TYPE_REQUEST = 4;
+    const TABLE_NAME = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_mem";
+    const TYPES
+        = self::TYPES_CORE + [
+            self::TYPE_REQUEST => "request"
+        ];
     const TYPES_CORE
         = [
             self::TYPE_MEMBER => "member",
             self::TYPE_TUTOR  => "tutor",
             self::TYPE_ADMIN  => "admin"
         ];
-    const TYPES
-        = self::TYPES_CORE + [
-            self::TYPE_REQUEST => "request"
-        ];
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getConnectorContainerName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @deprecated
-     */
-    public static function returnDbTableName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     * @con_is_primary   true
-     * @con_sequence     true
-     */
-    protected $member_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $obj_ref_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $obj_id;
-    /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $usr_id;
-    /**
-     * @var int|null
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   false
-     */
-    protected $enrollment_time = null;
+    const TYPE_ADMIN = ilParticipant::MEMBERSHIP_ADMIN;
+    const TYPE_MEMBER = ilParticipant::MEMBERSHIP_MEMBER;
+    const TYPE_REQUEST = 4;
+    const TYPE_TUTOR = ilParticipant::MEMBERSHIP_TUTOR;
     /**
      * @var array
      *
@@ -141,6 +72,44 @@ class Member extends ActiveRecord
      */
     protected $created_user_id;
     /**
+     * @var int|null
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   false
+     */
+    protected $enrollment_time = null;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     * @con_is_primary   true
+     * @con_sequence     true
+     */
+    protected $member_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $obj_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $obj_ref_id;
+    /**
      * @var int
      *
      * @con_has_field    true
@@ -158,6 +127,15 @@ class Member extends ActiveRecord
      * @con_is_notnull   true
      */
     protected $updated_user_id;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $usr_id;
 
 
     /**
@@ -174,51 +152,67 @@ class Member extends ActiveRecord
 
     /**
      * @inheritDoc
+     *
+     * @deprecated
      */
-    public function sleep(/*string*/ $field_name)
+    public static function returnDbTableName() : string
     {
-        $field_value = $this->{$field_name};
+        return self::TABLE_NAME;
+    }
 
-        switch ($field_name) {
-            case "additional_data":
-                return json_encode($field_value);
 
-            default:
-                return parent::sleep($field_name);
-        }
+    /**
+     * @return array
+     */
+    public function getAdditionalData() : array
+    {
+        return $this->additional_data;
+    }
+
+
+    /**
+     * @param array $additional_data
+     */
+    public function setAdditionalData(array $additional_data)/* : void*/
+    {
+        $this->additional_data = $additional_data;
+    }
+
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function getAdditionalDataValue(string $key)
+    {
+        return $this->additional_data[$key];
     }
 
 
     /**
      * @inheritDoc
      */
-    public function wakeUp(/*string*/ $field_name, $field_value)
+    public function getConnectorContainerName() : string
     {
-        switch ($field_name) {
-            case "additional_data":
-                return json_decode($field_value, true);
-
-            default:
-                return parent::wakeUp($field_name, $field_value);
-        }
+        return self::TABLE_NAME;
     }
 
 
     /**
-     * @return ilObject
+     * @return int
      */
-    public function getObject() : ilObject
+    public function getCreatedTime() : int
     {
-        return ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        return $this->created_time;
     }
 
 
     /**
-     * @return ilObjUser
+     * @param int $created_time
      */
-    public function getUser() : ilObjUser
+    public function setCreatedTime(int $created_time)/* : void*/
     {
-        return new ilObjUser($this->usr_id);
+        $this->created_time = $created_time;
     }
 
 
@@ -232,11 +226,129 @@ class Member extends ActiveRecord
 
 
     /**
-     * @return ilObjUser
+     * @return int
      */
-    public function getUpdatedUser() : ilObjUser
+    public function getCreatedUserId() : int
     {
-        return new ilObjUser($this->updated_user_id);
+        return $this->created_user_id;
+    }
+
+
+    /**
+     * @param int $created_user_id
+     */
+    public function setCreatedUserId(int $created_user_id)/* : void*/
+    {
+        $this->created_user_id = $created_user_id;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getEnrollmentTime()/* : ?int*/
+    {
+        return $this->enrollment_time;
+    }
+
+
+    /**
+     * @param int|null $enrollment_time
+     */
+    public function setEnrollmentTime(/*?*/ int $enrollment_time = null)/* : void*/
+    {
+        $this->enrollment_time = $enrollment_time;
+    }
+
+
+    /**
+     * @return int|null
+     */
+    public function getLpStatus()/* : ?int*/
+    {
+        if ($this->getType() === self::TYPE_REQUEST) {
+            return null;
+        }
+
+        return intval(ilLPStatus::_lookupStatus($this->obj_id, $this->usr_id));
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getMemberId() : int
+    {
+        return $this->member_id;
+    }
+
+
+    /**
+     * @param int $member_id
+     */
+    public function setMemberId(int $member_id)/* : void*/
+    {
+        $this->member_id = $member_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getObjId() : int
+    {
+        return $this->obj_id;
+    }
+
+
+    /**
+     * @param int $obj_id
+     */
+    public function setObjId(int $obj_id)/* : void*/
+    {
+        $this->obj_id = $obj_id;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getObjRefId() : int
+    {
+        return $this->obj_ref_id;
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     */
+    public function setObjRefId(int $obj_ref_id)/* : void*/
+    {
+        $this->obj_ref_id = $obj_ref_id;
+    }
+
+
+    /**
+     * @return ilObject
+     */
+    public function getObject() : ilObject
+    {
+        return ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+    }
+
+
+    /**
+     * @return Request|null
+     */
+    public function getRequest()/*:Request|null*/
+    {
+        if ($this->getType() !== self::TYPE_REQUEST) {
+            return null;
+        }
+
+        $requests = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($this->obj_ref_id, null, [$this->usr_id]);
+
+        return (end($requests) ?: null);
     }
 
 
@@ -259,27 +371,91 @@ class Member extends ActiveRecord
 
 
     /**
-     * @return Request|null
+     * @return int
      */
-    public function getRequest()/*:Request|null*/
+    public function getUpdatedTime() : int
     {
-        if ($this->getType() !== self::TYPE_REQUEST) {
-            return null;
-        }
-
-        $requests = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($this->obj_ref_id, null, [$this->usr_id]);
-
-        return (end($requests) ?: null);
+        return $this->updated_time;
     }
 
 
     /**
-     * @param string $key
-     * @param mixed  $value
+     * @param int $updated_time
      */
-    public function getAdditionalDataValue(string $key)
+    public function setUpdatedTime(int $updated_time)/* : void*/
     {
-        return $this->additional_data[$key];
+        $this->updated_time = $updated_time;
+    }
+
+
+    /**
+     * @return ilObjUser
+     */
+    public function getUpdatedUser() : ilObjUser
+    {
+        return new ilObjUser($this->updated_user_id);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getUpdatedUserId() : int
+    {
+        return $this->updated_user_id;
+    }
+
+
+    /**
+     * @param int $updated_user_id
+     */
+    public function setUpdatedUserId(int $updated_user_id)/* : void*/
+    {
+        $this->updated_user_id = $updated_user_id;
+    }
+
+
+    /**
+     * @return ilObjUser
+     */
+    public function getUser() : ilObjUser
+    {
+        return new ilObjUser($this->usr_id);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getUsrId() : int
+    {
+        return $this->usr_id;
+    }
+
+
+    /**
+     * @param int $usr_id
+     */
+    public function setUsrId(int $usr_id)/* : void*/
+    {
+        $this->usr_id = $usr_id;
+    }
+
+
+    /**
+     * @return bool|null
+     */
+    public function isLpCompleted()/* : ?bool*/
+    {
+        if ($this->getType() === self::TYPE_REQUEST) {
+            return null;
+        }
+
+        if (!($this->getObject() instanceof ilObjCourse)) {
+            return null;
+        }
+
+        return $this->getObject()->getMembersObject()->hasPassed($this->usr_id);
     }
 
 
@@ -302,36 +478,6 @@ class Member extends ActiveRecord
         if (is_bool($this->additional_data[$key])) {
             $this->setAdditionalDataValue($key, $checked);
         }
-    }
-
-
-    /**
-     * @return int|null
-     */
-    public function getLpStatus()/* : ?int*/
-    {
-        if ($this->getType() === self::TYPE_REQUEST) {
-            return null;
-        }
-
-        return intval(ilLPStatus::_lookupStatus($this->obj_id, $this->usr_id));
-    }
-
-
-    /**
-     * @return bool|null
-     */
-    public function isLpCompleted()/* : ?bool*/
-    {
-        if ($this->getType() === self::TYPE_REQUEST) {
-            return null;
-        }
-
-        if (!($this->getObject() instanceof ilObjCourse)) {
-            return null;
-        }
-
-        return $this->getObject()->getMembersObject()->hasPassed($this->usr_id);
     }
 
 
@@ -371,181 +517,33 @@ class Member extends ActiveRecord
 
 
     /**
-     * @return int
+     * @inheritDoc
      */
-    public function getMemberId() : int
+    public function sleep(/*string*/ $field_name)
     {
-        return $this->member_id;
+        $field_value = $this->{$field_name};
+
+        switch ($field_name) {
+            case "additional_data":
+                return json_encode($field_value);
+
+            default:
+                return parent::sleep($field_name);
+        }
     }
 
 
     /**
-     * @param int $member_id
+     * @inheritDoc
      */
-    public function setMemberId(int $member_id)/* : void*/
+    public function wakeUp(/*string*/ $field_name, $field_value)
     {
-        $this->member_id = $member_id;
-    }
+        switch ($field_name) {
+            case "additional_data":
+                return json_decode($field_value, true);
 
-
-    /**
-     * @return int
-     */
-    public function getUsrId() : int
-    {
-        return $this->usr_id;
-    }
-
-
-    /**
-     * @param int $usr_id
-     */
-    public function setUsrId(int $usr_id)/* : void*/
-    {
-        $this->usr_id = $usr_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getObjRefId() : int
-    {
-        return $this->obj_ref_id;
-    }
-
-
-    /**
-     * @param int $obj_ref_id
-     */
-    public function setObjRefId(int $obj_ref_id)/* : void*/
-    {
-        $this->obj_ref_id = $obj_ref_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getObjId() : int
-    {
-        return $this->obj_id;
-    }
-
-
-    /**
-     * @param int $obj_id
-     */
-    public function setObjId(int $obj_id)/* : void*/
-    {
-        $this->obj_id = $obj_id;
-    }
-
-
-    /**
-     * @return int|null
-     */
-    public function getEnrollmentTime()/* : ?int*/
-    {
-        return $this->enrollment_time;
-    }
-
-
-    /**
-     * @param int|null $enrollment_time
-     */
-    public function setEnrollmentTime(/*?*/ int $enrollment_time = null)/* : void*/
-    {
-        $this->enrollment_time = $enrollment_time;
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getAdditionalData() : array
-    {
-        return $this->additional_data;
-    }
-
-
-    /**
-     * @param array $additional_data
-     */
-    public function setAdditionalData(array $additional_data)/* : void*/
-    {
-        $this->additional_data = $additional_data;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getCreatedTime() : int
-    {
-        return $this->created_time;
-    }
-
-
-    /**
-     * @param int $created_time
-     */
-    public function setCreatedTime(int $created_time)/* : void*/
-    {
-        $this->created_time = $created_time;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getCreatedUserId() : int
-    {
-        return $this->created_user_id;
-    }
-
-
-    /**
-     * @param int $created_user_id
-     */
-    public function setCreatedUserId(int $created_user_id)/* : void*/
-    {
-        $this->created_user_id = $created_user_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getUpdatedTime() : int
-    {
-        return $this->updated_time;
-    }
-
-
-    /**
-     * @param int $updated_time
-     */
-    public function setUpdatedTime(int $updated_time)/* : void*/
-    {
-        $this->updated_time = $updated_time;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getUpdatedUserId() : int
-    {
-        return $this->updated_user_id;
-    }
-
-
-    /**
-     * @param int $updated_user_id
-     */
-    public function setUpdatedUserId(int $updated_user_id)/* : void*/
-    {
-        $this->updated_user_id = $updated_user_id;
+            default:
+                return parent::wakeUp($field_name, $field_value);
+        }
     }
 }

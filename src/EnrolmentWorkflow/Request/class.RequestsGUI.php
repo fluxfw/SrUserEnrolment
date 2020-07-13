@@ -31,7 +31,6 @@ class RequestsGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_APPLY_FILTER = "applyFilter";
     const CMD_BACK = "back";
     const CMD_LIST_REQUESTS = "listRequests";
@@ -39,15 +38,16 @@ class RequestsGUI
     const GET_PARAM_REF_ID = "ref_id";
     const GET_PARAM_REQUESTS_TYPE = "requests_type";
     const LANG_MODULE = "requests";
-    const REQUESTS_TYPE_OWN = 1;
-    const REQUESTS_TYPE_TO_EDIT = 2;
-    const REQUESTS_TYPE_ALL = 3;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const REQUESTS_TYPES
         = [
             self::REQUESTS_TYPE_OWN     => "own",
             self::REQUESTS_TYPE_TO_EDIT => "to_edit",
             self::REQUESTS_TYPE_ALL     => "all"
         ];
+    const REQUESTS_TYPE_ALL = 3;
+    const REQUESTS_TYPE_OWN = 1;
+    const REQUESTS_TYPE_TO_EDIT = 2;
     const TAB_REQUESTS = "requests_";
     /**
      * @var int|null
@@ -57,6 +57,31 @@ class RequestsGUI
      * @var int
      */
     protected $requests_type;
+
+
+    /**
+     * RequestsGUI constructor
+     */
+    public function __construct()
+    {
+
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     */
+    public static function addTabs(int $obj_ref_id)/*: void*/
+    {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+
+            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REQUESTS_TYPE, self::REQUESTS_TYPE_OWN);
+
+            self::dic()->tabs()->addTab(self::TAB_REQUESTS . self::REQUESTS_TYPE_ALL, self::plugin()->translate("requests", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_REQUESTS));
+        }
+    }
 
 
     /**
@@ -71,15 +96,6 @@ class RequestsGUI
         }
 
         return $requests_types;
-    }
-
-
-    /**
-     * RequestsGUI constructor
-     */
-    public function __construct()
-    {
-
     }
 
 
@@ -135,18 +151,77 @@ class RequestsGUI
 
 
     /**
-     * @param int $obj_ref_id
+     * @return int|null
      */
-    public static function addTabs(int $obj_ref_id)/*: void*/
+    public function getObjRefId()/* : ?int*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
+        return $this->obj_ref_id;
+    }
 
-            self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REQUESTS_TYPE, self::REQUESTS_TYPE_OWN);
 
-            self::dic()->tabs()->addTab(self::TAB_REQUESTS . self::REQUESTS_TYPE_ALL, self::plugin()->translate("requests", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_LIST_REQUESTS));
+    /**
+     * @return int
+     */
+    public function getRequestsType() : int
+    {
+        return $this->requests_type;
+    }
+
+
+    /**
+     *
+     */
+    protected function applyFilter()/*: void*/
+    {
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this, self::CMD_APPLY_FILTER);
+
+        $table->writeFilterToSession();
+
+        $table->resetOffset();
+
+        //self::dic()->ctrl()->redirect($this, self::CMD_LIST_REQUESTS);
+        $this->listRequests(); // Fix reset offset
+    }
+
+
+    /**
+     *
+     */
+    protected function back()/*: void*/
+    {
+        self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
+    }
+
+
+    /**
+     *
+     */
+    protected function listRequests()/*: void*/
+    {
+        if (!empty($this->obj_ref_id)) {
+            self::dic()->tabs()->activateTab(self::TAB_REQUESTS . self::REQUESTS_TYPE_ALL);
         }
+        self::dic()->tabs()->{empty($this->obj_ref_id) ? "activateTab" : "activateSubTab"}(self::TAB_REQUESTS . $this->requests_type);
+
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this);
+
+        self::output()->output($table, true);
+    }
+
+
+    /**
+     *
+     */
+    protected function resetFilter()/*: void*/
+    {
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this, self::CMD_RESET_FILTER);
+
+        $table->resetFilter();
+
+        $table->resetOffset();
+
+        //self::dic()->ctrl()->redirect($this, self::CMD_LIST_REQUESTS);
+        $this->listRequests(); // Fix reset offset
     }
 
 
@@ -194,80 +269,5 @@ class RequestsGUI
                     ->getLinkTarget($this, self::CMD_LIST_REQUESTS));
         }
         self::dic()->ctrl()->setParameter($this, self::GET_PARAM_REQUESTS_TYPE, $this->requests_type);
-    }
-
-
-    /**
-     *
-     */
-    protected function back()/*: void*/
-    {
-        self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
-    }
-
-
-    /**
-     *
-     */
-    protected function listRequests()/*: void*/
-    {
-        if (!empty($this->obj_ref_id)) {
-            self::dic()->tabs()->activateTab(self::TAB_REQUESTS . self::REQUESTS_TYPE_ALL);
-        }
-        self::dic()->tabs()->{empty($this->obj_ref_id) ? "activateTab" : "activateSubTab"}(self::TAB_REQUESTS . $this->requests_type);
-
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this);
-
-        self::output()->output($table, true);
-    }
-
-
-    /**
-     *
-     */
-    protected function applyFilter()/*: void*/
-    {
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this, self::CMD_APPLY_FILTER);
-
-        $table->writeFilterToSession();
-
-        $table->resetOffset();
-
-        //self::dic()->ctrl()->redirect($this, self::CMD_LIST_REQUESTS);
-        $this->listRequests(); // Fix reset offset
-    }
-
-
-    /**
-     *
-     */
-    protected function resetFilter()/*: void*/
-    {
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this, self::CMD_RESET_FILTER);
-
-        $table->resetFilter();
-
-        $table->resetOffset();
-
-        //self::dic()->ctrl()->redirect($this, self::CMD_LIST_REQUESTS);
-        $this->listRequests(); // Fix reset offset
-    }
-
-
-    /**
-     * @return int|null
-     */
-    public function getObjRefId()/* : ?int*/
-    {
-        return $this->obj_ref_id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getRequestsType() : int
-    {
-        return $this->requests_type;
     }
 }

@@ -16,10 +16,6 @@ class SendNotification extends AbstractAction
 {
 
     const TABLE_NAME_SUFFIX = "not";
-    const TO_TYPE_REQUESTOR = 1;
-    const TO_TYPE_RESPONSIBLE_USERS = 2;
-    const TO_TYPE_SPECIFIC_USERS = 3;
-    const TO_TYPE_RESPONSIBLE_USERS_AND_DEPUTIES = 4;
     const TO_TYPES
         = [
             self::TO_TYPE_REQUESTOR                      => "requestor",
@@ -27,6 +23,10 @@ class SendNotification extends AbstractAction
             self::TO_TYPE_SPECIFIC_USERS                 => "specific_users",
             self::TO_TYPE_RESPONSIBLE_USERS_AND_DEPUTIES => "responsible_users_and_deputies"
         ];
+    const TO_TYPE_REQUESTOR = 1;
+    const TO_TYPE_RESPONSIBLE_USERS = 2;
+    const TO_TYPE_RESPONSIBLE_USERS_AND_DEPUTIES = 4;
+    const TO_TYPE_SPECIFIC_USERS = 3;
     /**
      * @var string
      *
@@ -36,6 +36,14 @@ class SendNotification extends AbstractAction
      */
     protected $notification_name = "";
     /**
+     * @var int[]
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   true
+     */
+    protected $to_specific_users = [];
+    /**
      * @var int
      *
      * @con_has_field    true
@@ -44,14 +52,6 @@ class SendNotification extends AbstractAction
      * @con_is_notnull   true
      */
     protected $to_type = self::TO_TYPE_REQUESTOR;
-    /**
-     * @var int[]
-     *
-     * @con_has_field    true
-     * @con_fieldtype    text
-     * @con_is_notnull   true
-     */
-    protected $to_specific_users = [];
 
 
     /**
@@ -71,6 +71,60 @@ class SendNotification extends AbstractAction
         return nl2br(implode("\n", array_map(function (string $description) : string {
             return htmlspecialchars($description);
         }, $descriptions)), false);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getNotificationName() : string
+    {
+        return $this->notification_name;
+    }
+
+
+    /**
+     * @param string $notification_name
+     */
+    public function setNotificationName(string $notification_name)/* : void*/
+    {
+        $this->notification_name = $notification_name;
+    }
+
+
+    /**
+     * @return int[]
+     */
+    public function getToSpecificUsers() : array
+    {
+        return $this->to_specific_users;
+    }
+
+
+    /**
+     * @param int[] $to_specific_users
+     */
+    public function setToSpecificUsers(array $to_specific_users)/* : void*/
+    {
+        $this->to_specific_users = $to_specific_users;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getToType() : int
+    {
+        return $this->to_type;
+    }
+
+
+    /**
+     * @param int $to_type
+     */
+    public function setToType(int $to_type)/* : void*/
+    {
+        $this->to_type = $to_type;
     }
 
 
@@ -103,59 +157,5 @@ class SendNotification extends AbstractAction
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getNotificationName() : string
-    {
-        return $this->notification_name;
-    }
-
-
-    /**
-     * @param string $notification_name
-     */
-    public function setNotificationName(string $notification_name)/* : void*/
-    {
-        $this->notification_name = $notification_name;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getToType() : int
-    {
-        return $this->to_type;
-    }
-
-
-    /**
-     * @param int $to_type
-     */
-    public function setToType(int $to_type)/* : void*/
-    {
-        $this->to_type = $to_type;
-    }
-
-
-    /**
-     * @return int[]
-     */
-    public function getToSpecificUsers() : array
-    {
-        return $this->to_specific_users;
-    }
-
-
-    /**
-     * @param int[] $to_specific_users
-     */
-    public function setToSpecificUsers(array $to_specific_users)/* : void*/
-    {
-        $this->to_specific_users = $to_specific_users;
     }
 }

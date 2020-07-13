@@ -39,6 +39,24 @@ class Language extends AbstractRule
 
 
     /**
+     * @return string[]
+     */
+    public function getLanguages() : array
+    {
+        return $this->languages;
+    }
+
+
+    /**
+     * @param string[] $languages
+     */
+    public function setLanguages(array $languages)/* : void*/
+    {
+        $this->languages = $languages;
+    }
+
+
+    /**
      * @inheritDoc
      */
     public function getRuleDescription() : string
@@ -78,23 +96,5 @@ class Language extends AbstractRule
             default:
                 return parent::wakeUp($field_name, $field_value);
         }
-    }
-
-
-    /**
-     * @return string[]
-     */
-    public function getLanguages() : array
-    {
-        return $this->languages;
-    }
-
-
-    /**
-     * @param string[] $languages
-     */
-    public function setLanguages(array $languages)/* : void*/
-    {
-        $this->languages = $languages;
     }
 }

@@ -38,21 +38,6 @@ final class Factory
      * @var self|null
      */
     protected static $instance = null;
-
-
-    /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
     /**
      * @var array
      */
@@ -81,6 +66,19 @@ final class Factory
     private function __construct()
     {
 
+    }
+
+
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
     }
 
 
@@ -117,36 +115,17 @@ final class Factory
 
 
     /**
-     * @param string $rule_type
+     * @param AbstractRule $rule
      *
-     * @return AbstractRule|null
+     * @return AbstractRuleChecker
      */
-    public function newInstance(string $rule_type) /*: ?AbstractRule*/
+    public function newCheckerInstance(AbstractRule $rule) : AbstractRuleChecker
     {
-        $rule = null;
+        $class = get_class($rule) . "Checker";
 
-        foreach ($this->getRuleTypes() as $rule_type_class => $class) {
-            if ($rule_type_class === $rule_type) {
-                $rule = new $class();
-                break;
-            }
-        }
+        $checker = new $class($rule);
 
-        return $rule;
-    }
-
-
-    /**
-     * @param RulesGUI $parent
-     * @param string   $cmd
-     *
-     * @return RulesTableGUI
-     */
-    public function newTableInstance(RulesGUI $parent, string $cmd = RulesGUI::CMD_LIST_RULES) : RulesTableGUI
-    {
-        $table = new RulesTableGUI($parent, $cmd);
-
-        return $table;
+        return $checker;
     }
 
 
@@ -180,16 +159,35 @@ final class Factory
 
 
     /**
-     * @param AbstractRule $rule
+     * @param string $rule_type
      *
-     * @return AbstractRuleChecker
+     * @return AbstractRule|null
      */
-    public function newCheckerInstance(AbstractRule $rule) : AbstractRuleChecker
+    public function newInstance(string $rule_type) /*: ?AbstractRule*/
     {
-        $class = get_class($rule) . "Checker";
+        $rule = null;
 
-        $checker = new $class($rule);
+        foreach ($this->getRuleTypes() as $rule_type_class => $class) {
+            if ($rule_type_class === $rule_type) {
+                $rule = new $class();
+                break;
+            }
+        }
 
-        return $checker;
+        return $rule;
+    }
+
+
+    /**
+     * @param RulesGUI $parent
+     * @param string   $cmd
+     *
+     * @return RulesTableGUI
+     */
+    public function newTableInstance(RulesGUI $parent, string $cmd = RulesGUI::CMD_LIST_RULES) : RulesTableGUI
+    {
+        $table = new RulesTableGUI($parent, $cmd);
+
+        return $table;
     }
 }

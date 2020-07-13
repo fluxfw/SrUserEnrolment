@@ -37,6 +37,33 @@ class CheckInactiveDeputiesJob extends ilCronJob
     /**
      * @inheritDoc
      */
+    public function getDefaultScheduleType() : int
+    {
+        return self::SCHEDULE_TYPE_DAILY;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getDefaultScheduleValue()/*:?int*/
+    {
+        return null;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getDescription() : string
+    {
+        return self::plugin()->translate("check_inactive_deputies_description", DeputiesGUI::LANG_MODULE);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getId() : string
     {
         return self::CRON_JOB_ID;
@@ -55,15 +82,6 @@ class CheckInactiveDeputiesJob extends ilCronJob
     /**
      * @inheritDoc
      */
-    public function getDescription() : string
-    {
-        return self::plugin()->translate("check_inactive_deputies_description", DeputiesGUI::LANG_MODULE);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function hasAutoActivation() : bool
     {
         return true;
@@ -76,24 +94,6 @@ class CheckInactiveDeputiesJob extends ilCronJob
     public function hasFlexibleSchedule() : bool
     {
         return true;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultScheduleType() : int
-    {
-        return self::SCHEDULE_TYPE_DAILY;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultScheduleValue()/*:?int*/
-    {
-        return null;
     }
 
 

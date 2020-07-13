@@ -25,10 +25,10 @@ class RulesCourseSettingsGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_EDIT_SETTINGS = "editSettings";
     const CMD_UPDATE_SETTINGS = "updateSettings";
     const LANG_MODULE = RulesGUI::LANG_MODULE . "_settings";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_SETTINGS = "settings";
     /**
      * @var RulesCourseGUI
@@ -48,6 +48,16 @@ class RulesCourseSettingsGUI
     public function __construct(RulesCourseGUI $parent)
     {
         $this->parent = $parent;
+    }
+
+
+    /**
+     *
+     */
+    public static function addTabs()/*:void*/
+    {
+        self::dic()->tabs()->addTab(self::TAB_SETTINGS, self::plugin()->translate("settings", self::LANG_MODULE), self::dic()->ctrl()
+            ->getLinkTargetByClass(self::class, self::CMD_EDIT_SETTINGS));
     }
 
 
@@ -81,21 +91,11 @@ class RulesCourseSettingsGUI
 
 
     /**
-     *
+     * @return RulesCourseGUI
      */
-    public static function addTabs()/*:void*/
+    public function getParent() : RulesCourseGUI
     {
-        self::dic()->tabs()->addTab(self::TAB_SETTINGS, self::plugin()->translate("settings", self::LANG_MODULE), self::dic()->ctrl()
-            ->getLinkTargetByClass(self::class, self::CMD_EDIT_SETTINGS));
-    }
-
-
-    /**
-     *
-     */
-    protected function setTabs()/*: void*/
-    {
-
+        return $this->parent;
     }
 
 
@@ -109,6 +109,15 @@ class RulesCourseSettingsGUI
         $form = self::srUserEnrolment()->ruleEnrolment()->rules()->settings()->factory()->newFormBuilderInstance($this, $this->settings);
 
         self::output()->output($form, true);
+    }
+
+
+    /**
+     *
+     */
+    protected function setTabs()/*: void*/
+    {
+
     }
 
 
@@ -130,14 +139,5 @@ class RulesCourseSettingsGUI
         ilUtil::sendSuccess(self::plugin()->translate("saved", self::LANG_MODULE), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_EDIT_SETTINGS);
-    }
-
-
-    /**
-     * @return RulesCourseGUI
-     */
-    public function getParent() : RulesCourseGUI
-    {
-        return $this->parent;
     }
 }

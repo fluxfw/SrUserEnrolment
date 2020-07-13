@@ -21,8 +21,8 @@ class StepsTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = StepsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
     /**
@@ -34,32 +34,6 @@ class StepsTableGUI extends TableGUI
     public function __construct(StepsGUI $parent, string $parent_cmd)
     {
         parent::__construct($parent, $parent_cmd);
-    }
-
-
-    /**
-     * @inheritDoc
-     *
-     * @param Step $step
-     */
-    protected function getColumnValue(/*string*/ $column, /*Step*/ $step, /*int*/ $format = self::DEFAULT_FORMAT) : string
-    {
-        switch ($column) {
-            case "enabled":
-                if ($step->isEnabled()) {
-                    $column = ilUtil::getImagePath("icon_ok.svg");
-                } else {
-                    $column = ilUtil::getImagePath("icon_not_ok.svg");
-                }
-                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
-                break;
-
-            default:
-                $column = htmlspecialchars(Items::getter($step, $column));
-                break;
-        }
-
-        return strval($column);
     }
 
 
@@ -92,6 +66,96 @@ class StepsTableGUI extends TableGUI
         ];
 
         return $columns;
+    }
+
+
+    /**
+     * @param Step $step
+     */
+    protected function fillRow(/*Step*/ $step)/*: void*/
+    {
+        self::dic()->ctrl()->setParameterByClass(StepGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
+
+        $this->tpl->setCurrentBlock("checkbox");
+        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", StepGUI::GET_PARAM_STEP_ID);
+        $this->tpl->setVariableEscaped("ID", $step->getStepId());
+        $this->tpl->parseCurrentBlock();
+
+        $this->tpl->setCurrentBlock("column");
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML([
+            self::dic()->ui()->factory()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) : string {
+                Waiter::init(Waiter::TYPE_WAITER);
+
+                return '
+            $("#' . $id . '").click(function () {
+                il.waiter.show();
+                var row = $(this).parent().parent();
+                $.ajax({
+                    url: ' . json_encode(self::dic()
+                        ->ctrl()
+                        ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_MOVE_STEP_UP, "", true)) . ',
+                    type: "GET"
+                 }).always(function () {
+                    il.waiter.hide();
+               }).success(function() {
+                    row.insertBefore(row.prev());
+                });
+            });';
+            }),
+            self::dic()->ui()->factory()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) : string {
+                return '
+            $("#' . $id . '").click(function () {
+                il.waiter.show();
+                var row = $(this).parent().parent();
+                $.ajax({
+                    url: ' . json_encode(self::dic()
+                        ->ctrl()
+                        ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_MOVE_STEP_DOWN, "", true)) . ',
+                    type: "GET"
+                }).always(function () {
+                    il.waiter.hide();
+                }).success(function() {
+                    row.insertAfter(row.next());
+                });
+        });';
+            })
+        ]));
+        $this->tpl->parseCurrentBlock();
+
+        parent::fillRow($step);
+
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
+            self::dic()->ui()->factory()->link()->standard($this->txt("edit_step"), self::dic()->ctrl()
+                ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_EDIT_STEP)),
+            self::dic()->ui()->factory()->link()->standard($this->txt("remove_step"), self::dic()->ctrl()
+                ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_REMOVE_STEP_CONFIRM))
+        ])->withLabel($this->txt("actions"))));
+    }
+
+
+    /**
+     * @inheritDoc
+     *
+     * @param Step $step
+     */
+    protected function getColumnValue(string $column, /*Step*/ $step, int $format = self::DEFAULT_FORMAT) : string
+    {
+        switch ($column) {
+            case "enabled":
+                if ($step->isEnabled()) {
+                    $column = ilUtil::getImagePath("icon_ok.svg");
+                } else {
+                    $column = ilUtil::getImagePath("icon_not_ok.svg");
+                }
+                $column = self::output()->getHTML(self::dic()->ui()->factory()->image()->standard($column, ""));
+                break;
+
+            default:
+                $column = htmlspecialchars(Items::getter($step, $column));
+                break;
+        }
+
+        return strval($column);
     }
 
 
@@ -161,69 +225,5 @@ class StepsTableGUI extends TableGUI
     protected function initTitle()/*: void*/
     {
         $this->setTitle($this->txt("steps"));
-    }
-
-
-    /**
-     * @param Step $step
-     */
-    protected function fillRow(/*Step*/ $step)/*: void*/
-    {
-        self::dic()->ctrl()->setParameterByClass(StepGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
-
-        $this->tpl->setCurrentBlock("checkbox");
-        $this->tpl->setVariableEscaped("CHECKBOX_POST_VAR", StepGUI::GET_PARAM_STEP_ID);
-        $this->tpl->setVariableEscaped("ID", $step->getStepId());
-        $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setCurrentBlock("column");
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML([
-            self::dic()->ui()->factory()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) : string {
-                Waiter::init(Waiter::TYPE_WAITER);
-
-                return '
-            $("#' . $id . '").click(function () {
-                il.waiter.show();
-                var row = $(this).parent().parent();
-                $.ajax({
-                    url: ' . json_encode(self::dic()
-                        ->ctrl()
-                        ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_MOVE_STEP_UP, "", true)) . ',
-                    type: "GET"
-                 }).always(function () {
-                    il.waiter.hide();
-               }).success(function() {
-                    row.insertBefore(row.prev());
-                });
-            });';
-            }),
-            self::dic()->ui()->factory()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) : string {
-                return '
-            $("#' . $id . '").click(function () {
-                il.waiter.show();
-                var row = $(this).parent().parent();
-                $.ajax({
-                    url: ' . json_encode(self::dic()
-                        ->ctrl()
-                        ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_MOVE_STEP_DOWN, "", true)) . ',
-                    type: "GET"
-                }).always(function () {
-                    il.waiter.hide();
-                }).success(function() {
-                    row.insertAfter(row.next());
-                });
-        });';
-            })
-        ]));
-        $this->tpl->parseCurrentBlock();
-
-        parent::fillRow($step);
-
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard([
-            self::dic()->ui()->factory()->link()->standard($this->txt("edit_step"), self::dic()->ctrl()
-                ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_EDIT_STEP)),
-            self::dic()->ui()->factory()->link()->standard($this->txt("remove_step"), self::dic()->ctrl()
-                ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_REMOVE_STEP_CONFIRM))
-        ])->withLabel($this->txt("actions"))));
     }
 }

@@ -24,13 +24,13 @@ class WorkflowsGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const CMD_DISABLE_WORKFLOWS = "disableWorkflows";
     const CMD_ENABLE_WORKFLOWS = "enableWorkflows";
     const CMD_LIST_WORKFLOWS = "listWorkflows";
-    const CMD_REMOVE_WORKFLOWS_CONFIRM = "removeWorkflowsConfirm";
     const CMD_REMOVE_WORKFLOWS = "removeWorkflows";
+    const CMD_REMOVE_WORKFLOWS_CONFIRM = "removeWorkflowsConfirm";
     const LANG_MODULE = "workflows";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const TAB_LIST_WORKFLOWS = "list_workflows";
 
 
@@ -40,6 +40,21 @@ class WorkflowsGUI
     public function __construct()
     {
 
+    }
+
+
+    /**
+     *
+     */
+    public static function addTabs()/*: void*/
+    {
+        if (self::srUserEnrolment()->enrolmentWorkflow()->hasAccess(self::dic()->user()->getId(), false)) {
+            self::dic()->tabs()->addTab(self::TAB_LIST_WORKFLOWS, self::plugin()->translate("workflows", self::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass(self::class, self::CMD_LIST_WORKFLOWS));
+
+            self::dic()->tabs()->addTab(NotificationsCtrl::TAB_NOTIFICATIONS, self::plugin()->translate("notifications", NotificationsCtrl::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass(NotificationsCtrl::class, NotificationsCtrl::CMD_LIST_NOTIFICATIONS));
+        }
     }
 
 
@@ -84,37 +99,30 @@ class WorkflowsGUI
     /**
      *
      */
-    public static function addTabs()/*: void*/
+    protected function disableWorkflows()/*: void*/
     {
-        if (self::srUserEnrolment()->enrolmentWorkflow()->hasAccess(self::dic()->user()->getId(), false)) {
-            self::dic()->tabs()->addTab(self::TAB_LIST_WORKFLOWS, self::plugin()->translate("workflows", self::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass(self::class, self::CMD_LIST_WORKFLOWS));
+        $workflow_ids = filter_input(INPUT_POST, WorkflowGUI::GET_PARAM_WORKFLOW_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
-            self::dic()->tabs()->addTab(NotificationsCtrl::TAB_NOTIFICATIONS, self::plugin()->translate("notifications", NotificationsCtrl::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass(NotificationsCtrl::class, NotificationsCtrl::CMD_LIST_NOTIFICATIONS));
+        if (!is_array($workflow_ids)) {
+            $workflow_ids = [];
         }
-    }
 
+        /**
+         * @var Workflow[] $workflows
+         */
+        $workflows = array_map(function (int $workflow_id) : Workflow {
+            return self::srUserEnrolment()->enrolmentWorkflow()->workflows()->getWorkflowById($workflow_id);
+        }, $workflow_ids);
 
-    /**
-     *
-     */
-    protected function setTabs()/*: void*/
-    {
+        foreach ($workflows as $workflow) {
+            $workflow->setEnabled(false);
 
-    }
+            $workflow->store();
+        }
 
+        ilUtil::sendSuccess(self::plugin()->translate("disabled_workflows", self::LANG_MODULE), true);
 
-    /**
-     *
-     */
-    protected function listWorkflows()/*: void*/
-    {
-        self::dic()->tabs()->activateTab(self::TAB_LIST_WORKFLOWS);
-
-        $table = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newTableInstance($this);
-
-        self::output()->output($table);
+        self::dic()->ctrl()->redirect($this, self::CMD_LIST_WORKFLOWS);
     }
 
 
@@ -151,7 +159,20 @@ class WorkflowsGUI
     /**
      *
      */
-    protected function disableWorkflows()/*: void*/
+    protected function listWorkflows()/*: void*/
+    {
+        self::dic()->tabs()->activateTab(self::TAB_LIST_WORKFLOWS);
+
+        $table = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newTableInstance($this);
+
+        self::output()->output($table);
+    }
+
+
+    /**
+     *
+     */
+    protected function removeWorkflows()/*: void*/
     {
         $workflow_ids = filter_input(INPUT_POST, WorkflowGUI::GET_PARAM_WORKFLOW_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -167,12 +188,10 @@ class WorkflowsGUI
         }, $workflow_ids);
 
         foreach ($workflows as $workflow) {
-            $workflow->setEnabled(false);
-
-            $workflow->store();
+            self::srUserEnrolment()->enrolmentWorkflow()->workflows()->deleteWorkflow($workflow);
         }
 
-        ilUtil::sendSuccess(self::plugin()->translate("disabled_workflows", self::LANG_MODULE), true);
+        ilUtil::sendSuccess(self::plugin()->translate("removed_workflows", self::LANG_MODULE), true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_LIST_WORKFLOWS);
     }
@@ -218,27 +237,8 @@ class WorkflowsGUI
     /**
      *
      */
-    protected function removeWorkflows()/*: void*/
+    protected function setTabs()/*: void*/
     {
-        $workflow_ids = filter_input(INPUT_POST, WorkflowGUI::GET_PARAM_WORKFLOW_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
-        if (!is_array($workflow_ids)) {
-            $workflow_ids = [];
-        }
-
-        /**
-         * @var Workflow[] $workflows
-         */
-        $workflows = array_map(function (int $workflow_id) : Workflow {
-            return self::srUserEnrolment()->enrolmentWorkflow()->workflows()->getWorkflowById($workflow_id);
-        }, $workflow_ids);
-
-        foreach ($workflows as $workflow) {
-            self::srUserEnrolment()->enrolmentWorkflow()->workflows()->deleteWorkflow($workflow);
-        }
-
-        ilUtil::sendSuccess(self::plugin()->translate("removed_workflows", self::LANG_MODULE), true);
-
-        self::dic()->ctrl()->redirect($this, self::CMD_LIST_WORKFLOWS);
     }
 }

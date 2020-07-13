@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.5.4]
+- Fix ILIAS 6 internal mail
+
+## [5.5.3]
+- Fix
+
 ## [5.5.2]
 - Fix escaped html line breaks
 

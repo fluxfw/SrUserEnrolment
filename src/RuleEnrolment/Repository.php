@@ -38,6 +38,15 @@ final class Repository
 
 
     /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
+
+
+    /**
      * @return self
      */
     public static function getInstance() : self
@@ -47,15 +56,6 @@ final class Repository
         }
 
         return self::$instance;
-    }
-
-
-    /**
-     * Repository constructor
-     */
-    private function __construct()
-    {
-
     }
 
 
@@ -142,30 +142,6 @@ final class Repository
 
     /**
      * @param int $obj_id
-     *
-     * @return int[]
-     */
-    public function getEnrolleds(int $obj_id) : array
-    {
-        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
-
-        switch (true) {
-            case ($obj instanceof ilObjCourse):
-                return $obj->getMembersObject()->getParticipants();
-
-            case ($obj instanceof ilObjRole):
-                return self::dic()->rbac()->review()->assignedUsers($obj->getId());
-
-            default:
-                break;
-        }
-
-        return [];
-    }
-
-
-    /**
-     * @param int $obj_id
      * @param int $user_id
      *
      * @return int|null
@@ -195,6 +171,30 @@ final class Repository
         }
 
         return null;
+    }
+
+
+    /**
+     * @param int $obj_id
+     *
+     * @return int[]
+     */
+    public function getEnrolleds(int $obj_id) : array
+    {
+        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+
+        switch (true) {
+            case ($obj instanceof ilObjCourse):
+                return $obj->getMembersObject()->getParticipants();
+
+            case ($obj instanceof ilObjRole):
+                return self::dic()->rbac()->review()->assignedUsers($obj->getId());
+
+            default:
+                break;
+        }
+
+        return [];
     }
 
 

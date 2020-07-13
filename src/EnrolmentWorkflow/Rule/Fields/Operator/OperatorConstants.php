@@ -12,16 +12,6 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator;
 final class OperatorConstants
 {
 
-    const OPERATOR_EQUALS = 1;
-    const OPERATOR_STARTS_WITH = 2;
-    const OPERATOR_CONTAINS = 3;
-    const OPERATOR_ENDS_WITH = 4;
-    const OPERATOR_REG_EX = 5;
-    const OPERATOR_EQUALS_SUBSEQUENT = 6;
-    const OPERATOR_LESS = 7;
-    const OPERATOR_LESS_EQUALS = 8;
-    const OPERATOR_BIGGER = 9;
-    const OPERATOR_BIGGER_EQUALS = 10;
     const OPERATORS
         = [
             self::OPERATOR_EQUALS        => "equals",
@@ -39,6 +29,16 @@ final class OperatorConstants
             self::OPERATOR_EQUALS            => "equals",
             self::OPERATOR_EQUALS_SUBSEQUENT => "equals_subsequent"
         ];
+    const OPERATOR_BIGGER = 9;
+    const OPERATOR_BIGGER_EQUALS = 10;
+    const OPERATOR_CONTAINS = 3;
+    const OPERATOR_ENDS_WITH = 4;
+    const OPERATOR_EQUALS = 1;
+    const OPERATOR_EQUALS_SUBSEQUENT = 6;
+    const OPERATOR_LESS = 7;
+    const OPERATOR_LESS_EQUALS = 8;
+    const OPERATOR_REG_EX = 5;
+    const OPERATOR_STARTS_WITH = 2;
 
 
     /**

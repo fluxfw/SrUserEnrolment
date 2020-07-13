@@ -20,8 +20,8 @@ class CreateActionFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = ActionsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var AbstractAction|null
      */
@@ -42,6 +42,34 @@ class CreateActionFormGUI extends PropertyFormGUI
         $this->type = current(array_keys(self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->getTypes()));
 
         parent::__construct($parent);
+    }
+
+
+    /**
+     * @return AbstractAction
+     */
+    public function getAction() : AbstractAction
+    {
+        return $this->action;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function storeForm() : bool
+    {
+        if (!parent::storeForm()) {
+            return false;
+        }
+
+        $this->action = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newInstance($this->type);
+
+        $this->action->setStepId($this->parent->getParent()->getParent()->getStep()->getStepId());
+
+        self::srUserEnrolment()->enrolmentWorkflow()->actions()->storeAction($this->action);
+
+        return true;
     }
 
 
@@ -115,33 +143,5 @@ class CreateActionFormGUI extends PropertyFormGUI
                 $this->{$key} = $value;
                 break;
         }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function storeForm() : bool
-    {
-        if (!parent::storeForm()) {
-            return false;
-        }
-
-        $this->action = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newInstance($this->type);
-
-        $this->action->setStepId($this->parent->getParent()->getParent()->getStep()->getStepId());
-
-        self::srUserEnrolment()->enrolmentWorkflow()->actions()->storeAction($this->action);
-
-        return true;
-    }
-
-
-    /**
-     * @return AbstractAction
-     */
-    public function getAction() : AbstractAction
-    {
-        return $this->action;
     }
 }

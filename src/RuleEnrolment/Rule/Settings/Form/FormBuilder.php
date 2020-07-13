@@ -111,6 +111,6 @@ class FormBuilder extends AbstractFormBuilder
             Items::setter($this->settings, $key, $data[$key]);
         }
 
-        self::SrUserEnrolment()->ruleEnrolment()->rules()->settings()->storeSettings($this->settings);
+        self::srUserEnrolment()->ruleEnrolment()->rules()->settings()->storeSettings($this->settings);
     }
 }

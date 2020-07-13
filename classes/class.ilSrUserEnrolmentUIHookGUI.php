@@ -27,19 +27,19 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
-    const PAR_SUB_TABS = "sub_tabs";
-    const PAR_TABS = "tabs";
-    const COURSE_MEMBER_LIST_TEMPLATE_ID = "Services/Table/tpl.table2.html";
-    const TEMPLATE_GET = "template_get";
     const ACTIONS_MENU_TEMPLATE = "Services/UIComponent/AdvancedSelectionList/tpl.adv_selection_list.html";
     const COMPONENT_DASHBOARD = "Services/Dashboard";
     const COMPONENT_PERSONAL_DESKTOP = "Services/PersonalDesktop";
+    const COURSE_MEMBER_LIST_TEMPLATE_ID = "Services/Table/tpl.table2.html";
+    const GET_PARAM_OBJ_ID = "obj_id";
+    const GET_PARAM_REF_ID = "ref_id";
+    const GET_PARAM_TARGET = "target";
     const PART_CENTER_COLUMN = "center_column";
     const PART_RIGHT_COLUMN = "right_column";
-    const GET_PARAM_REF_ID = "ref_id";
-    const GET_PARAM_OBJ_ID = "obj_id";
-    const GET_PARAM_TARGET = "target";
+    const PAR_SUB_TABS = "sub_tabs";
+    const PAR_TABS = "tabs";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const TEMPLATE_GET = "template_get";
     /**
      * @var bool
      */
@@ -148,6 +148,39 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     /**
      * @inheritDoc
      */
+    public function gotoHook()/*: void*/
+    {
+        $target = filter_input(INPUT_GET, "target");
+
+        $matches = [];
+        preg_match("/^uihk_" . ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req(_(.*))?/uim", $target, $matches);
+
+        if (is_array($matches) && count($matches) >= 1) {
+            $this->fixRedirect();
+
+            $request_id = explode("_", $matches[2]);
+            if (isset($request_id[1])) {
+                self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REF_ID, intval($request_id[1]));
+            }
+            $request_id = intval($request_id[0]);
+
+            $request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestById($request_id);
+
+            self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_OWN);
+            self::dic()->ctrl()->setParameterByClass(RequestInfoGUI::class, RequestInfoGUI::GET_PARAM_REQUEST_ID, $request_id);
+
+            if ($request !== null && $request->getUserId() === intval(self::dic()->user()->getId())) {
+                self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, RequestInfoGUI::class], RequestInfoGUI::CMD_SHOW_WORKFLOW);
+            } else {
+                self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, RequestsGUI::class, RequestInfoGUI::class], RequestInfoGUI::CMD_SHOW_WORKFLOW);
+            }
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function modifyGUI(/*string*/ $a_comp, /*string*/ $a_part, /*array*/ $a_par = [])/*: void*/
     {
         if ($a_part === self::PAR_TABS) {
@@ -214,34 +247,28 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
 
     /**
-     * @inheritDoc
+     *
      */
-    public function gotoHook()/*: void*/
+    protected function fixRedirect()/*: void*/
     {
-        $target = filter_input(INPUT_GET, "target");
+        self::dic()->ctrl()->setTargetScript("ilias.php"); // Fix ILIAS 5.3 bug
+        self::dic()->ctrl()->initBaseClass(ilUIPluginRouterGUI::class); // Fix ILIAS bug
+    }
 
-        $matches = [];
-        preg_match("/^uihk_" . ilSrUserEnrolmentPlugin::PLUGIN_ID . "_req(_(.*))?/uim", $target, $matches);
 
-        if (is_array($matches) && count($matches) >= 1) {
-            $this->fixRedirect();
+    /**
+     * @return int|null
+     */
+    protected function getObjId()/*: ?int*/
+    {
+        $obj_id = filter_input(INPUT_GET, self::GET_PARAM_OBJ_ID);
 
-            $request_id = explode("_", $matches[2]);
-            if (isset($request_id[1])) {
-                self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REF_ID, intval($request_id[1]));
-            }
-            $request_id = intval($request_id[0]);
+        $obj_id = intval($obj_id);
 
-            $request = self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestById($request_id);
-
-            self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_OWN);
-            self::dic()->ctrl()->setParameterByClass(RequestInfoGUI::class, RequestInfoGUI::GET_PARAM_REQUEST_ID, $request_id);
-
-            if ($request !== null && $request->getUserId() === intval(self::dic()->user()->getId())) {
-                self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, RequestInfoGUI::class], RequestInfoGUI::CMD_SHOW_WORKFLOW);
-            } else {
-                self::dic()->ctrl()->redirectByClass([ilUIPluginRouterGUI::class, RequestsGUI::class, RequestInfoGUI::class], RequestInfoGUI::CMD_SHOW_WORKFLOW);
-            }
+        if ($obj_id > 0) {
+            return $obj_id;
+        } else {
+            return null;
         }
     }
 
@@ -266,32 +293,5 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
         } else {
             return null;
         }
-    }
-
-
-    /**
-     * @return int|null
-     */
-    protected function getObjId()/*: ?int*/
-    {
-        $obj_id = filter_input(INPUT_GET, self::GET_PARAM_OBJ_ID);
-
-        $obj_id = intval($obj_id);
-
-        if ($obj_id > 0) {
-            return $obj_id;
-        } else {
-            return null;
-        }
-    }
-
-
-    /**
-     *
-     */
-    protected function fixRedirect()/*: void*/
-    {
-        self::dic()->ctrl()->setTargetScript("ilias.php"); // Fix ILIAS 5.3 bug
-        self::dic()->ctrl()->initBaseClass(ilUIPluginRouterGUI::class); // Fix ILIAS bug
     }
 }

@@ -28,10 +28,10 @@ class EditRequestGUI
     use DICTrait;
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
+    const CMD_BACK = "back";
     const CMD_CONFIRM_EDIT_REQUEST = "confirmEditRequest";
     const CMD_EDIT_REQUEST = "editRequest";
-    const CMD_BACK = "back";
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var RequestInfoGUI
      */
@@ -100,15 +100,6 @@ class EditRequestGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
-    {
-        self::dic()->toolbar()->items = [];
-    }
-
-
-    /**
-     *
-     */
     protected function back()/*: void*/
     {
         self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
@@ -167,5 +158,14 @@ class EditRequestGUI
             true);
 
         self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+    }
+
+
+    /**
+     *
+     */
+    protected function setTabs()/*: void*/
+    {
+        self::dic()->toolbar()->items = [];
     }
 }

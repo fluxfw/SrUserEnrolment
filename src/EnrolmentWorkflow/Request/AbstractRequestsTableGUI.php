@@ -23,8 +23,8 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
     use SrUserEnrolmentTrait;
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     const LANG_MODULE = RequestsGUI::LANG_MODULE;
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var ArrayObject<AbstractRequestsTableModifications>
      */
@@ -50,11 +50,43 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
 
     /**
+     * @param Request $request
+     */
+    protected function fillRow(/*Request*/ $request)/*: void*/
+    {
+        self::dic()->ctrl()->setParameterByClass(RequestInfoGUI::class, RequestInfoGUI::GET_PARAM_REQUEST_ID, $request->getRequestId());
+
+        parent::fillRow($request);
+
+        $actions = [];
+        foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($request, self::dic()->user()->getId()) as $step) {
+            self::dic()->ctrl()->setParameterByClass(EditRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
+
+            $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionEditTitle(), self::dic()->ctrl()
+                ->getLinkTargetByClass([RequestInfoGUI::class, EditRequestGUI::class], EditRequestGUI::CMD_CONFIRM_EDIT_REQUEST));
+        }
+
+        if (!empty($actions)) {
+            $actions[] = self::dic()->ui()->factory()->divider()->horizontal();
+        }
+
+        $actions[] = self::dic()->ui()->factory()->link()->standard($request->getWorkflow()->getTitle(), $request->getRequestLink(!empty($this->parent_obj->getObjRefId())));
+
+        if (count($actions) > 1) {
+            $actions[] = self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE), self::dic()->ctrl()
+                ->getLinkTargetByClass(RequestInfoGUI::class, RequestInfoGUI::CMD_ADD_RESPONSIBLE_USERS));
+        }
+
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
+    }
+
+
+    /**
      * @inheritDoc
      *
      * @param Request $request
      */
-    protected function getColumnValue(/*string*/ $column, /*Request*/ $request, /*int*/ $format = self::DEFAULT_FORMAT) : string
+    protected function getColumnValue(string $column, /*Request*/ $request, int $format = self::DEFAULT_FORMAT) : string
     {
         foreach ($this->modifications as $modification) {
             $column_value = $modification->formatColumnValue($column, $request);
@@ -156,6 +188,78 @@ abstract class AbstractRequestsTableGUI extends TableGUI
 
 
     /**
+     * @return bool|null
+     */
+    protected abstract function getFilterEdited()/* : ?bool*/ ;
+
+
+    /**
+     * @return int[]|null
+     */
+    protected abstract function getFilterEditedStatus()/* : ?array*/ ;
+
+
+    /**
+     * @return int|null
+     */
+    protected abstract function getFilterObjRefId()/* : ?int*/ ;
+
+
+    /**
+     * @return string|null
+     */
+    protected abstract function getFilterObjectTitle()/* : ?string*/ ;
+
+
+    /**
+     * @return array|null
+     */
+    protected abstract function getFilterResponsibleUsers()/* : ?array*/ ;
+
+
+    /**
+     * @return int|null
+     */
+    protected abstract function getFilterStepId()/* : ?int*/ ;
+
+
+    /**
+     * @return string|null
+     */
+    protected abstract function getFilterUserEmail()/* : ?string*/ ;
+
+
+    /**
+     * @return string|null
+     */
+    protected abstract function getFilterUserFirstname()/* : ?string*/ ;
+
+
+    /**
+     * @return array|null
+     */
+    protected abstract function getFilterUserId()/* : ?array*/ ;
+
+
+    /**
+     * @return string|null
+     */
+    protected abstract function getFilterUserLastname()/* : ?string*/ ;
+
+
+    /**
+     * @return string|null
+     */
+    protected abstract function getFilterUserOrgUnits()/* : ?string*/ ;
+
+
+    /**
+     * @return int|null
+     */
+    protected abstract function getFilterWorkflowId()/* : ?int*/ ;
+
+
+    /**
      * @inheritDoc
      */
     protected function initColumns()/*: void*/
@@ -216,108 +320,4 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     {
         $this->setTitle($this->txt("type_" . RequestsGUI::getRequestsTypes()[$this->parent_obj->getRequestsType()]));
     }
-
-
-    /**
-     * @param Request $request
-     */
-    protected function fillRow(/*Request*/ $request)/*: void*/
-    {
-        self::dic()->ctrl()->setParameterByClass(RequestInfoGUI::class, RequestInfoGUI::GET_PARAM_REQUEST_ID, $request->getRequestId());
-
-        parent::fillRow($request);
-
-        $actions = [];
-        foreach (self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($request, self::dic()->user()->getId()) as $step) {
-            self::dic()->ctrl()->setParameterByClass(EditRequestGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
-
-            $actions[] = self::dic()->ui()->factory()->link()->standard($step->getActionEditTitle(), self::dic()->ctrl()
-                ->getLinkTargetByClass([RequestInfoGUI::class, EditRequestGUI::class], EditRequestGUI::CMD_CONFIRM_EDIT_REQUEST));
-        }
-
-        if (!empty($actions)) {
-            $actions[] = self::dic()->ui()->factory()->divider()->horizontal();
-        }
-
-        $actions[] = self::dic()->ui()->factory()->link()->standard($request->getWorkflow()->getTitle(), $request->getRequestLink(!empty($this->parent_obj->getObjRefId())));
-
-        if (count($actions) > 1) {
-            $actions[] = self::dic()->ui()->factory()->link()->standard(self::plugin()->translate("add_responsible_users", RequestsGUI::LANG_MODULE), self::dic()->ctrl()
-                ->getLinkTargetByClass(RequestInfoGUI::class, RequestInfoGUI::CMD_ADD_RESPONSIBLE_USERS));
-        }
-
-        $this->tpl->setVariable("COLUMN", self::output()->getHTML(self::dic()->ui()->factory()->dropdown()->standard($actions)->withLabel($this->txt("actions"))));
-    }
-
-
-    /**
-     * @return bool|null
-     */
-    protected abstract function getFilterEdited()/* : ?bool*/ ;
-
-
-    /**
-     * @return int[]|null
-     */
-    protected abstract function getFilterEditedStatus()/* : ?array*/ ;
-
-
-    /**
-     * @return int|null
-     */
-    protected abstract function getFilterObjRefId()/* : ?int*/ ;
-
-
-    /**
-     * @return string|null
-     */
-    protected abstract function getFilterObjectTitle()/* : ?string*/ ;
-
-
-    /**
-     * @return array|null
-     */
-    protected abstract function getFilterResponsibleUsers()/* : ?array*/ ;
-
-
-    /**
-     * @return int|null
-     */
-    protected abstract function getFilterStepId()/* : ?int*/ ;
-
-
-    /**
-     * @return array|null
-     */
-    protected abstract function getFilterUserId()/* : ?array*/ ;
-
-
-    /**
-     * @return string|null
-     */
-    protected abstract function getFilterUserEmail()/* : ?string*/ ;
-
-
-    /**
-     * @return string|null
-     */
-    protected abstract function getFilterUserFirstname()/* : ?string*/ ;
-
-
-    /**
-     * @return string|null
-     */
-    protected abstract function getFilterUserLastname()/* : ?string*/ ;
-
-
-    /**
-     * @return string|null
-     */
-    protected abstract function getFilterUserOrgUnits()/* : ?string*/ ;
-
-
-    /**
-     * @return int|null
-     */
-    protected abstract function getFilterWorkflowId()/* : ?int*/ ;
 }

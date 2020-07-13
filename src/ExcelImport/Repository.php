@@ -36,19 +36,6 @@ final class Repository
 
 
     /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
-
-
-    /**
      * Repository constructor
      */
     private function __construct()
@@ -58,57 +45,15 @@ final class Repository
 
 
     /**
-     * @param ilObjUser $user
-     * @param stdClass  $fields
-     *
-     * @return bool
+     * @return self
      */
-    protected function assignOrgUnit(ilObjUser $user, stdClass $fields) : bool
+    public static function getInstance() : self
     {
-        if (isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit) && isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position)
-        ) {
-            $assignment = ilOrgUnitUserAssignment::where([
-                "user_id"     => $user->getId(),
-                "orgu_id"     => $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit,
-                "position_id" => $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position
-            ])->first();
-
-            if ($assignment === null) {
-                $assignment = new ilOrgUnitUserAssignment();
-                $assignment->setUserId($user->getId());
-                $assignment->setOrguId($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit);
-                $assignment->setPositionId($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position);
-                $assignment->store();
-
-                return true;
-            }
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
-        return false;
-    }
-
-
-    /**
-     * @param ilObjUser $user
-     * @param stdClass  $fields
-     *
-     * @return bool
-     */
-    protected function assignRoles(ilObjUser $user, stdClass $fields) : bool
-    {
-        $changed = false;
-
-        if (!empty($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles)) {
-            foreach ($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles as $role) {
-                self::srUserEnrolment()->ruleEnrolment()->enroll($role, $user->getId());
-                $changed = true;
-            }
-        } else {
-            self::srUserEnrolment()->ruleEnrolment()->enroll(ExcelImportFormGUI::USER_ROLE_ID, $user->getId()); // User default role
-            $changed = true;
-        }
-
-        return $changed;
+        return self::$instance;
     }
 
 
@@ -249,6 +194,30 @@ final class Repository
 
 
     /**
+     * @param int $matriculation_number
+     *
+     * @return int|null
+     */
+    public function getUserIdByMatriculationNumber(int $matriculation_number)/*:?int*/
+    {
+        $result = self::dic()->database()->queryF("SELECT usr_id FROM usr_data WHERE "
+            . self::dic()
+                ->database()
+                ->in("matriculation", array_unique(array_map(function (int $len) use ($matriculation_number) : string {
+                    return str_pad($matriculation_number, $len, 0, STR_PAD_LEFT);
+                }, range(1, 8))), false,
+                    ilDBConstants::T_TEXT) . " AND usr_id>%s",
+            [ilDBConstants::T_INTEGER], [6]);
+
+        if (($row = $result->fetchAssoc()) !== false) {
+            return $row["usr_id"];
+        }
+
+        return null;
+    }
+
+
+    /**
      * @param int      $user_id
      * @param int      $obj_ref_id
      * @param int|null $obj_single_id
@@ -330,24 +299,6 @@ final class Repository
     public function isLocalUserAdminisrationEnabled() : bool
     {
         return ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled();
-    }
-
-
-    /**
-     * @param ilObjUser $user
-     * @param stdClass  $fields
-     *
-     * @return bool
-     */
-    protected function resetPassword(ilObjUser $user, stdClass $fields) : bool
-    {
-        if (isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd)) {
-            $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd = self::srUserEnrolment()->resetUserPassword()->resetPassword($user->getId(), $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd);
-
-            return true;
-        }
-
-        return false;
     }
 
 
@@ -447,5 +398,78 @@ final class Repository
         }
 
         return $updated;
+    }
+
+
+    /**
+     * @param ilObjUser $user
+     * @param stdClass  $fields
+     *
+     * @return bool
+     */
+    protected function assignOrgUnit(ilObjUser $user, stdClass $fields) : bool
+    {
+        if (isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit) && isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position)
+        ) {
+            $assignment = ilOrgUnitUserAssignment::where([
+                "user_id"     => $user->getId(),
+                "orgu_id"     => $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit,
+                "position_id" => $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position
+            ])->first();
+
+            if ($assignment === null) {
+                $assignment = new ilOrgUnitUserAssignment();
+                $assignment->setUserId($user->getId());
+                $assignment->setOrguId($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit);
+                $assignment->setPositionId($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->org_unit_position);
+                $assignment->store();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param ilObjUser $user
+     * @param stdClass  $fields
+     *
+     * @return bool
+     */
+    protected function assignRoles(ilObjUser $user, stdClass $fields) : bool
+    {
+        $changed = false;
+
+        if (!empty($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles)) {
+            foreach ($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles as $role) {
+                self::srUserEnrolment()->ruleEnrolment()->enroll($role, $user->getId());
+                $changed = true;
+            }
+        } else {
+            self::srUserEnrolment()->ruleEnrolment()->enroll(ExcelImportFormGUI::USER_ROLE_ID, $user->getId()); // User default role
+            $changed = true;
+        }
+
+        return $changed;
+    }
+
+
+    /**
+     * @param ilObjUser $user
+     * @param stdClass  $fields
+     *
+     * @return bool
+     */
+    protected function resetPassword(ilObjUser $user, stdClass $fields) : bool
+    {
+        if (isset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd)) {
+            $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd = self::srUserEnrolment()->resetUserPassword()->resetPassword($user->getId(), $fields->{ExcelImport::FIELDS_TYPE_ILIAS}->passwd);
+
+            return true;
+        }
+
+        return false;
     }
 }
