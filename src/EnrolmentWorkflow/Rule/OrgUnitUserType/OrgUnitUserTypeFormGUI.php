@@ -44,7 +44,7 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
     /**
      * @inheritDoc
      */
-    protected function getValue(/*string*/ $key)
+    protected function getValue(string $key)
     {
         switch ($key) {
             case "operator_subsequent":
@@ -99,7 +99,7 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(/*string*/ $key, $value)/*: void*/
+    protected function storeValue(string $key, $value)/*: void*/
     {
         switch ($key) {
             case "operator_subsequent":
