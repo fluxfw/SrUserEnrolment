@@ -154,7 +154,7 @@ class StepFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(/*string*/ $key, $value)/*: void*/
+    protected function storeValue(string $key, $value)/*: void*/
     {
         switch ($key) {
             default:

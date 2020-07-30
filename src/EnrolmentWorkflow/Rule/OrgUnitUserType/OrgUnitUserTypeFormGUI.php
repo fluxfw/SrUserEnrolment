@@ -99,7 +99,7 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(/*string*/ $key, $value)/*: void*/
+    protected function storeValue(string $key, $value)/*: void*/
     {
         switch ($key) {
             case "operator_subsequent":
