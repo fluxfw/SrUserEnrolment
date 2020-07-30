@@ -39,7 +39,7 @@ class SelectWorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function getValue(/*string*/ $key)
+    protected function getValue(string $key)
     {
         switch ($key) {
             case "workflow_id":

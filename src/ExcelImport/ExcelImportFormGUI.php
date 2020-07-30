@@ -679,7 +679,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function getValue(/*string*/ $key)
+    protected function getValue(string $key)
     {
         switch ($key) {
             case "excel_file":

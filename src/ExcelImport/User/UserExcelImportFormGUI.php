@@ -54,7 +54,7 @@ class UserExcelImportFormGUI extends ExcelImportFormGUI
     /**
      * @inheritDoc
      */
-    protected function getValue(/*string*/ $key)
+    protected function getValue(string $key)
     {
         switch ($key) {
             case self::KEY_LOCAL_USER_ADMINISTRATION:
