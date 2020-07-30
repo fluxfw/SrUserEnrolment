@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.15.1]
+- Fix PHP 7.0
+
 ## [3.15.0]
 - Excel import: Map exists users by matriculation number
 
