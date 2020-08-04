@@ -57,7 +57,7 @@ abstract class AbstractRule extends ActiveRecord
             ],
             self::PARENT_CONTEXT_ROLE       => [
                 self::TYPE_ROLE_RULE => "role_rule"
-            ],
+            ]
         ];
     const TYPE_ACTION_IF = 4;
     const TYPE_COURSE_RULE = 1;
