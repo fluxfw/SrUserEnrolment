@@ -39,8 +39,29 @@ class ExcelImport
     const LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_ORG_UNIT = 2;
     const LOCAL_USER_ADMINISTRATION_TYPE_REF_ID = 2;
     const LOCAL_USER_ADMINISTRATION_TYPE_TITLE = 1;
+    /**
+     * @var int
+     *
+     * @deprecated
+     */
+    const MAP_EXISTS_USERS_DEPRECATED = 4;
+    /**
+     * @var int
+     *
+     * @deprecated
+     */
     const MAP_EXISTS_USERS_EMAIL = 2;
+    /**
+     * @var int
+     *
+     * @deprecated
+     */
     const MAP_EXISTS_USERS_LOGIN = 1;
+    /**
+     * @var int
+     *
+     * @deprecated
+     */
     const MAP_EXISTS_USERS_MATRICULATION_NUMBER = 3;
     const ORG_UNIT_POSITION_FIELD = 0;
     const ORG_UNIT_TYPE_REF_ID = 2;
@@ -422,30 +443,10 @@ class ExcelImport
         }, $users);
 
         $exists_users = array_filter($users, function (stdClass &$user) use ($form, $update_fields): bool {
-            switch ($form->getMapExistsUsersField()) {
-                case self::MAP_EXISTS_USERS_LOGIN:
-                    if (!empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->login)) {
-                        $user->ilias_user_id = self::srUserEnrolment()->excelImport()->getUserIdByLogin(strval($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->login));
-                    }
-                    break;
-
-                case self::MAP_EXISTS_USERS_EMAIL:
-                    if (!empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->email)) {
-                        $user->ilias_user_id = self::srUserEnrolment()->excelImport()->getUserIdByEmail(strval($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->email));
-                    }
-                    break;
-
-                case self::MAP_EXISTS_USERS_MATRICULATION_NUMBER:
-                    if (!empty($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->matriculation)) {
-                        $user->ilias_user_id = self::srUserEnrolment()
-                            ->excelImport()
-                            ->getUserIdByMatriculationNumber(intval($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->matriculation));
-                    }
-                    break;
-
-                default:
-                    break;
-            }
+            $user->ilias_user_id = self::srUserEnrolment()
+                ->excelImport()
+                ->getUserIdByMapping($form->getMapExistsUsersFieldType(), $form->getMapExistsUsersFieldKey(),
+                    $user->{ExcelImportFormGUI::KEY_FIELDS}->{$form->getMapExistsUsersFieldType()}->{$form->getMapExistsUsersFieldKey()} ?? null);
 
             if (empty($user->ilias_user_id)) {
                 $user->is_new = true;

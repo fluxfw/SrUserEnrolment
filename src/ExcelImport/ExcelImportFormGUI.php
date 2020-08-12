@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
 use ilCheckboxInputGUI;
+use ilCustomInputGUI;
 use ilFileInputGUI;
 use ilNonEditableValueGUI;
 use ilNumberInputGUI;
@@ -42,7 +43,15 @@ class ExcelImportFormGUI extends PropertyFormGUI
     const KEY_LOCAL_USER_ADMINISTRATION = self::LANG_MODULE . "_local_user_administration";
     const KEY_LOCAL_USER_ADMINISTRATION_OBJECT_TYPE = self::LANG_MODULE . "_local_user_administration_object_type";
     const KEY_LOCAL_USER_ADMINISTRATION_TYPE = self::LANG_MODULE . "_local_user_administration_type";
-    const KEY_MAP_EXISTS_USERS_FIELD = self::LANG_MODULE . "_map_exists_users_field";
+    /**
+     * @var string
+     *
+     * @deprecated
+     */
+    const KEY_MAP_EXISTS_USERS_FIELD_DEPRECATED = self::LANG_MODULE . "_map_exists_users_field";
+    const KEY_MAP_EXISTS_USERS_FIELD_GROUP = self::LANG_MODULE . "_map_exists_users_field_group";
+    const KEY_MAP_EXISTS_USERS_FIELD_KEY = self::LANG_MODULE . "_map_exists_users_field_key";
+    const KEY_MAP_EXISTS_USERS_FIELD_TYPE = self::LANG_MODULE . "_map_exists_users_field_type";
     const KEY_ORG_UNIT_ASSIGN = self::LANG_MODULE . "_org_unit_assign";
     const KEY_ORG_UNIT_ASSIGN_POSITION = self::LANG_MODULE . "_org_unit_assign_position";
     const KEY_ORG_UNIT_ASSIGN_TYPE = self::LANG_MODULE . "_org_unit_assign_type";
@@ -96,9 +105,13 @@ class ExcelImportFormGUI extends PropertyFormGUI
      */
     protected $excel_import_local_user_administration_type = ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_TITLE;
     /**
+     * @var string
+     */
+    protected $excel_import_map_exists_users_field_key = "login";
+    /**
      * @var int
      */
-    protected $excel_import_map_exists_users_field = ExcelImport::MAP_EXISTS_USERS_LOGIN;
+    protected $excel_import_map_exists_users_field_type = ExcelImport::FIELDS_TYPE_ILIAS;
     /**
      * @var bool
      */
@@ -183,36 +196,30 @@ class ExcelImportFormGUI extends PropertyFormGUI
                 "setTitle"              => self::plugin()->translate(self::KEY_FIELDS)
             ],
 
-            self::KEY_MAP_EXISTS_USERS_FIELD => [
-                self::PROPERTY_CLASS    => ilRadioGroupInputGUI::class,
-                self::PROPERTY_REQUIRED => true,
+            self::KEY_MAP_EXISTS_USERS_FIELD_GROUP => [
+                self::PROPERTY_CLASS    => ilCustomInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
-                    ExcelImport::MAP_EXISTS_USERS_LOGIN                => [
-                        self::PROPERTY_CLASS => ilRadioOption::class,
-                        "setTitle"           => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login"),
-                        "setInfo"            => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
-                            self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_login"),
-                            ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "login")
-                        ])
+                    self::KEY_MAP_EXISTS_USERS_FIELD_TYPE => [
+                        self::PROPERTY_CLASS    => TypeSelectInputGUI::class,
+                        self::PROPERTY_REQUIRED => true,
+                        self::PROPERTY_OPTIONS  => [
+                            ExcelImport::FIELDS_TYPE_ILIAS  => self::plugin()->translate(self::KEY_FIELDS . "_ilias"),
+                            ExcelImport::FIELDS_TYPE_CUSTOM => self::plugin()->translate(self::KEY_FIELDS . "_custom")
+                        ],
+                        "setTitle"              => self::plugin()->translate(self::KEY_FIELDS . "_type")
                     ],
-                    ExcelImport::MAP_EXISTS_USERS_EMAIL                => [
-                        self::PROPERTY_CLASS => ilRadioOption::class,
-                        "setTitle"           => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email"),
-                        "setInfo"            => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
-                            self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_email"),
-                            ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "email")
-                        ])
-                    ],
-                    ExcelImport::MAP_EXISTS_USERS_MATRICULATION_NUMBER => [
-                        self::PROPERTY_CLASS => ilRadioOption::class,
-                        "setTitle"           => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_matriculation_number"),
-                        "setInfo"            => self::plugin()->translate("fields_needed_field_info", self::LANG_MODULE, [
-                            self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD . "_matriculation_number"),
-                            ExcelImport::fieldName(ExcelImport::FIELDS_TYPE_ILIAS, "matriculation")
-                        ])
+                    self::KEY_MAP_EXISTS_USERS_FIELD_KEY  => [
+                        self::PROPERTY_CLASS    => TextInputGUIWithModernAutoComplete::class,
+                        self::PROPERTY_REQUIRED => true,
+                        "setTitle"              => self::plugin()->translate(self::KEY_FIELDS . "_key"),
+                        "setInfo"               => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD_GROUP . "_info", "", [
+                            self::plugin()->translate(self::KEY_FIELDS)
+                        ]),
+                        "setDataSource"         => self::dic()->ctrl()
+                            ->getLinkTarget($parent, ExcelImportGUI::CMD_KEY_AUTO_COMPLETE, "", true)
                     ]
                 ],
-                "setTitle"              => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD)
+                "setTitle"              => self::plugin()->translate(self::KEY_MAP_EXISTS_USERS_FIELD_GROUP)
             ],
 
             self::KEY_CREATE_NEW_USERS => [
@@ -222,7 +229,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                         self::PROPERTY_CLASS    => MultiSelectSearchNewInputGUI::class,
                         self::PROPERTY_REQUIRED => true,
                         self::PROPERTY_OPTIONS  => array_filter(self::srUserEnrolment()->ruleEnrolment()->getAllRoles(), function (int $role) : bool {
-                            return (!in_array($role, self::srUserEnrolment()->config()->getValue(ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE)));
+                            return (!in_array($role, self::srUserEnrolment()->config()->getValue(self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES_EXCLUDE)));
                         }, ARRAY_FILTER_USE_KEY),
                         "setTitle"              => self::plugin()->translate(self::KEY_CREATE_NEW_USERS_GLOBAL_ROLES)
                     ]
@@ -247,7 +254,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
                     ExcelImport::SET_PASSWORD_FIELD  => [
                         self::PROPERTY_CLASS    => ilRadioOption::class,
                         self::PROPERTY_SUBITEMS => [
-                            ExcelImportFormGUI::KEY_SET_PASSWORD_FORMAT_DATE => [
+                            self::KEY_SET_PASSWORD_FORMAT_DATE => [
                                 self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
                                 "setTitle"           => self::plugin()->translate(self::KEY_SET_PASSWORD_FORMAT_DATE),
                                 "setInfo"            => self::plugin()->translate(self::KEY_SET_PASSWORD_FORMAT_DATE . "_info")
@@ -399,34 +406,11 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
         $needed_fields = [];
 
-        switch ($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD)) {
-            case ExcelImport::MAP_EXISTS_USERS_LOGIN:
-                $needed_fields[] = [
-                    "type"        => ExcelImport::FIELDS_TYPE_ILIAS,
-                    "key"         => "login",
-                    "for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
-                ];
-                break;
-
-            case ExcelImport::MAP_EXISTS_USERS_EMAIL:
-                $needed_fields[] = [
-                    "type"        => ExcelImport::FIELDS_TYPE_ILIAS,
-                    "key"         => "email",
-                    "for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
-                ];
-                break;
-
-            case ExcelImport::MAP_EXISTS_USERS_MATRICULATION_NUMBER:
-                $needed_fields[] = [
-                    "type"        => ExcelImport::FIELDS_TYPE_ILIAS,
-                    "key"         => "matriculation",
-                    "for_message" => self::KEY_MAP_EXISTS_USERS_FIELD
-                ];
-                break;
-
-            default:
-                break;
-        }
+        $needed_fields[] = [
+            "type"        => intval($form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD_TYPE)),
+            "key"         => $form->getInput(self::KEY_MAP_EXISTS_USERS_FIELD_KEY),
+            "for_message" => self::KEY_MAP_EXISTS_USERS_FIELD_GROUP
+        ];
 
         if ($form->getInput(self::KEY_CREATE_NEW_USERS)) {
             foreach (["login", "email", "firstname", "lastname"] as $key) {
@@ -578,11 +562,20 @@ class ExcelImportFormGUI extends PropertyFormGUI
 
 
     /**
+     * @return string
+     */
+    public function getMapExistsUsersFieldKey() : string
+    {
+        return trim(strval($this->{self::KEY_MAP_EXISTS_USERS_FIELD_KEY}));
+    }
+
+
+    /**
      * @return int
      */
-    public function getMapExistsUsersField() : int
+    public function getMapExistsUsersFieldType() : int
     {
-        return $this->{self::KEY_MAP_EXISTS_USERS_FIELD};
+        return intval($this->{self::KEY_MAP_EXISTS_USERS_FIELD_TYPE});
     }
 
 

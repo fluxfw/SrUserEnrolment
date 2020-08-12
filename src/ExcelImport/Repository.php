@@ -166,6 +166,30 @@ final class Repository
 
 
     /**
+     * @param string $key
+     * @param string $value
+     *
+     * @return int|null
+     */
+    public function getUserIdByCustomField(string $key, string $value)/*:?int*/
+    {
+        $result = self::dic()->database()->queryF('
+SELECT CASE WHEN udf_clob.usr_id IS NOT NULL THEN udf_clob.usr_id ELSE udf_text.usr_id END AS usr_id
+FROM udf_definition
+LEFT JOIN udf_text ON udf_definition.field_id=udf_text.field_id
+LEFT JOIN udf_clob ON udf_definition.field_id=udf_text.field_id
+WHERE field_name=%s
+AND (udf_text.value=%s OR udf_clob.value=%s)', [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT], [$key, $value, $value]);
+
+        if (($row = $result->fetchAssoc()) !== false) {
+            return $row["usr_id"];
+        }
+
+        return null;
+    }
+
+
+    /**
      * @param string $email
      *
      * @return int|null
@@ -183,6 +207,27 @@ final class Repository
 
 
     /**
+     * @param string $key
+     * @param string $value
+     *
+     * @return int|null
+     */
+    public function getUserIdByIliasField(string $key, string $value)/*:?int*/
+    {
+        $result = self::dic()->database()->queryF('
+SELECT usr_id
+FROM usr_data
+WHERE ' . self::dic()->database()->quoteIdentifier($key) . '=%s', [ilDBConstants::T_TEXT], [$value]);
+
+        if (($row = $result->fetchAssoc()) !== false) {
+            return $row["usr_id"];
+        }
+
+        return null;
+    }
+
+
+    /**
      * @param string $login
      *
      * @return int|null
@@ -194,19 +239,61 @@ final class Repository
 
 
     /**
+     * @param int    $type
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return int|null
+     */
+    public function getUserIdByMapping(int $type, string $key, $value)/*:?int*/
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        if ($type === ExcelImport::FIELDS_TYPE_ILIAS && $key === "login") {
+            return $this->getUserIdByLogin(strval($value));
+        }
+
+        if ($type === ExcelImport::FIELDS_TYPE_ILIAS && $key === "email") {
+            return $this->getUserIdByEmail(strval($value));
+        }
+
+        if ($type === ExcelImport::FIELDS_TYPE_ILIAS && $key === "matriculation") {
+            return $this->getUserIdByMatriculationNumber(intval($value));
+        }
+
+        switch ($type) {
+            case ExcelImport::FIELDS_TYPE_ILIAS:
+                return $this->getUserIdByIliasField($key, strval($value));
+
+            case ExcelImport::FIELDS_TYPE_CUSTOM:
+                return $this->getUserIdByCustomField($key, strval($value));
+
+            default:
+                return null;
+        }
+    }
+
+
+    /**
      * @param int $matriculation_number
      *
      * @return int|null
      */
     public function getUserIdByMatriculationNumber(int $matriculation_number)/*:?int*/
     {
-        $result = self::dic()->database()->queryF("SELECT usr_id FROM usr_data WHERE "
+        $result = self::dic()->database()->queryF('
+SELECT usr_id
+FROM usr_data
+WHERE '
             . self::dic()
                 ->database()
                 ->in("matriculation", array_unique(array_map(function (int $len) use ($matriculation_number) : string {
                     return str_pad($matriculation_number, $len, 0, STR_PAD_LEFT);
                 }, range(1, 8))), false,
-                    ilDBConstants::T_TEXT) . " AND usr_id>%s",
+                    ilDBConstants::T_TEXT) . '
+AND usr_id>%s',
             [ilDBConstants::T_INTEGER], [6]);
 
         if (($row = $result->fetchAssoc()) !== false) {

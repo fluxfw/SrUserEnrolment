@@ -64,7 +64,7 @@ class Log extends ActiveRecord
             self::STATUS_ENROLL_UPDATED  => "enroll_updated",
             self::STATUS_ENROLL_FAILED   => "enroll_failed",
             self::STATUS_UNENROLLED      => "unenrolled",
-            self::STATUS_UNENROLL_FAILED => "unenroll_failed",
+            self::STATUS_UNENROLL_FAILED => "unenroll_failed"
         ];
     /**
      * @var ilDateTime

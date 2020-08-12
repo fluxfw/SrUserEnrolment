@@ -119,7 +119,7 @@ class ConfigFormGUI extends PropertyFormGUI
                 self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
                     self::KEY_SHOW_RULES_ENROLL_COURSE => [
-                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                        self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                     ],
                     self::KEY_SHOW_RULES_ENROLL_USER   => [
                         self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
@@ -136,7 +136,7 @@ class ConfigFormGUI extends PropertyFormGUI
                 self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
                 self::PROPERTY_SUBITEMS => [
                         self::KEY_SHOW_EXCEL_IMPORT_COURSE => [
-                            self::PROPERTY_CLASS => ilCheckboxInputGUI::class,
+                            self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                         ],
                         self::KEY_SHOW_EXCEL_IMPORT_USER   => [
                             self::PROPERTY_CLASS    => ilCheckboxInputGUI::class,
