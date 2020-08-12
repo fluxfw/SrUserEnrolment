@@ -86,6 +86,40 @@ final class Repository extends AbstractRepository
     /**
      * @inheritDoc
      */
+    public function installTables()/*: void*/
+    {
+        parent::installTables();
+
+        $old_map_exists_users_field = $this->getValue(ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_DEPRECATED);
+        if ($old_map_exists_users_field !== ExcelImport::MAP_EXISTS_USERS_DEPRECATED) {
+            switch ($old_map_exists_users_field) {
+                case ExcelImport::MAP_EXISTS_USERS_LOGIN:
+                    $this->setValue(ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_TYPE, ExcelImport::FIELDS_TYPE_ILIAS);
+                    $this->setValue(ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_KEY, "login");
+                    break;
+
+                case ExcelImport::MAP_EXISTS_USERS_EMAIL:
+                    $this->setValue(ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_TYPE, ExcelImport::FIELDS_TYPE_ILIAS);
+                    $this->setValue(ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_KEY, "email");
+                    break;
+
+                case ExcelImport::MAP_EXISTS_USERS_MATRICULATION_NUMBER:
+                    $this->setValue(ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_TYPE, ExcelImport::FIELDS_TYPE_ILIAS);
+                    $this->setValue(ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_KEY, "matriculation");
+                    break;
+
+                case ExcelImport::MAP_EXISTS_USERS_DEPRECATED:
+                default:
+                    break;
+            }
+            $this->setValue(ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_DEPRECATED, ExcelImport::MAP_EXISTS_USERS_DEPRECATED);
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     protected function getFields() : array
     {
         return [
@@ -169,7 +203,10 @@ final class Repository extends AbstractRepository
                 ExcelImport::LOCAL_USER_ADMINISTRATION_OBJECT_TYPE_CATEGORY
             ],
             ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION_TYPE        => [Config::TYPE_INTEGER, ExcelImport::LOCAL_USER_ADMINISTRATION_TYPE_TITLE],
-            ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD                => [Config::TYPE_INTEGER, ExcelImport::MAP_EXISTS_USERS_LOGIN],
+            ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_DEPRECATED     => [Config::TYPE_INTEGER, ExcelImport::MAP_EXISTS_USERS_DEPRECATED],
+            ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_GROUP          => Config::TYPE_STRING,
+            ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_TYPE           => [Config::TYPE_INTEGER, ExcelImport::FIELDS_TYPE_ILIAS],
+            ExcelImportFormGUI::KEY_MAP_EXISTS_USERS_FIELD_KEY            => [Config::TYPE_STRING, "login"],
             ExcelImportFormGUI::KEY_ORG_UNIT_ASSIGN                       => [Config::TYPE_BOOLEAN, false],
             ExcelImportFormGUI::KEY_ORG_UNIT_ASSIGN_POSITION              => [Config::TYPE_INTEGER, ExcelImport::ORG_UNIT_POSITION_FIELD],
             ExcelImportFormGUI::KEY_ORG_UNIT_ASSIGN_TYPE                  => [Config::TYPE_INTEGER, ExcelImport::ORG_UNIT_TYPE_TITLE],

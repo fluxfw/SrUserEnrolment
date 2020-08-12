@@ -47,7 +47,12 @@
 
         //console.log(node);
 
-        const input = node.parentElement.nextElementSibling.children[1];
+        let input;
+        if (node.parentElement.nextElementSibling) {
+            input = node.parentElement.nextElementSibling.children[1];
+        } else {
+            input = node.parentElement.parentElement.nextElementSibling.children[1].children[0];
+        }
 
         input.addEventListener("focus", inputAutoComplete);
 
