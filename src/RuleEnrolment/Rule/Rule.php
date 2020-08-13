@@ -169,7 +169,7 @@ class Rule extends ActiveRecord
      *
      * @deprecated
      */
-    public function __construct(/*int*/ $primary_key_value = 0, arConnector $connector = null)
+    public function __construct(/*int*/ $primary_key_value = 0, /*?*/ arConnector $connector = null)
     {
         parent::__construct($primary_key_value, $connector);
     }
