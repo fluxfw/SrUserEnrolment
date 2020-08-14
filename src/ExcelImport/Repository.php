@@ -74,6 +74,8 @@ final class Repository
 
         $this->setUserFields($user, $fields);
 
+        $user->setTitle($user->getFullname());
+
         $user->create();
 
         $user->saveAsNew();
@@ -469,6 +471,8 @@ AND usr_id>%s',
         $updated = ($this->setUserFields($user, $fields) > 0);
 
         if ($updated) {
+            $user->setTitle($user->getFullname());
+
             $user->update();
         }
 
