@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.16.1]
+- Fix set user object title
+
 ## [3.16.0]
 - Excel import: Map exists users by each field
 

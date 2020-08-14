@@ -144,7 +144,7 @@ class Log extends ActiveRecord
      * @param int              $primary_key_value
      * @param arConnector|null $connector
      */
-    public final function __construct(/*int*/ $primary_key_value = 0, arConnector $connector = null)
+    public final function __construct(/*int*/ $primary_key_value = 0, /*?*/ arConnector $connector = null)
     {
         //parent::__construct($primary_key_value, $connector);
     }
