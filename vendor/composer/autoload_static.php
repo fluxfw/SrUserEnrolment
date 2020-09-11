@@ -14,13 +14,13 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         's' => 
         array (
             'srag\\RequiredData\\SrUserEnrolment\\' => 34,
-            'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
+            'srag\\RemovePluginDataConfirm\\' => 29,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
-            'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
+            'srag\\DIC\\' => 9,
+            'srag\\CustomInputGUIs\\' => 21,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
@@ -31,7 +31,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
-        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 
+        'srag\\RemovePluginDataConfirm\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -51,11 +51,11 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/datatable/src',
         ),
-        'srag\\DIC\\SrUserEnrolment\\' => 
+        'srag\\DIC\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
@@ -343,6 +343,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         'srag\\DIC\\SrUserEnrolment\\Database\\DatabaseInterface' => __DIR__ . '/..' . '/srag/dic/src/Database/DatabaseInterface.php',
         'srag\\DIC\\SrUserEnrolment\\Database\\PdoContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoContextHelper.php',
         'srag\\DIC\\SrUserEnrolment\\Database\\PdoStatementContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoStatementContextHelper.php',
+        'srag\\DIC\\SrUserEnrolment\\DevTools\\DevToolsCtrl' => __DIR__ . '/..' . '/srag/dic/src/DevTools/class.DevToolsCtrl.php',
         'srag\\DIC\\SrUserEnrolment\\Exception\\DICException' => __DIR__ . '/..' . '/srag/dic/src/Exception/DICException.php',
         'srag\\DIC\\SrUserEnrolment\\Loader\\AbstractLoaderDetector' => __DIR__ . '/..' . '/srag/dic/src/Loader/AbstractLoaderDetector.php',
         'srag\\DIC\\SrUserEnrolment\\Output\\Output' => __DIR__ . '/..' . '/srag/dic/src/Output/Output.php',
