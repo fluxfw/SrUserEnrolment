@@ -14,13 +14,13 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         's' => 
         array (
             'srag\\RequiredData\\SrUserEnrolment\\' => 34,
-            'srag\\RemovePluginDataConfirm\\' => 29,
+            'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
-            'srag\\DIC\\' => 9,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\DIC\\SrUserEnrolment\\' => 25,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
@@ -31,7 +31,7 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
-        'srag\\RemovePluginDataConfirm\\' => 
+        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -51,11 +51,11 @@ class ComposerStaticInit1b1e44d4b8fffec7351eb5e4b73ba888
         array (
             0 => __DIR__ . '/..' . '/srag/datatable/src',
         ),
-        'srag\\DIC\\' => 
+        'srag\\DIC\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
