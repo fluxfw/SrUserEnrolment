@@ -8,6 +8,7 @@ if (file_exists(__DIR__ . "/../../../../Cron/CronHook/SrUserEnrolmentCron/vendor
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 use srag\CustomInputGUIs\SrUserEnrolment\Loader\CustomInputGUIsLoaderDetector;
+use srag\DIC\SrUserEnrolment\DevTools\DevToolsCtrl;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
 
@@ -141,6 +142,8 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
         self::srUserEnrolment()->notifications4plugin()->installLanguages();
 
         self::srUserEnrolment()->requiredData()->installLanguages();
+
+        DevToolsCtrl::installLanguages(self::plugin());
     }
 
 

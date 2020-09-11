@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
+use srag\DIC\SrUserEnrolment\DevTools\DevToolsCtrl;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationsCtrl;
 use srag\Plugins\SrUserEnrolment\Config\ConfigCtrl;
@@ -15,6 +16,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationsCtrl: ilSrUserEnrolmentConfigGUI
+ * @ilCtrl_isCalledBy srag\DIC\SrUserEnrolment\DevTools\DevToolsCtrl: ilSrUserEnrolmentConfigGUI
  */
 class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
 {
@@ -47,6 +49,10 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
         switch (strtolower($next_class)) {
             case strtolower(ConfigCtrl::class):
                 self::dic()->ctrl()->forwardCommand(new ConfigCtrl());
+                break;
+
+            case strtolower(DevToolsCtrl::class):
+                self::dic()->ctrl()->forwardCommand(new DevToolsCtrl($this, self::plugin()));
                 break;
 
             case strtolower(ExcelImportGUI::class):
@@ -101,6 +107,8 @@ class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
         ConfigCtrl::addTabs();
 
         WorkflowsGUI::addTabs();
+
+        DevToolsCtrl::addTabs(self::plugin());
 
         self::dic()->locator()->addItem(ilSrUserEnrolmentPlugin::PLUGIN_NAME, self::dic()->ctrl()->getLinkTarget($this, self::CMD_CONFIGURE));
     }
