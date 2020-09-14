@@ -1,7 +1,7 @@
 {
   "name": "srag/plugins/sruserenrolment",
   "description": "",
-  "version": "3.16.2",
+  "version": "3.16.3",
   "ilias_plugin": {
     "id": "srusrenr",
     "name": "SrUserEnrolment",
@@ -80,7 +80,8 @@
       "classes/"
     ],
     "files": [
-      "vendor/srag/dic/src/PHPVersionChecker.php"
+      "vendor/srag/dic/src/PHPVersionChecker.php",
+      "vendor/srag/dic/src/Ilias7PreWarn.php"
     ]
   },
   "config": {
