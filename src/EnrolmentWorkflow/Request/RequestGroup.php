@@ -7,7 +7,6 @@ use arConnector;
 use ilDatePresentation;
 use ilDateTime;
 use ilObject;
-use ilObjectFactory;
 use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -188,7 +187,7 @@ class RequestGroup extends ActiveRecord
      */
     public function getCreatedUser() : ilObjUser
     {
-        return new ilObjUser($this->created_user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->created_user_id);
     }
 
 
@@ -314,7 +313,7 @@ class RequestGroup extends ActiveRecord
      */
     public function getObject() : ilObject
     {
-        return ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        return self::srUserEnrolment()->getIliasObjectByRefId($this->obj_ref_id);
     }
 
 
@@ -359,7 +358,7 @@ class RequestGroup extends ActiveRecord
      */
     public function getUpdatedUser() : ilObjUser
     {
-        return new ilObjUser($this->updated_user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->updated_user_id);
     }
 
 
@@ -386,7 +385,7 @@ class RequestGroup extends ActiveRecord
      */
     public function getUser() : ilObjUser
     {
-        return new ilObjUser($this->user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->user_id);
     }
 
 

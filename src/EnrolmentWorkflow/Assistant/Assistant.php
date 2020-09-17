@@ -102,7 +102,7 @@ class Assistant extends ActiveRecord
      */
     public function getAssistantUser() : ilObjUser
     {
-        return new ilObjUser($this->assistant_user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->assistant_user_id);
     }
 
 
@@ -174,7 +174,7 @@ class Assistant extends ActiveRecord
      */
     public function getUser() : ilObjUser
     {
-        return new ilObjUser($this->user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->user_id);
     }
 
 

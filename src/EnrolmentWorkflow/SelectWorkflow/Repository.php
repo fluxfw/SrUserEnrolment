@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow;
 
 use ilObjCourse;
-use ilObjectFactory;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -154,7 +153,7 @@ final class Repository
         }
 
         if ($selected_workflow !== null) {
-            $obj = ilObjectFactory::getInstanceByObjId($selected_workflow->getObjId(), false);
+            $obj = self::srUserEnrolment()->getIliasObjectById($selected_workflow->getObjId());
             if ($obj instanceof ilObjCourse) {
                 if (intval($obj->getSubscriptionLimitationType()) !== IL_CRS_SUBSCRIPTION_DEACTIVATED) {
                     // Modules/Course/classes/class.ilObjCourseGUI.php:912

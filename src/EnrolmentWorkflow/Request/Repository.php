@@ -185,7 +185,7 @@ final class Repository
         $user_ids = array_unique($user_ids);
 
         return array_combine($user_ids, array_map(function (int $user_id) : ilObjUser {
-            return new ilObjUser($user_id);
+            return self::srUserEnrolment()->getIliasObjectById($user_id);
         }, $user_ids));
     }
 

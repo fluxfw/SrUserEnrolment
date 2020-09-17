@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUserEnrolment\ResetPassword;
 
-use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -112,7 +111,7 @@ final class Repository
      */
     public function resetPassword(int $user_id, /*?*/ string $new_password = null) : string
     {
-        $user = new ilObjUser($user_id);
+        $user = self::srUserEnrolment()->getIliasObjectById($user_id);
 
         if ($new_password === null) {
             $new_password = current(ilUtil::generatePasswords(1));

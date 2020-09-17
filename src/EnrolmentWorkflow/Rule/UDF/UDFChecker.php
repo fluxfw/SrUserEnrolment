@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF;
 
 use DateTime;
-use ilObjUser;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OperatorChecker;
 use stdClass;
@@ -43,7 +42,7 @@ class UDFChecker extends AbstractRuleChecker
         $time = time();
 
         foreach ($this->getUserIds($user_id) as $user_id) {
-            $user = new ilObjUser($user_id);
+            $user = self::srUserEnrolment()->getIliasObjectById($user_id);
 
             $udf_values = $user->getUserDefinedData();
 

@@ -6,7 +6,6 @@ use ilConfirmationGUI;
 use ilCourseMembershipGUI;
 use ILIAS\UI\Component\Link\Link;
 use ilObjCourseGUI;
-use ilObjUser;
 use ilRepositoryGUI;
 use ilSrUserEnrolmentPlugin;
 use ilSrUserEnrolmentUIHookGUI;
@@ -182,7 +181,7 @@ class ResetPasswordGUI
      */
     protected function resetPassword()/*: void*/
     {
-        $user = new ilObjUser($this->user_id);
+        $user = self::srUserEnrolment()->getIliasObjectById($this->user_id);
 
         $new_password = self::srUserEnrolment()->resetUserPassword()->resetPassword($user->getId());
 
@@ -204,7 +203,7 @@ class ResetPasswordGUI
     {
         self::dic()->tabs()->activateTab(self::TAB_RESET_PASSWORD);
 
-        $user = new ilObjUser($this->user_id);
+        $user = self::srUserEnrolment()->getIliasObjectById($this->user_id);
 
         $confirmation = new ilConfirmationGUI();
 

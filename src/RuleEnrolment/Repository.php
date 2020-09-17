@@ -5,7 +5,6 @@ namespace srag\Plugins\SrUserEnrolment\RuleEnrolment;
 use ilDBConstants;
 use ilDBStatement;
 use ilObjCourse;
-use ilObjectFactory;
 use ilObjRole;
 use ilObjUser;
 use ilOrgUnitPosition;
@@ -77,7 +76,7 @@ final class Repository
      */
     public function enroll(int $obj_id, int $user_id, /*?*/ int $type = null) : bool
     {
-        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectById($obj_id);
 
         switch (true) {
             case ($obj instanceof ilObjCourse):
@@ -148,7 +147,7 @@ final class Repository
      */
     public function getEnrolledType(int $obj_id, int $user_id)/* : ?int*/
     {
-        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectById($obj_id);
 
         switch (true) {
             case ($obj instanceof ilObjCourse):
@@ -181,7 +180,7 @@ final class Repository
      */
     public function getEnrolleds(int $obj_id) : array
     {
-        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectById($obj_id);
 
         switch (true) {
             case ($obj instanceof ilObjCourse):
@@ -305,7 +304,7 @@ final class Repository
      */
     public function isEnrolled(int $obj_id, int $user_id) : bool
     {
-        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectById($obj_id);
 
         switch (true) {
             case ($obj instanceof ilObjCourse):
@@ -356,7 +355,7 @@ final class Repository
      */
     public function unenroll(int $obj_id, int $user_id) : bool
     {
-        $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectById($obj_id);
 
         switch (true) {
             case ($obj instanceof ilObjCourse) :

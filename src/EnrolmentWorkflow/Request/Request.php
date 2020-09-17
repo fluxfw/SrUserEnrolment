@@ -7,7 +7,6 @@ use arConnector;
 use ilDatePresentation;
 use ilDateTime;
 use ilObject;
-use ilObjectFactory;
 use ilObjUser;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -189,7 +188,7 @@ class Request extends ActiveRecord
      */
     public function getCreatedUser() : ilObjUser
     {
-        return new ilObjUser($this->create_user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->create_user_id);
     }
 
 
@@ -216,7 +215,7 @@ class Request extends ActiveRecord
      */
     public function getEditedUser() : ilObjUser
     {
-        return new ilObjUser($this->accept_user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->accept_user_id);
     }
 
 
@@ -265,7 +264,7 @@ class Request extends ActiveRecord
     public function getFormattedResponsibleUsers() : array
     {
         return array_combine($this->responsible_users, array_map(function (int $responsible_user_id) : ilObjUser {
-            return new ilObjUser($responsible_user_id);
+            return self::srUserEnrolment()->getIliasObjectById($responsible_user_id);
         }, $this->responsible_users));
     }
 
@@ -311,7 +310,7 @@ class Request extends ActiveRecord
      */
     public function getObject() : ilObject
     {
-        return ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        return self::srUserEnrolment()->getIliasObjectByRefId($this->obj_ref_id);
     }
 
 
@@ -412,7 +411,7 @@ class Request extends ActiveRecord
      */
     public function getUser() : ilObjUser
     {
-        return new ilObjUser($this->user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->user_id);
     }
 
 
