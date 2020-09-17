@@ -464,7 +464,7 @@ AND usr_id>%s',
      */
     public function updateUserAccount(int $user_id, stdClass $fields) : bool
     {
-        $user = new ilObjUser($user_id);
+        $user = self::srUserEnrolment()->getIliasObjectById($user_id);
 
         unset($fields->{ExcelImport::FIELDS_TYPE_ILIAS}->roles);
 

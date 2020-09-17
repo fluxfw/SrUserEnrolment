@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoMembership;
 
 use ilObjCourse;
-use ilObjectFactory;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
 
 /**
@@ -36,7 +35,7 @@ class NoMembershipChecker extends AbstractRuleChecker
      */
     public function check(int $user_id, int $obj_ref_id) : bool
     {
-        $obj = ilObjectFactory::getInstanceByRefId($obj_ref_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectByRefId($obj_ref_id);
 
         if ($obj instanceof ilObjCourse) {
             if (self::srUserEnrolment()->ruleEnrolment()->isEnrolled($obj->getId(), $user_id)) {

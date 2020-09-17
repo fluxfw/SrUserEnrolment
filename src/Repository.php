@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment;
 
+use ilObject;
+use ilObjectFactory;
 use ilSrUserEnrolmentPlugin;
 use srag\CommentsUI\SrUserEnrolment\Comment\Comment;
 use srag\CommentsUI\SrUserEnrolment\Comment\RepositoryInterface as CommentsRepositoryInterface;
@@ -35,6 +37,7 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
 final class Repository
 {
 
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     use DICTrait;
     use SrUserEnrolmentTrait;
     use CommentsUITrait {
@@ -48,11 +51,18 @@ final class Repository
         requiredData as protected _requiredData;
     }
 
-    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var self|null
      */
     protected static $instance = null;
+    /**
+     * @var ilObject[]
+     */
+    protected $il_objs_by_obj_id = [];
+    /**
+     * @var ilObject[]
+     */
+    protected $il_objs_by_obj_ref_id = [];
 
 
     /**
@@ -160,6 +170,46 @@ final class Repository
     public function excelImport() : ExcelImportRepository
     {
         return ExcelImportRepository::getInstance();
+    }
+
+
+    /**
+     * @param int $obj_id
+     *
+     * @return ilObject
+     */
+    public function getIliasObjectById(int $obj_id) : ilObject
+    {
+        $obj = $this->il_objs_by_obj_id[$obj_id];
+
+        if ($obj === null) {
+            $obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+
+            $this->il_objs_by_obj_id[$obj_id] = $obj;
+        }
+
+        return $obj;
+    }
+
+
+    /**
+     * @param int $obj_ref_id
+     *
+     * @return ilObject
+     */
+    public function getIliasObjectByRefId(int $obj_ref_id) : ilObject
+    {
+        $obj = $this->il_objs_by_obj_ref_id[$obj_ref_id];
+
+        if ($obj === null) {
+            $obj = ilObjectFactory::getInstanceByRefId($obj_ref_id, false);
+
+            $this->il_objs_by_obj_ref_id[$obj_ref_id] = $obj;
+
+            $this->il_objs_by_obj_id[$obj->getId()] = $obj;
+        }
+
+        return $obj;
     }
 
 

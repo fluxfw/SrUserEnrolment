@@ -7,7 +7,6 @@ use arConnector;
 use ilLPStatus;
 use ilObjCourse;
 use ilObject;
-use ilObjectFactory;
 use ilObjectGUIFactory;
 use ilObjUser;
 use ilParticipant;
@@ -221,7 +220,7 @@ class Member extends ActiveRecord
      */
     public function getCreatedUser() : ilObjUser
     {
-        return new ilObjUser($this->created_user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->created_user_id);
     }
 
 
@@ -333,7 +332,7 @@ class Member extends ActiveRecord
      */
     public function getObject() : ilObject
     {
-        return ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        return self::srUserEnrolment()->getIliasObjectByRefId($this->obj_ref_id);
     }
 
 
@@ -393,7 +392,7 @@ class Member extends ActiveRecord
      */
     public function getUpdatedUser() : ilObjUser
     {
-        return new ilObjUser($this->updated_user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->updated_user_id);
     }
 
 
@@ -420,7 +419,7 @@ class Member extends ActiveRecord
      */
     public function getUser() : ilObjUser
     {
-        return new ilObjUser($this->usr_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->usr_id);
     }
 
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.16.4]
+- Cache ilias objects
+
 ## [3.16.3]
 - `Ilias7PreWarn`
 

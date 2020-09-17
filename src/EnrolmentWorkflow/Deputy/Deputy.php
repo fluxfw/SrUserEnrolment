@@ -111,7 +111,7 @@ class Deputy extends ActiveRecord
      */
     public function getDeputyUser() : ilObjUser
     {
-        return new ilObjUser($this->deputy_user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->deputy_user_id);
     }
 
 
@@ -174,7 +174,7 @@ class Deputy extends ActiveRecord
      */
     public function getUser() : ilObjUser
     {
-        return new ilObjUser($this->user_id);
+        return self::srUserEnrolment()->getIliasObjectById($this->user_id);
     }
 
 

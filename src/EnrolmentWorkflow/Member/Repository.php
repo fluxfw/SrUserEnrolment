@@ -3,7 +3,6 @@
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
 use ilObjCourse;
-use ilObjectFactory;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
@@ -140,7 +139,7 @@ final class Repository
             return $request->getUserId();
         }, self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequests($obj_ref_id));
 
-        $obj = ilObjectFactory::getInstanceByRefId($obj_ref_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectByRefId($obj_ref_id);
         if ($obj instanceof ilObjCourse) {
             $usr_ids = array_merge($usr_ids, self::srUserEnrolment()->ruleEnrolment()->getEnrolleds($obj->getId()));
         }

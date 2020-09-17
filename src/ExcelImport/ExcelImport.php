@@ -6,7 +6,6 @@ use Closure;
 use ilCalendarSettings;
 use ilDBConstants;
 use ilExcel;
-use ilObjectFactory;
 use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
@@ -282,7 +281,7 @@ class ExcelImport
         $data = (object) json_decode(ilSession::get(self::SESSION_KEY));
         $users = (array) $data->users;
 
-        $obj = ilObjectFactory::getInstanceByRefId($this->parent->getObjRefId(), false);
+        $obj = self::srUserEnrolment()->getIliasObjectByRefId($this->parent->getObjRefId());
 
         $users = array_filter($users, function (stdClass $user) use ($obj): bool {
             return (!empty($user->ilias_user_id) && !self::srUserEnrolment()->ruleEnrolment()->isEnrolled($obj->getId(), $user->ilias_user_id));

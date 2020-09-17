@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AssignResponsibleUsers;
 
-use ilObjUser;
 use ilOrgUnitUserAssignment;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AbstractActionRunner;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
@@ -64,7 +63,7 @@ class AssignResponsibleUsersRunner extends AbstractActionRunner
                 if (!empty($this->action->getAssignPositionsUdf())) {
                     $responsible_users = array_filter($responsible_users, function (int $user_id) : bool {
                         return (count($this->action->getAssignPositionsUdf()) === count(array_filter($this->action->getAssignPositionsUdf(), function (array $field) use ($user_id) : bool {
-                                $user = new ilObjUser($user_id);
+                                $user = self::srUserEnrolment()->getIliasObjectById($user_id);
 
                                 $udf_values = $user->getUserDefinedData();
 

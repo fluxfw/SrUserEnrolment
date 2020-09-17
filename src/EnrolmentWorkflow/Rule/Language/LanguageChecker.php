@@ -2,7 +2,6 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Language;
 
-use ilObjUser;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
 use stdClass;
 
@@ -36,7 +35,7 @@ class LanguageChecker extends AbstractRuleChecker
      */
     public function check(int $user_id, int $obj_ref_id) : bool
     {
-        return in_array((new ilObjUser($user_id))->getLanguage(), $this->rule->getLanguages());
+        return in_array(self::srUserEnrolment()->getIliasObjectById($user_id)->getLanguage(), $this->rule->getLanguages());
     }
 
 

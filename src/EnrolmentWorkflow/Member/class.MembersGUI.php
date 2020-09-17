@@ -4,7 +4,6 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
 use ilLink;
 use ilObjCourse;
-use ilObjectFactory;
 use ilSrUserEnrolmentPlugin;
 use ilSubmitButton;
 use ilUIPluginRouterGUI;
@@ -163,7 +162,7 @@ class MembersGUI
      */
     protected function enrollUsers(int $type)/*:void*/
     {
-        $obj = ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectByRefId($this->obj_ref_id);
 
         if ($obj instanceof ilObjCourse) {
             $user_ids = filter_input(INPUT_POST, MemberGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
@@ -221,7 +220,7 @@ class MembersGUI
         self::dic()->tabs()->activateTab(self::TAB_MEMBERS);
         self::dic()->tabs()->activateSubTab(self::TAB_MEMBERS);
 
-        $obj = ilObjectFactory::getInstanceByRefId($this->obj_ref_id, false);
+        $obj = self::srUserEnrolment()->getIliasObjectByRefId($this->obj_ref_id);
         if ($obj instanceof ilObjCourse) {
             self::dic()->toolbar()->setFormAction(self::dic()->ctrl()->getFormAction($this));
 
