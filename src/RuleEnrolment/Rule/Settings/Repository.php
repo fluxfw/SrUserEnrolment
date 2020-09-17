@@ -24,6 +24,10 @@ final class Repository
      * @var self|null
      */
     protected static $instance = null;
+    /**
+     * @var Settings[]
+     */
+    protected $settings = [];
 
 
     /**
@@ -73,16 +77,18 @@ final class Repository
      */
     public function getSettings(int $obj_id) : Settings
     {
-        /**
-         * @var Settings|null $settings
-         */
-
-        $settings = Settings::where(["obj_id" => $obj_id])->first();
+        $settings = $this->settings[$obj_id];
 
         if ($settings === null) {
-            $settings = $this->factory()->newInstance();
+            $settings = Settings::where(["obj_id" => $obj_id])->first();
 
-            $settings->setObjId($obj_id);
+            if ($settings === null) {
+                $settings = $this->factory()->newInstance();
+
+                $settings->setObjId($obj_id);
+            }
+
+            $this->settings[$obj_id] = $settings;
         }
 
         return $settings;
