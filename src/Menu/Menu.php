@@ -3,7 +3,9 @@
 namespace srag\Plugins\SrUserEnrolment\Menu;
 
 use ilAdministrationGUI;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilObjComponentSettingsGUI;
 use ilSrUserEnrolmentConfigGUI;
 use ilSrUserEnrolmentPlugin;
@@ -53,7 +55,7 @@ class Menu extends AbstractStaticPluginMainMenuProvider
         self::dic()->ctrl()->setParameterByClass(DeputiesGUI::class, DeputiesGUI::GET_PARAM_USER_ID, self::dic()->user()->getId());
 
         return [
-            $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_workflows"))
+            $this->symbol($this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_workflows"))
                 ->withParent($parent->getProviderIdentification())
                 ->withTitle(self::plugin()->translate("workflows", WorkflowsGUI::LANG_MODULE))
                 ->withAction(str_replace("\\", "%5C", self::dic()->ctrl()
@@ -68,8 +70,8 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 })
                 ->withVisibilityCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->hasAccess(self::dic()->user()->getId());
-                }),
-            $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_requests"))
+                })),
+            $this->symbol($this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_requests"))
                 ->withParent($parent->getProviderIdentification())
                 ->withTitle(self::plugin()->translate("requests", RequestsGUI::LANG_MODULE))
                 ->withAction(str_replace("\\", "%5C", self::dic()->ctrl()
@@ -82,8 +84,8 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 })
                 ->withVisibilityCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId());
-                }),
-            $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_assistants"))
+                })),
+            $this->symbol($this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_assistants"))
                 ->withParent($parent->getProviderIdentification())
                 ->withTitle(self::plugin()->translate("my_assistants", AssistantsGUI::LANG_MODULE))
                 ->withAction(str_replace("\\", "%5C", self::dic()->ctrl()
@@ -96,8 +98,8 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 })
                 ->withVisibilityCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->assistants()->hasAccess(self::dic()->user()->getId());
-                }),
-            $this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_deputies"))
+                })),
+            $this->symbol($this->mainmenu->link($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_deputies"))
                 ->withParent($parent->getProviderIdentification())
                 ->withTitle(self::plugin()->translate("my_deputies", DeputiesGUI::LANG_MODULE))
                 ->withAction(str_replace("\\", "%5C", self::dic()->ctrl()
@@ -110,7 +112,7 @@ class Menu extends AbstractStaticPluginMainMenuProvider
                 })
                 ->withVisibilityCallable(function () : bool {
                     return self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess(self::dic()->user()->getId());
-                })
+                }))
         ];
     }
 
@@ -121,12 +123,27 @@ class Menu extends AbstractStaticPluginMainMenuProvider
     public function getStaticTopItems() : array
     {
         return [
-            $this->mainmenu->topParentItem($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_top"))->withTitle(ilSrUserEnrolmentPlugin::PLUGIN_NAME)
+            $this->symbol($this->mainmenu->topParentItem($this->if->identifier(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_top"))->withTitle(ilSrUserEnrolmentPlugin::PLUGIN_NAME)
                 ->withAvailableCallable(function () : bool {
                     return self::plugin()->getPluginObject()->isActive();
                 })->withVisibilityCallable(function () : bool {
                     return true;
-                })
+                }))
         ];
+    }
+
+
+    /**
+     * @param AbstractBaseItem $entry
+     *
+     * @return AbstractBaseItem
+     */
+    protected function symbol(AbstractBaseItem $entry) : AbstractBaseItem
+    {
+        if (self::version()->is6()) {
+            $entry = $entry->withSymbol(self::dic()->ui()->factory()->symbol()->icon()->standard(Standard::USR, ilSrUserEnrolmentPlugin::PLUGIN_NAME)->withIsOutlined(true));
+        }
+
+        return $entry;
     }
 }
