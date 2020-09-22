@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.16.5]
+- Main menu icon
+
 ## [3.16.4]
 - Cache ilias objects
 
