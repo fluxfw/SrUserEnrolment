@@ -159,10 +159,7 @@ class RequestStepGUI
         if (strtolower(self::dic()->http()->request()->getMethod()) === "post") {
             $this->user_ids = filter_input(INPUT_POST, self::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
             if (is_array($this->user_ids)) {
-                $this->user_ids = array_values(array_filter($this->user_ids, function ($value) : bool {
-                    // TODO: Use from MultiSelectSearchNewInputGUI
-                    return ($value !== MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER);
-                }));
+                $this->user_ids = MultiSelectSearchNewInputGUI::cleanValues($this->user_ids);
             }
         } else {
             $this->user_ids = [intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID))];
