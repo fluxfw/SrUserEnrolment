@@ -30,7 +30,7 @@ First create or extend a `plugin.xml` in your custom plugin (You need to adapt `
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <plugin id="PLUGIN_ID">
 	<events>
-		<event type="listen" id="Plugins/SrUserEnrolment" />
+		<event id="Plugins/SrUserEnrolment" type="listen" />
 	</events>
 </plugin>
 ```
