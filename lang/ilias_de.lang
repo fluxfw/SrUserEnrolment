@@ -145,7 +145,8 @@ excel_import_map_exists_users_field_group#:#Existierende Benutzer erkennen
 excel_import_map_exists_users_field_group_info#:#Muss entsprechend in %s ausgefüllt werden
 excel_import_no#:#Nein
 excel_import_nothing_to_enroll#:#Nichts zum Einschreiben
-excel_import_nothing_to_do#:#Nichts zu tun
+excel_import_no_mapping_found#:#Es wurde kein Mapping gefunden\nBitte prüfen Sie, ob die Spalten-Überschriff-Zeile korrekt eingestellt ist
+excel_import_no_users#:#Es wurden keine Benutzer in der Excel-Datei gefunden
 excel_import_org_unit_assign#:#Organisationseinheit zuweisen
 excel_import_org_unit_assign_position#:#Position
 excel_import_org_unit_assign_position_field#:#Feld

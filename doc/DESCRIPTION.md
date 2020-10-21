@@ -22,7 +22,7 @@ Menu (Only ILIAS 5.3)
 For ILIAS 5.3, you need to use [CtrlMainMenu](https://github.com/studer-raimann/CtrlMainMenu)
 
 ## Custom event plugins
-If you need to do some custom requests changes, SrUserEnrolment will trigger some events, you can listen and react to this in a other custom plugin (plugin type is no matter)
+If you need to do some custom requests changes, SrUserEnrolment will trigger some events, you can listen and react to this in an other custom plugin (plugin type is no matter)
 
 First create or extend a `plugin.xml` in your custom plugin (You need to adapt `PLUGIN_ID` with your own plugin id) to tell ILIAS, your plugins wants to listen to SrUserEnrolment events (You need also to increase your plugin version for take effect)
 
@@ -30,7 +30,7 @@ First create or extend a `plugin.xml` in your custom plugin (You need to adapt `
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <plugin id="PLUGIN_ID">
 	<events>
-		<event type="listen" id="Plugins/SrUserEnrolment" />
+		<event id="Plugins/SrUserEnrolment" type="listen" />
 	</events>
 </plugin>
 ```

@@ -145,7 +145,8 @@ excel_import_map_exists_users_field_group#:#Map exists users
 excel_import_map_exists_users_field_group_info#:#Needs be filled corresponding in %s
 excel_import_no#:#No
 excel_import_nothing_to_enroll#:#Nothing to enroll
-excel_import_nothing_to_do#:#Nothing to do
+excel_import_no_mapping_found#:#No mapping was found\nPlease check if the column heading is set correctly
+excel_import_no_users#:#No users were found in the excel file
 excel_import_org_unit_assign#:#Assign org unit
 excel_import_org_unit_assign_position#:#Position
 excel_import_org_unit_assign_position_field#:#Field

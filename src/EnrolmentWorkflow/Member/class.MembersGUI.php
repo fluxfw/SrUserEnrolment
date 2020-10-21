@@ -170,11 +170,9 @@ class MembersGUI
                 $user_ids = [];
             }
 
+            $user_ids = MultiSelectSearchNewInputGUI::cleanValues($user_ids);
+
             foreach ($user_ids as $user_id) {
-                if ($user_id === MultiSelectSearchNewInputGUI::EMPTY_PLACEHOLDER) {
-                    // TODO: Use from MultiSelectSearchNewInputGUI
-                    continue;
-                }
                 self::srUserEnrolment()->ruleEnrolment()->enroll($obj->getId(), $user_id, $type);
             }
         }

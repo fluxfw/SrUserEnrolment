@@ -254,7 +254,7 @@ return array(
     'srag\\CustomInputGUIs\\SrUserEnrolment\\TextInputGUI\\TextInputGUIWithModernAutoComplete' => $vendorDir . '/srag/custominputguis/src/TextInputGUI/TextInputGUIWithModernAutoComplete.php',
     'srag\\CustomInputGUIs\\SrUserEnrolment\\UIInputComponentWrapperInputGUI\\UIInputComponentWrapperInputGUI' => $vendorDir . '/srag/custominputguis/src/UIInputComponentWrapperInputGUI/UIInputComponentWrapperInputGUI.php',
     'srag\\CustomInputGUIs\\SrUserEnrolment\\UIInputComponentWrapperInputGUI\\UIInputComponentWrapperNameSource' => $vendorDir . '/srag/custominputguis/src/UIInputComponentWrapperInputGUI/UIInputComponentWrapperNameSource.php',
-    'srag\\CustomInputGUIs\\SrUserEnrolment\\ViewControlModeUI\\ViewControlModeUI' => $vendorDir . '/srag/custominputguis/src/ViewControlModeGUI/ViewControlModeUI.php',
+    'srag\\CustomInputGUIs\\SrUserEnrolment\\ViewControlModeUI\\ViewControlModeUI' => $vendorDir . '/srag/custominputguis/src/ViewControlModeUI/ViewControlModeUI.php',
     'srag\\CustomInputGUIs\\SrUserEnrolment\\Waiter\\Waiter' => $vendorDir . '/srag/custominputguis/src/Waiter/Waiter.php',
     'srag\\CustomInputGUIs\\SrUserEnrolment\\WeekdayInputGUI\\WeekdayInputGUI' => $vendorDir . '/srag/custominputguis/src/WeekdayInputGUI/WeekdayInputGUI.php',
     'srag\\DIC\\SrUserEnrolment\\DICStatic' => $vendorDir . '/srag/dic/src/DICStatic.php',

@@ -10,6 +10,7 @@ use ilObjUser;
 use ilSession;
 use ilSrUserEnrolmentPlugin;
 use ilUserDefinedFields;
+use ilUtil;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use srag\DIC\SrUserEnrolment\DICTrait;
@@ -304,9 +305,9 @@ class ExcelImport
     /**
      * @param ExcelImportFormGUI $form
      *
-     * @return array
+     * @return array|null
      */
-    public function parse(ExcelImportFormGUI $form) : array
+    public function parse(ExcelImportFormGUI $form)/* : ?array*/
     {
         $excel = new ilExcel();
 
@@ -356,6 +357,15 @@ class ExcelImport
                 return [];
             }
         }, $head);
+
+        if (empty(array_filter($columns, function (array $field) : bool {
+            return (!empty($field));
+        }))
+        ) {
+            ilUtil::sendFailure(nl2br(self::plugin()->translate("no_mapping_found", ExcelImportGUI::LANG_MODULE), false), true);
+
+            return null;
+        }
 
         $users = [];
 
@@ -487,8 +497,6 @@ class ExcelImport
             "users" => $users
         ];
 
-        ilSession::set(self::SESSION_KEY, json_encode($data));
-
         $users = array_map(function (stdClass $user) : array {
             $items = [];
             foreach ($user->{ExcelImportFormGUI::KEY_FIELDS} as $type => $fields) {
@@ -508,6 +516,14 @@ class ExcelImport
                 return [];
             }
         }, $users);
+
+        if (empty($users)) {
+            ilUtil::sendInfo(self::plugin()->translate("no_users", ExcelImportGUI::LANG_MODULE), true);
+
+            return null;
+        }
+
+        ilSession::set(self::SESSION_KEY, json_encode($data));
 
         return $users;
     }
