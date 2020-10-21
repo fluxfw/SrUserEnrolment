@@ -14,21 +14,21 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\' => 18,
+            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
             'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
-            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
             'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
             'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\' => 
+        'srag\\RequiredData\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
@@ -56,7 +56,7 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\' => 
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),

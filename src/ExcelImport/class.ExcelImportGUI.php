@@ -378,13 +378,13 @@ class ExcelImportGUI
         $excel_import = $this->newImportInstance();
 
         $users = $excel_import->parse($form);
-        if (empty($users)) {
-            ilUtil::sendInfo(self::plugin()->translate("nothing_to_do", self::LANG_MODULE), true);
 
-            self::dic()->ctrl()->redirect($this, self::CMD_BACK);
+        if ($users === null) {
+            self::output()->output($form, true);
 
             return;
         }
+
         if (empty(array_filter($users))) {
             self::dic()->ctrl()->redirect($this, self::CMD_ENROLL_CONFIRMATION);
 

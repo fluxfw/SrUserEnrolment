@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.16.6]
+- No mapping found error message
+
 ## [3.16.5]
 - Main menu icon
 
