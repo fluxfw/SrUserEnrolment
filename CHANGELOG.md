@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.17.0]
+- Possibility sort rules
+
 ## [3.16.6]
 - No mapping found error message
 

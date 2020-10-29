@@ -119,6 +119,15 @@ abstract class AbstractRule extends ActiveRecord
      * @con_length       8
      * @con_is_notnull   true
      */
+    protected $sort = 0;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
     protected $type;
 
 
@@ -292,6 +301,24 @@ abstract class AbstractRule extends ActiveRecord
     public function getRuleTypeTitle() : string
     {
         return self::plugin()->translate("rule_type_" . static::getRuleType(), RulesGUI::LANG_MODULE);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSort() : int
+    {
+        return $this->sort;
+    }
+
+
+    /**
+     * @param int $sort
+     */
+    public function setSort(int $sort)/*: void*/
+    {
+        $this->sort = $sort;
     }
 
 

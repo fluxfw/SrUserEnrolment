@@ -6,6 +6,7 @@ use ilSrUserEnrolmentPlugin;
 use ilUtil;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
+use srag\CustomInputGUIs\SrUserEnrolment\Waiter\Waiter;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\Member;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group\Group;
@@ -91,6 +92,47 @@ class RulesTableGUI extends TableGUI
         $this->tpl->setVariableEscaped("ID", $rule->getId());
         $this->tpl->parseCurrentBlock();
 
+        $this->tpl->setCurrentBlock("column");
+        $this->tpl->setVariable("COLUMN", self::output()->getHTML([
+            self::dic()->ui()->factory()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) : string {
+                Waiter::init(Waiter::TYPE_WAITER);
+
+                return '
+            $("#' . $id . '").click(function () {
+                il.waiter.show();
+                var row = $(this).parent().parent();
+                $.ajax({
+                    url: ' . json_encode(self::dic()
+                        ->ctrl()
+                        ->getLinkTargetByClass(RuleGUI::class, RuleGUI::CMD_MOVE_RULE_UP, "", true)) . ',
+                    type: "GET"
+                 }).always(function () {
+                    il.waiter.hide();
+               }).success(function() {
+                    row.insertBefore(row.prev());
+                });
+            });';
+            }),
+            self::dic()->ui()->factory()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) : string {
+                return '
+            $("#' . $id . '").click(function () {
+                il.waiter.show();
+                var row = $(this).parent().parent();
+                $.ajax({
+                    url: ' . json_encode(self::dic()
+                        ->ctrl()
+                        ->getLinkTargetByClass(RuleGUI::class, RuleGUI::CMD_MOVE_RULE_DOWN, "", true)) . ',
+                    type: "GET"
+                }).always(function () {
+                    il.waiter.hide();
+                }).success(function() {
+                    row.insertAfter(row.next());
+                });
+        });';
+            })
+        ]));
+        $this->tpl->parseCurrentBlock();
+
         parent::fillRow($rule);
 
         $actions = [
@@ -148,6 +190,8 @@ class RulesTableGUI extends TableGUI
      */
     protected function initColumns()/*: void*/
     {
+        $this->addColumn("");
+
         $this->addColumn("");
 
         parent::initColumns();
