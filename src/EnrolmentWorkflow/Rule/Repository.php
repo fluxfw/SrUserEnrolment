@@ -103,6 +103,8 @@ final class Repository
     {
         $rule->delete();
 
+        $this->reSortRules($rule->getParentContext(), $rule->getType(), $rule->getParentId());
+
         if ($rule instanceof Group) {
             $this->deleteRules(AbstractRule::PARENT_CONTEXT_RULE_GROUP, $rule->getRuleId());
         }
@@ -210,19 +212,27 @@ final class Repository
 
 
     /**
-     * @param int         $parent_context
-     * @param int         $type
+     * @param int|null    $parent_context
+     * @param int|null    $type
      * @param string|null $parent_id
      * @param bool        $only_enabled
      *
      * @return AbstractRule[]
      */
-    public function getRules(int $parent_context, int $type,  /*?*/ string $parent_id = null, bool $only_enabled = true) : array
+    public function getRules(/*?*/ int $parent_context = null, /*?*/ int $type = null, /*?*/ string $parent_id = null, bool $only_enabled = true) : array
     {
         $rules = [];
 
         foreach ($this->factory()->getRuleTypes($parent_context) as $class) {
-            $where = $class::where(["parent_context" => $parent_context, "type" => $type]);
+            $where = $class::where([]);
+
+            if (!empty($parent_context)) {
+                $where = $where->where(["parent_context" => $parent_context]);
+            }
+
+            if (!empty($type)) {
+                $where = $where->where(["type" => $type]);
+            }
 
             if (!empty($parent_id)) {
                 $where = $where->where(["parent_id" => $parent_id]);
@@ -230,6 +240,10 @@ final class Repository
 
             if ($only_enabled) {
                 $where = $where->where(["enabled" => true]);
+            }
+
+            if (!empty($parent_context) && !empty($type) && !empty($parent_id)) {
+                $where = $where->orderBy("sort", "asc");
             }
 
             /**
@@ -249,9 +263,53 @@ final class Repository
      */
     public function installTables()/*:void*/
     {
+        $upgrade_sort_rules = false;
+
         foreach ($this->factory()->getRuleTypes() as $class) {
+            if (!$upgrade_sort_rules) {
+                $upgrade_sort_rules = (self::dic()->database()->tableExists($class::getTableName()) && !self::dic()->database()->tableColumnExists($class::getTableName(), "sort"));
+            }
+
             $class::updateDB();
         }
+
+        if ($upgrade_sort_rules) {
+            foreach (
+                array_reduce($this->getRules(null, null, null, false), function (array $rules, AbstractRule $rule) : array {
+                    $rules[$rule->getParentContext() . "_" . $rule->getType() . "_" . $rule->getParentId()] = $rule;
+
+                    return $rules;
+                }, []) as $rule
+            ) {
+                $this->reSortRules($rule->getParentContext(), $rule->getType(), $rule->getParentId());
+            }
+        }
+    }
+
+
+    /**
+     * @param AbstractRule $rule
+     */
+    public function moveRuleDown(AbstractRule $rule)/*: void*/
+    {
+        $rule->setSort($rule->getSort() + 15);
+
+        $this->storeRule($rule);
+
+        $this->reSortRules($rule->getParentContext(), $rule->getType(), $rule->getParentId());
+    }
+
+
+    /**
+     * @param AbstractRule $rule
+     */
+    public function moveRuleUp(AbstractRule $rule)/*: void*/
+    {
+        $rule->setSort($rule->getSort() - 15);
+
+        $this->storeRule($rule);
+
+        $this->reSortRules($rule->getParentContext(), $rule->getType(), $rule->getParentId());
     }
 
 
@@ -260,6 +318,10 @@ final class Repository
      */
     public function storeRule(AbstractRule $rule)/*: void*/
     {
+        if (empty($rule->getRuleId())) {
+            $rule->setSort(((count($this->getRules($rule->getParentContext(), $rule->getType(), $rule->getParentId(), false)) + 1) * 10));
+        }
+
         $rule->store();
     }
 
@@ -283,5 +345,25 @@ final class Repository
         $this->deleteRule($group);
 
         return $rules;
+    }
+
+
+    /**
+     * @param int    $parent_context
+     * @param int    $type
+     * @param string $parent_id
+     */
+    protected function reSortRules(int $parent_context, int $type, string $parent_id)/*: void*/
+    {
+        $rules = $this->getRules($parent_context, $type, $parent_id, false);
+
+        $i = 1;
+        foreach ($rules as $rule) {
+            $rule->setSort($i * 10);
+
+            $this->storeRule($rule);
+
+            $i++;
+        }
     }
 }

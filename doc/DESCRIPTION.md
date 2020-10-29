@@ -1,5 +1,7 @@
 # SrUserEnrolment ILIAS Plugin Description
 
+Please also install and enable [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron).
+
 This plugin has the follow main features (Each needs to activated separated in the plugin config)
 
 ![Config](./images/config.png)

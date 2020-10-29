@@ -28,6 +28,8 @@ class RuleGUI
     const CMD_BACK = "back";
     const CMD_CREATE_RULE = "createRule";
     const CMD_EDIT_RULE = "editRule";
+    const CMD_MOVE_RULE_DOWN = "moveRuleDown";
+    const CMD_MOVE_RULE_UP = "moveRuleUp";
     const CMD_REMOVE_RULE = "removeRule";
     const CMD_REMOVE_RULE_CONFIRM = "removeRuleConfirm";
     const CMD_UNGROUP = "ungroup";
@@ -87,6 +89,8 @@ class RuleGUI
                     case self::CMD_BACK:
                     case self::CMD_CREATE_RULE:
                     case self::CMD_EDIT_RULE:
+                    case self::CMD_MOVE_RULE_DOWN:
+                    case self::CMD_MOVE_RULE_UP:
                     case self::CMD_REMOVE_RULE:
                     case self::CMD_REMOVE_RULE_CONFIRM:
                     case self::CMD_UPDATE_RULE:
@@ -165,6 +169,28 @@ class RuleGUI
         $form = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newFormInstance($this, $this->rule);
 
         self::output()->output($form);
+    }
+
+
+    /**
+     *
+     */
+    protected function moveRuleDown()
+    {
+        self::srUserEnrolment()->enrolmentWorkflow()->rules()->moveRuleDown($this->rule);
+
+        exit;
+    }
+
+
+    /**
+     *
+     */
+    protected function moveRuleUp()
+    {
+        self::srUserEnrolment()->enrolmentWorkflow()->rules()->moveRuleUp($this->rule);
+
+        exit;
     }
 
 
