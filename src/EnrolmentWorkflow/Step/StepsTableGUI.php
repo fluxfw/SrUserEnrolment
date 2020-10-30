@@ -74,6 +74,12 @@ class StepsTableGUI extends TableGUI
      */
     protected function fillRow(/*Step*/ $step)/*: void*/
     {
+        if (self::version()->is6()) {
+            $glyph_factory = self::dic()->ui()->factory()->symbol()->glyph();
+        } else {
+            $glyph_factory = self::dic()->ui()->factory()->glyph();
+        }
+
         self::dic()->ctrl()->setParameterByClass(StepGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
         $this->tpl->setCurrentBlock("checkbox");
@@ -83,7 +89,7 @@ class StepsTableGUI extends TableGUI
 
         $this->tpl->setCurrentBlock("column");
         $this->tpl->setVariable("COLUMN", self::output()->getHTML([
-            self::dic()->ui()->factory()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) : string {
+            $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
                 Waiter::init(Waiter::TYPE_WAITER);
 
                 return '
@@ -102,7 +108,7 @@ class StepsTableGUI extends TableGUI
                 });
             });';
             }),
-            self::dic()->ui()->factory()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) : string {
+            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
                 return '
             $("#' . $id . '").click(function () {
                 il.waiter.show();
