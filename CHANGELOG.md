@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.17.1]
+- Fix sort icons in workflow tables in ILIAS 6
+
 ## [3.17.0]
 - Possibility sort rules
 

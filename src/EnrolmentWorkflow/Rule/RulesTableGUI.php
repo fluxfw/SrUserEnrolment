@@ -84,6 +84,12 @@ class RulesTableGUI extends TableGUI
      */
     protected function fillRow(/*AbstractRule*/ $rule)/*: void*/
     {
+        if (self::version()->is6()) {
+            $glyph_factory = self::dic()->ui()->factory()->symbol()->glyph();
+        } else {
+            $glyph_factory = self::dic()->ui()->factory()->glyph();
+        }
+
         self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_TYPE . $this->parent_obj->getParentContext(), $rule->getRuleType());
         self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext(), $rule->getRuleId());
 
@@ -94,7 +100,7 @@ class RulesTableGUI extends TableGUI
 
         $this->tpl->setCurrentBlock("column");
         $this->tpl->setVariable("COLUMN", self::output()->getHTML([
-            self::dic()->ui()->factory()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) : string {
+            $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
                 Waiter::init(Waiter::TYPE_WAITER);
 
                 return '
@@ -113,7 +119,7 @@ class RulesTableGUI extends TableGUI
                 });
             });';
             }),
-            self::dic()->ui()->factory()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) : string {
+            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory): string {
                 return '
             $("#' . $id . '").click(function () {
                 il.waiter.show();
