@@ -19,6 +19,7 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
             'srag\\LibrariesNamespaceChanger\\' => 31,
+            'srag\\DevTools\\' => 14,
             'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
@@ -47,6 +48,10 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\LibrariesNamespaceChanger\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
+        ),
+        'srag\\DevTools\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/devtools/src',
         ),
         'srag\\DataTableUI\\SrUserEnrolment\\' => 
         array (
@@ -429,6 +434,7 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Table' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Table.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Utils\\AbstractTableBuilder' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Utils/AbstractTableBuilder.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Utils\\DataTableUITrait' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Utils/DataTableUITrait.php',
+        'srag\\DevTools\\SrUserEnrolment\\DevToolsCtrl' => __DIR__ . '/..' . '/srag/devtools/src/class.DevToolsCtrl.php',
         'srag\\LibrariesNamespaceChanger\\GeneratePluginPhpAndXml' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/GeneratePluginPhpAndXml.php',
         'srag\\LibrariesNamespaceChanger\\GeneratePluginReadme' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/GeneratePluginReadme.php',
         'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
