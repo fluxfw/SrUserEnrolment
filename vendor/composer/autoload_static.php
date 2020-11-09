@@ -14,28 +14,28 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
     public static $prefixLengthsPsr4 = array (
         's' => 
         array (
-            'srag\\RequiredData\\SrUserEnrolment\\' => 34,
-            'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
+            'srag\\RequiredData\\' => 18,
+            'srag\\RemovePluginDataConfirm\\' => 29,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
-            'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
-            'srag\\LibraryLanguageInstaller\\SrUserEnrolment\\' => 46,
+            'srag\\Notifications4Plugin\\' => 26,
+            'srag\\LibraryLanguageInstaller\\' => 30,
             'srag\\LibrariesNamespaceChanger\\' => 31,
-            'srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\' => 47,
-            'srag\\DevTools\\SrUserEnrolment\\' => 30,
-            'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
+            'srag\\GeneratePluginInfosHelper\\' => 31,
+            'srag\\DevTools\\' => 14,
+            'srag\\DataTableUI\\' => 17,
             'srag\\DIC\\' => 9,
-            'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
-            'srag\\CommentsUI\\SrUserEnrolment\\' => 32,
-            'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 40,
+            'srag\\CustomInputGUIs\\' => 21,
+            'srag\\CommentsUI\\' => 16,
+            'srag\\ActiveRecordConfig\\' => 24,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'srag\\RequiredData\\SrUserEnrolment\\' => 
+        'srag\\RequiredData\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/requireddata/src',
         ),
-        'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 
+        'srag\\RemovePluginDataConfirm\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/removeplugindataconfirm/src',
         ),
@@ -43,11 +43,11 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 
+        'srag\\Notifications4Plugin\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/notifications4plugin/src',
         ),
-        'srag\\LibraryLanguageInstaller\\SrUserEnrolment\\' => 
+        'srag\\LibraryLanguageInstaller\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/librarylanguageinstaller/src',
         ),
@@ -55,15 +55,15 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
         ),
-        'srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\' => 
+        'srag\\GeneratePluginInfosHelper\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/generateplugininfoshelper/src',
         ),
-        'srag\\DevTools\\SrUserEnrolment\\' => 
+        'srag\\DevTools\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/devtools/src',
         ),
-        'srag\\DataTableUI\\SrUserEnrolment\\' => 
+        'srag\\DataTableUI\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/datatable/src',
         ),
@@ -71,15 +71,15 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         array (
             0 => __DIR__ . '/..' . '/srag/dic/src',
         ),
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 
+        'srag\\CustomInputGUIs\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/custominputguis/src',
         ),
-        'srag\\CommentsUI\\SrUserEnrolment\\' => 
+        'srag\\CommentsUI\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/commentsui/src',
         ),
-        'srag\\ActiveRecordConfig\\SrUserEnrolment\\' => 
+        'srag\\ActiveRecordConfig\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/activerecordconfig/src',
         ),

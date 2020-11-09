@@ -43,7 +43,8 @@
           "type": "raise"
         }
       ]
-    }
+    },
+    "generate_plugin_readme_template": "SRAG_ILIAS_PLUGIN"
   },
   "type": "project",
   "keywords": [
