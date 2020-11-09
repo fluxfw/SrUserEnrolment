@@ -7,7 +7,7 @@ use srag\DataTableUI\SrUserEnrolment\Implementation\Utils\DataTableUITrait;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\DIC\SrUserEnrolment\Plugin\Pluginable;
 use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
-use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
+use srag\LibraryLanguageInstaller\SrUserEnrolment\LibraryLanguageInstaller;
 use srag\RequiredData\SrUserEnrolment\Field\Repository as FieldsRepository;
 use srag\RequiredData\SrUserEnrolment\Fill\Repository as FillsRepository;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;

@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.11.0]
+- Move LibraryLanguageInstaller to separate package
+
 ## [0.10.3]
 - Fix
 

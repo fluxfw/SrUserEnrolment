@@ -105,6 +105,3 @@ self::output()->getHTML(self::commentsUI()->withCtrlClass(new XCtrl()));
 ## Adjustment suggestions
 * External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI
 * Adjustment suggestions by pull requests via github
-* Customer of studer + raimann ag: 
-	* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/LCOMMENTSUI
-	* Bug reports under https://jira.studer-raimann.ch/projects/LCOMMENTSUI
