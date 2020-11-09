@@ -1,1 +1,0 @@
-# SrUserEnrolment ILIAS Plugin Documentation
