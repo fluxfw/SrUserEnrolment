@@ -208,7 +208,7 @@ return array(
     'srag\\CommentsUI\\SrUserEnrolment\\UI\\UI' => $vendorDir . '/srag/commentsui/src/UI/UI.php',
     'srag\\CommentsUI\\SrUserEnrolment\\UI\\UIInterface' => $vendorDir . '/srag/commentsui/src/UI/UIInterface.php',
     'srag\\CommentsUI\\SrUserEnrolment\\Utils\\CommentsUITrait' => $vendorDir . '/srag/commentsui/src/Utils/CommentsUITrait.php',
-    'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\AjaxCheckbox' => $vendorDir . '/srag/custominputguis/src/AjaxCheckbox/AjaxCheckbox.php',
+    'srag\\CustomInputGUIs\\SrUserEnrolment\\AjaxCheckbox\\AjaxCheckbox' => $vendorDir . '/srag/custominputguis/src/AjaxCheckbox/AjaxCheckbox.php',
     'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\CheckboxInputGUI' => $vendorDir . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
     'srag\\CustomInputGUIs\\SrUserEnrolment\\ColorPickerInputGUI\\ColorPickerInputGUI' => $vendorDir . '/srag/custominputguis/src/ColorPickerInputGUI/ColorPickerInputGUI.php',
     'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIs' => $vendorDir . '/srag/custominputguis/src/CustomInputGUIs.php',

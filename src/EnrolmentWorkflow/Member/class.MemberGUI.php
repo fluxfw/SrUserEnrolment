@@ -6,7 +6,7 @@ use ilConfirmationGUI;
 use ilObjCourse;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
-use srag\CustomInputGUIs\SrUserEnrolment\CheckboxInputGUI\AjaxCheckbox;
+use srag\CustomInputGUIs\SrUserEnrolment\AjaxCheckbox\AjaxCheckbox;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 

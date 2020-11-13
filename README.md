@@ -8,6 +8,11 @@ This is an OpenSource project by studer + raimann ag, CH-Burgdorf (https://stude
 
 This project is licensed under the GPL-3.0-only license
 
+## Requirements
+
+* ILIAS 5.4.0 - 6.999
+* PHP >=7.0
+
 ## Installation
 
 Start at your ILIAS root directory
@@ -98,11 +103,6 @@ class ilXPlugin extends ...
 | `ilSrUserEnrolmentPlugin::EVENT_COLLECT_MEMBER_FORM_MODIFICATIONS` | `modifications => ArrayObject<AbstractMemberFormModifications>` | Collect member form modifications |
 | `ilSrUserEnrolmentPlugin::EVENT_COLLECT_REQUESTS_TABLE_MODIFICATIONS` | `modifications => ArrayObject<AbstractRequestsTableModifications>` | Collect requests table modifications |
 | `ilSrUserEnrolmentPlugin::EVENT_EXTENDS_SRUSRENR` | - | Extends SrUserEnrolment |
-
-## Requirements
-
-* ILIAS 5.4.0 - 6.999
-* PHP >=7.0
 
 ## Adjustment suggestions
 

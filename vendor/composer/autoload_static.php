@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
 {
     public static $files = array (
-        '5da5eea08615d1c74d07aeba6d487d20' => __DIR__ . '/..' . '/srag/dic/src/PHPVersionChecker.php',
-        '2751a23f49a4ccfbf7647bacd0424b5a' => __DIR__ . '/..' . '/srag/dic/src/Ilias7PreWarn.php',
+        '1170df84d1a3e2c3ca52d5ba997beca3' => __DIR__ . '/..' . '/srag/dic/src/PHPVersionChecker.php',
+        '199179f99f3379caf7b3837f337bed34' => __DIR__ . '/..' . '/srag/dic/src/Ilias7PreWarn.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -298,7 +298,7 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\CommentsUI\\SrUserEnrolment\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
         'srag\\CommentsUI\\SrUserEnrolment\\UI\\UIInterface' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UIInterface.php',
         'srag\\CommentsUI\\SrUserEnrolment\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\AjaxCheckbox' => __DIR__ . '/..' . '/srag/custominputguis/src/AjaxCheckbox/AjaxCheckbox.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\AjaxCheckbox\\AjaxCheckbox' => __DIR__ . '/..' . '/srag/custominputguis/src/AjaxCheckbox/AjaxCheckbox.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\ColorPickerInputGUI\\ColorPickerInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/ColorPickerInputGUI/ColorPickerInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',

@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    '5da5eea08615d1c74d07aeba6d487d20' => $vendorDir . '/srag/dic/src/PHPVersionChecker.php',
-    '2751a23f49a4ccfbf7647bacd0424b5a' => $vendorDir . '/srag/dic/src/Ilias7PreWarn.php',
+    '1170df84d1a3e2c3ca52d5ba997beca3' => $vendorDir . '/srag/dic/src/PHPVersionChecker.php',
+    '199179f99f3379caf7b3837f337bed34' => $vendorDir . '/srag/dic/src/Ilias7PreWarn.php',
 );
