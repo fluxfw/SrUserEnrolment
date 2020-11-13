@@ -1,7 +1,7 @@
 {
   "name": "srag/sruserenrolment",
   "description": "",
-  "version": "3.17.2",
+  "version": "3.17.3",
   "extra": {
     "ilias_plugin": {
       "id": "srusrenr",
