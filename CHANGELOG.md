@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.17.2]
+- Fix workflow object actions on newer ILIAS versions
+
 ## [3.17.1]
 - Fix sort icons in workflow tables in ILIAS 6
 

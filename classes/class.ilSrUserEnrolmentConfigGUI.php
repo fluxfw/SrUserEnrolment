@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
-use srag\DIC\SrUserEnrolment\DevTools\DevToolsCtrl;
+use srag\DevTools\SrUserEnrolment\DevToolsCtrl;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationsCtrl;
 use srag\Plugins\SrUserEnrolment\Config\ConfigCtrl;
@@ -16,7 +16,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationsCtrl: ilSrUserEnrolmentConfigGUI
- * @ilCtrl_isCalledBy srag\DIC\SrUserEnrolment\DevTools\DevToolsCtrl: ilSrUserEnrolmentConfigGUI
+ * @ilCtrl_isCalledBy srag\DevTools\SrUserEnrolment\DevToolsCtrl: ilSrUserEnrolmentConfigGUI
  */
 class ilSrUserEnrolmentConfigGUI extends ilPluginConfigGUI
 {

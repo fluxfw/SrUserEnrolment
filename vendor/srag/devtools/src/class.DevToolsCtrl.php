@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DIC\SrUserEnrolment\DevTools;
+namespace srag\DevTools\SrUserEnrolment;
 
 use ilAdministrationGUI;
 use ilDBConstants;
@@ -9,12 +9,12 @@ use ilPluginConfigGUI;
 use ilUtil;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
-use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
+use srag\LibraryLanguageInstaller\SrUserEnrolment\LibraryLanguageInstaller;
 
 /**
  * Class DevToolsCtrl
  *
- * @package srag\DIC\SrUserEnrolment\DevTools
+ * @package srag\DevTools\SrUserEnrolment
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -69,7 +69,7 @@ class DevToolsCtrl
      */
     public static function installLanguages(PluginInterface $plugin)/*:void*/
     {
-        LibraryLanguageInstaller::getInstance()->withPlugin($plugin)->withLibraryLanguageDirectory(__DIR__ . "/lang")->updateLanguages();
+        LibraryLanguageInstaller::getInstance()->withPlugin($plugin)->withLibraryLanguageDirectory(__DIR__ . "/../lang")->updateLanguages();
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DIC\SrUserEnrolment\Util;
+namespace srag\LibraryLanguageInstaller\SrUserEnrolment;
 
 use ilDBConstants;
 use ilGlobalCache;
@@ -12,7 +12,7 @@ use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
 /**
  * Class LibraryLanguageInstaller
  *
- * @package srag\DIC\SrUserEnrolment\Util
+ * @package srag\LibraryLanguageInstaller\SrUserEnrolment
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

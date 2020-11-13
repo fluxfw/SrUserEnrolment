@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.12.2]
+- Move doc/DESCRIPTION.md to src/LONG_DESCRIPTION.md
+
+## [0.12.1]
+- Generate readme
+
+## [0.12.0]
+- Generate readme
+
+## [0.11.0]
+- Move LibraryLanguageInstaller to separate package
+
 ## [0.10.3]
 - Fix
 

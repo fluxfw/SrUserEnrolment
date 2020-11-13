@@ -1,7 +1,7 @@
 {
-  "name": "srag/plugins/sruserenrolment",
+  "name": "srag/sruserenrolment",
   "description": "",
-  "version": "3.17.1",
+  "version": "3.17.2",
   "extra": {
     "ilias_plugin": {
       "id": "srusrenr",
@@ -43,7 +43,8 @@
           "type": "raise"
         }
       ]
-    }
+    },
+    "generate_plugin_readme_template": "SRAG_ILIAS_PLUGIN"
   },
   "type": "project",
   "keywords": [
@@ -68,7 +69,9 @@
     "srag/activerecordconfig": ">=0.1.0",
     "srag/commentsui": ">=0.1.0",
     "srag/custominputguis": ">=0.1.0",
+    "srag/devtools": ">=0.1.0",
     "srag/dic": ">=0.1.0",
+    "srag/generateplugininfoshelper": ">=0.1.0",
     "srag/librariesnamespacechanger": ">=0.1.0",
     "srag/notifications4plugin": ">=0.1.0",
     "srag/removeplugindataconfirm": ">=0.1.0",
@@ -79,7 +82,39 @@
       "srag\\Plugins\\SrUserEnrolment\\": "src/"
     },
     "classmap": [
-      "classes/"
+      "classes/",
+      "src/Config/class.ConfigCtrl.php",
+      "src/EnrolmentWorkflow/Action/class.ActionsGUI.php",
+      "src/EnrolmentWorkflow/Action/class.ActionGUI.php",
+      "src/EnrolmentWorkflow/Assistant/class.AssistantsGUI.php",
+      "src/EnrolmentWorkflow/Comment/class.RequestCommentsCtrl.php",
+      "src/EnrolmentWorkflow/Deputy/class.DeputiesGUI.php",
+      "src/EnrolmentWorkflow/Member/class.MembersGUI.php",
+      "src/EnrolmentWorkflow/Member/class.MemberGUI.php",
+      "src/EnrolmentWorkflow/Member/class.UsersMembersAjaxAutoCompleteCtrl.php",
+      "src/EnrolmentWorkflow/Request/class.EditRequestGUI.php",
+      "src/EnrolmentWorkflow/Request/class.RequestInfoGUI.php",
+      "src/EnrolmentWorkflow/Request/class.RequestsGUI.php",
+      "src/EnrolmentWorkflow/Request/class.RequestStepForOthersGUI.php",
+      "src/EnrolmentWorkflow/Request/class.RequestStepGUI.php",
+      "src/EnrolmentWorkflow/Request/class.UsersAssistantsAjaxAutoCompleteCtrl.php",
+      "src/EnrolmentWorkflow/RequiredData/class.FillCtrl.php",
+      "src/EnrolmentWorkflow/Rule/class.RulesGUI.php",
+      "src/EnrolmentWorkflow/Rule/class.RuleGUI.php",
+      "src/EnrolmentWorkflow/Rule/Group/class.GroupRulesGUI.php",
+      "src/EnrolmentWorkflow/Rule/Group/class.GroupRuleGUI.php",
+      "src/EnrolmentWorkflow/SelectWorkflow/class.SelectWorkflowGUI.php",
+      "src/EnrolmentWorkflow/Step/class.StepsGUI.php",
+      "src/EnrolmentWorkflow/Step/class.StepGUI.php",
+      "src/EnrolmentWorkflow/Workflow/class.WorkflowsGUI.php",
+      "src/EnrolmentWorkflow/Workflow/class.WorkflowGUI.php",
+      "src/ExcelImport/class.ExcelImportGUI.php",
+      "src/ExcelImport/User/class.UserExcelImportGUI.php",
+      "src/ResetPassword/class.ResetPasswordGUI.php",
+      "src/RuleEnrolment/Rule/class.RulesCourseGUI.php",
+      "src/RuleEnrolment/Rule/Settings/class.RulesCourseSettingsGUI.php",
+      "src/RuleEnrolment/Rule/User/class.RulesUserGUI.php",
+      "src/Log/class.LogsGUI.php"
     ],
     "files": [
       "vendor/srag/dic/src/PHPVersionChecker.php",
@@ -95,8 +130,8 @@
     "pre-autoload-dump": [
       "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
       "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport",
-      "srag\\LibrariesNamespaceChanger\\GeneratePluginPhpAndXml::generatePluginPhpAndXml",
-      "srag\\LibrariesNamespaceChanger\\GeneratePluginReadme::generatePluginReadme"
+      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginPhpAndXml::generatePluginPhpAndXml",
+      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginReadme::generatePluginReadme"
     ]
   }
 }

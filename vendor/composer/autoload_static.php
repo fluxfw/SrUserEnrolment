@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
 {
     public static $files = array (
-        '5da5eea08615d1c74d07aeba6d487d20' => __DIR__ . '/..' . '/srag/dic/src/PHPVersionChecker.php',
-        '2751a23f49a4ccfbf7647bacd0424b5a' => __DIR__ . '/..' . '/srag/dic/src/Ilias7PreWarn.php',
+        '1170df84d1a3e2c3ca52d5ba997beca3' => __DIR__ . '/..' . '/srag/dic/src/PHPVersionChecker.php',
+        '199179f99f3379caf7b3837f337bed34' => __DIR__ . '/..' . '/srag/dic/src/Ilias7PreWarn.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -18,7 +18,10 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
             'srag\\RemovePluginDataConfirm\\SrUserEnrolment\\' => 45,
             'srag\\Plugins\\SrUserEnrolment\\' => 29,
             'srag\\Notifications4Plugin\\SrUserEnrolment\\' => 42,
+            'srag\\LibraryLanguageInstaller\\SrUserEnrolment\\' => 46,
             'srag\\LibrariesNamespaceChanger\\' => 31,
+            'srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\' => 47,
+            'srag\\DevTools\\SrUserEnrolment\\' => 30,
             'srag\\DataTableUI\\SrUserEnrolment\\' => 33,
             'srag\\DIC\\SrUserEnrolment\\' => 25,
             'srag\\CustomInputGUIs\\SrUserEnrolment\\' => 37,
@@ -44,9 +47,21 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         array (
             0 => __DIR__ . '/..' . '/srag/notifications4plugin/src',
         ),
+        'srag\\LibraryLanguageInstaller\\SrUserEnrolment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/librarylanguageinstaller/src',
+        ),
         'srag\\LibrariesNamespaceChanger\\' => 
         array (
             0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
+        ),
+        'srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/generateplugininfoshelper/src',
+        ),
+        'srag\\DevTools\\SrUserEnrolment\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/devtools/src',
         ),
         'srag\\DataTableUI\\SrUserEnrolment\\' => 
         array (
@@ -283,7 +298,7 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\CommentsUI\\SrUserEnrolment\\UI\\UI' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UI.php',
         'srag\\CommentsUI\\SrUserEnrolment\\UI\\UIInterface' => __DIR__ . '/..' . '/srag/commentsui/src/UI/UIInterface.php',
         'srag\\CommentsUI\\SrUserEnrolment\\Utils\\CommentsUITrait' => __DIR__ . '/..' . '/srag/commentsui/src/Utils/CommentsUITrait.php',
-        'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\AjaxCheckbox' => __DIR__ . '/..' . '/srag/custominputguis/src/AjaxCheckbox/AjaxCheckbox.php',
+        'srag\\CustomInputGUIs\\SrUserEnrolment\\AjaxCheckbox\\AjaxCheckbox' => __DIR__ . '/..' . '/srag/custominputguis/src/AjaxCheckbox/AjaxCheckbox.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CheckboxInputGUI\\CheckboxInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/CheckboxInputGUI/CheckboxInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\ColorPickerInputGUI\\ColorPickerInputGUI' => __DIR__ . '/..' . '/srag/custominputguis/src/ColorPickerInputGUI/ColorPickerInputGUI.php',
         'srag\\CustomInputGUIs\\SrUserEnrolment\\CustomInputGUIs' => __DIR__ . '/..' . '/srag/custominputguis/src/CustomInputGUIs.php',
@@ -344,7 +359,6 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\DIC\\SrUserEnrolment\\Database\\DatabaseInterface' => __DIR__ . '/..' . '/srag/dic/src/Database/DatabaseInterface.php',
         'srag\\DIC\\SrUserEnrolment\\Database\\PdoContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoContextHelper.php',
         'srag\\DIC\\SrUserEnrolment\\Database\\PdoStatementContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoStatementContextHelper.php',
-        'srag\\DIC\\SrUserEnrolment\\DevTools\\DevToolsCtrl' => __DIR__ . '/..' . '/srag/dic/src/DevTools/class.DevToolsCtrl.php',
         'srag\\DIC\\SrUserEnrolment\\Exception\\DICException' => __DIR__ . '/..' . '/srag/dic/src/Exception/DICException.php',
         'srag\\DIC\\SrUserEnrolment\\Ilias7PreWarn' => __DIR__ . '/..' . '/srag/dic/src/Ilias7PreWarn.php',
         'srag\\DIC\\SrUserEnrolment\\Loader\\AbstractLoaderDetector' => __DIR__ . '/..' . '/srag/dic/src/Loader/AbstractLoaderDetector.php',
@@ -354,7 +368,6 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\DIC\\SrUserEnrolment\\Plugin\\Plugin' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Plugin.php',
         'srag\\DIC\\SrUserEnrolment\\Plugin\\PluginInterface' => __DIR__ . '/..' . '/srag/dic/src/Plugin/PluginInterface.php',
         'srag\\DIC\\SrUserEnrolment\\Plugin\\Pluginable' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Pluginable.php',
-        'srag\\DIC\\SrUserEnrolment\\Util\\LibraryLanguageInstaller' => __DIR__ . '/..' . '/srag/dic/src/Util/LibraryLanguageInstaller.php',
         'srag\\DIC\\SrUserEnrolment\\Version\\Version' => __DIR__ . '/..' . '/srag/dic/src/Version/Version.php',
         'srag\\DIC\\SrUserEnrolment\\Version\\VersionInterface' => __DIR__ . '/..' . '/srag/dic/src/Version/VersionInterface.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Component\\Column\\Column' => __DIR__ . '/..' . '/srag/datatable/src/Component/Column/Column.php',
@@ -429,13 +442,14 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Table' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Table.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Utils\\AbstractTableBuilder' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Utils/AbstractTableBuilder.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Utils\\DataTableUITrait' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Utils/DataTableUITrait.php',
-        'srag\\LibrariesNamespaceChanger\\GeneratePluginPhpAndXml' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/GeneratePluginPhpAndXml.php',
-        'srag\\LibrariesNamespaceChanger\\GeneratePluginReadme' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/GeneratePluginReadme.php',
+        'srag\\DevTools\\SrUserEnrolment\\DevToolsCtrl' => __DIR__ . '/..' . '/srag/devtools/src/class.DevToolsCtrl.php',
+        'srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginPhpAndXml' => __DIR__ . '/..' . '/srag/generateplugininfoshelper/src/GeneratePluginPhpAndXml.php',
+        'srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginReadme' => __DIR__ . '/..' . '/srag/generateplugininfoshelper/src/GeneratePluginReadme.php',
         'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
         'srag\\LibrariesNamespaceChanger\\PHP72Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP72Backport.php',
         'srag\\LibrariesNamespaceChanger\\PHP7Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
         'srag\\LibrariesNamespaceChanger\\RemovePHP72Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/RemovePHP72Backport.php',
-        'srag\\LibrariesNamespaceChanger\\UpdatePluginReadme' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/UpdatePluginReadme.php',
+        'srag\\LibraryLanguageInstaller\\SrUserEnrolment\\LibraryLanguageInstaller' => __DIR__ . '/..' . '/srag/librarylanguageinstaller/src/LibraryLanguageInstaller.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Exception\\Notifications4PluginException' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Exception/Notifications4PluginException.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Notification\\Factory' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Notification/Factory.php',
         'srag\\Notifications4Plugin\\SrUserEnrolment\\Notification\\FactoryInterface' => __DIR__ . '/..' . '/srag/notifications4plugin/src/Notification/FactoryInterface.php',

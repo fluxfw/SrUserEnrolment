@@ -107,7 +107,7 @@ class UI implements UIInterface
             //"popularText" => "Popular",
             //"replyText" => "Reply",
             //"viewAllRepliesText" => "View all __replyCount__ replies",
-            //"youText" => "You",
+            //"youText" => "You"
         ]);
     }
 

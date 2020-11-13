@@ -5,7 +5,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 use srag\CustomInputGUIs\SrUserEnrolment\Loader\CustomInputGUIsLoaderDetector;
-use srag\DIC\SrUserEnrolment\DevTools\DevToolsCtrl;
+use srag\DevTools\SrUserEnrolment\DevToolsCtrl;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
 

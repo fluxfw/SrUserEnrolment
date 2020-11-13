@@ -16,10 +16,12 @@ interface UIInterface
 
     const LANG_MODULE_COMMENTSUI = "commentsui";
 
+
     /**
      * @return string
      */
     public function render() : string;
+
 
     /**
      * @param CtrlInterface $ctrl_class
@@ -27,6 +29,7 @@ interface UIInterface
      * @return self
      */
     public function withCtrlClass(CtrlInterface $ctrl_class) : self;
+
 
     /**
      * @param string $id

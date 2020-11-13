@@ -77,6 +77,7 @@ interface RepositoryInterface extends Pluginable
      */
     public function getCommentById(int $id)/* : ?Comment*/;
 
+
     /**
      * @param int|null $report_obj_id
      * @param int|null $report_user_id
@@ -85,6 +86,7 @@ interface RepositoryInterface extends Pluginable
      */
     public function getCommentsForCurrentUser(/*?int*/ $report_obj_id = null, /*?int*/ $report_user_id = null) : array;
 
+
     /**
      * @param int $report_obj_id
      * @param int $report_user_id
@@ -92,6 +94,7 @@ interface RepositoryInterface extends Pluginable
      * @return Comment[]
      */
     public function getCommentsForReport(int $report_obj_id, int $report_user_id) : array;
+
 
     /**
      * @return int

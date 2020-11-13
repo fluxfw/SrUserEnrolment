@@ -5,7 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 use ArrayObject;
 use ilLearningProgressBaseGUI;
 use ilSrUserEnrolmentPlugin;
-use srag\CustomInputGUIs\SrUserEnrolment\CheckboxInputGUI\AjaxCheckbox;
+use srag\CustomInputGUIs\SrUserEnrolment\AjaxCheckbox\AjaxCheckbox;
 use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\Items\Items;
 use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepsGUI;

@@ -16,7 +16,7 @@ use srag\DataTableUI\SrUserEnrolment\Implementation\Settings\Factory as Settings
 use srag\DataTableUI\SrUserEnrolment\Implementation\Utils\DataTableUITrait;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
-use srag\DIC\SrUserEnrolment\Util\LibraryLanguageInstaller;
+use srag\LibraryLanguageInstaller\SrUserEnrolment\LibraryLanguageInstaller;
 
 /**
  * Class Factory
