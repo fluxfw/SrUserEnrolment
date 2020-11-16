@@ -322,6 +322,7 @@ rules_value_type_date#:#Datum
 rules_value_type_date_info#:#Anhand aktueller Zeit und Datum (%s formatiert) im UDF-Feld
 rules_value_type_text#:#Text
 rules_ungroup#:#Gruppe auflösen
+select_workflow_object_async_actions_needed#:#Damit die Schritte in den Objekt-Aktionen angezeigt werden können, muss %1$s > %2$s > %3$s aktiviert sein
 select_workflow_object_setting_changed#:#Kurs-Einstellung '%1$s' auf '%2$s' gesetzt
 select_workflow_select_workflow#:#Workflow auswählen
 select_workflow_save#:#Speichern

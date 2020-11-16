@@ -92,7 +92,10 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
 
         if ($a_par["tpl_id"] === self::ACTIONS_MENU_TEMPLATE && $a_part === self::TEMPLATE_GET) {
 
-            return RequestStepGUI::addObjectActions($a_par);
+            if (strtolower(filter_input(INPUT_GET, "baseClass")) === strtolower(ilRepositoryGUI::class) && self::dic()->ctrl()->getCmd() === "getAsynchItemList") {
+
+                return RequestStepGUI::addObjectActions($a_par);
+            }
         }
 
         if (($a_comp === self::COMPONENT_DASHBOARD || $a_comp === self::COMPONENT_PERSONAL_DESKTOP) && $a_part === self::PART_CENTER_COLUMN) {

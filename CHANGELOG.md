@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.17.4]
+- Fix workflow object actions on newer ILIAS versions
+
 ## [3.17.3]
 - Fix workflow object actions on newer ILIAS versions
 
