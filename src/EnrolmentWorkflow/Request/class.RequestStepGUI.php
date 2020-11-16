@@ -76,15 +76,9 @@ class RequestStepGUI
     {
         $html = $a_par["html"];
 
-        $matches = [];
-        preg_match('/id="act_([0-9]+)/', $html, $matches);
-        if (!(is_array($matches) && count($matches) >= 2)) {
-            $matches = [];
-            preg_match('/[?&]ref_id=([0-9]+)/', $html, $matches);
-        }
-        if (is_array($matches) && count($matches) >= 2) {
+        $obj_ref_id = intval(filter_input(INPUT_GET, "cmdrefid"));
 
-            $obj_ref_id = intval($matches[1]);
+        if (!empty($obj_ref_id)) {
 
             self::dic()->ctrl()->setParameterByClass(self::class, RequestsGUI::GET_PARAM_REF_ID, $obj_ref_id);
             self::dic()->ctrl()->setParameterByClass(RequestStepForOthersGUI::class, RequestsGUI::GET_PARAM_REF_ID, $obj_ref_id);
@@ -140,7 +134,7 @@ class RequestStepGUI
                 if (is_array($matches) && count($matches) >= 1) {
                     $html = str_ireplace($matches[0], $matches[0] . $actions_html, $html);
                 } else {
-                    return ["mode" => ilSrUserEnrolmentUIHookGUI::KEEP, "html" => ""];
+                    $html = $actions_html . $html;
                 }
 
                 return ["mode" => ilSrUserEnrolmentUIHookGUI::REPLACE, "html" => $html];

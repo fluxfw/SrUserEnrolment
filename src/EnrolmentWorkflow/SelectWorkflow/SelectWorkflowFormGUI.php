@@ -39,6 +39,28 @@ class SelectWorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
+    public function getHTML() : string
+    {
+        $html = parent::getHTML();
+
+        if (!self::dic()->settings()->get("item_cmd_asynch")) {
+            $html = self::output()->getHTML([
+                self::dic()->ui()->factory()->messageBox()->info(self::plugin()->translate("object_async_actions_needed", SelectWorkflowGUI::LANG_MODULE, [
+                    self::dic()->language()->txt("obj_adm"),
+                    self::dic()->language()->txt("obj_reps"),
+                    self::dic()->language()->txt("adm_item_cmd_asynch", "administration")
+                ])),
+                $html
+            ]);
+        }
+
+        return $html;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     protected function getValue(string $key)
     {
         switch ($key) {

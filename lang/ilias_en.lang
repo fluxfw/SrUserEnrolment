@@ -322,6 +322,7 @@ rules_value_type_date#:#Date
 rules_value_type_date_info#:#Based current time and date (%s formatted) in UDF field
 rules_value_type_text#:#Text
 rules_ungroup#:#Ungroup
+select_workflow_object_async_actions_needed#:#In order for the steps to be displayed in the object actions, %1$s > %2$s > %3$s must be activated
 select_workflow_object_setting_changed#:#Set course setting '%1$s' to '%2$s'
 select_workflow_select_workflow#:#Select workflow
 select_workflow_save#:#Save
