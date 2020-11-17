@@ -30,9 +30,9 @@ class RuleEnrolmentJob extends ilCronJob
     const CRON_JOB_ID = ilSrUserEnrolmentPlugin::PLUGIN_ID;
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
-     * @var array
+     * @var array|null
      */
-    protected $parents = [];
+    protected $parents = null;
 
 
     /**
@@ -42,21 +42,7 @@ class RuleEnrolmentJob extends ilCronJob
      */
     public function __construct(/*?*/ array $parents = null)
     {
-        if (!empty($parents)) {
-            $this->parents = $parents;
-        } else {
-            $this->parents = array_reduce(AbstractRule::ENROLL_BY_USER, function (array $parents, int $context) : array {
-                $parents = array_merge($parents, array_map(function (int $type) use ($context) : array {
-                    return [
-                        $context,
-                        $type,
-                        null
-                    ];
-                }, array_keys(AbstractRule::TYPES[$context])));
-
-                return $parents;
-            }, []);
-        }
+        $this->parents = $parents;
     }
 
 
@@ -139,7 +125,7 @@ class RuleEnrolmentJob extends ilCronJob
         /**
          * @var AbstractRule[] $rules
          */
-        $rules = array_reduce($this->parents, function (array $rules, array $parent) : array {
+        $rules = array_reduce($this->getParents(), function (array $rules, array $parent) : array {
             $rules = array_merge($rules, self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRules($parent[0], $parent[1], $parent[2]));
 
             return $rules;
@@ -231,5 +217,28 @@ class RuleEnrolmentJob extends ilCronJob
         $result->setMessage($result_count);
 
         return $result;
+    }
+
+
+    /**
+     * @return array
+     */
+    protected function getParents() : array
+    {
+        if ($this->parents === null) {
+            $this->parents = array_reduce(AbstractRule::ENROLL_BY_USER, function (array $parents, int $context) : array {
+                $parents = array_merge($parents, array_map(function (int $type) use ($context) : array {
+                    return [
+                        $context,
+                        $type,
+                        null
+                    ];
+                }, array_keys(AbstractRule::TYPES[$context])));
+
+                return $parents;
+            }, []);
+        }
+
+        return $this->parents;
     }
 }

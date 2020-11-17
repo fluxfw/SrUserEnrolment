@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.17.5]
+- Not load objects on cron table
+
 ## [3.17.4]
 - Fix workflow object actions on newer ILIAS versions
 
