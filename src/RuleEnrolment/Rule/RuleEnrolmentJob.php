@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule;
 
 use ilCronJob;
 use ilCronJobResult;
+use ilCronManager;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
@@ -172,6 +173,8 @@ class RuleEnrolmentJob extends ilCronJob
                     self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()->factory()
                         ->newExceptionInstance($ex, $rule->getParentId(), $object_user->user_id, $rule->getId())->withStatus(Log::STATUS_ENROLL_FAILED));
                 }
+
+                ilCronManager::ping($this->getId());
             }
 
             if ($settings->isUnenroll()) {
@@ -197,8 +200,12 @@ class RuleEnrolmentJob extends ilCronJob
                         self::srUserEnrolment()->logs()->storeLog(self::srUserEnrolment()->logs()->factory()
                             ->newExceptionInstance($ex, $rule->getParentId(), $object_member, $rule->getId())->withStatus(Log::STATUS_UNENROLL_FAILED));
                     }
+
+                    ilCronManager::ping($this->getId());
                 }
             }
+
+            ilCronManager::ping($this->getId());
         }
 
         $logs = array_reduce(array_keys(Log::$status_enroll), function (array $logs, int $status) : array {
