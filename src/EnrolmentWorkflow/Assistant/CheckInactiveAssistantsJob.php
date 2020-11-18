@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
 use ilCronJob;
 use ilCronJobResult;
+use ilCronManager;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -131,6 +132,8 @@ class CheckInactiveAssistantsJob extends ilCronJob
 
                 $count_inactived_assistants++;
             }
+
+            ilCronManager::ping($this->getId());
         }
 
         $result->setStatus(ilCronJobResult::STATUS_OK);

@@ -4,6 +4,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy;
 
 use ilCronJob;
 use ilCronJobResult;
+use ilCronManager;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -131,6 +132,8 @@ class CheckInactiveDeputiesJob extends ilCronJob
 
                 $count_inactived_deputies++;
             }
+
+            ilCronManager::ping($this->getId());
         }
 
         $result->setStatus(ilCronJobResult::STATUS_OK);
