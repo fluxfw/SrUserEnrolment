@@ -1,4 +1,4 @@
-Please also install and enable [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron).
+You need to install the [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron) plugin
 
 This plugin has the follow main features (Each needs to activated separated in the plugin config)
 
@@ -17,9 +17,6 @@ This plugin has the follow main features (Each needs to activated separated in t
 
 **Enrolment workflow**
 ![Enrolment workflow](../doc/images/enrolment_workflow.png)
-
-Menu (Only ILIAS 5.3)
-For ILIAS 5.3, you need to use [CtrlMainMenu](https://github.com/studer-raimann/CtrlMainMenu)
 
 ## Custom event plugins
 If you need to do some custom requests changes, SrUserEnrolment will trigger some events, you can listen and react to this in an other custom plugin (plugin type is no matter)
