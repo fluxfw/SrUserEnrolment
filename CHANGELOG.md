@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.17.7]
+- Supports update login field
+- Update readme
+
 ## [3.17.6]
 - Ping after each object for not ILIAS auto set inactive cron job if during longer
 
