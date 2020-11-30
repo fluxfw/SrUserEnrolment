@@ -1,6 +1,7 @@
 # Changelog
 
-## [x]
+## [3.17.7]
+- Supports update login field
 - Update readme
 
 ## [3.17.6]

@@ -1,4 +1,8 @@
-You need to install the [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron) plugin
+### Cron job plugin
+
+If you want to use "Enrol by rule" or "Enrolment workflow", you need to install the [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron) plugin
+
+### Main features
 
 This plugin has the follow main features (Each needs to activated separated in the plugin config)
 
@@ -7,7 +11,7 @@ This plugin has the follow main features (Each needs to activated separated in t
 ![Main Features](../doc/images/main_features.png)
 
 **Automatic enroll members to course by rules**
-![Enrol by role](../doc/images/enrol_by_rule.png)
+![Enrol by rule](../doc/images/enrol_by_rule.png)
 
 **Enroll members to course with an excel file**
 ![Enrol by excel file](../doc/images/enrol_by_excel_file.png)
@@ -18,7 +22,7 @@ This plugin has the follow main features (Each needs to activated separated in t
 **Enrolment workflow**
 ![Enrolment workflow](../doc/images/enrolment_workflow.png)
 
-## Custom event plugins
+### Custom event plugins
 If you need to do some custom requests changes, SrUserEnrolment will trigger some events, you can listen and react to this in an other custom plugin (plugin type is no matter)
 
 First create or extend a `plugin.xml` in your custom plugin (You need to adapt `PLUGIN_ID` with your own plugin id) to tell ILIAS, your plugins wants to listen to SrUserEnrolment events (You need also to increase your plugin version for take effect)

@@ -419,10 +419,18 @@ AND usr_id>%s',
                 if (!empty($value)) {
                     switch ($type) {
                         case ExcelImport::FIELDS_TYPE_ILIAS:
-                            if (method_exists($user, $method = "set" . Items::strToCamelCase($key))) {
-                                Items::setter($user, $key, $value);
-                            } else {
-                                throw new SrUserEnrolmentException("User default field $key not found!");
+                            switch ($key) {
+                                case "login":
+                                    $user->updateLogin($value);
+                                    break;
+
+                                default:
+                                    if (method_exists($user, $method = "set" . Items::strToCamelCase($key))) {
+                                        Items::setter($user, $key, $value);
+                                    } else {
+                                        throw new SrUserEnrolmentException("User default field $key not found!");
+                                    }
+                                    break;
                             }
                             break;
 
