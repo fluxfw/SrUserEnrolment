@@ -66,6 +66,17 @@ final class Factory
 
 
     /**
+     * @return DeleteOldLogsJob
+     */
+    public function newDeleteOldLogsJobInstance() : DeleteOldLogsJob
+    {
+        $job = new DeleteOldLogsJob();
+
+        return $job;
+    }
+
+
+    /**
      * @param Throwable   $ex
      * @param int         $object_id
      * @param int|null    $user_id

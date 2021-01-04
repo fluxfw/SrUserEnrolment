@@ -92,7 +92,7 @@ class ActionsTableGUI extends TableGUI
         $this->tpl->parseCurrentBlock();
         $this->tpl->setCurrentBlock("column");
         $this->tpl->setVariable("COLUMN", self::output()->getHTML([
-            $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory): string {
+            $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
                 Waiter::init(Waiter::TYPE_WAITER);
 
                 return '
@@ -111,7 +111,7 @@ class ActionsTableGUI extends TableGUI
                 });
             });';
             }),
-            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory): string {
+            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
                 return '
             $("#' . $id . '").click(function () {
                 il.waiter.show();

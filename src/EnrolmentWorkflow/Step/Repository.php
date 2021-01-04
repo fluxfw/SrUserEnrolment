@@ -153,7 +153,7 @@ final class Repository
             }
         }
 
-        $steps = array_filter($steps, function (Step $step) use ($request, $check_user_id): bool {
+        $steps = array_filter($steps, function (Step $step) use ($request, $check_user_id) : bool {
 
             if ($request->getUserId() === $check_user_id) {
                 return false;
@@ -205,7 +205,7 @@ final class Repository
             return [];
         }
 
-        $steps = array_filter($this->getSteps($workflow_id), function (Step $step) use ($type, $check_user_id, $request_user_id, $obj_ref_id, $request): bool {
+        $steps = array_filter($this->getSteps($workflow_id), function (Step $step) use ($type, $check_user_id, $request_user_id, $obj_ref_id, $request) : bool {
             if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequest($obj_ref_id, $step->getStepId(), $request_user_id) !== null) {
                 return false;
             }

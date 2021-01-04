@@ -168,7 +168,7 @@ class ExcelImport
                 break;
         }
 
-        $fields = array_filter($fields, function (string $property) use ($term): bool {
+        $fields = array_filter($fields, function (string $property) use ($term) : bool {
             return ((empty($term) || stripos($property, $term) !== false));
         });
 
@@ -284,7 +284,7 @@ class ExcelImport
 
         $obj = self::srUserEnrolment()->getIliasObjectByRefId($this->parent->getObjRefId());
 
-        $users = array_filter($users, function (stdClass $user) use ($obj): bool {
+        $users = array_filter($users, function (stdClass $user) use ($obj) : bool {
             return (!empty($user->ilias_user_id) && !self::srUserEnrolment()->ruleEnrolment()->isEnrolled($obj->getId(), $user->ilias_user_id));
         });
 
@@ -350,7 +350,7 @@ class ExcelImport
         }, []);
 
         $head = array_shift($rows);
-        $columns = array_map(function (/*string*/ $column) use ($columns_map): array {
+        $columns = array_map(function (/*string*/ $column) use ($columns_map) : array {
             if (isset($columns_map[$column])) {
                 return $columns_map[$column];
             } else {
@@ -407,7 +407,7 @@ class ExcelImport
             }
         }
 
-        $users = array_map(function (stdClass $user) use ($form): stdClass {
+        $users = array_map(function (stdClass $user) use ($form) : stdClass {
             switch ($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->gender) {
                 case $form->getGenderM():
                     $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->gender = "m";
@@ -451,7 +451,7 @@ class ExcelImport
             return $user;
         }, $users);
 
-        $exists_users = array_filter($users, function (stdClass &$user) use ($form, $update_fields): bool {
+        $exists_users = array_filter($users, function (stdClass &$user) use ($form, $update_fields) : bool {
             $user->ilias_user_id = self::srUserEnrolment()
                 ->excelImport()
                 ->getUserIdByMapping($form->getMapExistsUsersFieldType(), $form->getMapExistsUsersFieldKey(),
@@ -476,7 +476,7 @@ class ExcelImport
         });
 
         if ($form->isCreateNewUsers()) {
-            $new_users = array_filter($users, function (stdClass &$user) use ($form): bool {
+            $new_users = array_filter($users, function (stdClass &$user) use ($form) : bool {
                 if ($user->is_new) {
                     $this->handleRoles($form, $user);
 

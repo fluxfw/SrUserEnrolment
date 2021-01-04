@@ -52,6 +52,7 @@ This plugin has the follow main features (Each needs to activated separated in t
 ![Enrolment workflow](./doc/images/enrolment_workflow.png)
 
 ### Custom event plugins
+
 If you need to do some custom requests changes, SrUserEnrolment will trigger some events, you can listen and react to this in an other custom plugin (plugin type is no matter)
 
 First create or extend a `plugin.xml` in your custom plugin (You need to adapt `PLUGIN_ID` with your own plugin id) to tell ILIAS, your plugins wants to listen to SrUserEnrolment events (You need also to increase your plugin version for take effect)
@@ -107,8 +108,9 @@ class ilXPlugin extends ...
 
 ## Adjustment suggestions
 
-* External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_PLUSE
-* Adjustment suggestions by pull requests via github
+You can report bugs or suggestions at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_PLUSE
+
+There is no guarantee this can be fixed or implemented
 
 ## ILIAS Plugin SLA
 

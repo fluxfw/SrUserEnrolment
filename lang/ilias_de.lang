@@ -164,7 +164,13 @@ excel_import_title#:#Einschreiben per Excel-Datei
 excel_import_update_user#:#Benutzer aktualisieren
 excel_import_yes#:#Ja
 logs_date#:#Datum / Zeit
+logs_days#:#Tage
+logs_delete_old_logs#:#Alte Logs löschen
+logs_delete_old_logs_description#:#Nach den angegebenen konfigurierten Zeit werden alte Logs automatisch gelöscht
+logs_delete_old_logs_status#:#%s Log(s) gelöscht
 logs_execute_user_id#:#Benutzer ausgeführt Login
+logs_keep_old_logs_time#:#Alte Logs maximal behalten für
+logs_keep_old_logs_time_info#:#Nach den angegebenen Zeit werden alte Logs automatisch gelöscht
 logs_logs#:#Logs
 logs_message#:#Nachricht
 logs_objects#:#Objekte
