@@ -100,7 +100,7 @@ final class Factory
      */
     public function getRuleTypes(/*?*/ int $parent_context = null) : array
     {
-        $rule_types = array_filter($this->classes, function (string $class) use ($parent_context): bool {
+        $rule_types = array_filter($this->classes, function (string $class) use ($parent_context) : bool {
             return $class::supportsParentContext($parent_context);
         });
 

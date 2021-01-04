@@ -252,7 +252,7 @@ final class Repository
      */
     public function storeUserDeputiesArray(int $user_id, array $deputies) : array
     {
-        return $this->storeUserDeputies($user_id, array_map(function (array $array) use ($user_id): Deputy {
+        return $this->storeUserDeputies($user_id, array_map(function (array $array) use ($user_id) : Deputy {
                 $deputy = $this->factory()->newInstance();
 
                 $deputy->setUserId($user_id);

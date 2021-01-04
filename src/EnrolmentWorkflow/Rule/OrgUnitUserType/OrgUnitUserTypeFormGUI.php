@@ -81,7 +81,7 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
                 "org_unit_user_type" => [
                     self::PROPERTY_CLASS    => ilRadioGroupInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
-                    self::PROPERTY_SUBITEMS => array_map(function (string $org_unit_user_type_lang_key) use (&$sub_fields): array {
+                    self::PROPERTY_SUBITEMS => array_map(function (string $org_unit_user_type_lang_key) use (&$sub_fields) : array {
                         return [
                             self::PROPERTY_CLASS    => ilRadioOption::class,
                             self::PROPERTY_SUBITEMS => array_shift($sub_fields),

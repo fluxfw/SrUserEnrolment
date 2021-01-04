@@ -317,7 +317,7 @@ final class Repository
         $requests = Request::where($wheres)->get();
 
         if (!empty($responsible_user_ids)) {
-            $requests = array_filter($requests, function (Request $request) use ($responsible_user_ids): bool {
+            $requests = array_filter($requests, function (Request $request) use ($responsible_user_ids) : bool {
                 foreach ($request->getResponsibleUsers() as $responsible_user_id) {
                     if (in_array($responsible_user_id, $responsible_user_ids)) {
                         return true;
@@ -329,43 +329,43 @@ final class Repository
         }
 
         if (!empty($object_title)) {
-            $requests = array_filter($requests, function (Request $request) use ($object_title): bool {
+            $requests = array_filter($requests, function (Request $request) use ($object_title) : bool {
                 return (stripos($request->getObject()->getTitle(), $object_title) !== false);
             });
         }
 
         if (!empty($workflow_id)) {
-            $requests = array_filter($requests, function (Request $request) use ($workflow_id): bool {
+            $requests = array_filter($requests, function (Request $request) use ($workflow_id) : bool {
                 return ($request->getStep()->getWorkflowId() === $workflow_id);
             });
         }
 
         if (!empty($user_lastname)) {
-            $requests = array_filter($requests, function (Request $request) use ($user_lastname): bool {
+            $requests = array_filter($requests, function (Request $request) use ($user_lastname) : bool {
                 return (stripos($request->getUser()->getLastname(), $user_lastname) !== false);
             });
         }
 
         if (!empty($user_firstname)) {
-            $requests = array_filter($requests, function (Request $request) use ($user_firstname): bool {
+            $requests = array_filter($requests, function (Request $request) use ($user_firstname) : bool {
                 return (stripos($request->getUser()->getFirstname(), $user_firstname) !== false);
             });
         }
 
         if (!empty($user_email)) {
-            $requests = array_filter($requests, function (Request $request) use ($user_email): bool {
+            $requests = array_filter($requests, function (Request $request) use ($user_email) : bool {
                 return (stripos($request->getUser()->getEmail(), $user_email) !== false);
             });
         }
 
         if (!empty($user_org_units)) {
-            $requests = array_filter($requests, function (Request $request) use ($user_org_units): bool {
+            $requests = array_filter($requests, function (Request $request) use ($user_org_units) : bool {
                 return (stripos($request->getUser()->getOrgUnitsRepresentation(), $user_org_units) !== false);
             });
         }
 
         if (!empty($edited_status)) {
-            $requests = array_filter($requests, function (Request $request) use ($edited_status): bool {
+            $requests = array_filter($requests, function (Request $request) use ($edited_status) : bool {
                 return in_array($request->getRequestGroup()->getEditedStatus(), $edited_status);
             });
         }

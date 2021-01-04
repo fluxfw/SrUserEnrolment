@@ -66,7 +66,7 @@ final class Repository
 
         $first_rule = current($rules);
 
-        $rules = array_filter($rules, function (AbstractRule $rule) use ($first_rule): bool {
+        $rules = array_filter($rules, function (AbstractRule $rule) use ($first_rule) : bool {
             return ($rule->getType() === $first_rule->getType() && $rule->getParentContext() === $first_rule->getParentContext() && $rule->getParentId() === $first_rule->getParentId());
         });
         if (empty($rules)) {
@@ -167,7 +167,7 @@ final class Repository
             return [];
         }
 
-        $checked_rules = array_filter($rules, function (AbstractRule $rule) use ($request, $user_id, $obj_ref_id): bool {
+        $checked_rules = array_filter($rules, function (AbstractRule $rule) use ($request, $user_id, $obj_ref_id) : bool {
             return $this->factory()->newCheckerInstance($rule)->withRequest($request)->check($user_id, $obj_ref_id);
         });
         if (empty($checked_rules)) {

@@ -164,7 +164,13 @@ excel_import_title#:#Enrol by excel file
 excel_import_update_user#:#Update user
 excel_import_yes#:#Yes
 logs_date#:#Date / Time
+logs_days#:#Days
+logs_delete_old_logs#:#Delete old logs
+logs_delete_old_logs_description#:#After the specified config time, old logs will be deleted automatically
+logs_delete_old_logs_status#:#Deleted %s log(s)
 logs_execute_user_id#:#User executed login
+logs_keep_old_logs_time#:#Keep old logs maximal for
+logs_keep_old_logs_time_info#:#After the specified time, old logs will be deleted automatically
 logs_logs#:#Logs
 logs_message#:#Message
 logs_objects#:#Objects

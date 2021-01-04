@@ -66,6 +66,30 @@ final class Repository
 
 
     /**
+     * @param int $keep_old_logs_time
+     *
+     * @return int
+     */
+    public function deleteOldLogs(int $keep_old_logs_time) : int
+    {
+        if (empty($keep_old_logs_time)) {
+            return 0;
+        }
+
+        $time = time();
+        $keep_old_logs_time_timestamp = ($time - ($keep_old_logs_time * 24 * 60 * 60));
+        $keep_old_logs_time_date = new ilDateTime($keep_old_logs_time_timestamp, IL_CAL_UNIX);
+
+        $count = self::dic()->database()->manipulateF('DELETE FROM ' . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME) . ' WHERE date<%s', [ilDBConstants::T_TEXT],
+            [$keep_old_logs_time_date->get(IL_CAL_DATETIME)]);
+
+        self::dic()->database()->resetAutoIncrement(Log::TABLE_NAME, "log_id");
+
+        return $count;
+    }
+
+
+    /**
      * @param int $user_id
      */
     public function deleteUserLogs(int $user_id)/*: void*/

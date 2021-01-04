@@ -573,6 +573,7 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\Exception\\SrUserEnrolmentException' => $baseDir . '/src/Exception/SrUserEnrolmentException.php',
     'srag\\Plugins\\SrUserEnrolment\\Job\\Factory' => $baseDir . '/src/Job/Factory.php',
     'srag\\Plugins\\SrUserEnrolment\\Job\\Repository' => $baseDir . '/src/Job/Repository.php',
+    'srag\\Plugins\\SrUserEnrolment\\Log\\DeleteOldLogsJob' => $baseDir . '/src/Log/DeleteOldLogsJob.php',
     'srag\\Plugins\\SrUserEnrolment\\Log\\Factory' => $baseDir . '/src/Log/Factory.php',
     'srag\\Plugins\\SrUserEnrolment\\Log\\Log' => $baseDir . '/src/Log/Log.php',
     'srag\\Plugins\\SrUserEnrolment\\Log\\LogsGUI' => $baseDir . '/src/Log/class.LogsGUI.php',

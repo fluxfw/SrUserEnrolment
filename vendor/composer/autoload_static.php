@@ -663,6 +663,7 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\Plugins\\SrUserEnrolment\\Exception\\SrUserEnrolmentException' => __DIR__ . '/../..' . '/src/Exception/SrUserEnrolmentException.php',
         'srag\\Plugins\\SrUserEnrolment\\Job\\Factory' => __DIR__ . '/../..' . '/src/Job/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Job\\Repository' => __DIR__ . '/../..' . '/src/Job/Repository.php',
+        'srag\\Plugins\\SrUserEnrolment\\Log\\DeleteOldLogsJob' => __DIR__ . '/../..' . '/src/Log/DeleteOldLogsJob.php',
         'srag\\Plugins\\SrUserEnrolment\\Log\\Factory' => __DIR__ . '/../..' . '/src/Log/Factory.php',
         'srag\\Plugins\\SrUserEnrolment\\Log\\Log' => __DIR__ . '/../..' . '/src/Log/Log.php',
         'srag\\Plugins\\SrUserEnrolment\\Log\\LogsGUI' => __DIR__ . '/../..' . '/src/Log/class.LogsGUI.php',

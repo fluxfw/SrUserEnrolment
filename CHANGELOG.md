@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.18.0]
+- Delete old logs cron job
+
 ## [3.17.7]
 - Supports update login field
 - Update readme

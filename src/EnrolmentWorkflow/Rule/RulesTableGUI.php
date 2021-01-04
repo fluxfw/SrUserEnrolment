@@ -119,7 +119,7 @@ class RulesTableGUI extends TableGUI
                 });
             });';
             }),
-            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory): string {
+            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
                 return '
             $("#' . $id . '").click(function () {
                 il.waiter.show();

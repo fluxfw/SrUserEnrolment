@@ -7,6 +7,7 @@ use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant\CheckInactiveAssistantsJob;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\CheckInactiveDeputiesJob;
+use srag\Plugins\SrUserEnrolment\Log\DeleteOldLogsJob;
 use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RuleEnrolmentJob;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -69,6 +70,9 @@ final class Factory
             case CheckInactiveDeputiesJob::CRON_JOB_ID:
                 return self::srUserEnrolment()->enrolmentWorkflow()->deputies()->factory()->newCheckInactiveDeputiesJobInstance();
 
+            case DeleteOldLogsJob::CRON_JOB_ID:
+                return self::srUserEnrolment()->logs()->factory()->newDeleteOldLogsJobInstance();
+
             default:
                 return null;
         }
@@ -83,7 +87,8 @@ final class Factory
         return [
             self::srUserEnrolment()->ruleEnrolment()->rules()->factory()->newJobInstance(),
             self::srUserEnrolment()->enrolmentWorkflow()->assistants()->factory()->newCheckInactiveAssistantsJobInstance(),
-            self::srUserEnrolment()->enrolmentWorkflow()->deputies()->factory()->newCheckInactiveDeputiesJobInstance()
+            self::srUserEnrolment()->enrolmentWorkflow()->deputies()->factory()->newCheckInactiveDeputiesJobInstance(),
+            self::srUserEnrolment()->logs()->factory()->newDeleteOldLogsJobInstance()
         ];
     }
 }

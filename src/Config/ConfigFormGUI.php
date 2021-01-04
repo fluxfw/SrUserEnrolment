@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\Config;
 
 use ilCheckboxInputGUI;
+use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilSrUserEnrolmentPlugin;
@@ -15,6 +16,7 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI;
+use srag\Plugins\SrUserEnrolment\Log\LogsGUI;
 use srag\Plugins\SrUserEnrolment\ResetPassword\ResetPasswordGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
@@ -30,6 +32,7 @@ class ConfigFormGUI extends PropertyFormGUI
 
     use SrUserEnrolmentTrait;
 
+    const KEY_KEEP_OLD_LOGS_TIME = "keep_old_logs_time";
     const KEY_ROLES = "roles";
     const KEY_ROLES_READ_REQUESTS = "roles_read_requests";
     const KEY_SHOW_ASSISTANTS = "show_assistants";
@@ -219,6 +222,12 @@ class ConfigFormGUI extends PropertyFormGUI
                 "setTitle"              => self::plugin()->translate("enable", self::LANG_MODULE, [
                     self::plugin()->translate("workflows", WorkflowsGUI::LANG_MODULE)
                 ])
+            ],
+            self::KEY_KEEP_OLD_LOGS_TIME      => [
+                self::PROPERTY_CLASS => ilNumberInputGUI::class,
+                "setTitle"           => self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME, LogsGUI::LANG_MODULE),
+                "setInfo"            => self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME . "_info", LogsGUI::LANG_MODULE),
+                "setSuffix"          => self::plugin()->translate("days", LogsGUI::LANG_MODULE)
             ]
         ];
     }

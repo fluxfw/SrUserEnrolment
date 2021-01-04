@@ -123,6 +123,7 @@ final class Repository extends AbstractRepository
     protected function getFields() : array
     {
         return [
+            ConfigFormGUI::KEY_KEEP_OLD_LOGS_TIME                         => [Config::TYPE_INTEGER, 0],
             ConfigFormGUI::KEY_ROLES                                      => [Config::TYPE_JSON, []],
             ConfigFormGUI::KEY_ROLES_READ_REQUESTS                        => [Config::TYPE_JSON, []],
             ConfigFormGUI::KEY_SHOW_ASSISTANTS                            => [Config::TYPE_BOOLEAN, false],

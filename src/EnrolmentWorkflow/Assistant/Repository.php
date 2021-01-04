@@ -252,7 +252,7 @@ final class Repository
      */
     public function storeUserAssistantsArray(int $user_id, array $assistants) : array
     {
-        return $this->storeUserAssistants($user_id, array_map(function (array $array) use ($user_id): Assistant {
+        return $this->storeUserAssistants($user_id, array_map(function (array $array) use ($user_id) : Assistant {
                 $assistant = $this->factory()->newInstance();
 
                 $assistant->setUserId($user_id);
