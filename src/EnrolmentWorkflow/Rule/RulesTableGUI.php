@@ -232,7 +232,10 @@ class RulesTableGUI extends TableGUI
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
-        $this->setData(self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRules($this->parent_obj->getParentContext(), $this->parent_obj->getType(), $this->parent_obj->getParentId(), false));
+        $this->setData(self::srUserEnrolment()
+            ->enrolmentWorkflow()
+            ->rules()
+            ->getRules($this->parent_obj->getParentContext(), $this->parent_obj->getType(), $this->parent_obj->getParentId(), null, false));
     }
 
 

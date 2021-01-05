@@ -53,7 +53,7 @@ class UDFChecker extends AbstractRuleChecker
 
             switch ($this->rule->getValueType()) {
                 case UDF::VALUE_TYPE_TEXT:
-                    $value = $this->rule->getValue();
+                    $value = $this->rule->getValues();
                     break;
 
                 case UDF::VALUE_TYPE_DATE:
@@ -71,8 +71,7 @@ class UDFChecker extends AbstractRuleChecker
                     return false;
             }
 
-            if ($this->checkOperator($udf_value, $value, $this->rule->getOperator(),
-                $this->rule->isOperatorNegated(), $this->rule->isOperatorCaseSensitive())
+            if ($this->checkOperator($udf_value, $value, $this->rule->getOperator(), $this->rule->isOperatorNegated(), $this->rule->isOperatorCaseSensitive())
             ) {
                 return true;
             }

@@ -170,7 +170,7 @@ logs_delete_old_logs_description#:#After the specified config time, old logs wil
 logs_delete_old_logs_status#:#Deleted %s log(s)
 logs_execute_user_id#:#User executed login
 logs_keep_old_logs_time#:#Keep old logs maximal for
-logs_keep_old_logs_time_info#:#After the specified time, old logs will be deleted automatically
+logs_keep_old_logs_time_info#:#After the specified time, old logs will be deleted automatically\n0 = Disabled
 logs_logs#:#Logs
 logs_message#:#Message
 logs_objects#:#Objects
@@ -269,7 +269,7 @@ rules_operator#:#Operator
 rules_operator_bigger#:#Bigger than
 rules_operator_bigger_equals#:#Bigger than or is equals
 rules_operator_case_sensitive#:#Case sensitive
-rules_operator_contains#:#Contanints
+rules_operator_contains#:#Contains
 rules_operator_ends_with#:#Ends with
 rules_operator_equals#:#Is equals
 rules_operator_equals_subsequent#:#Is equals or subsequent
@@ -327,6 +327,7 @@ rules_value_type#:#Value type
 rules_value_type_date#:#Date
 rules_value_type_date_info#:#Based current time and date (%s formatted) in UDF field
 rules_value_type_text#:#Text
+rules_values_info#:#OR combination
 rules_ungroup#:#Ungroup
 select_workflow_object_async_actions_needed#:#In order for the steps to be displayed in the object actions, %1$s > %2$s > %3$s must be activated
 select_workflow_object_setting_changed#:#Set course setting '%1$s' to '%2$s'

@@ -5,7 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Field\Field;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\Operator;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Value\Value;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Values\Values;
 
 /**
  * Class UDF
@@ -19,7 +19,7 @@ class UDF extends AbstractRule
 
     use Field;
     use Operator;
-    use Value;
+    use Values;
 
     const TABLE_NAME_SUFFIX = "udf";
     const VALUE_TYPES
@@ -60,7 +60,7 @@ class UDF extends AbstractRule
     {
         $descriptions = [];
 
-        $descriptions[] = $this->field . " " . $this->getOperatorTitle() . "  " . $this->value;
+        $descriptions[] = $this->field . " " . $this->getOperatorTitle() . "  " . implode(", ", $this->values);
 
         return nl2br(implode("\n", array_map(function (string $description) : string {
             return htmlspecialchars($description);
@@ -102,6 +102,11 @@ class UDF extends AbstractRule
             return $field_value_operator;
         }
 
+        $field_value_values = $this->sleepValues($field_name, $field_value);
+        if ($field_value_values !== null) {
+            return $field_value_values;
+        }
+
         switch ($field_name) {
             default:
                 return parent::sleep($field_name);
@@ -117,6 +122,11 @@ class UDF extends AbstractRule
         $field_value_operator = $this->wakeUpOperator($field_name, $field_value);
         if ($field_value_operator !== null) {
             return $field_value_operator;
+        }
+
+        $field_value_values = $this->wakeUpValues($field_name, $field_value);
+        if ($field_value_values !== null) {
+            return $field_value_values;
         }
 
         switch ($field_name) {

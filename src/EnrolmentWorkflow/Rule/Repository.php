@@ -6,6 +6,7 @@ use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group\Group;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF\UDF;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -122,7 +123,7 @@ final class Repository
     public function deleteRules(int $parent_context, string $parent_id)/*: void*/
     {
         foreach (AbstractRule::TYPES[$parent_context] as $type => $type_lang_key) {
-            foreach ($this->getRules($parent_context, $type, $parent_id, false) as $rule) {
+            foreach ($this->getRules($parent_context, $type, $parent_id, null, false) as $rule) {
                 $this->deleteRule($rule);
             }
         }
@@ -215,15 +216,20 @@ final class Repository
      * @param int|null    $parent_context
      * @param int|null    $type
      * @param string|null $parent_id
+     * @param array|null  $types
      * @param bool        $only_enabled
      *
      * @return AbstractRule[]
      */
-    public function getRules(/*?*/ int $parent_context = null, /*?*/ int $type = null, /*?*/ string $parent_id = null, bool $only_enabled = true) : array
+    public function getRules(/*?*/ int $parent_context = null, /*?*/ int $type = null, /*?*/ string $parent_id = null,/*?array*/ $types = null, bool $only_enabled = true) : array
     {
         $rules = [];
 
-        foreach ($this->factory()->getRuleTypes($parent_context) as $class) {
+        foreach ($this->factory()->getRuleTypes($parent_context) as $class_type => $class) {
+            if (!empty($types) && !in_array($class_type, $types)) {
+                continue;
+            }
+
             $where = $class::where([]);
 
             if (!empty($parent_context)) {
@@ -275,7 +281,7 @@ final class Repository
 
         if ($upgrade_sort_rules) {
             foreach (
-                array_reduce($this->getRules(null, null, null, false), function (array $rules, AbstractRule $rule) : array {
+                array_reduce($this->getRules(null, null, null, null, false), function (array $rules, AbstractRule $rule) : array {
                     $rules[$rule->getParentContext() . "_" . $rule->getType() . "_" . $rule->getParentId()] = $rule;
 
                     return $rules;
@@ -283,6 +289,16 @@ final class Repository
             ) {
                 $this->reSortRules($rule->getParentContext(), $rule->getType(), $rule->getParentId());
             }
+        }
+
+        if (self::dic()->database()->tableColumnExists(UDF::getTableName(), "value")) {
+            foreach ($this->getRules(null, null, null, [UDF::getRuleType()], false) as $rule) {
+                $rule->setValues([strval($rule->value)]);
+
+                $this->storeRule($rule);
+            }
+
+            self::dic()->database()->dropTableColumn(UDF::getTableName(), "value");
         }
     }
 
@@ -319,7 +335,7 @@ final class Repository
     public function storeRule(AbstractRule $rule)/*: void*/
     {
         if (empty($rule->getRuleId())) {
-            $rule->setSort(((count($this->getRules($rule->getParentContext(), $rule->getType(), $rule->getParentId(), false)) + 1) * 10));
+            $rule->setSort(((count($this->getRules($rule->getParentContext(), $rule->getType(), $rule->getParentId(), null, false)) + 1) * 10));
         }
 
         $rule->store();
@@ -333,7 +349,7 @@ final class Repository
      */
     public function ungroup(Group $group) : array
     {
-        $rules = $this->getRules(AbstractRule::PARENT_CONTEXT_RULE_GROUP, AbstractRule::TYPE_RULE_GROUP, $group->getRuleId(), false);
+        $rules = $this->getRules(AbstractRule::PARENT_CONTEXT_RULE_GROUP, AbstractRule::TYPE_RULE_GROUP, $group->getRuleId(), null, false);
 
         foreach ($rules as $rule) {
             $rule->setType($group->getType());
@@ -355,7 +371,7 @@ final class Repository
      */
     protected function reSortRules(int $parent_context, int $type, string $parent_id)/*: void*/
     {
-        $rules = $this->getRules($parent_context, $type, $parent_id, false);
+        $rules = $this->getRules($parent_context, $type, $parent_id, null, false);
 
         $i = 1;
         foreach ($rules as $rule) {

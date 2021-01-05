@@ -28,43 +28,62 @@ trait OperatorChecker
 
         switch ($operator) {
             case OperatorConstants::OPERATOR_EQUALS:
-                $check = ($value == $check_value);
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    return ($value == $check_value);
+                });
                 break;
 
             case OperatorConstants::OPERATOR_STARTS_WITH:
-                $check = (strpos($value, $check_value) === 0);
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    return (strpos($value, $check_value) === 0);
+                });
                 break;
 
             case OperatorConstants::OPERATOR_CONTAINS:
-                $check = (strpos($value, $check_value) !== false);
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    return (strpos($value, $check_value) !== false);
+                });
                 break;
 
             case OperatorConstants::OPERATOR_ENDS_WITH:
-                $check = (strrpos($value, $check_value) === (strlen($value) - strlen($check_value)));
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    return (strrpos($value, $check_value) === (strlen($value) - strlen($check_value)));
+                });
                 break;
 
             case OperatorConstants::OPERATOR_REG_EX:
-                // Fix RegExp
-                if ($check_value[0] !== "/" && $check_value[strlen($check_value) - 1] !== "/") {
-                    $check_value = "/$check_value/";
-                }
-                $check = (preg_match($check_value, $value) === 1);
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    // Fix RegExp
+                    if ($check_value[0] !== "/" && $check_value[strlen($check_value) - 1] !== "/") {
+                        $check_value = "/$check_value/";
+                    }
+
+                    return (preg_match($check_value, $value) === 1);
+                });
                 break;
 
             case OperatorConstants::OPERATOR_LESS:
-                $check = ($value < $check_value);
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    return ($value < $check_value);
+                });
                 break;
 
             case OperatorConstants::OPERATOR_LESS_EQUALS:
-                $check = ($value <= $check_value);
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    return ($value <= $check_value);
+                });
                 break;
 
             case OperatorConstants::OPERATOR_BIGGER:
-                $check = ($value > $check_value);
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    return ($value > $check_value);
+                });
                 break;
 
             case OperatorConstants::OPERATOR_BIGGER_EQUALS:
-                $check = ($value >= $check_value);
+                $check = $this->checkOperatorCheck($value, $check_value, function ($value, $check_value) : bool {
+                    return ($value >= $check_value);
+                });
                 break;
 
             default:
@@ -85,13 +104,45 @@ trait OperatorChecker
      */
     public function checkOperatorCaseSensitive($value, bool $operator_case_sensitive)
     {
-        if (is_string($value)) {
-            if (!$operator_case_sensitive) {
-                $value = strtolower($value);
+        if (!$operator_case_sensitive) {
+            if (is_array($value)) {
+                $value = array_map("strtolower", $value);
+            } else {
+                if (is_string($value)) {
+                    $value = strtolower($value);
+                }
             }
         }
 
         return $value;
+    }
+
+
+    /**
+     * @param mixed    $value
+     * @param mixed    $check_value
+     * @param callable $callback
+     *
+     * @return bool
+     */
+    public function checkOperatorCheck($value, $check_value, callable $callback) : bool
+    {
+        if (!is_array($value)) {
+            $value = [$value];
+        }
+        if (!is_array($check_value)) {
+            $check_value = [$check_value];
+        }
+
+        foreach ($value as $value_) {
+            foreach ($check_value as $check_value_) {
+                if ($callback($value_, $check_value_)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 
