@@ -7,7 +7,7 @@ use ilRadioOption;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Field\FieldFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Operator\OperatorFormGUI;
-use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Value\ValueFormGUI;
+use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Values\ValuesFormGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI;
 
 /**
@@ -22,7 +22,7 @@ class UDFFormGUI extends AbstractRuleFormGUI
 
     use FieldFormGUI;
     use OperatorFormGUI;
-    use ValueFormGUI;
+    use ValuesFormGUI;
 
     /**
      * @var UDF
@@ -36,6 +36,23 @@ class UDFFormGUI extends AbstractRuleFormGUI
     public function __construct(RuleGUI $parent, UDF $rule)
     {
         parent::__construct($parent, $rule);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getValue(string $key)
+    {
+        $value_values = $this->getValueValues($key);
+        if ($value_values !== null) {
+            return $value_values;
+        }
+
+        switch ($key) {
+            default:
+                return parent::getValue($key);
+        }
     }
 
 
@@ -62,7 +79,7 @@ class UDFFormGUI extends AbstractRuleFormGUI
 
                         switch ($value_type) {
                             case UDF::VALUE_TYPE_TEXT:
-                                $field[self::PROPERTY_SUBITEMS] = $this->getValueFormFields();
+                                $field[self::PROPERTY_SUBITEMS] = $this->getValuesFormFields();
                                 break;
 
                             case UDF::VALUE_TYPE_DATE:
@@ -79,5 +96,23 @@ class UDFFormGUI extends AbstractRuleFormGUI
             ],
             $this->getOperatorFormFields2()
         );
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function storeValue(string $key, $value)/*: void*/
+    {
+        $value_values = $this->storeValueValues($key, $value);
+        if ($value_values) {
+            return;
+        }
+
+        switch ($key) {
+            default:
+                parent::storeValue($key, $value);
+                break;
+        }
     }
 }

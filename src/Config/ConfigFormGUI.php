@@ -226,7 +226,7 @@ class ConfigFormGUI extends PropertyFormGUI
             self::KEY_KEEP_OLD_LOGS_TIME      => [
                 self::PROPERTY_CLASS => ilNumberInputGUI::class,
                 "setTitle"           => self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME, LogsGUI::LANG_MODULE),
-                "setInfo"            => self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME . "_info", LogsGUI::LANG_MODULE),
+                "setInfo"            => nl2br(self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME . "_info", LogsGUI::LANG_MODULE), false),
                 "setSuffix"          => self::plugin()->translate("days", LogsGUI::LANG_MODULE)
             ]
         ];

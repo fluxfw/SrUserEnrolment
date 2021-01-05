@@ -590,6 +590,8 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Title\\TitleFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/Fields/Title/TitleFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Value\\Value' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/Fields/Value/Value.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Value\\ValueFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/Fields/Value/ValueFormGUI.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Values\\Values' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/Fields/Values/Values.php',
+        'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Values\\ValuesFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/Fields/Values/ValuesFormGUI.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\GlobalRole\\GlobalRole' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/GlobalRole/GlobalRole.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\GlobalRole\\GlobalRoleChecker' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/GlobalRole/GlobalRoleChecker.php',
         'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\GlobalRole\\GlobalRoleFormGUI' => __DIR__ . '/../..' . '/src/EnrolmentWorkflow/Rule/GlobalRole/GlobalRoleFormGUI.php',

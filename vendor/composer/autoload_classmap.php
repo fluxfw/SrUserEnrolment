@@ -500,6 +500,8 @@ return array(
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Title\\TitleFormGUI' => $baseDir . '/src/EnrolmentWorkflow/Rule/Fields/Title/TitleFormGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Value\\Value' => $baseDir . '/src/EnrolmentWorkflow/Rule/Fields/Value/Value.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Value\\ValueFormGUI' => $baseDir . '/src/EnrolmentWorkflow/Rule/Fields/Value/ValueFormGUI.php',
+    'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Values\\Values' => $baseDir . '/src/EnrolmentWorkflow/Rule/Fields/Values/Values.php',
+    'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\Fields\\Values\\ValuesFormGUI' => $baseDir . '/src/EnrolmentWorkflow/Rule/Fields/Values/ValuesFormGUI.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\GlobalRole\\GlobalRole' => $baseDir . '/src/EnrolmentWorkflow/Rule/GlobalRole/GlobalRole.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\GlobalRole\\GlobalRoleChecker' => $baseDir . '/src/EnrolmentWorkflow/Rule/GlobalRole/GlobalRoleChecker.php',
     'srag\\Plugins\\SrUserEnrolment\\EnrolmentWorkflow\\Rule\\GlobalRole\\GlobalRoleFormGUI' => $baseDir . '/src/EnrolmentWorkflow/Rule/GlobalRole/GlobalRoleFormGUI.php',

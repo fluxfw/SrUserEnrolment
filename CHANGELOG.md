@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.19.0]
+- Multiple values in UDF rule
+
 ## [3.18.0]
 - Delete old logs cron job
 
