@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\Log;
 
+require_once __DIR__ . "/../../vendor/autoload.php";
+
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;

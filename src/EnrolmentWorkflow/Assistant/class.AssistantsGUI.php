@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilAdministrationGUI;
 use ilDashboardGUI;
 use ilDatePresentation;

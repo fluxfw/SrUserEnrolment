@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilDashboardGUI;
 use ilObject;
 use ilPersonalDesktopGUI;

@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilCourseMembershipGUI;
 use ilObjCourseGUI;
 use ilRepositoryGUI;

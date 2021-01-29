@@ -2,6 +2,8 @@
 
 namespace srag\RequiredData\SrUserEnrolment\Field\Field\StaticMultiSearchSelect;
 
+require_once __DIR__ . "/../../../../../../autoload.php";
+
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\AbstractAjaxAutoCompleteCtrl;
 use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
 use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;

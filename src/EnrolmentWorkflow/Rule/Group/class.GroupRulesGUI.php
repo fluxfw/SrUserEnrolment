@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group;
 
+require_once __DIR__ . "/../../../../vendor/autoload.php";
+
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
 

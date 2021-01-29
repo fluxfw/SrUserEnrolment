@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilSrUserEnrolmentPlugin;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\EditRequestGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;

@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilLink;
 use ilObjCourse;
 use ilSrUserEnrolmentPlugin;

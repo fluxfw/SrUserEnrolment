@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\User;
 
+require_once __DIR__ . "/../../../../vendor/autoload.php";
+
 use ilAdministrationGUI;
 use ilObjectGUIFactory;
 use ilObjRoleFolderGUI;

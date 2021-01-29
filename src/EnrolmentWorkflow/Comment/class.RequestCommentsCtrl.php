@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\Comment;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;
 use srag\CommentsUI\SrUserEnrolment\Ctrl\AbstractCtrl;

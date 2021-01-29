@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
