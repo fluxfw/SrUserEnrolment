@@ -11,9 +11,11 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class UsersAssistantsAjaxAutoCompleteCtrl
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
+ * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\UsersAssistantsAjaxAutoCompleteCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI
  */
 class UsersAssistantsAjaxAutoCompleteCtrl extends UsersAjaxAutoCompleteCtrl
 {
