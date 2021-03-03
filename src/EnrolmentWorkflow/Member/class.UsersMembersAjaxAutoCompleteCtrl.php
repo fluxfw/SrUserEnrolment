@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -9,9 +11,11 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class UsersMembersAjaxAutoCompleteCtrl
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member
+ * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\UsersMembersAjaxAutoCompleteCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI
  */
 class UsersMembersAjaxAutoCompleteCtrl extends UsersAjaxAutoCompleteCtrl
 {

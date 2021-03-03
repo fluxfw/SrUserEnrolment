@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\SelectWorkflow;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilLink;
 use ilSrUserEnrolmentPlugin;
 use ilUIPluginRouterGUI;

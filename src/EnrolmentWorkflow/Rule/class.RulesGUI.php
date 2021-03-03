@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilConfirmationGUI;
 use ilSrUserEnrolmentPlugin;
 use ilUtil;
@@ -11,9 +13,14 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class RulesGUI
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule
+ * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI: srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\User\RulesUserGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI: srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI
  */
 class RulesGUI
 {

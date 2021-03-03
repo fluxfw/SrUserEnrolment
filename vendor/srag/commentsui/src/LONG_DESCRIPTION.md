@@ -38,8 +38,8 @@ use CommentsUITrait;
 
 ## Comment ActiveRecord
 
-First you need to init the `Comment` active record class with your own table name prefix. Please add this very early in your plugin code
-self::comments()->withTableNamePrefix(self::COMMENT_TABLE_NAME_PREFIX)->withPlugin(self::plugin());
+First you need to init the `Comment` active record class with your own table name prefix. Please add this very early in your plugin code self::comments()->withTableNamePrefix(self::COMMENT_TABLE_NAME_PREFIX)->withPlugin(self::plugin());
+
 ```
 
 Add an update step to your `dbupdate.php`

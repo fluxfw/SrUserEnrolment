@@ -48,8 +48,8 @@ use CommentsUITrait;
 
 ## Comment ActiveRecord
 
-First you need to init the `Comment` active record class with your own table name prefix. Please add this very early in your plugin code
-self::comments()->withTableNamePrefix(self::COMMENT_TABLE_NAME_PREFIX)->withPlugin(self::plugin());
+First you need to init the `Comment` active record class with your own table name prefix. Please add this very early in your plugin code self::comments()->withTableNamePrefix(self::COMMENT_TABLE_NAME_PREFIX)->withPlugin(self::plugin());
+
 ```
 
 Add an update step to your `dbupdate.php`
@@ -124,5 +124,6 @@ self::output()->getHTML(self::commentsUI()->withCtrlClass(new XCtrl()));
 
 ## Adjustment suggestions
 
-* External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI
-* Adjustment suggestions by pull requests via github
+You can report bugs or suggestions at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI
+
+There is no guarantee this can be fixed or implemented

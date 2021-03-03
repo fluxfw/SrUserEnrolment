@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilLink;
 use ilSrUserEnrolmentPlugin;
 use ilSubmitButton;
@@ -23,7 +25,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI: ilUIPluginRouterGUI
  * @ilCtrl_isCalledBy srag\CustomInputGUIs\SrUserEnrolment\MultiSelectSearchNewInputGUI\UsersAjaxAutoCompleteCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\UsersAssistantsAjaxAutoCompleteCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestsGUI
  */
 class RequestsGUI
 {

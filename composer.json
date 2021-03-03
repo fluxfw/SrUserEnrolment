@@ -1,7 +1,7 @@
 {
   "name": "srag/sruserenrolment",
   "description": "Enrol users such with an excel file or by rules",
-  "version": "3.19.0",
+  "version": "3.19.1",
   "extra": {
     "ilias_plugin": {
       "id": "srusrenr",
@@ -9,6 +9,7 @@
       "ilias_min_version": "5.4.0",
       "ilias_max_version": "6.999",
       "slot": "Services/UIComponent/UserInterfaceHook",
+      "supports_cli_setup": true,
       "events": [
         {
           "id": "Modules/Course",
@@ -44,14 +45,17 @@
         }
       ]
     },
-    "generate_plugin_readme_template": "SRAG_ILIAS_PLUGIN"
+    "generate_plugin_readme_template": "SRAG_ILIAS_PLUGIN",
+    "long_description_template": "src/LONG_DESCRIPTION.md"
   },
   "type": "project",
   "keywords": [
-    "ILIAS",
-    "Plugin"
+    "ilias",
+    "interface",
+    "plugin",
+    "user"
   ],
-  "homepage": "https://github.com/studer-raimann/SrUserEnrolment",
+  "homepage": "https://github.com/fluxfw/SrUserEnrolment",
   "license": "GPL-3.0-only",
   "authors": [
     {
@@ -117,8 +121,7 @@
       "src/Log/class.LogsGUI.php"
     ],
     "files": [
-      "vendor/srag/dic/src/PHPVersionChecker.php",
-      "vendor/srag/dic/src/Ilias7PreWarn.php"
+      "vendor/srag/dic/src/PHPVersionChecker.php"
     ]
   },
   "config": {

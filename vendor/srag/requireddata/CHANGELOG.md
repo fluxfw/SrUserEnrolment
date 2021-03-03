@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.14.6]
+- Update project url
+
+## [0.14.5]
+- Fix ctrl definitions in wrong file
+
+## [0.14.4]
+- Add require compose in ctrl entry classes
+
+## [0.14.3]
+- Fix table pagination
+
 ## [0.14.2]
 - Fix composer 2
 - Move doc/DESCRIPTION.md to src/LONG_DESCRIPTION.md

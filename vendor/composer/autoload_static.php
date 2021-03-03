@@ -8,7 +8,6 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
 {
     public static $files = array (
         '1170df84d1a3e2c3ca52d5ba997beca3' => __DIR__ . '/..' . '/srag/dic/src/PHPVersionChecker.php',
-        '199179f99f3379caf7b3837f337bed34' => __DIR__ . '/..' . '/srag/dic/src/Ilias7PreWarn.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -361,7 +360,6 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\DIC\\SrUserEnrolment\\Database\\PdoContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoContextHelper.php',
         'srag\\DIC\\SrUserEnrolment\\Database\\PdoStatementContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoStatementContextHelper.php',
         'srag\\DIC\\SrUserEnrolment\\Exception\\DICException' => __DIR__ . '/..' . '/srag/dic/src/Exception/DICException.php',
-        'srag\\DIC\\SrUserEnrolment\\Ilias7PreWarn' => __DIR__ . '/..' . '/srag/dic/src/Ilias7PreWarn.php',
         'srag\\DIC\\SrUserEnrolment\\Loader\\AbstractLoaderDetector' => __DIR__ . '/..' . '/srag/dic/src/Loader/AbstractLoaderDetector.php',
         'srag\\DIC\\SrUserEnrolment\\Output\\Output' => __DIR__ . '/..' . '/srag/dic/src/Output/Output.php',
         'srag\\DIC\\SrUserEnrolment\\Output\\OutputInterface' => __DIR__ . '/..' . '/srag/dic/src/Output/OutputInterface.php',
@@ -412,6 +410,7 @@ class ComposerStaticInitfdefe1d0206533e83bd144a9546d2fb6
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Column\\Formatter\\LanguageVariableFormatter' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Column/Formatter/LanguageVariableFormatter.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Column\\Formatter\\LearningProgressFormatter' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Column/Formatter/LearningProgressFormatter.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Column\\Formatter\\LinkFormatter' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Column/Formatter/LinkFormatter.php',
+        'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Column\\Formatter\\MultilineFormatter' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Column/Formatter/MultilineFormatter.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Data\\Data' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Data/Data.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Data\\Factory' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Data/Factory.php',
         'srag\\DataTableUI\\SrUserEnrolment\\Implementation\\Data\\Fetcher\\AbstractDataFetcher' => __DIR__ . '/..' . '/srag/datatable/src/Implementation/Data/Fetcher/AbstractDataFetcher.php',

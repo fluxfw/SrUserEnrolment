@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ILIAS\UI\Component\Component;
 use ilLink;
 use ilSession;
@@ -26,7 +28,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI: ilUIPluginRouterGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FillCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI
  */
 class RequestStepGUI
 {

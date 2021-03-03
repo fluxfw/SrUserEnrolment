@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilSrUserEnrolmentPlugin;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\EditRequestGUI;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI;
@@ -11,9 +13,12 @@ use srag\RequiredData\SrUserEnrolment\Fill\AbstractFillCtrl;
 /**
  * Class FillCtrl
  *
- * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData
+ * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ *
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FillCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\RequestStepGUI
+ * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\FillCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\EditRequestGUI
  */
 class FillCtrl extends AbstractFillCtrl
 {

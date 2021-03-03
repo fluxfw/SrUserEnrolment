@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule;
 
+require_once __DIR__ . "/../../../vendor/autoload.php";
+
 use ilCourseMembershipGUI;
 use ilObjCourseGUI;
 use ilRepositoryGUI;
@@ -23,8 +25,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI: ilUIPluginRouterGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI: srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI
  */
 class RulesCourseGUI
 {

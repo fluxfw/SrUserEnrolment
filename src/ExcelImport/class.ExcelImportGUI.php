@@ -2,6 +2,8 @@
 
 namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
+require_once __DIR__ . "/../../vendor/autoload.php";
+
 use ilConfirmationGUI;
 use ilCourseMembershipGUI;
 use ilObjCourseGUI;
@@ -23,7 +25,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI: ilUIPluginRouterGUI
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI: ilSrUserEnrolmentConfigGUI
- * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\Log\LogsGUI: srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportGUI
  */
 class ExcelImportGUI
 {

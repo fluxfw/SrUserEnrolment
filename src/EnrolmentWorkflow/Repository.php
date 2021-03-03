@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow;
 
+use ilDBConstants;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
 use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
@@ -119,7 +120,13 @@ final class Repository
             return false;
         }
 
-        return self::dic()->access()->checkAccessOfUser($user_id, "write", "", 31);
+        return self::dic()
+            ->access()
+            ->checkAccessOfUser($user_id, "write", "", self::dic()
+                                                           ->database()
+                                                           ->queryF('SELECT ref_id FROM object_data INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id WHERE type=%s',
+                                                               [ilDBConstants::T_TEXT], ["cmps"])
+                                                           ->fetchAssoc()["ref_id"]);
     }
 
 

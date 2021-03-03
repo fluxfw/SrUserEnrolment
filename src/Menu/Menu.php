@@ -3,6 +3,7 @@
 namespace srag\Plugins\SrUserEnrolment\Menu;
 
 use ilAdministrationGUI;
+use ilDBConstants;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
@@ -45,7 +46,13 @@ class Menu extends AbstractStaticPluginMainMenuProvider
         self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REF_ID, null);
         self::dic()->ctrl()->setParameterByClass(RequestsGUI::class, RequestsGUI::GET_PARAM_REQUESTS_TYPE, RequestsGUI::REQUESTS_TYPE_OWN);
 
-        self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "ref_id", 31);
+        self::dic()
+            ->ctrl()
+            ->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "ref_id", self::dic()
+                                                                                   ->database()
+                                                                                   ->queryF('SELECT ref_id FROM object_data INNER JOIN object_reference ON object_data.obj_id=object_reference.obj_id WHERE type=%s',
+                                                                                       [ilDBConstants::T_TEXT], ["cmps"])
+                                                                                   ->fetchAssoc()["ref_id"]);
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "ctype", IL_COMP_SERVICE);
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "cname", "UIComponent");
         self::dic()->ctrl()->setParameterByClass(ilSrUserEnrolmentConfigGUI::class, "slot_id", "uihk");
