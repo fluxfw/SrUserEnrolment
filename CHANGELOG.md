@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.19.1]
+- Update project url
+
 ## [3.19.0]
 - Multiple values in UDF rule
 
