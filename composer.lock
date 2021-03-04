@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f04486f6b5480e52263cad68dcfc7aa5",
+    "content-hash": "b86450a01b68b81acfb833bb78e74354",
     "packages": [
         {
             "name": "srag/activerecordconfig",
@@ -361,16 +361,16 @@
         },
         {
             "name": "srag/generateplugininfoshelper",
-            "version": "2.9.4",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fluxfw/GeneratePluginInfosHelper.git",
-                "reference": "0fda4a1cb03f588afe1fef352fde9601648f6c4e"
+                "reference": "c3150682e3f60cca586c182c5ccd90ae78d9b9e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fluxfw/GeneratePluginInfosHelper/zipball/0fda4a1cb03f588afe1fef352fde9601648f6c4e",
-                "reference": "0fda4a1cb03f588afe1fef352fde9601648f6c4e",
+                "url": "https://api.github.com/repos/fluxfw/GeneratePluginInfosHelper/zipball/c3150682e3f60cca586c182c5ccd90ae78d9b9e4",
+                "reference": "c3150682e3f60cca586c182c5ccd90ae78d9b9e4",
                 "shasum": ""
             },
             "require": {
@@ -383,7 +383,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\": "src/"
+                    "srag\\GeneratePluginInfosHelper\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -406,7 +406,7 @@
                 "helper",
                 "plugin"
             ],
-            "time": "2021-03-03T09:17:27+00:00"
+            "time": "2021-03-04T13:43:47+00:00"
         },
         {
             "name": "srag/librariesnamespacechanger",
