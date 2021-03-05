@@ -383,7 +383,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "srag\\GeneratePluginInfosHelper\\": "src/"
+                    "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
