@@ -331,7 +331,7 @@ class RequestInfoGUI
                 ->translate("actions", RequestsGUI::LANG_MODULE))));
         }
 
-        self::dic()->ui()->mainTemplate()->setRightContent(self::output()->getHTML(self::srUserEnrolment()->commentsUI()->withCtrlClass(new RequestCommentsCtrl($this))));
+        self::dic()->ui()->mainTemplate()->setRightContent(self::output()->getHTML(self::srUserEnrolment()->commentsUI()->withPlugin(self::plugin())->withCtrlClass(new RequestCommentsCtrl($this))));
 
         $required_data = $this->request->getFormattedRequiredData();
 

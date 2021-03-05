@@ -7,6 +7,8 @@ use srag\CommentsUI\SrUserEnrolment\Ctrl\CtrlInterface;
 use srag\CommentsUI\SrUserEnrolment\Utils\CommentsUITrait;
 use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
+use srag\DIC\SrUserEnrolment\Version\PluginVersionParameter;
 
 /**
  * Class UI
@@ -33,6 +35,10 @@ class UI implements UIInterface
      * @var string
      */
     protected $id = "";
+    /**
+     * @var PluginInterface|null
+     */
+    protected $plugin = null;
 
 
     /**
@@ -41,6 +47,15 @@ class UI implements UIInterface
     public function __construct()
     {
 
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getPlugin() : PluginInterface
+    {
+        return $this->plugin;
     }
 
 
@@ -86,6 +101,17 @@ class UI implements UIInterface
 
 
     /**
+     * @inheritDoc
+     */
+    public function withPlugin(PluginInterface $plugin) : self
+    {
+        $this->plugin = $plugin;
+
+        return $this;
+    }
+
+
+    /**
      * @return array
      */
     protected function getLanguageStrings() : array
@@ -120,14 +146,19 @@ class UI implements UIInterface
         if (self::$init === false) {
             self::$init = true;
 
+            $version_parameter = PluginVersionParameter::getInstance();
+            if ($this->plugin !== null) {
+                $version_parameter = $version_parameter->withPlugin($this->plugin);
+            }
+
             $dir = __DIR__;
             $dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1);
 
-            self::dic()->ui()->mainTemplate()->addJavaScript($dir . "/../../node_modules/jquery-comments/js/jquery-comments.js");
-            self::dic()->ui()->mainTemplate()->addCss($dir . "/../../node_modules/jquery-comments/css/jquery-comments.css");
+            self::dic()->ui()->mainTemplate()->addJavaScript($version_parameter->appendToUrl($dir . "/../../node_modules/jquery-comments/js/jquery-comments.js"));
+            self::dic()->ui()->mainTemplate()->addCss($version_parameter->appendToUrl($dir . "/../../node_modules/jquery-comments/css/jquery-comments.css"));
 
-            self::dic()->ui()->mainTemplate()->addJavaScript($dir . "/../../js/commentsui.min.js");
-            self::dic()->ui()->mainTemplate()->addCss($dir . "/../../css/commentsui.css");
+            self::dic()->ui()->mainTemplate()->addJavaScript($version_parameter->appendToUrl($dir . "/../../js/commentsui.min.js", $dir . "/../../js/commentsui.js"));
+            self::dic()->ui()->mainTemplate()->addCss($version_parameter->appendToUrl($dir . "/../../css/commentsui.css"));
 
             $tpl->setCurrentBlock("init");
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.12.5]
+- Use `PluginVersionParameter`
+
+## [0.12.4]
+- Use `PluginVersionParameter`
+
 ## [0.12.3]
 - Update project url
 

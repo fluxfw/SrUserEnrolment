@@ -18,6 +18,8 @@ use srag\CustomInputGUIs\SrUserEnrolment\TableGUI\TableGUI;
 use srag\CustomInputGUIs\SrUserEnrolment\Template\Template;
 use srag\CustomInputGUIs\SrUserEnrolment\UIInputComponentWrapperInputGUI\UIInputComponentWrapperInputGUI;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\DIC\SrUserEnrolment\Plugin\PluginInterface;
+use srag\DIC\SrUserEnrolment\Version\PluginVersionParameter;
 use TypeError;
 
 /**
@@ -198,17 +200,22 @@ final class Items
 
 
     /**
-     *
+     * @param PluginInterface|null $plugin
      */
-    public static function init()/*: void*/
+    public static function init(/*?*/ PluginInterface $plugin = null)/*: void*/
     {
         if (self::$init === false) {
             self::$init = true;
 
+            $version_parameter = PluginVersionParameter::getInstance();
+            if ($plugin !== null) {
+                $version_parameter = $version_parameter->withPlugin($plugin);
+            }
+
             $dir = __DIR__;
             $dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1);
 
-            self::dic()->ui()->mainTemplate()->addCss($dir . "/css/input_gui_input.css");
+            self::dic()->ui()->mainTemplate()->addCss($version_parameter->appendToUrl($dir . "/css/input_gui_input.css"));
         }
     }
 
@@ -220,7 +227,7 @@ final class Items
      */
     public static function renderInputs(array $inputs) : string
     {
-        self::init();
+        self::init(); // TODO: Pass $plugin
 
         $input_tpl = new Template(__DIR__ . "/templates/input_gui_input.html");
 

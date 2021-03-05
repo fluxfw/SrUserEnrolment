@@ -101,7 +101,7 @@ class RulesTableGUI extends TableGUI
         $this->tpl->setCurrentBlock("column");
         $this->tpl->setVariable("COLUMN", self::output()->getHTML([
             $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
-                Waiter::init(Waiter::TYPE_WAITER);
+                Waiter::init(Waiter::TYPE_WAITER, null, self::plugin());
 
                 return '
             $("#' . $id . '").click(function () {
