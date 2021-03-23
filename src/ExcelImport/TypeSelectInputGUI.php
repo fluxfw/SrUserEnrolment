@@ -3,8 +3,10 @@
 namespace srag\Plugins\SrUserEnrolment\ExcelImport;
 
 use ilSelectInputGUI;
+use ilSrUserEnrolmentPlugin;
 use srag\CustomInputGUIs\SrUserEnrolment\TextInputGUI\TextInputGUIWithModernAutoComplete;
 use srag\DIC\SrUserEnrolment\DICTrait;
+use srag\DIC\SrUserEnrolment\Version\PluginVersionParameter;
 
 /**
  * Class TypeSelectInputGUI
@@ -18,6 +20,7 @@ class TypeSelectInputGUI extends ilSelectInputGUI
 
     use DICTrait;
 
+    const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
     /**
      * @var bool
      */
@@ -46,12 +49,12 @@ class TypeSelectInputGUI extends ilSelectInputGUI
         if (self::$init === false) {
             self::$init = true;
 
-            TextInputGUIWithModernAutoComplete::init();
+            TextInputGUIWithModernAutoComplete::init(self::plugin());
 
-            $dir = __DIR__;
-            $dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1);
+            $version_parameter = PluginVersionParameter::getInstance()->withPlugin(self::plugin());
 
-            self::dic()->ui()->mainTemplate()->addJavaScript($dir . "/../../js/type_select_input_gui.min.js");
+            self::dic()->ui()->mainTemplate()->addJavaScript($version_parameter->appendToUrl(self::plugin()->directory() . "/js/type_select_input_gui.min.js",
+                self::plugin()->directory() . "/js/type_select_input_gui.js"));
         }
     }
 }

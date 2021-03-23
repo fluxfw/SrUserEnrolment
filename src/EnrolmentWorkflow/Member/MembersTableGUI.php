@@ -191,7 +191,7 @@ class MembersTableGUI extends TableGUI
 
             case "member_completed":
                 if ($member->isLpCompleted() !== null) {
-                    $column = self::output()->getHTML((new AjaxCheckbox())->withChecked($member->isLpCompleted())->withAjaxChangeLink(self::dic()
+                    $column = self::output()->getHTML((new AjaxCheckbox(self::plugin()))->withChecked($member->isLpCompleted())->withAjaxChangeLink(self::dic()
                         ->ctrl()
                         ->getLinkTargetByClass(MemberGUI::class, MemberGUI::CMD_SET_COMPLETED, "", true, false)));
                 } else {

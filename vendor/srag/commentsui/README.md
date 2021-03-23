@@ -114,16 +114,10 @@ Expand you plugin class for installing languages of the library to your plugin
 ...
 use srag\Plugins\x\Comment\Ctrl\XCtrl;
 ...
-self::output()->getHTML(self::commentsUI()->withCtrlClass(new XCtrl()));
+self::output()->getHTML(self::commentsUI()->withPlugin(self::plugin())->withCtrlClass(new XCtrl()));
 ```
 
 ## Requirements
 
 * ILIAS 5.4.0 - 6.999
 * PHP >=7.2
-
-## Adjustment suggestions
-
-You can report bugs or suggestions at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LCOMMENTSUI
-
-There is no guarantee this can be fixed or implemented
