@@ -1,7 +1,7 @@
 {
   "name": "srag/sruserenrolment",
   "description": "Enrol users such with an excel file or by rules",
-  "version": "3.19.1",
+  "version": "3.19.2",
   "extra": {
     "ilias_plugin": {
       "id": "srusrenr",
@@ -45,7 +45,7 @@
         }
       ]
     },
-    "generate_plugin_readme_template": "SRAG_ILIAS_PLUGIN",
+    "generate_plugin_readme_template": "ILIAS_PLUGIN",
     "long_description_template": "src/LONG_DESCRIPTION.md"
   },
   "type": "project",
@@ -65,9 +65,6 @@
       "role": "Developer"
     }
   ],
-  "support": {
-    "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_PLUSE"
-  },
   "require": {
     "php": ">=7.0",
     "srag/activerecordconfig": ">=0.1.0",

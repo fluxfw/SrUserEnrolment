@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.19.2]
+- Update readme
+
 ## [3.19.1]
 - Update project url
 
