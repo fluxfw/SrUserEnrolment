@@ -1,0 +1,387 @@
+actions_actions#:#Ações
+actions_action_description#:#Ação
+actions_add#:#Adicionar
+actions_add_action#:#Adicionar ação
+actions_added_action#:#Ação %s adicionada
+actions_assign_positions#:#Atribuir usuários como 'usuário responsável' com os seguintes cargos na mesma unidade organizacional do solicitante
+actions_assign_positions_recursive#:#Recursivos para o topo
+actions_cancel#:#Cancelar
+actions_disable_actions#:#Desabilitar funções
+actions_disabled_actions#:#Ações desabilitadas
+actions_edit_action#:#Editar ação
+actions_enable_actions#:#Habilitar ações
+actions_enabled#:#Habilitado
+actions_enabled_actions#:#Ações habilitadas
+actions_field_course_end#:#Fim do campo
+actions_field_course_start#:#Começo do campo
+actions_field_course_title#:#Título do campo
+actions_move_request#:#Pedido de movimentação
+actions_remove#:#Remover
+actions_remove_action#:#Remover ação
+actions_remove_action_confirm#:#Você realmente quer remover a ação %s ?
+actions_remove_actions#:#Remover ações
+actions_remove_actions_confirm#:#Você realmente quer remover as seguintes ações?
+actions_removed_action#:#Ação %s removida
+actions_removed_actions#:#Ações removidas
+actions_required_data_from_step#:#Dados necessários da etapa
+actions_run_next_actions#:#Executar próximas ações
+actions_run_next_actions_info#:#Se desativado, as seguintes ações não serão executadas, se esta ação for "executar"
+actions_save#:#Salvar
+actions_saved_action#:#Ação %s salva
+actions_totype#:#Enviar para
+actions_totype_requestor#:#Solicitante
+actions_totype_responsible_users#:#Usuários responsáveis
+actions_totype_responsible_users_and_deputies#:#Usuários e delegados responsáveis
+actions_totype_specific_users#:#Usuários específicos
+actions_type#:#Tipo
+actions_type_assignresponsibleusers#:#Atribuir usuários responsáveis
+actions_type_createcourse#:#Criar curso
+actions_type_deleterequests#:#Deletar solicitações
+actions_type_enrolltocourse#:#Inscrever ao curso
+actions_type_movetostep#:#Mover para etapa
+actions_type_movetoworkflow#:#Mover para o fluxo de trabalho
+actions_type_sendnotification#:#Enviar notificação
+actions_type_seteditedstatus#:#Definir status de edição
+actions_userstype#:#Usuários
+actions_userstype_global_roles#:#Funções globais
+actions_userstype_position#:#Usuários com posição dentro de uma organização do usuário solicitante
+actions_userstype_specific_users#:#Usuários específicos
+assistants_actions#:#Ações
+assistants_active#:#Ativo
+assistants_assistants#:#Assistentes
+assistants_assistant_of#:#Assistente do
+assistants_assistants_supervisors#:#Supervisores-Assistentes
+assistants_assistants_supervisors_info#:#Os supervisores podem iniciar solicitações em nome de funcionários diretos
+assistants_back#:#Voltar
+assistants_check_inactive_assistants#:#Checar assistentes inativos
+assistants_check_inactive_assistants_description#:#Remove usuários assistentes desabilitados e define-os como assistentes inativos caso a data limite for atingida
+assistants_check_inactive_assistants_status#:#%1$s assistentes removidos\n%2$s assistentes definidos como inativos
+assistants_edit#:#Editar
+assistants_info#:#Assistentes, definidos por um usuário, podem iniciar solicitações permitidas em seu nome
+assistants_my_assistants#:#Meus assistentes
+assistants_nonone#:#Ninguém
+assistants_save#:#Salvar
+assistants_saved#:#Salvo
+assistants_step_action#:#%s para outros
+assistants_until#:#Até
+assistants_until_date#:#Até %s
+assistants_user#:#Usuário
+assistants_user_email#:#Email
+assistants_user_firstname#:#Nome
+assistants_user_lastname#:#Sobrenome
+assistants_users#:#Usuários
+config_configuration#:#Configuração
+config_configuration_saved#:#Configuração salva
+config_enable#:#Habilitar %s
+config_roles#:#Funções
+config_roles_info#:#Mostrar apenas para funções selecionadas
+config_roles_read_requests#:#Funções para ler todas as solicitações
+config_roles_read_requests_info#:#Os usuários com as funções selecionadas sempre têm permissão de leitura para todas as solicitações
+config_save#:#Salvar
+config_show_excel_import_config#:#O usuário pode ajustar esses valores na importação
+config_show_excel_import_course#:#Mostrar em curso
+config_show_excel_import_local#:#Mostrar na atribuição
+config_show_excel_import_local_info#:#Em %1$s, %2$s, %3$s ou %4$s
+config_show_excel_import_local_type#:#Visualizar
+config_show_excel_import_local_type_replace#:#Substituir "%s"
+config_show_excel_import_local_type_separate#:#Separar
+config_show_rules_enroll_course#:#Mostrar em curso
+config_show_rules_enroll_user#:#Mostrar na atribuição
+config_show_rules_enroll_user_info#:#Em %1$s
+deputies_actions#:#Ações
+deputies_active#:#Ativo
+deputies_deputies#:#Deputados
+deputies_deputy_of#:#Deputados de
+deputies_back#:#Voltar
+deputies_check_inactive_deputies#:#Checar delegados inativos
+deputies_check_inactive_deputies_description#:#Remove usuários delegados desabilitados e define-os como delegados inativos caso a data limite for atingida
+deputies_check_inactive_deputies_status#:#%1$s delegados removidos\n%2$s delegados definidos como inativos
+deputies_edit#:#Editar
+deputies_info#:#Delegados, definidos por um usuário, podem iniciar solicitações permitidas em seu nome
+deputies_my_deputies#:#Meus delegados
+deputies_nonone#:#Ninguém
+deputies_save#:#Salvar
+deputies_saved#:#Salvo
+deputies_until#:#Até
+deputies_until_date#:#Até %s
+deputies_user#:#Usuário
+excel_import_cancel#:#Cancelar
+excel_import_count_skip_top_rows#:#Contagem pula as linhas superiores
+excel_import_count_skip_top_rows_info#:#Por favor, não inclua a linha do título da coluna
+excel_import_create_new_users#:#Criar usuários
+excel_import_create_new_users_global_roles#:#Atribuir funções globais
+excel_import_create_new_users_global_roles_info#:#Pré-seleção
+excel_import_create_new_users_global_roles_exclude#:#Não mostrar funções globais
+excel_import_create_new_users_global_roles_exclude_info#:#Essas funções não são mostradas para a seleção do usuário, como por exemplo, funções de administrador ou funções do sistema
+excel_import_create_or_update_users#:#Criar ou atualizar usuários
+excel_import_create_or_update_users_confirmation#:#Criar ou atualizar usuários?
+excel_import_create_user#:#Criar usuário
+excel_import_enroll#:#Inscrever
+excel_import_enroll_confirmation#:#Inscrever?
+excel_import_excel_file#:#Arquivo Excel
+excel_import_fields#:#Campos
+excel_import_fields_column_heading#:#Cabeçalho da coluna do Excel
+excel_import_fields_custom#:#Campo customizado
+excel_import_fields_ilias#:#Campo padrão
+excel_import_fields_invalid#:#Campo inválido %s
+excel_import_fields_key#:#Rótulo
+excel_import_fields_missing#:#Por favor preencha %1$s para %2$s
+excel_import_fields_needed_field_info#:#%1$s precisa %2$s
+excel_import_fields_type#:#Tipo
+excel_import_fields_update#:#Atualizar
+excel_import_gender_f#:#Gênero Feminino
+excel_import_gender_m#:#Gênero Masculino
+excel_import_gender_n#:#Gênero Neutro
+excel_import_import#:#Importar
+excel_import_local_user_administration#:#Administração de usuário local
+excel_import_local_user_administration_disabled_hint#:#A administração de usuários locais está desabilitada globalmente no ILIAS
+excel_import_local_user_administration_object_type#:#Tipo de objeto
+excel_import_local_user_administration_object_type_category#:#Categoria
+excel_import_local_user_administration_object_type_org_unit#:#Unidade Organizacional
+excel_import_local_user_administration_type#:#Tipo
+excel_import_local_user_administration_type_ref_id#:#Id Referencial
+excel_import_local_user_administration_type_title#:#Título
+excel_import_map_exists_users_field_group#:#Usuários existentes no mapa
+excel_import_map_exists_users_field_group_info#:#Precisa ser preenchido correspondentemente em %s
+excel_import_no#:#Não
+excel_import_nothing_to_enroll#:#Nada para inscrever
+excel_import_no_mapping_found#:#Nenhum mapeamento foi encontrado\nVerifique se o cabeçalho da coluna está definido corretamente
+excel_import_no_users#:#Nenhum usuário foi encontrado no arquivo excel
+excel_import_org_unit_assign#:#Atribuir Unidade Organizacional
+excel_import_org_unit_assign_position#:#Posição
+excel_import_org_unit_assign_position_field#:#Campo
+excel_import_org_unit_assign_type#:#Tipo
+excel_import_org_unit_assign_type_ref_id#:#Id Referencial
+excel_import_org_unit_assign_type_title#:#Título
+excel_import_password#:#Senha
+excel_import_rows#:#Linhas
+excel_import_set_password#:#Configurar senha
+excel_import_set_password_field#:#Campo
+excel_import_set_password_format_date#:#Formatar o campo de data como formato do usuário (Experimental)
+excel_import_set_password_format_date_info#:#Se não estiver ativado, as senhas nos campos de data serão definidas como não formatadas (= formato inglês)
+excel_import_set_password_random#:#Aleatório
+excel_import_title#:#Inscrever por arquivo Excel
+excel_import_update_user#:#Atualizar usuário
+excel_import_yes#:#Sim
+logs_date#:#Data / Hora
+logs_days#:#Dias
+logs_delete_old_logs#:#Deletar logs antigos
+logs_delete_old_logs_description#:#Após o tempo de configuração especificado, os logs antigos serão excluídos automaticamente
+logs_delete_old_logs_status#:#Deletar %s log(s)
+logs_execute_user_id#:#Login executado pelo usuário
+logs_keep_old_logs_time#:#Mantenha os logs antigos por no máximo
+logs_keep_old_logs_time_info#:#Após o tempo determinado, logs antigos serão excluídos automaticamente\n0 = Desabilitado
+logs_logs#:#Logs
+logs_message#:#Mensagem
+logs_objects#:#Objetos
+logs_rules#:#Regras
+logs_status#:#Status
+logs_status_enrolled#:#Inscrito
+logs_status_enroll_failed#:#Inscrição falhou
+logs_status_enroll_updated#:#Inscrição atualizada
+logs_status_unenrolled#:#Cancelar Inscrição 
+logs_status_unenroll_failed#:#Cancelamento de Inscrição falhou
+logs_status_user_created#:#Usuário criado
+logs_status_user_failed#:#Usuário falhou
+logs_status_user_updated#:#Usuário atualizado
+logs_user_id#:#Login do usuário
+members_actions#:#Ações
+members_cancel#:#Cancelar
+members_edit_member#:#Editar membro
+members_enroll_users_as#:#Inscrever como %s
+members_enrolled_users#:#Inscrito
+members_info#:#Se ativado, a visualização dos membros será substituída e também mostrará os usuários de solicitações
+members_members#:#Membros
+members_member_completed#:#Completo
+members_member_learning_progress#:#Progresso de Aprendizagem
+members_member_type#:#Tipo
+members_member_type_admin#:#Administrador
+members_member_type_member#:#Membro
+members_member_type_request#:#Solicitação
+members_member_type_tutor#:#Tutor
+members_remove#:#Remover
+members_remove_member#:#Remover membro
+members_remove_member_confirm#:#Você realmente quer remover o membro: %s ?
+members_removed_member#:#Membro %s removido
+members_save#:#Salvo
+members_saved_member#:#Membro %s salvo
+members_updated_time#:#Tempo atualizado
+members_updated_user#:#Usuário atualizado
+members_user_email#:#Email
+members_user_department#:#Departamento
+members_user_firstname#:#Nome
+members_user_lastname#:#Sobrenome
+requests_actions#:#Ações
+requests_add_responsible_users#:#Adicionar usuários responsáveis
+requests_added_responsible_users#:#Usuários responsáveis adicionados
+requests_cancel#:#Cancelar
+requests_confirm_edit_request#:#Você realmente quer %s ?
+requests_created_time#:#Solicitar hora de criação
+requests_created_time_group#:#Solicitar tempo de criação 1. etapa
+requests_created_user#:#Usuário criado
+requests_edited#:#Editado
+requests_edited_message#:#%s editado
+requests_edited_status#:#Status editado
+requests_edited_status_accepted#:#Aceito
+requests_edited_status_in_editing#:#Em edição
+requests_edited_status_not_edited#:#Não editado
+requests_edited_status_rejected#:#Rejeitado
+requests_edited_time#:#Tempo de edição
+requests_edited_user#:#Usuário editado
+requests_my_requests#:#Minhas solicitações
+requests_no#:#Não
+requests_object#:#Objeto
+requests_object_end#:#Fim
+requests_object_start#:#Início
+requests_requested#:#%s solicitado
+requests_requests#:#Solicitações
+requests_responsible_users#:#Usuários responsáveis
+requests_type_all#:#Todas as solicitações
+requests_type_own#:#Solicitações próprias
+requests_type_to_edit#:#Para editar solicitações
+requests_user_email#:#Email
+requests_user_firstname#:#Nome
+requests_user_lastname#:#Sobrenome
+requests_user_org_units#:#Unidades Organizacionais
+requests_yes#:#Sim
+required_data_type_userselectfield#:#Seleção de usuário
+reset_password_cancel#:#Cancelar
+reset_password_confirmation#:#Reconfigurar senha?
+reset_password_reset#:#A senha de %1$s foi reconfigurada:\n\nEmail: %2$s\nLogin: %3$s\nNova senha: %4$s
+reset_password_title#:#Reconfigurar senha
+rules_actions#:#Ações
+rules_add#:#Adicionar
+rules_add_rule#:#Adicionar regra
+rules_added_rule#:#Regra %s adicionada
+rules_cancel#:#Cancelar
+rules_create_group_of_rules#:#Criar grupo de regras
+rules_disable_rules#:#Desabilitar regras
+rules_disabled_rules#:#Regras desabilitadas
+rules_edit_rule#:#Editar regra
+rules_enable_rules#:#Habilitar regras
+rules_enabled#:#Habilitado
+rules_enabled_rules#:#Regras habilitadas
+rules_field#:#Campo
+rules_iliaspermission_join#:#Juntar-se
+rules_languages#:#Lînguas 
+rules_only_next_step#:#Só o próximo passo
+rules_operator#:#Operador
+rules_operator_bigger#:#Maior que
+rules_operator_bigger_equals#:#Maior que ou igual
+rules_operator_case_sensitive#:#Caso sensível
+rules_operator_contains#:#Contém
+rules_operator_ends_with#:#Termina com 
+rules_operator_equals#:#É igual
+rules_operator_equals_subsequent#:#É igual ou subsequente
+rules_operator_less#:#Menor que
+rules_operator_less_equals#:#Menor que ou igual
+rules_operator_negated#:#Negação
+rules_operator_reg_ex#:#RegEx
+rules_operator_starts_with#:#Começa com
+rules_orgunitusertype_title#:#Corresponde ao título
+rules_orgunitusertype_tree#:#Corresponde à Unidade Organizacional ou subsequente
+rules_position#:#Posição do usuário
+rules_ref_id#:#Id Referencial
+rules_remove#:#Remover
+rules_remove_rule#:#Remover regra
+rules_remove_rule_confirm#:#Você realmente quer remover a regra: %s ?
+rules_remove_rules#:#Remover regras
+rules_remove_rules_confirm#:#Você realmente quer remover as seguintes regras?
+rules_removed_rule#:#Regra %s removida
+rules_removed_rules#:#Regras removidas
+rules_rule_description#:#Regra
+rules_rule_type#:#Tipo de regra
+rules_rule_type_always#:#Sempre
+rules_rule_type_currentuserisassignedasresponsibleuser#:#Usuário Atual é atribuído como Usuário Responsável
+rules_rule_type_globalrole#:#Regra Global
+rules_rule_type_group#:#Grupo
+rules_rule_type_iliaspermission#:#Permissão ILIAS
+rules_rule_type_language#:#Idioma do usuário
+rules_rule_type_nomembership#:#Sem adesão
+rules_rule_type_nootherrequests#:#Sem outros pedidos
+rules_rule_type_noresponsibleusersassigned#:#Nenhum usuário responsável atribuído
+rules_rule_type_orgunitsuperior#:#O usuário tem posição superior na unidade organizacional
+rules_rule_type_orgunitusertype#:#Usuário da unidade organizacional
+rules_rule_type_totalrequests#:#Solicitações totais
+rules_rule_type_udf#:#Campo de definição do usuário
+rules_rule_type_udfsupervisor#:#Campo de supervisores definido pelo usuário
+rules_run_rules#:#Executar regras
+rules_save#:#Salvar
+rules_saved_rule#:#Regra %s salva
+rules_settings_save#:#Salvar
+rules_settings_saved#:#Salvo
+rules_settings_settings#:#Configurações
+rules_settings_unenroll#:#Cancelar inscrição
+rules_settings_unenroll_info#:#Se a regra não corresponder mais
+rules_settings_update_enroll_type#:#Atualizar "Inscrever como"
+rules_settings_update_enroll_type_info#:#Se a regra corresponder novamente
+rules_title#:#Título
+rules_type_action#:#Ação de permissões
+rules_type_check_action#:#Ação de verificação de permissões
+rules_type_course_rule#:#Inscrever por regra
+rules_type_group#:#Grupo
+rules_type_if#:#Se
+rules_type_role_rule#:#Atribuir por regra
+rules_value#:#Valor
+rules_value_type#:#Tipo do valor
+rules_value_type_date#:#Data
+rules_value_type_date_info#:#Com base na data e hora atuais (%s formatted) no campo UDF
+rules_value_type_text#:#Texto
+rules_values_info#:#Combinação OR
+rules_ungroup#:#Desagrupar
+select_workflow_object_async_actions_needed#:#Para que as etapas sejam exibidas nas ações dos objetos, %1$s > %2$s > %3$s devem ser ativados
+select_workflow_object_setting_changed#:#Definir configuração de curso '%1$s' para '%2$s'
+select_workflow_select_workflow#:#Selecionar fluxo de trabalho
+select_workflow_save#:#Salvar
+select_workflow_saved#:#Salvo
+steps_action_edit_title#:#Ação de edição de título
+steps_action_title#:#Título de ação
+steps_actions#:#Ações
+steps_add#:#Adicionar
+steps_add_step#:#Adicionar etapa
+steps_added_step#:#Etapa %s adicionada
+steps_cancel#:#Cancelar
+steps_disable_steps#:#Desabilitar etapas
+steps_disabled_steps#:#Etapas desabilitadas
+steps_edit_step#:#Editar etapa
+steps_enable_steps#:#Habilitar etapas
+steps_enabled#:#Habilitado
+steps_enabled_steps#:#Etapas habilitadas
+steps_remove#:#Remover
+steps_remove_step#:#Remover etapa
+steps_remove_step_confirm#:#Você realmente quer remover a etapa: %s ?
+steps_remove_steps#:#Remover etapas
+steps_remove_steps_confirm#:#Você realmente quer remover as seguintes etapas?
+steps_removed_step#:#Etapa %s removida
+steps_removed_steps#:#Etapas removidas
+steps_required_data#:#Dados requeridos
+steps_save#:#Salvar
+steps_saved_step#:#Etapa %s salva
+steps_settings#:#Configurações
+steps_step#:#Etapa
+steps_steps#:#Etapas
+steps_title#:#Título
+workflows_actions#:#Ações
+workflows_add#:#Adicionar
+workflows_add_workflow#:#Adicionar fluxo de trabalho
+workflows_added_workflow#:#Fluxo de trabalho %s adicionado
+workflows_cancel#:#Cancelar
+workflows_disable_workflows#:#Desabilitar fluxos de trabaho
+workflows_disabled_workflows#:#Fluxos de trabalho desabilitados
+workflows_edit_workflow#:#Editar fluxo de trabalho
+workflows_enable_workflows#:#Habilitar fluxos de trabalho
+workflows_enabled#:#Habilitado
+workflows_enabled_workflows#:#Fluxos de trabalho habilitados
+workflows_remove#:#Remover
+workflows_remove_workflow#:#Remover fluxo de trabalho
+workflows_remove_workflow_confirm#:#Você realmente quer remover o fluxo de trabalho: %s ?
+workflows_remove_workflows#:#Remover fluxos de trabalho
+workflows_remove_workflows_confirm#:#Você realmente quer remover os seguintes fluxos de trabalho?
+workflows_removed_workflow#:#Fluxo de trabalho %s removido
+workflows_removed_workflows#:#Fluxos de trabalho removidos
+workflows_save#:#Salvar
+workflows_saved_workflow#:#Fluxo de trabalho %s salvo
+workflows_settings#:#Configurações
+workflows_title#:#Título
+workflows_workflow#:#Fluxo de trabalho
+workflows_workflows#:#Fluxos de trabalho
