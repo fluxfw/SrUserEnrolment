@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.19.3]
+- Ignore not supported languages
+
 ## [3.19.2]
 - Update readme
 
