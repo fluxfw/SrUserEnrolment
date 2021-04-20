@@ -254,6 +254,9 @@ rules_add#:#Hinzufügen
 rules_add_rule#:#Regel hinzufügen
 rules_added_rule#:#Regel %s hinzugefügt
 rules_cancel#:#Abbrechen
+rules_continue_on_crash#:#Bei Aufhängen/Absturz fortsetzen
+rules_continue_on_crash_count#:#Regeln aus vorherigen Durchläufe übersprungen
+rules_continue_on_crash_info#:#Wenn der ganze Cron-Job sich aufhängt/abstürzt, wird beim nächsten Durchlauf die bereits geprüften Regeln übersprungen\nErst wenn alle Regeln geprüft wurden, werden beim nächsten Durchlauf wieder alle Regeln geprüft\n\nBei Fehler einer einzelnen Regel wird unabhängig dieser Einstellung immer direkt fortgesetzt
 rules_create_group_of_rules#:#Gruppe der Regeln erstellen
 rules_disable_rules#:#Regeln deaktivieren
 rules_disabled_rules#:#Regeln deaktiviert

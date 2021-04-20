@@ -254,6 +254,9 @@ rules_add#:#Add
 rules_add_rule#:#Add rule
 rules_added_rule#:#Rule %s added
 rules_cancel#:#Cancel
+rules_continue_on_crash#:#Continue on hang/crash
+rules_continue_on_crash_count#:#Skiped rules of previous runs
+rules_continue_on_crash_info#:#If the whole cron job is hanging/crashed, it will skip the already checked rules on the next run\nUntil all rules are checked, it will check all rules again on the next run\n\nOn error on a single rule it will always continue directly independently of this setting
 rules_create_group_of_rules#:#Create group of rules
 rules_disable_rules#:#Disable rules
 rules_disabled_rules#:#Rules disabled
