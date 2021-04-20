@@ -50,12 +50,14 @@ final class Factory
 
     /**
      * @param array|null $parents
+     * @param bool|null  $continue_on_crash
+     * @param array|null $continue_on_crash_rules
      *
      * @return RuleEnrolmentJob
      */
-    public function newJobInstance(/*?*/ array $parents = null) : RuleEnrolmentJob
+    public function newJobInstance(/*?*/ array $parents = null, /*?*/ bool $continue_on_crash = null, /*?*/ array $continue_on_crash_rules = null) : RuleEnrolmentJob
     {
-        $job = new RuleEnrolmentJob($parents);
+        $job = new RuleEnrolmentJob($parents, $continue_on_crash, $continue_on_crash_rules);
 
         return $job;
     }

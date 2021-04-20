@@ -123,7 +123,8 @@ class EditRequestGUI
         $confirmation->setConfirm($this->step->getActionEditTitle(), self::CMD_EDIT_REQUEST);
         $confirmation->setCancel(self::plugin()->translate("cancel", RequestsGUI::LANG_MODULE), self::CMD_BACK);
 
-        self::output()->output(self::output()->getHTML([self::srUserEnrolment()->commentsUI()->withPlugin(self::plugin())->withCtrlClass(new RequestCommentsCtrl($this->parent)), $confirmation]), true);
+        self::output()->output(self::output()->getHTML([self::srUserEnrolment()->commentsUI()->withPlugin(self::plugin())->withCtrlClass(new RequestCommentsCtrl($this->parent)), $confirmation]),
+            true);
     }
 
 

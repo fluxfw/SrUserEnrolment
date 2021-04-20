@@ -4,9 +4,10 @@ namespace srag\Plugins\SrUserEnrolment\Log;
 
 use ilCronJob;
 use ilCronJobResult;
+use ilNumberInputGUI;
+use ilPropertyFormGUI;
 use ilSrUserEnrolmentPlugin;
 use srag\DIC\SrUserEnrolment\DICTrait;
-use srag\Plugins\SrUserEnrolment\Config\ConfigFormGUI;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -23,6 +24,7 @@ class DeleteOldLogsJob extends ilCronJob
     use SrUserEnrolmentTrait;
 
     const CRON_JOB_ID = ilSrUserEnrolmentPlugin::PLUGIN_ID . "_delete_old_logs";
+    const KEY_KEEP_OLD_LOGS_TIME = "keep_old_logs_time";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
 
 
@@ -32,6 +34,19 @@ class DeleteOldLogsJob extends ilCronJob
     public function __construct()
     {
 
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)/*:void*/
+    {
+        $keep_old_logs_time = new ilNumberInputGUI(self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME, LogsGUI::LANG_MODULE), self::KEY_KEEP_OLD_LOGS_TIME);
+        $keep_old_logs_time->setInfo(nl2br(self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME . "_info", LogsGUI::LANG_MODULE), false));
+        $keep_old_logs_time->setSuffix(self::plugin()->translate("days", LogsGUI::LANG_MODULE));
+        $keep_old_logs_time->setValue(self::srUserEnrolment()->config()->getValue(self::KEY_KEEP_OLD_LOGS_TIME));
+        $a_form->addItem($keep_old_logs_time);
     }
 
 
@@ -92,6 +107,15 @@ class DeleteOldLogsJob extends ilCronJob
     /**
      * @inheritDoc
      */
+    public function hasCustomSettings() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function hasFlexibleSchedule() : bool
     {
         return true;
@@ -105,7 +129,7 @@ class DeleteOldLogsJob extends ilCronJob
     {
         $result = new ilCronJobResult();
 
-        $keep_old_logs_time = self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_KEEP_OLD_LOGS_TIME);
+        $keep_old_logs_time = self::srUserEnrolment()->config()->getValue(self::KEY_KEEP_OLD_LOGS_TIME);
 
         if (empty($keep_old_logs_time)) {
             $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
@@ -120,5 +144,16 @@ class DeleteOldLogsJob extends ilCronJob
         $result->setMessage(self::plugin()->translate("delete_old_logs_status", LogsGUI::LANG_MODULE, [$count]));
 
         return $result;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    {
+        self::srUserEnrolment()->config()->setValue(self::KEY_KEEP_OLD_LOGS_TIME, intval($a_form->getInput(self::KEY_KEEP_OLD_LOGS_TIME)));
+
+        return true;
     }
 }
