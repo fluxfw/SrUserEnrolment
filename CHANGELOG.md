@@ -2,6 +2,7 @@
 
 ## [x]
 - Config for continue on hang/crash for enrol by rule cron job
+- Log errors for whole rule
 - Move config "Keep old logs maximal for" to cron job self
 
 ## [3.19.3]
