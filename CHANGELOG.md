@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- Move config "Keep old logs maximal for" to cron job self
+
 ## [3.19.3]
 - Ignore not supported languages
 

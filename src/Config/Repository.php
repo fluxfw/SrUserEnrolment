@@ -8,6 +8,7 @@ use srag\ActiveRecordConfig\SrUserEnrolment\Config\AbstractRepository;
 use srag\ActiveRecordConfig\SrUserEnrolment\Config\Config;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImport;
 use srag\Plugins\SrUserEnrolment\ExcelImport\ExcelImportFormGUI;
+use srag\Plugins\SrUserEnrolment\Log\DeleteOldLogsJob;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 
 /**
@@ -123,7 +124,7 @@ final class Repository extends AbstractRepository
     protected function getFields() : array
     {
         return [
-            ConfigFormGUI::KEY_KEEP_OLD_LOGS_TIME                         => [Config::TYPE_INTEGER, 0],
+            DeleteOldLogsJob::KEY_KEEP_OLD_LOGS_TIME                      => [Config::TYPE_INTEGER, 0],
             ConfigFormGUI::KEY_ROLES                                      => [Config::TYPE_JSON, []],
             ConfigFormGUI::KEY_ROLES_READ_REQUESTS                        => [Config::TYPE_JSON, []],
             ConfigFormGUI::KEY_SHOW_ASSISTANTS                            => [Config::TYPE_BOOLEAN, false],
