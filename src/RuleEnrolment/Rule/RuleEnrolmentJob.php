@@ -169,11 +169,12 @@ class RuleEnrolmentJob extends ilCronJob
             return $rules;
         }, []);
 
+        $continue_on_crash_rules = $this->getContinueOnCrashRules();
         $count_continue_on_crash_rules = 0;
         if ($this->isContinueOnCrash()) {
             $count_continue_on_crash_rules = count($rules);
-            $rules = array_filter($rules, function (AbstractRule $rule) : bool {
-                return !in_array($rule->getRuleId(), $this->getContinueOnCrashRules());
+            $rules = array_filter($rules, function (AbstractRule $rule) use ($continue_on_crash_rules) : bool {
+                return !in_array($rule->getRuleId(), $continue_on_crash_rules);
             });
             $count_continue_on_crash_rules = $count_continue_on_crash_rules - count($rules);
         }
@@ -315,7 +316,7 @@ class RuleEnrolmentJob extends ilCronJob
     protected function getContinueOnCrashRules() : array
     {
         if ($this->continue_on_crash_rules === null) {
-            $this->continue_on_crash_rules = self::srUserEnrolment()->config()->getValue(self::KEY_CONTINUE_ON_CRASH_RULES);
+            $this->continue_on_crash_rules = self::srUserEnrolment()->config()->getValue(self::KEY_CONTINUE_ON_CRASH_RULES) ?? [];
         }
 
         return $this->continue_on_crash_rules;

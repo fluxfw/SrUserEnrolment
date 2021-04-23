@@ -1,7 +1,7 @@
 {
   "name": "srag/sruserenrolment",
   "description": "Enrol users such with an excel file or by rules",
-  "version": "3.20.0",
+  "version": "3.20.1",
   "extra": {
     "ilias_plugin": {
       "id": "srusrenr",
