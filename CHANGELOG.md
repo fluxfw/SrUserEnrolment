@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.20.1]
+- Fix possible wrong read cache of continue on hang/crash for enrol by rule cron job
+
 ## [3.20.0]
 - Config for continue on hang/crash for enrol by rule cron job
 - Log errors for whole rule
