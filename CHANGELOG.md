@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.20.2]
+- Fix logs end date filter
+
 ## [3.20.1]
 - Fix possible wrong read cache of continue on hang/crash for enrol by rule cron job
 
