@@ -319,7 +319,7 @@ final class Repository
         }
 
         if (!empty($date_end)) {
-            $wheres[] = 'date<=' . self::dic()->database()->quote($date_start->get(IL_CAL_DATETIME), ilDBConstants::T_TEXT);
+            $wheres[] = 'date<=' . self::dic()->database()->quote($date_end->get(IL_CAL_DATETIME), ilDBConstants::T_TEXT);
         }
 
         if (!empty($status)) {
