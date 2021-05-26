@@ -8,8 +8,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
  * Class GlobalRole
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\GlobalRole
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class GlobalRole extends AbstractRule
 {

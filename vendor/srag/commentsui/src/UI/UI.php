@@ -14,8 +14,6 @@ use srag\DIC\SrUserEnrolment\Version\PluginVersionParameter;
  * Class UI
  *
  * @package srag\CommentsUI\SrUserEnrolment\UI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class UI implements UIInterface
 {

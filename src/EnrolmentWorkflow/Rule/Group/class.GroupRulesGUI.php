@@ -12,8 +12,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
  *
  * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group\GroupRulesGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI
  */
 class GroupRulesGUI extends RulesGUI

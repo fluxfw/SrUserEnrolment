@@ -9,8 +9,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
  * Class IliasPermission
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\IliasPermission
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class IliasPermission extends AbstractRule
 {

@@ -9,8 +9,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
  * Trait ValueFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Value
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 trait ValueFormGUI
 {

@@ -10,8 +10,6 @@ use srag\RequiredData\SrUserEnrolment\Field\Form\AbstractFieldFormBuilder;
  * Class DateFieldFormBuilder
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\Date\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class DateFieldFormBuilder extends AbstractFieldFormBuilder
 {

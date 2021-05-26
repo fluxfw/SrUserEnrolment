@@ -13,8 +13,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class Repository
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 final class Repository
 {

@@ -9,8 +9,6 @@ use srag\DIC\SrUserEnrolment\Plugin\Pluginable;
  * Interface UIInterface
  *
  * @package srag\CommentsUI\SrUserEnrolment\UI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface UIInterface extends Pluginable
 {

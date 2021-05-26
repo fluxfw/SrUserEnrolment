@@ -1,6 +1,6 @@
 ### Cron job plugin
 
-If you want to use "Enrol by rule" or "Enrolment workflow", you need to install the [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron) plugin
+If you want to use "Enrol by rule" or "Enrolment workflow", you need to install the [SrUserEnrolmentCron](https://github.com/fluxapps/SrUserEnrolmentCron) plugin
 
 ### Main features
 

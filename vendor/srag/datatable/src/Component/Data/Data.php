@@ -8,8 +8,6 @@ use srag\DataTableUI\SrUserEnrolment\Component\Data\Row\RowData;
  * Interface Data
  *
  * @package srag\DataTableUI\SrUserEnrolment\Component\Data
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Data
 {

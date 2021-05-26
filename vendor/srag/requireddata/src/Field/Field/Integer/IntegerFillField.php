@@ -11,8 +11,6 @@ use srag\RequiredData\SrUserEnrolment\Fill\AbstractFillField;
  * Class IntegerFillField
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\Integer
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class IntegerFillField extends AbstractFillField
 {

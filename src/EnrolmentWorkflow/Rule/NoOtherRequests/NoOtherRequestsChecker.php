@@ -8,8 +8,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
  * Class NoOtherRequestsChecker
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoOtherRequests
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class NoOtherRequestsChecker extends AbstractRuleChecker
 {

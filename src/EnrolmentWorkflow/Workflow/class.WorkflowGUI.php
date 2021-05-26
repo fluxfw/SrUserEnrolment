@@ -16,8 +16,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow\WorkflowsGUI
  */
 class WorkflowGUI

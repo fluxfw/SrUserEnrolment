@@ -9,8 +9,6 @@ use srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationInterface
  * Interface RepositoryInterface
  *
  * @package srag\Notifications4Plugin\SrUserEnrolment\Sender
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface RepositoryInterface
 {

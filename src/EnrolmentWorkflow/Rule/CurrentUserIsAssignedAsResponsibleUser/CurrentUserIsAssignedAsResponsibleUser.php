@@ -8,8 +8,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
  * Class CurrentUserIsAssignedAsResponsibleUser
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\CurrentUserIsAssignedAsResponsibleUser
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class CurrentUserIsAssignedAsResponsibleUser extends AbstractRule
 {

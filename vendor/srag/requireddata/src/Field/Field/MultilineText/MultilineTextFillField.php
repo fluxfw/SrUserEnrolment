@@ -9,8 +9,6 @@ use srag\RequiredData\SrUserEnrolment\Field\Field\Text\TextFillField;
  * Class MultilineTextFillField
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\MultilineText
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class MultilineTextFillField extends TextFillField
 {

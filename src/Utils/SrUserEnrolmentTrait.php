@@ -8,8 +8,6 @@ use srag\Plugins\SrUserEnrolment\Repository;
  * Trait SrUserEnrolmentTrait
  *
  * @package srag\Plugins\SrUserEnrolment\Utils
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 trait SrUserEnrolmentTrait
 {

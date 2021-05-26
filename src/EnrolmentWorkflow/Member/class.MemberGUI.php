@@ -17,8 +17,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MemberGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Member\MembersGUI
  */
 class MemberGUI

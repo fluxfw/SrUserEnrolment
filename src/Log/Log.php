@@ -13,8 +13,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class Log
  *
  * @package srag\Plugins\SrUserEnrolment\Log
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class Log extends ActiveRecord
 {

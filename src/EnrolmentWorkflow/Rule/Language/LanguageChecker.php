@@ -9,8 +9,6 @@ use stdClass;
  * Class LanguageChecker
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Language
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class LanguageChecker extends AbstractRuleChecker
 {

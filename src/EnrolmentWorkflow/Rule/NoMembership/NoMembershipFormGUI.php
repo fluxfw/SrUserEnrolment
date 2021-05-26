@@ -9,8 +9,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI;
  * Class NoMembershipFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoMembership
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class NoMembershipFormGUI extends AbstractRuleFormGUI
 {

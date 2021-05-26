@@ -9,8 +9,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI;
  * Class AlwaysFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Always
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class AlwaysFormGUI extends AbstractRuleFormGUI
 {

@@ -9,8 +9,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI;
  * Class NoResponsibleUsersAssignedFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoResponsibleUsersAssigned
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class NoResponsibleUsersAssignedFormGUI extends AbstractRuleFormGUI
 {

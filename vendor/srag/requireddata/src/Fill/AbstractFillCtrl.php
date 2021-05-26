@@ -10,8 +10,6 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
  * Class AbstractFillCtrl
  *
  * @package srag\RequiredData\SrUserEnrolment\Fill
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class AbstractFillCtrl
 {

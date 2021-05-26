@@ -10,8 +10,6 @@ use srag\RequiredData\SrUserEnrolment\Field\Field\StaticMultiSearchSelect\Static
  * Class UserSelectField
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class UserSelectField extends StaticMultiSearchSelectField
 {

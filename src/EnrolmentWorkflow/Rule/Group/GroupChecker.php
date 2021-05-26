@@ -9,8 +9,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
  * Class GroupChecker
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Group
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class GroupChecker extends AbstractRuleChecker
 {

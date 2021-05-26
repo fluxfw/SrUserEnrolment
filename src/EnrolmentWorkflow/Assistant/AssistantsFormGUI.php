@@ -15,8 +15,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class AssistantsFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Assistant
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class AssistantsFormGUI extends PropertyFormGUI
 {

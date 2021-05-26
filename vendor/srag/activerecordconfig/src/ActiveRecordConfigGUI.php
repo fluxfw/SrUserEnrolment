@@ -12,8 +12,6 @@ use srag\DIC\SrUserEnrolment\DICTrait;
  *
  * @package    srag\ActiveRecordConfig\SrUserEnrolment
  *
- * @author     studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @deprecated Please use ilPluginConfigGUI from ILIAS core instead
  */
 abstract class ActiveRecordConfigGUI extends ilPluginConfigGUI

@@ -8,8 +8,6 @@ use srag\DataTableUI\SrUserEnrolment\Component\Column\Formatter\Factory as Forma
  * Interface Factory
  *
  * @package srag\DataTableUI\SrUserEnrolment\Component\Column
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Factory
 {

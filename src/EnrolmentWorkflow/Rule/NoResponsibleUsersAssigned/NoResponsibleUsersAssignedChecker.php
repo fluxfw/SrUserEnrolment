@@ -8,8 +8,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleChecker;
  * Class NoResponsibleUsersAssignedChecker
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\NoResponsibleUsersAssigned
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class NoResponsibleUsersAssignedChecker extends AbstractRuleChecker
 {

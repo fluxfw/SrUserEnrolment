@@ -22,8 +22,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class ConfigFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\Config
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ConfigFormGUI extends PropertyFormGUI
 {

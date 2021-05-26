@@ -11,8 +11,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Values\Values;
  * Class UDF
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class UDF extends AbstractRule
 {

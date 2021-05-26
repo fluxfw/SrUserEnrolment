@@ -13,8 +13,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class WorkflowFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class WorkflowFormGUI extends PropertyFormGUI
 {

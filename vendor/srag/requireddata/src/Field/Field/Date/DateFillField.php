@@ -14,8 +14,6 @@ use srag\RequiredData\SrUserEnrolment\Fill\AbstractFillField;
  * Class DateFillField
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\Date
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class DateFillField extends AbstractFillField
 {

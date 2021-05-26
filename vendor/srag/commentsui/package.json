@@ -8,7 +8,7 @@
   ],
   "license": "GPL-3.0-only",
   "contributors": [
-    "srag <support-custom1@studer-raimann.ch> (https://studer-raimann.ch)"
+    "fluxlabs <support@fluxlabs.ch> (https://fluxlabs.ch)"
   ],
   "dependencies": {
     "jquery-comments": "1.0.1"

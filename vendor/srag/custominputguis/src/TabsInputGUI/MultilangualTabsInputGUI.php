@@ -10,8 +10,6 @@ use srag\DIC\SrUserEnrolment\DICTrait;
  * Class MultilangualTabsInputGUI
  *
  * @package srag\CustomInputGUIs\SrUserEnrolment\TabsInputGUI
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class MultilangualTabsInputGUI
 {

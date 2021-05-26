@@ -8,8 +8,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AbstractAction;
  * Class MoveToWorkflow
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\MoveToWorkflow
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class MoveToWorkflow extends AbstractAction
 {

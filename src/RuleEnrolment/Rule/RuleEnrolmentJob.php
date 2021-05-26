@@ -21,8 +21,6 @@ use Throwable;
  * Class RuleEnrolmentJob
  *
  * @package srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class RuleEnrolmentJob extends ilCronJob
 {

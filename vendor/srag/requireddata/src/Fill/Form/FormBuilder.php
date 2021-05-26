@@ -11,8 +11,6 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
  * Class FormBuilder
  *
  * @package srag\RequiredData\SrUserEnrolment\Fill\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class FormBuilder extends AbstractFormBuilder
 {

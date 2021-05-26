@@ -11,8 +11,6 @@ use srag\RemovePluginDataConfirm\SrUserEnrolment\PluginUninstallTrait;
 
 /**
  * Class ilSrUserEnrolmentPlugin
- *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
 {

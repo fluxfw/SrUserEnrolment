@@ -6,8 +6,6 @@ namespace srag\DataTableUI\SrUserEnrolment\Component\Settings\Sort;
  * Interface Factory
  *
  * @package srag\DataTableUI\SrUserEnrolment\Component\Settings\Sort
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Factory
 {

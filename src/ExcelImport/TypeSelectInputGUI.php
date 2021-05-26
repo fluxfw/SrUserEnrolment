@@ -12,8 +12,6 @@ use srag\DIC\SrUserEnrolment\Version\PluginVersionParameter;
  * Class TypeSelectInputGUI
  *
  * @package srag\Plugins\SrUserEnrolment\ExcelImport;
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class TypeSelectInputGUI extends ilSelectInputGUI
 {

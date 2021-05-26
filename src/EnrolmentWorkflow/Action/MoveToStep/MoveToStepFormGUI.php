@@ -12,8 +12,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepsGUI;
  * Class MoveToStepFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\MoveToStep
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class MoveToStepFormGUI extends AbstractActionFormGUI
 {
