@@ -11,8 +11,6 @@ use stdClass;
  * Class OrgUnitSuperiorChecker
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitSuperior
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class OrgUnitSuperiorChecker extends AbstractRuleChecker
 {

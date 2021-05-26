@@ -16,8 +16,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class RequestGroup
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class RequestGroup extends ActiveRecord
 {

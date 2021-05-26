@@ -18,8 +18,6 @@ use srag\RequiredData\SrUserEnrolment\Field\Field\Text\TextField;
  * Class CreateCourseFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\CreateCourse
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class CreateCourseFormGUI extends AbstractActionFormGUI
 {

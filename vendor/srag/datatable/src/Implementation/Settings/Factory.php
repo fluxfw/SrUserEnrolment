@@ -16,8 +16,6 @@ use srag\DIC\SrUserEnrolment\DICTrait;
  * Class Factory
  *
  * @package srag\DataTableUI\SrUserEnrolment\Implementation\Settings
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class Factory implements FactoryInterface
 {

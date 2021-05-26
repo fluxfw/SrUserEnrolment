@@ -16,8 +16,6 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
  * Class Repository
  *
  * @package srag\RequiredData\SrUserEnrolment
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 final class Repository implements Pluginable
 {

@@ -10,8 +10,6 @@ use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
  * Class MultiSearchSelectFieldFormBuilder
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\MultiSearchSelect\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class MultiSearchSelectFieldFormBuilder extends MultiSelectFieldFormBuilder
 {

@@ -19,8 +19,6 @@ use srag\RequiredData\SrUserEnrolment\Field\FieldsCtrl;
  *
  * @package           srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepsGUI
  * @ilCtrl_isCalledBy srag\RequiredData\SrUserEnrolment\Field\FieldsCtrl: srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Step\StepGUI
  */

@@ -9,8 +9,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionGUI;
  * Class EnrollToCourseFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\EnrollToCourse
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class EnrollToCourseFormGUI extends AbstractActionFormGUI
 {

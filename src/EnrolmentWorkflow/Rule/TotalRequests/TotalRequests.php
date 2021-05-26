@@ -8,8 +8,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRule;
  * Class TotalRequests
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\TotalRequests
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class TotalRequests extends AbstractRule
 {

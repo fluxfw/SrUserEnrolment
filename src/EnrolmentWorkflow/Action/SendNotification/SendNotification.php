@@ -9,8 +9,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\ActionsGUI;
  * Class SendNotification
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\SendNotification
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class SendNotification extends AbstractAction
 {

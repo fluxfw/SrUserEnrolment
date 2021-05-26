@@ -9,8 +9,6 @@ use srag\DataTableUI\SrUserEnrolment\Component\Settings\Sort\SortField;
  * Interface Column
  *
  * @package srag\DataTableUI\SrUserEnrolment\Component\Column
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Column
 {

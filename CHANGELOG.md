@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.20.3]
+- Update urls
+
 ## [3.20.2]
 - Fix logs end date filter
 

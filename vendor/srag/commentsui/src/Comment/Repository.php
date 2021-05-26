@@ -16,8 +16,6 @@ use Throwable;
  * Class Repository
  *
  * @package srag\CommentsUI\SrUserEnrolment\Comment
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 final class Repository implements RepositoryInterface
 {

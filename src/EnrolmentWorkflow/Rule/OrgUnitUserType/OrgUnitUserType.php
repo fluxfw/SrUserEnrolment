@@ -14,8 +14,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RulesGUI;
  * Class OrgUnitUserType
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitUserType
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class OrgUnitUserType extends AbstractRule
 {

@@ -14,8 +14,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class FormBuilder
  *
  * @package srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\Settings\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class FormBuilder extends AbstractFormBuilder
 {

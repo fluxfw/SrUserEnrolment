@@ -11,8 +11,6 @@ use srag\RequiredData\SrUserEnrolment\Field\Form\AbstractFieldFormBuilder;
  * Class DynamicValueFieldFormBuilder
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\DynamicValue\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class DynamicValueFieldFormBuilder extends AbstractFieldFormBuilder
 {

@@ -10,8 +10,6 @@ use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
  * Class EmailFieldFormBuilder
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\Email\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class EmailFieldFormBuilder extends TextFieldFormBuilder
 {

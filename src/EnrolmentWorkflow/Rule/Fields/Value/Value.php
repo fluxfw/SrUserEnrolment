@@ -6,8 +6,6 @@ namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Value;
  * Trait Value
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\Fields\Value
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 trait Value
 {

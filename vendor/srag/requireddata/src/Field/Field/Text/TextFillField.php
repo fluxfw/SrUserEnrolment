@@ -9,8 +9,6 @@ use srag\RequiredData\SrUserEnrolment\Fill\AbstractFillField;
  * Class TextFillField
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\Text
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class TextFillField extends AbstractFillField
 {

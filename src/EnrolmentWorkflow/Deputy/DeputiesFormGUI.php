@@ -15,8 +15,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class DeputiesFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class DeputiesFormGUI extends PropertyFormGUI
 {

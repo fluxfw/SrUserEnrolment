@@ -16,8 +16,6 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
  * Class AbstractField
  *
  * @package srag\RequiredData\SrUserEnrolment\Field
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class AbstractField extends ActiveRecord
 {

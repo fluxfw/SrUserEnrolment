@@ -8,8 +8,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\AbstractAction;
  * Class DeleteRequests
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\DeleteRequests
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class DeleteRequests extends AbstractAction
 {

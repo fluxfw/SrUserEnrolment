@@ -14,8 +14,6 @@ use stdClass;
  * Class OrgUnitUserTypeChecker
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\OrgUnitUserType
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class OrgUnitUserTypeChecker extends AbstractRuleChecker
 {

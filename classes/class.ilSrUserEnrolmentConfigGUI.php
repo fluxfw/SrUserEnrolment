@@ -13,8 +13,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
 /**
  * Class ilSrUserEnrolmentConfigGUI
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy srag\Notifications4Plugin\SrUserEnrolment\Notification\NotificationsCtrl: ilSrUserEnrolmentConfigGUI
  * @ilCtrl_isCalledBy srag\DevTools\SrUserEnrolment\DevToolsCtrl: ilSrUserEnrolmentConfigGUI
  */

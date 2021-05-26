@@ -17,8 +17,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class RulesTableGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class RulesTableGUI extends TableGUI
 {

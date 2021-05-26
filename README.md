@@ -4,8 +4,6 @@
 
 Enrol users such with an excel file or by rules
 
-This is an OpenSource project by studer + raimann ag, CH-Burgdorf (https://studer-raimann.ch)
-
 This project is licensed under the GPL-3.0-only license
 
 ## Requirements
@@ -20,7 +18,7 @@ Start at your ILIAS root directory
 ```bash
 mkdir -p Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
 cd Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
-git clone https://github.com/fluxfw/SrUserEnrolment.git SrUserEnrolment
+git clone https://github.com/fluxapps/SrUserEnrolment.git SrUserEnrolment
 ```
 
 Update, activate and config the plugin in the ILIAS Plugin Administration
@@ -29,7 +27,7 @@ Update, activate and config the plugin in the ILIAS Plugin Administration
 
 ### Cron job plugin
 
-If you want to use "Enrol by rule" or "Enrolment workflow", you need to install the [SrUserEnrolmentCron](https://github.com/studer-raimann/SrUserEnrolmentCron) plugin
+If you want to use "Enrol by rule" or "Enrolment workflow", you need to install the [SrUserEnrolmentCron](https://github.com/fluxapps/SrUserEnrolmentCron) plugin
 
 ### Main features
 

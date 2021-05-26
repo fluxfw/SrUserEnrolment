@@ -10,8 +10,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI;
  * Class TotalRequestsFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\TotalRequests
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class TotalRequestsFormGUI extends AbstractRuleFormGUI
 {

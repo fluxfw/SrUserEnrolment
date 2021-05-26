@@ -14,8 +14,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class AbstractAction
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class AbstractAction extends ActiveRecord
 {

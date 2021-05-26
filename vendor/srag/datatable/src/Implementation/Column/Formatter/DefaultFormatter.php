@@ -11,8 +11,6 @@ use srag\DataTableUI\SrUserEnrolment\Component\Format\Format;
  * Class DefaultFormatter
  *
  * @package srag\DataTableUI\SrUserEnrolment\Implementation\Column\Formatter
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class DefaultFormatter extends AbstractFormatter
 {

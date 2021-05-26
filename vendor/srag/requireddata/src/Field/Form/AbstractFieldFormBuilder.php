@@ -18,8 +18,6 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
  * Class AbstractFieldFormBuilder
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class AbstractFieldFormBuilder extends AbstractFormBuilder
 {

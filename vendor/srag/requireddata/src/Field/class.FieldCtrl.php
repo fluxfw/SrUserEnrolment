@@ -17,8 +17,6 @@ use srag\RequiredData\SrUserEnrolment\Utils\RequiredDataTrait;
  *
  * @package           srag\RequiredData\SrUserEnrolment\Field
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy srag\RequiredData\SrUserEnrolment\Field\FieldCtrl: srag\RequiredData\SrUserEnrolment\Field\FieldsCtrl
  */
 class FieldCtrl

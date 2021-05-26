@@ -10,8 +10,6 @@ use srag\RequiredData\SrUserEnrolment\Field\Form\AbstractFieldFormBuilder;
  * Class CheckboxFieldFormBuilder
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\Checkbox\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class CheckboxFieldFormBuilder extends AbstractFieldFormBuilder
 {

@@ -8,8 +8,6 @@ use srag\RequiredData\SrUserEnrolment\Field\AbstractField;
  * Class TextField
  *
  * @package srag\RequiredData\SrUserEnrolment\Field\Field\Text
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class TextField extends AbstractField
 {

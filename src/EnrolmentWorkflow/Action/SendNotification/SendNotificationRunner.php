@@ -10,8 +10,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request\Request;
  * Class SendNotificationRunner
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Action\SendNotification
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class SendNotificationRunner extends AbstractActionRunner
 {

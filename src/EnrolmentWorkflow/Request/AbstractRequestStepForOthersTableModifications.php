@@ -10,8 +10,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class AbstractRequestStepForOthersTableModifications
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 abstract class AbstractRequestStepForOthersTableModifications
 {

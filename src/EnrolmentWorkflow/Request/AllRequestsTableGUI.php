@@ -11,8 +11,6 @@ use srag\CustomInputGUIs\SrUserEnrolment\PropertyFormGUI\PropertyFormGUI;
  * Class AllRequestsTableGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class AllRequestsTableGUI extends AbstractRequestsTableGUI
 {

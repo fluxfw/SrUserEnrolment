@@ -12,8 +12,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class Workflow
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Workflow
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class Workflow extends ActiveRecord
 {

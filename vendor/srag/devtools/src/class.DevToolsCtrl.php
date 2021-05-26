@@ -19,8 +19,6 @@ use srag\LibraryLanguageInstaller\SrUserEnrolment\LibraryLanguageInstaller;
  * Class DevToolsCtrl
  *
  * @package srag\DevTools\SrUserEnrolment
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class DevToolsCtrl
 {

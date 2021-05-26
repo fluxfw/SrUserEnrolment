@@ -10,8 +10,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\RuleGUI;
  * Class CurrentUserIsAssignedAsResponsibleUserFormGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\CurrentUserIsAssignedAsResponsibleUser
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class CurrentUserIsAssignedAsResponsibleUserFormGUI extends AbstractRuleFormGUI
 {

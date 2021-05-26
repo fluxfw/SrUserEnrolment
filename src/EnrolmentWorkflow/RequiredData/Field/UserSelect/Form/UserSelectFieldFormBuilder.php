@@ -14,8 +14,6 @@ use srag\RequiredData\SrUserEnrolment\Field\FieldCtrl;
  * Class UserSelectFieldFormBuilder
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\RequiredData\Field\UserSelect\Form
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class UserSelectFieldFormBuilder extends StaticMultiSearchSelectFieldFormBuilder
 {

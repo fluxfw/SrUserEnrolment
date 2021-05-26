@@ -12,8 +12,6 @@ use stdClass;
  * Class CommentAR
  *
  * @package srag\CommentsUI\SrUserEnrolment\Comment
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class CommentAR extends ActiveRecord implements Comment
 {

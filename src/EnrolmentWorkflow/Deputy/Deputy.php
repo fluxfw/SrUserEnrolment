@@ -14,8 +14,6 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  * Class Deputy
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class Deputy extends ActiveRecord
 {

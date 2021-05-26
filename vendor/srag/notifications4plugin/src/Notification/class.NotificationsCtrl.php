@@ -11,8 +11,6 @@ use srag\Notifications4Plugin\SrUserEnrolment\Utils\Notifications4PluginTrait;
  * Class NotificationsCtrl
  *
  * @package srag\Notifications4Plugin\SrUserEnrolment\Notification
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class NotificationsCtrl
 {

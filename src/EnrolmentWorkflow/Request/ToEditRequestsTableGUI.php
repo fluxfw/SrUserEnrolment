@@ -11,8 +11,6 @@ use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Deputy\Deputy;
  * Class ToEditRequestsTableGUI
  *
  * @package srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Request
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ToEditRequestsTableGUI extends AbstractRequestsTableGUI
 {

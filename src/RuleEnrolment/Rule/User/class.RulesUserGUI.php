@@ -19,8 +19,6 @@ use srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\RulesCourseGUI;
  *
  * @package           srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\User
  *
- * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy srag\Plugins\SrUserEnrolment\RuleEnrolment\Rule\User\RulesUserGUI: ilUIPluginRouterGUI
  */
 class RulesUserGUI extends RulesCourseGUI
