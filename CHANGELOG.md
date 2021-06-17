@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.20.5]
+- Fix run rules from course gui
+
 ## [3.20.4]
 - Change utils url
 
