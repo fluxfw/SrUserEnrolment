@@ -249,10 +249,8 @@ class RulesCourseGUI
                 $this->getRuleContext(),
                 $this->getRuleType(),
                 static::getObjId($this->obj_ref_id, $this->obj_single_id)
-            ],
-            false,
-            []
-        ])->run()->getMessage();
+            ]
+        ], false, [])->run()->getMessage();
 
         ilUtil::sendInfo($result_count, true);
 
