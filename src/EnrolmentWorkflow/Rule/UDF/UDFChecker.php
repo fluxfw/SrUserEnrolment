@@ -45,8 +45,13 @@ class UDFChecker extends AbstractRuleChecker
             $udf_values = $user->getUserDefinedData();
 
             $field_id = self::srUserEnrolment()->excelImport()->getUserDefinedFieldID($this->rule->getField());
-            if (empty($field_id) || empty($udf_value = strval($udf_values[($field_id = "f_" . $field_id)]))) {
+            if (empty($field_id)) {
                 return false;
+            }
+            if (empty($udf_value = strval($udf_values[($field_id = "f_" . $field_id)]))) {
+                if (!$this->rule->isProcessEmptyValues()) {
+                    return false;
+                }
             }
 
             switch ($this->rule->getValueType()) {
@@ -55,12 +60,16 @@ class UDFChecker extends AbstractRuleChecker
                     break;
 
                 case UDF::VALUE_TYPE_DATE:
-                    if (empty($udf_value = DateTime::createFromFormat(UDF::VALUE_TYPE_DATE_FORMAT, $udf_value))
+                    if (!empty($udf_value = DateTime::createFromFormat(UDF::VALUE_TYPE_DATE_FORMAT, $udf_value))
                     ) {
-                        return false;
+                        $udf_value = $udf_value->getTimestamp();
+                    } else {
+                        if ($this->rule->isProcessEmptyValues()) {
+                            $udf_value = null;
+                        } else {
+                            return false;
+                        }
                     }
-
-                    $udf_value = $udf_value->getTimestamp();
 
                     $value = $time;
                     break;

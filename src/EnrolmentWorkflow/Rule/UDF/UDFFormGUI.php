@@ -2,6 +2,7 @@
 
 namespace srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\UDF;
 
+use ilCheckboxInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use srag\Plugins\SrUserEnrolment\EnrolmentWorkflow\Rule\AbstractRuleFormGUI;
@@ -66,7 +67,7 @@ class UDFFormGUI extends AbstractRuleFormGUI
             $this->getFieldFormFields(),
             $this->getOperatorFormFields1(),
             [
-                "value_type" => [
+                "value_type"           => [
                     self::PROPERTY_CLASS    => ilRadioGroupInputGUI::class,
                     self::PROPERTY_REQUIRED => true,
                     self::PROPERTY_SUBITEMS => array_combine(array_keys(UDF::VALUE_TYPES), array_map(function (string $value_type_lang_key, string $value_type) : array {
@@ -90,6 +91,9 @@ class UDFFormGUI extends AbstractRuleFormGUI
 
                         return $field;
                     }, UDF::VALUE_TYPES, array_keys(UDF::VALUE_TYPES)))
+                ],
+                "process_empty_values" => [
+                    self::PROPERTY_CLASS => ilCheckboxInputGUI::class
                 ]
             ],
             $this->getOperatorFormFields2()
