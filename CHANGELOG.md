@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.20.6]
+- Update lp status after enroll
+
 ## [3.20.5]
 - Fix run rules from course gui
 

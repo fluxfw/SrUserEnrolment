@@ -95,6 +95,7 @@ final class Repository
                     }
 
                     $obj->getMembersObject()->add($user_id, $role);
+                    $obj->checkLPStatusSync($user_id);
 
                     return true;
                 }
