@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.20.7]
+- Config for process empty udf values
+
 ## [3.20.6]
 - Update lp status after enroll
 

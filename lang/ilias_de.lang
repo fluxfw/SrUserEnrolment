@@ -284,6 +284,8 @@ rules_operator_starts_with#:#Startet mit
 rules_orgunitusertype_title#:#Titel entspricht
 rules_orgunitusertype_tree#:#Organisationseinheit oder nachfolgend entspricht
 rules_position#:#Position Benutzer
+rules_process_empty_values#:#Leere Werte verarbeiten
+rules_process_empty_values_info#:#Wenn deaktiviert wird die Regel für leere Benutzer-Werte immer nicht zutreffen
 rules_ref_id#:#Ref-ID
 rules_remove#:#Entfernen
 rules_remove_rule#:#Regel entfernen

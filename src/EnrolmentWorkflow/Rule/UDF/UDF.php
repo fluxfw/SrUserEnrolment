@@ -37,6 +37,15 @@ class UDF extends AbstractRule
      * @con_is_notnull   true
      */
     protected $value_type = self::VALUE_TYPE_TEXT;
+    /**
+     * @var bool
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     * @con_is_notnull   true
+     */
+    protected $process_empty_values = false;
 
 
     /**
@@ -48,6 +57,24 @@ class UDF extends AbstractRule
             default:
                 return true;
         }
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isProcessEmptyValues() : bool
+    {
+        return $this->process_empty_values;
+    }
+
+
+    /**
+     * @param bool $process_empty_values
+     */
+    public function setProcessEmptyValues(bool $process_empty_values)/* : void*/
+    {
+        $this->process_empty_values = $process_empty_values;
     }
 
 
@@ -106,6 +133,9 @@ class UDF extends AbstractRule
         }
 
         switch ($field_name) {
+            case "process_empty_values":
+                return ($field_value ? 1 : 0);
+
             default:
                 return parent::sleep($field_name);
         }
@@ -128,6 +158,9 @@ class UDF extends AbstractRule
         }
 
         switch ($field_name) {
+            case "process_empty_values":
+                return boolval($field_value);
+
             default:
                 return parent::wakeUp($field_name, $field_value);
         }

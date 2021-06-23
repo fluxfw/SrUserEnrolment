@@ -284,6 +284,8 @@ rules_operator_starts_with#:#Starts with
 rules_orgunitusertype_title#:#Corresponds to title
 rules_orgunitusertype_tree#:#Corresponds to organisation unit or subsequent
 rules_position#:#Position user
+rules_process_empty_values#:#Process empty values
+rules_process_empty_values_info#:#If disabled the rule will always not match for empty user values
 rules_ref_id#:#Ref id
 rules_remove#:#Remove
 rules_remove_rule#:#Remove rule
