@@ -29,15 +29,6 @@ class UDF extends AbstractRule
     const VALUE_TYPE_DATE_FORMAT = "Y-m-d";
     const VALUE_TYPE_TEXT = 1;
     /**
-     * @var int
-     *
-     * @con_has_field    true
-     * @con_fieldtype    integer
-     * @con_length       8
-     * @con_is_notnull   true
-     */
-    protected $value_type = self::VALUE_TYPE_TEXT;
-    /**
      * @var bool
      *
      * @con_has_field    true
@@ -46,6 +37,15 @@ class UDF extends AbstractRule
      * @con_is_notnull   true
      */
     protected $process_empty_values = false;
+    /**
+     * @var int
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       8
+     * @con_is_notnull   true
+     */
+    protected $value_type = self::VALUE_TYPE_TEXT;
 
 
     /**
@@ -57,24 +57,6 @@ class UDF extends AbstractRule
             default:
                 return true;
         }
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isProcessEmptyValues() : bool
-    {
-        return $this->process_empty_values;
-    }
-
-
-    /**
-     * @param bool $process_empty_values
-     */
-    public function setProcessEmptyValues(bool $process_empty_values)/* : void*/
-    {
-        $this->process_empty_values = $process_empty_values;
     }
 
 
@@ -112,6 +94,24 @@ class UDF extends AbstractRule
     public function setValueType(int $value_type)/* : void*/
     {
         $this->value_type = $value_type;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isProcessEmptyValues() : bool
+    {
+        return $this->process_empty_values;
+    }
+
+
+    /**
+     * @param bool $process_empty_values
+     */
+    public function setProcessEmptyValues(bool $process_empty_values)/* : void*/
+    {
+        $this->process_empty_values = $process_empty_values;
     }
 
 

@@ -328,6 +328,22 @@ final class Repository
 
 
     /**
+     * @param int    $parent_context
+     * @param string $parent_id
+     */
+    public function sortByEnrollType(int $parent_context, string $parent_id)/*: void*/
+    {
+        $rules = self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRules($parent_context, AbstractRule::TYPE_COURSE_RULE, $parent_id, null, false);
+
+        usort($rules, function (AbstractRule $rule1, AbstractRule $rule2) : int {
+            return $rule2->getEnrollType() - $rule1->getEnrollType();
+        });
+
+        $this->reSortRules2($rules);
+    }
+
+
+    /**
      * @param AbstractRule $rule
      */
     public function storeRule(AbstractRule $rule)/*: void*/
@@ -369,8 +385,15 @@ final class Repository
      */
     protected function reSortRules(int $parent_context, int $type, string $parent_id)/*: void*/
     {
-        $rules = $this->getRules($parent_context, $type, $parent_id, null, false);
+        $this->reSortRules2($this->getRules($parent_context, $type, $parent_id, null, false));
+    }
 
+
+    /**
+     * @param AbstractRule[] $rules
+     */
+    protected function reSortRules2(array $rules)/*: void*/
+    {
         $i = 1;
         foreach ($rules as $rule) {
             $rule->setSort($i * 10);

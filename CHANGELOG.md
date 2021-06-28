@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.21.0]
+- Sort rules by "Enroll as"
+
 ## [3.20.7]
 - Config for process empty udf values
 

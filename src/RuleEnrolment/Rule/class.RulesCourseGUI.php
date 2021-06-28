@@ -32,6 +32,7 @@ class RulesCourseGUI
 
     const CMD_BACK = "back";
     const CMD_RUN_RULES = "runRules";
+    const CMD_SORT_BY_ENROLL_TYPE = "sortByEnrollType";
     const GET_PARAM_OBJ_SINGLE_ID = "obj_single_id";
     const GET_PARAM_REF_ID = "ref_id";
     const PLUGIN_CLASS_NAME = ilSrUserEnrolmentPlugin::class;
@@ -157,6 +158,7 @@ class RulesCourseGUI
                     case self::CMD_BACK:
                     case RulesGUI::CMD_LIST_RULES:
                     case self::CMD_RUN_RULES:
+                    case self::CMD_SORT_BY_ENROLL_TYPE:
                         $this->{$cmd}();
                         break;
 
@@ -272,6 +274,26 @@ class RulesCourseGUI
         if (self::dic()->ctrl()->getCmd() === RulesGUI::CMD_LIST_RULES) {
             self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::plugin()->translate("run_rules", RulesGUI::LANG_MODULE),
                 str_replace("\\", "\\\\", self::dic()->ctrl()->getLinkTarget($this, self::CMD_RUN_RULES))));
+
+            if ($this->getRuleType() === AbstractRule::TYPE_COURSE_RULE) {
+                self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard(self::plugin()->translate("sort_by_enroll_type", RulesGUI::LANG_MODULE),
+                    str_replace("\\", "\\\\", self::dic()->ctrl()->getLinkTarget($this, self::CMD_SORT_BY_ENROLL_TYPE))));
+            }
         }
+    }
+
+
+    /**
+     *
+     */
+    protected function sortByEnrollType()/*: void*/
+    {
+        if ($this->getRuleType() === AbstractRule::TYPE_COURSE_RULE) {
+            self::srUserEnrolment()->enrolmentWorkflow()->rules()->sortByEnrollType($this->getRuleContext(), static::getObjId($this->obj_ref_id, $this->obj_single_id));
+
+            ilUtil::sendSuccess(self::plugin()->translate("sorted_by_enroll_type", RulesGUI::LANG_MODULE), true);
+        }
+
+        self::dic()->ctrl()->redirect($this, RulesGUI::CMD_LIST_RULES);
     }
 }
