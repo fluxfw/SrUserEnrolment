@@ -3,6 +3,7 @@
 ## [3.22.0]
 - ILIAS 7 support
 - Remove ILIAS 5.4 support
+- Fix create course date
 - Min PHP 7.2
 
 ## [3.21.0]
