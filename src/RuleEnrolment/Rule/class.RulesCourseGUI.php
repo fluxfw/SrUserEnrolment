@@ -135,12 +135,7 @@ class RulesCourseGUI
             case strtolower(RulesGUI::class):
                 self::dic()->ctrl()->forwardCommand(new RulesGUI($this->getRuleContext(), static::getObjId($this->obj_ref_id, $this->obj_single_id)));
 
-                // TODO: Use DICTrait
-                if (self::version()->is6()) {
-                    self::dic()->ui()->mainTemplate()->printToStdout();
-                } else {
-                    self::dic()->ui()->mainTemplate()->show();
-                }
+                self::dic()->ui()->mainTemplate()->printToStdout();
                 break;
 
             case strtolower(LogsGUI::class):

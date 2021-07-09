@@ -190,11 +190,7 @@ class DeputiesGUI
     protected function back()/*:void*/
     {
         if ($this->user_id === intval(self::dic()->user()->getId())) {
-            if (self::version()->is6()) {
-                self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class, "jumpToProfile");
-            } else {
-                self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
-            }
+            self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class, "jumpToProfile");
         } else {
             self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "ref_id", 7);
             self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "admin_mode", "settings");

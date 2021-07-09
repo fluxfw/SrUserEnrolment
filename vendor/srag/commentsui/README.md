@@ -117,5 +117,5 @@ self::output()->getHTML(self::commentsUI()->withPlugin(self::plugin())->withCtrl
 
 ## Requirements
 
-* ILIAS 5.4.0 - 6.999
+* ILIAS 6.0 - 6.999
 * PHP >=7.2

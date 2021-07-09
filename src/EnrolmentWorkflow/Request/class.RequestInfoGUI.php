@@ -209,11 +209,7 @@ class RequestInfoGUI
     protected function back()/*: void*/
     {
         if ($this->single) {
-            if (self::version()->is6()) {
-                self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class);
-            } else {
-                self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class);
-            }
+            self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class);
         } else {
             self::dic()->ctrl()->redirectByClass(RequestsGUI::class, RequestsGUI::CMD_LIST_REQUESTS);
         }

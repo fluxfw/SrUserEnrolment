@@ -1,12 +1,12 @@
 {
   "name": "srag/sruserenrolment",
   "description": "Enrol users such with an excel file or by rules",
-  "version": "3.21.0",
+  "version": "3.22.0",
   "extra": {
     "ilias_plugin": {
       "id": "srusrenr",
       "name": "SrUserEnrolment",
-      "ilias_min_version": "5.4.0",
+      "ilias_min_version": "6.0",
       "ilias_max_version": "6.999",
       "slot": "Services/UIComponent/UserInterfaceHook",
       "events": [
