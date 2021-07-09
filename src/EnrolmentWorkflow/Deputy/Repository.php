@@ -53,7 +53,7 @@ final class Repository
     /**
      * @param Deputy $deputy
      */
-    public function deleteDeputy(Deputy $deputy)/*:void*/
+    public function deleteDeputy(Deputy $deputy) : void
     {
         $deputy->delete();
     }
@@ -62,7 +62,7 @@ final class Repository
     /**
      * @param int $user_id
      */
-    public function deleteUserDeputies(int $user_id)/*: void*/
+    public function deleteUserDeputies(int $user_id) : void
     {
         foreach ($this->getDeputiesOf($user_id, false) + $this->getUserDeputies($user_id, false) as $deputy) {
             $this->deleteDeputy($deputy);
@@ -73,7 +73,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(Deputy::TABLE_NAME, false);
     }
@@ -125,7 +125,7 @@ final class Repository
      *
      * @return Deputy|null
      */
-    public function getDeputy(int $user_id, int $deputy_user_id, bool $active_check = true, bool $create_new = false)/* : ?Deputy*/
+    public function getDeputy(int $user_id, int $deputy_user_id, bool $active_check = true, bool $create_new = false) : ?Deputy
     {
         $where = Deputy::where([
             "user_id"        => $user_id,
@@ -218,7 +218,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         Deputy::updateDB();
     }
@@ -236,7 +236,7 @@ final class Repository
     /**
      * @param Deputy $deputy
      */
-    public function storeDeputy(Deputy $deputy)/*:void*/
+    public function storeDeputy(Deputy $deputy) : void
     {
         $deputy->store();
     }

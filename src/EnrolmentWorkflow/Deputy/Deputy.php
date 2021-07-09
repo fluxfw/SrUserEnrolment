@@ -125,7 +125,7 @@ class Deputy extends ActiveRecord
     /**
      * @param int $deputy_user_id
      */
-    public function setDeputyUserId(int $deputy_user_id)/* : void*/
+    public function setDeputyUserId(int $deputy_user_id) : void
     {
         $this->deputy_user_id = $deputy_user_id;
     }
@@ -143,7 +143,7 @@ class Deputy extends ActiveRecord
     /**
      * @param int $id
      */
-    public function setId(int $id)/* : void*/
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -152,7 +152,7 @@ class Deputy extends ActiveRecord
     /**
      * @return ilDate|null
      */
-    public function getUntil()/* : ?ilDate*/
+    public function getUntil() : ?ilDate
     {
         return $this->until;
     }
@@ -161,7 +161,7 @@ class Deputy extends ActiveRecord
     /**
      * @param ilDate|null $until
      */
-    public function setUntil(/*?*/ ilDate $until = null)/* : void*/
+    public function setUntil(/*?*/ ilDate $until = null) : void
     {
         $this->until = $until;
     }
@@ -188,7 +188,7 @@ class Deputy extends ActiveRecord
     /**
      * @param int $user_id
      */
-    public function setUserId(int $user_id)/* : void*/
+    public function setUserId(int $user_id) : void
     {
         $this->user_id = $user_id;
     }
@@ -206,7 +206,7 @@ class Deputy extends ActiveRecord
     /**
      * @param bool $active
      */
-    public function setActive(bool $active)/* : void*/
+    public function setActive(bool $active) : void
     {
         $this->active = $active;
     }

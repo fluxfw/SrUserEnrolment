@@ -60,7 +60,7 @@ class RulesCourseGUI
      * @param int      $obj_ref_id
      * @param int|null $obj_single_id
      */
-    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
+    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null) : void
     {
         if (self::srUserEnrolment()->ruleEnrolment()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
             self::dic()->ctrl()->setParameterByClass(static::class, self::GET_PARAM_REF_ID, $obj_ref_id);
@@ -115,7 +115,7 @@ class RulesCourseGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
         $this->obj_single_id = (intval(filter_input(INPUT_GET, self::GET_PARAM_OBJ_SINGLE_ID)) ?? null);
@@ -186,7 +186,7 @@ class RulesCourseGUI
     /**
      * @return int|null
      */
-    public function getObjSingleId()/* : ?int*/
+    public function getObjSingleId() : ?int
     {
         return $this->obj_single_id;
     }
@@ -213,7 +213,7 @@ class RulesCourseGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, self::GET_PARAM_REF_ID);
 
@@ -228,7 +228,7 @@ class RulesCourseGUI
     /**
      *
      */
-    protected function listRules()/*: void*/
+    protected function listRules() : void
     {
         self::dic()->ctrl()->setParameterByClass(RulesGUI::class, RulesGUI::GET_PARAM_TYPE . $this->getRuleContext(), $this->getRuleType());
 
@@ -239,7 +239,7 @@ class RulesCourseGUI
     /**
      *
      */
-    protected function runRules()/*: void*/
+    protected function runRules() : void
     {
         $result_count = self::srUserEnrolment()->ruleEnrolment()->rules()->factory()->newJobInstance([
             [
@@ -258,7 +258,7 @@ class RulesCourseGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->setBackTarget($this->getBackTitle(), self::dic()->ctrl()->getLinkTarget($this, self::CMD_BACK));
 
@@ -281,7 +281,7 @@ class RulesCourseGUI
     /**
      *
      */
-    protected function sortByEnrollType()/*: void*/
+    protected function sortByEnrollType() : void
     {
         if ($this->getRuleType() === AbstractRule::TYPE_COURSE_RULE) {
             self::srUserEnrolment()->enrolmentWorkflow()->rules()->sortByEnrollType($this->getRuleContext(), static::getObjId($this->obj_ref_id, $this->obj_single_id));

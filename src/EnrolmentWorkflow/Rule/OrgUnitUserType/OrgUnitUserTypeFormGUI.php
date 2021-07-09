@@ -57,7 +57,7 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*:void*/
+    protected function initFields() : void
     {
         parent::initFields();
 
@@ -97,7 +97,7 @@ class OrgUnitUserTypeFormGUI extends AbstractRuleFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             case "operator_subsequent":

@@ -38,7 +38,7 @@ class DeleteOldLogsJob extends ilCronJob
     /**
      * @inheritDoc
      */
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)/*:void*/
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         $keep_old_logs_time = new ilNumberInputGUI(self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME, LogsGUI::LANG_MODULE), self::KEY_KEEP_OLD_LOGS_TIME);
         $keep_old_logs_time->setInfo(nl2br(self::plugin()->translate(self::KEY_KEEP_OLD_LOGS_TIME . "_info", LogsGUI::LANG_MODULE), false));
@@ -60,7 +60,7 @@ class DeleteOldLogsJob extends ilCronJob
     /**
      * @inheritDoc
      */
-    public function getDefaultScheduleValue()/*:?int*/
+    public function getDefaultScheduleValue() : ?int
     {
         return null;
     }

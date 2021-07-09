@@ -54,7 +54,7 @@ class RulesUserGUI extends RulesCourseGUI
     /**
      * @inheritDoc
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         switch (static::getObjType($this->obj_ref_id, $this->obj_single_id)) {
             case "role":

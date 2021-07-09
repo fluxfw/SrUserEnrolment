@@ -41,7 +41,7 @@ abstract class AbstractRequestStepForOthersTableModifications
      *
      * @return string|null
      */
-    public abstract function formatColumnValue(string $column, ilObjUser $user)/*:?string*/ ;
+    public abstract function formatColumnValue(string $column, ilObjUser $user) : ?string;
 
 
     /**

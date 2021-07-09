@@ -67,7 +67,7 @@ class AssistantsFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         $this->addCommandButton(AssistantsGUI::CMD_UPDATE_ASSISTANTS, $this->txt("save"));
     }
@@ -76,7 +76,7 @@ class AssistantsFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*: void*/
+    protected function initFields() : void
     {
         $this->fields = [
             "assistants" => [
@@ -105,7 +105,7 @@ class AssistantsFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
 
     }
@@ -114,7 +114,7 @@ class AssistantsFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt(($this->parent->getUserId() === intval(self::dic()->user()->getId()) ? "my_" : "") . "assistants"));
     }
@@ -123,7 +123,7 @@ class AssistantsFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             default:

@@ -71,7 +71,7 @@ final class Factory
     /**
      * @param string $class
      */
-    public function addClass(string $class)/*:void*/
+    public function addClass(string $class) : void
     {
         if (!in_array($class, $this->classes)) {
             $this->classes[] = $class;
@@ -128,7 +128,7 @@ final class Factory
      *
      * @return AbstractAction|null
      */
-    public function newInstance(string $type) /*: ?AbstractAction*/
+    public function newInstance(string $type) : ?AbstractAction
     {
         $action = null;
 

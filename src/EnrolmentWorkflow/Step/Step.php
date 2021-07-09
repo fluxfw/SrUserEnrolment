@@ -147,7 +147,7 @@ class Step extends ActiveRecord
      * @param string $action_title
      * @param string $lang_key
      */
-    public function setActionTitle(string $action_title, string $lang_key)/*: void*/
+    public function setActionTitle(string $action_title, string $lang_key) : void
     {
         MultilangualTabsInputGUI::setValueForLang($this->action_title, $action_title, $lang_key, "action_title");
     }
@@ -183,7 +183,7 @@ class Step extends ActiveRecord
     /**
      * @param int $sort
      */
-    public function setSort(int $sort)/*: void*/
+    public function setSort(int $sort) : void
     {
         $this->sort = $sort;
     }
@@ -201,7 +201,7 @@ class Step extends ActiveRecord
     /**
      * @param int $step_id
      */
-    public function setStepId(int $step_id)/*: void*/
+    public function setStepId(int $step_id) : void
     {
         $this->step_id = $step_id;
     }
@@ -223,7 +223,7 @@ class Step extends ActiveRecord
      * @param string $title
      * @param string $lang_key
      */
-    public function setTitle(string $title, string $lang_key)/*: void*/
+    public function setTitle(string $title, string $lang_key) : void
     {
         MultilangualTabsInputGUI::setValueForLang($this->title, $title, $lang_key, "title");
     }
@@ -250,7 +250,7 @@ class Step extends ActiveRecord
     /**
      * @param int $workflow_id
      */
-    public function setWorkflowId(int $workflow_id)/*: void*/
+    public function setWorkflowId(int $workflow_id) : void
     {
         $this->workflow_id = $workflow_id;
     }
@@ -268,7 +268,7 @@ class Step extends ActiveRecord
     /**
      * @param bool $enabled
      */
-    public function setEnabled(bool $enabled)/*: void*/
+    public function setEnabled(bool $enabled) : void
     {
         $this->enabled = $enabled;
     }
@@ -278,7 +278,7 @@ class Step extends ActiveRecord
      * @param string $action_edit_title
      * @param string $lang_key
      */
-    public function setActionEditTitle(string $action_edit_title, string $lang_key)/*: void*/
+    public function setActionEditTitle(string $action_edit_title, string $lang_key) : void
     {
         MultilangualTabsInputGUI::setValueForLang($this->action_accept_title, $action_edit_title, $lang_key, "action_accept_title");
     }
@@ -287,7 +287,7 @@ class Step extends ActiveRecord
     /**
      * @param array $action_edit_titles
      */
-    public function setActionEditTitles(array $action_edit_titles)/*:void*/
+    public function setActionEditTitles(array $action_edit_titles) : void
     {
         $this->action_accept_title = $action_edit_titles;
     }
@@ -296,7 +296,7 @@ class Step extends ActiveRecord
     /**
      * @param array $action_titles
      */
-    public function setActionTitles(array $action_titles)/*:void*/
+    public function setActionTitles(array $action_titles) : void
     {
         $this->action_title = $action_titles;
     }
@@ -305,7 +305,7 @@ class Step extends ActiveRecord
     /**
      * @param array $titles
      */
-    public function setTitles(array $titles)/*:void*/
+    public function setTitles(array $titles) : void
     {
         $this->title = $titles;
     }

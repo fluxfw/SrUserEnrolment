@@ -32,7 +32,7 @@ trait Field
     /**
      * @param string $field
      */
-    public function setField(string $field)/* : void*/
+    public function setField(string $field) : void
     {
         $this->field = $field;
     }

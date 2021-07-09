@@ -48,7 +48,7 @@ class Language extends AbstractRule
     /**
      * @param string[] $languages
      */
-    public function setLanguages(array $languages)/* : void*/
+    public function setLanguages(array $languages) : void
     {
         $this->languages = $languages;
     }

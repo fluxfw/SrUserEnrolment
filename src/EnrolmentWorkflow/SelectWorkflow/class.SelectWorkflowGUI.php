@@ -51,7 +51,7 @@ class SelectWorkflowGUI
     /**
      * @param int $obj_ref_id
      */
-    public static function addTabs(int $obj_ref_id)/*: void*/
+    public static function addTabs(int $obj_ref_id) : void
     {
         if (self::srUserEnrolment()->enrolmentWorkflow()->selectedWorkflows()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
@@ -65,7 +65,7 @@ class SelectWorkflowGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
 
@@ -110,7 +110,7 @@ class SelectWorkflowGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
     }
@@ -119,7 +119,7 @@ class SelectWorkflowGUI
     /**
      *
      */
-    protected function selectWorkflow()/*: void*/
+    protected function selectWorkflow() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_SELECT_WORKFLOW);
 
@@ -132,7 +132,7 @@ class SelectWorkflowGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));
@@ -149,7 +149,7 @@ class SelectWorkflowGUI
     /**
      *
      */
-    protected function updateSelectedWorkflow()/*: void*/
+    protected function updateSelectedWorkflow() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_SELECT_WORKFLOW);
 

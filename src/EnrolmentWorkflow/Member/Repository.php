@@ -52,7 +52,7 @@ final class Repository
     /**
      * @param Member $member
      */
-    public function deleteMember(Member $member)/*:void*/
+    public function deleteMember(Member $member) : void
     {
         $member->delete();
     }
@@ -61,7 +61,7 @@ final class Repository
     /**
      * @param int $usr_id
      */
-    public function deleteUserMembers(int $usr_id)/*: void*/
+    public function deleteUserMembers(int $usr_id) : void
     {
         foreach (
             Member::where([
@@ -76,7 +76,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(Member::TABLE_NAME, false);
     }
@@ -173,7 +173,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         Member::updateDB();
     }
@@ -210,7 +210,7 @@ final class Repository
     /**
      * @param Member $member
      */
-    public function storeMember(Member $member)/*:void*/
+    public function storeMember(Member $member) : void
     {
         $time = time();
 

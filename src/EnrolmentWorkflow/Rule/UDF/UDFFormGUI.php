@@ -58,7 +58,7 @@ class UDFFormGUI extends AbstractRuleFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*:void*/
+    protected function initFields() : void
     {
         parent::initFields();
 
@@ -104,7 +104,7 @@ class UDFFormGUI extends AbstractRuleFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         $value_values = $this->storeValueValues($key, $value);
         if ($value_values) {

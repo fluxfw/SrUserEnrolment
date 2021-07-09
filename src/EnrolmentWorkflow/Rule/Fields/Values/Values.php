@@ -32,7 +32,7 @@ trait Values
     /**
      * @param string[] $values
      */
-    public function setValues(array $values)/* : void*/
+    public function setValues(array $values) : void
     {
         $this->values = $values;
     }

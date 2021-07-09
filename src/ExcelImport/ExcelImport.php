@@ -180,7 +180,7 @@ class ExcelImport
     /**
      *
      */
-    public function clean()/*: void*/
+    public function clean() : void
     {
         ilSession::clear(ExcelImport::SESSION_KEY);
     }
@@ -305,7 +305,7 @@ class ExcelImport
      *
      * @return array|null
      */
-    public function parse(ExcelImportFormGUI $form)/* : ?array*/
+    public function parse(ExcelImportFormGUI $form) : ?array
     {
         $excel = new ilExcel();
 
@@ -316,7 +316,7 @@ class ExcelImport
         /**
          * @var Spreadsheet $spreadsheet
          */
-        $spreadsheet = Closure::bind(function ()/* : Spreadsheet*/ {
+        $spreadsheet = Closure::bind(function () : Spreadsheet {
             return $this->workbook;
         }, $excel, ilExcel::class)();
 
@@ -549,7 +549,7 @@ class ExcelImport
      * @param ExcelImportFormGUI $form
      * @param stdClass           $user
      */
-    protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
+    protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user) : void
     {
         $value = $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->time_limit_owner;
 
@@ -642,7 +642,7 @@ class ExcelImport
      * @param ExcelImportFormGUI $form
      * @param stdClass           $user
      */
-    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user)/*:void*/
+    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user) : void
     {
         $user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->roles = array_unique($form->getExcelImportCreateNewUsersGlobalRoles());
     }
@@ -651,7 +651,7 @@ class ExcelImport
     /**
      * @param stdClass $user
      */
-    protected function handleSetPasswordFormatDateTime(stdClass &$user)/*: void*/
+    protected function handleSetPasswordFormatDateTime(stdClass &$user) : void
     {
         $date = Date::excelToDateTimeObject($user->{ExcelImportFormGUI::KEY_FIELDS}->{self::FIELDS_TYPE_ILIAS}->passwd__original_date_value);
 

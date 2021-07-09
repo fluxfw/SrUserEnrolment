@@ -51,7 +51,7 @@ class UserExcelImport extends ExcelImport
     /**
      * @inheritDoc
      */
-    protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
+    protected function handleLocalUserAdministration(ExcelImportFormGUI $form, stdClass &$user) : void
     {
         switch ($this->parent::getObjType($this->parent->getObjRefId(), $this->parent->getObjSingleId())) {
             case "cat":
@@ -71,7 +71,7 @@ class UserExcelImport extends ExcelImport
     /**
      * @inheritDoc
      */
-    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user)/*: void*/
+    protected function handleRoles(ExcelImportFormGUI $form, stdClass &$user) : void
     {
         parent::handleRoles($form, $user);
 

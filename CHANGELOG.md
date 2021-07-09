@@ -2,6 +2,7 @@
 
 ## [3.22.0]
 - Remove ILIAS 5.4 support
+- Min PHP 7.2
 
 ## [3.21.0]
 - Sort rules by "Enroll as"

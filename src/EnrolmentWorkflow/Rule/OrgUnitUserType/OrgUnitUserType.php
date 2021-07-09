@@ -101,7 +101,7 @@ class OrgUnitUserType extends AbstractRule
     /**
      * @param int $org_unit_user_type
      */
-    public function setOrgUnitUserType(int $org_unit_user_type)/* : void*/
+    public function setOrgUnitUserType(int $org_unit_user_type) : void
     {
         $this->org_unit_use_type = $org_unit_user_type;
     }

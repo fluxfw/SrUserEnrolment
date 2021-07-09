@@ -196,7 +196,7 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @return int|null
      */
-    public function getEnrollType()/* : ?int*/
+    public function getEnrollType() : ?int
     {
         if (empty($this->enroll_type)) {
             return ($this->getParentContext() === self::TYPE_COURSE_RULE ? Member::TYPE_MEMBER : null);
@@ -209,7 +209,7 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @param int|null $enroll_type
      */
-    public function setEnrollType(/*?*/ int $enroll_type = null) /*: void*/
+    public function setEnrollType(/*?*/ int $enroll_type = null) : void
     {
         $this->enroll_type = $enroll_type;
     }
@@ -236,7 +236,7 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @param int $parent_context
      */
-    public function setParentContext(int $parent_context)/* : void*/
+    public function setParentContext(int $parent_context) : void
     {
         $this->parent_context = $parent_context;
     }
@@ -254,7 +254,7 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @param string $parent_id
      */
-    public function setParentId(string $parent_id)/* : void*/
+    public function setParentId(string $parent_id) : void
     {
         $this->parent_id = $parent_id;
     }
@@ -278,7 +278,7 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @param int $rule_id
      */
-    public function setRuleId(int $rule_id)/*: void*/
+    public function setRuleId(int $rule_id) : void
     {
         $this->rule_id = $rule_id;
     }
@@ -314,7 +314,7 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @param int $sort
      */
-    public function setSort(int $sort)/*: void*/
+    public function setSort(int $sort) : void
     {
         $this->sort = $sort;
     }
@@ -332,7 +332,7 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @param int $type
      */
-    public function setType(int $type) /*: void*/
+    public function setType(int $type) : void
     {
         $this->type = $type;
     }
@@ -350,7 +350,7 @@ abstract class AbstractRule extends ActiveRecord
     /**
      * @param bool $enabled
      */
-    public function setEnabled(bool $enabled)/*: void*/
+    public function setEnabled(bool $enabled) : void
     {
         $this->enabled = $enabled;
     }

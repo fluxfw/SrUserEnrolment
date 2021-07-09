@@ -58,7 +58,7 @@ class IliasPermission extends AbstractRule
     /**
      * @param int $ilias_permission
      */
-    public function setIliasPermission(int $ilias_permission)/* : void*/
+    public function setIliasPermission(int $ilias_permission) : void
     {
         $this->ilias_permission = $ilias_permission;
     }

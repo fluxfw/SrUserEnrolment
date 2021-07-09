@@ -124,7 +124,7 @@ final class Repository
     /**
      * @param int $usr_id
      */
-    public function deleteByUser(int $usr_id)/*:void*/
+    public function deleteByUser(int $usr_id) : void
     {
         $this->enrolmentWorkflow()->assistants()->deleteUserAssistants($usr_id);
         $this->enrolmentWorkflow()->deputies()->deleteUserDeputies($usr_id);
@@ -138,7 +138,7 @@ final class Repository
     /**
      *
      */
-    public function dropTables()/*: void*/
+    public function dropTables() : void
     {
         $this->comments()->dropTables();
         $this->config()->dropTables();
@@ -214,7 +214,7 @@ final class Repository
     /**
      *
      */
-    public function installTables()/*: void*/
+    public function installTables() : void
     {
         $this->comments()->installTables();
         $this->config()->installTables();

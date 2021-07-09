@@ -58,7 +58,7 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
         $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
@@ -118,7 +118,7 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    protected function applyFilter()/*: void*/
+    protected function applyFilter() : void
     {
         $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newRequestStepForOthersTableInstance($this, self::CMD_APPLY_FILTER);
 
@@ -134,7 +134,7 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         if (!empty($this->parent_ref_id)) {
             self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->parent_ref_id));
@@ -147,7 +147,7 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    protected function listUsers()/*:void*/
+    protected function listUsers() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_USERS);
 
@@ -160,7 +160,7 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    protected function requestStep()/*: void*/
+    protected function requestStep() : void
     {
         ilSession::set(RequestStepGUI::SESSION_USERS, filter_input(INPUT_POST, RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY));
 
@@ -175,7 +175,7 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    protected function resetFilter()/*: void*/
+    protected function resetFilter() : void
     {
         $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newRequestStepForOthersTableInstance($this, self::CMD_RESET_FILTER);
 
@@ -191,7 +191,7 @@ class RequestStepForOthersGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 

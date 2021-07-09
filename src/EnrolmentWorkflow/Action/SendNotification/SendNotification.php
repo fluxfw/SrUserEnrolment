@@ -84,7 +84,7 @@ class SendNotification extends AbstractAction
     /**
      * @param string $notification_name
      */
-    public function setNotificationName(string $notification_name)/* : void*/
+    public function setNotificationName(string $notification_name) : void
     {
         $this->notification_name = $notification_name;
     }
@@ -102,7 +102,7 @@ class SendNotification extends AbstractAction
     /**
      * @param int[] $to_specific_users
      */
-    public function setToSpecificUsers(array $to_specific_users)/* : void*/
+    public function setToSpecificUsers(array $to_specific_users) : void
     {
         $this->to_specific_users = $to_specific_users;
     }
@@ -120,7 +120,7 @@ class SendNotification extends AbstractAction
     /**
      * @param int $to_type
      */
-    public function setToType(int $to_type)/* : void*/
+    public function setToType(int $to_type) : void
     {
         $this->to_type = $to_type;
     }

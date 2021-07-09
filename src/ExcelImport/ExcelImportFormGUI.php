@@ -685,7 +685,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         $this->addCommandButton(ExcelImportGUI::CMD_PARSE_EXCEL, $this->txt("import"));
         $this->addCommandButton(ExcelImportGUI::CMD_BACK, $this->txt("cancel"));
@@ -695,7 +695,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*: void*/
+    protected function initFields() : void
     {
         $this->fields = [
             "excel_file" => [
@@ -720,7 +720,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
 
     }
@@ -729,7 +729,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->parent::getTitle());
     }
@@ -738,7 +738,7 @@ class ExcelImportFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             case "excel_file":

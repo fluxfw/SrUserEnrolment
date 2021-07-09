@@ -19,7 +19,7 @@ class GroupRuleGUI extends RuleGUI
     /**
      * @inheritDoc
      */
-    protected function ungroup()/*: void*/
+    protected function ungroup() : void
     {
         die();
     }

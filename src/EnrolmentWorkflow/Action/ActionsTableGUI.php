@@ -73,7 +73,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @param AbstractAction $action
      */
-    protected function fillRow(/*AbstractAction*/ $action)/*: void*/
+    protected function fillRow(/*AbstractAction*/ $action) : void
     {
         self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_TYPE, $action->getType());
         self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_ID, $action->getActionId());
@@ -171,7 +171,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initColumns()/*: void*/
+    protected function initColumns() : void
     {
         $this->addColumn("");
 
@@ -186,7 +186,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("add_action"), self::dic()->ctrl()
             ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_ADD_ACTION)));
@@ -201,7 +201,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initData()/*: void*/
+    protected function initData() : void
     {
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
@@ -213,7 +213,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initFilterFields()/*: void*/
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [];
     }
@@ -222,7 +222,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
         $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_actions");
     }
@@ -231,7 +231,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("actions"));
     }

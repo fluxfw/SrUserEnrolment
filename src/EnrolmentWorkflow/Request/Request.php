@@ -155,7 +155,7 @@ class Request extends ActiveRecord
     /**
      * @param int $responsible_user_id
      */
-    public function addResponsibleUser(int $responsible_user_id)/*:void*/
+    public function addResponsibleUser(int $responsible_user_id) : void
     {
         if (!in_array($responsible_user_id, $this->responsible_users)) {
             $this->responsible_users[] = $responsible_user_id;
@@ -202,7 +202,7 @@ class Request extends ActiveRecord
     /**
      * @return int|null
      */
-    public function getEditedTime()/* : ?int*/
+    public function getEditedTime() : ?int
     {
         return $this->accept_time;
     }
@@ -220,7 +220,7 @@ class Request extends ActiveRecord
     /**
      * @return int|null
      */
-    public function getEditedUserId()/* : int*/
+    public function getEditedUserId() : int
     {
         return $this->accept_user_id;
     }
@@ -279,7 +279,7 @@ class Request extends ActiveRecord
     /**
      * @param int $obj_id
      */
-    public function setObjId(int $obj_id)/* : void*/
+    public function setObjId(int $obj_id) : void
     {
         $this->obj_id = $obj_id;
     }
@@ -297,7 +297,7 @@ class Request extends ActiveRecord
     /**
      * @param int $obj_ref_id
      */
-    public function setObjRefId(int $obj_ref_id)/* : void*/
+    public function setObjRefId(int $obj_ref_id) : void
     {
         $this->obj_ref_id = $obj_ref_id;
     }
@@ -333,7 +333,7 @@ class Request extends ActiveRecord
     /**
      * @param int $request_id
      */
-    public function setRequestId(int $request_id)/* : void*/
+    public function setRequestId(int $request_id) : void
     {
         $this->request_id = $request_id;
     }
@@ -371,7 +371,7 @@ class Request extends ActiveRecord
     /**
      * @param int[] $responsible_users
      */
-    public function setResponsibleUsers(array $responsible_users)/* : void*/
+    public function setResponsibleUsers(array $responsible_users) : void
     {
         $this->responsible_users = array_map("intval", array_values($responsible_users));
     }
@@ -380,7 +380,7 @@ class Request extends ActiveRecord
     /**
      * @return Step|null
      */
-    public function getStep()/*:?Step*/
+    public function getStep() : ?Step
     {
         return self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById($this->step_id);
     }
@@ -398,7 +398,7 @@ class Request extends ActiveRecord
     /**
      * @param int $step_id
      */
-    public function setStepId(int $step_id)/* : void*/
+    public function setStepId(int $step_id) : void
     {
         $this->step_id = $step_id;
     }
@@ -425,7 +425,7 @@ class Request extends ActiveRecord
     /**
      * @param int $user_id
      */
-    public function setUserId(int $user_id)/* : void*/
+    public function setUserId(int $user_id) : void
     {
         $this->user_id = $user_id;
     }
@@ -434,7 +434,7 @@ class Request extends ActiveRecord
     /**
      * @return Workflow|null
      */
-    public function getWorkflow()/*:?Workflow*/
+    public function getWorkflow() : ?Workflow
     {
         return self::srUserEnrolment()->enrolmentWorkflow()->workflows()->getWorkflowById($this->getStep()->getWorkflowId());
     }
@@ -452,7 +452,7 @@ class Request extends ActiveRecord
     /**
      * @param int $created_time
      */
-    public function setCreatedTime(int $created_time)/* : void*/
+    public function setCreatedTime(int $created_time) : void
     {
         $this->create_time = $created_time;
     }
@@ -461,7 +461,7 @@ class Request extends ActiveRecord
     /**
      * @param int $created_user_id
      */
-    public function setCreatedUserId(int $created_user_id)/* : void*/
+    public function setCreatedUserId(int $created_user_id) : void
     {
         $this->create_user_id = $created_user_id;
     }
@@ -470,7 +470,7 @@ class Request extends ActiveRecord
     /**
      * @param bool $edited
      */
-    public function setEdited(bool $edited)/* : void*/
+    public function setEdited(bool $edited) : void
     {
         $this->accepted = $edited;
     }
@@ -479,7 +479,7 @@ class Request extends ActiveRecord
     /**
      * @param int|null $edited_time
      */
-    public function setEditedTime(/*?*/ int $edited_time = null)/* : void*/
+    public function setEditedTime(/*?*/ int $edited_time = null) : void
     {
         $this->accept_time = $edited_time;
     }
@@ -488,7 +488,7 @@ class Request extends ActiveRecord
     /**
      * @param int|null $edited_user_id
      */
-    public function setEditedUserId(/*?*/ int $edited_user_id = null)/* : void*/
+    public function setEditedUserId(/*?*/ int $edited_user_id = null) : void
     {
         $this->accept_user_id = $edited_user_id;
     }

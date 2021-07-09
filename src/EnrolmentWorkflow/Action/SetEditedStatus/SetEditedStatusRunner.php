@@ -31,7 +31,7 @@ class SetEditedStatusRunner extends AbstractActionRunner
     /**
      * @inheritDoc
      */
-    public function run(Request $request)/*:void*/
+    public function run(Request $request) : void
     {
         $requested_group = $request->getRequestGroup();
 

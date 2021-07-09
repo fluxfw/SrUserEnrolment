@@ -77,7 +77,7 @@ class StepFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         if (!empty($this->step->getStepId())) {
             $this->addCommandButton(StepGUI::CMD_UPDATE_STEP, $this->txt("save"));
@@ -91,7 +91,7 @@ class StepFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*: void*/
+    protected function initFields() : void
     {
         $this->fields = [
             "enabled"            => [
@@ -134,7 +134,7 @@ class StepFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
 
     }
@@ -143,7 +143,7 @@ class StepFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt(!empty($this->step->getStepId()) ? "edit_step" : "add_step"));
     }
@@ -152,7 +152,7 @@ class StepFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             default:

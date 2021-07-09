@@ -36,7 +36,7 @@ class MoveToWorkflowFormGUI extends AbstractActionFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*:void*/
+    protected function initFields() : void
     {
         parent::initFields();
 

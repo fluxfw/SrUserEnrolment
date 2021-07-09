@@ -51,7 +51,7 @@ final class Repository
     /**
      * @param Step $step
      */
-    public function deleteStep(Step $step)/*: void*/
+    public function deleteStep(Step $step) : void
     {
         $step->delete();
 
@@ -67,7 +67,7 @@ final class Repository
     /**
      * @param int $workflow_id
      */
-    public function deleteSteps(int $workflow_id)/*: void*/
+    public function deleteSteps(int $workflow_id) : void
     {
         foreach ($this->getSteps($workflow_id, false) as $step) {
             $this->deleteStep($step);
@@ -78,7 +78,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(Step::TABLE_NAME, false);
     }
@@ -98,7 +98,7 @@ final class Repository
      *
      * @return Step|null
      */
-    public function getStepById(int $step_id)/*: ?Step*/
+    public function getStepById(int $step_id) : ?Step
     {
         /**
          * @var Step|null $step
@@ -220,7 +220,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         Step::updateDB();
     }
@@ -229,7 +229,7 @@ final class Repository
     /**
      * @param Step $step
      */
-    public function moveStepDown(Step $step)/*: void*/
+    public function moveStepDown(Step $step) : void
     {
         $step->setSort($step->getSort() + 15);
 
@@ -242,7 +242,7 @@ final class Repository
     /**
      * @param Step $step
      */
-    public function moveStepUp(Step $step)/*: void*/
+    public function moveStepUp(Step $step) : void
     {
         $step->setSort($step->getSort() - 15);
 
@@ -255,7 +255,7 @@ final class Repository
     /**
      * @param Step $step
      */
-    public function storeStep(Step $step)/*: void*/
+    public function storeStep(Step $step) : void
     {
         if (empty($step->getStepId())) {
             $step->setSort(((count($this->getSteps($step->getWorkflowId(), false)) + 1) * 10));
@@ -268,7 +268,7 @@ final class Repository
     /**
      * @param int $workflow_id
      */
-    protected function reSortSteps(int $workflow_id)/*: void*/
+    protected function reSortSteps(int $workflow_id) : void
     {
         $steps = $this->getSteps($workflow_id, false);
 

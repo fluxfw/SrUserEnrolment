@@ -94,7 +94,7 @@ class RequestCommentsCtrl extends AbstractCtrl
     /**
      * @inheritDoc
      */
-    protected function createComment()/*: void*/
+    protected function createComment() : void
     {
         if (!$this->parent->isSingle()) {
             parent::createComment();
@@ -105,7 +105,7 @@ class RequestCommentsCtrl extends AbstractCtrl
     /**
      * @inheritDoc
      */
-    protected function deleteComment()/*: void*/
+    protected function deleteComment() : void
     {
         if (!$this->parent->isSingle()) {
             parent::deleteComment();
@@ -116,7 +116,7 @@ class RequestCommentsCtrl extends AbstractCtrl
     /**
      * @inheritDoc
      */
-    protected function shareComment()/*: void*/
+    protected function shareComment() : void
     {
         if (!$this->parent->isSingle()) {
             parent::shareComment();
@@ -127,7 +127,7 @@ class RequestCommentsCtrl extends AbstractCtrl
     /**
      * @inheritDoc
      */
-    protected function updateComment()/*: void*/
+    protected function updateComment() : void
     {
         if (!$this->parent->isSingle()) {
             parent::updateComment();

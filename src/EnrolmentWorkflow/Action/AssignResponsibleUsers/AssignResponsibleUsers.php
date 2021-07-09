@@ -125,7 +125,7 @@ class AssignResponsibleUsers extends AbstractAction
     /**
      * @param int[] $assign_positions
      */
-    public function setAssignPositions(array $assign_positions)/* : void*/
+    public function setAssignPositions(array $assign_positions) : void
     {
         $this->assign_positions = $assign_positions;
     }
@@ -143,7 +143,7 @@ class AssignResponsibleUsers extends AbstractAction
     /**
      * @param array $assign_positions_udf
      */
-    public function setAssignPositionsUdf(array $assign_positions_udf)/* : void*/
+    public function setAssignPositionsUdf(array $assign_positions_udf) : void
     {
         $this->assign_positions_udf = $assign_positions_udf;
     }
@@ -161,7 +161,7 @@ class AssignResponsibleUsers extends AbstractAction
     /**
      * @param int[] $global_roles
      */
-    public function setGlobalRoles(array $global_roles)/* : void*/
+    public function setGlobalRoles(array $global_roles) : void
     {
         $this->global_roles = $global_roles;
     }
@@ -179,7 +179,7 @@ class AssignResponsibleUsers extends AbstractAction
     /**
      * @param int[] $specific_users
      */
-    public function setSpecificUsers(array $specific_users)/* : void*/
+    public function setSpecificUsers(array $specific_users) : void
     {
         $this->specific_users = $specific_users;
     }
@@ -197,7 +197,7 @@ class AssignResponsibleUsers extends AbstractAction
     /**
      * @param int $users_type
      */
-    public function setUsersType(int $users_type)/* : void*/
+    public function setUsersType(int $users_type) : void
     {
         $this->users_type = $users_type;
     }
@@ -215,7 +215,7 @@ class AssignResponsibleUsers extends AbstractAction
     /**
      * @param bool $assign_positions_recursive
      */
-    public function setAssignPositionsRecursive(bool $assign_positions_recursive)/* : void*/
+    public function setAssignPositionsRecursive(bool $assign_positions_recursive) : void
     {
         $this->assign_positions_recursive = $assign_positions_recursive;
     }

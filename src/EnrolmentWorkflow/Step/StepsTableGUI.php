@@ -70,7 +70,7 @@ class StepsTableGUI extends TableGUI
     /**
      * @param Step $step
      */
-    protected function fillRow(/*Step*/ $step)/*: void*/
+    protected function fillRow(/*Step*/ $step) : void
     {
         self::dic()->ctrl()->setParameterByClass(StepGUI::class, StepGUI::GET_PARAM_STEP_ID, $step->getStepId());
 
@@ -160,7 +160,7 @@ class StepsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initColumns()/*: void*/
+    protected function initColumns() : void
     {
         $this->addColumn("");
 
@@ -175,7 +175,7 @@ class StepsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("add_step"), self::dic()->ctrl()
             ->getLinkTargetByClass(StepGUI::class, StepGUI::CMD_ADD_STEP)));
@@ -190,7 +190,7 @@ class StepsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initData()/*: void*/
+    protected function initData() : void
     {
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
@@ -202,7 +202,7 @@ class StepsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initFilterFields()/*: void*/
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [];
     }
@@ -211,7 +211,7 @@ class StepsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
         $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_steps");
     }
@@ -220,7 +220,7 @@ class StepsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("steps"));
     }

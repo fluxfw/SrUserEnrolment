@@ -109,7 +109,7 @@ class RequestInfoGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
 
@@ -180,7 +180,7 @@ class RequestInfoGUI
     /**
      *
      */
-    protected function addResponsibleUsers()/*:void*/
+    protected function addResponsibleUsers() : void
     {
         if (!(!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId())))) {
             die();
@@ -206,7 +206,7 @@ class RequestInfoGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         if ($this->single) {
             self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class);
@@ -219,7 +219,7 @@ class RequestInfoGUI
     /**
      *
      */
-    protected function createResponsibleUsers()/*:void*/
+    protected function createResponsibleUsers() : void
     {
         if (!$this->single && !empty(self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepsForEditRequest($this->request, self::dic()->user()->getId()))) {
             $user_ids = filter_input(INPUT_POST, "responsible_" . RequestStepGUI::GET_PARAM_USER_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
@@ -247,7 +247,7 @@ class RequestInfoGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 
@@ -279,7 +279,7 @@ class RequestInfoGUI
     /**
      *
      */
-    protected function showWorkflow()/*: void*/
+    protected function showWorkflow() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_WORKFLOW);
 

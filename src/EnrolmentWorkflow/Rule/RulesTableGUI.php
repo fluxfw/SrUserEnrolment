@@ -80,7 +80,7 @@ class RulesTableGUI extends TableGUI
     /**
      * @param AbstractRule $rule
      */
-    protected function fillRow(/*AbstractRule*/ $rule)/*: void*/
+    protected function fillRow(/*AbstractRule*/ $rule) : void
     {
         self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_TYPE . $this->parent_obj->getParentContext(), $rule->getRuleType());
         self::dic()->ctrl()->setParameterByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::GET_PARAM_RULE_ID . $this->parent_obj->getParentContext(), $rule->getRuleId());
@@ -186,7 +186,7 @@ class RulesTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initColumns()/*: void*/
+    protected function initColumns() : void
     {
         $this->addColumn("");
 
@@ -201,7 +201,7 @@ class RulesTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("add_rule"), self::dic()->ctrl()
             ->getLinkTargetByClass($this->parent_obj->getRuleGUIClass(), RuleGUI::CMD_ADD_RULE)));
@@ -219,7 +219,7 @@ class RulesTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initData()/*: void*/
+    protected function initData() : void
     {
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
@@ -234,7 +234,7 @@ class RulesTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initFilterFields()/*: void*/
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [];
     }
@@ -243,7 +243,7 @@ class RulesTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
         $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_rules");
     }
@@ -252,7 +252,7 @@ class RulesTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("type_" . AbstractRule::TYPES[$this->parent_obj->getParentContext()][$this->parent_obj->getType()]));
     }

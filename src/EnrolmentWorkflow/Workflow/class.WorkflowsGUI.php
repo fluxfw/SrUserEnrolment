@@ -46,7 +46,7 @@ class WorkflowsGUI
     /**
      *
      */
-    public static function addTabs()/*: void*/
+    public static function addTabs() : void
     {
         if (self::srUserEnrolment()->enrolmentWorkflow()->hasAccess(self::dic()->user()->getId(), false)) {
             self::dic()->tabs()->addTab(self::TAB_LIST_WORKFLOWS, self::plugin()->translate("workflows", self::LANG_MODULE), self::dic()->ctrl()
@@ -61,7 +61,7 @@ class WorkflowsGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         if (!self::srUserEnrolment()->enrolmentWorkflow()->hasAccess(self::dic()->user()->getId(), false)) {
             die();
@@ -99,7 +99,7 @@ class WorkflowsGUI
     /**
      *
      */
-    protected function disableWorkflows()/*: void*/
+    protected function disableWorkflows() : void
     {
         $workflow_ids = filter_input(INPUT_POST, WorkflowGUI::GET_PARAM_WORKFLOW_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -129,7 +129,7 @@ class WorkflowsGUI
     /**
      *
      */
-    protected function enableWorkflows()/*: void*/
+    protected function enableWorkflows() : void
     {
         $workflow_ids = filter_input(INPUT_POST, WorkflowGUI::GET_PARAM_WORKFLOW_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -159,7 +159,7 @@ class WorkflowsGUI
     /**
      *
      */
-    protected function listWorkflows()/*: void*/
+    protected function listWorkflows() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_WORKFLOWS);
 
@@ -172,7 +172,7 @@ class WorkflowsGUI
     /**
      *
      */
-    protected function removeWorkflows()/*: void*/
+    protected function removeWorkflows() : void
     {
         $workflow_ids = filter_input(INPUT_POST, WorkflowGUI::GET_PARAM_WORKFLOW_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -200,7 +200,7 @@ class WorkflowsGUI
     /**
      *
      */
-    protected function removeWorkflowsConfirm()/*: void*/
+    protected function removeWorkflowsConfirm() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_WORKFLOWS);
 
@@ -237,7 +237,7 @@ class WorkflowsGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
 
     }

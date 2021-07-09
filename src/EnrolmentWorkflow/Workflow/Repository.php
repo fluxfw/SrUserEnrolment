@@ -49,7 +49,7 @@ final class Repository
     /**
      * @param Workflow $workflow
      */
-    public function deleteWorkflow(Workflow $workflow)/*: void*/
+    public function deleteWorkflow(Workflow $workflow) : void
     {
         $workflow->delete();
 
@@ -61,7 +61,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(Workflow::TABLE_NAME, false);
     }
@@ -81,7 +81,7 @@ final class Repository
      *
      * @return Workflow|null
      */
-    public function getWorkflowById(int $workflow_id)/*: ?Workflow*/
+    public function getWorkflowById(int $workflow_id) : ?Workflow
     {
         /**
          * @var Workflow|null $workflow
@@ -113,7 +113,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         Workflow::updateDB();
     }
@@ -122,7 +122,7 @@ final class Repository
     /**
      * @param Workflow $workflow
      */
-    public function storeWorkflow(Workflow $workflow)/*: void*/
+    public function storeWorkflow(Workflow $workflow) : void
     {
         $workflow->store();
 

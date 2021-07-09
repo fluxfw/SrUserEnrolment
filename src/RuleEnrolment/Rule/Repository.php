@@ -54,7 +54,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*: void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(Rule::TABLE_NAME, false);
         self::dic()->database()->dropTable(Rule::TABLE_NAME_ENROLLED, false);
@@ -74,7 +74,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*: void*/
+    public function installTables() : void
     {
         if (self::dic()->database()->tableExists(Rule::TABLE_NAME)) {
 

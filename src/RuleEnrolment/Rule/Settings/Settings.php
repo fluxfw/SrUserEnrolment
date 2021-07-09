@@ -95,7 +95,7 @@ class Settings extends ActiveRecord
     /**
      * @param int $obj_id
      */
-    public function setObjId(int $obj_id)/* : void*/
+    public function setObjId(int $obj_id) : void
     {
         $this->obj_id = $obj_id;
     }
@@ -113,7 +113,7 @@ class Settings extends ActiveRecord
     /**
      * @param bool $unenroll
      */
-    public function setUnenroll(bool $unenroll)/* : void*/
+    public function setUnenroll(bool $unenroll) : void
     {
         $this->unenroll = $unenroll;
     }
@@ -131,7 +131,7 @@ class Settings extends ActiveRecord
     /**
      * @param bool $update_enroll_type
      */
-    public function setUpdateEnrollType(bool $update_enroll_type)/* : void*/
+    public function setUpdateEnrollType(bool $update_enroll_type) : void
     {
         $this->update_enroll_type = $update_enroll_type;
     }

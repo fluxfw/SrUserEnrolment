@@ -170,7 +170,7 @@ class Member extends ActiveRecord
     /**
      * @param array $additional_data
      */
-    public function setAdditionalData(array $additional_data)/* : void*/
+    public function setAdditionalData(array $additional_data) : void
     {
         $this->additional_data = $additional_data;
     }
@@ -207,7 +207,7 @@ class Member extends ActiveRecord
     /**
      * @param int $created_time
      */
-    public function setCreatedTime(int $created_time)/* : void*/
+    public function setCreatedTime(int $created_time) : void
     {
         $this->created_time = $created_time;
     }
@@ -234,7 +234,7 @@ class Member extends ActiveRecord
     /**
      * @param int $created_user_id
      */
-    public function setCreatedUserId(int $created_user_id)/* : void*/
+    public function setCreatedUserId(int $created_user_id) : void
     {
         $this->created_user_id = $created_user_id;
     }
@@ -243,7 +243,7 @@ class Member extends ActiveRecord
     /**
      * @return int|null
      */
-    public function getEnrollmentTime()/* : ?int*/
+    public function getEnrollmentTime() : ?int
     {
         return $this->enrollment_time;
     }
@@ -252,7 +252,7 @@ class Member extends ActiveRecord
     /**
      * @param int|null $enrollment_time
      */
-    public function setEnrollmentTime(/*?*/ int $enrollment_time = null)/* : void*/
+    public function setEnrollmentTime(/*?*/ int $enrollment_time = null) : void
     {
         $this->enrollment_time = $enrollment_time;
     }
@@ -261,7 +261,7 @@ class Member extends ActiveRecord
     /**
      * @return int|null
      */
-    public function getLpStatus()/* : ?int*/
+    public function getLpStatus() : ?int
     {
         if ($this->getType() === self::TYPE_REQUEST) {
             return null;
@@ -283,7 +283,7 @@ class Member extends ActiveRecord
     /**
      * @param int $member_id
      */
-    public function setMemberId(int $member_id)/* : void*/
+    public function setMemberId(int $member_id) : void
     {
         $this->member_id = $member_id;
     }
@@ -301,7 +301,7 @@ class Member extends ActiveRecord
     /**
      * @param int $obj_id
      */
-    public function setObjId(int $obj_id)/* : void*/
+    public function setObjId(int $obj_id) : void
     {
         $this->obj_id = $obj_id;
     }
@@ -319,7 +319,7 @@ class Member extends ActiveRecord
     /**
      * @param int $obj_ref_id
      */
-    public function setObjRefId(int $obj_ref_id)/* : void*/
+    public function setObjRefId(int $obj_ref_id) : void
     {
         $this->obj_ref_id = $obj_ref_id;
     }
@@ -337,7 +337,7 @@ class Member extends ActiveRecord
     /**
      * @return Request|null
      */
-    public function getRequest()/*:Request|null*/
+    public function getRequest() : ?Request
     {
         if ($this->getType() !== self::TYPE_REQUEST) {
             return null;
@@ -379,7 +379,7 @@ class Member extends ActiveRecord
     /**
      * @param int $updated_time
      */
-    public function setUpdatedTime(int $updated_time)/* : void*/
+    public function setUpdatedTime(int $updated_time) : void
     {
         $this->updated_time = $updated_time;
     }
@@ -406,7 +406,7 @@ class Member extends ActiveRecord
     /**
      * @param int $updated_user_id
      */
-    public function setUpdatedUserId(int $updated_user_id)/* : void*/
+    public function setUpdatedUserId(int $updated_user_id) : void
     {
         $this->updated_user_id = $updated_user_id;
     }
@@ -433,7 +433,7 @@ class Member extends ActiveRecord
     /**
      * @param int $usr_id
      */
-    public function setUsrId(int $usr_id)/* : void*/
+    public function setUsrId(int $usr_id) : void
     {
         $this->usr_id = $usr_id;
     }
@@ -442,7 +442,7 @@ class Member extends ActiveRecord
     /**
      * @return bool|null
      */
-    public function isLpCompleted()/* : ?bool*/
+    public function isLpCompleted() : ?bool
     {
         if ($this->getType() === self::TYPE_REQUEST) {
             return null;
@@ -460,7 +460,7 @@ class Member extends ActiveRecord
      * @param string $key
      * @param mixed  $value
      */
-    public function setAdditionalDataValue(string $key, $value)/* : void*/
+    public function setAdditionalDataValue(string $key, $value) : void
     {
         $this->additional_data[$key] = $value;
     }
@@ -470,7 +470,7 @@ class Member extends ActiveRecord
      * @param string $key
      * @param bool   $checked
      */
-    public function setAdditionalDataValueCustomChecked(string $key, bool $checked)/*:void*/
+    public function setAdditionalDataValueCustomChecked(string $key, bool $checked) : void
     {
         if (is_bool($this->additional_data[$key])) {
             $this->setAdditionalDataValue($key, $checked);
@@ -481,7 +481,7 @@ class Member extends ActiveRecord
     /**
      * @param bool $completed
      */
-    public function setLpCompleted(bool $completed)/*:void*/
+    public function setLpCompleted(bool $completed) : void
     {
         if ($this->getType() === self::TYPE_REQUEST) {
             return;
@@ -499,7 +499,7 @@ class Member extends ActiveRecord
     /**
      * @param int $lp_status
      */
-    public function setLpStatus(int $lp_status)/*:void*/
+    public function setLpStatus(int $lp_status) : void
     {
         if ($this->getType() === self::TYPE_REQUEST) {
             return;

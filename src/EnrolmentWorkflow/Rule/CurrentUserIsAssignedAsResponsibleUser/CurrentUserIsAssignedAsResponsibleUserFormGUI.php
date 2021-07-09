@@ -32,7 +32,7 @@ class CurrentUserIsAssignedAsResponsibleUserFormGUI extends AbstractRuleFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*:void*/
+    protected function initFields() : void
     {
         parent::initFields();
 

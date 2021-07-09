@@ -40,7 +40,7 @@ abstract class AbstractRequestsTableModifications
      *
      * @return string|null
      */
-    public abstract function formatColumnValue(string $column, Request $request)/*:?string*/ ;
+    public abstract function formatColumnValue(string $column, Request $request) : ?string;
 
 
     /**

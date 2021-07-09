@@ -55,7 +55,7 @@ class EditRequestGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
 
@@ -99,7 +99,7 @@ class EditRequestGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
 
@@ -110,7 +110,7 @@ class EditRequestGUI
     /**
      *
      */
-    protected function confirmEditRequest()/*: void*/
+    protected function confirmEditRequest() : void
     {
         $confirmation = new ilConfirmationGUI();
 
@@ -129,7 +129,7 @@ class EditRequestGUI
     /**
      *
      */
-    protected function editRequest()/*: void*/
+    protected function editRequest() : void
     {
         $required_data_fields = self::srUserEnrolment()->requiredData()->fields()->getFields(Step::REQUIRED_DATA_PARENT_CONTEXT_STEP, $this->step->getStepId());
 
@@ -164,7 +164,7 @@ class EditRequestGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->toolbar()->items = [];
     }

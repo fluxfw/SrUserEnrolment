@@ -48,7 +48,7 @@ class FillCtrl extends AbstractFillCtrl
     /**
      * @inheritDoc
      */
-    protected function back()/* : void*/
+    protected function back() : void
     {
         switch ($this->return) {
             case self::RETURN_REQUEST_STEP:
@@ -68,7 +68,7 @@ class FillCtrl extends AbstractFillCtrl
     /**
      * @inheritDoc
      */
-    protected function cancel()/* : void*/
+    protected function cancel() : void
     {
         switch ($this->return) {
             case self::RETURN_REQUEST_STEP:

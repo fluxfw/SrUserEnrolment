@@ -71,7 +71,7 @@ class WorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         if (!empty($this->workflow->getWorkflowId())) {
             $this->addCommandButton(WorkflowGUI::CMD_UPDATE_WORKFLOW, $this->txt("save"));
@@ -85,7 +85,7 @@ class WorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*: void*/
+    protected function initFields() : void
     {
         $this->fields = [
             "enabled" => [
@@ -103,7 +103,7 @@ class WorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
 
     }
@@ -112,7 +112,7 @@ class WorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt(!empty($this->workflow->getWorkflowId()) ? "edit_workflow" : "add_workflow"));
     }
@@ -121,7 +121,7 @@ class WorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             default:

@@ -91,7 +91,7 @@ class UDF extends AbstractRule
     /**
      * @param int $value_type
      */
-    public function setValueType(int $value_type)/* : void*/
+    public function setValueType(int $value_type) : void
     {
         $this->value_type = $value_type;
     }
@@ -109,7 +109,7 @@ class UDF extends AbstractRule
     /**
      * @param bool $process_empty_values
      */
-    public function setProcessEmptyValues(bool $process_empty_values)/* : void*/
+    public function setProcessEmptyValues(bool $process_empty_values) : void
     {
         $this->process_empty_values = $process_empty_values;
     }

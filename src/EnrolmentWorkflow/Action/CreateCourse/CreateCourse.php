@@ -96,7 +96,7 @@ class CreateCourse extends AbstractAction
     /**
      * @param string $field_course_end
      */
-    public function setFieldCourseEnd(string $field_course_end)/* : void*/
+    public function setFieldCourseEnd(string $field_course_end) : void
     {
         $this->field_course_end = $field_course_end;
     }
@@ -114,7 +114,7 @@ class CreateCourse extends AbstractAction
     /**
      * @param string $field_course_start
      */
-    public function setFieldCourseStart(string $field_course_start)/* : void*/
+    public function setFieldCourseStart(string $field_course_start) : void
     {
         $this->field_course_start = $field_course_start;
     }
@@ -132,7 +132,7 @@ class CreateCourse extends AbstractAction
     /**
      * @param string $field_course_title
      */
-    public function setFieldCourseTitle(string $field_course_title)/* : void*/
+    public function setFieldCourseTitle(string $field_course_title) : void
     {
         $this->field_course_title = $field_course_title;
     }
@@ -150,7 +150,7 @@ class CreateCourse extends AbstractAction
     /**
      * @param int $move_request_step_id
      */
-    public function setMoveRequestStepId(int $move_request_step_id)/* : void*/
+    public function setMoveRequestStepId(int $move_request_step_id) : void
     {
         $this->move_request_step_id = $move_request_step_id;
     }
@@ -168,7 +168,7 @@ class CreateCourse extends AbstractAction
     /**
      * @param int $required_data_from_step_id
      */
-    public function setRequiredDataFromStepId(int $required_data_from_step_id)/* : void*/
+    public function setRequiredDataFromStepId(int $required_data_from_step_id) : void
     {
         $this->required_data_from_step_id = $required_data_from_step_id;
     }
@@ -186,7 +186,7 @@ class CreateCourse extends AbstractAction
     /**
      * @param int $selected_workflow_id
      */
-    public function setSelectedWorkflowId(int $selected_workflow_id)/* : void*/
+    public function setSelectedWorkflowId(int $selected_workflow_id) : void
     {
         $this->selected_workflow_id = $selected_workflow_id;
     }
@@ -204,7 +204,7 @@ class CreateCourse extends AbstractAction
     /**
      * @param bool $move_request
      */
-    public function setMoveRequest(bool $move_request)/* : void*/
+    public function setMoveRequest(bool $move_request) : void
     {
         $this->move_request = $move_request;
     }

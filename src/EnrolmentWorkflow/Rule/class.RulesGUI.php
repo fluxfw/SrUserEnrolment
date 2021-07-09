@@ -66,7 +66,7 @@ class RulesGUI
     /**
      * @param int $parent_context
      */
-    public static function addTabs(int $parent_context)/*: void*/
+    public static function addTabs(int $parent_context) : void
     {
         foreach (AbstractRule::TYPES[$parent_context] as $type => $type_lang_key) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_TYPE . $parent_context, $type);
@@ -84,7 +84,7 @@ class RulesGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         self::dic()->ctrl()->saveParameter($this, self::GET_PARAM_TYPE . $this->parent_context);
         $this->type = intval(filter_input(INPUT_GET, self::GET_PARAM_TYPE . $this->parent_context));
@@ -159,7 +159,7 @@ class RulesGUI
     /**
      *
      */
-    protected function createGroupOfRules()/*:void*/
+    protected function createGroupOfRules() : void
     {
         $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -187,7 +187,7 @@ class RulesGUI
     /**
      *
      */
-    protected function disableRules()/*: void*/
+    protected function disableRules() : void
     {
         $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -219,7 +219,7 @@ class RulesGUI
     /**
      *
      */
-    protected function enableRules()/*: void*/
+    protected function enableRules() : void
     {
         $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -251,7 +251,7 @@ class RulesGUI
     /**
      *
      */
-    protected function listRules()/*: void*/
+    protected function listRules() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_RULES . $this->parent_context . "_" . $this->type);
 
@@ -264,7 +264,7 @@ class RulesGUI
     /**
      *
      */
-    protected function removeRules()/*: void*/
+    protected function removeRules() : void
     {
         $rule_ids = filter_input(INPUT_POST, RuleGUI::GET_PARAM_RULE_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -294,7 +294,7 @@ class RulesGUI
     /**
      *
      */
-    protected function removeRulesConfirm()/*: void*/
+    protected function removeRulesConfirm() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_RULES . $this->parent_context . "_" . $this->type);
 
@@ -333,7 +333,7 @@ class RulesGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
 
     }

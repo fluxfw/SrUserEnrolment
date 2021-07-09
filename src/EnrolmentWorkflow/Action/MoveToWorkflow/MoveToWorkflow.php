@@ -77,7 +77,7 @@ class MoveToWorkflow extends AbstractAction
     /**
      * @param int $move_to_step_id
      */
-    public function setMoveToStepId(int $move_to_step_id)/* : void*/
+    public function setMoveToStepId(int $move_to_step_id) : void
     {
         $this->move_to_step_id = $move_to_step_id;
     }
@@ -95,7 +95,7 @@ class MoveToWorkflow extends AbstractAction
     /**
      * @param int $move_to_workflow_id
      */
-    public function setMoveToWorkflowId(int $move_to_workflow_id)/* : void*/
+    public function setMoveToWorkflowId(int $move_to_workflow_id) : void
     {
         $this->move_to_workflow_id = $move_to_workflow_id;
     }

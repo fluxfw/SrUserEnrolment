@@ -62,7 +62,7 @@ class RuleGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->rule = self::srUserEnrolment()->enrolmentWorkflow()
             ->rules()
@@ -118,7 +118,7 @@ class RuleGUI
     /**
      *
      */
-    protected function addRule()/*: void*/
+    protected function addRule() : void
     {
         $form = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCreateFormInstance($this);
 
@@ -129,7 +129,7 @@ class RuleGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirect($this->parent, RulesGUI::CMD_LIST_RULES);
     }
@@ -138,7 +138,7 @@ class RuleGUI
     /**
      *
      */
-    protected function createRule()/*: void*/
+    protected function createRule() : void
     {
         $form = self::srUserEnrolment()->enrolmentWorkflow()->rules()->factory()->newCreateFormInstance($this);
 
@@ -162,7 +162,7 @@ class RuleGUI
     /**
      *
      */
-    protected function editRule()/*: void*/
+    protected function editRule() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_RULE);
 
@@ -197,7 +197,7 @@ class RuleGUI
     /**
      *
      */
-    protected function removeRule()/*: void*/
+    protected function removeRule() : void
     {
         self::srUserEnrolment()->enrolmentWorkflow()->rules()->deleteRule($this->rule);
 
@@ -210,7 +210,7 @@ class RuleGUI
     /**
      *
      */
-    protected function removeRuleConfirm()/*: void*/
+    protected function removeRuleConfirm() : void
     {
         $confirmation = new ilConfirmationGUI();
 
@@ -231,7 +231,7 @@ class RuleGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 
@@ -259,7 +259,7 @@ class RuleGUI
     /**
      *
      */
-    protected function ungroup()/*:void*/
+    protected function ungroup() : void
     {
         self::srUserEnrolment()->enrolmentWorkflow()->rules()->ungroup($this->rule);
 
@@ -272,7 +272,7 @@ class RuleGUI
     /**
      *
      */
-    protected function updateRule()/*: void*/
+    protected function updateRule() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_RULE);
 

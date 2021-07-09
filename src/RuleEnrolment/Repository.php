@@ -59,7 +59,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*: void*/
+    public function dropTables() : void
     {
         $this->rules()->dropTables();
     }
@@ -144,7 +144,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function getEnrolledType(int $obj_id, int $user_id)/* : ?int*/
+    public function getEnrolledType(int $obj_id, int $user_id) : ?int
     {
         $obj = self::srUserEnrolment()->getIliasObjectById($obj_id);
 
@@ -280,7 +280,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*: void*/
+    public function installTables() : void
     {
         $this->rules()->installTables();
     }
