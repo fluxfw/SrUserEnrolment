@@ -21,7 +21,7 @@ interface RowData
     /**
      * @return object
      */
-    public function getOriginalData()/* : object*/;
+    public function getOriginalData() : object;
 
 
     /**
@@ -35,7 +35,7 @@ interface RowData
      *
      * @return self
      */
-    public function withOriginalData(/*object*/ $original_data) : self;
+    public function withOriginalData(object $original_data) : self;
 
 
     /**

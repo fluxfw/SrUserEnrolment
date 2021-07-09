@@ -47,7 +47,7 @@ class SelectField extends AbstractField
     /**
      * @param array $options
      */
-    public function setOptions(array $options)/* : void*/
+    public function setOptions(array $options) : void
     {
         $this->options = $options;
     }
@@ -56,7 +56,7 @@ class SelectField extends AbstractField
     /**
      * @return array
      */
-    public function getSelectOptions(/*?string*/ $lang_key = null, bool $use_default_if_not_set = true) : array
+    public function getSelectOptions(?string $lang_key = null, bool $use_default_if_not_set = true) : array
     {
         $options = [];
 

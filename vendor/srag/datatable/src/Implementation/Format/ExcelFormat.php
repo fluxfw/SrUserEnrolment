@@ -43,7 +43,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    public function getTemplate()/* : object*/
+    public function getTemplate() : object
     {
         return (object) [
             "tpl"         => $this->tpl,
@@ -65,7 +65,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings)/* : void*/
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings) : void
     {
         $this->tpl->setCell($this->current_row, $this->current_col, $formatted_column);
 
@@ -76,7 +76,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumns(Table $component, array $columns, Settings $settings)/* : void*/
+    protected function handleColumns(Table $component, array $columns, Settings $settings) : void
     {
         $this->current_col = 0;
 
@@ -89,7 +89,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row)/* : void*/
+    protected function handleRow(Table $component, array $columns, RowData $row) : void
     {
         $this->current_col = 0;
 
@@ -102,7 +102,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRowColumn(string $formatted_row_column)/* : void*/
+    protected function handleRowColumn(string $formatted_row_column) : void
     {
         $this->tpl->setCell($this->current_row, $this->current_col, $formatted_row_column);
 
@@ -113,7 +113,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, /*?Data*/ $data, Settings $settings)/* : void*/
+    protected function initTemplate(Table $component, ?Data $data, Settings $settings) : void
     {
         $this->tpl = new ilExcel();
 

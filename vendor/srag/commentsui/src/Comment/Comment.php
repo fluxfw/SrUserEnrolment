@@ -89,59 +89,59 @@ interface Comment extends JsonSerializable
     /**
      * @param string $comment
      */
-    public function setComment(string $comment)/* : void*/;
+    public function setComment(string $comment) : void;
 
 
     /**
      * @param int $created_timestamp
      */
-    public function setCreatedTimestamp(int $created_timestamp)/* : void*/;
+    public function setCreatedTimestamp(int $created_timestamp) : void;
 
 
     /**
      * @param int $created_user_id
      */
-    public function setCreatedUserId(int $created_user_id)/* : void*/;
+    public function setCreatedUserId(int $created_user_id) : void;
 
 
     /**
      * @param bool $deleted
      */
-    public function setDeleted(bool $deleted)/* : void*/;
+    public function setDeleted(bool $deleted) : void;
 
 
     /**
      * @param int $id
      */
-    public function setId(int $id)/* : void*/;
+    public function setId(int $id) : void;
 
 
     /**
      * @param bool $is_shared
      */
-    public function setIsShared(bool $is_shared)/* : void*/;
+    public function setIsShared(bool $is_shared) : void;
 
 
     /**
      * @param int $report_obj_id
      */
-    public function setReportObjId(int $report_obj_id)/* : void*/;
+    public function setReportObjId(int $report_obj_id) : void;
 
 
     /**
      * @param int $report_user_id
      */
-    public function setReportUserId(int $report_user_id)/* : void*/;
+    public function setReportUserId(int $report_user_id) : void;
 
 
     /**
      * @param int $updated_timestamp
      */
-    public function setUpdatedTimestamp(int $updated_timestamp)/* : void*/;
+    public function setUpdatedTimestamp(int $updated_timestamp) : void;
 
 
     /**
      * @param int $updated_user_id
      */
-    public function setUpdatedUserId(int $updated_user_id)/* : void*/;
+    public function setUpdatedUserId(int $updated_user_id) : void;
 }

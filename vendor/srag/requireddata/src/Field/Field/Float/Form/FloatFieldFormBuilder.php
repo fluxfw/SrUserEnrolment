@@ -88,7 +88,7 @@ class FloatFieldFormBuilder extends IntegerFieldFormBuilder
     /**
      * @inheritDoc
      */
-    protected function storeData(array $data)/* : void*/
+    protected function storeData(array $data) : void
     {
         if (!empty($data["count_decimals"]["value"])) {
             $data["count_decimals"] = intval($data["count_decimals"]["count_decimals"]);

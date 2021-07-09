@@ -27,7 +27,7 @@ class FloatField extends IntegerField
     /**
      * @return int|null
      */
-    public function getCountDecimals()/* : ?int*/
+    public function getCountDecimals() : ?int
     {
         return $this->count_decimals;
     }
@@ -36,7 +36,7 @@ class FloatField extends IntegerField
     /**
      * @param int|null $count_decimals
      */
-    public function setCountDecimals(/*?int*/ $count_decimals = null)/* : void*/
+    public function setCountDecimals(?int $count_decimals = null) : void
     {
         $this->count_decimals = $count_decimals;
     }

@@ -39,7 +39,7 @@ interface Factory
     /**
      * @param PluginInterface $plugin
      */
-    public function installLanguages(PluginInterface $plugin)/* : void*/;
+    public function installLanguages(PluginInterface $plugin) : void;
 
 
     /**

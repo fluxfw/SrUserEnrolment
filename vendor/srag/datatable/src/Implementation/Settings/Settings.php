@@ -136,7 +136,7 @@ class Settings implements SettingsInterface
      *
      * @internal
      */
-    public function getPagination(/*?Data*/ $data) : Pagination
+    public function getPagination(?Data $data) : Pagination
     {
         return $this->pagination->withTotalEntries($data === null ? 0 : $data->getMaxCount());
     }
@@ -163,7 +163,7 @@ class Settings implements SettingsInterface
     /**
      * @inheritDoc
      */
-    public function getSortField(string $sort_field)/* : ?SortField*/
+    public function getSortField(string $sort_field) : ?SortField
     {
         $sort_field = current(array_filter($this->sort_fields, function (SortField $sort_field_) use ($sort_field) : bool {
             return ($sort_field_->getSortField() === $sort_field);

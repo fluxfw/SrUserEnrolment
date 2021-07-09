@@ -117,7 +117,7 @@ class IntegerFieldFormBuilder extends AbstractFieldFormBuilder
     /**
      * @inheritDoc
      */
-    protected function storeData(array $data)/* : void*/
+    protected function storeData(array $data) : void
     {
         if (!empty($data["min_value"]["value"])) {
             $data["min_value"] = intval($data["min_value"]["min_value"]);

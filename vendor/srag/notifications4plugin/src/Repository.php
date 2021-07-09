@@ -70,7 +70,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function dropTables()/* : void*/
+    public function dropTables() : void
     {
         $this->notifications()->dropTables();
         $this->parser()->dropTables();
@@ -120,7 +120,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installLanguages()/* : void*/
+    public function installLanguages() : void
     {
         LibraryLanguageInstaller::getInstance()->withPlugin($this->getPlugin())->withLibraryLanguageDirectory(__DIR__
             . "/../lang")->updateLanguages();
@@ -132,7 +132,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installTables()/* : void*/
+    public function installTables() : void
     {
         $this->notifications()->installTables();
         $this->parser()->installTables();

@@ -125,7 +125,7 @@ abstract class AbstractFieldFormBuilder extends AbstractFormBuilder
     /**
      * @inheritDoc
      */
-    protected function storeData(array $data)/* : void*/
+    protected function storeData(array $data) : void
     {
         foreach (array_keys($this->getFields()) as $key) {
             Items::setter($this->field, $key, $data[$key]);

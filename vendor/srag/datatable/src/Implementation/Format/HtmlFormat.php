@@ -44,7 +44,7 @@ class HtmlFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings)/* : void*/
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings) : void
     {
         $this->tpl->setVariable("HEADER", $formatted_column);
 
@@ -55,7 +55,7 @@ class HtmlFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumns(Table $component, array $columns, Settings $settings)/* : void*/
+    protected function handleColumns(Table $component, array $columns, Settings $settings) : void
     {
         $this->tpl->setCurrentBlock("header");
 
@@ -67,7 +67,7 @@ class HtmlFormat extends AbstractFormat
      * @param Data|null $data
      * @param Table     $component
      */
-    protected function handleNoDataText(/*?Data*/ $data, Table $component)/* : void*/
+    protected function handleNoDataText(?Data $data, Table $component) : void
     {
         if ($data === null || empty($data->getDataCount())) {
             $this->tpl->setCurrentBlock("no_data");
@@ -82,7 +82,7 @@ class HtmlFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row)/* : void*/
+    protected function handleRow(Table $component, array $columns, RowData $row) : void
     {
         $tpl = $this->tpl;
 
@@ -105,7 +105,7 @@ class HtmlFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRowColumn(string $formatted_row_column)/* : void*/
+    protected function handleRowColumn(string $formatted_row_column) : void
     {
         $this->tpl->setVariable("COLUMN", $formatted_row_column);
 
@@ -116,7 +116,7 @@ class HtmlFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRowTemplate(Table $component, RowData $row)/* : void*/
+    protected function handleRowTemplate(Table $component, RowData $row) : void
     {
 
     }
@@ -125,7 +125,7 @@ class HtmlFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRows(Table $component, array $columns, /*?Data*/ $data)/* : void*/
+    protected function handleRows(Table $component, array $columns, ?Data $data) : void
     {
         $this->tpl->setCurrentBlock("body");
 
@@ -136,7 +136,7 @@ class HtmlFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, /*?Data*/ $data, Settings $settings)/* : void*/
+    protected function initTemplate(Table $component, ?Data $data, Settings $settings) : void
     {
         $this->tpl = new Template(__DIR__ . "/../../../templates/tpl.datatableui.html");
 
