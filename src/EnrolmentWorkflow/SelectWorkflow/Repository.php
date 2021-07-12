@@ -129,7 +129,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function setWorkflowId(int $obj_id,/*?*/ int $workflow_id = null)/ : void
+    public function setWorkflowId(int $obj_id,/*?*/ int $workflow_id = null) : ?int
     {
         $selected_workflow = $this->getSelectedWorkflow($obj_id);
 
@@ -137,88 +137,85 @@ final class Repository
             if (!empty($workflow_id)) {
                 $selected_workflow->setWorkflowId($workflow_id);
                 $this->storeSelectedWorkflow($selected_workflow);
+            } else {
+                $this->deleteSelectedWorkflow($selected_workflow);
+                $selected_workflow = null;
             }
-
-else {
-    $this->deleteSelectedWorkflow($selected_workflow);
-    $selected_workflow = null;
-}
-} else {
-    if (!empty($workflow_id)) {
-        $selected_workflow = $this->factory()->newInstance();
-        $selected_workflow->setObjId($obj_id);
-        $selected_workflow->setWorkflowId($workflow_id);
-        $this->storeSelectedWorkflow($selected_workflow);
-    }
-}
-
-if ($selected_workflow !== null) {
-    $obj = self::srUserEnrolment()->getIliasObjectById($selected_workflow->getObjId());
-    if ($obj instanceof ilObjCourse) {
-        if (intval($obj->getSubscriptionLimitationType()) !== IL_CRS_SUBSCRIPTION_DEACTIVATED) {
-            // Modules/Course/classes/class.ilObjCourseGUI.php:912
-            $obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);
-            $obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
-
-            $obj->updateSettings();
-
-            self::dic()->language()->loadLanguageModule("crs");
-
-            ilUtil::sendInfo(self::plugin()->translate("object_setting_changed", SelectWorkflowGUI::LANG_MODULE, [
-                self::dic()->language()->txt("crs_registration_type"),
-                self::dic()->language()->txt("crs_reg_no_selfreg")
-            ]), true);
+        } else {
+            if (!empty($workflow_id)) {
+                $selected_workflow = $this->factory()->newInstance();
+                $selected_workflow->setObjId($obj_id);
+                $selected_workflow->setWorkflowId($workflow_id);
+                $this->storeSelectedWorkflow($selected_workflow);
+            }
         }
+
+        if ($selected_workflow !== null) {
+            $obj = self::srUserEnrolment()->getIliasObjectById($selected_workflow->getObjId());
+            if ($obj instanceof ilObjCourse) {
+                if (intval($obj->getSubscriptionLimitationType()) !== IL_CRS_SUBSCRIPTION_DEACTIVATED) {
+                    // Modules/Course/classes/class.ilObjCourseGUI.php:912
+                    $obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);
+                    $obj->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
+
+                    $obj->updateSettings();
+
+                    self::dic()->language()->loadLanguageModule("crs");
+
+                    ilUtil::sendInfo(self::plugin()->translate("object_setting_changed", SelectWorkflowGUI::LANG_MODULE, [
+                        self::dic()->language()->txt("crs_registration_type"),
+                        self::dic()->language()->txt("crs_reg_no_selfreg")
+                    ]), true);
+                }
+            }
+        }
+
+        return null;
     }
-}
-
-return null;
-}
 
 
-/**
- * @param SelectedWorkflow $selected_workflow
- */
-protected
-function deleteSelectedWorkflow(SelectedWorkflow $selected_workflow) : void
-{
-    $selected_workflow->delete();
-}
-
-/**
- * @param int $obj_id
- *
- * @return SelectedWorkflow|null
- */
-protected
-function getSelectedWorkflow(int $obj_id) : ?SelectedWorkflow
-{
     /**
-     * @var SelectedWorkflow|null $selected_workflow
+     * @param SelectedWorkflow $selected_workflow
      */
+    protected function deleteSelectedWorkflow(SelectedWorkflow $selected_workflow) : void
+    {
+        $selected_workflow->delete();
+    }
 
-    $selected_workflow = SelectedWorkflow::where(["obj_id" => $obj_id])->first();
 
-    return $selected_workflow;
-}
+    /**
+     * @param int $obj_id
+     *
+     * @return SelectedWorkflow|null
+     */
+    protected function getSelectedWorkflow(int $obj_id) : ?SelectedWorkflow
+    {
+        /**
+         * @var SelectedWorkflow|null $selected_workflow
+         */
 
-/**
- * @param int $workflow_id
- *
- * @return SelectedWorkflow[]
- */
-protected
-function getSelectedWorkflows(int $workflow_id) : array
-{
-    return SelectedWorkflow::where(["workflow_id" => $workflow_id])->get();
-}
+        $selected_workflow = SelectedWorkflow::where(["obj_id" => $obj_id])->first();
 
-/**
- * @param SelectedWorkflow $selected_workflow
- */
-protected
-function storeSelectedWorkflow(SelectedWorkflow $selected_workflow) : void
-{
-    $selected_workflow->store();
-}
+        return $selected_workflow;
+    }
+
+
+    /**
+     * @param int $workflow_id
+     *
+     * @return SelectedWorkflow[]
+     */
+    protected function getSelectedWorkflows(int $workflow_id) : array
+    {
+        return SelectedWorkflow::where(["workflow_id" => $workflow_id])->get();
+    }
+
+
+    /**
+     * @param SelectedWorkflow $selected_workflow
+     */
+    protected function storeSelectedWorkflow(SelectedWorkflow $selected_workflow) : void
+    {
+        $selected_workflow->store();
+    }
 }
