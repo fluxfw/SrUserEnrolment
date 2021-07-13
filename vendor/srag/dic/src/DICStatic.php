@@ -6,6 +6,7 @@ use ilLogLevel;
 use ilPlugin;
 use srag\DIC\SrUserEnrolment\DIC\DICInterface;
 use srag\DIC\SrUserEnrolment\DIC\Implementation\ILIAS60DIC;
+use srag\DIC\SrUserEnrolment\DIC\Implementation\ILIAS70DIC;
 use srag\DIC\SrUserEnrolment\Exception\DICException;
 use srag\DIC\SrUserEnrolment\Output\Output;
 use srag\DIC\SrUserEnrolment\Output\OutputInterface;
@@ -58,11 +59,15 @@ final class DICStatic implements DICStaticInterface
             switch (true) {
                 case (self::version()->isLower(VersionInterface::ILIAS_VERSION_6)):
                     throw new DICException("DIC not supports ILIAS " . self::version()->getILIASVersion() . " anymore!");
+
+                case (self::version()->isLower(VersionInterface::ILIAS_VERSION_7)):
+                    global $DIC;
+                    self::$dic = new ILIAS60DIC($DIC);
                     break;
 
                 default:
                     global $DIC;
-                    self::$dic = new ILIAS60DIC($DIC);
+                    self::$dic = new ILIAS70DIC($DIC);
                     break;
             }
         }
