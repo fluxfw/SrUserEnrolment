@@ -5,7 +5,7 @@ namespace srag\Plugins\SrUserEnrolment\Menu;
 use ilAdministrationGUI;
 use ilDBConstants;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuPluginProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilObjComponentSettingsGUI;
 use ilSrUserEnrolmentConfigGUI;
@@ -23,7 +23,7 @@ use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
  *
  * @package srag\Plugins\SrUserEnrolment\Menu
  */
-class Menu extends AbstractStaticPluginMainMenuProvider
+class Menu extends AbstractStaticMainMenuPluginProvider
 {
 
     use DICTrait;

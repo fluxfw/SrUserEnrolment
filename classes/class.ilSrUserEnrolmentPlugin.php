@@ -3,7 +3,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use ILIAS\DI\Container;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use srag\CustomInputGUIs\SrUserEnrolment\Loader\CustomInputGUIsLoaderDetector;
 use srag\DevTools\SrUserEnrolment\DevToolsCtrl;
 use srag\Plugins\SrUserEnrolment\Utils\SrUserEnrolmentTrait;
@@ -31,6 +31,10 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
      * @var self|null
      */
     protected static $instance = null;
+    /**
+     * @var PluginProviderCollection|null
+     */
+    protected static $pluginProviderCollection = null;
 
 
     /**
@@ -39,6 +43,8 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
     public function __construct()
     {
         parent::__construct();
+
+        $this->provider_collection = self::getPluginProviderCollection(); // Fix overflow
     }
 
 
@@ -52,6 +58,21 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
         }
 
         return self::$instance;
+    }
+
+
+    /**
+     * @return PluginProviderCollection
+     */
+    protected static function getPluginProviderCollection() : PluginProviderCollection
+    {
+        if (self::$pluginProviderCollection === null) {
+            self::$pluginProviderCollection = new PluginProviderCollection();
+
+            self::$pluginProviderCollection->setMainBarProvider(self::srUserEnrolment()->menu());
+        }
+
+        return self::$pluginProviderCollection;
     }
 
 
@@ -111,15 +132,6 @@ class ilSrUserEnrolmentPlugin extends ilUserInterfaceHookPlugin
             default:
                 break;
         }
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
-    {
-        return self::srUserEnrolment()->menu();
     }
 
 
