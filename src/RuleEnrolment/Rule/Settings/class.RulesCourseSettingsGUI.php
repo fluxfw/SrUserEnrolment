@@ -54,7 +54,7 @@ class RulesCourseSettingsGUI
     /**
      *
      */
-    public static function addTabs()/*:void*/
+    public static function addTabs() : void
     {
         self::dic()->tabs()->addTab(self::TAB_SETTINGS, self::plugin()->translate("settings", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass(self::class, self::CMD_EDIT_SETTINGS));
@@ -64,7 +64,7 @@ class RulesCourseSettingsGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->settings = self::srUserEnrolment()->ruleEnrolment()->rules()->settings()->getSettings($this->parent::getObjId($this->parent->getObjRefId(), $this->parent->getObjSingleId()));
 
@@ -102,7 +102,7 @@ class RulesCourseSettingsGUI
     /**
      *
      */
-    protected function editSettings()/*: void*/
+    protected function editSettings() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_SETTINGS);
 
@@ -115,7 +115,7 @@ class RulesCourseSettingsGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
 
     }
@@ -124,7 +124,7 @@ class RulesCourseSettingsGUI
     /**
      *
      */
-    protected function updateSettings()/*: void*/
+    protected function updateSettings() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_SETTINGS);
 

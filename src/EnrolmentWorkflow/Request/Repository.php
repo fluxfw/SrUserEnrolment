@@ -82,7 +82,7 @@ final class Repository
     /**
      * @param Request $request
      */
-    public function deleteRequest(Request $request)/*: void*/
+    public function deleteRequest(Request $request) : void
     {
         $request->delete();
 
@@ -93,7 +93,7 @@ final class Repository
     /**
      * @param RequestGroup $request_group
      */
-    public function deleteRequestGroup(RequestGroup $request_group)/*: void*/
+    public function deleteRequestGroup(RequestGroup $request_group) : void
     {
         $request_group->delete();
 
@@ -106,7 +106,7 @@ final class Repository
     /**
      * @param int $step_id
      */
-    public function deleteRequests(int $step_id)/*: void*/
+    public function deleteRequests(int $step_id) : void
     {
         foreach ($this->getRequests(null, $step_id, null, false) as $request) {
             $this->deleteRequest($request);
@@ -117,7 +117,7 @@ final class Repository
     /**
      * @param int $user_id
      */
-    public function deleteUserRequests(int $user_id)/*: void*/
+    public function deleteUserRequests(int $user_id) : void
     {
         foreach ($this->getRequestGroups(null, [$user_id]) as $request_group) {
             $this->deleteRequestGroup($request_group);
@@ -128,7 +128,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(Request::TABLE_NAME, false);
         self::dic()->database()->dropTable(RequestGroup::TABLE_NAME, false);
@@ -195,7 +195,7 @@ final class Repository
      *
      * @return Request|null
      */
-    public function getRequest(int $obj_ref_id, int $step_id, int $user_id)/*:?Request*/
+    public function getRequest(int $obj_ref_id, int $step_id, int $user_id) : ?Request
     {
         /**
          * @var Request|null $request
@@ -212,7 +212,7 @@ final class Repository
      *
      * @return Request|null
      */
-    public function getRequestById(int $request_id)/*: ?Request*/
+    public function getRequestById(int $request_id) : ?Request
     {
         /**
          * @var Request|null $request
@@ -400,7 +400,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         Request::updateDB();
         RequestGroup::updateDB();
@@ -457,7 +457,7 @@ final class Repository
     /**
      * @param Request $request
      */
-    public function storeRequest(Request $request)/*: void*/
+    public function storeRequest(Request $request) : void
     {
         if (empty($request->getRequestId())) {
             $request->setCreatedTime(time());
@@ -483,7 +483,7 @@ final class Repository
     /**
      * @param RequestGroup $request_group
      */
-    public function storeRequestGroup(RequestGroup $request_group)/*: void*/
+    public function storeRequestGroup(RequestGroup $request_group) : void
     {
         $time = time();
 

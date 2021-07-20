@@ -64,7 +64,7 @@ class ActionGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->action = self::srUserEnrolment()->enrolmentWorkflow()->actions()->getActionById(strval(filter_input(INPUT_GET, self::GET_PARAM_ACTION_TYPE)),
             intval(filter_input(INPUT_GET, self::GET_PARAM_ACTION_ID)));
@@ -121,7 +121,7 @@ class ActionGUI
     /**
      *
      */
-    protected function addAction()/*: void*/
+    protected function addAction() : void
     {
         $form = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newCreateFormInstance($this);
 
@@ -132,7 +132,7 @@ class ActionGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirectByClass(ActionsGUI::class, ActionsGUI::CMD_LIST_ACTIONS);
     }
@@ -141,7 +141,7 @@ class ActionGUI
     /**
      *
      */
-    protected function createAction()/*: void*/
+    protected function createAction() : void
     {
         $form = self::srUserEnrolment()->enrolmentWorkflow()->actions()->factory()->newCreateFormInstance($this);
 
@@ -165,7 +165,7 @@ class ActionGUI
     /**
      *
      */
-    protected function editAction()/*: void*/
+    protected function editAction() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_ACTION);
 
@@ -200,7 +200,7 @@ class ActionGUI
     /**
      *
      */
-    protected function removeAction()/*: void*/
+    protected function removeAction() : void
     {
         self::srUserEnrolment()->enrolmentWorkflow()->actions()->deleteAction($this->action);
 
@@ -213,7 +213,7 @@ class ActionGUI
     /**
      *
      */
-    protected function removeActionConfirm()/*: void*/
+    protected function removeActionConfirm() : void
     {
         $confirmation = new ilConfirmationGUI();
 
@@ -234,7 +234,7 @@ class ActionGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 
@@ -263,7 +263,7 @@ class ActionGUI
     /**
      *
      */
-    protected function updateAction()/*: void*/
+    protected function updateAction() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_ACTION);
 

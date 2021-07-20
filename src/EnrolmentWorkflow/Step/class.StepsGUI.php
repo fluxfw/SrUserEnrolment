@@ -52,7 +52,7 @@ class StepsGUI
     /**
      *
      */
-    public static function addTabs()/*: void*/
+    public static function addTabs() : void
     {
         self::dic()->tabs()->addTab(self::TAB_LIST_STEPS, self::plugin()->translate("steps", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass(self::class, self::CMD_LIST_STEPS));
@@ -62,7 +62,7 @@ class StepsGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->setTabs();
 
@@ -105,7 +105,7 @@ class StepsGUI
     /**
      *
      */
-    protected function disableSteps()/*: void*/
+    protected function disableSteps() : void
     {
         $step_ids = filter_input(INPUT_POST, StepGUI::GET_PARAM_STEP_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -135,7 +135,7 @@ class StepsGUI
     /**
      *
      */
-    protected function enableSteps()/*: void*/
+    protected function enableSteps() : void
     {
         $step_ids = filter_input(INPUT_POST, StepGUI::GET_PARAM_STEP_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -165,7 +165,7 @@ class StepsGUI
     /**
      *
      */
-    protected function listSteps()/*: void*/
+    protected function listSteps() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_STEPS);
 
@@ -178,7 +178,7 @@ class StepsGUI
     /**
      *
      */
-    protected function removeSteps()/*: void*/
+    protected function removeSteps() : void
     {
         $step_ids = filter_input(INPUT_POST, StepGUI::GET_PARAM_STEP_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -206,7 +206,7 @@ class StepsGUI
     /**
      *
      */
-    protected function removeStepsConfirm()/*: void*/
+    protected function removeStepsConfirm() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_STEPS);
 
@@ -243,7 +243,7 @@ class StepsGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
 
     }

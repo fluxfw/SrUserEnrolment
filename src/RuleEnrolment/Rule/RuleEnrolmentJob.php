@@ -64,7 +64,7 @@ class RuleEnrolmentJob extends ilCronJob
     /**
      * @inheritDoc
      */
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)/*:void*/
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         $continue_on_crash = new ilCheckboxInputGUI(self::plugin()->translate(self::KEY_CONTINUE_ON_CRASH, RulesGUI::LANG_MODULE), self::KEY_CONTINUE_ON_CRASH);
         $continue_on_crash->setInfo(nl2br(self::plugin()->translate(self::KEY_CONTINUE_ON_CRASH . "_info", RulesGUI::LANG_MODULE), false));
@@ -85,7 +85,7 @@ class RuleEnrolmentJob extends ilCronJob
     /**
      * @inheritDoc
      */
-    public function getDefaultScheduleValue()/*:?int*/
+    public function getDefaultScheduleValue() : ?int
     {
         return 12;
     }
@@ -298,7 +298,7 @@ class RuleEnrolmentJob extends ilCronJob
     /**
      * @param int $continue_on_crash_rule
      */
-    protected function addContinueOnCrashRule(int $continue_on_crash_rule)/*:void*/
+    protected function addContinueOnCrashRule(int $continue_on_crash_rule) : void
     {
         if ($this->isContinueOnCrash()) {
             $this->continue_on_crash_rules[] = $continue_on_crash_rule;
@@ -324,7 +324,7 @@ class RuleEnrolmentJob extends ilCronJob
     /**
      * @param array $continue_on_crash_rules
      */
-    protected function setContinueOnCrashRules(array $continue_on_crash_rules)/*:void*/
+    protected function setContinueOnCrashRules(array $continue_on_crash_rules) : void
     {
         if ($this->isContinueOnCrash()) {
             $this->continue_on_crash_rules = $continue_on_crash_rules;
@@ -373,7 +373,7 @@ class RuleEnrolmentJob extends ilCronJob
     /**
      *
      */
-    protected function saveContinueOnCrashRules()/*:void*/
+    protected function saveContinueOnCrashRules() : void
     {
         self::srUserEnrolment()->config()->setValue(self::KEY_CONTINUE_ON_CRASH_RULES, $this->continue_on_crash_rules);
     }

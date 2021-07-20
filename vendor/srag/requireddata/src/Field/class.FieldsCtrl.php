@@ -54,7 +54,7 @@ class FieldsCtrl
     /**
      *
      */
-    public static function addTabs()/* : void*/
+    public static function addTabs() : void
     {
         self::dic()->tabs()->addTab(self::TAB_LIST_FIELDS, self::requiredData()->getPlugin()->translate("fields", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass(static::class, self::CMD_LIST_FIELDS));
@@ -64,7 +64,7 @@ class FieldsCtrl
     /**
      *
      */
-    public function executeCommand()/* : void*/
+    public function executeCommand() : void
     {
         $this->setTabs();
 
@@ -127,7 +127,7 @@ class FieldsCtrl
     /**
      *
      */
-    protected function createGroupOfFields()/* : void*/
+    protected function createGroupOfFields() : void
     {
         $table = self::requiredData()->fields()->factory()->newTableBuilderInstance($this);
 
@@ -156,7 +156,7 @@ class FieldsCtrl
     /**
      *
      */
-    protected function disableFields()/* : void*/
+    protected function disableFields() : void
     {
         $table = self::requiredData()->fields()->factory()->newTableBuilderInstance($this);
 
@@ -186,7 +186,7 @@ class FieldsCtrl
     /**
      *
      */
-    protected function enableFields()/* : void*/
+    protected function enableFields() : void
     {
         $table = self::requiredData()->fields()->factory()->newTableBuilderInstance($this);
 
@@ -216,7 +216,7 @@ class FieldsCtrl
     /**
      *
      */
-    protected function listFields()/* : void*/
+    protected function listFields() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_FIELDS);
 
@@ -229,7 +229,7 @@ class FieldsCtrl
     /**
      *
      */
-    protected function removeFields()/* : void*/
+    protected function removeFields() : void
     {
         $field_ids = filter_input(INPUT_POST, FieldCtrl::GET_PARAM_FIELD_ID . $this->parent_context, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -259,7 +259,7 @@ class FieldsCtrl
     /**
      *
      */
-    protected function removeFieldsConfirm()/* : void*/
+    protected function removeFieldsConfirm() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_FIELDS);
 
@@ -296,7 +296,7 @@ class FieldsCtrl
     /**
      *
      */
-    protected function setTabs()/* : void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_FIELDS);
     }

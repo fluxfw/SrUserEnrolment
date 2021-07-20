@@ -73,14 +73,8 @@ class ActionsTableGUI extends TableGUI
     /**
      * @param AbstractAction $action
      */
-    protected function fillRow(/*AbstractAction*/ $action)/*: void*/
+    protected function fillRow(/*AbstractAction*/ $action) : void
     {
-        if (self::version()->is6()) {
-            $glyph_factory = self::dic()->ui()->factory()->symbol()->glyph();
-        } else {
-            $glyph_factory = self::dic()->ui()->factory()->glyph();
-        }
-
         self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_TYPE, $action->getType());
         self::dic()->ctrl()->setParameterByClass(ActionGUI::class, ActionGUI::GET_PARAM_ACTION_ID, $action->getActionId());
 
@@ -90,7 +84,7 @@ class ActionsTableGUI extends TableGUI
         $this->tpl->parseCurrentBlock();
         $this->tpl->setCurrentBlock("column");
         $this->tpl->setVariable("COLUMN", self::output()->getHTML([
-            $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
+            self::dic()->ui()->factory()->symbol()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) : string {
                 Waiter::init(Waiter::TYPE_WAITER, null, self::plugin());
 
                 return '
@@ -109,7 +103,7 @@ class ActionsTableGUI extends TableGUI
                 });
             });';
             }),
-            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($glyph_factory) : string {
+            self::dic()->ui()->factory()->symbol()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) : string {
                 return '
             $("#' . $id . '").click(function () {
                 il.waiter.show();
@@ -177,7 +171,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initColumns()/*: void*/
+    protected function initColumns() : void
     {
         $this->addColumn("");
 
@@ -192,7 +186,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("add_action"), self::dic()->ctrl()
             ->getLinkTargetByClass(ActionGUI::class, ActionGUI::CMD_ADD_ACTION)));
@@ -207,7 +201,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initData()/*: void*/
+    protected function initData() : void
     {
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
@@ -219,7 +213,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initFilterFields()/*: void*/
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [];
     }
@@ -228,7 +222,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
         $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_actions");
     }
@@ -237,7 +231,7 @@ class ActionsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("actions"));
     }

@@ -40,7 +40,7 @@ abstract class AbstractMembersTableModifications
      *
      * @return string|null
      */
-    public abstract function formatColumnValue(string $column, Member $member)/*:?string*/ ;
+    public abstract function formatColumnValue(string $column, Member $member) : ?string;
 
 
     /**

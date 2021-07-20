@@ -90,7 +90,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterEdited()/* : ?bool*/
+    protected function getFilterEdited() : ?bool
     {
         return null;
     }
@@ -99,7 +99,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterEditedStatus()/* : ?array*/
+    protected function getFilterEditedStatus() : ?array
     {
         $filter = $this->getFilterValues();
 
@@ -112,7 +112,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterObjRefId()/* : ?int*/
+    protected function getFilterObjRefId() : ?int
     {
         return $this->parent_obj->getObjRefId();
     }
@@ -121,7 +121,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterObjectTitle()/* : ?string*/
+    protected function getFilterObjectTitle() : ?string
     {
         $filter = $this->getFilterValues();
 
@@ -134,7 +134,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterResponsibleUsers()/* : ?array*/
+    protected function getFilterResponsibleUsers() : ?array
     {
         $filter = $this->getFilterValues();
 
@@ -147,7 +147,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterStepId()/* : ?int*/
+    protected function getFilterStepId() : ?int
     {
         return null;
     }
@@ -156,7 +156,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUserEmail()/* : ?string*/
+    protected function getFilterUserEmail() : ?string
     {
         return null;
     }
@@ -165,7 +165,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUserFirstname()/* : ?string*/
+    protected function getFilterUserFirstname() : ?string
     {
         $filter = $this->getFilterValues();
 
@@ -178,7 +178,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUserId()/* : ?array*/
+    protected function getFilterUserId() : ?array
     {
         return null;
     }
@@ -187,7 +187,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUserLastname()/* : ?string*/
+    protected function getFilterUserLastname() : ?string
     {
         $filter = $this->getFilterValues();
 
@@ -200,7 +200,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterUserOrgUnits()/* : ?string*/
+    protected function getFilterUserOrgUnits() : ?string
     {
         return null;
     }
@@ -209,7 +209,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function getFilterWorkflowId()/* : ?int*/
+    protected function getFilterWorkflowId() : ?int
     {
         return null;
     }
@@ -218,7 +218,7 @@ class AllRequestsTableGUI extends AbstractRequestsTableGUI
     /**
      * @inheritDoc
      */
-    protected function initFilterFields()/*: void*/
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [
             "edited_status"     => [

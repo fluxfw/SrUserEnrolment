@@ -62,7 +62,7 @@ class FieldCtrl
     /**
      *
      */
-    public function executeCommand()/* : void*/
+    public function executeCommand() : void
     {
         $this->field = self::requiredData()
             ->fields()
@@ -133,7 +133,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function addField()/* : void*/
+    protected function addField() : void
     {
         $form = self::requiredData()->fields()->factory()->newCreateFormBuilderInstance($this);
 
@@ -144,7 +144,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function back()/* : void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirect($this->parent, FieldsCtrl::CMD_LIST_FIELDS);
     }
@@ -153,7 +153,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function createField()/* : void*/
+    protected function createField() : void
     {
         $form = self::requiredData()->fields()->factory()->newCreateFormBuilderInstance($this);
 
@@ -177,7 +177,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function editField()/* : void*/
+    protected function editField() : void
     {
         $form = self::requiredData()->fields()->factory()->newFormBuilderInstance($this, $this->field);
 
@@ -210,7 +210,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function removeField()/* : void*/
+    protected function removeField() : void
     {
         self::requiredData()->fields()->deleteField($this->field);
 
@@ -223,7 +223,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function removeFieldConfirm()/* : void*/
+    protected function removeFieldConfirm() : void
     {
         $confirmation = new ilConfirmationGUI();
 
@@ -244,7 +244,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function setTabs()/* : void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 
@@ -273,7 +273,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function ungroup()/* : void*/
+    protected function ungroup() : void
     {
         self::requiredData()->fields()->ungroup($this->field);
 
@@ -286,7 +286,7 @@ class FieldCtrl
     /**
      *
      */
-    protected function updateField()/* : void*/
+    protected function updateField() : void
     {
         $form = self::requiredData()->fields()->factory()->newFormBuilderInstance($this, $this->field);
 

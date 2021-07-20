@@ -91,7 +91,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*: void*/
+    public function dropTables() : void
     {
 
     }
@@ -114,7 +114,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function getObjectRefIdByFilter(array $wheres, array $types, array $values, string $additional_joins = "")/*: ?int*/
+    public function getObjectRefIdByFilter(array $wheres, array $types, array $values, string $additional_joins = "") : ?int
     {
         $result = self::srUserEnrolment()->ruleEnrolment()->getObjectFilterStatement($wheres, $types, $values, ["ref_id"], $additional_joins);
 
@@ -131,7 +131,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function getPositionIdByTitle(string $position)/*: ?int*/
+    public function getPositionIdByTitle(string $position) : ?int
     {
         /**
          * @var ilOrgUnitPosition|null $position
@@ -153,7 +153,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function getUserDefinedFieldID(string $field_name)/*: ?int*/
+    public function getUserDefinedFieldID(string $field_name) : ?int
     {
         $result = self::dic()->database()->queryF('SELECT field_id FROM udf_definition WHERE field_name=%s', [ilDBConstants::T_TEXT], [$field_name]);
 
@@ -171,7 +171,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function getUserIdByCustomField(string $key, string $value)/*:?int*/
+    public function getUserIdByCustomField(string $key, string $value) : ?int
     {
         $result = self::dic()->database()->queryF('
 SELECT CASE WHEN udf_clob.usr_id IS NOT NULL THEN udf_clob.usr_id ELSE udf_text.usr_id END AS usr_id
@@ -194,7 +194,7 @@ AND (udf_text.value=%s OR udf_clob.value=%s)', [ilDBConstants::T_TEXT, ilDBConst
      *
      * @return int|null
      */
-    public function getUserIdByEmail(string $email)/*:?int*/
+    public function getUserIdByEmail(string $email) : ?int
     {
         $login = current(ilObjUser::getUserLoginsByEmail($email));
 
@@ -212,7 +212,7 @@ AND (udf_text.value=%s OR udf_clob.value=%s)', [ilDBConstants::T_TEXT, ilDBConst
      *
      * @return int|null
      */
-    public function getUserIdByIliasField(string $key, string $value)/*:?int*/
+    public function getUserIdByIliasField(string $key, string $value) : ?int
     {
         $result = self::dic()->database()->queryF('
 SELECT usr_id
@@ -232,7 +232,7 @@ WHERE ' . self::dic()->database()->quoteIdentifier($key) . '=%s', [ilDBConstants
      *
      * @return int|null
      */
-    public function getUserIdByLogin(string $login)/*:?int*/
+    public function getUserIdByLogin(string $login) : ?int
     {
         return ilObjUser::_lookupId($login);
     }
@@ -245,7 +245,7 @@ WHERE ' . self::dic()->database()->quoteIdentifier($key) . '=%s', [ilDBConstants
      *
      * @return int|null
      */
-    public function getUserIdByMapping(int $type, string $key, $value)/*:?int*/
+    public function getUserIdByMapping(int $type, string $key, $value) : ?int
     {
         if (empty($value)) {
             return null;
@@ -281,7 +281,7 @@ WHERE ' . self::dic()->database()->quoteIdentifier($key) . '=%s', [ilDBConstants
      *
      * @return int|null
      */
-    public function getUserIdByMatriculationNumber(int $matriculation_number)/*:?int*/
+    public function getUserIdByMatriculationNumber(int $matriculation_number) : ?int
     {
         $result = self::dic()->database()->queryF('
 SELECT usr_id
@@ -365,7 +365,7 @@ AND usr_id>%s',
     /**
      * @internal
      */
-    public function installTables()/*: void*/
+    public function installTables() : void
     {
 
     }

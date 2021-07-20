@@ -139,7 +139,7 @@ class UI implements UIInterface
     /**
      * @param ilTemplate $tpl
      */
-    private function initJs(ilTemplate $tpl)/* : void*/
+    private function initJs(ilTemplate $tpl) : void
     {
         if (self::$init === false) {
             self::$init = true;

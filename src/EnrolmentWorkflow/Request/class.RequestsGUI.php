@@ -70,7 +70,7 @@ class RequestsGUI
     /**
      * @param int $obj_ref_id
      */
-    public static function addTabs(int $obj_ref_id)/*: void*/
+    public static function addTabs(int $obj_ref_id) : void
     {
         if (self::srUserEnrolment()->enrolmentWorkflow()->requests()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
@@ -101,7 +101,7 @@ class RequestsGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
         $this->requests_type = intval(filter_input(INPUT_GET, self::GET_PARAM_REQUESTS_TYPE));
@@ -152,7 +152,7 @@ class RequestsGUI
     /**
      * @return int|null
      */
-    public function getObjRefId()/* : ?int*/
+    public function getObjRefId() : ?int
     {
         return $this->obj_ref_id;
     }
@@ -170,7 +170,7 @@ class RequestsGUI
     /**
      *
      */
-    protected function applyFilter()/*: void*/
+    protected function applyFilter() : void
     {
         $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this, self::CMD_APPLY_FILTER);
 
@@ -186,7 +186,7 @@ class RequestsGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
     }
@@ -195,7 +195,7 @@ class RequestsGUI
     /**
      *
      */
-    protected function listRequests()/*: void*/
+    protected function listRequests() : void
     {
         if (!empty($this->obj_ref_id)) {
             self::dic()->tabs()->activateTab(self::TAB_REQUESTS . self::REQUESTS_TYPE_ALL);
@@ -211,7 +211,7 @@ class RequestsGUI
     /**
      *
      */
-    protected function resetFilter()/*: void*/
+    protected function resetFilter() : void
     {
         $table = self::srUserEnrolment()->enrolmentWorkflow()->requests()->factory()->newTableInstance($this, self::CMD_RESET_FILTER);
 
@@ -227,7 +227,7 @@ class RequestsGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         if (!empty($this->obj_ref_id)) {
             self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()

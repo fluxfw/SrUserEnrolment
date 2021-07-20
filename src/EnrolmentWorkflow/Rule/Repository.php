@@ -54,7 +54,7 @@ final class Repository
      *
      * @return Group|null
      */
-    public function createGroupOfRules(array $rules)/* : ?Group*/
+    public function createGroupOfRules(array $rules) : ?Group
     {
         $rules = array_filter($rules, function (AbstractRule $rule) : bool {
             return !($rule instanceof Group);
@@ -98,7 +98,7 @@ final class Repository
     /**
      * @param AbstractRule $rule
      */
-    public function deleteRule(AbstractRule $rule)/*: void*/
+    public function deleteRule(AbstractRule $rule) : void
     {
         $rule->delete();
 
@@ -118,7 +118,7 @@ final class Repository
      * @param int    $parent_context
      * @param string $parent_id
      */
-    public function deleteRules(int $parent_context, string $parent_id)/*: void*/
+    public function deleteRules(int $parent_context, string $parent_id) : void
     {
         foreach (AbstractRule::TYPES[$parent_context] as $type => $type_lang_key) {
             foreach ($this->getRules($parent_context, $type, $parent_id, null, false) as $rule) {
@@ -131,7 +131,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         foreach ($this->factory()->getRuleTypes() as $class) {
             self::dic()->database()->dropTable($class::getTableName(), false);
@@ -193,7 +193,7 @@ final class Repository
      *
      * @return AbstractRule|null
      */
-    public function getRuleById(int $parent_context, string $parent_id, string $rule_type, int $rule_id)/*: ?AbstractRule*/
+    public function getRuleById(int $parent_context, string $parent_id, string $rule_type, int $rule_id) : ?AbstractRule
     {
         foreach ($this->factory()->getRuleTypes() as $rule_type_class => $class) {
             if ($rule_type_class === $rule_type) {
@@ -265,7 +265,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         $upgrade_sort_rules = false;
 
@@ -304,7 +304,7 @@ final class Repository
     /**
      * @param AbstractRule $rule
      */
-    public function moveRuleDown(AbstractRule $rule)/*: void*/
+    public function moveRuleDown(AbstractRule $rule) : void
     {
         $rule->setSort($rule->getSort() + 15);
 
@@ -317,7 +317,7 @@ final class Repository
     /**
      * @param AbstractRule $rule
      */
-    public function moveRuleUp(AbstractRule $rule)/*: void*/
+    public function moveRuleUp(AbstractRule $rule) : void
     {
         $rule->setSort($rule->getSort() - 15);
 
@@ -331,7 +331,7 @@ final class Repository
      * @param int    $parent_context
      * @param string $parent_id
      */
-    public function sortByEnrollType(int $parent_context, string $parent_id)/*: void*/
+    public function sortByEnrollType(int $parent_context, string $parent_id) : void
     {
         $rules = self::srUserEnrolment()->enrolmentWorkflow()->rules()->getRules($parent_context, AbstractRule::TYPE_COURSE_RULE, $parent_id, null, false);
 
@@ -346,7 +346,7 @@ final class Repository
     /**
      * @param AbstractRule $rule
      */
-    public function storeRule(AbstractRule $rule)/*: void*/
+    public function storeRule(AbstractRule $rule) : void
     {
         if (empty($rule->getRuleId())) {
             $rule->setSort(((count($this->getRules($rule->getParentContext(), $rule->getType(), $rule->getParentId(), null, false)) + 1) * 10));
@@ -383,7 +383,7 @@ final class Repository
      * @param int    $type
      * @param string $parent_id
      */
-    protected function reSortRules(int $parent_context, int $type, string $parent_id)/*: void*/
+    protected function reSortRules(int $parent_context, int $type, string $parent_id) : void
     {
         $this->reSortRules2($this->getRules($parent_context, $type, $parent_id, null, false));
     }
@@ -392,7 +392,7 @@ final class Repository
     /**
      * @param AbstractRule[] $rules
      */
-    protected function reSortRules2(array $rules)/*: void*/
+    protected function reSortRules2(array $rules) : void
     {
         $i = 1;
         foreach ($rules as $rule) {

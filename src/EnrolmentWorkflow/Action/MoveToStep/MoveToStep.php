@@ -63,7 +63,7 @@ class MoveToStep extends AbstractAction
     /**
      * @param int $move_to_step_id
      */
-    public function setMoveToStepId(int $move_to_step_id)/* : void*/
+    public function setMoveToStepId(int $move_to_step_id) : void
     {
         $this->move_to_step_id = $move_to_step_id;
     }

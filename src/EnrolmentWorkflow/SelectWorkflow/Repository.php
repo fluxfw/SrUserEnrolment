@@ -51,7 +51,7 @@ final class Repository
     /**
      * @param int $workflow_id
      */
-    public function deleteSelectedWorkflows(int $workflow_id)/*: void*/
+    public function deleteSelectedWorkflows(int $workflow_id) : void
     {
         foreach ($this->getSelectedWorkflows($workflow_id) as $selected_workflow) {
             $this->deleteSelectedWorkflow($selected_workflow);
@@ -62,7 +62,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(SelectedWorkflow::TABLE_NAME, false);
     }
@@ -82,7 +82,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function getWorkflowId(int $obj_id)/* : ?int*/
+    public function getWorkflowId(int $obj_id) : ?int
     {
         $selected_workflow = $this->getSelectedWorkflow($obj_id);
 
@@ -117,7 +117,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         SelectedWorkflow::updateDB();
     }
@@ -129,7 +129,7 @@ final class Repository
      *
      * @return int|null
      */
-    public function setWorkflowId(int $obj_id,/*?*/ int $workflow_id = null)//*:void*/
+    public function setWorkflowId(int $obj_id,/*?*/ int $workflow_id = null) : ?int
     {
         $selected_workflow = $this->getSelectedWorkflow($obj_id);
 
@@ -177,7 +177,7 @@ final class Repository
     /**
      * @param SelectedWorkflow $selected_workflow
      */
-    protected function deleteSelectedWorkflow(SelectedWorkflow $selected_workflow)/*: void*/
+    protected function deleteSelectedWorkflow(SelectedWorkflow $selected_workflow) : void
     {
         $selected_workflow->delete();
     }
@@ -188,7 +188,7 @@ final class Repository
      *
      * @return SelectedWorkflow|null
      */
-    protected function getSelectedWorkflow(int $obj_id)/* : ?SelectedWorkflow*/
+    protected function getSelectedWorkflow(int $obj_id) : ?SelectedWorkflow
     {
         /**
          * @var SelectedWorkflow|null $selected_workflow
@@ -214,7 +214,7 @@ final class Repository
     /**
      * @param SelectedWorkflow $selected_workflow
      */
-    protected function storeSelectedWorkflow(SelectedWorkflow $selected_workflow)/*: void*/
+    protected function storeSelectedWorkflow(SelectedWorkflow $selected_workflow) : void
     {
         $selected_workflow->store();
     }

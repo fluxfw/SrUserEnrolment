@@ -75,7 +75,7 @@ class SelectWorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         $this->addCommandButton(SelectWorkflowGUI::CMD_UPDATE_SELECTED_WORKFLOW, $this->txt("save"));
     }
@@ -84,7 +84,7 @@ class SelectWorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*: void*/
+    protected function initFields() : void
     {
         $this->fields = [
             "workflow_id" => [
@@ -102,7 +102,7 @@ class SelectWorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
 
     }
@@ -111,7 +111,7 @@ class SelectWorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("select_workflow"));
     }
@@ -120,7 +120,7 @@ class SelectWorkflowFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             case "workflow_id":

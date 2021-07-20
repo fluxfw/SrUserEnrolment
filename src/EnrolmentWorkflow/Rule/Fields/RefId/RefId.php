@@ -33,7 +33,7 @@ trait RefId
     /**
      * @param int $ref_id
      */
-    public function setRefId(int $ref_id)/* : void*/
+    public function setRefId(int $ref_id) : void
     {
         $this->ref_id = $ref_id;
     }

@@ -64,7 +64,7 @@ class StepGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, self::GET_PARAM_STEP_ID)));
 
@@ -132,7 +132,7 @@ class StepGUI
     /**
      *
      */
-    protected function addStep()/*: void*/
+    protected function addStep() : void
     {
         $form = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newFormInstance($this, $this->step);
 
@@ -143,7 +143,7 @@ class StepGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirectByClass(StepsGUI::class, StepsGUI::CMD_LIST_STEPS);
     }
@@ -152,7 +152,7 @@ class StepGUI
     /**
      *
      */
-    protected function createStep()/*: void*/
+    protected function createStep() : void
     {
         $form = self::srUserEnrolment()->enrolmentWorkflow()->steps()->factory()->newFormInstance($this, $this->step);
 
@@ -173,7 +173,7 @@ class StepGUI
     /**
      *
      */
-    protected function editStep()/*: void*/
+    protected function editStep() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_STEP);
 
@@ -208,7 +208,7 @@ class StepGUI
     /**
      *
      */
-    protected function removeStep()/*: void*/
+    protected function removeStep() : void
     {
         self::srUserEnrolment()->enrolmentWorkflow()->steps()->deleteStep($this->step);
 
@@ -221,7 +221,7 @@ class StepGUI
     /**
      *
      */
-    protected function removeStepConfirm()/*: void*/
+    protected function removeStepConfirm() : void
     {
         $confirmation = new ilConfirmationGUI();
 
@@ -241,7 +241,7 @@ class StepGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 
@@ -277,7 +277,7 @@ class StepGUI
     /**
      *
      */
-    protected function updateStep()/*: void*/
+    protected function updateStep() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_STEP);
 

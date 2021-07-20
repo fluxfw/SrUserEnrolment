@@ -52,7 +52,7 @@ class WorkflowGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->workflow = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->getWorkflowById(intval(filter_input(INPUT_GET, self::GET_PARAM_WORKFLOW_ID)));
 
@@ -101,7 +101,7 @@ class WorkflowGUI
     /**
      *
      */
-    protected function addWorkflow()/*: void*/
+    protected function addWorkflow() : void
     {
         $form = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newFormInstance($this, $this->workflow);
 
@@ -112,7 +112,7 @@ class WorkflowGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirectByClass(WorkflowsGUI::class, WorkflowsGUI::CMD_LIST_WORKFLOWS);
     }
@@ -121,7 +121,7 @@ class WorkflowGUI
     /**
      *
      */
-    protected function createWorkflow()/*: void*/
+    protected function createWorkflow() : void
     {
         $form = self::srUserEnrolment()->enrolmentWorkflow()->workflows()->factory()->newFormInstance($this, $this->workflow);
 
@@ -142,7 +142,7 @@ class WorkflowGUI
     /**
      *
      */
-    protected function editWorkflow()/*: void*/
+    protected function editWorkflow() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_WORKFLOW);
 
@@ -155,7 +155,7 @@ class WorkflowGUI
     /**
      *
      */
-    protected function removeWorkflow()/*: void*/
+    protected function removeWorkflow() : void
     {
         self::srUserEnrolment()->enrolmentWorkflow()->workflows()->deleteWorkflow($this->workflow);
 
@@ -168,7 +168,7 @@ class WorkflowGUI
     /**
      *
      */
-    protected function removeWorkflowConfirm()/*: void*/
+    protected function removeWorkflowConfirm() : void
     {
         $confirmation = new ilConfirmationGUI();
 
@@ -188,7 +188,7 @@ class WorkflowGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 
@@ -219,7 +219,7 @@ class WorkflowGUI
     /**
      *
      */
-    protected function updateWorkflow()/*: void*/
+    protected function updateWorkflow() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_WORKFLOW);
 

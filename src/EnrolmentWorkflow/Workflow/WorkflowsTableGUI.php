@@ -60,7 +60,7 @@ class WorkflowsTableGUI extends TableGUI
     /**
      * @param Workflow $workflow
      */
-    protected function fillRow(/*Workflow*/ $workflow)/*: void*/
+    protected function fillRow(/*Workflow*/ $workflow) : void
     {
         self::dic()->ctrl()->setParameterByClass(WorkflowGUI::class, WorkflowGUI::GET_PARAM_WORKFLOW_ID, $workflow->getWorkflowId());
 
@@ -109,7 +109,7 @@ class WorkflowsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initColumns()/*: void*/
+    protected function initColumns() : void
     {
         $this->addColumn("");
 
@@ -122,7 +122,7 @@ class WorkflowsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         self::dic()->toolbar()->addComponent(self::dic()->ui()->factory()->button()->standard($this->txt("add_workflow"), self::dic()->ctrl()
             ->getLinkTargetByClass(WorkflowGUI::class, WorkflowGUI::CMD_ADD_WORKFLOW)));
@@ -137,7 +137,7 @@ class WorkflowsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initData()/*: void*/
+    protected function initData() : void
     {
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
@@ -149,7 +149,7 @@ class WorkflowsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initFilterFields()/*: void*/
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [];
     }
@@ -158,7 +158,7 @@ class WorkflowsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
         $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_workflows");
     }
@@ -167,7 +167,7 @@ class WorkflowsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("workflows"));
     }

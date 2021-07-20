@@ -88,7 +88,7 @@ class CreateRuleFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         $this->addCommandButton(RuleGUI::CMD_CREATE_RULE, $this->txt("add"));
         $this->addCommandButton(RuleGUI::CMD_BACK, $this->txt("cancel"));
@@ -98,7 +98,7 @@ class CreateRuleFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*: void*/
+    protected function initFields() : void
     {
         $this->fields = [
             "rule_type" => [
@@ -118,7 +118,7 @@ class CreateRuleFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
 
     }
@@ -127,7 +127,7 @@ class CreateRuleFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("add_rule"));
     }
@@ -136,7 +136,7 @@ class CreateRuleFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             default:

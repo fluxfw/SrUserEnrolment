@@ -46,7 +46,7 @@ interface BrowserFormat extends Format
      *
      * @return string|null
      */
-    public function getInputFormatId(Table $component)/* : ?string*/;
+    public function getInputFormatId(Table $component) : ?string;
 
 
     /**

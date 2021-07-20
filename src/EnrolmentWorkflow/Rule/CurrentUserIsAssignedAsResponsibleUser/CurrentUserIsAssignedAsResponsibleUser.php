@@ -61,7 +61,7 @@ class CurrentUserIsAssignedAsResponsibleUser extends AbstractRule
     /**
      * @param bool $only_next_step
      */
-    public function setOnlyNextStep(bool $only_next_step)/* : void*/
+    public function setOnlyNextStep(bool $only_next_step) : void
     {
         $this->only_next_step = $only_next_step;
     }

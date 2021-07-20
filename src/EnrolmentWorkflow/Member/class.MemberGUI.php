@@ -60,7 +60,7 @@ class MemberGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->member = self::srUserEnrolment()->enrolmentWorkflow()->members()->getMember($this->parent->getObjRefId(), intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID)));
 
@@ -105,7 +105,7 @@ class MemberGUI
     /**
      *
      */
-    protected function back()/*:void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirectByClass(MembersGUI::class, MembersGUI::CMD_LIST_MEMBERS);
     }
@@ -114,7 +114,7 @@ class MemberGUI
     /**
      *
      */
-    protected function editMember()/*: void*/
+    protected function editMember() : void
     {
         if ($this->member->getType() === Member::TYPE_REQUEST) {
             die();
@@ -131,7 +131,7 @@ class MemberGUI
     /**
      *
      */
-    protected function removeMember()/*: void*/
+    protected function removeMember() : void
     {
         if ($this->member->getType() === Member::TYPE_REQUEST) {
             die();
@@ -150,7 +150,7 @@ class MemberGUI
     /**
      *
      */
-    protected function removeMemberConfirm()/*: void*/
+    protected function removeMemberConfirm() : void
     {
         if ($this->member->getType() === Member::TYPE_REQUEST) {
             die();
@@ -174,7 +174,7 @@ class MemberGUI
     /**
      *
      */
-    protected function setCompleted()/*:void*/
+    protected function setCompleted() : void
     {
         $completed = (filter_input(INPUT_POST, AjaxCheckbox::GET_PARAM_CHECKED) === "true");
 
@@ -187,7 +187,7 @@ class MemberGUI
     /**
      *
      */
-    protected function setCustomChecked()/*:void*/
+    protected function setCustomChecked() : void
     {
         $key = strval(filter_input(INPUT_GET, self::CMD_SET_CUSTOM_CHECKED));
         $checked = (filter_input(INPUT_POST, AjaxCheckbox::GET_PARAM_CHECKED) === "true");
@@ -203,7 +203,7 @@ class MemberGUI
     /**
      *
      */
-    protected function setTabs()/*:void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 
@@ -223,7 +223,7 @@ class MemberGUI
     /**
      *
      */
-    protected function updateMember()/*: void*/
+    protected function updateMember() : void
     {
         if ($this->member->getType() === Member::TYPE_REQUEST) {
             die();

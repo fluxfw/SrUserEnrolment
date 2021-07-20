@@ -66,7 +66,7 @@ class ExcelImportGUI
      * @param int      $obj_ref_id
      * @param int|null $obj_single_id
      */
-    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
+    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null) : void
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
@@ -121,7 +121,7 @@ class ExcelImportGUI
      * @param int      $obj_ref_id
      * @param int|null $obj_single_id
      */
-    public static function redirect(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*: void*/
+    public static function redirect(int $obj_ref_id,/*?*/ int $obj_single_id = null) : void
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
             if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
@@ -140,7 +140,7 @@ class ExcelImportGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
         $this->obj_single_id = (intval(filter_input(INPUT_GET, self::GET_PARAM_OBJ_SINGLE_ID)) ?? null);
@@ -205,7 +205,7 @@ class ExcelImportGUI
     /**
      * @return int|null
      */
-    public function getObjSingleId()/* : ?int*/
+    public function getObjSingleId() : ?int
     {
         return $this->obj_single_id;
     }
@@ -214,7 +214,7 @@ class ExcelImportGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         $excel_import = $this->newImportInstance();
 
@@ -233,7 +233,7 @@ class ExcelImportGUI
     /**
      *
      */
-    protected function createOrUpdateUsers()/*: void*/
+    protected function createOrUpdateUsers() : void
     {
         $excel_import = $this->newImportInstance();
 
@@ -247,7 +247,7 @@ class ExcelImportGUI
     /**
      * @param array $users
      */
-    protected function createOrUpdateUsersConfirmation(array $users)/*: void*/
+    protected function createOrUpdateUsersConfirmation(array $users) : void
     {
         $confirmation = new ilConfirmationGUI();
 
@@ -269,7 +269,7 @@ class ExcelImportGUI
     /**
      *
      */
-    protected function enroll()/*: void*/
+    protected function enroll() : void
     {
         $excel_import = $this->newImportInstance();
 
@@ -284,7 +284,7 @@ class ExcelImportGUI
     /**
      *
      */
-    protected function enrollConfirmation()/*: void*/
+    protected function enrollConfirmation() : void
     {
         $excel_import = $this->newImportInstance();
 
@@ -317,7 +317,7 @@ class ExcelImportGUI
     /**
      *
      */
-    protected function inputExcelImportData()/*: void*/
+    protected function inputExcelImportData() : void
     {
         $form = $this->newFormInstance();
 
@@ -328,7 +328,7 @@ class ExcelImportGUI
     /**
      *
      */
-    protected function keyAutoComplete()/*: void*/
+    protected function keyAutoComplete() : void
     {
         $type = intval(filter_input(INPUT_GET, "type"));
         $term = strval(filter_input(INPUT_GET, "term"));
@@ -364,7 +364,7 @@ class ExcelImportGUI
     /**
      *
      */
-    protected function parseExcel()/*: void*/
+    protected function parseExcel() : void
     {
         $form = $this->newFormInstance();
 
@@ -398,7 +398,7 @@ class ExcelImportGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->setBackTarget($this->getBackTitle(), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));

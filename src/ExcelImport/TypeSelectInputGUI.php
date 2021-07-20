@@ -42,7 +42,7 @@ class TypeSelectInputGUI extends ilSelectInputGUI
     /**
      *
      */
-    public static function init()/*: void*/
+    public static function init() : void
     {
         if (self::$init === false) {
             self::$init = true;

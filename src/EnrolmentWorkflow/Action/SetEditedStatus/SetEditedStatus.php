@@ -47,7 +47,7 @@ class SetEditedStatus extends AbstractAction
     /**
      * @param int $edited_status
      */
-    public function setEditedStatus(int $edited_status)/* : void*/
+    public function setEditedStatus(int $edited_status) : void
     {
         $this->edited_status = $edited_status;
     }

@@ -29,7 +29,7 @@ class GroupRulesGUI extends RulesGUI
     /**
      * @inheritDoc
      */
-    protected function createGroupOfRules()/*:void*/
+    protected function createGroupOfRules() : void
     {
         die();
     }
@@ -38,7 +38,7 @@ class GroupRulesGUI extends RulesGUI
     /**
      * @inheritDoc
      */
-    protected function setTabs()/*:void*/
+    protected function setTabs() : void
     {
         parent::setTabs();
 

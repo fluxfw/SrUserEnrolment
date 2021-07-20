@@ -108,7 +108,7 @@ class MembersTableGUI extends TableGUI
     /**
      * @param Member $member
      */
-    protected function fillRow(/*Member*/ $member)/*: void*/
+    protected function fillRow(/*Member*/ $member) : void
     {
         self::dic()->ctrl()->setParameterByClass(MemberGUI::class, MemberGUI::GET_PARAM_USER_ID, $member->getUsrId());
 
@@ -217,7 +217,7 @@ class MembersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initColumns()/*: void*/
+    protected function initColumns() : void
     {
         parent::initColumns();
 
@@ -228,7 +228,7 @@ class MembersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
 
     }
@@ -237,7 +237,7 @@ class MembersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initData()/*: void*/
+    protected function initData() : void
     {
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
@@ -257,7 +257,7 @@ class MembersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initFilterFields()/*: void*/
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [];
 
@@ -270,7 +270,7 @@ class MembersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
         $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_members");
     }
@@ -279,7 +279,7 @@ class MembersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("members"));
     }

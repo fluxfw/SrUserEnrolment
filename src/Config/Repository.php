@@ -86,7 +86,7 @@ final class Repository extends AbstractRepository
     /**
      * @inheritDoc
      */
-    public function installTables()/*: void*/
+    public function installTables() : void
     {
         parent::installTables();
 

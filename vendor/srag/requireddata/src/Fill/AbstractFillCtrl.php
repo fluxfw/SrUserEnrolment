@@ -43,7 +43,7 @@ abstract class AbstractFillCtrl
      * @param int         $parent_id
      * @param string|null $fill_id
      */
-    public function __construct(int $parent_context, int $parent_id, /*?string*/ $fill_id = null)
+    public function __construct(int $parent_context, int $parent_id, ?string $fill_id = null)
     {
         $this->parent_context = $parent_context;
         $this->parent_id = $parent_id;
@@ -54,7 +54,7 @@ abstract class AbstractFillCtrl
     /**
      *
      */
-    public function executeCommand()/* : void*/
+    public function executeCommand() : void
     {
         $this->setTabs();
 
@@ -83,7 +83,7 @@ abstract class AbstractFillCtrl
     /**
      * @return string|null
      */
-    public function getFillId()/* : ?string*/
+    public function getFillId() : ?string
     {
         return $this->fill_id;
     }
@@ -110,19 +110,19 @@ abstract class AbstractFillCtrl
     /**
      *
      */
-    protected abstract function back()/* : void*/;
+    protected abstract function back() : void;
 
 
     /**
      *
      */
-    protected abstract function cancel()/* : void*/;
+    protected abstract function cancel() : void;
 
 
     /**
      *
      */
-    protected function fillFields()/* : void*/
+    protected function fillFields() : void
     {
         $form = self::requiredData()->fills()->factory()->newFormBuilderInstance($this);
 
@@ -133,7 +133,7 @@ abstract class AbstractFillCtrl
     /**
      *
      */
-    protected function saveFields()/* : void*/
+    protected function saveFields() : void
     {
         $form = self::requiredData()->fills()->factory()->newFormBuilderInstance($this);
 
@@ -150,7 +150,7 @@ abstract class AbstractFillCtrl
     /**
      *
      */
-    protected function setTabs()/* : void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 

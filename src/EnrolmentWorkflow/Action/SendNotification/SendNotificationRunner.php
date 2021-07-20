@@ -32,7 +32,7 @@ class SendNotificationRunner extends AbstractActionRunner
     /**
      * @inheritDoc
      */
-    public function run(Request $request)/*:void*/
+    public function run(Request $request) : void
     {
         $notification = self::srUserEnrolment()->notifications4plugin()->notifications()->getNotificationByName($this->action->getNotificationName());
 

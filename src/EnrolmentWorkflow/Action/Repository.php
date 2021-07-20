@@ -51,7 +51,7 @@ final class Repository
     /**
      * @param AbstractAction $action
      */
-    public function deleteAction(AbstractAction $action)/*: void*/
+    public function deleteAction(AbstractAction $action) : void
     {
         $action->delete();
 
@@ -64,7 +64,7 @@ final class Repository
     /**
      * @param int $step_id
      */
-    public function deleteActions(int $step_id)/*: void*/
+    public function deleteActions(int $step_id) : void
     {
         foreach ($this->getActions($step_id, false) as $action) {
             $this->deleteAction($action);
@@ -75,7 +75,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         foreach ($this->factory()->getTypes() as $class) {
             self::dic()->database()->dropTable($class::getTableName(), false);
@@ -98,7 +98,7 @@ final class Repository
      *
      * @return AbstractAction|null
      */
-    public function getActionById(string $type, int $action_id)/*: ?Action*/
+    public function getActionById(string $type, int $action_id) : ?Action
     {
         foreach ($this->factory()->getTypes() as $type_class => $class) {
             if ($type_class === $type) {
@@ -158,7 +158,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         foreach ($this->factory()->getTypes() as $class) {
             $upgrade_init_run_next_actions = (self::dic()->database()->tableExists($class::getTableName()) && !self::dic()->database()->tableColumnExists($class::getTableName(), "run_next_actions"));
@@ -182,7 +182,7 @@ final class Repository
     /**
      * @param AbstractAction $action
      */
-    public function moveActionDown(AbstractAction $action)/*: void*/
+    public function moveActionDown(AbstractAction $action) : void
     {
         $action->setSort($action->getSort() + 15);
 
@@ -195,7 +195,7 @@ final class Repository
     /**
      * @param AbstractAction $action
      */
-    public function moveActionUp(AbstractAction $action)/*: void*/
+    public function moveActionUp(AbstractAction $action) : void
     {
         $action->setSort($action->getSort() - 15);
 
@@ -208,7 +208,7 @@ final class Repository
     /**
      * @param Request $request
      */
-    public function runActions(Request $request)/*:void*/
+    public function runActions(Request $request) : void
     {
         foreach ($this->getActions($request->getStepId()) as $action) {
             if (empty(self::srUserEnrolment()->enrolmentWorkflow()
@@ -230,7 +230,7 @@ final class Repository
     /**
      * @param AbstractAction $action
      */
-    public function storeAction(AbstractAction $action)/*: void*/
+    public function storeAction(AbstractAction $action) : void
     {
         if (empty($action->getActionId())) {
             $action->setSort(((count($this->getActions($action->getStepId(), false)) + 1) * 10));
@@ -243,7 +243,7 @@ final class Repository
     /**
      * @param int $step_id
      */
-    protected function reSortActions(int $step_id)/*: void*/
+    protected function reSortActions(int $step_id) : void
     {
         $actions = $this->getActions($step_id, false);
 

@@ -174,7 +174,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $created_time
      */
-    public function setCreatedTime(int $created_time)/* : void*/
+    public function setCreatedTime(int $created_time) : void
     {
         $this->created_time = $created_time;
     }
@@ -201,7 +201,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $created_user_id
      */
-    public function setCreatedUserId(int $created_user_id)/* : void*/
+    public function setCreatedUserId(int $created_user_id) : void
     {
         $this->created_user_id = $created_user_id;
     }
@@ -210,7 +210,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @return Request|null
      */
-    public function getCurrentRequest()/*:?Request*/
+    public function getCurrentRequest() : ?Request
     {
         return self::srUserEnrolment()->enrolmentWorkflow()->requests()->getRequestById($this->current_request_id);
     }
@@ -228,7 +228,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $current_request_id
      */
-    public function setCurrentRequestId(int $current_request_id)/* : void*/
+    public function setCurrentRequestId(int $current_request_id) : void
     {
         $this->current_request_id = $current_request_id;
     }
@@ -246,7 +246,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $edited_status
      */
-    public function setEditedStatus(int $edited_status)/* : void*/
+    public function setEditedStatus(int $edited_status) : void
     {
         $this->edited_status = $edited_status;
     }
@@ -282,7 +282,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $obj_id
      */
-    public function setObjId(int $obj_id)/* : void*/
+    public function setObjId(int $obj_id) : void
     {
         $this->obj_id = $obj_id;
     }
@@ -300,7 +300,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $obj_ref_id
      */
-    public function setObjRefId(int $obj_ref_id)/* : void*/
+    public function setObjRefId(int $obj_ref_id) : void
     {
         $this->obj_ref_id = $obj_ref_id;
     }
@@ -327,7 +327,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $request_group_id
      */
-    public function setRequestGroupId(int $request_group_id)/* : void*/
+    public function setRequestGroupId(int $request_group_id) : void
     {
         $this->request_group_id = $request_group_id;
     }
@@ -345,7 +345,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $updated_time
      */
-    public function setUpdatedTime(int $updated_time)/* : void*/
+    public function setUpdatedTime(int $updated_time) : void
     {
         $this->updated_time = $updated_time;
     }
@@ -372,7 +372,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $updated_user_id
      */
-    public function setUpdatedUserId(int $updated_user_id)/* : void*/
+    public function setUpdatedUserId(int $updated_user_id) : void
     {
         $this->updated_user_id = $updated_user_id;
     }
@@ -399,7 +399,7 @@ class RequestGroup extends ActiveRecord
     /**
      * @param int $user_id
      */
-    public function setUserId(int $user_id)/* : void*/
+    public function setUserId(int $user_id) : void
     {
         $this->user_id = $user_id;
     }

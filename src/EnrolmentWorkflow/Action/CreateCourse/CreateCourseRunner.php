@@ -33,7 +33,7 @@ class CreateCourseRunner extends AbstractActionRunner
     /**
      * @inheritDoc
      */
-    public function run(Request $request)/*:void*/
+    public function run(Request $request) : void
     {
         if ($request->getStepId() !== $this->action->getRequiredDataFromStepId()) {
             $fields = self::srUserEnrolment()
@@ -55,9 +55,7 @@ class CreateCourseRunner extends AbstractActionRunner
 
         $crs->putInTree(self::dic()->repositoryTree()->getParentId($request->getObjRefId()));
 
-        $crs->setCourseStart(new ilDate($fields[$this->action->getFieldCourseStart()], IL_CAL_UNIX));
-
-        $crs->setCourseEnd(new ilDate($fields[$this->action->getFieldCourseEnd()], IL_CAL_UNIX));
+        $crs->setCoursePeriod(new ilDate($fields[$this->action->getFieldCourseStart()], IL_CAL_UNIX), new ilDate($fields[$this->action->getFieldCourseEnd()], IL_CAL_UNIX));
 
         $crs->update();
 

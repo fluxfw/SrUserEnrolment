@@ -147,7 +147,7 @@ class RequestStepGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, RequestsGUI::GET_PARAM_REF_ID));
         $this->step = self::srUserEnrolment()->enrolmentWorkflow()->steps()->getStepById(intval(filter_input(INPUT_GET, StepGUI::GET_PARAM_STEP_ID)));
@@ -199,7 +199,7 @@ class RequestStepGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         ilSession::clear(self::SESSION_USERS);
         self::srUserEnrolment()->requiredData()->fills()->clearTempFillValues();
@@ -215,7 +215,7 @@ class RequestStepGUI
     /**
      *
      */
-    protected function requestStep()/*: void*/
+    protected function requestStep() : void
     {
         if (!is_array($this->user_ids) || empty($this->user_ids)) {
             self::dic()->ctrl()->redirect($this, self::CMD_BACK);
@@ -256,7 +256,7 @@ class RequestStepGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
 
     }

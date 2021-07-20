@@ -48,7 +48,7 @@ class GlobalRole extends AbstractRule
     /**
      * @param int $global_role
      */
-    public function setGlobalRole(int $global_role)/* : void*/
+    public function setGlobalRole(int $global_role) : void
     {
         $this->global_role = $global_role;
     }

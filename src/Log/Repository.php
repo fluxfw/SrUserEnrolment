@@ -56,7 +56,7 @@ final class Repository
     /**
      * @param Log $log
      */
-    public function deleteLog(Log $log)/*: void*/
+    public function deleteLog(Log $log) : void
     {
         self::dic()->database()->manipulateF('DELETE FROM ' . self::dic()->database()->quoteIdentifier(Log::TABLE_NAME)
             . " WHERE log_id=%s", [ilDBConstants::T_INTEGER], [$log->getLogId()]);
@@ -90,7 +90,7 @@ final class Repository
     /**
      * @param int $user_id
      */
-    public function deleteUserLogs(int $user_id)/*: void*/
+    public function deleteUserLogs(int $user_id) : void
     {
         foreach ($this->getLogs(null, null, null, null, null, null, null, null, null, $user_id) + $this->getLogs(null, null, null, null, null, null, null, null, null, null, $user_id) as $log) {
             $this->deleteLog($log);
@@ -101,7 +101,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*: void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(Log::TABLE_NAME, false);
         self::dic()->database()->dropAutoIncrementTable(Log::TABLE_NAME);
@@ -137,7 +137,7 @@ final class Repository
      *
      * @return Log|null
      */
-    public function getLogById(int $log_id)/*: ?Log*/
+    public function getLogById(int $log_id) : ?Log
     {
         /**
          * @var Log|null $log
@@ -219,7 +219,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*: void*/
+    public function installTables() : void
     {
         try {
             Log::updateDB();
@@ -242,7 +242,7 @@ final class Repository
     /**
      * @param Log $log
      */
-    public function keepLog(Log $log)/*:void*/
+    public function keepLog(Log $log) : void
     {
         if (!isset($this->kept_logs[$log->getStatus()])) {
             $this->kept_logs[$log->getStatus()] = [];
@@ -255,7 +255,7 @@ final class Repository
     /**
      * @param Log $log
      */
-    public function storeLog(Log $log)/*: void*/
+    public function storeLog(Log $log) : void
     {
         $date = new ilDateTime(time(), IL_CAL_UNIX);
 

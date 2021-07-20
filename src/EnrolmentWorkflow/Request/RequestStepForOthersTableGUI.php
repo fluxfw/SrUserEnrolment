@@ -84,7 +84,7 @@ class RequestStepForOthersTableGUI extends TableGUI
     /**
      * @param ilObjUser $user
      */
-    protected function fillRow(/*ilObjUser*/ $user)/*: void*/
+    protected function fillRow(/*ilObjUser*/ $user) : void
     {
         self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, RequestsGUI::GET_PARAM_REF_ID, $this->parent_obj->getObjRefId());
         self::dic()->ctrl()->setParameterByClass(RequestStepGUI::class, StepGUI::GET_PARAM_STEP_ID, $this->parent_obj->getStep()->getStepId());
@@ -143,7 +143,7 @@ class RequestStepForOthersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initColumns()/*: void*/
+    protected function initColumns() : void
     {
         $this->addColumn("");
 
@@ -156,7 +156,7 @@ class RequestStepForOthersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         $this->setSelectAllCheckbox(RequestStepGUI::GET_PARAM_USER_ID);
         $this->addMultiCommand(RequestStepGUI::CMD_REQUEST_STEP, $this->parent_obj->getStep()->getActionTitle());
@@ -166,7 +166,7 @@ class RequestStepForOthersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initData()/*: void*/
+    protected function initData() : void
     {
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
@@ -214,7 +214,7 @@ class RequestStepForOthersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initFilterFields()/*: void*/
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [
             "user_lastname"  => [
@@ -237,7 +237,7 @@ class RequestStepForOthersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
         $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_request_for_others");
     }
@@ -246,7 +246,7 @@ class RequestStepForOthersTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("users"));
     }

@@ -48,7 +48,7 @@ interface Format
      * @param string $data
      * @param Table  $component
      */
-    public function deliverDownload(string $data, Table $component)/* : void*/;
+    public function deliverDownload(string $data, Table $component) : void;
 
 
     /**
@@ -74,7 +74,7 @@ interface Format
     /**
      * @return object
      */
-    public function getTemplate()/* : object*/;
+    public function getTemplate() : object;
 
 
     /**
@@ -84,5 +84,5 @@ interface Format
      *
      * @return string
      */
-    public function render(Table $component, /*?Data*/ $data, Settings $settings) : string;
+    public function render(Table $component, ?Data $data, Settings $settings) : string;
 }

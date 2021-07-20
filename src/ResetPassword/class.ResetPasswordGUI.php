@@ -104,7 +104,7 @@ class ResetPasswordGUI
      *
      * @return Link|null
      */
-    public static function getAction(int $obj_ref_id, int $member_id)/* : ?Link*/
+    public static function getAction(int $obj_ref_id, int $member_id) : ?Link
     {
         if (self::srUserEnrolment()->resetUserPassword()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $member_id)) {
 
@@ -125,7 +125,7 @@ class ResetPasswordGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
         $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
@@ -164,7 +164,7 @@ class ResetPasswordGUI
     /**
      *
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->saveParameterByClass(ilRepositoryGUI::class, self::GET_PARAM_REF_ID);
 
@@ -179,7 +179,7 @@ class ResetPasswordGUI
     /**
      *
      */
-    protected function resetPassword()/*: void*/
+    protected function resetPassword() : void
     {
         $user = self::srUserEnrolment()->getIliasObjectById($this->user_id);
 
@@ -199,7 +199,7 @@ class ResetPasswordGUI
     /**
      *
      */
-    protected function resetPasswordConfirm()/*: void*/
+    protected function resetPasswordConfirm() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_RESET_PASSWORD);
 
@@ -223,7 +223,7 @@ class ResetPasswordGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->setBackTarget(self::dic()->objDataCache()->lookupTitle(self::dic()->objDataCache()->lookupObjId($this->obj_ref_id)), self::dic()->ctrl()
             ->getLinkTarget($this, self::CMD_BACK));

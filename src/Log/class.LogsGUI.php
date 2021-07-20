@@ -50,7 +50,7 @@ class LogsGUI
     /**
      *
      */
-    public static function addTabs()/*:void*/
+    public static function addTabs() : void
     {
         self::dic()->tabs()->addTab(self::TAB_LOGS, self::plugin()->translate("logs", LogsGUI::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass(self::class, self::CMD_LIST_LOGS));
@@ -60,7 +60,7 @@ class LogsGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->setTabs();
 
@@ -97,7 +97,7 @@ class LogsGUI
     /**
      *
      */
-    protected function applyFilter()/*: void*/
+    protected function applyFilter() : void
     {
         $table = self::srUserEnrolment()->logs()->factory()->newTableInstance($this, self::CMD_APPLY_FILTER);
 
@@ -113,7 +113,7 @@ class LogsGUI
     /**
      *
      */
-    protected function listLogs()/*: void*/
+    protected function listLogs() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LOGS);
 
@@ -126,7 +126,7 @@ class LogsGUI
     /**
      *
      */
-    protected function resetFilter()/*: void*/
+    protected function resetFilter() : void
     {
         $table = self::srUserEnrolment()->logs()->factory()->newTableInstance($this, self::CMD_RESET_FILTER);
 
@@ -142,7 +142,7 @@ class LogsGUI
     /**
      *
      */
-    protected function setTabs()/*:void*/
+    protected function setTabs() : void
     {
 
     }

@@ -86,7 +86,7 @@ class ConfigFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         $this->addCommandButton(ConfigCtrl::CMD_UPDATE_CONFIGURE, $this->txt("save"));
     }
@@ -95,7 +95,7 @@ class ConfigFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*: void*/
+    protected function initFields() : void
     {
         $excel_import_fields = ExcelImportFormGUI::getExcelImportFields(new ExcelImportGUI());
         $excel_import_fields[ExcelImportFormGUI::KEY_CREATE_NEW_USERS][self::PROPERTY_SUBITEMS][ExcelImportFormGUI::KEY_CREATE_NEW_USERS_GLOBAL_ROLES]["setInfo"] = self::plugin()
@@ -225,7 +225,7 @@ class ConfigFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
 
     }
@@ -234,7 +234,7 @@ class ConfigFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("configuration"));
     }
@@ -243,7 +243,7 @@ class ConfigFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             case ExcelImportFormGUI::KEY_LOCAL_USER_ADMINISTRATION . "_disabled_hint":

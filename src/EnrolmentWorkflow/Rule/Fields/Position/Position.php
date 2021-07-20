@@ -33,7 +33,7 @@ trait Position
     /**
      * @param int $position
      */
-    public function setPosition(int $position)/* : void*/
+    public function setPosition(int $position) : void
     {
         $this->position = $position;
     }

@@ -83,7 +83,7 @@ final class Factory
     /**
      * @param string $class
      */
-    public function addClass(string $class)/*:void*/
+    public function addClass(string $class) : void
     {
         if (!in_array($class, $this->classes)) {
             $this->classes[] = $class;
@@ -161,7 +161,7 @@ final class Factory
      *
      * @return AbstractRule|null
      */
-    public function newInstance(string $rule_type) /*: ?AbstractRule*/
+    public function newInstance(string $rule_type) : ?AbstractRule
     {
         $rule = null;
 

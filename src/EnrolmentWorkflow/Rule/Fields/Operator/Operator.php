@@ -53,7 +53,7 @@ trait Operator
     /**
      * @param int $operator
      */
-    public function setOperator(int $operator)/* : void*/
+    public function setOperator(int $operator) : void
     {
         $this->operator = $operator;
     }
@@ -71,7 +71,7 @@ trait Operator
     /**
      * @param bool $operator_case_sensitive
      */
-    public function setOperatorCaseSensitive(bool $operator_case_sensitive)/* : void*/
+    public function setOperatorCaseSensitive(bool $operator_case_sensitive) : void
     {
         $this->operator_case_sensitive = $operator_case_sensitive;
     }
@@ -89,7 +89,7 @@ trait Operator
     /**
      * @param bool $operator_negated
      */
-    public function setOperatorNegated(bool $operator_negated)/* : void*/
+    public function setOperatorNegated(bool $operator_negated) : void
     {
         $this->operator_negated = $operator_negated;
     }

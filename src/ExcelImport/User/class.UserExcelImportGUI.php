@@ -34,7 +34,7 @@ class UserExcelImportGUI extends ExcelImportGUI
     /**
      * @inheritDoc
      */
-    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
+    public static function addTabs(int $obj_ref_id,/*?*/ int $obj_single_id = null) : void
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
             if (static::getObjType($obj_ref_id, $obj_single_id) === "role"
@@ -71,7 +71,7 @@ class UserExcelImportGUI extends ExcelImportGUI
     /**
      * @inheritDoc
      */
-    public static function redirect(int $obj_ref_id,/*?*/ int $obj_single_id = null)/*:void*/
+    public static function redirect(int $obj_ref_id,/*?*/ int $obj_single_id = null) : void
     {
         if (self::srUserEnrolment()->excelImport()->hasAccess(self::dic()->user()->getId(), $obj_ref_id, $obj_single_id)) {
             if (self::srUserEnrolment()->config()->getValue(ConfigFormGUI::KEY_SHOW_EXCEL_IMPORT_USER_VIEW) === ConfigFormGUI::SHOW_EXCEL_IMPORT_USER_TYPE_REPLACE) {
@@ -108,7 +108,7 @@ class UserExcelImportGUI extends ExcelImportGUI
     /**
      * @inheritDoc
      */
-    protected function back()/*: void*/
+    protected function back() : void
     {
         switch (static::getObjType($this->obj_ref_id, $this->obj_single_id)) {
             case "cat":

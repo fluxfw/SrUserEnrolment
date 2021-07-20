@@ -35,7 +35,7 @@ class AssignResponsibleUsersRunner extends AbstractActionRunner
     /**
      * @inheritDoc
      */
-    public function run(Request $request)/*:void*/
+    public function run(Request $request) : void
     {
         switch ($this->action->getUsersType()) {
             case AssignResponsibleUsers::USER_TYPE_POSITION:

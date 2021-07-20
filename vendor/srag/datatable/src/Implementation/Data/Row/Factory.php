@@ -49,7 +49,7 @@ class Factory implements FactoryInterface
     /**
      * @inheritDoc
      */
-    public function getter(string $row_id, /*object*/ $original_data) : RowData
+    public function getter(string $row_id, object $original_data) : RowData
     {
         return new GetterRowData($row_id, $original_data);
     }
@@ -58,7 +58,7 @@ class Factory implements FactoryInterface
     /**
      * @inheritDoc
      */
-    public function property(string $row_id, /*object*/ $original_data) : RowData
+    public function property(string $row_id, object $original_data) : RowData
     {
         return new PropertyRowData($row_id, $original_data);
     }

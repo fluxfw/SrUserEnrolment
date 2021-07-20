@@ -48,7 +48,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function dropTables()/* : void*/
+    public function dropTables() : void
     {
 
     }
@@ -66,7 +66,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installTables()/* : void*/
+    public function installTables() : void
     {
 
     }
@@ -75,7 +75,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function send(Sender $sender, NotificationInterface $notification, array $placeholders = [], /*?string*/ $language = null)/* : void*/
+    public function send(Sender $sender, NotificationInterface $notification, array $placeholders = [], ?string $language = null) : void
     {
         $parser = self::notifications4plugin()->parser()->getParserForNotification($notification);
 

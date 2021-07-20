@@ -28,7 +28,7 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      * @inheritDoc
      */
-    public function executeCommand()/* : void*/
+    public function executeCommand() : void
     {
         $cmd = self::dic()->ctrl()->getCmd();
 
@@ -68,7 +68,7 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      *
      */
-    protected function createComment()/* : void*/
+    protected function createComment() : void
     {
         $report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
         $report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
@@ -90,7 +90,7 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      *
      */
-    protected function deleteComment()/* : void*/
+    protected function deleteComment() : void
     {
         $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 
@@ -103,7 +103,7 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      *
      */
-    protected function getComments()/* : void*/
+    protected function getComments() : void
     {
         $report_obj_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_OBJ_ID));
         $report_user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REPORT_USER_ID));
@@ -115,7 +115,7 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      *
      */
-    protected function shareComment()/* : void*/
+    protected function shareComment() : void
     {
         $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 
@@ -130,7 +130,7 @@ abstract class AbstractCtrl implements CtrlInterface
     /**
      *
      */
-    protected function updateComment()/* : void*/
+    protected function updateComment() : void
     {
         $comment_id = intval(filter_input(INPUT_GET, self::GET_PARAM_COMMENT_ID));
 

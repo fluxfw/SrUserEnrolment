@@ -69,7 +69,7 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
     /**
      * @inheritDoc
      */
-    public function store(Settings $settings, string $table_id, int $user_id)/* : void*/
+    public function store(Settings $settings, string $table_id, int $user_id) : void
     {
         foreach (self::VARS as $property) {
             $value = Items::getter($settings, $property);

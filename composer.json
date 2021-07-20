@@ -1,15 +1,14 @@
 {
   "name": "srag/sruserenrolment",
   "description": "Enrol users such with an excel file or by rules",
-  "version": "3.21.0",
+  "version": "3.22.0",
   "extra": {
     "ilias_plugin": {
       "id": "srusrenr",
       "name": "SrUserEnrolment",
-      "ilias_min_version": "5.4.0",
-      "ilias_max_version": "6.999",
+      "ilias_min_version": "6.0",
+      "ilias_max_version": "7.999",
       "slot": "Services/UIComponent/UserInterfaceHook",
-      "supports_cli_setup": true,
       "events": [
         {
           "id": "Modules/Course",
@@ -44,9 +43,7 @@
           "type": "raise"
         }
       ]
-    },
-    "generate_plugin_readme_template": "ILIAS_PLUGIN",
-    "long_description_template": "src/LONG_DESCRIPTION.md"
+    }
   },
   "type": "project",
   "keywords": [
@@ -66,7 +63,7 @@
     }
   ],
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.2",
     "srag/activerecordconfig": ">=0.1.0",
     "srag/commentsui": ">=0.1.0",
     "srag/custominputguis": ">=0.1.0",
@@ -129,9 +126,7 @@
   "scripts": {
     "pre-autoload-dump": [
       "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
-      "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport",
-      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginPhpAndXml::generatePluginPhpAndXml",
-      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginReadme::generatePluginReadme"
+      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginPhpAndXml::generatePluginPhpAndXml"
     ],
     "update-version": [
       "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\UpdateVersion::updateVersion"

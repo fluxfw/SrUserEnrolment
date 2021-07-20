@@ -70,7 +70,7 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
         $this->addCommandButton(ActionGUI::CMD_UPDATE_ACTION, $this->txt("save"));
     }
@@ -79,7 +79,7 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initFields()/*:void*/
+    protected function initFields() : void
     {
         $this->fields = [
             "enabled"          => [
@@ -95,7 +95,7 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
 
     }
@@ -104,7 +104,7 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("edit_action"));
     }
@@ -113,7 +113,7 @@ abstract class AbstractActionFormGUI extends PropertyFormGUI
     /**
      * @inheritDoc
      */
-    protected function storeValue(string $key, $value)/*: void*/
+    protected function storeValue(string $key, $value) : void
     {
         switch ($key) {
             default:

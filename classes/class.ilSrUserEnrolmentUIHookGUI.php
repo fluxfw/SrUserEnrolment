@@ -151,7 +151,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     /**
      * @inheritDoc
      */
-    public function gotoHook()/*: void*/
+    public function gotoHook() : void
     {
         $target = filter_input(INPUT_GET, "target");
 
@@ -184,7 +184,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     /**
      * @inheritDoc
      */
-    public function modifyGUI(/*string*/ $a_comp, /*string*/ $a_part, /*array*/ $a_par = [])/*: void*/
+    public function modifyGUI(/*string*/ $a_comp, /*string*/ $a_part, /*array*/ $a_par = []) : void
     {
         if ($a_part === self::PAR_TABS) {
             if (count(array_filter(self::dic()->ctrl()->getCallHistory(), function (array $history) : bool {
@@ -252,7 +252,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     /**
      *
      */
-    protected function fixRedirect()/*: void*/
+    protected function fixRedirect() : void
     {
         self::dic()->ctrl()->setTargetScript("ilias.php"); // Fix ILIAS 5.3 bug
         self::dic()->ctrl()->initBaseClass(ilUIPluginRouterGUI::class); // Fix ILIAS bug
@@ -262,7 +262,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     /**
      * @return int|null
      */
-    protected function getObjId()/*: ?int*/
+    protected function getObjId() : ?int
     {
         $obj_id = filter_input(INPUT_GET, self::GET_PARAM_OBJ_ID);
 
@@ -279,7 +279,7 @@ class ilSrUserEnrolmentUIHookGUI extends ilUIHookPluginGUI
     /**
      * @return int|null
      */
-    protected function getRefId()/*: ?int*/
+    protected function getRefId() : ?int
     {
         $obj_ref_id = filter_input(INPUT_GET, self::GET_PARAM_REF_ID);
 

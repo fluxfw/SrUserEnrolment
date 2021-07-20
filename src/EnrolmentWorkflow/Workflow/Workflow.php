@@ -95,7 +95,7 @@ class Workflow extends ActiveRecord
     /**
      * @param string $title
      */
-    public function setTitle(string $title)/*: void*/
+    public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
@@ -113,7 +113,7 @@ class Workflow extends ActiveRecord
     /**
      * @param int $workflow_id
      */
-    public function setWorkflowId(int $workflow_id)/*: void*/
+    public function setWorkflowId(int $workflow_id) : void
     {
         $this->workflow_id = $workflow_id;
     }
@@ -131,7 +131,7 @@ class Workflow extends ActiveRecord
     /**
      * @param bool $enabled
      */
-    public function setEnabled(bool $enabled)/*: void*/
+    public function setEnabled(bool $enabled) : void
     {
         $this->enabled = $enabled;
     }

@@ -144,7 +144,7 @@ abstract class AbstractAction extends ActiveRecord
     /**
      * @param int $action_id
      */
-    public function setActionId(int $action_id)/*: void*/
+    public function setActionId(int $action_id) : void
     {
         $this->action_id = $action_id;
     }
@@ -215,7 +215,7 @@ abstract class AbstractAction extends ActiveRecord
     /**
      * @param int $sort
      */
-    public function setSort(int $sort)/*: void*/
+    public function setSort(int $sort) : void
     {
         $this->sort = $sort;
     }
@@ -233,7 +233,7 @@ abstract class AbstractAction extends ActiveRecord
     /**
      * @param int $step_id
      */
-    public function setStepId(int $step_id)/*: void*/
+    public function setStepId(int $step_id) : void
     {
         $this->step_id = $step_id;
     }
@@ -260,7 +260,7 @@ abstract class AbstractAction extends ActiveRecord
     /**
      * @param bool $enabled
      */
-    public function setEnabled(bool $enabled)/*: void*/
+    public function setEnabled(bool $enabled) : void
     {
         $this->enabled = $enabled;
     }
@@ -278,7 +278,7 @@ abstract class AbstractAction extends ActiveRecord
     /**
      * @param bool $run_next_actions
      */
-    public function setRunNextActions(bool $run_next_actions)/*: void*/
+    public function setRunNextActions(bool $run_next_actions) : void
     {
         $this->run_next_actions = $run_next_actions;
     }

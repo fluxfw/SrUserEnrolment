@@ -52,7 +52,7 @@ class ActionsGUI
     /**
      *
      */
-    public static function addTabs()/*: void*/
+    public static function addTabs() : void
     {
         self::dic()->tabs()->addTab(self::TAB_LIST_ACTIONS, self::plugin()->translate("actions", self::LANG_MODULE), self::dic()->ctrl()
             ->getLinkTargetByClass(self::class, self::CMD_LIST_ACTIONS));
@@ -62,7 +62,7 @@ class ActionsGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->setTabs();
 
@@ -105,7 +105,7 @@ class ActionsGUI
     /**
      *
      */
-    protected function disableActions()/*: void*/
+    protected function disableActions() : void
     {
         $action_ids = filter_input(INPUT_POST, ActionGUI::GET_PARAM_ACTION_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -137,7 +137,7 @@ class ActionsGUI
     /**
      *
      */
-    protected function enableActions()/*: void*/
+    protected function enableActions() : void
     {
         $action_ids = filter_input(INPUT_POST, ActionGUI::GET_PARAM_ACTION_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -169,7 +169,7 @@ class ActionsGUI
     /**
      *
      */
-    protected function listActions()/*: void*/
+    protected function listActions() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_ACTIONS);
 
@@ -182,7 +182,7 @@ class ActionsGUI
     /**
      *
      */
-    protected function removeActions()/*: void*/
+    protected function removeActions() : void
     {
         $action_ids = filter_input(INPUT_POST, ActionGUI::GET_PARAM_ACTION_ID, FILTER_DEFAULT, FILTER_FORCE_ARRAY);
 
@@ -212,7 +212,7 @@ class ActionsGUI
     /**
      *
      */
-    protected function removeActionsConfirm()/*: void*/
+    protected function removeActionsConfirm() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_LIST_ACTIONS);
 
@@ -251,7 +251,7 @@ class ActionsGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
 
     }

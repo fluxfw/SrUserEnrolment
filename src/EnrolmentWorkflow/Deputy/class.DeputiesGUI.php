@@ -60,7 +60,7 @@ class DeputiesGUI
     /**
      * @param int $user_id
      */
-    public static function addTabs(int $user_id)/*: void*/
+    public static function addTabs(int $user_id) : void
     {
         if (self::srUserEnrolment()->enrolmentWorkflow()->deputies()->hasAccess($user_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_USER_ID, $user_id);
@@ -136,7 +136,7 @@ class DeputiesGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->user_id = intval(filter_input(INPUT_GET, self::GET_PARAM_USER_ID));
 
@@ -187,14 +187,10 @@ class DeputiesGUI
     /**
      *
      */
-    protected function back()/*:void*/
+    protected function back() : void
     {
         if ($this->user_id === intval(self::dic()->user()->getId())) {
-            if (self::version()->is6()) {
-                self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class, "jumpToProfile");
-            } else {
-                self::dic()->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "jumpToProfile");
-            }
+            self::dic()->ctrl()->redirectByClass(ilDashboardGUI::class, "jumpToProfile");
         } else {
             self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "ref_id", 7);
             self::dic()->ctrl()->setParameterByClass(ilObjUserGUI::class, "admin_mode", "settings");
@@ -207,7 +203,7 @@ class DeputiesGUI
     /**
      *
      */
-    protected function editDeputies()/*: void*/
+    protected function editDeputies() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_DEPUTIES);
 
@@ -220,7 +216,7 @@ class DeputiesGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 
@@ -237,7 +233,7 @@ class DeputiesGUI
     /**
      *
      */
-    protected function updateDeputies()/*: void*/
+    protected function updateDeputies() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_EDIT_DEPUTIES);
 

@@ -50,7 +50,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @param Request $request
      */
-    protected function fillRow(/*Request*/ $request)/*: void*/
+    protected function fillRow(/*Request*/ $request) : void
     {
         self::dic()->ctrl()->setParameterByClass(RequestInfoGUI::class, RequestInfoGUI::GET_PARAM_REQUEST_ID, $request->getRequestId());
 
@@ -188,79 +188,79 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @return bool|null
      */
-    protected abstract function getFilterEdited()/* : ?bool*/ ;
+    protected abstract function getFilterEdited() : ?bool;
 
 
     /**
      * @return int[]|null
      */
-    protected abstract function getFilterEditedStatus()/* : ?array*/ ;
+    protected abstract function getFilterEditedStatus() : ?array;
 
 
     /**
      * @return int|null
      */
-    protected abstract function getFilterObjRefId()/* : ?int*/ ;
+    protected abstract function getFilterObjRefId() : ?int;
 
 
     /**
      * @return string|null
      */
-    protected abstract function getFilterObjectTitle()/* : ?string*/ ;
+    protected abstract function getFilterObjectTitle() : ?string;
 
 
     /**
      * @return array|null
      */
-    protected abstract function getFilterResponsibleUsers()/* : ?array*/ ;
+    protected abstract function getFilterResponsibleUsers() : ?array;
 
 
     /**
      * @return int|null
      */
-    protected abstract function getFilterStepId()/* : ?int*/ ;
+    protected abstract function getFilterStepId() : ?int;
 
 
     /**
      * @return string|null
      */
-    protected abstract function getFilterUserEmail()/* : ?string*/ ;
+    protected abstract function getFilterUserEmail() : ?string;
 
 
     /**
      * @return string|null
      */
-    protected abstract function getFilterUserFirstname()/* : ?string*/ ;
+    protected abstract function getFilterUserFirstname() : ?string;
 
 
     /**
      * @return array|null
      */
-    protected abstract function getFilterUserId()/* : ?array*/ ;
+    protected abstract function getFilterUserId() : ?array;
 
 
     /**
      * @return string|null
      */
-    protected abstract function getFilterUserLastname()/* : ?string*/ ;
+    protected abstract function getFilterUserLastname() : ?string;
 
 
     /**
      * @return string|null
      */
-    protected abstract function getFilterUserOrgUnits()/* : ?string*/ ;
+    protected abstract function getFilterUserOrgUnits() : ?string;
 
 
     /**
      * @return int|null
      */
-    protected abstract function getFilterWorkflowId()/* : ?int*/ ;
+    protected abstract function getFilterWorkflowId() : ?int;
 
 
     /**
      * @inheritDoc
      */
-    protected function initColumns()/*: void*/
+    protected function initColumns() : void
     {
         parent::initColumns();
 
@@ -271,7 +271,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initCommands()/*: void*/
+    protected function initCommands() : void
     {
 
     }
@@ -280,7 +280,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initData()/*: void*/
+    protected function initData() : void
     {
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
@@ -305,7 +305,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initId()/*: void*/
+    protected function initId() : void
     {
         $this->setId(ilSrUserEnrolmentPlugin::PLUGIN_ID . "_requests_" . $this->parent_obj->getRequestsType());
     }
@@ -314,7 +314,7 @@ abstract class AbstractRequestsTableGUI extends TableGUI
     /**
      * @inheritDoc
      */
-    protected function initTitle()/*: void*/
+    protected function initTitle() : void
     {
         $this->setTitle($this->txt("type_" . RequestsGUI::getRequestsTypes()[$this->parent_obj->getRequestsType()]));
     }

@@ -33,7 +33,7 @@ abstract class AbstractRowData implements RowData
      * @param string $row_id
      * @param object $original_data
      */
-    public function __construct(string $row_id, /*object*/ $original_data)
+    public function __construct(string $row_id, object $original_data)
     {
         $this->row_id = $row_id;
         $this->original_data = $original_data;
@@ -43,7 +43,7 @@ abstract class AbstractRowData implements RowData
     /**
      * @inheritDoc
      */
-    public function getOriginalData()/* : object*/
+    public function getOriginalData() : object
     {
         return $this->original_data;
     }
@@ -61,7 +61,7 @@ abstract class AbstractRowData implements RowData
     /**
      * @inheritDoc
      */
-    public function withOriginalData(/*object*/ $original_data) : RowData
+    public function withOriginalData(object $original_data) : RowData
     {
         $clone = clone $this;
 

@@ -56,7 +56,7 @@ class MembersGUI
     /**
      * @param int $obj_ref_id
      */
-    public static function addTabs(int $obj_ref_id)/*: void*/
+    public static function addTabs(int $obj_ref_id) : void
     {
         if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
@@ -71,7 +71,7 @@ class MembersGUI
     /**
      * @param int $obj_ref_id
      */
-    public static function redirect(int $obj_ref_id)/*: void*/
+    public static function redirect(int $obj_ref_id) : void
     {
         if (self::srUserEnrolment()->enrolmentWorkflow()->members()->hasAccess(self::dic()->user()->getId(), $obj_ref_id)) {
             self::dic()->ctrl()->setParameterByClass(self::class, self::GET_PARAM_REF_ID, $obj_ref_id);
@@ -87,7 +87,7 @@ class MembersGUI
     /**
      *
      */
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         $this->obj_ref_id = intval(filter_input(INPUT_GET, self::GET_PARAM_REF_ID));
 
@@ -150,7 +150,7 @@ class MembersGUI
     /**
      *
      */
-    protected function back()/*:void*/
+    protected function back() : void
     {
         self::dic()->ctrl()->redirectToURL(ilLink::_getLink($this->obj_ref_id));
     }
@@ -159,7 +159,7 @@ class MembersGUI
     /**
      * @param int $type
      */
-    protected function enrollUsers(int $type)/*:void*/
+    protected function enrollUsers(int $type) : void
     {
         $obj = self::srUserEnrolment()->getIliasObjectByRefId($this->obj_ref_id);
 
@@ -185,7 +185,7 @@ class MembersGUI
     /**
      *
      */
-    protected function enrollUsersAdmin()/*:void*/
+    protected function enrollUsersAdmin() : void
     {
         $this->enrollUsers(Member::TYPE_ADMIN);
     }
@@ -194,7 +194,7 @@ class MembersGUI
     /**
      *
      */
-    protected function enrollUsersMember()/*:void*/
+    protected function enrollUsersMember() : void
     {
         $this->enrollUsers(Member::TYPE_MEMBER);
     }
@@ -203,7 +203,7 @@ class MembersGUI
     /**
      *
      */
-    protected function enrollUsersTutor()/*:void*/
+    protected function enrollUsersTutor() : void
     {
         $this->enrollUsers(Member::TYPE_TUTOR);
     }
@@ -212,7 +212,7 @@ class MembersGUI
     /**
      *
      */
-    protected function listMembers()/*:void*/
+    protected function listMembers() : void
     {
         self::dic()->tabs()->activateTab(self::TAB_MEMBERS);
         self::dic()->tabs()->activateSubTab(self::TAB_MEMBERS);
@@ -252,7 +252,7 @@ class MembersGUI
     /**
      *
      */
-    protected function setTabs()/*: void*/
+    protected function setTabs() : void
     {
         self::dic()->tabs()->clearTargets();
 

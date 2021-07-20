@@ -31,7 +31,7 @@ class MoveToWorkflowRunner extends AbstractActionRunner
     /**
      * @inheritDoc
      */
-    public function run(Request $request)/*:void*/
+    public function run(Request $request) : void
     {
         $request->setStepId($this->action->getMoveToStepId());
     }

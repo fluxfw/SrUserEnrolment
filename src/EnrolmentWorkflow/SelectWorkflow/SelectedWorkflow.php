@@ -86,7 +86,7 @@ class SelectedWorkflow extends ActiveRecord
     /**
      * @param int $obj_id
      */
-    public function setObjId(int $obj_id)/*: void*/
+    public function setObjId(int $obj_id) : void
     {
         $this->obj_id = $obj_id;
     }
@@ -104,7 +104,7 @@ class SelectedWorkflow extends ActiveRecord
     /**
      * @param int $workflow_id
      */
-    public function setWorkflowId(int $workflow_id)/*: void*/
+    public function setWorkflowId(int $workflow_id) : void
     {
         $this->workflow_id = $workflow_id;
     }

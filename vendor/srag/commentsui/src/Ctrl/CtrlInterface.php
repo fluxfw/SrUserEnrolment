@@ -23,7 +23,7 @@ interface CtrlInterface
     /**
      *
      */
-    public function executeCommand()/* : void*/;
+    public function executeCommand() : void;
 
 
     /**

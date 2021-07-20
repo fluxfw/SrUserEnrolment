@@ -53,7 +53,7 @@ final class Repository
     /**
      * @param Assistant $assistant
      */
-    public function deleteAssistant(Assistant $assistant)/*:void*/
+    public function deleteAssistant(Assistant $assistant) : void
     {
         $assistant->delete();
     }
@@ -62,7 +62,7 @@ final class Repository
     /**
      * @param int $user_id
      */
-    public function deleteUserAssistants(int $user_id)/*: void*/
+    public function deleteUserAssistants(int $user_id) : void
     {
         foreach ($this->getAssistantsOf($user_id, false) + $this->getUserAssistants($user_id, false) as $assistant) {
             $this->deleteAssistant($assistant);
@@ -73,7 +73,7 @@ final class Repository
     /**
      * @internal
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
         self::dic()->database()->dropTable(Assistant::TABLE_NAME, false);
     }
@@ -96,7 +96,7 @@ final class Repository
      *
      * @return Assistant|null
      */
-    public function getAssistant(int $user_id, int $assistant_user_id, bool $active_check = true, bool $create_new = false)/* : ?Assistant*/
+    public function getAssistant(int $user_id, int $assistant_user_id, bool $active_check = true, bool $create_new = false) : ?Assistant
     {
         $where = Assistant::where([
             "user_id"           => $user_id,
@@ -218,7 +218,7 @@ final class Repository
     /**
      * @internal
      */
-    public function installTables()/*:void*/
+    public function installTables() : void
     {
         Assistant::updateDB();
     }
@@ -236,7 +236,7 @@ final class Repository
     /**
      * @param Assistant $assistant
      */
-    public function storeAssistant(Assistant $assistant)/*:void*/
+    public function storeAssistant(Assistant $assistant) : void
     {
         $assistant->store();
     }

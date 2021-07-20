@@ -60,7 +60,7 @@ class TotalRequests extends AbstractRule
     /**
      * @param int $total_requests
      */
-    public function setTotalRequests(int $total_requests)/* : void*/
+    public function setTotalRequests(int $total_requests) : void
     {
         $this->total_requests = $total_requests;
     }
