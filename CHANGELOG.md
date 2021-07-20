@@ -1,6 +1,7 @@
 # Changelog
 
 ## [3.22.0]
+- Switched to main branch
 - ILIAS 7 support
 - Remove ILIAS 5.4 support
 - Fix create course date
