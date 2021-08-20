@@ -1,5 +1,8 @@
 # Changelog
 
+## [3.22.2]
+- Twig PHP 7.4 patch
+
 ## [3.22.1]
 - Twig PHP 7.4 patch
 
