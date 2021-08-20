@@ -1,7 +1,7 @@
 {
   "name": "srag/sruserenrolment",
   "description": "Enrol users such with an excel file or by rules",
-  "version": "3.22.0",
+  "version": "3.22.1",
   "extra": {
     "ilias_plugin": {
       "id": "srusrenr",
@@ -126,7 +126,8 @@
   "scripts": {
     "pre-autoload-dump": [
       "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
-      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginPhpAndXml::generatePluginPhpAndXml"
+      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginPhpAndXml::generatePluginPhpAndXml",
+      "vendor/srag/notifications4plugin/bin/twig_php74_patch.php"
     ],
     "update-version": [
       "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\UpdateVersion::updateVersion"
