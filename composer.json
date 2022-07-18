@@ -1,50 +1,7 @@
 {
   "name": "srag/sruserenrolment",
   "description": "Enrol users such with an excel file or by rules",
-  "version": "3.22.3",
-  "extra": {
-    "ilias_plugin": {
-      "id": "srusrenr",
-      "name": "SrUserEnrolment",
-      "ilias_min_version": "6.0",
-      "ilias_max_version": "7.999",
-      "slot": "Services/UIComponent/UserInterfaceHook",
-      "events": [
-        {
-          "id": "Modules/Course",
-          "type": "listen"
-        },
-        {
-          "id": "Services/User",
-          "type": "listen"
-        },
-        {
-          "id": "after_request",
-          "type": "raise"
-        },
-        {
-          "id": "collect_assistants_requests_table_modifications",
-          "type": "raise"
-        },
-        {
-          "id": "collect_members_table_modifications",
-          "type": "raise"
-        },
-        {
-          "id": "collect_member_form_modifications",
-          "type": "raise"
-        },
-        {
-          "id": "collect_request_step_for_others_table_modifications",
-          "type": "raise"
-        },
-        {
-          "id": "extends_srusrenr",
-          "type": "raise"
-        }
-      ]
-    }
-  },
+  "version": "3.23.0",
   "type": "project",
   "keywords": [
     "ilias",
@@ -52,16 +9,7 @@
     "plugin",
     "user"
   ],
-  "homepage": "https://github.com/fluxapps/SrUserEnrolment",
   "license": "GPL-3.0-only",
-  "authors": [
-    {
-      "name": "fluxlabs",
-      "email": "support@fluxlabs.ch",
-      "homepage": "https://fluxlabs.ch",
-      "role": "Developer"
-    }
-  ],
   "require": {
     "php": ">=7.2",
     "srag/activerecordconfig": ">=0.1.0",
@@ -69,7 +17,6 @@
     "srag/custominputguis": ">=0.1.0",
     "srag/devtools": ">=0.1.0",
     "srag/dic": ">=0.1.0",
-    "srag/generateplugininfoshelper": ">=0.1.0",
     "srag/librariesnamespacechanger": ">=0.1.0",
     "srag/notifications4plugin": ">=0.1.0",
     "srag/removeplugindataconfirm": ">=0.1.0",
@@ -126,11 +73,7 @@
   "scripts": {
     "pre-autoload-dump": [
       "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
-      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\GeneratePluginPhpAndXml::generatePluginPhpAndXml",
       "vendor/srag/notifications4plugin/bin/twig_php74_patch.php"
-    ],
-    "update-version": [
-      "srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\UpdateVersion::updateVersion"
     ]
   }
 }
