@@ -16,7 +16,7 @@ Start at your ILIAS root directory
 ```bash
 mkdir -p Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
 cd Customizing/global/plugins/Services/UIComponent/UserInterfaceHook
-git clone https://github.com/fluxapps/SrUserEnrolment.git SrUserEnrolment
+git clone https://github.com/fluxfw/SrUserEnrolment.git SrUserEnrolment
 ```
 
 Update, activate and config the plugin in the ILIAS Plugin Administration
@@ -35,7 +35,7 @@ Start at the plugin directory
 
 ### Cron job plugin
 
-If you want to use "Enrol by rule" or "Enrolment workflow", you need to install the [SrUserEnrolmentCron](https://github.com/fluxapps/SrUserEnrolmentCron) plugin
+If you want to use "Enrol by rule" or "Enrolment workflow", you need to install the [SrUserEnrolmentCron](https://github.com/fluxfw/SrUserEnrolmentCron) plugin
 
 ### Main features
 

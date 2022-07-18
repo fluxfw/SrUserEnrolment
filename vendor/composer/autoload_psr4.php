@@ -12,7 +12,6 @@ return array(
     'srag\\Notifications4Plugin\\SrUserEnrolment\\' => array($vendorDir . '/srag/notifications4plugin/src'),
     'srag\\LibraryLanguageInstaller\\SrUserEnrolment\\' => array($vendorDir . '/srag/librarylanguageinstaller/src'),
     'srag\\LibrariesNamespaceChanger\\' => array($vendorDir . '/srag/librariesnamespacechanger/src'),
-    'srag\\GeneratePluginInfosHelper\\SrUserEnrolment\\' => array($vendorDir . '/srag/generateplugininfoshelper/src'),
     'srag\\DevTools\\SrUserEnrolment\\' => array($vendorDir . '/srag/devtools/src'),
     'srag\\DataTableUI\\SrUserEnrolment\\' => array($vendorDir . '/srag/datatable/src'),
     'srag\\DIC\\SrUserEnrolment\\' => array($vendorDir . '/srag/dic/src'),
